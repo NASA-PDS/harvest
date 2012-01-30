@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Copyright 2010-2011, by the California Institute of Technology.
+  Copyright 2010-2012, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology Transfer
   at the California Institute of Technology.
@@ -43,7 +43,10 @@
         Updated xpath expressions that look for specific metadata needed for product registration and tool behavior due to updates to the latest PDS4 model.
       </action>
       <action dev="mcayanan" type="update">
-        Updated to set the product type to "ProductFile" when ingesting products to the PDS Storage.
+        Updated to set the product type to "ProductFile" when ingesting products to the PDS Storage Service.
+      </action>
+      <action dev="mcayanan" type="update">
+        Cleaned up the documentation and removed the PDF generation feature.
       </action>
       <action dev="mcayanan" type="fix">
         Fixed a bug where the tool complained about the keystore password not being specified when attempting to register to an unsecured registry instance.

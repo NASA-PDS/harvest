@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Copyright 2010-2011, by the California Institute of Technology.
+  Copyright 2010-2012, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology Transfer
   at the California Institute of Technology.
@@ -25,7 +25,7 @@
 
   <body>
     <section name="Operation">
-      <p>The following topics can be found in this section:
+      <p>This document describes how to operate the Harvest Tool software. The following topics can be found in this document:
       </p>
 
       <ul>
@@ -58,7 +58,7 @@
           <tr><td>-P, --port</td><td>Specify a port number to use if running the tool in persistence mode. See the <a href="#Persistence_Mode">Persistence Mode</a> section for more details.</td></tr>
           <tr><td>-w, --wait</td><td>Specify the time, in seconds, to wait in between the crawls if running the tool in persistence mode. See the <a href="#Persistence_Mode">Persistence Mode</a> section for more details.</td></tr>
           <tr><td>-V, --version</td><td>Display the release number and copyright information.</td></tr>
-          <tr><td>-h, --help</td><td>Display Harvest usage.</td></tr>
+          <tr><td>-h, --help</td><td>Display <i>harvest</i> usage.</td></tr>
         </table>
       </subsection>
 
@@ -82,14 +82,14 @@
         </p>
 
         <source>
-% Harvest product_bundle.xml -c policy.xml
+% harvest product_bundle.xml -c policy.xml
         </source>
 
         <p>The following command demonstrates how to register products to a non-secured registry instance from a target directory, <i>$HOME/pds4Directory</i>, where only files that end with a <i>.xml</i> file extension, will be processed:
         </p>
 
         <source>
-% Harvest $HOME/pds4Directory -e "*.xml" -c policy.xml
+% harvest $HOME/pds4Directory -e "*.xml" -c policy.xml
         </source>
 
         <p><b><i>Registering Products From Multiple Targets</i></b></p>
@@ -98,7 +98,7 @@
         </p>
         
         <source>
-% Harvest product_bundle.xml, product_collection.xml -c policy.xml -l log-file.txt 
+% harvest product_bundle.xml, product_collection.xml -c policy.xml -l log-file.txt 
         </source>
 
         <p><b><i>Registering Products From Targets Specified In The Policy File</i></b></p>
@@ -107,7 +107,7 @@
         </p>
         
         <source>
-% Harvest -c policy.xml
+% harvest -c policy.xml
         </source>
 
         <p><b><i>Registering Products To A Secured Registry Instance</i></b></p>
@@ -116,7 +116,7 @@
         </p>
 
         <source>
-% Harvest product_bundle.xml -c policy.xml -u {username} -p {password} -k {keystorePassword}
+% harvest product_bundle.xml -c policy.xml -u {username} -p {password} -k {keystorePassword}
         </source>
       </subsection>
 
@@ -128,16 +128,16 @@
         </p>
 
         <source>
-% Harvest -c policy.xml -u {username} -p {password} -k {keystorePassword} -l log.txt -P 9000 -w 120
+% harvest -c policy.xml -u {username} -p {password} -k {keystorePassword} -l log.txt -P 9000 -w 120
         </source>
 
         <p>After running the above command, the daemon will be accessible at <i>http://localhost:9000/xmlrpc</i>.
         </p>
 
-        <p>In order to stop the daemon from running, a daemon controller is needed. The <i>bin/</i> directory of the Harvest Tool release package contains a shell script, <i>HarvestController</i>, and a batch file, <i>HarvestController.bat</i>, which are used to gracefully shut down the daemon service on a UNIX-like and Windows system, respectively. In addition, they can provide a few additional statistics about the crawling.
+        <p>In order to stop the daemon from running, a daemon controller is needed. The <i>bin/</i> directory of the Harvest Tool release package contains a shell script, <i>harvest-ctrl</i>, and a batch file, <i>harvest-ctrl.bat</i>, which are used to gracefully shut down the daemon service on a UNIX-like and Windows system, respectively. In addition, they can provide a few additional statistics about the crawling.
         </p>
 
-        <p>The following table describes the command-line options available for the HarvestController:
+        <p>The following table describes the command-line options available for <i>harvest-ctrl</i>:
         </p>
 
         <table>
@@ -159,7 +159,7 @@
           <tr><td>--getAverageCrawlTime</td><td>Returns the average amount of time, in milliseconds, spent during each crawl.</td></tr>
         </table>
 
-        <p>The following examples demonstrate how to run the HarvestController using a few of the different operations. For demonstration purposes, assume that the daemon service is located at the following url: <i>http://localhost:9000/xmlrpc</i>.
+        <p>The following examples demonstrate how to run <i>harvest-ctrl</i> using a few of the different operations. For demonstration purposes, assume that the daemon service is located at the following url: <i>http://localhost:9000/xmlrpc</i>.
         </p>
 
         <p><b><i>Determine the Status of the Daemon Service</i></b></p>
@@ -168,7 +168,7 @@
         </p>
 
         <source>
-% HarvestController --url http://localhost:9000/xmlrpc --operation --isRunning
+% harvest-ctrl --url http://localhost:9000/xmlrpc --operation --isRunning
         </source>
 
         <p><b><i>Shutdown the Daemon Service</i></b></p>
@@ -177,7 +177,7 @@
         </p>
 
         <source>
-% HarvestController --url http://localhost:9000/xmlrpc --operation --stop
+% harvest-ctrl --url http://localhost:9000/xmlrpc --operation --stop
         </source>
       </subsection>
    </section>
