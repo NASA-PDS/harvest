@@ -12,7 +12,7 @@ software should be online at http://pds-cm.jpl.nasa.gov/2010/ingest/harvest/.
 If it is not accessible, you can execute the "mvn site:run" command and 
 view the documentation locally at http://localhost:8080.
 
-In order to create a complete package for distribution, execute the 
+In order to create a complete distribution package, execute the 
 following commands: 
 
 % mvn site

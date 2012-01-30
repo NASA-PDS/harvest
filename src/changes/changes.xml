@@ -45,7 +45,7 @@
       <action dev="mcayanan" type="update">
         Updated to set the product type to "ProductFile" when ingesting products to the PDS Storage Service.
       </action>
-      <action dev="mcayanan" type="update">
+      <action dev="shardman" type="update">
         Cleaned up the documentation and removed the PDF generation feature.
       </action>
       <action dev="mcayanan" type="fix">
