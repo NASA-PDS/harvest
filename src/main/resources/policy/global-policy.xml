@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright 2010-2011, by the California Institute of Technology.
+  ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
+  Any commercial use must be negotiated with the Office of Technology
+  Transfer at the California Institute of Technology.
+
+  This software may be subject to U.S. export control laws. By accepting
+  this software, the user agrees to comply with all applicable U.S. export
+  laws and regulations. User has the responsibility to obtain export licenses,
+  or other export authority as may be required before exporting such
+  information to foreign countries or providing access to foreign persons.
+
+  $Id$
+-->
+
+<policy>
+   <candidates>
+     <productMetadata objectType="Collection_Browse">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Collection_Calibration">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Collection_Context">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Collection_Data">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Collection_Document">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Collection_Generic">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Collection_Geometry">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Collection_Miscellaneous">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Collection_SPICE">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Collection_Volume_PDS3">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Collection_Volume_Set_PDS3">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Collection_XML_Schema">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Product_Archive_Bundle">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+     <productMetadata objectType="Product_Bundle">
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+        <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath>//Identification_Area/information_model_version</xPath>
+     </productMetadata>
+   </candidates>
+</policy>

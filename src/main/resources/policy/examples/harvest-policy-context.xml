@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Harvest Tool Example Policy File
+
+  This policy file corresponds with the context collections migrated
+  from the PDS central catalog database. By specifying the collection
+  products below, Harvest relies on the collections correctly specifying
+  the products.
+
+  $Id$
+-->
+
+<policy>
+  <bundles>
+    <file>$HOME/context_bundle/Product_Bundle_context.xml</file>
+  </bundles>
+  <validation>
+    <enabled>false</enabled>
+  </validation>
+  <accessUrls>
+    <baseUrl>http://pds.nasa.gov/pds4</baseUrl>
+    <baseUrl>file://pds/pds4/</baseUrl>
+  </accessUrls>
+  <candidates>
+    <productMetadata objectType="Product_Node">
+      <xPath>//Identification_Area/information_model_version</xPath>
+      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
+      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
+      <xPath>//Node/description</xPath>
+      <xPath slotName="node_name">//Node/name</xPath>
+      <xPath slotName="node_description">//Node/description</xPath>
+      <xPath>//Node/institution_name</xPath>
+    </productMetadata>
+    <productMetadata objectType="Product_Mission_PDS3">
+      <xPath>//Identification_Area/information_model_version</xPath>
+      <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
+      <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
+      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
+      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
+      <xPath>//External_Reference/reference_text</xPath>
+      <xPath slotName="reference_description">//External_Reference/description</xPath>
+      <xPath>//Mission_PDS3/mission_name</xPath>
+      <xPath>//Mission_PDS3/mission_desc</xPath>
+      <xPath>//Mission_PDS3/mission_objectives_summary</xPath>
+      <xPath>//Mission_PDS3/mission_start_date</xPath>
+      <xPath>//Mission_PDS3/mission_stop_date</xPath>
+    </productMetadata>
+    <productMetadata objectType="Product_Instrument_Host_PDS3">
+      <xPath>//Identification_Area/information_model_version</xPath>
+      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
+      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
+      <xPath>//External_Reference/reference_text</xPath>
+      <xPath slotName="reference_description">//External_Reference/description</xPath>
+      <xPath>//Instrument_Host_PDS3/instrument_host_name</xPath>
+      <xPath>//Instrument_Host_PDS3/instrument_host_desc</xPath>
+      <xPath>//Instrument_Host_PDS3/instrument_host_id</xPath>
+      <xPath>//Instrument_Host_PDS3/instrument_host_type</xPath>
+    </productMetadata>
+    <productMetadata objectType="Product_Target_PDS3">
+      <xPath>//Identification_Area/information_model_version</xPath>
+      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
+      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
+      <xPath>//Target_PDS3/target_name</xPath>
+      <xPath>//Target_PDS3/primary_body_name</xPath>
+      <xPath>//Target_PDS3/target_desc</xPath>
+      <xPath>//Target_PDS3/target_type</xPath>
+    </productMetadata>
+    <productMetadata objectType="Product_PDS_Affiliate">
+      <xPath>//Data_Standards/dd_version_id</xPath>
+      <xPath>//Data_Standards/std_ref_version_id</xPath>
+      <xPath>//Identification_Area_Product/product_subclass</xPath>
+      <xPath>//Identification_Are_Product/last_modification_date_time</xPath>
+      <xPath slotName="MyPDSName">//Subject_Area/full_name</xPath>
+      <xPath>//PDS_Affiliate/node_name</xPath>
+      <xPath>//PDS_Affiliate/affiliation_type</xPath>
+      <xPath>//PDS_Affiliate/alternate_telephone_number</xPath>
+      <xPath>//PDS_Affiliate/electronic_mail_address</xPath>
+      <xPath>//PDS_Affiliate/institution_name</xPath>
+      <xPath>//PDS_Affiliate/phone_book_flag</xPath>
+      <xPath>//PDS_Affiliate/postal_address_text</xPath>
+      <xPath>//PDS_Affiliate/registration_date</xPath>
+      <xPath>//PDS_Affiliate/sort_name</xPath>
+      <xPath>//PDS_Affiliate/telephone_number</xPath>
+    </productMetadata>
+    <productMetadata objectType="Product_PDS_Guest">
+      <xPath>//Identification_Area/information_model_version</xPath>
+      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
+      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
+      <xPath slotName="subscription_name">//PDS_Subscription/name</xPath>
+        <xPath>//PDS_Subscription/subscription_list</xPath>
+    </productMetadata>
+    <productMetadata objectType="Product_Instrument_PDS3">
+      <xPath>//Identification_Area/information_model_version</xPath>
+      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
+      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
+      <xPath>//External_Reference/reference_text</xPath>
+      <xPath slotName="reference_description">//External_Reference/description</xPath>
+      <xPath>//Instrument_PDS3/instrument_name</xPath>
+      <xPath>//Instrument_PDS3/instrument_desc</xPath>
+      <xPath>//Instrument_PDS3/instrument_id</xPath>
+      <xPath>//Instrument_PDS3/instrument_serial_number</xPath>
+      <xPath>//Instrument_PDS3/instrument_type</xPath>
+      <xPath>//Instrument_PDS3/instrument_version_id</xPath>
+    </productMetadata>
+    <productMetadata objectType="Product_Resource">
+      <xPath>//Identification_Area/information_model_version</xPath>
+      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
+      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
+      <xPath slotName="resource_description">//Resource/description</xPath>
+      <xPath slotName="resource_url">//Resource/url</xPath>
+      <xPath slotName="resource_name">//Resource/name</xPath>
+    </productMetadata>
+    <productMetadata objectType="Product_Data_Set_PDS3">
+      <xPath>//Identification_Area/information_model_version</xPath>
+        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
+        <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
+      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
+      <xPath>//External_Reference/reference_text</xPath>
+      <xPath slotName="reference_description">//External_Reference/description</xPath>
+      <xPath>//Data_Set_PDS3/data_set_id</xPath>
+      <xPath>//Data_Set_PDS3/data_set_desc</xPath>
+      <xPath>//Data_Set_PDS3/data_set_release_date</xPath>
+      <xPath>//Data_Set_PDS3/start_date_time</xPath>
+      <xPath>//Data_Set_PDS3/stop_date_time</xPath>
+      <xPath>//Data_Set_PDS3/producer_full_name</xPath>
+      <xPath>//Data_Set_PDS3/citation_text</xPath>
+      <xPath>//Data_Set_PDS3/data_set_terse_desc</xPath>
+      <xPath>//Data_Set_PDS3/abstract_desc</xPath>
+      <xPath>//Data_Set_PDS3/confidence_level_note</xPath>
+      <xPath>//Data_Set_PDS3/archive_status</xPath>
+      <xPath>//Data_Set_PDS3/NSSDC/nssdc_collection_id</xPath>
+      <xPath>//Data_Set_PDS3/NSSDC/medium_type</xPath>
+    </productMetadata>
+  </candidates>
+</policy>

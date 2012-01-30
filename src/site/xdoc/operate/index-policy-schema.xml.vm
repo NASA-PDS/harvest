@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright 2010, by the California Institute of Technology.
+  ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
+  Any commercial use must be negotiated with the Office of Technology
+  Transfer at the California Institute of Technology.
+
+  This software is subject to U. S. export control laws and regulations
+  (22 C.F.R. 120-130 and 15 C.F.R. 730-774). To the extent that the software
+  is subject to U.S. export control laws and regulations, the recipient has
+  the responsibility to obtain export licenses or other export authority as
+  may be required before exporting such information to foreign countries or
+  providing access to foreign nationals.
+
+  $Id$
+-->
+
+<document>
+  <properties>
+    <title>Harvest Policy Schema</title>
+    <author email="Michael.Cayanan@jpl.nasa.gov">Michael Cayanan</author>
+    <author email="Sean.Hardman@jpl.nasa.gov">Sean Hardman</author>
+  </properties>
+
+  <body>
+    <section name="Harvest Policy Schema">
+      <p>The XML schema file for validating policy files follows:
+      </p>
+
+      <source>
+&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+            jxb:version="2.0"&gt;
+
+&lt;xsd:element name="path" type="xsd:string"/&gt;
+&lt;xsd:element name="file" type="xsd:string"/&gt;
+&lt;xsd:element name="filePattern" type="xsd:string"/&gt;
+&lt;xsd:element name="enabled" type="xsd:boolean" default="true"/&gt;
+&lt;xsd:element name="lidPrefix" type="xsd:string"/&gt;
+&lt;xsd:element name="lidReference" type="xsd:string"/&gt;
+&lt;xsd:element name="lidVidReference" type="xsd:string"/&gt;
+&lt;xsd:element name="referenceType" type="xsd:string"/&gt;
+&lt;xsd:element name="elementName" type="xsd:string"/&gt;
+&lt;xsd:element name="modelVersion" type="xsd:string"/&gt;
+&lt;xsd:element name="baseUrl" type="xsd:string"/&gt;
+&lt;xsd:element name="serverUrl" type="xsd:string"/&gt;
+&lt;xsd:element name="dataTransferType" type="xsd:string"/&gt;
+
+&lt;xsd:attribute name="objectType" type="xsd:string"/&gt;
+&lt;xsd:attribute name="prefix" type="xsd:string"/&gt;
+&lt;xsd:attribute name="uri" type="xsd:string"/&gt;
+&lt;xsd:attribute name="default" type="xsd:boolean" default="false"/&gt;
+&lt;xsd:attribute name="slotName" type="xsd:string"/&gt;
+
+&lt;xsd:element name="xPath" type="XPath"/&gt;
+&lt;xsd:complexType name="XPath"&gt;
+   &lt;xsd:simpleContent&gt;
+      &lt;xsd:extension base="xsd:string"&gt;
+         &lt;xsd:attribute ref="slotName"/&gt;
+      &lt;/xsd:extension&gt;
+   &lt;/xsd:simpleContent&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="directories" type="Directory"/&gt;
+&lt;xsd:complexType name="Directory"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="path" maxOccurs="unbounded"/&gt;
+      &lt;xsd:element ref="filePattern" minOccurs="0" maxOccurs="unbounded"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="bundles" type="Bundle"/&gt;
+&lt;xsd:complexType name="Bundle"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="file" maxOccurs="unbounded"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="collections" type="Collection"/&gt;
+&lt;xsd:complexType name="Collection"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="file" maxOccurs="unbounded"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="namespace" type="Namespace"/&gt;
+&lt;xsd:complexType name="Namespace"&gt;
+   &lt;xsd:attribute ref="prefix" use="required"/&gt;
+   &lt;xsd:attribute ref="uri" use="required"/&gt;
+   &lt;xsd:attribute ref="default"/&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="productMetadata" type="Pds4ProductMetadata"/&gt;
+&lt;xsd:complexType name="Pds4ProductMetadata"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="xPath" maxOccurs="unbounded"/&gt;
+   &lt;/xsd:sequence&gt;
+   &lt;xsd:attribute ref="objectType" use="required"/&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="pds3ProductMetadata" type="Pds3ProductMetadata"/&gt;
+&lt;xsd:complexType name="Pds3ProductMetadata"&gt;
+   &lt;xsd:all&gt;
+      &lt;xsd:element ref="lidPrefix" minOccurs="0"/&gt;
+      &lt;xsd:element ref="associations" minOccurs="0"/&gt;
+      &lt;xsd:element ref="ancillaryMetadata" minOccurs="0"/&gt;
+      &lt;xsd:element ref="includePaths" minOccurs="0"/&gt;
+   &lt;/xsd:all&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="includePaths" type="IncludePath"/&gt;
+&lt;xsd:complexType name="IncludePath"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="path" maxOccurs="unbounded"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="candidates" type="Candidate"/&gt;
+&lt;xsd:complexType name="Candidate"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="pds3ProductMetadata" minOccurs="0"/&gt;
+      &lt;xsd:element ref="namespace" minOccurs="0" maxOccurs="unbounded"/&gt;
+      &lt;xsd:element ref="productMetadata" minOccurs="0" maxOccurs="unbounded"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="validation" type="Validation"/&gt;
+&lt;xsd:complexType name="Validation"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="enabled" minOccurs="0"/&gt;
+      &lt;xsd:element ref="modelVersion" minOccurs="0"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="associations" type="Associations"/&gt;
+&lt;xsd:complexType name="Associations"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="association" minOccurs="0" maxOccurs="unbounded"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="association" type="Association"/&gt;
+&lt;xsd:complexType name="Association"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="referenceType"/&gt;
+      &lt;xsd:choice&gt;
+         &lt;xsd:element ref="lidVidReference"/&gt;
+         &lt;xsd:element ref="lidReference"/&gt;
+      &lt;/xsd:choice&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="ancillaryMetadata" type="AncillaryMetadata"/&gt;
+&lt;xsd:complexType name="AncillaryMetadata"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="elementName" maxOccurs="unbounded"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="pds3Directory" type="Pds3Directory"/&gt;
+&lt;xsd:complexType name="Pds3Directory"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="path"/&gt;
+      &lt;xsd:element ref="filePattern" minOccurs="0" maxOccurs="unbounded"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="storageIngestion" type="StorageIngestion"/&gt;
+&lt;xsd:complexType name="StorageIngestion"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="serverUrl"/&gt;
+      &lt;xsd:element ref="dataTransferType" minOccurs="0"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="accessUrls" type="AccessUrl"/&gt;
+&lt;xsd:complexType name="AccessUrl"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="baseUrl" maxOccurs="unbounded"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="policy"&gt;
+  &lt;xsd:complexType&gt;
+     &lt;xsd:all&gt;
+        &lt;xsd:element ref="bundles" minOccurs="0"/&gt;
+        &lt;xsd:element ref="collections" minOccurs="0"/&gt;
+        &lt;xsd:element ref="directories" minOccurs="0"/&gt;
+        &lt;xsd:element ref="pds3Directory" minOccurs="0"/&gt;
+        &lt;xsd:element ref="validation" minOccurs="0"/&gt;
+        &lt;xsd:element ref="storageIngestion" minOccurs="0"/&gt;
+        &lt;xsd:element ref="accessUrls" minOccurs="0"/&gt;
+        &lt;xsd:element ref="candidates"/&gt;
+     &lt;/xsd:all&gt;
+  &lt;/xsd:complexType&gt;
+&lt;/xsd:element&gt;
+&lt;/xsd:schema&gt;
+      </source>
+    </section>
+  </body>
+</document>

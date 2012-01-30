@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright 2010-2011, by the California Institute of Technology.
+  ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
+  Any commercial use must be negotiated with the Office of Technology Transfer
+  at the California Institute of Technology.
+
+  This software is subject to U. S. export control laws and regulations
+  (22 C.F.R. 120-130 and 15 C.F.R. 730-774). To the extent that the software
+  is subject to U.S. export control laws and regulations, the recipient has
+  the responsibility to obtain export licenses or other export authority as
+  may be required before exporting such information to foreign countries or
+  providing access to foreign nationals.
+
+  $Id$
+-->
+
+<document>
+  <properties>
+    <title>Release Changes</title>
+    <author email="Michael.Cayanan@jpl.nasa.gov">Michael Cayanan</author>
+  </properties>
+
+  <body>
+    <release version="1.1.0" date="2012-01-31" description="This release of the Harvest Tool is a component of the integrated release 2.1.0 of the PDS 2010 System.">
+      <action dev="mcayanan" type="add">
+        Added an attribute called 'slotName' to the 'xPath' element tag in the policy configuration file to allow the capability to specify customized slot names in the registry for registered metadata.
+      </action>
+      <action dev="mcayanan" type="add">
+        Added the capability to look for the different object types specified in a data product label and stores them under the 'dataClass' slot name in the registry.
+      </action>
+      <action dev="mcayanan" type="add">
+        Added the capability to specify targets on the command-line.
+      </action>
+      <action dev="mcayanan" type="add">
+        Added a required -c, --config flag option to specify the harvest policy configuration file.
+      </action>
+      <action dev="mcayanan" type="add">
+        Added a -D, --pds3-directory flag option to specify a PDS3 directory for PDS3 data product registration.
+      </action>
+      <action dev="mcayanan" type="update">
+        Updated xpath expressions that look for specific metadata needed for product registration and tool behavior due to updates to the latest PDS4 model.
+      </action>
+      <action dev="mcayanan" type="update">
+        Updated to set the product type to "ProductFile" when ingesting products to the PDS Storage.
+      </action>
+      <action dev="mcayanan" type="fix">
+        Fixed a bug where the tool complained about the keystore password not being specified when attempting to register to an unsecured registry instance.
+      </action>
+    </release>
+
+    <release version="1.0.0" date="2011-11-09" description="This release of the Harvest Tool is a component of the integrated release 2.0.0 of the PDS 2010 System.">
+      <action dev="mcayanan" type="fix">
+        PDS-42: Fixed to look for the directory_path_name attribute when constructing the file specification for the document file.
+      </action>
+      <action dev="mcayanan" type="fix">
+        PDS-49: Fixed HarvestController shell script and batch file to no longer throw a NoClassDefFoundError exception.
+      </action>
+      <action dev="mcayanan" type="add">
+        Added support for ingestion to the PDS Storage Service.
+      </action>
+      <action dev="mcayanan" type="add">
+        Added support for providing access URLs with the registered products.
+      </action>
+      <action dev="mcayanan" type="add">
+        Added a new command-line flag option, -k, in order to be able to pass in a keystore password when accessing a secured instance of the registry.
+      </action>
+      <action dev="mcayanan" type="update">
+        Update to place LIDVID-based associations in the cross reference areas as slots.
+      </action>
+      <action dev="mcayanan" type="update">
+        Update to support validation of older versions of the PDS4 data model.
+      </action>
+    </release>
+
+    <release version="0.4.0" date="2011-08-29" description="This release of the Harvest Tool is a component of the integrated release 1.2.0 of the PDS 2010 System.">
+      <action dev="mcayanan" type="add">
+        Added the capability to register PDS3 data products.
+      </action>
+      <action dev="mcayanan" type="add">
+        Added the capability to perform file object registration.
+      </action>
+      <action dev="mcayanan" type="update">
+        Update to register associations at the end of a Harvest run.
+      </action>
+      <action dev="mcayanan" type="update">
+        Update to register LID-based associations as slots.
+      </action>
+      <action dev="mcayanan" type="update">
+        Update to register products to a registry package.
+      </action>
+      <action dev="mcayanan" type="update">
+        Update to register the version ID of a data product as a slot in the registry.
+      </action>
+      <action dev="mcayanan" type="update">
+        Update to support the latest version of the PDS Security Service.
+      </action>
+      <action dev="mcayanan" type="fix">
+        Fixed a bug where namespaces being defined in the configuration policy file were not being recognized.
+      </action>
+      <action dev="mcayanan" type="fix">
+        Fixed a bug to support crawling of multiple targets when running the tool in persistence mode.
+      </action>
+    </release>
+
+    <release version="0.3.0" date="2011-03-25" description="This release of the Harvest Tool is a component of the integrated release 1.1.0 of the PDS 2010 System.">
+      <action dev="mcayanan" type="update">
+        PDS-2: Update to make sure that an association does not exist in the registry before attempting to register it.
+      </action>
+      <action dev="mcayanan" type="add">
+        Added the capability to perform validation on a product label before being ingested into the registry.
+      </action>
+      <action dev="mcayanan" type="add">
+        Added a new tag in the policy file that gives the ability to turn off validation.
+      </action>
+      <action dev="mcayanan" type="add">
+        Added the capability to allow the Harvest Tool to run in continuous mode via a daemon.
+      </action>
+      <action dev="mcayanan" type="add">
+        Added a slot called 'verified' in the associations to indicate if the target reference exists in the registry at the time the association was registered.
+      </action>
+      <action dev="mcayanan" type="update">
+        Update to interface with the latest version of the Security Service.
+      </action>
+      <action dev="mcayanan" type="update">
+        Update to tie associations together with GUIDs instead of LIDVIDs.
+      </action>
+      <action dev="mcayanan" type="update">
+        Update to perform more robust checking and reporting of malformed association entries (example: an association entry missing the LID-VID tag).
+      </action>
+      <action dev="mcayanan" type="fix">
+        Fixed to register the associations in the cross reference area of a collection.
+      </action>
+    </release>
+
+    <release version="0.2.0" date="2010-10-31" description="This release of the Registry Service is a component of the integrated release 1.0.0 of the PDS 2010 System.">
+      <action dev="mcayanan" type="add">
+         Added the capability to register and crawl a PDS Bundle file.
+      </action>
+      <action dev="mcayanan" type="add">
+         Added the capability to support namespaces in the PDS4 product files. Harvest is initialized to look for expected metadata like logical_identifier, product_class, etc. within the pds namespace.
+      </action>
+      <action dev="mcayanan" type="update">
+         Updated the Harvest tool to look for the 'product_class' tag instead of the 'object_type' tag.
+      </action>
+      <action dev="mcayanan" type="update">
+         Updated the Harvest tool to support table-formatted collection files.
+      </action>
+      <action dev="mcayanan" type="update">
+         Updated the Harvest tool to register associations when processing a table-formatted collection file.
+      </action>
+      <action dev="mcayanan" type="update">
+         Updated the Harvest policy file to be able to specify namespaces and bundle files. Tag names in general were also updated. See the user guide for the latest and greatest description of the policy file.
+      </action>
+      <action dev="mcayanan" type="update">
+         Updated the Harvest report log to show header information and a summary.
+      </action>
+      <action dev="mcayanan" type="update">
+         Updated messaging to log the GUID upon a successful ingestion of a product into the registry.
+      </action>
+      <action dev="mcayanan" type="fix">
+         Fix error handling in the associations for the case where a bad lidvid_reference is given (i.e. missing the version field).
+      </action>
+    </release>
+
+    <release version="0.1.0" date="2010-08-25" description="This release of the Harvest Tool is a component of the integrated release 0.1.0 of the PDS 2010 System.">
+      <action dev="mcayanan" type="add">
+         Added the capability to pass in an XML-based, policy file to the tool to find products and what metadata to register.
+      </action>
+      <action dev="mcayanan" type="add">
+         Added the capability to register data products with a target Registry Service.
+      </action>
+      <action dev="mcayanan" type="add">
+         Added the capability to register a PDS Inventory File first before crawling the file for products.
+      </action>
+      <action dev="mcayanan" type="add">
+         Added the capability to output log messages.
+      </action>
+      <action dev="mcayanan" type="add">
+         Added the capability to launch the tool with a shell script or batch file.
+      </action>
+      <action dev="mcayanan" type="add">
+         Added the capability to register associations that are in the "class" format.
+      </action>
+      <action dev="shardman, mcayanan" type="add">
+        Provide the initial documentation covering the design, installation and operation of the software.
+      </action>
+    </release>
+  </body>
+</document>
