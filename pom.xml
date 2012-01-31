@@ -313,7 +313,9 @@
     </dependency>
     <!--
       Exclude xerces dependency which is picked up by OODT artifacts
-      due to conflict with preparation/core xerces dependency.
+      due to conflict with preparation/core xerces dependency. Also
+      exclude lucene dependency which creates a duplicate JAR situation
+      with the org.apache.lucene version that is picked up by cas-filemgr.
     -->
     <dependency>
       <groupId>gov.nasa.jpl.oodt</groupId>
@@ -324,6 +326,10 @@
         <exclusion>
           <groupId>xerces</groupId>
           <artifactId>xercesImpl</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>lucene</groupId>
+          <artifactId>lucene-core</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
