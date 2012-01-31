@@ -116,7 +116,8 @@
         </p>
 
         <source>
-% harvest product_bundle.xml -c policy.xml -u {username} -p {password} -k {keystorePassword}
+% harvest product_bundle.xml -c policy.xml -u {username} -p {password} \
+  -k {keystorePassword}
         </source>
       </subsection>
 
@@ -124,14 +125,15 @@
         <p>The Harvest Tool can be run in persistence mode through an XML-RPC accessible web service called a daemon. Under this scenario, the Harvest Tool wakes up periodically, inspects a target directory or directories, and registers the latest products. This section details how to set this up.
         </p>
 
-        <p>In order to run the tool through the daemon, the command-line option flags <i>-P</i> and <i>-w</i> need to be used. This tells the Harvest Tool the port number to use and how long to sleep in between crawls, respectively. When the daemon is running, it can be accessed through the following url: <i>http://localhost:{port number}/xmlrpc</i>. The following command demonstrates launching the Harvest Tool through the daemon on port <i>9000</i>, where it will wait 120 seconds in between crawls:
+        <p>In order to run the tool through the daemon, the command-line option flags <i>-P</i> and <i>-w</i> need to be used. This tells the Harvest Tool the port number to use and how long to sleep in between crawls, respectively. When the daemon is running, it can be accessed through the following url: <i>http://localhost:{port number}/xmlrpc</i>. The following command demonstrates launching the Harvest Tool through the daemon on port <i>9001</i>, where it will wait 120 seconds in between crawls:
         </p>
 
         <source>
-% harvest -c policy.xml -u {username} -p {password} -k {keystorePassword} -l log.txt -P 9000 -w 120
+% harvest -c policy.xml -u {username} -p {password} \
+  -k {keystorePassword} -l log.txt -P 9001 -w 120
         </source>
 
-        <p>After running the above command, the daemon will be accessible at <i>http://localhost:9000/xmlrpc</i>.
+        <p>After running the above command, the daemon will be accessible at <i>http://localhost:9001/xmlrpc</i>.
         </p>
 
         <p>In order to stop the daemon from running, a daemon controller is needed. The <i>bin/</i> directory of the Harvest Tool release package contains a shell script, <i>harvest-ctrl</i>, and a batch file, <i>harvest-ctrl.bat</i>, which are used to gracefully shut down the daemon service on a UNIX-like and Windows system, respectively. In addition, they can provide a few additional statistics about the crawling.
@@ -159,7 +161,7 @@
           <tr><td>--getAverageCrawlTime</td><td>Returns the average amount of time, in milliseconds, spent during each crawl.</td></tr>
         </table>
 
-        <p>The following examples demonstrate how to run <i>harvest-ctrl</i> using a few of the different operations. For demonstration purposes, assume that the daemon service is located at the following url: <i>http://localhost:9000/xmlrpc</i>.
+        <p>The following examples demonstrate how to run <i>harvest-ctrl</i> using a few of the different operations. For demonstration purposes, assume that the daemon service is located at the following url: <i>http://localhost:9001/xmlrpc</i>.
         </p>
 
         <p><b><i>Determine the Status of the Daemon Service</i></b></p>
@@ -168,7 +170,7 @@
         </p>
 
         <source>
-% harvest-ctrl --url http://localhost:9000/xmlrpc --operation --isRunning
+% harvest-ctrl --url http://localhost:9001/xmlrpc --operation --isRunning
         </source>
 
         <p><b><i>Shutdown the Daemon Service</i></b></p>
@@ -177,7 +179,7 @@
         </p>
 
         <source>
-% harvest-ctrl --url http://localhost:9000/xmlrpc --operation --stop
+% harvest-ctrl --url http://localhost:9001/xmlrpc --operation --stop
         </source>
       </subsection>
    </section>
@@ -214,26 +216,37 @@
     &lt;namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01"/&gt;
     &lt;productMetadata objectType="Product_Observational"&gt;
       &lt;xPath&gt;//Identification_Area/information_model_version&lt;/xPath&gt;
-      &lt;xPath&gt;//Identification_Area/Modification_History/Modification_Detail/modification_date&lt;/xPath&gt;
-      &lt;xPath slotName="modification_version_id"&gt;//Identification_Area/Modification_History/Modification_Detail/version_id&lt;/xPath&gt;
-      &lt;xPath slotName="modification_description"&gt;//Identification_Area/Modification_History/Modification_Detail/description&lt;/xPath&gt;
+      &lt;xPath&gt;//Identification_Area/Modification_History/\
+      Modification_Detail/modification_date&lt;/xPath&gt;
+      &lt;xPath slotName="modification_version_id"&gt;\
+      //Identification_Area/Modification_History/Modification_Detail/version_id&lt;/xPath&gt;
+      &lt;xPath slotName="modification_description"&gt;\
+      //Identification_Area/Modification_History/Modification_Detail/description&lt;/xPath&gt;
       &lt;xPath&gt;//Observation_Area/Time_Coordinates/start_date_time&lt;/xPath&gt;
       &lt;xPath&gt;//Observation_Area/Time_Coordinates/stop_date_time&lt;/xPath&gt;
       &lt;xPath&gt;//Observation_Area/Time_Coordinates/local_mean_solar_time&lt;/xPath&gt;
       &lt;xPath&gt;//Observation_Area/Time_Coordinates/local_true_solar_time&lt;/xPath&gt;
-      &lt;xPath slotName="investigation_area_name"&gt;//Observation_Area/Investigation_Area/name&lt;/xPath&gt;
-      &lt;xPath slotName="investigation_area_type"&gt;//Observation_Area/Investigation_Area/type&lt;/xPath&gt;
-      &lt;xPath slotName="target_identification_name"&gt;//Observation_Area/Target_Identification/name&lt;/xPath&gt;
-      &lt;xPath slotName="target_identification_type"&gt;//Observation_Area/Target_Identification/type&lt;/xPath&gt;
-      &lt;xPath slotName="target_identification_description"&gt;//Observation_Area/Target_Identification/description&lt;/xPath&gt;
+      &lt;xPath slotName="investigation_area_name"&gt;\
+      //Observation_Area/Investigation_Area/name&lt;/xPath&gt;
+      &lt;xPath slotName="investigation_area_type"&gt;\
+      //Observation_Area/Investigation_Area/type&lt;/xPath&gt;
+      &lt;xPath slotName="target_identification_name"&gt;\
+      //Observation_Area/Target_Identification/name&lt;/xPath&gt;
+      &lt;xPath slotName="target_identification_type"&gt;\
+      //Observation_Area/Target_Identification/type&lt;/xPath&gt;
+      &lt;xPath slotName="target_identification_description"&gt;\
+      //Observation_Area/Target_Identification/description&lt;/xPath&gt;
       &lt;xPath&gt;//Observation_Area/Mission_Area/dph:spacecraft_clock_start_count&lt;/xPath&gt;
       &lt;xPath&gt;//Observation_Area/Mission_Area/dph:spacecraft_clock_stop_count&lt;/xPath&gt;
     &lt;/productMetadata&gt;
     &lt;productMetadata objectType="Product_Document"&gt;
       &lt;xPath&gt;//Identification_Area/information_model_version&lt;/xPath&gt;
-      &lt;xPath&gt;//Identification_Area/Modification_History/Modification_Detail/modification_date&lt;/xPath&gt;
-      &lt;xPath slotName="modification_version_id"&gt;//Identification_Area/Modification_History/Modification_Detail/version_id&lt;/xPath&gt;
-      &lt;xPath slotName="modification_description"&gt;//Identification_Area/Modification_History/Modification_Detail/description&lt;/xPath&gt;
+      &lt;xPath&gt;//Identification_Area/Modification_History/\
+      Modification_Detail/modification_date&lt;/xPath&gt;
+      &lt;xPath slotName="modification_version_id"&gt;\
+      //Identification_Area/Modification_History/Modification_Detail/version_id&lt;/xPath&gt;
+      &lt;xPath slotName="modification_description"&gt;\
+      //Identification_Area/Modification_History/Modification_Detail/description&lt;/xPath&gt;
       &lt;xPath&gt;//Document_Desc/doi&lt;/xPath&gt;
       &lt;xPath&gt;//Document_Desc/author_list&lt;/xPath&gt;
       &lt;xPath&gt;//Document_Desc/acknowledgement_text&lt;/xPath&gt;
@@ -556,45 +569,78 @@ Registry Location           http://localhost:8080/registry
 Registry Package Name       Harvest-Package_20111014081552
 Registration Package GUID   urn:uuid:f4cb8733-b86f-4877-ad47-c7fbacf44574
 
-INFO:   XML extractor set to the following default namespace: http://pds.nasa.gov/schema/pds4/pds/v04
+INFO:   XML extractor set to the following default namespace: \
+        http://pds.nasa.gov/schema/pds4/pds/v04
 INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] Begin processing.
 INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-Setting LID-based association, 'urn:nasa:pds:Collection_Context.personnel.affil', under slot name 'has_context_collection'.
+        Setting LID-based association, \
+        'urn:nasa:pds:Collection_Context.personnel.affil', \
+        under slot name 'has_context_collection'.
 INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-Setting LID-based association, 'urn:nasa:pds:Collection_Context.dataset', under slot name 'has_context_collection'.
+        Setting LID-based association, \
+        'urn:nasa:pds:Collection_Context.dataset', \
+        under slot name 'has_context_collection'.
 INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-Setting LID-based association, 'urn:nasa:pds:Collection_Context.personnel.guest', under slot name 'has_context_collection'.
+        Setting LID-based association, \
+        'urn:nasa:pds:Collection_Context.personnel.guest', \
+        under slot name 'has_context_collection'.
 INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-Setting LID-based association, 'urn:nasa:pds:Collection_Context.instrument_host', under slot name 'has_context_collection'.
+        Setting LID-based association, \
+        'urn:nasa:pds:Collection_Context.instrument_host', \
+        under slot name 'has_context_collection'.
 INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-Setting LID-based association, 'urn:nasa:pds:Collection_Context.instrument', under slot name 'has_context_collection'.
+        Setting LID-based association, \
+        'urn:nasa:pds:Collection_Context.instrument', \
+        under slot name 'has_context_collection'.
 INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-Setting LID-based association, 'urn:nasa:pds:Collection_Context.mission', under slot name 'has_context_collection'.
+        Setting LID-based association, \
+        'urn:nasa:pds:Collection_Context.mission', \
+        under slot name 'has_context_collection'.
 INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-Setting LID-based association, 'urn:nasa:pds:Collection_Context.node', under slot name 'has_context_collection'.
+        Setting LID-based association, \
+        'urn:nasa:pds:Collection_Context.node', \
+        under slot name 'has_context_collection'.
 INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-Setting LID-based association, 'urn:nasa:pds:Collection_Context.resource', under slot name 'has_context_collection'.
+        Setting LID-based association, \
+        'urn:nasa:pds:Collection_Context.resource', \
+        under slot name 'has_context_collection'.
 INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-Setting LID-based association, 'urn:nasa:pds:Collection_Context.target', under slot name 'has_context_collection'.
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] Captured file information for Product_Bundle_Context.xml
-SUCCESS:   [/pds4/context_bundle/Product_Bundle_Context.xml] Successfully registered product: urn:nasa:pds:context_bundle::1.0
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] Product has the following GUID: urn:uuid:25f3043e-0655-4d2c-9205-8406a254ec70
+        Setting LID-based association, \
+        'urn:nasa:pds:Collection_Context.target', \
+        under slot name 'has_context_collection'.
+INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
+        Captured file information for Product_Bundle_Context.xml
 SUCCESS:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-Successfully registered product: urn:nasa:pds:context_bundle:Product_Bundle_Context_20111012.xml::1.0
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] Product has the following GUID: urn:uuid:554175b2-30d6-4465-adf3-795c1c59cf27
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] Begin processing.
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] No associations found.
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] Captured file information for collection_context_dataset_20111012.xml
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] Capturing file object metadata for manifest_data_set_20111012.tab
+        Successfully registered product: urn:nasa:pds:context_bundle::1.0
+INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
+        Product has the following GUID: urn:uuid:25f3043e-0655-4d2c-9205-8406a254ec70
+SUCCESS:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
+        Successfully registered product: \
+        urn:nasa:pds:context_bundle:Product_Bundle_Context_20111012.xml::1.0
+INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
+        Product has the following GUID: urn:uuid:554175b2-30d6-4465-adf3-795c1c59cf27
+INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
+        Begin processing.
+INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
+        No associations found.
+INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
+        Captured file information for collection_context_dataset_20111012.xml
+INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
+        Capturing file object metadata for manifest_data_set_20111012.tab
 SUCCESS:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-Successfully registered product: urn:nasa:pds:Collection_Context.dataset::1.0
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] Product has the following GUID: urn:uuid:fd5eeaf9-2de7-4022-b440-88a2ac4a694b
+        Successfully registered product: urn:nasa:pds:Collection_Context.dataset::1.0
+INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
+        Product has the following GUID: urn:uuid:fd5eeaf9-2de7-4022-b440-88a2ac4a694b
 SUCCESS:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-Successfully registered product: urn:nasa:pds:Collection_Context.dataset:collection_context_dataset_20111012.xml::1.0
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] Product has the following GUID: urn:uuid:6f180715-ccde-4a3d-9404-e5a1128a3ce7
+        Successfully registered product: \
+        urn:nasa:pds:Collection_Context.dataset:collection_context_dataset_20111012.xml::1.0
+INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
+        Product has the following GUID: urn:uuid:6f180715-ccde-4a3d-9404-e5a1128a3ce7
 SUCCESS:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-Successfully registered product: urn:nasa:pds:Collection_Context.dataset:manifest_data_set_20111012.tab::1.0
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] Product has the following GUID: urn:uuid:21a13088-b552-4df6-b855-28532c5e4a70
+        Successfully registered product: \
+        urn:nasa:pds:Collection_Context.dataset:manifest_data_set_20111012.tab::1.0
+INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
+        Product has the following GUID: urn:uuid:21a13088-b552-4df6-b855-28532c5e4a70
 
     ....
        
