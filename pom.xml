@@ -209,7 +209,13 @@
       <name>Java.net Maven Repository</name>
       <url>http://download.java.net/maven/2</url>
     </repository>
-    <!-- Hosts the OODT artifacts. -->
+    <!-- Hosts the Apache OODT artifacts. -->
+    <repository>
+      <id>apache-repo</id>
+      <name>Apache Repository</name>
+      <url>https://repository.apache.org/content/repositories/releases</url>
+    </repository>
+    <!-- Hosts the JPL OODT artifacts. -->
     <repository>
       <id>oodt-repo</id>
       <name>OODT Private Maven Repository</name>
@@ -335,7 +341,7 @@
     <dependency>
       <groupId>gov.nasa.pds.2010.preparation</groupId>
       <artifactId>core</artifactId>
-      <version>0.5.0-dev</version>
+      <version>1.0.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
