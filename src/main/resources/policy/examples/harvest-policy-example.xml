@@ -93,33 +93,15 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
-      <xPath slotName="document_revision_id">
-         //Document_Description/revision_id
-      </xPath>
-      <xPath slotName="document_name">
-         //Document_Description/document_name
-      </xPath>
-      <xPath slotName="document_doi">
-         //Document_Description/doi
-      </xPath>
-      <xPath slotName="document_author_list">
-         //Document_Description/author_list
-      </xPath>
-      <xPath slotName="document_editor_list">
-         //Document_Description/editor_list
-      </xPath>
-      <xPath slotName="document_acknowledgement_text">
-         //Document_Description/acknowledgement_text
-      </xPath>
-      <xPath slotName="document_copyright">
-         //Document_Description/copyright
-      </xPath>
-      <xPath slotName="document_description">
-         //Document_Description/description
-      </xPath>
-      <xPath slotName="document_publication_date">
-         //Document_Description/publication_date
-      </xPath>
+      <xPath slotName="document_revision_id">//Document_Description/revision_id</xPath>
+      <xPath slotName="document_name">//Document_Description/document_name</xPath>
+      <xPath slotName="document_doi">//Document_Description/doi</xPath>
+      <xPath slotName="document_author_list">//Document_Description/author_list</xPath>
+      <xPath slotName="document_editor_list">//Document_Description/editor_list</xPath>
+      <xPath slotName="document_acknowledgement_text">//Document_Description/acknowledgement_text</xPath>
+      <xPath slotName="document_copyright">//Document_Description/copyright</xPath>
+      <xPath slotName="document_description">//Document_Description/description</xPath>
+      <xPath slotName="document_publication_date">//Document_Description/publication_date</xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_File_Text">
@@ -192,18 +174,10 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
-      <xPath slotName="instrument_host_name">
-        //Instrument_Host_PDS3/instrument_host_desc
-      </xPath>
-      <xPath slotName="instrument_host_desc">
-        //Instrument_Host_PDS3/instrument_host_desc
-      </xPath>
-      <xPath slotName="instrument_host_id">
-        //Instrument_Host_PDS3/instrument_host_id
-      </xPath>
-      <xPath slotName="instrument_host_type">
-        //Instrument_Host_PDS3/instrument_host_type
-      </xPath>
+      <xPath slotName="instrument_host_name">//Instrument_Host_PDS3/instrument_host_desc</xPath>
+      <xPath slotName="instrument_host_desc">//Instrument_Host_PDS3/instrument_host_desc</xPath>
+      <xPath slotName="instrument_host_id">//Instrument_Host_PDS3/instrument_host_id</xPath>
+      <xPath slotName="instrument_host_type">//Instrument_Host_PDS3/instrument_host_type</xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Instrument_PDS3">
@@ -240,24 +214,12 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
-      <xPath slotName="instrument_name">
-        //Instrument_PDS3/instrument_name
-      </xPath>
-      <xPath slotName="instrument_desc">
-        //Instrument_PDS3/instrument_desc
-      </xPath>
-      <xPath slotName="instrument_id">
-        //Instrument_PDS3/instrument_id
-      </xPath>
-      <xPath slotName="instrument_serial_number">
-        //Instrument_PDS3/instrument_serial_number
-      </xPath>
-      <xPath slotName="instrument_type">
-        //Instrument_PDS3/instrument_type
-      </xPath>
-      <xPath slotName="instrument_version_id">
-        //Instrument_PDS3/instrument_version_id
-      </xPath>
+      <xPath slotName="instrument_name">//Instrument_PDS3/instrument_name</xPath>
+      <xPath slotName="instrument_desc">//Instrument_PDS3/instrument_desc</xPath>
+      <xPath slotName="instrument_id">//Instrument_PDS3/instrument_id</xPath>
+      <xPath slotName="instrument_serial_number">//Instrument_PDS3/instrument_serial_number</xPath>
+      <xPath slotName="instrument_type">//Instrument_PDS3/instrument_type</xPath>
+      <xPath slotName="instrument_version_id">//Instrument_PDS3/instrument_version_id</xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Mission_PDS3">
@@ -294,21 +256,11 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
-      <xPath slotName="mission_name">
-        //Mission_PDS3/mission_name
-      </xPath>
-      <xPath slotName="mission_desc">
-        //Mission_PDS3/mission_desc
-      </xPath>
-      <xPath slotName="mission_objectives_summary">
-        //Mission_PDS3/mission_objectives_summary
-      </xPath>
-      <xPath slotName="mission_start_date">
-        //Mission_PDS3/mission_start_date
-      </xPath>
-      <xPath slotName="mission_stop_date">
-        //Mission_PDS3/mission_stop_date
-      </xPath>
+      <xPath slotName="mission_name">//Mission_PDS3/mission_name</xPath>
+      <xPath slotName="mission_desc">//Mission_PDS3/mission_desc</xPath>
+      <xPath slotName="mission_objectives_summary">//Mission_PDS3/mission_objectives_summary</xPath>
+      <xPath slotName="mission_start_date">//Mission_PDS3/mission_start_date</xPath>
+      <xPath slotName="mission_stop_date">//Mission_PDS3/mission_stop_date</xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Observational">
@@ -348,19 +300,19 @@
       <xPath slotName="observation_comment">
         //Observation_Area/comment
       </xPath>
-      <xPath slotName="start_date_time">
+      <xPath slotName="observation_start_date_time">
         //Observation_Area/Time_Coordinates/start_date_time
       </xPath>
-      <xPath slotName="stop_date_time">
+      <xPath slotName="observation_stop_date_time">
         //Observation_Area/Time_Coordinates/stop_date_time
       </xPath>
-      <xPath slotName="local_mean_solar_time">
+      <xPath slotName="observation_local_mean_solar_time">
         //Observation_Area/Time_Coordinates/local_mean_solar_time
       </xPath>
-      <xPath slotName="local_true_solar_time">
+      <xPath slotName="observation_local_true_solar_time">
         //Observation_Area/Time_Coordinates/local_true_solar_time
       </xPath>
-      <xPath slotName="solar_longitute">
+      <xPath slotName="observation_solar_longitute">
         //Observation_Area/Time_Coordinates/solar_longitude
       </xPath>
       <xPath slotName="primary_result_type">
@@ -444,18 +396,10 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
-      <xPath slotName="target_name">
-        //Target_PDS3/target_name
-      </xPath>
-      <xPath slotName="target_primary_body_name">
-        //Target_PDS3/primary_body_name
-      </xPath>
-      <xPath slotName="target_desc">
-        //Target_PDS3/target_desc
-      </xPath>
-      <xPath slotName="target_type">
-        //Target_PDS3/target_type
-      </xPath>      
+      <xPath slotName="target_name">//Target_PDS3/target_name</xPath>
+      <xPath slotName="target_primary_body_name">//Target_PDS3/primary_body_name</xPath>
+      <xPath slotName="target_desc">//Target_PDS3/target_desc</xPath>
+      <xPath slotName="target_type">//Target_PDS3/target_type</xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_XML_Schema">

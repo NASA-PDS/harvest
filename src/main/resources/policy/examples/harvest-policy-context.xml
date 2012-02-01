@@ -15,129 +15,486 @@
   <bundles>
     <file>$HOME/context_bundle/Product_Bundle_context.xml</file>
   </bundles>
+
   <validation>
     <enabled>false</enabled>
   </validation>
+
   <accessUrls>
     <baseUrl>http://pds.nasa.gov/pds4</baseUrl>
     <baseUrl>file://pds/pds4/</baseUrl>
   </accessUrls>
+
   <candidates>
+     <productMetadata objectType="Collection_Volume_PDS3">
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/citation_description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="volume_archive_status">//Volume_PDS3/archive_status</xPath>
+      <xPath slotName="volume_description">//Volume_PDS3/description</xPath>
+      <xPath slotName="volume_archive_status_note">//Volume_PDS3/archive_status_note</xPath>
+      <xPath slotName="volume_curating_node_id">//Volume_PDS3/curating_node_id</xPath>
+      <xPath slotName="volume_medium_type">//Volume_PDS3/medium_type</xPath>
+      <xPath slotName="volume_publication_date">//Volume_PDS3/publication_date</xPath>
+      <xPath slotName="volume_de_fullname">//Volume_PDS3/volume_de_fullname</xPath>
+      <xPath slotName="volume_format">//Volume_PDS3/volume_format</xPath>
+      <xPath slotName="volume_id">//Volume_PDS3/volume_id</xPath>
+      <xPath slotName="volume_name">//Volume_PDS3/volume_name</xPath>
+      <xPath slotName="volume_set_id">//Volume_PDS3/volume_set_id</xPath>
+      <xPath slotName="volume_size">//Volume_PDS3/volume_size</xPath>
+      <xPath slotName="volume_version_id">//Volume_PDS3/volume_version_id</xPath>
+     </productMetadata>
+
+     <productMetadata objectType="Collection_Volume_Set_PDS3">
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/citation_description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="volume_set_description">//Volume_Set_PDS3/description</xPath>
+      <xPath slotName="volume_set_series_name">//Volume_Set_PDS3/volume_series_name</xPath>
+      <xPath slotName="volume_set_id">//Volume_Set_PDS3/volume_set_id</xPath>
+      <xPath slotName="volume_set_name">//Volume_Set_PDS3/volume_set_name</xPath>
+      <xPath slotName="volume_set_volumes">//Volume_Set_PDS3/volumes</xPath>
+     </productMetadata>
+
+    <productMetadata objectType="Product_Data_Set_PDS3">
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/citation_description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="data_set_id">//Data_Set_PDS3/data_set_id</xPath>
+      <xPath slotName="data_set_name">//Data_Set_PDS3/data_set_name</xPath>
+      <xPath slotName="data_set_release_date">//Data_Set_PDS3/data_set_release_date</xPath>
+      <xPath slotName="data_set_start_date_time">//Data_Set_PDS3/start_date_time</xPath>
+      <xPath slotName="data_set_stop_date_time">//Data_Set_PDS3/stop_date_time</xPath>
+      <xPath slotName="data_set_producer_full_name">//Data_Set_PDS3/producer_full_name</xPath>
+      <xPath slotName="data_set_citation_text">//Data_Set_PDS3/citation_text</xPath>
+      <xPath slotName="data_set_terse_desc">//Data_Set_PDS3/data_set_terse_desc</xPath>
+      <xPath slotName="data_set_abstract_desc">//Data_Set_PDS3/abstract_desc</xPath>
+      <xPath slotName="data_set_desc">//Data_Set_PDS3/data_set_desc</xPath>
+      <xPath slotName="data_set_confidence_level_note">//Data_Set_PDS3/confidence_level_note</xPath>
+      <xPath slotName="data_set_archive_status">//Data_Set_PDS3/archive_status</xPath>
+      <xPath slotName="data_set_nssdc_medium_type">//Data_Set_PDS3/NSSDC/medium_type</xPath>
+      <xPath slotName="data_set_nccdc_collection_id">//Data_Set_PDS3/NSSDC/nssdc_collection_id</xPath>
+    </productMetadata>
+
+    <productMetadata objectType="Product_Instrument_Host_PDS3">
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/citation_description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="instrument_host_name">//Instrument_Host_PDS3/instrument_host_desc</xPath>
+      <xPath slotName="instrument_host_desc">//Instrument_Host_PDS3/instrument_host_desc</xPath>
+      <xPath slotName="instrument_host_id">//Instrument_Host_PDS3/instrument_host_id</xPath>
+      <xPath slotName="instrument_host_type">//Instrument_Host_PDS3/instrument_host_type</xPath>
+    </productMetadata>
+
+    <productMetadata objectType="Product_Instrument_PDS3">
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/citation_description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="instrument_name">//Instrument_PDS3/instrument_name</xPath>
+      <xPath slotName="instrument_desc">//Instrument_PDS3/instrument_desc</xPath>
+      <xPath slotName="instrument_id">//Instrument_PDS3/instrument_id</xPath>
+      <xPath slotName="instrument_serial_number">//Instrument_PDS3/instrument_serial_number</xPath>
+      <xPath slotName="instrument_type">//Instrument_PDS3/instrument_type</xPath>
+      <xPath slotName="instrument_version_id">//Instrument_PDS3/instrument_version_id</xPath>
+    </productMetadata>
+
+    <productMetadata objectType="Product_Mission_PDS3">
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/citation_description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="mission_name">//Mission_PDS3/mission_name</xPath>
+      <xPath slotName="mission_desc">//Mission_PDS3/mission_desc</xPath>
+      <xPath slotName="mission_objectives_summary">//Mission_PDS3/mission_objectives_summary</xPath>
+      <xPath slotName="mission_start_date">//Mission_PDS3/mission_start_date</xPath>
+      <xPath slotName="mission_stop_date">//Mission_PDS3/mission_stop_date</xPath>
+    </productMetadata>
+
     <productMetadata objectType="Product_Node">
-      <xPath>//Identification_Area/information_model_version</xPath>
-      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
-      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
-      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
-      <xPath>//Node/description</xPath>
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/citation_description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
       <xPath slotName="node_name">//Node/name</xPath>
       <xPath slotName="node_description">//Node/description</xPath>
-      <xPath>//Node/institution_name</xPath>
+      <xPath slotName="node_institution_name">//Node/institution_name</xPath>
     </productMetadata>
-    <productMetadata objectType="Product_Mission_PDS3">
-      <xPath>//Identification_Area/information_model_version</xPath>
-      <xPath>//Identification_Area/Alias_List/Alias/alternate_id</xPath>
-      <xPath>//Identification_Area/Alias_List/Alias/alternate_title</xPath>
-      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
-      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
-      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
-      <xPath>//External_Reference/reference_text</xPath>
-      <xPath slotName="reference_description">//External_Reference/description</xPath>
-      <xPath>//Mission_PDS3/mission_name</xPath>
-      <xPath>//Mission_PDS3/mission_desc</xPath>
-      <xPath>//Mission_PDS3/mission_objectives_summary</xPath>
-      <xPath>//Mission_PDS3/mission_start_date</xPath>
-      <xPath>//Mission_PDS3/mission_stop_date</xPath>
-    </productMetadata>
-    <productMetadata objectType="Product_Instrument_Host_PDS3">
-      <xPath>//Identification_Area/information_model_version</xPath>
-      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
-      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
-      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
-      <xPath>//External_Reference/reference_text</xPath>
-      <xPath slotName="reference_description">//External_Reference/description</xPath>
-      <xPath>//Instrument_Host_PDS3/instrument_host_name</xPath>
-      <xPath>//Instrument_Host_PDS3/instrument_host_desc</xPath>
-      <xPath>//Instrument_Host_PDS3/instrument_host_id</xPath>
-      <xPath>//Instrument_Host_PDS3/instrument_host_type</xPath>
-    </productMetadata>
-    <productMetadata objectType="Product_Target_PDS3">
-      <xPath>//Identification_Area/information_model_version</xPath>
-      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
-      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
-      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
-      <xPath>//Target_PDS3/target_name</xPath>
-      <xPath>//Target_PDS3/primary_body_name</xPath>
-      <xPath>//Target_PDS3/target_desc</xPath>
-      <xPath>//Target_PDS3/target_type</xPath>
-    </productMetadata>
+
     <productMetadata objectType="Product_PDS_Affiliate">
-      <xPath>//Data_Standards/dd_version_id</xPath>
-      <xPath>//Data_Standards/std_ref_version_id</xPath>
-      <xPath>//Identification_Area_Product/product_subclass</xPath>
-      <xPath>//Identification_Are_Product/last_modification_date_time</xPath>
-      <xPath slotName="MyPDSName">//Subject_Area/full_name</xPath>
-      <xPath>//PDS_Affiliate/node_name</xPath>
-      <xPath>//PDS_Affiliate/affiliation_type</xPath>
-      <xPath>//PDS_Affiliate/alternate_telephone_number</xPath>
-      <xPath>//PDS_Affiliate/electronic_mail_address</xPath>
-      <xPath>//PDS_Affiliate/institution_name</xPath>
-      <xPath>//PDS_Affiliate/phone_book_flag</xPath>
-      <xPath>//PDS_Affiliate/postal_address_text</xPath>
-      <xPath>//PDS_Affiliate/registration_date</xPath>
-      <xPath>//PDS_Affiliate/sort_name</xPath>
-      <xPath>//PDS_Affiliate/telephone_number</xPath>
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/citation_description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="person_name">//PDS_Affiliate/name</xPath>
+      <xPath slotName="person_node_name">//PDS_Affiliate/node_name</xPath>
+      <xPath slotName="person_registration_date">//PDS_Affiliate/registration_date</xPath>
+      <xPath slotName="person_electronic_mail_address">//PDS_Affiliate/electronic_mail_address</xPath>
+      <xPath slotName="person_sort_name">//PDS_Affiliate/sort_name</xPath>
+      <xPath slotName="person_description">//PDS_Affiliate/description</xPath>
+      <xPath slotName="person_affiliation_type">//PDS_Affiliate/affiliation_type</xPath>
+      <xPath slotName="person_alternate_telephone_number">//PDS_Affiliate/alternate_telephone_number</xPath>
+      <xPath slotName="person_institution_name">//PDS_Affiliate/institution_name</xPath>
+      <xPath slotName="person_phone_book_flag">//PDS_Affiliate/phone_book_flag</xPath>
+      <xPath slotName="person_postal_address_text">//PDS_Affiliate/postal_address_text</xPath>
+      <xPath slotName="person_telephone_number">//PDS_Affiliate/telephone_number</xPath>
     </productMetadata>
+
     <productMetadata objectType="Product_PDS_Guest">
-      <xPath>//Identification_Area/information_model_version</xPath>
-      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
-      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
-      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
-      <xPath slotName="subscription_name">//PDS_Subscription/name</xPath>
-        <xPath>//PDS_Subscription/subscription_list</xPath>
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/citation_description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="person_name">//PDS_Guest/name</xPath>
+      <xPath slotName="person_registration_date">//PDS_Guest/registration_date</xPath>
+      <xPath slotName="person_electronic_mail_address">//PDS_Guest/electronic_mail_address</xPath>
+      <xPath slotName="person_sort_name">//PDS_Guest/sort_name</xPath>
+      <xPath slotName="person_description">//PDS_Guest/description</xPath>
     </productMetadata>
-    <productMetadata objectType="Product_Instrument_PDS3">
-      <xPath>//Identification_Area/information_model_version</xPath>
-      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
-      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
-      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
-      <xPath>//External_Reference/reference_text</xPath>
-      <xPath slotName="reference_description">//External_Reference/description</xPath>
-      <xPath>//Instrument_PDS3/instrument_name</xPath>
-      <xPath>//Instrument_PDS3/instrument_desc</xPath>
-      <xPath>//Instrument_PDS3/instrument_id</xPath>
-      <xPath>//Instrument_PDS3/instrument_serial_number</xPath>
-      <xPath>//Instrument_PDS3/instrument_type</xPath>
-      <xPath>//Instrument_PDS3/instrument_version_id</xPath>
-    </productMetadata>
+
     <productMetadata objectType="Product_Resource">
-      <xPath>//Identification_Area/information_model_version</xPath>
-      <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
-      <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
-      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/citation_description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="resource_name">//Resource/name</xPath>
+      <xPath slotName="resource_type">//Resource/type</xPath>
       <xPath slotName="resource_description">//Resource/description</xPath>
       <xPath slotName="resource_url">//Resource/url</xPath>
-      <xPath slotName="resource_name">//Resource/name</xPath>
     </productMetadata>
-    <productMetadata objectType="Product_Data_Set_PDS3">
-      <xPath>//Identification_Area/information_model_version</xPath>
-        <xPath>//Identification_Area/Modification_History/Modification_Detail/modification_date</xPath>
-        <xPath slotName="modification_version_id">//Identification_Area/Modification_History/Modification_Detail/version_id</xPath>
-      <xPath slotName="modification_description">//Identification_Area/Modification_History/Modification_Detail/description</xPath>
-      <xPath>//External_Reference/reference_text</xPath>
-      <xPath slotName="reference_description">//External_Reference/description</xPath>
-      <xPath>//Data_Set_PDS3/data_set_id</xPath>
-      <xPath>//Data_Set_PDS3/data_set_desc</xPath>
-      <xPath>//Data_Set_PDS3/data_set_release_date</xPath>
-      <xPath>//Data_Set_PDS3/start_date_time</xPath>
-      <xPath>//Data_Set_PDS3/stop_date_time</xPath>
-      <xPath>//Data_Set_PDS3/producer_full_name</xPath>
-      <xPath>//Data_Set_PDS3/citation_text</xPath>
-      <xPath>//Data_Set_PDS3/data_set_terse_desc</xPath>
-      <xPath>//Data_Set_PDS3/abstract_desc</xPath>
-      <xPath>//Data_Set_PDS3/confidence_level_note</xPath>
-      <xPath>//Data_Set_PDS3/archive_status</xPath>
-      <xPath>//Data_Set_PDS3/NSSDC/nssdc_collection_id</xPath>
-      <xPath>//Data_Set_PDS3/NSSDC/medium_type</xPath>
+
+    <productMetadata objectType="Product_Target_PDS3">
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/citation_description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="target_name">//Target_PDS3/target_name</xPath>
+      <xPath slotName="target_primary_body_name">//Target_PDS3/primary_body_name</xPath>
+      <xPath slotName="target_desc">//Target_PDS3/target_desc</xPath>
+      <xPath slotName="target_type">//Target_PDS3/target_type</xPath>
     </productMetadata>
   </candidates>
 </policy>
