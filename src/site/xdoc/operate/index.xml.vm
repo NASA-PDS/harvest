@@ -77,12 +77,12 @@
         </ul>
 
         <p><b><i>Registering Products From a Single Target</i></b></p>
-        
-        <p>The following command demonstrates how to register products to a non-secured registry instance from a target bundle file, <i>product_bundle.xml</i>, using the policy file, <i>policy.xml</i>, where the output is going to standard out:
+
+        <p>The following command demonstrates how to register products to a non-secured registry instance from a target product label, <i>product.xml</i>, using the policy file, <i>policy.xml</i>, where the output is going to standard out:
         </p>
 
         <source>
-% harvest product_bundle.xml -c policy.xml
+% harvest product.xml -c policy.xml
         </source>
 
         <p>The following command demonstrates how to register products to a non-secured registry instance from a target directory, <i>$HOME/pds4Directory</i>, where only files that end with a <i>.xml</i> file extension, will be processed:
@@ -93,32 +93,35 @@
         </source>
 
         <p><b><i>Registering Products From Multiple Targets</i></b></p>
-        
-        <p>The following command demonstrates how to register products to a non-secured registry instance from a target bundle file, <i>product_bundle.xml</i>, and a target collection file, <i>product_collection.xml</i>, using the policy file, <i>policy.xml</i>. The output will go to a log file, <i>log-file.txt</i>:
+
+        <p>The following command demonstrates how to register products to a non-secured registry instance from two target product labels, <i>product1.xml</i> and <i>product2.xml</i>, using the policy file, <i>policy.xml</i>. The output will go to a log file, <i>log-file.txt</i>:
         </p>
-        
+
         <source>
-% harvest product_bundle.xml, product_collection.xml -c policy.xml -l log-file.txt 
+% harvest product1.xml, product2.xml -c policy.xml -l log-file.txt 
         </source>
 
         <p><b><i>Registering Products From Targets Specified In The Policy File</i></b></p>
-        
+
         <p>Targets can either be specified on the command-line or in in the policy file. Any targets specified on the command-line will overwrite any targets specified in the policy file. The following command demonstrates registering products based on targets specified in the policy file, <i>policy.xml</i>:
         </p>
-        
+
         <source>
 % harvest -c policy.xml
         </source>
 
         <p><b><i>Registering Products To A Secured Registry Instance</i></b></p>
-        
-        <p>The following command demonstrates how to register products to a secured registry instance from a target bundle file, <i>product_bundle.xml</i>, using the policy file, <i>policy.xml</i>:
+
+        <p>The following command demonstrates how to register products to a secured registry instance from a target product label, <i>product.xml</i>, using the policy file, <i>policy.xml</i>:
         </p>
 
         <source>
-% harvest product_bundle.xml -c policy.xml -u {username} -p {password} \
+% harvest product.xml -c policy.xml -u {username} -p {password} \
   -k {keystorePassword}
         </source>
+
+        <p>In each scenario above, the target product(s) were the equivalent of observational or document products. The data model also consists of bundle and collection products, which in turn reference other products. When the Harvest Tool encounters one of these products, it traverses the inventory associated with that product and registers each product referenced as well as the target product.
+        </p>
       </subsection>
 
       <subsection name="Persistence Mode">
@@ -198,20 +201,29 @@
   &lt;bundles&gt;
     &lt;file&gt;/home/pds4/context-bundle/bundle.xml&lt;/file&gt;
   &lt;/bundles&gt;
+
   &lt;collections&gt;
     &lt;file&gt;/home/pds4/insthost/collection_instrument_host.xml&lt;/file&gt;
   &lt;/collections&gt;
+
   &lt;directories&gt;
     &lt;path&gt;/home/dph_examples_513B/dph_example_products&lt;/path&gt;
     &lt;filePattern&gt;*.xml&lt;/filePattern&gt;
   &lt;/directories&gt;
+
   &lt;validation&gt;
     &lt;enabled&gt;true&lt;/enabled&gt;
   &lt;/validation&gt;
+
+  &lt;storageIngestion&gt;
+    &lt;serverUrl&gt;http://localhost:9000&lt;/baseUrl&gt;
+  &lt;/storageIngestion&gt;
+
   &lt;accessUrls&gt;
     &lt;baseUrl&gt;http://pds.nasa.gov/pds4&lt;/baseUrl&gt;
     &lt;baseUrl&gt;file://pds/pds4/&lt;/baseUrl&gt;
   &lt;/accessUrls&gt;
+
   &lt;candidates&gt;
     &lt;namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01"/&gt;
     &lt;productMetadata objectType="Product_Observational"&gt;
@@ -239,6 +251,7 @@
       &lt;xPath&gt;//Observation_Area/Mission_Area/dph:spacecraft_clock_start_count&lt;/xPath&gt;
       &lt;xPath&gt;//Observation_Area/Mission_Area/dph:spacecraft_clock_stop_count&lt;/xPath&gt;
     &lt;/productMetadata&gt;
+
     &lt;productMetadata objectType="Product_Document"&gt;
       &lt;xPath&gt;//Identification_Area/information_model_version&lt;/xPath&gt;
       &lt;xPath&gt;//Identification_Area/Modification_History/\
@@ -319,7 +332,7 @@
 
        <p><b><i>storageIngestion</i></b></p>
        
-       <p>Specify this element to tell the Harvest Tool to ingest data products to the PDS Storage. The following table describes the elements that are allowed:
+       <p>Specify this element to tell the Harvest Tool to ingest data products to the PDS Storage Service. The following table describes the elements that are allowed:
        </p>
        
        <table>
