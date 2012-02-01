@@ -32,9 +32,9 @@ public enum Flag {
    * Flag to specify file patterns to look for when validating a target
    * directory.
    */
-  REGEXP("e", "regexp", "patterns", String.class, "Specify file patterns "
-      + "to look for when crawling a target directory. Each pattern should "
-      + "be surrounded by quotes. (i.e. -e \"*.xml\")"),
+  REGEXP("e", "regexp", "patterns", String.class, true, "Specify file "
+      + "patterns to look for when crawling a target directory. Each "
+      + "pattern should be surrounded by quotes. (i.e. -e \"*.xml\")"),
 
   /**
    * Flag to specify a PDS3 directory to crawl for harvesting.
