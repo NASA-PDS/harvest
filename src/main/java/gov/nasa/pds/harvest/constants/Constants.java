@@ -81,7 +81,7 @@ public class Constants {
     "storageServiceProductId";
 
   /** The data classes found in a PDS4 label. */
-  public static final String DATA_CLASS = "dataClass";
+  public static final String DATA_CLASS = "data_class";
 
   /**
    * The XPath to the data classes in the PDS4 label.
