@@ -163,7 +163,7 @@
       <xPath slotName="data_set_confidence_level_note">//Data_Set_PDS3/confidence_level_note</xPath>
       <xPath slotName="data_set_archive_status">//Data_Set_PDS3/archive_status</xPath>
       <xPath slotName="data_set_nssdc_medium_type">//Data_Set_PDS3/NSSDC/medium_type</xPath>
-      <xPath slotName="data_set_nccdc_collection_id">//Data_Set_PDS3/NSSDC/nssdc_collection_id</xPath>
+      <xPath slotName="data_set_nssdc_collection_id">//Data_Set_PDS3/NSSDC/nssdc_collection_id</xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Instrument_Host_PDS3">
