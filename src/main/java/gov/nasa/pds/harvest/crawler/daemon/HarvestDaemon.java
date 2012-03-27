@@ -15,25 +15,27 @@ package gov.nasa.pds.harvest.crawler.daemon;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.logging.Handler;
 import java.util.logging.Logger;
 
 import org.apache.xmlrpc.WebServer;
 
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerAction;
 import gov.nasa.jpl.oodt.cas.crawl.daemon.CrawlDaemon;
-import gov.nasa.jpl.oodt.cas.crawl.status.IngestStatus;
-import gov.nasa.jpl.oodt.cas.crawl.status.IngestStatus.Result;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.association.AssociationPublisher;
 import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.crawler.PDSProductCrawler;
-import gov.nasa.pds.harvest.crawler.actions.FileObjectRegistrationAction;
 import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.security.SecuredUser;
+import gov.nasa.pds.harvest.stats.HarvestStats;
 
 /**
  * Class that provides the capability to make the Harvest Tool run
@@ -53,17 +55,43 @@ public class HarvestDaemon extends CrawlDaemon {
   /** A list of crawlers. */
   private List<PDSProductCrawler> crawlers;
 
-  /** The registry url. */
-  private String registryUrl;
-
-  /** An authenticated user. */
-  private SecuredUser securedUser;
-
   /** The association publisher. */
   private AssociationPublisher associationPublisher;
 
-  /** Registry ingester. */
-  private RegistryIngester ingester;
+  /** Current number of good files. */
+  private int numGoodFiles;
+
+  /** Current number of bad files. */
+  private int numBadFiles;
+
+  /** Current number of files skipped. */
+  private int numFilesSkipped;
+
+  /** Current number of products registered. */
+  private int numProductsRegistered;
+
+  /** Current number of products no registered. */
+  private int numProductsNotRegistered;
+
+  /** Current number of ancillary products registered. */
+  private int numAncillaryProductsRegistered;
+
+  /** Current number of ancillary products not registered. */
+  private int numAncillaryProductsNotRegistered;
+
+  /** Current number of associations registered. */
+  private int numAssociationsRegistered;
+
+  /** Current number of associations not registered. */
+  private int numAssociationsNotRegistered;
+
+  /** Current number of errors. */
+  private int numErrors;
+
+  /** Current number of warnings. */
+  private int numWarnings;
+
+  private HashMap<String, List<File>> registeredProductTypes;
 
   /**
    * Constructor
@@ -82,7 +110,19 @@ public class HarvestDaemon extends CrawlDaemon {
     this.associationPublisher = associationPublisher;
     this.crawlers = new ArrayList<PDSProductCrawler>();
     this.crawlers.addAll(crawlers);
-    this.ingester = ingester;
+
+    numAncillaryProductsNotRegistered = 0;
+    numAncillaryProductsRegistered = 0;
+    numAssociationsNotRegistered = 0;
+    numAssociationsRegistered = 0;
+    numBadFiles = 0;
+    numFilesSkipped = 0;
+    numGoodFiles = 0;
+    numProductsRegistered = 0;
+    numProductsNotRegistered = 0;
+    numErrors = 0;
+    numWarnings = 0;
+    registeredProductTypes = new HashMap<String, List<File>>();
   }
 
   /**
@@ -100,7 +140,6 @@ public class HarvestDaemon extends CrawlDaemon {
     }
 
     while (isRunning()) {
-      int totalFilesFound = 0;
       // okay, time to crawl
       for (PDSProductCrawler crawler : crawlers) {
         long timeBefore = System.currentTimeMillis();
@@ -108,33 +147,23 @@ public class HarvestDaemon extends CrawlDaemon {
         long timeAfter = System.currentTimeMillis();
         setMilisCrawling((long) getMilisCrawling() + (timeAfter - timeBefore));
         setNumCrawls(getNumCrawls() + 1);
-        totalFilesFound += crawler.getNumDiscoveredProducts()
-        + crawler.getNumBadFiles() + crawler.getNumFilesSkipped();
       }
       for ( Entry<File, Metadata> entry :
         Constants.registeredProducts.entrySet()) {
         associationPublisher.publish(entry.getKey(), entry.getValue());
       }
-      log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION, totalFilesFound
-          + " new file(s) found."));
-      //Print out some statistics if new files were found
-      if (totalFilesFound != 0) {
-        printSummary();
-      }
-      ingester.clearStats();
+      printSummary();
+
       //Make sure to clear the map of registered products
       Constants.registeredProducts.clear();
 
       log.log(new ToolsLogRecord(ToolsLevel.INFO, "Sleeping for: ["
           + getWaitInterval() + "] seconds"));
+
       // take a nap
       try {
-          Thread.currentThread().sleep(getWaitInterval() * 1000);
+        Thread.currentThread().sleep(getWaitInterval() * 1000);
       } catch (InterruptedException ignore) {
-      }
-      for (PDSProductCrawler crawler : crawlers) {
-        crawler.clearCrawlStats();
-        crawler.clearIngestStatus();
       }
     }
     for (PDSProductCrawler crawler : crawlers) {
@@ -155,29 +184,100 @@ public class HarvestDaemon extends CrawlDaemon {
    *
    */
   private void printSummary() {
-    int totalNumDiscoveredProducts = 0;
-    int totalNumBadFiles = 0;
-    int totalNumFilesSkipped = 0;
+    // Calculate the stats during this particular harvest instance
+    int newGoodFiles = HarvestStats.numGoodFiles - numGoodFiles;
+    int newBadFiles = HarvestStats.numBadFiles - numBadFiles;
+    int newFilesSkipped = HarvestStats.numFilesSkipped - numFilesSkipped;
 
-    for (PDSProductCrawler crawler : crawlers) {
-      totalNumDiscoveredProducts += crawler.getNumDiscoveredProducts();
-      totalNumBadFiles += crawler.getNumBadFiles();
-      totalNumFilesSkipped += crawler.getNumFilesSkipped();
+    int newProductsRegistered = HarvestStats.numProductsRegistered
+    - numProductsRegistered;
+
+    int newProductsNotRegistered = HarvestStats.numProductsNotRegistered
+    - numProductsNotRegistered;
+
+    int newAncillaryProductsRegistered =
+      HarvestStats.numAncillaryProductsRegistered
+      - numAncillaryProductsRegistered;
+
+    int newAncillaryProductsNotRegistered =
+      HarvestStats.numAncillaryProductsNotRegistered
+      - numAncillaryProductsNotRegistered;
+
+    int newAssociationsRegistered = HarvestStats.numAssociationsRegistered
+    - numAssociationsRegistered;
+
+    int newAssociationsNotRegistered =
+      HarvestStats.numAssociationsNotRegistered - numAssociationsNotRegistered;
+
+    int newErrors = HarvestStats.numErrors - numErrors;
+
+    int newWarnings = HarvestStats.numWarnings - numWarnings;
+
+    log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
+        + (newGoodFiles + newBadFiles + newFilesSkipped)
+        + " new file(s) found."));
+
+    if ( (newGoodFiles + newBadFiles + newFilesSkipped) == 0) {
+      return;
+    } else {
+      log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
+          newGoodFiles + " of "
+          + (newGoodFiles + newBadFiles) + " new file(s) processed, "
+          + newFilesSkipped + " other file(s) skipped"));
+
+      log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
+          newErrors + " new error(s), " + newWarnings + " new warning(s)"
+          + "\n"));
+
+      log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
+          newProductsRegistered + " of "
+          + (newProductsRegistered + newProductsNotRegistered)
+          + " new products registered."));
+
+      log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
+          newAncillaryProductsRegistered + " of "
+          + (newAncillaryProductsRegistered + newAncillaryProductsNotRegistered)
+          + " new ancillary products registered."));
+
+      log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
+          "\nNew Product Types Registered:\n"));
+      for (String key : HarvestStats.registeredProductTypes.keySet()) {
+        if (registeredProductTypes.containsKey(key)) {
+          int numNewProductTypes =
+            HarvestStats.registeredProductTypes.get(key).size()
+            - registeredProductTypes.get(key).size();
+          if (numNewProductTypes != 0) {
+            log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
+              numNewProductTypes + " " + key));
+          }
+        } else {
+          log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
+              HarvestStats.registeredProductTypes.get(key).size() + " "
+              + key));
+        }
+      }
+
+      log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION, "\n"
+          + newAssociationsRegistered + " of "
+          + (newAssociationsRegistered + newAssociationsNotRegistered)
+          + " new associations registered.\n"));
     }
-    int totalFilesProcessed = totalNumDiscoveredProducts + totalNumBadFiles;
-    log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
-        totalNumDiscoveredProducts
-        + " of " + totalFilesProcessed + " file(s) processed, "
-        + totalNumFilesSkipped + " skipped"));
-    int totalProducts = ingester.getNumProductsRegistered()
-    + ingester.getNumProductsNotRegistered();
-    log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
-        ingester.getNumProductsRegistered() + " of " + totalProducts
-        + " products registered."));
-    int totalAssociations = ingester.getNumAssociationsRegistered()
-    + ingester.getNumAssociationsNotRegistered();
-    log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
-          ingester.getNumAssociationsRegistered() + " of " + totalAssociations
-          + " associations registered."));
+
+    // Save the stats for the next round of calculations
+    numGoodFiles = HarvestStats.numGoodFiles;
+    numBadFiles = HarvestStats.numBadFiles;
+    numFilesSkipped = HarvestStats.numFilesSkipped;
+    numProductsRegistered = HarvestStats.numProductsRegistered;
+    numProductsNotRegistered = HarvestStats.numProductsNotRegistered;
+    numAncillaryProductsRegistered =
+      HarvestStats.numAncillaryProductsRegistered;
+    numAncillaryProductsNotRegistered =
+      HarvestStats.numAncillaryProductsNotRegistered;
+    numAssociationsRegistered = HarvestStats.numAssociationsRegistered;
+    numAssociationsNotRegistered = HarvestStats.numAssociationsNotRegistered;
+    numErrors = HarvestStats.numErrors;
+    numWarnings = HarvestStats.numWarnings;
+    registeredProductTypes.clear();
+    registeredProductTypes.putAll(HarvestStats.registeredProductTypes);
   }
 }

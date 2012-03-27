@@ -16,7 +16,6 @@ package gov.nasa.pds.harvest.crawler.metadata.extractor;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.constants.Constants;
-import gov.nasa.pds.harvest.file.FileObject;
 import gov.nasa.pds.harvest.inventory.InventoryEntry;
 import gov.nasa.pds.harvest.inventory.InventoryTableReader;
 import gov.nasa.pds.harvest.inventory.ReferenceEntry;
@@ -167,8 +166,6 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
         if (!lidVidEntries.isEmpty()) {
           metadata.addMetadata(Constants.REFERENCES, lidVidEntries);
         }
-        List<FileObject> fileObjectEntries = getFileObjects(product);
-        metadata.addMetadata(Constants.FILE_OBJECTS, fileObjectEntries);
       }
     } catch (Exception e) {
       throw new MetExtractionException(ExceptionUtils.getRootCauseMessage(e));

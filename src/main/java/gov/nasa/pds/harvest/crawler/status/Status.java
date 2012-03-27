@@ -19,4 +19,7 @@ public interface Status {
 
     public static String DISCOVERY = "DISCOVERED PRODUCT";
     public static String PRODUCT_EXISTS = "PRODUCT EXISTS";
+
+    public static String BAD_PRODUCT = "BAD PRODUCT";
+    public static String BAD_ASSOCIATION = "BAD ASSOCIATION";
 }

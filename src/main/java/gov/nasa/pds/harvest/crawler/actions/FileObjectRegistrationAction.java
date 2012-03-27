@@ -15,24 +15,31 @@
 package gov.nasa.pds.harvest.crawler.actions;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
+
+import net.sf.saxon.tinytree.TinyElementImpl;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
 
 import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerAction;
 import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerActionPhases;
 import gov.nasa.jpl.oodt.cas.crawl.structs.exceptions.CrawlerActionException;
-import gov.nasa.jpl.oodt.cas.filemgr.structs.exceptions.IngestException;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.file.FileObject;
+import gov.nasa.pds.harvest.file.MD5Checksum;
 import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.stats.HarvestStats;
+import gov.nasa.pds.harvest.util.XMLExtractor;
 import gov.nasa.pds.registry.exception.RegistryClientException;
 
 
@@ -45,7 +52,7 @@ import gov.nasa.pds.registry.exception.RegistryClientException;
 public class FileObjectRegistrationAction extends CrawlerAction {
   /** Logger object. */
   private static Logger log = Logger.getLogger(
-          AssociationCheckerAction.class.getName());
+          FileObjectRegistrationAction.class.getName());
 
   /** Crawler action ID. */
   private final String ID = "FileObjectRegistrationAction";
@@ -96,8 +103,16 @@ public class FileObjectRegistrationAction extends CrawlerAction {
   @Override
   public boolean performAction(File product, Metadata metadata)
       throws CrawlerActionException {
-    for (FileObject fileObject
-        : (List<FileObject>) metadata.getAllMetadata(Constants.FILE_OBJECTS)) {
+    List<FileObject> fileObjectEntries = new ArrayList<FileObject>();
+    try {
+      fileObjectEntries = getFileObjects(product);
+    } catch (Exception e) {
+      log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error while processing "
+          + "file objects: " + ExceptionUtils.getRootCauseMessage(e),
+          product));
+      throw new CrawlerActionException(e.getMessage());
+    }
+    for (FileObject fileObject : fileObjectEntries) {
       String lid = metadata.getMetadata(Constants.LOGICAL_ID) + ":"
       + fileObject.getName();
       String vid = metadata.getMetadata(Constants.PRODUCT_VERSION);
@@ -120,10 +135,13 @@ public class FileObjectRegistrationAction extends CrawlerAction {
         }
         String guid = registryIngester.ingest(new URL(registryUrl), product,
             fileObject, metadata);
-        log.log(new ToolsLogRecord(ToolsLevel.INGEST_SUCCESS,
+        log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
             "Successfully registered product: " + lidvid, product));
         log.log(new ToolsLogRecord(ToolsLevel.INFO,
             "Product has the following GUID: " + guid, product));
+        ++HarvestStats.numAncillaryProductsRegistered;
+        HarvestStats.addProductType(Constants.FILE_OBJECT_PRODUCT_TYPE,
+            new File(fileObject.getLocation(), fileObject.getName()));
         // Create a reference entry of the file association and add that
           // back to the list of reference entries to be processed later.
         ReferenceEntry refEntry = new ReferenceEntry();
@@ -141,12 +159,12 @@ public class FileObjectRegistrationAction extends CrawlerAction {
           refEntries.add(refEntry);
           metadata.addMetadata(Constants.REFERENCES, refEntries);
         }
-      } catch (IngestException ie) {
-        throw new CrawlerActionException(ie.getMessage());
-      } catch (MalformedURLException mue) {
-        log.log(new ToolsLogRecord(ToolsLevel.INGEST_FAIL, mue.getMessage(),
+      } catch (Exception e) {
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
+            ExceptionUtils.getRootCauseMessage(e),
             product));
-        throw new CrawlerActionException(mue.getMessage());
+        ++HarvestStats.numAncillaryProductsNotRegistered;
+        throw new CrawlerActionException(e.getMessage());
       }
     }
     return true;
@@ -160,6 +178,99 @@ public class FileObjectRegistrationAction extends CrawlerAction {
    */
   public void setActions(List<CrawlerAction> actions) {
     this.actions = actions;
+  }
+
+  private List<FileObject> getFileObjects(File product)
+  throws Exception {
+    SimpleDateFormat format = new SimpleDateFormat(
+        "yyyy-MM-dd'T'HH:mm:ss.SSSS'Z'");
+    List<FileObject> results = new ArrayList<FileObject>();
+    // Create a file object of the label file
+    String lastModified = format.format(new Date(product.lastModified()));
+    try {
+      FileObject fileObject = new FileObject(product.getName(),
+          product.getParent(), product.length(),
+          lastModified, MD5Checksum.getMD5Checksum(product.toString()));
+      log.log(new ToolsLogRecord(ToolsLevel.INFO, "Captured file information "
+          + "for " + product.getName(), product));
+      results.add(fileObject);
+    } catch (Exception e) {
+      log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
+          + "occurred while calculating checksum for " + product.getName()
+          + ": " + e.getMessage(), product.toString()));
+      ++HarvestStats.numAncillaryProductsNotRegistered;
+    }
+    XMLExtractor extractor = new XMLExtractor();
+    try {
+      extractor.parse(product);
+    } catch (Exception e) {
+      throw new Exception("Parse failure: " + e.getMessage());
+    }
+    // Search for File_Area_*/File tags within the product label
+    List<TinyElementImpl> fileObjects = extractor.getNodesFromDoc(
+        Constants.coreXpathsMap.get(Constants.FILE_OBJECTS));
+    for (TinyElementImpl file : fileObjects) {
+      String fileLocation = product.getParent();
+      String name = "";
+      long size = -1;
+      String checksum = "";
+      String creationDateTime = "";
+      List<TinyElementImpl> children = extractor.getNodesFromItem("*", file);
+      for (TinyElementImpl child : children) {
+        if ("file_name".equals(child.getLocalPart())) {
+          name = child.getStringValue();
+        } else if ("file_size".equals(child.getLocalPart())) {
+          size = Long.parseLong(child.getStringValue());
+        } else if ("md5_checksum".equals(child.getLocalPart())) {
+          checksum = child.getStringValue();
+        } else if ("creation_date_time".equals(child.getLocalPart())) {
+          creationDateTime = child.getStringValue();
+        } else if ("directory_path_name".equals(child.getLocalPart())) {
+          //Append the directory_path_name value to the file location
+          fileLocation = new File(fileLocation, child.getStringValue())
+          .toString();
+        }
+      }
+      try {
+        if (name.isEmpty()) {
+          log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Missing "
+              + "'file_name' tag within the 'File' area",
+              product.toString(), file.getLineNumber()));
+          throw new Exception("Missing file_name tag");
+        }
+        log.log(new ToolsLogRecord(ToolsLevel.INFO, "Capturing file "
+            + "object metadata for " + name, product));
+        File f = new File(fileLocation, name);
+        if (!f.exists()) {
+          log.log(new ToolsLogRecord(ToolsLevel.WARNING, "File object does "
+              + "not exist: " + f, product));
+          throw new Exception("File does not exist");
+        } else {
+          if (size == -1) {
+            size = f.length();
+          }
+          if (creationDateTime.isEmpty()) {
+            creationDateTime = format.format(new Date(f.lastModified()));
+          }
+          if (checksum.isEmpty()) {
+            try {
+              checksum = MD5Checksum.getMD5Checksum(f.toString());
+            } catch (Exception e) {
+              log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
+                + "occurred while calculating checksum for " + name + ": "
+                + e.getMessage(), product.toString()));
+              throw new Exception("Missing checksum");
+            }
+          }
+          results.add(new FileObject(f.getName(), f.getParent(), size,
+              creationDateTime, checksum));
+        }
+      } catch (Exception e) {
+        ++HarvestStats.numAncillaryProductsNotRegistered;
+        //Ignore
+      }
+    }
+    return results;
   }
 
 }

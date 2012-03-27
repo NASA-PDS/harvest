@@ -13,10 +13,13 @@
 // $Id$
 package gov.nasa.pds.harvest.logging.formatter;
 
-import gov.nasa.pds.harvest.crawler.status.Status;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.stats.HarvestStats;
 
+import java.io.File;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
@@ -28,118 +31,101 @@ import java.util.logging.LogRecord;
  *
  */
 public class HarvestFormatter extends Formatter {
-    private static String lineFeed = System.getProperty("line.separator", "\n");
-    private static String doubleLineFeed = lineFeed + lineFeed;
+  private static String lineFeed = System.getProperty("line.separator", "\n");
+  private static String doubleLineFeed = lineFeed + lineFeed;
 
-    private int productsRegistered;
-    private int productsNotRegistered;
-    private int filesSkipped;
-    private int discoveredProducts;
-    private int badFiles;
-    private int associationsRegistered;
-    private int associationsFailed;
-    private int associationsSkipped;
+  private StringBuffer config;
+  private StringBuffer summary;
 
-    private StringBuffer config;
-    private StringBuffer summary;
+  private int numWarnings;
 
-    public HarvestFormatter() {
-        productsRegistered = 0;
-        productsNotRegistered = 0;
-        filesSkipped = 0;
-        discoveredProducts = 0;
-        badFiles = 0;
-        associationsRegistered = 0;
-        associationsFailed = 0;
-        associationsSkipped = 0;
+  private int numErrors;
 
-        config = new StringBuffer("PDS Harvest Tool Log" + doubleLineFeed);
-        summary = new StringBuffer("Summary:" + doubleLineFeed);
-    }
+  public HarvestFormatter() {
+    config = new StringBuffer("PDS Harvest Tool Log" + doubleLineFeed);
+    summary = new StringBuffer("Summary:" + doubleLineFeed);
+    numWarnings = 0;
+    numErrors = 0;
+  }
 
-    public String format(LogRecord record) {
-        if (record instanceof ToolsLogRecord) {
-            ToolsLogRecord tlr = (ToolsLogRecord) record;
-            if (tlr.getLevel().intValue() == ToolsLevel.NOTIFICATION.intValue()) {
-                if (tlr.getMessage().equals(Status.DISCOVERY)) {
-                    ++discoveredProducts;
-                    return "";
-                } else if (tlr.getMessage().equals(Status.BADFILE)) {
-                    ++badFiles;
-                    return "";
-                } else if (tlr.getMessage().equals(Status.PRODUCT_EXISTS)) {
-                    ++productsNotRegistered;
-                    return "";
-                } else {
-                    return tlr.getMessage() + lineFeed;
-                }
-            } else if (tlr.getLevel().intValue() == ToolsLevel.INGEST_SUCCESS
-                    .intValue()) {
-                ++productsRegistered;
-            } else if (tlr.getLevel().intValue() == ToolsLevel.INGEST_ASSOC_SUCCESS
-                    .intValue()) {
-                ++associationsRegistered;
-            } else if (tlr.getLevel().intValue() == ToolsLevel.INGEST_FAIL
-                    .intValue()) {
-                ++productsNotRegistered;
-            } else if (tlr.getLevel().intValue() == ToolsLevel.INGEST_ASSOC_FAIL
-                    .intValue()) {
-                ++associationsFailed;
-            } else if (tlr.getLevel().intValue() == ToolsLevel.SKIP.intValue()) {
-                ++filesSkipped;
-            } else if (tlr.getLevel().intValue()
-                == ToolsLevel.INGEST_ASSOC_SKIP.intValue()) {
-                ++associationsSkipped;
-            }
-            StringBuffer message = new StringBuffer();
-
-            if (tlr.getLevel().intValue() != ToolsLevel.CONFIGURATION
-                    .intValue()) {
-                if (tlr.getLevel().intValue() == ToolsLevel.SEVERE.intValue()) {
-                    message.append("ERROR");
-                } else {
-                    message.append(tlr.getLevel().getName());
-                }
-                message.append(":   ");
-            }
-            if (tlr.getFilename() != null) {
-                message.append("[" + tlr.getFilename() + "] ");
-            }
-            if (tlr.getLine() != -1) {
-                message.append("line " + tlr.getLine() + ": ");
-            }
-            message.append(tlr.getMessage());
-            message.append(lineFeed);
-
-            return message.toString();
+  public String format(LogRecord record) {
+    if (record instanceof ToolsLogRecord) {
+      ToolsLogRecord tlr = (ToolsLogRecord) record;
+      StringBuffer message = new StringBuffer();
+      if (tlr.getLevel().intValue() == ToolsLevel.NOTIFICATION.intValue()) {
+        return tlr.getMessage() + lineFeed;
+      }
+      if (tlr.getLevel().intValue() == ToolsLevel.WARNING.intValue()) {
+        ++numWarnings;
+        ++HarvestStats.numWarnings;
+      } else if (tlr.getLevel().intValue() == ToolsLevel.SEVERE.intValue()) {
+        ++numErrors;
+        ++HarvestStats.numErrors;
+      }
+      if (tlr.getLevel().intValue() != ToolsLevel.CONFIGURATION.intValue()) {
+        if (tlr.getLevel().intValue() == ToolsLevel.SEVERE.intValue()) {
+          message.append("ERROR");
         } else {
-            return "******* " + record.getMessage() + " ************" + lineFeed;
+          message.append(tlr.getLevel().getName());
         }
+        message.append(":   ");
+      }
+      if (tlr.getFilename() != null) {
+        message.append("[" + tlr.getFilename() + "] ");
+      }
+      if (tlr.getLine() != -1) {
+        message.append("line " + tlr.getLine() + ": ");
+      }
+      message.append(tlr.getMessage());
+      message.append(lineFeed);
+
+      return message.toString();
+    } else {
+      return "******* " + record.getMessage() + " ************" + lineFeed;
     }
+  }
 
-    private void processSummary() {
-        int totalFiles = discoveredProducts + badFiles;
-        int totalAssociations = associationsRegistered + associationsFailed;
-        int totalProducts = productsRegistered + productsNotRegistered;
-        summary.append(discoveredProducts + " of " + totalFiles
-                + " file(s) processed, " + filesSkipped + " skipped"
-                + lineFeed);
-        summary.append(productsRegistered + " of " + totalProducts
-                + " products registered." + lineFeed);
-        summary.append(associationsRegistered + " of " + totalAssociations
-                + " associations registered, " + associationsSkipped
-                + " skipped" + lineFeed);
+  private void processSummary() {
+    int totalFiles = HarvestStats.numGoodFiles + HarvestStats.numBadFiles;
+    int totalAssociations = HarvestStats.numAssociationsRegistered
+    + HarvestStats.numAssociationsNotRegistered;
+
+    int totalProducts = HarvestStats.numProductsRegistered
+    + HarvestStats.numProductsNotRegistered;
+
+    int totalAncillaryProducts = HarvestStats.numAncillaryProductsRegistered
+    + HarvestStats.numAncillaryProductsNotRegistered;
+
+    summary.append(HarvestStats.numGoodFiles + " of " + totalFiles
+        + " file(s) processed, " + HarvestStats.numFilesSkipped
+        + " other file(s) skipped" + lineFeed);
+    summary.append(numErrors + " error(s), " + numWarnings + " warning(s)"
+        + doubleLineFeed);
+    summary.append(HarvestStats.numProductsRegistered + " of " + totalProducts
+        + " products registered." + lineFeed);
+    summary.append(HarvestStats.numAncillaryProductsRegistered + " of "
+        + totalAncillaryProducts + " ancillary products registered."
+        + doubleLineFeed);
+    summary.append("Product Types Registered:" + lineFeed);
+    for (Entry<String, List<File>> entry :
+      HarvestStats.registeredProductTypes.entrySet()) {
+      summary.append(entry.getValue().size() + " " + entry.getKey()
+          + lineFeed);
     }
+    summary.append(lineFeed + HarvestStats.numAssociationsRegistered
+        + " of " + totalAssociations + " associations registered."
+        + lineFeed);
+  }
 
-    public String getTail(Handler handler) {
-        StringBuffer report = new StringBuffer("");
+  public String getTail(Handler handler) {
+    StringBuffer report = new StringBuffer("");
 
-        processSummary();
+    processSummary();
 
-        report.append(lineFeed);
-        report.append(summary);
-        report.append(doubleLineFeed + "End of Log" + doubleLineFeed);
+    report.append(lineFeed);
+    report.append(summary);
+    report.append(doubleLineFeed + "End of Log" + doubleLineFeed);
 
-        return report.toString();
-    }
+    return report.toString();
+  }
 }

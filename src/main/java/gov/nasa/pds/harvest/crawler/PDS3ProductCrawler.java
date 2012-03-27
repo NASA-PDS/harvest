@@ -23,6 +23,7 @@ import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds3MetExtractorConfig;
 import gov.nasa.pds.harvest.crawler.status.Status;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.stats.HarvestStats;
 import gov.nasa.pds.tools.LabelParserException;
 import gov.nasa.pds.tools.label.Label;
 import gov.nasa.pds.tools.label.ManualPathResolver;
@@ -113,18 +114,16 @@ public class PDS3ProductCrawler extends PDSProductCrawler {
       label = parser.parseLabel(product.toURI().toURL());
     } catch (LabelParserException lp) {
       passFlag = false;
-      ++numFilesSkipped;
+      ++HarvestStats.numFilesSkipped;
       log.log(new ToolsLogRecord(ToolsLevel.SKIP,
           MessageUtils.getProblemMessage(lp), product));
     } catch (Exception e) {
       passFlag = false;
-      ++numFilesSkipped;
+      ++HarvestStats.numFilesSkipped;
       log.log(new ToolsLogRecord(ToolsLevel.SKIP, e.getMessage(), product));
     }
     if (passFlag == true) {
-      log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION, Status.DISCOVERY,
-        product));
-      ++numDiscoveredProducts;
+      ++HarvestStats.numGoodFiles;
     }
     return passFlag;
 

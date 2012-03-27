@@ -15,9 +15,7 @@ package gov.nasa.pds.harvest.crawler.metadata.extractor;
 
 import java.io.File;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -32,12 +30,11 @@ import gov.nasa.jpl.oodt.cas.metadata.MetExtractorConfig;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.constants.Constants;
-import gov.nasa.pds.harvest.file.FileObject;
-import gov.nasa.pds.harvest.file.MD5Checksum;
 import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.policy.XPath;
+import gov.nasa.pds.harvest.stats.HarvestStats;
 import gov.nasa.pds.harvest.util.XMLExtractor;
 
 /**
@@ -151,8 +148,6 @@ public class Pds4MetExtractor implements MetExtractor {
               + "\'.", product));
         }
       }
-      List<FileObject> fileObjectEntries = getFileObjects(product);
-      metadata.addMetadata(Constants.FILE_OBJECTS, fileObjectEntries);
     } catch (Exception e) {
       throw new MetExtractionException(ExceptionUtils.getRootCauseMessage(e));
     }
@@ -232,6 +227,8 @@ public class Pds4MetExtractor implements MetExtractor {
                 + "a LID-VID reference, but found this: " + value,
                 product.toString(),
             child.getLineNumber()));
+            ++HarvestStats.numAssociationsNotRegistered;
+            break;
           }
         } else if (name.equals("lid_reference")) {
           re.setLogicalID(value);
@@ -243,97 +240,12 @@ public class Pds4MetExtractor implements MetExtractor {
         log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Could not find \'"
             + REFERENCE_TYPE + "\' element.", product.toString(),
             re.getLineNumber()));
+        ++HarvestStats.numAssociationsNotRegistered;
       } else {
         refEntries.add(re);
       }
     }
     return refEntries;
-  }
-
-  protected List<FileObject> getFileObjects(File product)
-  throws XPathExpressionException {
-    SimpleDateFormat format = new SimpleDateFormat(
-        "yyyy-MM-dd'T'HH:mm:ss.SSSS'Z'");
-    List<FileObject> results = new ArrayList<FileObject>();
-    // Create a file object of the label file
-    String lastModified = format.format(new Date(product.lastModified()));
-    try {
-      FileObject fileObject = new FileObject(product.getName(),
-          product.getParent(), product.length(),
-          lastModified, MD5Checksum.getMD5Checksum(product.toString()));
-      log.log(new ToolsLogRecord(ToolsLevel.INFO, "Captured file information "
-          + "for " + product.getName(), product));
-      results.add(fileObject);
-    } catch (Exception e) {
-      log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
-          + "occurred while calculating checksum for " + product.getName()
-          + ": " + e.getMessage(), product.toString()));
-    }
-
-    // Search for File_Area_*/File tags within the product label
-    List<TinyElementImpl> fileObjects = extractor.getNodesFromDoc(
-        Constants.coreXpathsMap.get(Constants.FILE_OBJECTS));
-    for (TinyElementImpl file : fileObjects) {
-      String fileLocation = product.getParent();
-      String name = "";
-      long size = -1;
-      String checksum = "";
-      String creationDateTime = "";
-      List<TinyElementImpl> children = extractor.getNodesFromItem("*", file);
-      for (TinyElementImpl child : children) {
-        if ("file_name".equals(child.getLocalPart())) {
-          name = child.getStringValue();
-        } else if ("file_size".equals(child.getLocalPart())) {
-          size = Long.parseLong(child.getStringValue());
-        } else if ("md5_checksum".equals(child.getLocalPart())) {
-          checksum = child.getStringValue();
-        } else if ("creation_date_time".equals(child.getLocalPart())) {
-          creationDateTime = child.getStringValue();
-        } else if ("directory_path_name".equals(child.getLocalPart())) {
-          //Append the directory_path_name value to the file location
-          fileLocation = new File(fileLocation, child.getStringValue())
-          .toString();
-        }
-      }
-      try {
-        if (name.isEmpty()) {
-          log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Missing "
-              + "'file_name' tag within the 'File' area",
-              product.toString(), file.getLineNumber()));
-          throw new Exception("Missing file_name tag");
-        }
-        log.log(new ToolsLogRecord(ToolsLevel.INFO, "Capturing file "
-            + "object metadata for " + name, product));
-        File f = new File(fileLocation, name);
-        if (!f.exists()) {
-          log.log(new ToolsLogRecord(ToolsLevel.WARNING, "File object does "
-              + "not exist: " + f, product));
-          throw new Exception("File does not exist");
-        } else {
-          if (size == -1) {
-            size = f.length();
-          }
-          if (creationDateTime.isEmpty()) {
-            creationDateTime = format.format(new Date(f.lastModified()));
-          }
-          if (checksum.isEmpty()) {
-            try {
-              checksum = MD5Checksum.getMD5Checksum(f.toString());
-            } catch (Exception e) {
-              log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
-                + "occurred while calculating checksum for " + name + ": "
-                + e.getMessage(), product.toString()));
-              throw new Exception("Missing checksum");
-            }
-          }
-          results.add(new FileObject(f.getName(), f.getParent(), size,
-              creationDateTime, checksum));
-        }
-      } catch (Exception e) {
-        //Ignore
-      }
-    }
-    return results;
   }
 
   /**

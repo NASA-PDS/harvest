@@ -349,7 +349,7 @@ public class HarvestLauncher {
   public final void displayHelp() {
     int maxWidth = 80;
     HelpFormatter formatter = new HelpFormatter();
-    formatter.printHelp(maxWidth, "Harvest <options>",
+    formatter.printHelp(maxWidth, "harvest <options>",
         null, Flag.getOptions(), null);
   }
 

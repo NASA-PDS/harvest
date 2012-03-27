@@ -65,11 +65,11 @@ public enum Flag {
    *  continuously.
    */
   PORT("P", "port", "number", int.class, "Specify a port number to use "
-      + "if running the tool in continous mode."),
+      + "if running the tool in persistance mode."),
 
   /** Flag to specify the wait time in between crawls. */
   WAIT("w", "wait", "seconds", int.class, "Specify the wait time in "
-      + "seconds in between crawls if running in continuous mode."),
+      + "seconds in between crawls if running in persistance mode."),
 
   /** Flag to display the version. */
   VERSION("V", "version", "Display application version.");

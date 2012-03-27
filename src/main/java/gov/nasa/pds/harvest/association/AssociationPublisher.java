@@ -29,6 +29,7 @@ import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.stats.HarvestStats;
 import gov.nasa.pds.registry.exception.RegistryClientException;
 import gov.nasa.pds.registry.model.Association;
 import gov.nasa.pds.registry.model.ExtrinsicObject;
@@ -97,15 +98,17 @@ public class AssociationPublisher {
         }
         String guid = registryIngester.ingest(registryUrl, product,
             association, targetReference);
-        log.log(new ToolsLogRecord(ToolsLevel.INGEST_ASSOC_SUCCESS,
+        log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
             "Successfully registered association to " + targetReference,
             product));
         log.log(new ToolsLogRecord(ToolsLevel.INFO,
             "Association has the following GUID: " + guid, product));
+        ++HarvestStats.numAssociationsRegistered;
         passFlag = true;
       } catch (IngestException i) {
-        log.log(new ToolsLogRecord(ToolsLevel.INGEST_ASSOC_FAIL,
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
             i.getMessage(), product));
+        ++HarvestStats.numAssociationsNotRegistered;
       }
     }
     return passFlag;

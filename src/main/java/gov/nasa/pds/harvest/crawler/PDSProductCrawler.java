@@ -19,16 +19,15 @@ import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerActionRepo;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.constants.Constants;
-import gov.nasa.pds.harvest.crawler.actions.AssociationCheckerAction;
 import gov.nasa.pds.harvest.crawler.actions.LogMissingReqMetadataAction;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds4MetExtractorConfig;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.BundleMetExtractor;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.CollectionMetExtractor;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds4MetExtractor;
-import gov.nasa.pds.harvest.crawler.status.Status;
 import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.stats.HarvestStats;
 import gov.nasa.pds.harvest.util.XMLExtractor;
 
 import java.io.File;
@@ -72,16 +71,6 @@ public class PDSProductCrawler extends ProductCrawler {
   /** A map of files that were touched during crawler persistance. */
   protected Map<File, Long> touchedFiles;
 
-  /** The number of candidate products that were discovered during the crawl.
-   */
-  protected int numDiscoveredProducts;
-
-  /** The number of bad files that were found during the crawl. */
-  protected int numBadFiles;
-
-  /** The number of files that were skipped during the crawl. */
-  protected int numFilesSkipped;
-
   /**
    * Default constructor.
    *
@@ -102,9 +91,6 @@ public class PDSProductCrawler extends ProductCrawler {
     this.crawlerActions = new ArrayList<CrawlerAction>();
     inPersistanceMode = false;
     touchedFiles = new HashMap<File, Long>();
-    numDiscoveredProducts = 0;
-    numBadFiles = 0;
-    numFilesSkipped = 0;
 
     String[] reqMetadata = {
         Constants.PRODUCT_VERSION,
@@ -114,7 +100,6 @@ public class PDSProductCrawler extends ProductCrawler {
     setRequiredMetadata(Arrays.asList(reqMetadata));
     FILE_FILTER = new WildcardOSFilter("*");
     crawlerActions.add(new LogMissingReqMetadataAction(getRequiredMetadata()));
-    crawlerActions.add(new AssociationCheckerAction());
   }
 
   /**
@@ -132,24 +117,6 @@ public class PDSProductCrawler extends ProductCrawler {
 
   public void setInPersistanceMode(boolean value) {
     inPersistanceMode = value;
-  }
-
-  public int getNumDiscoveredProducts() {
-    return numDiscoveredProducts;
-  }
-
-  public int getNumBadFiles() {
-    return numBadFiles;
-  }
-
-  public int getNumFilesSkipped() {
-    return numFilesSkipped;
-  }
-
-  public void clearCrawlStats() {
-    numDiscoveredProducts = 0;
-    numBadFiles = 0;
-    numFilesSkipped = 0;
   }
 
   /**
@@ -313,13 +280,11 @@ public class PDSProductCrawler extends ProductCrawler {
         log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Parse failure: "
             + xe.getMessage(), product));
       }
-      ++numBadFiles;
+      ++HarvestStats.numBadFiles;
       passFlag = false;
     }
     if (passFlag == false) {
-      log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION, Status.BADFILE,
-          product));
-      ++numBadFiles;
+      ++HarvestStats.numBadFiles;
       return false;
     } else  {
       try {
@@ -328,26 +293,22 @@ public class PDSProductCrawler extends ProductCrawler {
         if ("".equals(objectType)) {
           log.log(new ToolsLogRecord(ToolsLevel.SKIP, "No "
               + Constants.OBJECT_TYPE + " element found.", product));
-          ++numFilesSkipped;
+          ++HarvestStats.numFilesSkipped;
           passFlag = false;
         } else if (metExtractorConfig.hasObjectType(objectType)) {
-          log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION, Status.DISCOVERY,
-              product));
-           ++numDiscoveredProducts;
-           passFlag = true;
+          ++HarvestStats.numGoodFiles;
+          passFlag = true;
         } else {
           log.log(new ToolsLogRecord(ToolsLevel.SKIP,
               "\'" + objectType + "\' is not an object type" +
               " found in the policy file.", product));
-          ++numFilesSkipped;
+          ++HarvestStats.numFilesSkipped;
           passFlag = false;
         }
       } catch (Exception e) {
         log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Problem getting '"
             + Constants.OBJECT_TYPE + "': " + e.getMessage(), product));
-        log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION, Status.BADFILE,
-            product));
-        ++numBadFiles;
+        ++HarvestStats.numBadFiles;
         return false;
       }
     }

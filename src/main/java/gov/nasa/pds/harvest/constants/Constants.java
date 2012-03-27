@@ -83,6 +83,8 @@ public class Constants {
   /** The data classes found in a PDS4 label. */
   public static final String DATA_CLASS = "data_class";
 
+  public static final String FILE_OBJECT_PRODUCT_TYPE = "Product_File_Repository";
+
   /**
    * The XPath to the data classes in the PDS4 label.
    */

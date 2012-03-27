@@ -24,6 +24,7 @@ import gov.nasa.jpl.oodt.cas.crawl.structs.exceptions.CrawlerActionException;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.stats.HarvestStats;
 import gov.nasa.pds.tools.label.ExceptionContainer;
 import gov.nasa.pds.tools.label.ExceptionType;
 import gov.nasa.pds.tools.label.LabelException;
@@ -91,6 +92,7 @@ public class ValidateProductAction extends CrawlerAction {
     if (exceptionContainer.hasError() || exceptionContainer.hasFatal()) {
       log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
               "Product did not pass validation.", product));
+      ++HarvestStats.numProductsNotRegistered;
       passFlag = false;
     }
     for (LabelException le : exceptionContainer.getExceptions()) {

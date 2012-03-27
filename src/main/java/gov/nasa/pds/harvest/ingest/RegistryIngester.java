@@ -34,6 +34,7 @@ import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.file.FileObject;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.stats.HarvestStats;
 import gov.nasa.pds.registry.client.RegistryClient;
 import gov.nasa.pds.registry.client.SecurityContext;
 import gov.nasa.pds.registry.exception.RegistryClientException;
@@ -69,18 +70,6 @@ public class RegistryIngester implements Ingester {
   /** The security context. */
   private SecurityContext securityContext;
 
-  /** Number of products registered. */
-  private int numProductsRegistered;
-
-  /** Number of products not registered. */
-  private int numProductsNotRegistered;
-
-  /** Number of associations registered. */
-  private int numAssociationsRegistered;
-
-  /** Number of associations not registered. */
-  private int numAssociationsNotRegistered;
-
   /**
    * Default constructor.
    *
@@ -108,10 +97,6 @@ public class RegistryIngester implements Ingester {
     this.securityContext = securityContext;
     this.registryPackageGuid = packageGuid;
 
-    this.numProductsRegistered = 0;
-    this.numProductsNotRegistered = 0;
-    this.numAssociationsRegistered = 0;
-    this.numAssociationsNotRegistered = 0;
   }
 
   /**
@@ -219,37 +204,38 @@ public class RegistryIngester implements Ingester {
         if (!hasProduct(registry, lid, vid)) {
           ExtrinsicObject extrinsic = createProduct(met);
           guid = ingest(registry, extrinsic);
+          log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
+              "Successfully registered product: " + lidvid, prodFile));
+          log.log(new ToolsLogRecord(ToolsLevel.INFO,
+              "Product has the following GUID: " + guid, prodFile));
+          met.addMetadata(Constants.PRODUCT_GUID, guid);
+          ++HarvestStats.numProductsRegistered;
+          HarvestStats.addProductType(extrinsic.getObjectType(), prodFile);
+          return guid;
         } else {
-          ++numProductsNotRegistered;
+          ++HarvestStats.numProductsNotRegistered;
           String message = "Product already exists: " + lidvid;
-          log.log(new ToolsLogRecord(ToolsLevel.INGEST_FAIL, message,
+          log.log(new ToolsLogRecord(ToolsLevel.SEVERE, message,
               prodFile));
           throw new IngestException(message);
         }
       } catch (RegistryServiceException r) {
-        ++numProductsNotRegistered;
-        log.log(new ToolsLogRecord(ToolsLevel.INGEST_FAIL,
+        ++HarvestStats.numProductsNotRegistered;
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
             r.getMessage(), prodFile));
         throw new IngestException(r.getMessage());
       } catch (CatalogException c) {
-        ++numProductsNotRegistered;
-        log.log(new ToolsLogRecord(ToolsLevel.INGEST_FAIL, "Error while "
+        ++HarvestStats.numProductsNotRegistered;
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error while "
             + "checking for the existence of a registered product: "
             + c.getMessage(), prodFile));
         throw new IngestException(c.getMessage());
       } catch (RegistryClientException rce) {
-        ++numProductsNotRegistered;
-        log.log(new ToolsLogRecord(ToolsLevel.INGEST_FAIL,
+        ++HarvestStats.numProductsNotRegistered;
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
             "Error while initializing RegistryClient: " + rce.getMessage()));
         throw new IngestException(rce.getMessage());
       }
-      ++numProductsRegistered;
-      log.log(new ToolsLogRecord(ToolsLevel.INGEST_SUCCESS,
-          "Successfully registered product: " + lidvid, prodFile));
-      log.log(new ToolsLogRecord(ToolsLevel.INFO,
-          "Product has the following GUID: " + guid, prodFile));
-      met.addMetadata(Constants.PRODUCT_GUID, guid);
-      return guid;
   }
 
     /**
@@ -343,22 +329,17 @@ public class RegistryIngester implements Ingester {
       if (!hasProduct(registry, lid, vid)) {
         guid = ingest(registry, fileProduct);
       } else {
-        ++numProductsNotRegistered;
         throw new IngestException("Product already exists: " + lidvid);
       }
     } catch (RegistryServiceException rse) {
-      ++numProductsNotRegistered;
       throw new IngestException(rse.getMessage());
     } catch (CatalogException ce) {
-      ++numProductsNotRegistered;
       throw new IngestException("Error while checking for the existence of a "
         + "registered product: " + ce.getMessage());
     } catch (RegistryClientException rce) {
-      ++numProductsNotRegistered;
       throw new IngestException("Error while initializing RegistryClient: "
           + rce.getMessage());
     }
-    ++numProductsRegistered;
     return guid;
   }
 
@@ -377,7 +358,8 @@ public class RegistryIngester implements Ingester {
         Constants.LOGICAL_ID) + ":" + fileObject.getName());
     metadata.addMetadata(Constants.TITLE, FilenameUtils.getBaseName(
         fileObject.getName()));
-    metadata.addMetadata(Constants.OBJECT_TYPE, "Product_File_Repository");
+    metadata.addMetadata(Constants.OBJECT_TYPE,
+        Constants.FILE_OBJECT_PRODUCT_TYPE);
     metadata.addMetadata(Constants.FILE_NAME, fileObject.getName());
     metadata.addMetadata(Constants.FILE_LOCATION, fileObject.getLocation());
     metadata.addMetadata(Constants.FILE_SIZE, Long.toString(
@@ -429,18 +411,15 @@ public class RegistryIngester implements Ingester {
       if (!hasAssociation(registry, association)) {
         guid = client.publishObject(association);
       } else {
-        ++numAssociationsNotRegistered;
         String message = "Association to " + targetReference + ", with \'"
         + association.getAssociationType() + "\' association type, already "
         + "exists in the registry.";
         throw new IngestException(message);
       }
     } catch (Exception e) {
-      ++numAssociationsNotRegistered;
       throw new IngestException("Problem registering association to "
          + targetReference + ": " + e.getMessage());
     }
-    ++numAssociationsRegistered;
     return guid;
   }
 
@@ -533,28 +512,5 @@ public class RegistryIngester implements Ingester {
           MetExtractor extractor, File metConfFile)
           throws IngestException {
       //No need for this method at this time
-  }
-
-  public int getNumProductsRegistered() {
-    return numProductsRegistered;
-  }
-
-  public int getNumProductsNotRegistered() {
-    return numProductsNotRegistered;
-  }
-
-  public int getNumAssociationsRegistered() {
-    return numAssociationsRegistered;
-  }
-
-  public int getNumAssociationsNotRegistered() {
-    return numAssociationsNotRegistered;
-  }
-
-  public void clearStats() {
-    numProductsRegistered = 0;
-    numProductsNotRegistered = 0;
-    numAssociationsRegistered = 0;
-    numAssociationsNotRegistered = 0;
   }
 }
