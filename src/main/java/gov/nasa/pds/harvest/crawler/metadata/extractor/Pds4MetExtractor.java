@@ -227,7 +227,6 @@ public class Pds4MetExtractor implements MetExtractor {
                 + "a LID-VID reference, but found this: " + value,
                 product.toString(),
             child.getLineNumber()));
-            ++HarvestStats.numAssociationsNotRegistered;
             break;
           }
         } else if (name.equals("lid_reference")) {
@@ -240,7 +239,6 @@ public class Pds4MetExtractor implements MetExtractor {
         log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Could not find \'"
             + REFERENCE_TYPE + "\' element.", product.toString(),
             re.getLineNumber()));
-        ++HarvestStats.numAssociationsNotRegistered;
       } else {
         refEntries.add(re);
       }
