@@ -47,6 +47,9 @@ public class Constants {
   /** The File objects of a product label. */
   public static final String FILE_OBJECTS = "file_objects";
 
+  /** The include paths for a PDS3 label. */
+  public static final String INCLUDE_PATHS = "include_paths";
+
   /** The title of a product label. */
   public static final String TITLE = "title";
 

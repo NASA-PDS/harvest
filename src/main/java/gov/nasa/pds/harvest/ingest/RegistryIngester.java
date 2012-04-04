@@ -253,7 +253,7 @@ public class RegistryIngester implements Ingester {
       Map.Entry entry = (Map.Entry) i.next();
       String key = entry.getKey().toString();
       if (key.equals(Constants.REFERENCES)
-          || key.equals(Constants.FILE_OBJECTS)) {
+          || key.equals(Constants.INCLUDE_PATHS)) {
         continue;
       }
       if (key.equals(Constants.LOGICAL_ID)) {

@@ -15,6 +15,8 @@
 package gov.nasa.pds.harvest.crawler.actions;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerAction;
 import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerActionPhases;
 import gov.nasa.jpl.oodt.cas.crawl.structs.exceptions.CrawlerActionException;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
+import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.file.FileObject;
 import gov.nasa.pds.harvest.file.MD5Checksum;
@@ -39,8 +42,16 @@ import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.stats.HarvestStats;
+import gov.nasa.pds.harvest.util.PointerStatementFinder;
 import gov.nasa.pds.harvest.util.XMLExtractor;
 import gov.nasa.pds.registry.exception.RegistryClientException;
+import gov.nasa.pds.tools.LabelParserException;
+import gov.nasa.pds.tools.containers.FileReference;
+import gov.nasa.pds.tools.label.Label;
+import gov.nasa.pds.tools.label.ManualPathResolver;
+import gov.nasa.pds.tools.label.PointerStatement;
+import gov.nasa.pds.tools.label.parser.DefaultLabelParser;
+import gov.nasa.pds.tools.util.MessageUtils;
 
 
 /**
@@ -105,7 +116,12 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       throws CrawlerActionException {
     List<FileObject> fileObjectEntries = new ArrayList<FileObject>();
     try {
-      fileObjectEntries = getFileObjects(product);
+      if (product.toString().toUpperCase().endsWith(".XML")) {
+        fileObjectEntries = getPds4FileObjects(product);
+      } else {
+        fileObjectEntries = getPds3FileObjects(product,
+            metadata.getAllMetadata(Constants.INCLUDE_PATHS));
+      }
     } catch (Exception e) {
       log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error while processing "
           + "file objects: " + ExceptionUtils.getRootCauseMessage(e),
@@ -180,7 +196,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     this.actions = actions;
   }
 
-  private List<FileObject> getFileObjects(File product)
+  private List<FileObject> getPds4FileObjects(File product)
   throws Exception {
     SimpleDateFormat format = new SimpleDateFormat(
         "yyyy-MM-dd'T'HH:mm:ss.SSSS'Z'");
@@ -273,4 +289,84 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     return results;
   }
 
+  private List<FileObject> getPds3FileObjects(File product,
+      List<String> includePaths)
+  throws URISyntaxException, MalformedURLException, MetExtractionException {
+    SimpleDateFormat format = new SimpleDateFormat(
+        "yyyy-MM-dd'T'HH:mm:ss.SSSS'Z'");
+    List<FileObject> results = new ArrayList<FileObject>();
+    // Create a file object of the label file
+    String lastModified = format.format(new Date(product.lastModified()));
+    try {
+      log.log(new ToolsLogRecord(ToolsLevel.INFO, "Capturing file object "
+          + "metadata for " + product.getName(), product));
+      FileObject fileObject = new FileObject(product.getName(),
+          product.getParent(), product.length(),
+          lastModified, MD5Checksum.getMD5Checksum(product.toString()));
+      results.add(fileObject);
+    } catch (Exception e) {
+      log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
+          + "occurred while calculating checksum for " + product.getName()
+          + ": " + e.getMessage(), product.toString()));
+      ++HarvestStats.numAncillaryProductsNotRegistered;
+    }
+    Label label = null;
+    try {
+      DefaultLabelParser parser = new DefaultLabelParser(false, true,
+          new ManualPathResolver());
+      label = parser.parseLabel(product.toURI().toURL());
+    } catch (LabelParserException lp) {
+      throw new MetExtractionException(MessageUtils.getProblemMessage(lp));
+    } catch (Exception e) {
+      throw new MetExtractionException(e.getMessage());
+    }
+    // File references are found in pointer statements in a label.
+    String basePath = product.getParent();
+    List<PointerStatement> pointers = PointerStatementFinder.find(label);
+    for (PointerStatement ps : pointers) {
+      for (FileReference fileRef : ps.getFileRefs()) {
+        File file = resolvePath(fileRef.getPath(), basePath, includePaths);
+        try {
+          if (file != null) {
+            if (!file.getName().equals(product.getName())) {
+              log.log(new ToolsLogRecord(ToolsLevel.INFO, "Capturing file "
+                + "object metadata for " + file.getName(), product));
+              long size = file.length();
+              String creationDateTime = format.format(new Date(
+                file.lastModified()));
+              String checksum = MD5Checksum.getMD5Checksum(file.toString());
+              results.add(new FileObject(file.getName(), file.getParent(),
+                  size, creationDateTime, checksum));
+            }
+          } else {
+            log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "File object not "
+                + "found: " + fileRef.getPath(), product.toString()));
+            ++HarvestStats.numAncillaryProductsNotRegistered;
+          }
+        } catch (Exception e) {
+          log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error occurred "
+              + "while calculating checksum for " + file.getName() + ": ",
+              product));
+          ++HarvestStats.numAncillaryProductsNotRegistered;
+        }
+      }
+    }
+    return results;
+  }
+
+  private File resolvePath(String name, String basePath,
+      List<String> includePaths) {
+    File file = new File(basePath, name);
+    if (file.exists()) {
+      return file;
+    } else {
+      for (String includePath : includePaths) {
+        file = new File(includePath, name);
+        if (file.exists()) {
+          return file;
+        }
+      }
+    }
+    return null;
+  }
 }
