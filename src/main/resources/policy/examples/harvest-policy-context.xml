@@ -30,6 +30,9 @@
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
       <xPath slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
@@ -49,7 +52,7 @@
         //Identification_Area/Citation_Information/keywords
       </xPath>
       <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/citation_description
+        //Identification_Area/Citation_Information/description
       </xPath>
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
@@ -79,6 +82,9 @@
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
       <xPath slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
@@ -98,7 +104,7 @@
         //Identification_Area/Citation_Information/keywords
       </xPath>
       <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/citation_description
+        //Identification_Area/Citation_Information/description
       </xPath>
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
@@ -120,6 +126,9 @@
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
       <xPath slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
@@ -139,7 +148,7 @@
         //Identification_Area/Citation_Information/keywords
       </xPath>
       <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/citation_description
+        //Identification_Area/Citation_Information/description
       </xPath>
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
@@ -170,6 +179,9 @@
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
       <xPath slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
@@ -189,7 +201,7 @@
         //Identification_Area/Citation_Information/keywords
       </xPath>
       <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/citation_description
+        //Identification_Area/Citation_Information/description
       </xPath>
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
@@ -210,6 +222,9 @@
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
       <xPath slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
@@ -229,7 +244,7 @@
         //Identification_Area/Citation_Information/keywords
       </xPath>
       <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/citation_description
+        //Identification_Area/Citation_Information/description
       </xPath>
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
@@ -252,6 +267,9 @@
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
       <xPath slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
@@ -271,7 +289,7 @@
         //Identification_Area/Citation_Information/keywords
       </xPath>
       <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/citation_description
+        //Identification_Area/Citation_Information/description
       </xPath>
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
@@ -293,6 +311,9 @@
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
       <xPath slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
@@ -312,7 +333,7 @@
         //Identification_Area/Citation_Information/keywords
       </xPath>
       <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/citation_description
+        //Identification_Area/Citation_Information/description
       </xPath>
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
@@ -332,6 +353,9 @@
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
       <xPath slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
@@ -351,7 +375,7 @@
         //Identification_Area/Citation_Information/keywords
       </xPath>
       <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/citation_description
+        //Identification_Area/Citation_Information/description
       </xPath>
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
@@ -380,6 +404,9 @@
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
       <xPath slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
@@ -399,7 +426,7 @@
         //Identification_Area/Citation_Information/keywords
       </xPath>
       <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/citation_description
+        //Identification_Area/Citation_Information/description
       </xPath>
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
@@ -421,6 +448,9 @@
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
       <xPath slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
@@ -440,7 +470,7 @@
         //Identification_Area/Citation_Information/keywords
       </xPath>
       <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/citation_description
+        //Identification_Area/Citation_Information/description
       </xPath>
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
@@ -461,6 +491,9 @@
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
       <xPath slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
@@ -480,7 +513,7 @@
         //Identification_Area/Citation_Information/keywords
       </xPath>
       <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/citation_description
+        //Identification_Area/Citation_Information/description
       </xPath>
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
