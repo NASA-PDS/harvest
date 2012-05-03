@@ -345,12 +345,6 @@
       <version>2.0-cr-1</version>
     </dependency>
     <dependency>
-      <groupId>gov.nasa.pds.2010.preparation</groupId>
-      <artifactId>core</artifactId>
-      <version>1.0.0</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>gov.nasa.pds</groupId>
       <artifactId>product-tools</artifactId>
       <version>3.2.0</version>

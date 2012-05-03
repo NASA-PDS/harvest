@@ -13,8 +13,6 @@
 // $Id$
 package gov.nasa.pds.harvest.util;
 
-import gov.nasa.pds.tools.util.VersionInfo;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +41,7 @@ public class XMLExtractor {
     private XPathEvaluator xpath = null;
 
     /** Default namespace uri */
-    private static String defaultNamespaceUri =
-      VersionInfo.getPDSDefaultNamespace(VersionInfo.getDefaultModelVersion());
+    private static String defaultNamespaceUri = "";
 
     /** Namespace Context */
     private static PDSNamespaceContext namespaceContext = null;

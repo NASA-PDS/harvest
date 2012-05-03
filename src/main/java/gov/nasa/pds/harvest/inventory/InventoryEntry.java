@@ -29,13 +29,13 @@ public class InventoryEntry {
     private String checksum;
 
     /** A logical identifier. */
-    private String lidvid;
+    private String identifier;
 
     /** Default constructor */
     public InventoryEntry() {
         this.file = null;
         this.checksum = "";
-        this.lidvid = "";
+        this.identifier = "";
     }
 
     /**
@@ -43,12 +43,12 @@ public class InventoryEntry {
      *
      * @param file A product file.
      * @param checksum checksum.
-     * @param lidvid logical identifier.
+     * @param identifier logical identifier.
      */
-    public InventoryEntry(File file, String checksum, String lidvid) {
+    public InventoryEntry(File file, String checksum, String identifier) {
         this.file = file;
         this.checksum = checksum;
-        this.lidvid = lidvid;
+        this.identifier = identifier;
     }
 
     /**
@@ -70,12 +70,12 @@ public class InventoryEntry {
     }
 
     /**
-     * Gets the LID-VID.
+     * Gets the logical identifier.
      *
-     * @return A LID-VID.
+     * @return A LID or LIDVID.
      */
-    public String getLidvid() {
-        return lidvid;
+    public String getIdentifier() {
+        return identifier;
     }
 
     /**
@@ -85,7 +85,7 @@ public class InventoryEntry {
      */
     public boolean isEmpty() {
         if (this.file == null && this.checksum.isEmpty()
-            && this.lidvid.isEmpty()) {
+            && this.identifier.isEmpty()) {
           return true;
         } else {
           return false;

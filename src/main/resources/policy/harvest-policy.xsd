@@ -22,7 +22,6 @@
 <xsd:element name="path" type="xsd:string"/>
 <xsd:element name="file" type="xsd:string"/>
 <xsd:element name="filePattern" type="xsd:string"/>
-<xsd:element name="enabled" type="xsd:boolean" default="true"/>
 <xsd:element name="lidPrefix" type="xsd:string"/>
 <xsd:element name="lidReference" type="xsd:string"/>
 <xsd:element name="lidVidReference" type="xsd:string"/>
@@ -111,14 +110,6 @@
    </xsd:sequence>
 </xsd:complexType>
 
-<xsd:element name="validation" type="Validation"/>
-<xsd:complexType name="Validation">
-   <xsd:sequence>
-      <xsd:element ref="enabled" minOccurs="0"/>
-      <xsd:element ref="modelVersion" minOccurs="0"/>
-   </xsd:sequence>
-</xsd:complexType>
-
 <xsd:element name="associations" type="Associations"/>
 <xsd:complexType name="Associations">
    <xsd:sequence>
@@ -174,7 +165,6 @@
         <xsd:element ref="collections" minOccurs="0"/>
         <xsd:element ref="directories" minOccurs="0"/>
         <xsd:element ref="pds3Directory" minOccurs="0"/>
-        <xsd:element ref="validation" minOccurs="0"/>
         <xsd:element ref="storageIngestion" minOccurs="0"/>
         <xsd:element ref="accessUrls" minOccurs="0"/>
         <xsd:element ref="candidates"/>

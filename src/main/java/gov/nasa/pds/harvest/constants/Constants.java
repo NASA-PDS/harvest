@@ -104,11 +104,12 @@ public class Constants {
 
   /** XPath that will indicate if a collection is primary. */
   public static final String PRIMARY_COLLECTION_XPATH =
-    "//Inventory_LIDVID_Primary";
+    "//Inventory[reference_type='has_member_LIDVID_Primary']";
 
   /** Xpath to indicate if a collection is secondary. */
   public static final String SECONDARY_COLLECTION_XPATH =
-    "//Inventory_LIDVID_Secondary | //Inventory_LID_Secondary";
+    "//Inventory[reference_type='has_member_LIDVID_Secondary'] "
+    + " | //Inventory[reference_type='has_member_LID_Secondary']";
 
   static {
     coreXpathsMap.put(LOGICAL_ID, IDENTIFICATION_AREA_XPATH + "/"
@@ -142,4 +143,7 @@ public class Constants {
     public static final Map<File, Metadata> registeredProducts =
       new LinkedHashMap<File, Metadata>();
 
+    /** A list of checksums supplied by an inventory and/or bundle file. */
+    public static Map<File, String> suppliedChecksums =
+      new HashMap<File, String>();
 }

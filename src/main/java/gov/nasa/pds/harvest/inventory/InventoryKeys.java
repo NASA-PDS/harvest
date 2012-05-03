@@ -24,15 +24,22 @@ public class InventoryKeys {
    * reference.
    */
   public static final String FILE_SPEC_FIELD_NUM_XPATH =
-    "//Record_Character/Field_Character[name='File_Specification_Name']"
-    + "/field_number";
+    "//Record_Character/"
+    + "Field_Character[data_type='ASCII_File_Specification_Name']/"
+    + "field_number";
 
   /**
    * XPath to the field number of the column containing the LID-VID or LID
    * reference.
    */
-  public static final String LIDVID_FIELD_NUM_XPATH =
-    "//Record_Character/Field_Character[name='LIDVID']/field_number";
+  public static final String IDENTIFIER_FIELD_NUM_XPATH =
+    "//Record_Character/Field_Character[data_type='ASCII_LIDVID']/field_number"
+    + " | //Record_Character/Field_Character[data_type='ASCII_LID']/field_number";
+
+  public static final String CHECKSUM_FIELD_NUM_XPATH =
+    "//Record_Character/"
+    + "Field_Character[data_type='ASCII_MD5_Checksum']/"
+    + "field_number";
 
   /** XPath to the external table file of a collection. */
   public static final String DATA_FILE_XPATH = "//*[starts-with(name(),"

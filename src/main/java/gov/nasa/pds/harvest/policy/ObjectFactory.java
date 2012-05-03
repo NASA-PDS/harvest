@@ -47,7 +47,6 @@ public class ObjectFactory {
 
     private final static QName _ElementName_QNAME = new QName("", "elementName");
     private final static QName _AccessUrls_QNAME = new QName("", "accessUrls");
-    private final static QName _ModelVersion_QNAME = new QName("", "modelVersion");
     private final static QName _Pds3ProductMetadata_QNAME = new QName("", "pds3ProductMetadata");
     private final static QName _AncillaryMetadata_QNAME = new QName("", "ancillaryMetadata");
     private final static QName _Namespace_QNAME = new QName("", "namespace");
@@ -61,8 +60,6 @@ public class ObjectFactory {
     private final static QName _ServerUrl_QNAME = new QName("", "serverUrl");
     private final static QName _Collections_QNAME = new QName("", "collections");
     private final static QName _Candidates_QNAME = new QName("", "candidates");
-    private final static QName _Enabled_QNAME = new QName("", "enabled");
-    private final static QName _Validation_QNAME = new QName("", "validation");
     private final static QName _Association_QNAME = new QName("", "association");
     private final static QName _LidVidReference_QNAME = new QName("", "lidVidReference");
     private final static QName _LidPrefix_QNAME = new QName("", "lidPrefix");
@@ -187,14 +184,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Validation }
-     *
-     */
-    public Validation createValidation() {
-        return new Validation();
-    }
-
-    /**
      * Create an instance of {@link StorageIngestion }
      *
      */
@@ -234,15 +223,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "accessUrls")
     public JAXBElement<AccessUrl> createAccessUrls(AccessUrl value) {
         return new JAXBElement<AccessUrl>(_AccessUrls_QNAME, AccessUrl.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     *
-     */
-    @XmlElementDecl(namespace = "", name = "modelVersion")
-    public JAXBElement<String> createModelVersion(String value) {
-        return new JAXBElement<String>(_ModelVersion_QNAME, String.class, null, value);
     }
 
     /**
@@ -360,24 +340,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "candidates")
     public JAXBElement<Candidate> createCandidates(Candidate value) {
         return new JAXBElement<Candidate>(_Candidates_QNAME, Candidate.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Boolean }{@code >}}
-     *
-     */
-    @XmlElementDecl(namespace = "", name = "enabled", defaultValue = "true")
-    public JAXBElement<Boolean> createEnabled(Boolean value) {
-        return new JAXBElement<Boolean>(_Enabled_QNAME, Boolean.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Validation }{@code >}}
-     *
-     */
-    @XmlElementDecl(namespace = "", name = "validation")
-    public JAXBElement<Validation> createValidation(Validation value) {
-        return new JAXBElement<Validation>(_Validation_QNAME, Validation.class, null, value);
     }
 
     /**

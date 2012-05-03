@@ -25,7 +25,6 @@ import gov.nasa.pds.harvest.crawler.actions.CreateAccessUrlsAction;
 import gov.nasa.pds.harvest.crawler.actions.FileObjectRegistrationAction;
 import gov.nasa.pds.harvest.crawler.actions.StorageIngestAction;
 import gov.nasa.pds.harvest.crawler.actions.SaveMetadataAction;
-import gov.nasa.pds.harvest.crawler.actions.ValidateProductAction;
 import gov.nasa.pds.harvest.crawler.daemon.HarvestDaemon;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds3MetExtractorConfig;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds4MetExtractorConfig;
@@ -33,7 +32,6 @@ import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.policy.Policy;
 import gov.nasa.pds.registry.client.SecurityContext;
 import gov.nasa.pds.registry.exception.RegistryClientException;
-import gov.nasa.pds.tools.util.VersionInfo;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -56,12 +54,6 @@ public class Harvester {
 
   /** An ingester for the PDS Registry Service. */
   private RegistryIngester ingester;
-
-  /** Flag to enable/disable validation. */
-  private boolean doValidation;
-
-  /** The model version to use if validation is enabled. */
-  private String modelVersion;
 
   /** The port number to use for the daemon if running Harvest in continuous
    *  mode.
@@ -98,7 +90,6 @@ public class Harvester {
     this.registryUrl = registryUrl;
     this.registryUrl = registryUrl;
     this.ingester = new RegistryIngester(registryPackageGuid);
-    this.doValidation = true;
     this.daemonPort = -1;
     this.waitInterval = -1;
     this.associationPublisher = new AssociationPublisher(this.registryUrl,
@@ -106,7 +97,6 @@ public class Harvester {
     this.fileObjectRegistrationAction = new FileObjectRegistrationAction(
         this.registryUrl, this.ingester);
     this.registryPackageGuid = registryPackageGuid;
-    this.modelVersion = VersionInfo.getDefaultModelVersion();
   }
 
   /**
@@ -160,9 +150,6 @@ public class Harvester {
     List<CrawlerAction> fileObjectRegistrationActions =
       new ArrayList<CrawlerAction>();
     ca.add(fileObjectRegistrationAction);
-    if (doValidation) {
-      ca.add(new ValidateProductAction(modelVersion));
-    }
     if (policy.getStorageIngestion() != null) {
       CrawlerAction fmAction = new StorageIngestAction(
           new URL(policy.getStorageIngestion().getServerUrl()));
@@ -198,10 +185,6 @@ public class Harvester {
     }
     Pds4MetExtractorConfig pds4MetExtractorConfig = new Pds4MetExtractorConfig(
         policy.getCandidates().getProductMetadata());
-    boolean enableValidation = policy.getValidation().isEnabled();
-    if (policy.getValidation().getModelVersion() != null) {
-      modelVersion = policy.getValidation().getModelVersion();
-    }
     List<PDSProductCrawler> crawlers = new ArrayList<PDSProductCrawler>();
     // Crawl bundles
     for (String bundle : policy.getBundles().getFile()) {
@@ -242,11 +225,6 @@ public class Harvester {
     // Perform crawl while looping through the crawler list if
     // crawler persistance is disabled.
     for (PDSProductCrawler crawler : crawlers) {
-      if (crawler instanceof PDS3ProductCrawler) {
-        doValidation = false;
-      } else {
-        doValidation = enableValidation;
-      }
       crawler.setRegistryUrl(registryUrl);
       crawler.setIngester(ingester);
       crawler.addActions(getDefaultCrawlerActions(policy));

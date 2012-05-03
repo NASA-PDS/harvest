@@ -201,18 +201,34 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     SimpleDateFormat format = new SimpleDateFormat(
         "yyyy-MM-dd'T'HH:mm:ss.SSSS'Z'");
     List<FileObject> results = new ArrayList<FileObject>();
+    String generatedChecksum = "";
     // Create a file object of the label file
     String lastModified = format.format(new Date(product.lastModified()));
     try {
+      log.log(new ToolsLogRecord(ToolsLevel.INFO, "Capturing file information "
+          + "for " + product.getName(), product));
+      generatedChecksum = MD5Checksum.getMD5Checksum(product.toString());
+      if (Constants.suppliedChecksums.containsKey(product)) {
+        String suppliedChecksum = Constants.suppliedChecksums.get(product);
+        if (!suppliedChecksum.equals(generatedChecksum)) {
+          log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+              "Generated checksum '" + generatedChecksum
+              + "' does not match supplied checksum '"
+              + suppliedChecksum + "' in the inventory.", product));
+        } else {
+          log.log(new ToolsLogRecord(ToolsLevel.INFO,
+              "Generated checksum '" + generatedChecksum
+              + "' matches the supplied checksum '" + suppliedChecksum
+              + "' in the inventory.", product));
+        }
+      }
       FileObject fileObject = new FileObject(product.getName(),
           product.getParent(), product.length(),
-          lastModified, MD5Checksum.getMD5Checksum(product.toString()));
-      log.log(new ToolsLogRecord(ToolsLevel.INFO, "Captured file information "
-          + "for " + product.getName(), product));
+          lastModified, generatedChecksum);
       results.add(fileObject);
     } catch (Exception e) {
       log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
-          + "occurred while calculating checksum for " + product.getName()
+          + "occurred while generating checksum for " + product.getName()
           + ": " + e.getMessage(), product.toString()));
       ++HarvestStats.numAncillaryProductsNotRegistered;
     }
@@ -268,18 +284,33 @@ public class FileObjectRegistrationAction extends CrawlerAction {
           if (creationDateTime.isEmpty()) {
             creationDateTime = format.format(new Date(f.lastModified()));
           }
-          if (checksum.isEmpty()) {
-            try {
-              checksum = MD5Checksum.getMD5Checksum(f.toString());
-            } catch (Exception e) {
-              log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
-                + "occurred while calculating checksum for " + name + ": "
-                + e.getMessage(), product.toString()));
-              throw new Exception("Missing checksum");
+          try {
+            generatedChecksum = MD5Checksum.getMD5Checksum(f.toString());
+            if (!checksum.isEmpty()) {
+              if (!checksum.equals(generatedChecksum)) {
+                log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+                    "Generated checksum '" + generatedChecksum
+                    + "' does not match supplied checksum '" + checksum
+                    + "' for file object '" + name + "'.", product));
+              } else {
+                log.log(new ToolsLogRecord(ToolsLevel.INFO,
+                    "Generated checksum '" + generatedChecksum + "' matches "
+                    + "the supplied checksum '" + checksum
+                    + "' for file object '" + name + "'.", product));
+              }
+            } else {
+              log.log(new ToolsLogRecord(ToolsLevel.INFO,
+                  "No checksum supplied for file object '" + name
+                  + "' in the product label.", product));
             }
+          } catch (Exception e) {
+            log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
+                + "occurred while calculating checksum for '" + name + "': "
+                + e.getMessage(), product.toString()));
+            throw new Exception("Missing checksum");
           }
           results.add(new FileObject(f.getName(), f.getParent(), size,
-              creationDateTime, checksum));
+              creationDateTime, generatedChecksum));
         }
       } catch (Exception e) {
         ++HarvestStats.numAncillaryProductsNotRegistered;

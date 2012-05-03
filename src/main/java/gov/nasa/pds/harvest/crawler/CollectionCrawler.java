@@ -72,6 +72,10 @@ public class CollectionCrawler extends PDSProductCrawler {
       InventoryReader reader = new InventoryTableReader(collection);
       for (InventoryEntry entry = new InventoryEntry(); entry != null;) {
         if (!entry.isEmpty()) {
+          if (!entry.getChecksum().isEmpty()) {
+            Constants.suppliedChecksums.put(entry.getFile(),
+                entry.getChecksum());
+          }
           handleFile(entry.getFile());
         }
         try {

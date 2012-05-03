@@ -130,7 +130,7 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
           ReferenceEntry re = new ReferenceEntry();
           re.setLineNumber(reader.getLineNumber());
           re.setFile(reader.getDataFile());
-          String identifier = entry.getLidvid();
+          String identifier = entry.getIdentifier();
           if (!identifier.equals("")) {
             //Check for a LID or LIDVID
             if (identifier.indexOf("::") != -1) {

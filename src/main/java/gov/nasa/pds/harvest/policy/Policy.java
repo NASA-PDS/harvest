@@ -43,7 +43,6 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element ref="{}collections" minOccurs="0"/>
  *         &lt;element ref="{}directories" minOccurs="0"/>
  *         &lt;element ref="{}pds3Directory" minOccurs="0"/>
- *         &lt;element ref="{}validation" minOccurs="0"/>
  *         &lt;element ref="{}storageIngestion" minOccurs="0"/>
  *         &lt;element ref="{}accessUrls" minOccurs="0"/>
  *         &lt;element ref="{}candidates"/>
@@ -66,7 +65,6 @@ public class Policy {
     protected Collection collections;
     protected Directory directories;
     protected Pds3Directory pds3Directory;
-    protected Validation validation;
     protected StorageIngestion storageIngestion;
     protected AccessUrl accessUrls;
     @XmlElement(required = true)
@@ -77,7 +75,6 @@ public class Policy {
       pds3Directory = new Pds3Directory();
       bundles = new Bundle();
       collections = new Collection();
-      validation = new Validation();
       storageIngestion = null;
       accessUrls = new AccessUrl();
     }
@@ -176,30 +173,6 @@ public class Policy {
      */
     public void setPds3Directory(Pds3Directory value) {
         this.pds3Directory = value;
-    }
-
-    /**
-     * Gets the value of the validation property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Validation }
-     *
-     */
-    public Validation getValidation() {
-        return validation;
-    }
-
-    /**
-     * Sets the value of the validation property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Validation }
-     *
-     */
-    public void setValidation(Validation value) {
-        this.validation = value;
     }
 
     /**
