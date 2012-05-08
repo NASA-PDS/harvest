@@ -487,6 +487,48 @@
       <xPath slotName="resource_url">//Resource/url</xPath>
     </productMetadata>
 
+    <productMetadata objectType="Product_Subscription_PDS3">
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="subscriber_full_name">//Subscriber_PDS3/full_name</xPath>
+      <xPath slotName="subscriber_local_identifier">//Subscriber_PDS3/local_identifier</xPath>
+      <xPath slotName="subscriber_subscription_id">//Subscriber_PDS3/subscription_id</xPath>
+    </productMetadata>
+
     <productMetadata objectType="Product_Target_PDS3">
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
