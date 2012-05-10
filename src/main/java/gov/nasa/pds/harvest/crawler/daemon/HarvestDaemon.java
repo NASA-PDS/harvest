@@ -15,13 +15,9 @@ package gov.nasa.pds.harvest.crawler.daemon;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.logging.Handler;
 import java.util.logging.Logger;
 
 import org.apache.xmlrpc.WebServer;
@@ -34,7 +30,6 @@ import gov.nasa.pds.harvest.crawler.PDSProductCrawler;
 import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
-import gov.nasa.pds.harvest.security.SecuredUser;
 import gov.nasa.pds.harvest.stats.HarvestStats;
 
 /**
@@ -91,6 +86,17 @@ public class HarvestDaemon extends CrawlDaemon {
   /** Current number of warnings. */
   private int numWarnings;
 
+  /** Current number of generated checksums matching their supplied value. */
+  private int numChecksumsSame;
+
+  /** Current number of generated checksums not matching their supplied value.
+   */
+  private int numChecksumsDifferent;
+
+  /** Current number of generated checksums not checked. */
+  private int numChecksumsNotChecked;
+
+  /** Mapping of registered product types to files. */
   private HashMap<String, List<File>> registeredProductTypes;
 
   /**
@@ -122,6 +128,9 @@ public class HarvestDaemon extends CrawlDaemon {
     numProductsNotRegistered = 0;
     numErrors = 0;
     numWarnings = 0;
+    numChecksumsSame = 0;
+    numChecksumsDifferent = 0;
+    numChecksumsNotChecked = 0;
     registeredProductTypes = new HashMap<String, List<File>>();
   }
 
@@ -213,6 +222,12 @@ public class HarvestDaemon extends CrawlDaemon {
 
     int newWarnings = HarvestStats.numWarnings - numWarnings;
 
+    int newChecksumsSame = HarvestStats.numChecksumsSame - numChecksumsSame;
+
+    int newChecksumsDifferent = HarvestStats.numChecksumsDifferent - numChecksumsDifferent;
+
+    int newChecksumsNotChecked = HarvestStats.numChecksumsNotChecked - numChecksumsNotChecked;
+
     log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
         + (newGoodFiles + newBadFiles + newFilesSkipped)
         + " new file(s) found."));
@@ -257,6 +272,12 @@ public class HarvestDaemon extends CrawlDaemon {
         }
       }
 
+      log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
+          "\n" + newChecksumsSame + " of "
+          + (newChecksumsSame + newChecksumsDifferent)
+          + " new generated checksums matched their supplied value, "
+          + newChecksumsNotChecked + " generated value(s) not checked\n"));
+
       log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION, "\n"
           + newAssociationsRegistered + " of "
           + (newAssociationsRegistered + newAssociationsNotRegistered)
@@ -277,6 +298,9 @@ public class HarvestDaemon extends CrawlDaemon {
     numAssociationsNotRegistered = HarvestStats.numAssociationsNotRegistered;
     numErrors = HarvestStats.numErrors;
     numWarnings = HarvestStats.numWarnings;
+    numChecksumsSame = HarvestStats.numChecksumsSame;
+    numChecksumsDifferent = HarvestStats.numChecksumsDifferent;
+    numChecksumsNotChecked = HarvestStats.numChecksumsNotChecked;
     registeredProductTypes.clear();
     registeredProductTypes.putAll(HarvestStats.registeredProductTypes);
   }

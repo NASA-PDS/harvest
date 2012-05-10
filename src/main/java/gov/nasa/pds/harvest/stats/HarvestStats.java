@@ -28,6 +28,12 @@ public class HarvestStats {
 
   public static int numWarnings = 0;
 
+  public static int numChecksumsSame = 0;
+
+  public static int numChecksumsDifferent = 0;
+
+  public static int numChecksumsNotChecked = 0;
+
   public static HashMap<String, List<File>> registeredProductTypes = new HashMap<String, List<File>>();
 
   public static void addProductType(String type, File file) {

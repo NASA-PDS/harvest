@@ -215,12 +215,19 @@ public class FileObjectRegistrationAction extends CrawlerAction {
               "Generated checksum '" + generatedChecksum
               + "' does not match supplied checksum '"
               + suppliedChecksum + "' in the inventory.", product));
+          ++HarvestStats.numChecksumsDifferent;
         } else {
           log.log(new ToolsLogRecord(ToolsLevel.INFO,
               "Generated checksum '" + generatedChecksum
               + "' matches the supplied checksum '" + suppliedChecksum
               + "' in the inventory.", product));
+          ++HarvestStats.numChecksumsSame;
         }
+      } else {
+        log.log(new ToolsLogRecord(ToolsLevel.INFO,
+            "No checksum supplied in the inventory for this product label.",
+            product));
+        ++HarvestStats.numChecksumsNotChecked;
       }
       FileObject fileObject = new FileObject(product.getName(),
           product.getParent(), product.length(),
@@ -292,16 +299,19 @@ public class FileObjectRegistrationAction extends CrawlerAction {
                     "Generated checksum '" + generatedChecksum
                     + "' does not match supplied checksum '" + checksum
                     + "' for file object '" + name + "'.", product));
+                ++HarvestStats.numChecksumsDifferent;
               } else {
                 log.log(new ToolsLogRecord(ToolsLevel.INFO,
                     "Generated checksum '" + generatedChecksum + "' matches "
                     + "the supplied checksum '" + checksum
                     + "' for file object '" + name + "'.", product));
+                ++HarvestStats.numChecksumsSame;
               }
             } else {
               log.log(new ToolsLogRecord(ToolsLevel.INFO,
                   "No checksum supplied for file object '" + name
                   + "' in the product label.", product));
+              ++HarvestStats.numChecksumsNotChecked;
             }
           } catch (Exception e) {
             log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "

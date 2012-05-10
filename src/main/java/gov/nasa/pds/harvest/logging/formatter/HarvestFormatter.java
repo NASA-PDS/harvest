@@ -112,6 +112,15 @@ public class HarvestFormatter extends Formatter {
       summary.append(entry.getValue().size() + " " + entry.getKey()
           + lineFeed);
     }
+
+    int totalGeneratedChecksums = HarvestStats.numChecksumsSame
+    + HarvestStats.numChecksumsDifferent;
+
+    summary.append(lineFeed + HarvestStats.numChecksumsSame + " of "
+        + totalGeneratedChecksums + " generated checksums matched "
+        + "their supplied value, " + HarvestStats.numChecksumsNotChecked
+        + " generated value(s) not checked." + lineFeed);
+
     summary.append(lineFeed + HarvestStats.numAssociationsRegistered
         + " of " + totalAssociations + " associations registered."
         + lineFeed);
