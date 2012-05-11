@@ -17,10 +17,6 @@
     <filePattern>*.xml</filePattern>
   </directories>
 
-  <validation>
-    <enabled>false</enabled>
-  </validation>
-
   <candidates>
     <productMetadata objectType="Product_Attribute_Definition">
       <xPath slotName="information_model_version">

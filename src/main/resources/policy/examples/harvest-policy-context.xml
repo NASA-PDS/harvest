@@ -16,10 +16,6 @@
     <file>$HOME/context_bundle/Product_Bundle_context.xml</file>
   </bundles>
 
-  <validation>
-    <enabled>false</enabled>
-  </validation>
-
   <accessUrls>
     <baseUrl>http://pds.nasa.gov/pds4</baseUrl>
     <baseUrl>file://pds/pds4/</baseUrl>

@@ -16,9 +16,6 @@
      <path>$HOME/geosciences/mars_analog_data</path>
      <filePattern>*.xml</filePattern>
   </directories>
-  <validation>
-    <enabled>false</enabled>
-  </validation>
   <candidates>
      <namespace prefix="common" uri="http://pds.nasa.gov/schema/pds4/common" default="true"/>
      <productMetadata objectType="character_table">

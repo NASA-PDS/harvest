@@ -19,9 +19,6 @@
     <file>$HOME/BUILDe_V2/BUILDe_MET/met_archive_bundle.xml</file>
     <file>$HOME/BUILDe_V2/BUILDe_TT/tt_archive_bundle.xml</file>
   </bundles>
-  <validation>
-    <enabled>false</enabled>
-  </validation>
   <candidates>
     <!-- Context Products -->
     <productMetadata objectType="Product_Data_Set_PDS3">

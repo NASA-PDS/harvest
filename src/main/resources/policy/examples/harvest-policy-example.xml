@@ -16,10 +16,6 @@
     <file>$HOME/VG2PLS_archive/Product_Archive_Bundle.xml</file>
   </bundles>
 
-  <validation>
-    <enabled>false</enabled>
-  </validation>
-
   <candidates>
     <namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01"/>
 
