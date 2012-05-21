@@ -33,6 +33,7 @@ import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.file.FileObject;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.policy.AccessUrl;
 
 /**
  * Class that creates access urls based on a given set of base urls.
@@ -46,7 +47,7 @@ public class CreateAccessUrlsAction extends CrawlerAction {
           CreateAccessUrlsAction.class.getName());
 
   /** A list of base urls from which to start forming an access url. */
-  private List<String> baseUrls;
+  private List<AccessUrl> accessUrls;
 
   /** Crawler action identifier. */
   private final static String ID = "CreateAccessUrlsAction";
@@ -55,19 +56,22 @@ public class CreateAccessUrlsAction extends CrawlerAction {
   private final static String DESCRIPTION = "Creates access urls to access "
     + "the registered products.";
 
+  private boolean registerFileUrls;
+
   /**
    * Constructor.
    *
    * @param baseUrls A list of base urls.
    */
-  public CreateAccessUrlsAction(List<String> baseUrls) {
+  public CreateAccessUrlsAction(List<AccessUrl> accessUrls) {
     super();
-    this.baseUrls = new ArrayList<String>();
-    this.baseUrls.addAll(baseUrls);
+    this.accessUrls = new ArrayList<AccessUrl>();
+    this.accessUrls.addAll(accessUrls);
     String []phases = {CrawlerActionPhases.PRE_INGEST};
     setPhases(Arrays.asList(phases));
     setId(ID);
     setDescription(DESCRIPTION);
+    registerFileUrls = false;
   }
 
   /**
@@ -80,26 +84,17 @@ public class CreateAccessUrlsAction extends CrawlerAction {
    */
   public boolean performAction(File product, Metadata metadata)
       throws CrawlerActionException {
-    List<String> accessUrls = new ArrayList<String>();
-    for (String baseUrl : baseUrls) {
-      try {
-        //The separatorsToUnix method ensures that the path separators
-        //will always be '/' in order to correctly form the uri.
-        URI uri = UriBuilder.fromUri(baseUrl).path(
-            FilenameUtils.separatorsToUnix(product.toString()))
-            .build();
-        log.log(new ToolsLogRecord(ToolsLevel.INFO, "Created access url: "
-            + uri, product));
-        accessUrls.add(uri.toString());
-      } catch (Exception e) {
-        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
-            ExceptionUtils.getRootCauseMessage(e), product));
-        throw new CrawlerActionException(
-            ExceptionUtils.getRootCauseMessage(e));
-      }
+    List<String> urls = new ArrayList<String>();
+    try {
+      urls.addAll(createAccessUrls(product, product));
+    } catch (Exception e) {
+      log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
+          ExceptionUtils.getRootCauseMessage(e), product));
+      throw new CrawlerActionException(
+          ExceptionUtils.getRootCauseMessage(e));
     }
-    if (!accessUrls.isEmpty()) {
-      metadata.addMetadata(Constants.ACCESS_URLS, accessUrls);
+    if (!urls.isEmpty()) {
+      metadata.addMetadata(Constants.ACCESS_URLS, urls);
     }
     return true;
   }
@@ -109,26 +104,54 @@ public class CreateAccessUrlsAction extends CrawlerAction {
    *
    * @param product The file associated with the given file object.
    * @param fileObject The file object.
-   * @param metadata The metadata associated with the product.
    *
    * @return a list of access urls.
    */
-  public List<String> performAction(File product, FileObject fileObject,
-      Metadata metadata) {
-    List<String> accessUrls = new ArrayList<String>();
-    for (String baseUrl : baseUrls) {
-      try {
-        URI uri = UriBuilder.fromUri(baseUrl).path(
-          FilenameUtils.separatorsToUnix(new File(fileObject.getLocation(),
-              fileObject.getName()).toString())).build();
-        log.log(new ToolsLogRecord(ToolsLevel.INFO, "Created access url: "
-            + uri, product));
-        accessUrls.add(uri.toString());
-      } catch (Exception e) {
-        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
-            ExceptionUtils.getRootCauseMessage(e), product));
-      }
+  public List<String> performAction(File product, FileObject fileObject) {
+    List<String> urls = new ArrayList<String>();
+    File fileSpec = new File(fileObject.getLocation(), fileObject.getName());
+    try {
+      urls.addAll(createAccessUrls(fileSpec, product));
+    } catch (Exception e) {
+      log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
+          ExceptionUtils.getRootCauseMessage(e), product));
     }
-    return accessUrls;
+    return urls;
+  }
+
+  private List<String> createAccessUrls(File product, File source)
+  throws IllegalArgumentException {
+    List<String> urls = new ArrayList<String>();
+    for (AccessUrl accessUrl : accessUrls) {
+      String productFile = product.toString();
+      if (accessUrl.getOffset() != null) {
+        if (productFile.startsWith(accessUrl.getOffset())) {
+          productFile = productFile.replaceFirst(accessUrl.getOffset(), "")
+          .trim();
+        } else {
+          log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+              "Cannot trim path of file specification '" + product
+              + "' as it does not start with the " + "supplied offset: "
+              + accessUrl.getOffset(), source));
+        }
+      }
+      URI uri = UriBuilder.fromUri(accessUrl.getBaseUrl()).path(
+          FilenameUtils.separatorsToUnix(productFile)).build();
+      log.log(new ToolsLogRecord(ToolsLevel.INFO, "Created access url: "
+          + uri, source));
+      urls.add(uri.toString());
+    }
+    if (registerFileUrls) {
+      URI uri = UriBuilder.fromPath("file://"
+          + FilenameUtils.separatorsToUnix(product.toString())).build();
+      urls.add(uri.toString());
+      log.log(new ToolsLogRecord(ToolsLevel.INFO, "Created access url: "
+          + uri, source));
+    }
+    return urls;
+  }
+
+  public void setRegisterFileUrls(boolean registerFileUrls) {
+    this.registerFileUrls = registerFileUrls;
   }
 }

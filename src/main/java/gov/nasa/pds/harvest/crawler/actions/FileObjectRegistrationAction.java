@@ -144,8 +144,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
             fileObject.setStorageServiceProductId(productId);
           } else if (action instanceof CreateAccessUrlsAction) {
             CreateAccessUrlsAction cauAction = (CreateAccessUrlsAction) action;
-            List<String> urls = cauAction.performAction(product, fileObject,
-                metadata);
+            List<String> urls = cauAction.performAction(product, fileObject);
             fileObject.setAccessUrls(urls);
           }
         }

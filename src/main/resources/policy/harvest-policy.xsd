@@ -29,6 +29,7 @@
 <xsd:element name="elementName" type="xsd:string"/>
 <xsd:element name="modelVersion" type="xsd:string"/>
 <xsd:element name="baseUrl" type="xsd:string"/>
+<xsd:element name="offset" type="xsd:string"/>
 <xsd:element name="serverUrl" type="xsd:string"/>
 <xsd:element name="dataTransferType" type="xsd:string"/>
 
@@ -36,6 +37,7 @@
 <xsd:attribute name="prefix" type="xsd:string"/>
 <xsd:attribute name="uri" type="xsd:string"/>
 <xsd:attribute name="default" type="xsd:boolean" default="false"/>
+<xsd:attribute name="registerFileUrls" type="xsd:boolean" default="false"/>
 <xsd:attribute name="slotName" type="xsd:string"/>
 
 <xsd:element name="xPath" type="XPath"/>
@@ -151,10 +153,19 @@
    </xsd:sequence>
 </xsd:complexType>
 
-<xsd:element name="accessUrls" type="AccessUrl"/>
+<xsd:element name="accessUrls" type="AccessUrls"/>
+<xsd:complexType name="AccessUrls">
+   <xsd:sequence>
+      <xsd:element ref="accessUrl" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute ref="registerFileUrls"/>   
+</xsd:complexType>
+
+<xsd:element name="accessUrl" type="AccessUrl"/>
 <xsd:complexType name="AccessUrl">
    <xsd:sequence>
-      <xsd:element ref="baseUrl" maxOccurs="unbounded"/>
+      <xsd:element ref="baseUrl"/>
+      <xsd:element ref="offset" minOccurs="0"/>
    </xsd:sequence>
 </xsd:complexType>
 

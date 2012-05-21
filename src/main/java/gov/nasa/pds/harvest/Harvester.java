@@ -156,9 +156,12 @@ public class Harvester {
       ca.add(fmAction);
       fileObjectRegistrationActions.add(fmAction);
     }
-    if (!policy.getAccessUrls().getBaseUrl().isEmpty()) {
-      CrawlerAction cauAction = new CreateAccessUrlsAction(
-          policy.getAccessUrls().getBaseUrl());
+    if ( (policy.getAccessUrls().isRegisterFileUrls() != false) ||
+        (!policy.getAccessUrls().getAccessUrl().isEmpty()) ) {
+      CreateAccessUrlsAction cauAction = new CreateAccessUrlsAction(
+          policy.getAccessUrls().getAccessUrl());
+      cauAction.setRegisterFileUrls(
+          policy.getAccessUrls().isRegisterFileUrls());
       ca.add(cauAction);
       fileObjectRegistrationActions.add(cauAction);
     }

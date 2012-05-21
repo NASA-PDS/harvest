@@ -367,11 +367,11 @@ public class RegistryIngester implements Ingester {
     metadata.addMetadata(Constants.MD5_CHECKSUM, fileObject.getChecksum());
     metadata.addMetadata(Constants.CREATION_DATE_TIME,
         fileObject.getCreationDateTime());
-    if (metadata.containsKey(Constants.STORAGE_SERVICE_PRODUCT_ID)) {
+    if (fileObject.getStorageServiceProductId() != null) {
       metadata.addMetadata(Constants.STORAGE_SERVICE_PRODUCT_ID,
         fileObject.getStorageServiceProductId());
     }
-    if (metadata.containsKey(Constants.ACCESS_URLS)) {
+    if (!fileObject.getAccessUrls().isEmpty()) {
       metadata.addMetadata(Constants.ACCESS_URLS, fileObject.getAccessUrls());
     }
     for (Iterator i = sourceMet.getHashtable().entrySet().iterator();

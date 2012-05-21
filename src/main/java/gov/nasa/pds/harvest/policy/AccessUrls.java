@@ -22,25 +22,27 @@
 
 package gov.nasa.pds.harvest.policy;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for AccessUrl complex type.
+ * <p>Java class for AccessUrls complex type.
  *
  * <p>The following schema fragment specifies the expected content contained within this class.
  *
  * <pre>
- * &lt;complexType name="AccessUrl">
+ * &lt;complexType name="AccessUrls">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{}baseUrl"/>
- *         &lt;element ref="{}offset" minOccurs="0"/>
+ *         &lt;element ref="{}accessUrl" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
+ *       &lt;attribute ref="{}registerFileUrls"/>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -49,62 +51,70 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AccessUrl", propOrder = {
-    "baseUrl",
-    "offset"
+@XmlType(name = "AccessUrls", propOrder = {
+    "accessUrl"
 })
-public class AccessUrl {
+public class AccessUrls {
 
-    @XmlElement(required = true)
-    protected String baseUrl;
-    protected String offset;
+    protected List<AccessUrl> accessUrl;
+    @XmlAttribute
+    protected Boolean registerFileUrls;
 
     /**
-     * Gets the value of the baseUrl property.
+     * Gets the value of the accessUrl property.
+     *
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the accessUrl property.
+     *
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getAccessUrl().add(newItem);
+     * </pre>
+     *
+     *
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link AccessUrl }
+     *
+     *
+     */
+    public List<AccessUrl> getAccessUrl() {
+        if (accessUrl == null) {
+            accessUrl = new ArrayList<AccessUrl>();
+        }
+        return this.accessUrl;
+    }
+
+    /**
+     * Gets the value of the registerFileUrls property.
      *
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Boolean }
      *
      */
-    public String getBaseUrl() {
-        return baseUrl;
+    public boolean isRegisterFileUrls() {
+        if (registerFileUrls == null) {
+            return false;
+        } else {
+            return registerFileUrls;
+        }
     }
 
     /**
-     * Sets the value of the baseUrl property.
+     * Sets the value of the registerFileUrls property.
      *
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Boolean }
      *
      */
-    public void setBaseUrl(String value) {
-        this.baseUrl = value;
-    }
-
-    /**
-     * Gets the value of the offset property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getOffset() {
-        return offset;
-    }
-
-    /**
-     * Sets the value of the offset property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setOffset(String value) {
-        this.offset = value;
+    public void setRegisterFileUrls(Boolean value) {
+        this.registerFileUrls = value;
     }
 
 }
