@@ -36,22 +36,34 @@
 &lt;xsd:element name="path" type="xsd:string"/&gt;
 &lt;xsd:element name="file" type="xsd:string"/&gt;
 &lt;xsd:element name="filePattern" type="xsd:string"/&gt;
-&lt;xsd:element name="enabled" type="xsd:boolean" default="true"/&gt;
 &lt;xsd:element name="lidPrefix" type="xsd:string"/&gt;
 &lt;xsd:element name="lidReference" type="xsd:string"/&gt;
 &lt;xsd:element name="lidVidReference" type="xsd:string"/&gt;
 &lt;xsd:element name="referenceType" type="xsd:string"/&gt;
 &lt;xsd:element name="elementName" type="xsd:string"/&gt;
-&lt;xsd:element name="modelVersion" type="xsd:string"/&gt;
 &lt;xsd:element name="baseUrl" type="xsd:string"/&gt;
+&lt;xsd:element name="offset" type="xsd:string"/&gt;
 &lt;xsd:element name="serverUrl" type="xsd:string"/&gt;
 &lt;xsd:element name="dataTransferType" type="xsd:string"/&gt;
+&lt;xsd:element name="modelValue" type="xsd:string"/&gt;
+&lt;xsd:element name="name" type="xsd:string"/&gt;
+&lt;xsd:element name="description" type="xsd:string"/&gt;
 
 &lt;xsd:attribute name="objectType" type="xsd:string"/&gt;
 &lt;xsd:attribute name="prefix" type="xsd:string"/&gt;
 &lt;xsd:attribute name="uri" type="xsd:string"/&gt;
 &lt;xsd:attribute name="default" type="xsd:boolean" default="false"/&gt;
+&lt;xsd:attribute name="registerFileUrls" type="xsd:boolean" default="false"/&gt;
 &lt;xsd:attribute name="slotName" type="xsd:string"/&gt;
+&lt;xsd:attribute name="value" type="xsd:string"/&gt;
+
+&lt;xsd:element name="registryPackage" type="RegistryPackage"/&gt;
+&lt;xsd:complexType name="RegistryPackage"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="name"/&gt;
+      &lt;xsd:element ref="description"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
 
 &lt;xsd:element name="xPath" type="XPath"/&gt;
 &lt;xsd:complexType name="XPath"&gt;
@@ -125,18 +137,25 @@
    &lt;/xsd:sequence&gt;
 &lt;/xsd:complexType&gt;
 
-&lt;xsd:element name="validation" type="Validation"/&gt;
-&lt;xsd:complexType name="Validation"&gt;
+&lt;xsd:element name="referenceTypeMap" type="ReferenceTypeMap"/&gt;
+&lt;xsd:complexType name="ReferenceTypeMap"&gt;
    &lt;xsd:sequence&gt;
-      &lt;xsd:element ref="enabled" minOccurs="0"/&gt;
-      &lt;xsd:element ref="modelVersion" minOccurs="0"/&gt;
+      &lt;xsd:element ref="modelValue" maxOccurs="unbounded"/&gt;
    &lt;/xsd:sequence&gt;
+   &lt;xsd:attribute ref="value" use="required"/&gt;
 &lt;/xsd:complexType&gt;
 
 &lt;xsd:element name="associations" type="Associations"/&gt;
 &lt;xsd:complexType name="Associations"&gt;
    &lt;xsd:sequence&gt;
       &lt;xsd:element ref="association" minOccurs="0" maxOccurs="unbounded"/&gt;
+   &lt;/xsd:sequence&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="references" type="References"/&gt;
+&lt;xsd:complexType name="References"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="referenceTypeMap" maxOccurs="unbounded"/&gt;
    &lt;/xsd:sequence&gt;
 &lt;/xsd:complexType&gt;
 
@@ -174,24 +193,34 @@
    &lt;/xsd:sequence&gt;
 &lt;/xsd:complexType&gt;
 
-&lt;xsd:element name="accessUrls" type="AccessUrl"/&gt;
+&lt;xsd:element name="accessUrls" type="AccessUrls"/&gt;
+&lt;xsd:complexType name="AccessUrls"&gt;
+   &lt;xsd:sequence&gt;
+      &lt;xsd:element ref="accessUrl" minOccurs="0" maxOccurs="unbounded"/&gt;
+   &lt;/xsd:sequence&gt;
+   &lt;xsd:attribute ref="registerFileUrls"/&gt;
+&lt;/xsd:complexType&gt;
+
+&lt;xsd:element name="accessUrl" type="AccessUrl"/&gt;
 &lt;xsd:complexType name="AccessUrl"&gt;
    &lt;xsd:sequence&gt;
-      &lt;xsd:element ref="baseUrl" maxOccurs="unbounded"/&gt;
+      &lt;xsd:element ref="baseUrl"/&gt;
+      &lt;xsd:element ref="offset" minOccurs="0" maxOccurs="unbounded"/&gt;
    &lt;/xsd:sequence&gt;
 &lt;/xsd:complexType&gt;
 
 &lt;xsd:element name="policy"&gt;
   &lt;xsd:complexType&gt;
      &lt;xsd:all&gt;
+        &lt;xsd:element ref="registryPackage" minOccurs="0"/&gt;
         &lt;xsd:element ref="bundles" minOccurs="0"/&gt;
         &lt;xsd:element ref="collections" minOccurs="0"/&gt;
         &lt;xsd:element ref="directories" minOccurs="0"/&gt;
         &lt;xsd:element ref="pds3Directory" minOccurs="0"/&gt;
-        &lt;xsd:element ref="validation" minOccurs="0"/&gt;
         &lt;xsd:element ref="storageIngestion" minOccurs="0"/&gt;
         &lt;xsd:element ref="accessUrls" minOccurs="0"/&gt;
         &lt;xsd:element ref="candidates"/&gt;
+        &lt;xsd:element ref="references" minOccurs="0"/&gt;
      &lt;/xsd:all&gt;
   &lt;/xsd:complexType&gt;
 &lt;/xsd:element&gt;

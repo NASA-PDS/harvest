@@ -65,10 +65,10 @@
       <subsection name="Execute Harvest Tool">
         <p>The Harvest Tool operates with a policy file to register product metadata. Details on how to create this policy file can be found in the <a href="#Harvest_Policy_File">Harvest Policy File</a> section.
         </p>
-        
+
         <p>This section demonstrates some of the ways that the tool can be executed:
         </p>
-        
+
         <ul>
           <li>Registering Products From a Single Target</li>
           <li>Registering Products From Multiple Targets</li>
@@ -98,7 +98,7 @@
         </p>
 
         <source>
-% harvest product1.xml, product2.xml -c policy.xml -l log-file.txt 
+% harvest product1.xml, product2.xml -c policy.xml -l log-file.txt
         </source>
 
         <p><b><i>Registering Products From Targets Specified In The Policy File</i></b></p>
@@ -198,6 +198,11 @@
        <source>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;policy&gt;
+  &lt;registryPackage&gt;
+    &lt;name&gt;Harvest Package Example/&gt;
+    &lt;description&gt;This is an example of a Harvest run.&lt;/description&gt;
+  &lt;/registryPackage&gt;
+
   &lt;bundles&gt;
     &lt;file&gt;/home/pds4/context-bundle/bundle.xml&lt;/file&gt;
   &lt;/bundles&gt;
@@ -211,17 +216,15 @@
     &lt;filePattern&gt;*.xml&lt;/filePattern&gt;
   &lt;/directories&gt;
 
-  &lt;validation&gt;
-    &lt;enabled&gt;true&lt;/enabled&gt;
-  &lt;/validation&gt;
-
   &lt;storageIngestion&gt;
-    &lt;serverUrl&gt;http://localhost:9000&lt;/baseUrl&gt;
+    &lt;serverUrl&gt;http://localhost:9000&lt;/serverUrl&gt;
   &lt;/storageIngestion&gt;
 
-  &lt;accessUrls&gt;
-    &lt;baseUrl&gt;http://pds.nasa.gov/pds4&lt;/baseUrl&gt;
-    &lt;baseUrl&gt;file://pds/pds4/&lt;/baseUrl&gt;
+  &lt;accessUrls registerFileUrls="true"&gt;
+    &lt;accessUrl&gt;
+      &lt;baseUrl&gt;http://pds.nasa.gov/pds4&lt;/baseUrl&gt;
+      &lt;offset&gt;/home/pds4&lt;/offset&gt;
+    &lt;/accessUrl&gt;
   &lt;/accessUrls&gt;
 
   &lt;candidates&gt;
@@ -266,12 +269,23 @@
       &lt;xPath slotName="document_description"&gt;//Document_Desc/description&lt;/xPath&gt;
       &lt;xPath&gt;//Document_Desc/publication_date&lt;/xPath&gt;
     &lt;/productMetadata&gt;
-  &lt;/candidates&gt;  
+  &lt;/candidates&gt;
 &lt;/policy&gt;
        </source>
 
-       <p>The policy file is made up of the following complex type elements: <i>bundles</i>, <i>collections</i>, <i>directories</i>, <i>validation</i>, <i>storageIngestion</i>, <i>accessUrls</i>, <i>candidates</i>, and <i>productMetadata</i>.
+       <p>The policy file is made up of the following complex type elements: <i>registryPackage</i>, <i>bundles</i>, <i>collections</i>, <i>directories</i>, <i>validation</i>, <i>storageIngestion</i>, <i>accessUrls</i>, <i>candidates</i>, and <i>productMetadata</i>.
        </p>
+
+       <p><b><i>registryPackage</i></b></p>
+
+       <p>Each time the Harvest Tool runs, it creates a package in the registry to group the product registrations together. Specify this element to give a registry package a name and/or description. The following table describest the elements that are allowed:
+       </p>
+
+       <table>
+         <tr><th>Element Name</th><th>Description</th></tr>
+         <tr><td>name</td><td>Specify a package name. If this element is not specified, the default is to create a package with the name <i>Harvest-Package_&lt;current datetimestamp&gt;</i>.</td></tr>
+         <tr><td>description</td><td>Specify a package description.If this element is not specified, the default is to create a description that lists the targets that were specified in the policy config file.</td></tr>
+       </table>
 
        <p><b><i>bundles</i></b></p>
 
@@ -316,43 +330,40 @@
        <p>In the example above, the Harvest tool will crawl the directory location, <i>/home/user/pds4/geo/product_files</i>, looking for files that have a <i>.xml</i> file extension. The default is to touch all files in the directory if the <i>filePattern</i> element is omitted from the policy file.
        </p>
 
-       <p><b><i>validation</i></b></p>
-
-       <p>Specify this element to tell the Harvest Tool to validate a data product before registering it. If the data product does not pass the validation step, the data product will not be registered. The following table describes the elements that are allowed:
-       </p>
-
-       <table>
-         <tr><th>Element Name</th><th>Description</th></tr>
-         <tr><td>enabled</td><td>Specify a boolean value to tell the Harvest Tool whether or not to validate a data product.</td></tr>
-         <tr><td>modelVersion</td><td>Specify a model version to use during validation. By default, validation will be performed against the latest released PDS4 data model.</td></tr>
-       </table>
-
-       <p>By default, if the <i>validation</i> element is not specified in the policy file, validation is turned on.
-       </p>
-
        <p><b><i>storageIngestion</i></b></p>
-       
+
        <p>Specify this element to tell the Harvest Tool to ingest data products to the PDS Storage Service. The following table describes the elements that are allowed:
        </p>
-       
+
        <table>
          <tr><th>Element Name</th><th>Description</th></tr>
          <tr><td>serverUrl</td><td>Specify the url to the PDS Storage Service.</td></tr>
        </table>
-       
+
        <p>In the example above, the Harvest Tool will ingest data products to the PDS Storage Service at <i>http://localhost:9000</i>. When a data product is ingested to the PDS Storage, it returns a product id which is a reference to the ingested product. This id is placed as a slot in the registry under the slot name <i>storageServiceProductId</i>.
        </p>
-       
+
        <p><b><i>accessUrls</i></b></p>
-       
-       <p>Specify this element to provide links to the physical data products. The links will be placed in the registry as slots under the slot name <i>accessUrl</i>. The following table describes the elements that are allowed:
+
+       <p>Specify this element to provide links to the physical data products. The links will be placed in the registry as slots under the slot name <i>accessUrl</i>. An optional attribute can be specified named <i>registerFileUrls</i>, which if set to <i>true</i>, will create <i>file</i> url links.
        </p>
-       
+
+       <p>The <i>accessUrls</i> element can contain multiple <i>accessUrl</i> element tags. The following table describes the elements that are allowed within the <i>accessUrl</i> tag:
+       </p>
+
        <table>
          <tr><th>Element Name</th><th>Description</th></tr>
-         <tr><td>baseUrl</td><td>Specify a base url. This element can be specified more than once if providing more than one link.</td></tr>
+         <tr><td>baseUrl</td><td>Specify a base url.</td></tr>
+         <tr><td>offset</td><td>Optionally specify an offset to nix from the absolute path of each product before appending it to the base url. Can be specified more than once.</td></tr>
        </table>
-       
+
+       <p>In the policy example above, the Harvest Tool will nix any absolute path of a product starting with <i>/home/pds4</i> before appending it to the starting base url of <i>http://pds.nasa.gov/pds4</i>. The following example demonstrates what the resulting access url will be for a registered product located at <i>/home/pds4/context-bundle/bundle.xml</i>:
+       </p>
+
+       <source>
+http://pds.nasa.gov/pds4/context-bundle/bundle.xml
+       </source>
+
        <p>The provided base urls will be prepended to the path of the registered data product. As an example, if a data product is located in /data/product/label.xml, using the base urls from the policy example above, the following access urls will be formed: <i>http://pds.nasa.gov/pds4/data/product/label.xml</i> and <i>file://pds4/data/product/label.xml</i>.
        </p>
 
@@ -426,15 +437,15 @@
 
        <p>For a more detailed explanation on XPath, go to your favorite search engine and type <i>XPath tutorial</i>.
        </p>
-       
+
        <p>The <i>slotName</i> attribute within the <i>xPath</i> element allows the renaming of metadata element names when they are registered as slots in the registry. By default, the slot name is set to the element name that results from an xpath expression. For example, for the xpath expression, //Target_Identification/name, the slot name will be set to <i>name</i>.
        </p>
-       
+
        <p>The following demonstrates setting the policy file to find any <i>name</i> elements that are children of <i>Target_Identification</i> and setting the slot name to <i>target_identification_name</i>:
        </p>
-       
+
        <source>
-&lt;xPath slotName="target_identification_name"&gt;//Target_Identification/name&lt;/xPath&gt;       
+&lt;xPath slotName="target_identification_name"&gt;//Target_Identification/name&lt;/xPath&gt;
        </source>
      </subsection>
 
@@ -552,17 +563,17 @@
 
       <p>In the example above, the values from the following elements will be extracted from a PDS3 product label: <i>START_DATE_TIME</i> and <i>STOP_DATE_TIME</i>. If they are found in the label, they will be registered as slots in the registry, using their element names in lowercase form as the slot names. In this case, <i>start_date_time</i> and <i>stop_date_time</i> will be used as slot names in the registry.
       </p>
-      
+
       <p><b><i>includePaths</i></b></p>
-      
+
       <p>Specify this element to tell the Harvest tool the locations of where to find file references specified in a label. By default, the tool will look for the file reference in the location of the label file. The following table describes the elements that are allowed:
       </p>
-      
+
       <table>
         <tr><th>Element name</th><th>Description</th></tr>
         <tr><td>path</td><td>Specify the directory location of where to find the file references in a label. This element can be specified more than once to specify multiple search paths.</td></tr>
       </table>
-      
+
       <p>In the example above, the tool will look at the <i>/data/pds3/label</i> directory for file references if they cannot be found in the same location as the label file.
       </p>
 
@@ -576,92 +587,127 @@
      <source>
 PDS Harvest Tool Log
 
-Version                     Version 0.5.0-dev
-Time                        Fri, Oct 14 2011 at 08:15:53 AM
+Version                     Version 1.2.0-dev
+Time                        Wed, May 23 2012 at 11:56:55 AM
 Registry Location           http://localhost:8080/registry
-Registry Package Name       Harvest-Package_20111014081552
-Registration Package GUID   urn:uuid:f4cb8733-b86f-4877-ad47-c7fbacf44574
+Registry Package Name       Harvest-Package_20120523115655
+Registration Package GUID   urn:uuid:1920ea31-58c6-461d-8496-cfcc75b1a546
 
-INFO:   XML extractor set to the following default namespace: \
-        http://pds.nasa.gov/schema/pds4/pds/v04
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] Begin processing.
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
+INFO:   XML extractor set to the following default namespace: http://pds.nasa.gov/schema/pds4/pds/v05
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] Begin processing.
+WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+           line 40: No mapping found for reference type 'has_investigation'.
+WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+           line 51: No mapping found for reference type 'has_instrument_host'.
+WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+           line 60: No mapping found for reference type 'has_instrument'.
+WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+           line 70: No mapping found for reference type 'has_target'.
+WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+           line 89: No mapping found for reference type 'has_investigation'.
+WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+           line 93: No mapping found for reference type 'has_instrument_host'.
+WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+           line 97: No mapping found for reference type 'has_instrument'.
+WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+           line 101: No mapping found for reference type 'has_target'.
+WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+           line 105: No mapping found for reference type 'has_node'.
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Setting LIDVID-based association, \
+        'urn:nasa:pds:investigation.PHOENIX::1.0', \
+        under slot name 'has_investigation'.
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
         Setting LID-based association, \
-        'urn:nasa:pds:Collection_Context.personnel.affil', \
-        under slot name 'has_context_collection'.
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
+        'urn:nasa:pds:instrument_host.PHX', \
+        under slot name 'has_instrument_host'.
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
         Setting LID-based association, \
-        'urn:nasa:pds:Collection_Context.dataset', \
-        under slot name 'has_context_collection'.
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
+        'urn:nasa:pds:instrument.MECA_AFM__PHX', \
+        under slot name 'has_instrument'.
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Setting LIDVID-based association, \
+        'urn:nasa:pds:target.MARS::1.0', \
+        under slot name 'has_target'.
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
         Setting LID-based association, \
-        'urn:nasa:pds:Collection_Context.personnel.guest', \
-        under slot name 'has_context_collection'.
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
+        'urn:nasa:pds:investigation.PHOENIX::1.0', \
+        under slot name 'has_investigation'.
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
         Setting LID-based association, \
-        'urn:nasa:pds:Collection_Context.instrument_host', \
-        under slot name 'has_context_collection'.
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
+        'urn:nasa:pds:instrument_host.PHX', \
+        under slot name 'has_instrument_host'.
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
         Setting LID-based association, \
-        'urn:nasa:pds:Collection_Context.instrument', \
-        under slot name 'has_context_collection'.
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
+        'urn:nasa:pds:instrument.MECA_AFM__PHX', \
+        under slot name 'has_instrument'.
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
         Setting LID-based association, \
-        'urn:nasa:pds:Collection_Context.mission', \
-        under slot name 'has_context_collection'.
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
+        'urn:nasa:pds:target.MARS', \
+        under slot name 'has_target'.
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
         Setting LID-based association, \
-        'urn:nasa:pds:Collection_Context.node', \
-        under slot name 'has_context_collection'.
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-        Setting LID-based association, \
-        'urn:nasa:pds:Collection_Context.resource', \
-        under slot name 'has_context_collection'.
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-        Setting LID-based association, \
-        'urn:nasa:pds:Collection_Context.target', \
-        under slot name 'has_context_collection'.
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-        Captured file information for Product_Bundle_Context.xml
-SUCCESS:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-        Successfully registered product: urn:nasa:pds:context_bundle::1.0
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-        Product has the following GUID: urn:uuid:25f3043e-0655-4d2c-9205-8406a254ec70
-SUCCESS:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
+        'urn:nasa:pds:node.GEO', \
+        under slot name 'has_node'.
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Created access url: \
+        http://pds.nasa.gov/pds4/dph_examples_513B/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Created access url: \
+        file:///pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml
+SUCCESS:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+           Successfully registered product: \
+           urn:nasa:pds:example.DPH.sampleProducts:exampleProducts:TableCharGrouped.PHX-M-MECA-4-NIRDR-1.0::1.0
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Product has the following GUID: urn:uuid:d274e68b-ff2c-4662-bc97-43dfa1e106fe
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Capturing file information for Product_Table_Character_Grouped.xml
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Capturing file object metadata for fs004sdd_001_4e0111040000a0.tab
+WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+           Generated checksum '653ac7fc8cdeee51a875689bc47a771a' does not match supplied checksum 'd220dac0d1fe312f3f3b9c824f6ac294' \
+           for file object 'fs004sdd_001_4e0111040000a0.tab'.
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Created access url: \
+        http://pds.nasa.gov/pds4/dph_examples_513B/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Created access url: \
+        file:///pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml
+SUCCESS:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
         Successfully registered product: \
-        urn:nasa:pds:context_bundle:Product_Bundle_Context_20111012.xml::1.0
-INFO:   [/pds4/context_bundle/Product_Bundle_Context.xml] \
-        Product has the following GUID: urn:uuid:554175b2-30d6-4465-adf3-795c1c59cf27
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-        Begin processing.
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-        No associations found.
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-        Captured file information for collection_context_dataset_20111012.xml
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-        Capturing file object metadata for manifest_data_set_20111012.tab
-SUCCESS:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-        Successfully registered product: urn:nasa:pds:Collection_Context.dataset::1.0
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-        Product has the following GUID: urn:uuid:fd5eeaf9-2de7-4022-b440-88a2ac4a694b
-SUCCESS:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-        Successfully registered product: \
-        urn:nasa:pds:Collection_Context.dataset:collection_context_dataset_20111012.xml::1.0
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-        Product has the following GUID: urn:uuid:6f180715-ccde-4a3d-9404-e5a1128a3ce7
-SUCCESS:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-        Successfully registered product: \
-        urn:nasa:pds:Collection_Context.dataset:manifest_data_set_20111012.tab::1.0
-INFO:   [/pds4/context_bundle/context_dataset/collection_context_dataset.xml] \
-        Product has the following GUID: urn:uuid:21a13088-b552-4df6-b855-28532c5e4a70
+        urn:nasa:pds:example.DPH.sampleProducts:exampleProducts:TableCharGrouped.PHX-M-MECA-4-NIRDR-1.0:Product_Table_Character_Grouped.xml::1.0
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Product has the following GUID: urn:uuid:82f27243-568d-49cd-9029-2e95cd6cdd81
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Created access url: \
+        http://pds.nasa.gov/pds4/dph_examples_513B/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/fs004sdd_001_4e0111040000a0.tab
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Created access url: \
+        file:///pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/fs004sdd_001_4e0111040000a0.tab
+SUCCESS:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+           Successfully registered product: \
+           urn:nasa:pds:example.DPH.sampleProducts:exampleProducts:TableCharGrouped.PHX-M-MECA-4-NIRDR-1.0:fs004sdd_001_4e0111040000a0.tab::1.0
+INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
+        Product has the following GUID: urn:uuid:fb598b1b-a4c3-4492-b602-666908f943a6
 
-    ....
-       
+...
+
 Summary:
 
-14362 of 14362 file(s) processed, 0 skipped
-28669 of 28701 products registered.
-89025 of 89061 associations registered, 0 skipped
+7 of 7 file(s) processed, 0 other file(s) skipped
+1 error(s), 51 warning(s)
+
+6 of 6 products registered.
+35 of 35 ancillary products registered.
+
+Product Types Registered:
+1 Product_Document
+5 Product_Observational
+35 Product_File_Repository
+
+24 of 29 generated checksums matched their supplied value, 6 generated value(s) not checked.
+
+35 of 35 associations registered.
 
 
 End of Log
