@@ -223,9 +223,11 @@ public class FileObjectRegistrationAction extends CrawlerAction {
           ++HarvestStats.numChecksumsSame;
         }
       } else {
-        log.log(new ToolsLogRecord(ToolsLevel.INFO,
-            "No checksum supplied in the inventory for this product label.",
-            product));
+        if (!Constants.suppliedChecksums.isEmpty()) {
+          log.log(new ToolsLogRecord(ToolsLevel.INFO,
+              "No checksum supplied in the inventory for this product label.",
+              product));
+        }
         ++HarvestStats.numChecksumsNotChecked;
       }
       FileObject fileObject = new FileObject(product.getName(),

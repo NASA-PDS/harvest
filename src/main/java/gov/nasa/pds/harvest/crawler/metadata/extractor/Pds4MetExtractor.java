@@ -34,7 +34,6 @@ import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.policy.XPath;
-import gov.nasa.pds.harvest.stats.HarvestStats;
 import gov.nasa.pds.harvest.util.XMLExtractor;
 
 /**
@@ -169,18 +168,16 @@ public class Pds4MetExtractor implements MetExtractor {
     Metadata metadata = new Metadata();
     for (XPath xpath : xPaths) {
       try {
-        List<TinyElementImpl> list = extractor.getNodesFromDoc(
+        TinyElementImpl node = extractor.getNodeFromDoc(
             xpath.getValue());
-        for (int i = 0; i < list.size(); i++) {
-          String name = "";
-          if (xpath.getSlotName() != null) {
-            name = xpath.getSlotName();
-          } else {
-            name = list.get(i).getDisplayName();
-          }
-          metadata.addMetadata(name,
-              extractor.getValuesFromDoc(xpath.getValue()));
+        String name = "";
+        if (xpath.getSlotName() != null) {
+          name = xpath.getSlotName();
+        } else {
+          name = node.getDisplayName();
         }
+        metadata.addMetadata(name, extractor.getValuesFromDoc(
+            xpath.getValue()));
       } catch (Exception xe) {
         throw new MetExtractionException("Bad XPath Expression: "
             + xpath.getValue());
@@ -232,7 +229,23 @@ public class Pds4MetExtractor implements MetExtractor {
         } else if (name.equals("lid_reference")) {
           re.setLogicalID(value);
         } else if (name.equals(REFERENCE_TYPE)) {
-          re.setType(value);
+          if (config.containsReferenceTypeMap()) {
+            String refTypeMap = config.getReferenceTypeMap(value);
+            if (refTypeMap != null) {
+              log.log(new ToolsLogRecord(ToolsLevel.INFO,
+                  "Mapping reference type '" + value + "' to '"
+                  + refTypeMap + "'.", product.toString(),
+                  child.getLineNumber()));
+              re.setType(refTypeMap);
+            } else {
+              log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+                  "No mapping found for reference type '" + value
+                  + "'.", product.toString(), child.getLineNumber()));
+              re.setType(value);
+            }
+          } else {
+            re.setType(value);
+          }
         }
       }
       if (re.getType() == null) {

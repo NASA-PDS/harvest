@@ -18,6 +18,8 @@ import java.util.List;
 
 import gov.nasa.jpl.oodt.cas.metadata.MetExtractorConfig;
 import gov.nasa.pds.harvest.policy.Pds4ProductMetadata;
+import gov.nasa.pds.harvest.policy.ReferenceTypeMap;
+import gov.nasa.pds.harvest.policy.References;
 import gov.nasa.pds.harvest.policy.XPath;
 
 /**
@@ -31,6 +33,7 @@ public class Pds4MetExtractorConfig implements MetExtractorConfig {
     /** Candidate products. */
     private List<Pds4ProductMetadata> pds4Candidates;
 
+    private References references;
     /**
      * Default contstructor.
      *
@@ -39,8 +42,9 @@ public class Pds4MetExtractorConfig implements MetExtractorConfig {
      * product types.
      *
      */
-    public Pds4MetExtractorConfig(List<Pds4ProductMetadata> candidates) {
+    public Pds4MetExtractorConfig(List<Pds4ProductMetadata> candidates, References references) {
       pds4Candidates = candidates;
+      this.references = references;
     }
 
     /**
@@ -73,5 +77,37 @@ public class Pds4MetExtractorConfig implements MetExtractorConfig {
             }
         }
         return false;
+    }
+
+    /**
+     * Gets the mapped reference type of the given model value.
+     *
+     * @param modelValue The model value.
+     *
+     * @return The mapped reference type associated with the given model
+     *  value. Returns 'null' if nothing was found.
+     */
+    public String getReferenceTypeMap(String modelValue) {
+      for (ReferenceTypeMap refMap : references.getReferenceTypeMap()) {
+        for (String value : refMap.getModelValue()) {
+          if (value.equals(modelValue)) {
+            return refMap.getValue();
+          }
+        }
+      }
+      return null;
+    }
+
+    /**
+     * Determines whether the config contains a reference type map.
+     *
+     * @return 'true' if yes, 'false' otherwise.
+     */
+    public boolean containsReferenceTypeMap() {
+      if (!references.getReferenceTypeMap().isEmpty()) {
+        return true;
+      } else {
+        return false;
+      }
     }
 }

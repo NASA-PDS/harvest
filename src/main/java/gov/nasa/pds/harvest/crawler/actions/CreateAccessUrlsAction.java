@@ -61,7 +61,7 @@ public class CreateAccessUrlsAction extends CrawlerAction {
   /**
    * Constructor.
    *
-   * @param baseUrls A list of base urls.
+   * @param accessUrls A list of access urls.
    */
   public CreateAccessUrlsAction(List<AccessUrl> accessUrls) {
     super();
@@ -119,21 +119,36 @@ public class CreateAccessUrlsAction extends CrawlerAction {
     return urls;
   }
 
+  /**
+   * Create access urls for the given product.
+   *
+   * @param product The product to create a set of access urls.
+   * @param source The source of the given product.
+   *
+   * @return A list of access urls.
+   *
+   * @throws IllegalArgumentException If there was an error in creating
+   * an access url.
+   */
   private List<String> createAccessUrls(File product, File source)
   throws IllegalArgumentException {
     List<String> urls = new ArrayList<String>();
     for (AccessUrl accessUrl : accessUrls) {
       String productFile = product.toString();
-      if (accessUrl.getOffset() != null) {
-        if (productFile.startsWith(accessUrl.getOffset())) {
-          productFile = productFile.replaceFirst(accessUrl.getOffset(), "")
+      boolean matchedOffset = false;
+      for (String offset : accessUrl.getOffset()) {
+        if (productFile.startsWith(offset)) {
+          productFile = productFile.replaceFirst(offset, "")
           .trim();
-        } else {
-          log.log(new ToolsLogRecord(ToolsLevel.WARNING,
-              "Cannot trim path of file specification '" + product
-              + "' as it does not start with the " + "supplied offset: "
-              + accessUrl.getOffset(), source));
+          matchedOffset = true;
+          break;
         }
+      }
+      if ( (!accessUrl.getOffset().isEmpty()) && (!matchedOffset) ) {
+        log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+            "Cannot trim path of product '" + product
+            + "' as it does not start with any of the supplied offsets: "
+            + accessUrl.getOffset(), source));
       }
       URI uri = UriBuilder.fromUri(accessUrl.getBaseUrl()).path(
           FilenameUtils.separatorsToUnix(productFile)).build();

@@ -219,4 +219,213 @@
       </xPath>
      </productMetadata>
    </candidates>
+   <references>
+     <referenceTypeMap value="associate_ref">
+       <modelValue>
+         context_to_associate
+       </modelValue>
+       <modelValue>
+         document_to_associate
+       </modelValue>
+       <modelValue>
+         data_collection_to_associate
+       </modelValue>       
+       <modelValue>
+         operational_to_associate
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="browse_ref">
+       <modelValue>
+         data_to_browse
+       </modelValue>
+       <modelValue>
+         data_collection_to_browse
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="calibration_ref">
+       <modelValue>
+         data_to_calibration
+       </modelValue>
+       <modelValue>
+         data_collection_to_calibration
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="collection">
+       <modelValue>
+         bundle_has_browse_collection
+       </modelValue>
+       <modelValue>
+         bundle_has_calibration_collection
+       </modelValue>
+       <modelValue>
+         bundle_has_context_collection
+       </modelValue>       
+       <modelValue>
+         bundle_has_data_collection
+       </modelValue>
+       <modelValue>
+         bundle_has_document_collection
+       </modelValue>       
+       <modelValue>
+         bundle_has_geometry_collection
+       </modelValue>
+       <modelValue>
+         bundle_has_member_collection
+       </modelValue>
+       <modelValue>
+         bundle_has_schema_collection
+       </modelValue>
+       <modelValue>
+         bundle_has_spice_kernel_collection
+       </modelValue>       
+     </referenceTypeMap>
+     <referenceTypeMap value="context_ref">
+       <modelValue>
+         data_collection_to_context
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="data_ref">
+       <modelValue>
+         data_collection_to_data
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="document_ref">
+       <modelValue>
+         bundle_to_document
+       </modelValue>
+       <modelValue>
+         collection_to_document
+       </modelValue>
+       <modelValue>
+         context_to_document
+       </modelValue>
+       <modelValue>
+         data_to_document
+       </modelValue>
+       <modelValue>
+         data_collection_to_document
+       </modelValue>
+       <modelValue>
+         operational_to_document
+       </modelValue>
+     </referenceTypeMap>     
+     <referenceTypeMap value="geometry_ref">
+       <modelValue>
+         data_to_geometry
+       </modelValue>
+       <modelValue>
+         data_collection_to_geometry
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="investigation_ref">
+       <modelValue>
+         bundle_to_investigation
+       </modelValue>
+       <modelValue>
+         collection_to_investigation
+       </modelValue>
+       <modelValue>
+         data_to_investigation
+       </modelValue>
+       <modelValue>
+         document_to_investigation
+       </modelValue>
+       <modelValue>
+         instrument_host_to_investigation
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="instrument_ref">
+       <modelValue>
+         document_to_instrument
+       </modelValue>
+       <modelValue>
+         is_instrument
+       </modelValue>       
+     </referenceTypeMap>
+     <referenceTypeMap value="instrument_host_ref">
+       <modelValue>
+         document_to_instrument_host
+       </modelValue>
+       <modelValue>
+         instrument_to_instrument_host
+       </modelValue>
+       <modelValue>
+         is_instrument_host
+       </modelValue>
+     </referenceTypeMap>     
+     <referenceTypeMap value="member_ref">
+       <modelValue>
+         inventory_has_LIDVID_Primary
+       </modelValue>
+       <modelValue>
+         inventory_has_LIDVID_Secondary
+       </modelValue>
+       <modelValue>
+         inventory_has_LID_Secondary
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="node_ref">
+       <modelValue>
+         data_collection_curated_by_node
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="resource_ref">
+       <modelValue>
+         context_to_resource
+       </modelValue>
+       <modelValue>
+         data_to_resource
+       </modelValue>
+       <modelValue>
+         data_collection_to_resource
+       </modelValue>
+       <modelValue>
+         operational_to_resource
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="spice_ref">
+       <modelValue>
+         data_to_spice_kernel
+       </modelValue>
+       <modelValue>
+         data_collection_to_spice_kernel
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="target_ref">
+       <modelValue>
+         bundle_to_target
+       </modelValue>
+       <modelValue>
+         collection_to_target
+       </modelValue>
+       <modelValue>
+         data_to_target
+       </modelValue>
+       <modelValue>
+         document_to_target
+       </modelValue>
+       <modelValue>
+         instrument_host_to_target
+       </modelValue>       
+       <modelValue>
+         investigation_to_target
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="thumbnail_ref">
+       <modelValue>
+         data_to_thumbnail
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="update_ref">
+       <modelValue>
+         bundle_to_update
+       </modelValue>
+       <modelValue>
+         collection_to_update
+       </modelValue>
+       <modelValue>
+         data_to_update
+       </modelValue>
+     </referenceTypeMap>
+   </references>
 </policy>

@@ -187,7 +187,8 @@ public class Harvester {
       doCrawlerPersistance = true;
     }
     Pds4MetExtractorConfig pds4MetExtractorConfig = new Pds4MetExtractorConfig(
-        policy.getCandidates().getProductMetadata());
+        policy.getCandidates().getProductMetadata(),
+        policy.getReferences());
     List<PDSProductCrawler> crawlers = new ArrayList<PDSProductCrawler>();
     // Crawl bundles
     for (String bundle : policy.getBundles().getFile()) {

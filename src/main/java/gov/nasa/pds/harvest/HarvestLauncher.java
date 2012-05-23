@@ -465,13 +465,18 @@ public class HarvestLauncher {
    * Creates a registry package to be used to associate all products
    * being registered during a single Harvest run.
    *
+   * @param name Package name. Default is to give the name
+   * 'Harvest-Package_\<datetimestamp\>'.
+   *
+   * @param description Pacakge description.
+   *
    * @throws RegistryClientException If an error occurred while initializing
    * the RegistryClient.
    * @throws RegistryServiceException If an error occurred while trying to
    * register a package to the Registry.
    */
-  private void createRegistryPackage() throws RegistryClientException,
-  RegistryServiceException {
+  private void createRegistryPackage(Policy policy)
+  throws RegistryClientException, RegistryServiceException {
     RegistryClient client = null;
     DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
     if ( (username != null) && (password != null) ) {
@@ -480,10 +485,28 @@ public class HarvestLauncher {
     } else {
       client = new RegistryClient(registryURL);
     }
-    registryPackageName = "Harvest-Package_" + dateFormat.format(
-        new Date().getTime());
+    if (policy.getRegistryPackage().getName() != null) {
+      registryPackageName = policy.getRegistryPackage().getName();
+    } else {
+      registryPackageName = "Harvest-Package_" + dateFormat.format(
+          new Date().getTime());
+    }
     RegistryPackage registryPackage = new RegistryPackage();
     registryPackage.setName(registryPackageName);
+    if (policy.getRegistryPackage().getDescription() != null) {
+      registryPackage.setDescription(
+          policy.getRegistryPackage().getDescription());
+    } else {
+      List<String> targets = new ArrayList<String>();
+      targets.addAll(policy.getBundles().getFile());
+      targets.addAll(policy.getCollections().getFile());
+      targets.addAll(policy.getDirectories().getPath());
+      if (policy.getPds3Directory().getPath() != null) {
+        targets.add(policy.getPds3Directory().getPath());
+      }
+      registryPackage.setDescription("This package contains registration "
+          + "of the following targets: " + targets.toString());
+    }
     registryPackageGuid = client.publishObject(registryPackage);
   }
 
@@ -545,8 +568,10 @@ public class HarvestLauncher {
           globalPolicy.getCandidates().getNamespace());
       policy.getCandidates().getProductMetadata().addAll(
           globalPolicy.getCandidates().getProductMetadata());
+      policy.getReferences().getReferenceTypeMap().addAll(
+          globalPolicy.getReferences().getReferenceTypeMap());
       setupExtractor(policy.getCandidates().getNamespace());
-      createRegistryPackage();
+      createRegistryPackage(policy);
       logHeader();
       doHarvesting(policy);
       closeHandlers();
