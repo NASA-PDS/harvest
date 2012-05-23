@@ -12,13 +12,20 @@
 -->
 
 <policy>
+  <registryPackage>
+    <name>Harvest Package Context Bundle Run</name>
+    <description>This is a Harvest run of a context bundle.</description>
+  </registryPackage>
+
   <bundles>
     <file>$HOME/context_bundle/Product_Bundle_context.xml</file>
   </bundles>
 
-  <accessUrls>
-    <baseUrl>http://pds.nasa.gov/pds4</baseUrl>
-    <baseUrl>file://pds/pds4/</baseUrl>
+  <accessUrls registerFileUrs="true">
+    <accessUrl>
+      <baseUrl>http://pds.nasa.gov/pds4</baseUrl>
+      <offset>$HOME</offset>
+    </accessUrl>
   </accessUrls>
 
   <candidates>
