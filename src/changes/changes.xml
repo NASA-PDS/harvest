@@ -24,6 +24,36 @@
 
   <body>
     <release version="1.2.0" date="TBD" description="This release of the Harvest Tool is a component of the integrated release 2.2.0 of the PDS 2010 System.">
+      <action dev="mcayanan" type="update">
+        PDS-71: Updated to compare tool generated checksums of Product_File_Repository products to its supplied value in either the inventory or associated product label (if provided).
+      </action>
+      <action dev="mcayanan" type="update">
+        PDS-74: Updated to be able to provide an offset in the policy config to nix file paths of a registered product for an access url.
+      </action>
+      <action dev="mcayanan" type="update">
+        Updated to map reference types found in the products to a reference type that will be registered with the product.
+      </action>
+      <action dev="mcayanan" type="update">
+        Updated xpath expressions to support the latest changes in the PDS4 data model.
+      </action>
+      <action dev="mcayanan" type="update">
+        Updated the policy config to provide the capability to specify a reigstry package name and description.
+      </action>
+      <action dev="mcayanan" type="update">
+        Updated to remove the validation functionality.
+      </action>
+      <action dev="mcayanan" type="update">
+        Updated summary section of the tool report based on user feedback.
+      </action>
+      <action dev="mcayanan" type="update">
+        Updated slot name that holds data objects specified in a product label from "dataClass" to "data_class"
+      </action>
+      <action dev="mcayanan" type="fix">
+        PDS-63: Fixed to support registration of PDS3 labels containing multiple DATA_SET_ID values.
+      </action>
+      <action dev="mcayanan" type="fix">
+        PDS-73: Fixed to support handling of metadata extraction where the desired metadata is found multiple times in a product label.
+      </action>
     </release>
 
     <release version="1.1.0" date="2012-01-31" description="This release of the Harvest Tool is a component of the integrated release 2.1.0 of the PDS 2010 System.">
