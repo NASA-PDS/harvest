@@ -90,7 +90,7 @@ public class Pds4MetExtractorConfig implements MetExtractorConfig {
     public String getReferenceTypeMap(String modelValue) {
       for (ReferenceTypeMap refMap : references.getReferenceTypeMap()) {
         for (String value : refMap.getModelValue()) {
-          if (value.equals(modelValue)) {
+          if (value.trim().equals(modelValue)) {
             return refMap.getValue();
           }
         }
