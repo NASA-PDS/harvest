@@ -72,7 +72,13 @@ public enum Flag {
       + "seconds in between crawls if running in persistance mode."),
 
   /** Flag to display the version. */
-  VERSION("V", "version", "Display application version.");
+  VERSION("V", "version", "Display application version."),
+
+  /** Flag to change the severity level of the messaging in the report. */
+  VERBOSE("v", "verbose", "level", int.class, "Specify the severity level "
+      + "and above to include in the log: "
+      + "(0=Debug, 1=Info, 2=Warning, 3=Error). "
+      + "Default is Info and above (level 1).");
 
   /** The short name of the flag. */
   private final String shortName;
@@ -206,6 +212,7 @@ public enum Flag {
     options.addOption(new ToolsOption(PDS3DIRECTORY));
     options.addOption(new ToolsOption(HELP));
     options.addOption(new ToolsOption(KEYSTOREPASS));
+    options.addOption(new ToolsOption(VERBOSE));
     options.addOption(new ToolsOption(VERSION));
     options.addOption(new ToolsOption(PASSWORD));
     options.addOption(new ToolsOption(USERNAME));

@@ -13,12 +13,22 @@
 // $Id$
 package gov.nasa.pds.harvest.util;
 
+import gov.nasa.pds.registry.model.Association;
+import gov.nasa.pds.registry.model.ExtrinsicObject;
+import gov.nasa.pds.registry.model.RegistryObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 /**
  * Utility class.
@@ -63,5 +73,47 @@ public class Utility {
         "EEE, MMM dd yyyy 'at' hh:mm:ss a");
         Date date = Calendar.getInstance().getTime();
         return df.format(date);
+    }
+
+    /**
+     * Convert the ExtrinsicObject into an XML.
+     *
+     * @param extrinsic The ExtrinsicObject.
+     *
+     * @return The XML representation of the given ExtrinsicObject.
+     *
+     * @throws JAXBException If there was an error marshalling the given
+     *  object.
+     */
+    public static String toXML(ExtrinsicObject extrinsic) throws JAXBException {
+      ByteArrayOutputStream output = new ByteArrayOutputStream();
+      JAXBContext jc = JAXBContext.newInstance(ExtrinsicObject.class);
+      //Create marshaller
+      Marshaller m = jc.createMarshaller();
+      m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      //Marshal object into file.
+      m.marshal(extrinsic, output);
+      return output.toString();
+    }
+
+    /**
+     * Convert the Association into an XML.
+     *
+     * @param association The Association.
+     *
+     * @return The XML representation of the given Association.
+     *
+     * @throws JAXBException If there was an error marshalling the given
+     *  association.
+     */
+    public static String toXML(Association association) throws JAXBException {
+      ByteArrayOutputStream output = new ByteArrayOutputStream();
+      JAXBContext jc = JAXBContext.newInstance(Association.class);
+      //Create marshaller
+      Marshaller m = jc.createMarshaller();
+      m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      //Marshal object into file.
+      m.marshal(association, output);
+      return output.toString();
     }
 }

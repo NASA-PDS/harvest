@@ -24,6 +24,8 @@ public class ToolsLevel extends Level {
             Level.SEVERE.intValue() + 3);
     public static final Level NOTIFICATION = new ToolsLevel("NOTIFICATION",
         Level.SEVERE.intValue() + 1);
+    public static final Level DEBUG = new ToolsLevel("DEBUG",
+        Level.CONFIG.intValue() + 1);
 
     protected ToolsLevel(String name, int value) {
         super(name, value);

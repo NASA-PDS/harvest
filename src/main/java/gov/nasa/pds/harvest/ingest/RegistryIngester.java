@@ -21,7 +21,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.xml.bind.JAXBException;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -35,6 +38,7 @@ import gov.nasa.pds.harvest.file.FileObject;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.stats.HarvestStats;
+import gov.nasa.pds.harvest.util.Utility;
 import gov.nasa.pds.registry.client.RegistryClient;
 import gov.nasa.pds.registry.client.SecurityContext;
 import gov.nasa.pds.registry.exception.RegistryClientException;
@@ -274,7 +278,15 @@ public class RegistryIngester implements Ingester {
       }
     }
     product.setSlots(slots);
-
+    if (log.getParent().getHandlers()[0].getLevel().intValue()
+        <= ToolsLevel.DEBUG.intValue()) {
+      try {
+      log.log(new ToolsLogRecord(ToolsLevel.DEBUG,
+        "Extrinsic object contents: \n" + Utility.toXML(product)));
+      } catch (JAXBException je) {
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE, je.getMessage()));
+      }
+    }
     return product;
   }
 

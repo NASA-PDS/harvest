@@ -137,6 +137,9 @@ public class HarvestLauncher {
   /** A PDS3 directory specified on the command line. */
   private String pds3Directory;
 
+  /** The severity level to set for the tool. */
+  private Level severityLevel;
+
   /**
    * Default constructor.
    *
@@ -157,6 +160,7 @@ public class HarvestLauncher {
     targets = new ArrayList<File>();
     regExps = new ArrayList<String>();
     pds3Directory = null;
+    severityLevel = ToolsLevel.INFO;
 
     globalPolicy = this.getClass().getResourceAsStream("global-policy.xml");
   }
@@ -238,6 +242,8 @@ public class HarvestLauncher {
         }
       } else if (o.getOpt().equals(Flag.PDS3DIRECTORY.getShortName())) {
         pds3Directory = o.getValue();
+      } else if (o.getOpt().equals(Flag.VERBOSE.getShortName())) {
+        setVerbose(Integer.parseInt(o.getValue()));
       }
     }
     if (policy == null) {
@@ -291,6 +297,27 @@ public class HarvestLauncher {
   }
 
   /**
+   * Set the verbosity level and above to include in the reporting.
+   * @param v '1' for info, '2' for warnings, and '3' for errors
+   * @throws ApplicationException
+   */
+  private void setVerbose(int v) throws Exception {
+    if (v < 0 || v > 3) {
+      throw new Exception("Invalid value entered for 'v' flag. "
+          + "Valid values can only be 0, 1, 2, or 3");
+    }
+    if (v == 0) {
+      severityLevel = ToolsLevel.DEBUG;
+    } else if (v == 1) {
+      severityLevel = ToolsLevel.INFO;
+    } else if (v == 2) {
+      severityLevel = ToolsLevel.WARNING;
+    } else if (v == 3) {
+      severityLevel = ToolsLevel.SEVERE;
+    }
+  }
+
+  /**
    * Logs header information for the log output.
    *
    */
@@ -301,6 +328,8 @@ public class HarvestLauncher {
         "Version                     " + ToolInfo.getVersion()));
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
         "Time                        " + Utility.getDateTime()));
+    log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
+        "Severity Level              " + severityLevel.getName()));
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
         "Registry Location           " + registryURL.toString()));
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
@@ -323,11 +352,11 @@ public class HarvestLauncher {
       logger.removeHandler(handler[i]);
     }
     if (logFile != null) {
-      logger.addHandler(new HarvestFileHandler(logFile, Level.INFO,
+      logger.addHandler(new HarvestFileHandler(logFile, severityLevel,
           new HarvestFormatter()));
     } else {
       logger.addHandler(new HarvestStreamHandler(System.out,
-          Level.INFO, new HarvestFormatter()));
+          severityLevel, new HarvestFormatter()));
     }
   }
 
@@ -498,11 +527,21 @@ public class HarvestLauncher {
           policy.getRegistryPackage().getDescription());
     } else {
       List<String> targets = new ArrayList<String>();
-      targets.addAll(policy.getBundles().getFile());
-      targets.addAll(policy.getCollections().getFile());
-      targets.addAll(policy.getDirectories().getPath());
-      if (policy.getPds3Directory().getPath() != null) {
-        targets.add(policy.getPds3Directory().getPath());
+      for (File f : this.targets) {
+        targets.add(f.toString());
+      }
+      if (pds3Directory != null) {
+        targets.add(pds3Directory);
+      }
+      // Any targets specified on the command-line overwrite targets
+      // specified in the policy config file.
+      if (targets.isEmpty()) {
+        targets.addAll(policy.getBundles().getFile());
+        targets.addAll(policy.getCollections().getFile());
+        targets.addAll(policy.getDirectories().getPath());
+        if (policy.getPds3Directory().getPath() != null) {
+          targets.add(policy.getPds3Directory().getPath());
+        }
       }
       registryPackage.setDescription("This package contains registration "
           + "of the following targets: " + targets.toString());
