@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.xml.bind.JAXBException;
+
 import gov.nasa.jpl.oodt.cas.filemgr.structs.exceptions.IngestException;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.constants.Constants;
@@ -30,6 +32,7 @@ import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.stats.HarvestStats;
+import gov.nasa.pds.harvest.util.Utility;
 import gov.nasa.pds.registry.exception.RegistryClientException;
 import gov.nasa.pds.registry.model.Association;
 import gov.nasa.pds.registry.model.ExtrinsicObject;
@@ -159,6 +162,15 @@ public class AssociationPublisher {
       new String[]{verifiedFlag.toString()}))
     );
     association.setSlots(slots);
+    if (log.getParent().getHandlers()[0].getLevel().intValue()
+        <= ToolsLevel.DEBUG.intValue()) {
+      try {
+        log.log(new ToolsLogRecord(ToolsLevel.DEBUG,
+            "Association contents: \n" + Utility.toXML(association)));
+      } catch (JAXBException je) {
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE, je.getMessage()));
+      }
+    }
     return association;
   }
 }
