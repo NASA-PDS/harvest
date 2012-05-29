@@ -53,6 +53,7 @@
           <tr><td>-p, --password</td><td>Specify a password associated with the username.</td></tr>
           <tr><td>-k, --keystore-pass</td><td>Specify a keystore password associated with the keystore file being passed into the tool.</td></tr>
           <tr><td>-l, --log-file</td><td>Specify a log file name. Default is standard out.</td></tr>
+          <tr><td>-v, --verbose</td><td>Specify the message severity level and above to include in the log (0=Debug, 1=Info, 2=Warning, 3=Error). Default is Info and above (level 1).</td></tr>
           <tr><td>-e, --regexp</td><td>Specify file patterns to look for when registering products from a target directory.</td></tr>
           <tr><td>-D, --pds3-directory</td><td>Specify a target directory to register PDS3 products.</td></tr>
           <tr><td>-P, --port</td><td>Specify a port number to use if running the tool in persistence mode. See the <a href="#Persistence_Mode">Persistence Mode</a> section for more details.</td></tr>

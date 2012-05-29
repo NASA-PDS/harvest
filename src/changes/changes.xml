@@ -25,6 +25,9 @@
   <body>
     <release version="1.2.0" date="TBD" description="This release of the Harvest Tool is a component of the integrated release 2.2.0 of the PDS 2010 System.">
       <action dev="mcayanan" type="update">
+        Added the -v, --verbose flag option to change the severity level of the log messaging. Default is set to Info and above.
+      </action>
+      <action dev="mcayanan" type="update">
         PDS-71: Updated to compare tool generated checksums of Product_File_Repository products to its supplied value in either the inventory or associated product label (if provided).
       </action>
       <action dev="mcayanan" type="update">
@@ -44,6 +47,9 @@
       </action>
       <action dev="mcayanan" type="update">
         Updated summary section of the tool report based on user feedback.
+      </action>
+      <action dev="mcayanan" type="update">
+        Updated to print to the log the XML Extrinsic and Association descriptions that will be registered when in debug mode.
       </action>
       <action dev="mcayanan" type="update">
         Updated slot name that holds data objects specified in a product label from "dataClass" to "data_class"
