@@ -229,9 +229,12 @@
        </modelValue>
        <modelValue>
          data_collection_to_associate
-       </modelValue>       
+       </modelValue>
        <modelValue>
          operational_to_associate
+       </modelValue>
+       <modelValue>
+         has_association
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="browse_ref">
@@ -249,6 +252,9 @@
        <modelValue>
          data_collection_to_calibration
        </modelValue>
+       <modelValue>
+         has_calibration
+       </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="collection">
        <modelValue>
@@ -259,13 +265,13 @@
        </modelValue>
        <modelValue>
          bundle_has_context_collection
-       </modelValue>       
+       </modelValue>
        <modelValue>
          bundle_has_data_collection
        </modelValue>
        <modelValue>
          bundle_has_document_collection
-       </modelValue>       
+       </modelValue>
        <modelValue>
          bundle_has_geometry_collection
        </modelValue>
@@ -277,7 +283,34 @@
        </modelValue>
        <modelValue>
          bundle_has_spice_kernel_collection
-       </modelValue>       
+       </modelValue>
+       <modelValue>
+         has_browse_collection
+       </modelValue>
+       <modelValue>
+         has_calibration_collection
+       </modelValue>
+       <modelValue>
+         has_context_collection
+       </modelValue>
+       <modelValue>
+         has_data_collection
+       </modelValue>
+       <modelValue>
+         has_document_collection
+       </modelValue>
+       <modelValue>
+         has_geometry_collection
+       </modelValue>
+       <modelValue>
+         has_member_collection
+       </modelValue>
+       <modelValue>
+         has_schema_collection
+       </modelValue>
+       <modelValue>
+         has_spice_kernels_collection
+       </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="context_ref">
        <modelValue>
@@ -289,6 +322,11 @@
          data_collection_to_data
        </modelValue>
      </referenceTypeMap>
+     <referenceTypeMap value="data_set_ref">
+       <modelValue>
+         has_data_set
+       </modelValue>
+     </referenceTypeMap>     
      <referenceTypeMap value="document_ref">
        <modelValue>
          bundle_to_document
@@ -308,13 +346,22 @@
        <modelValue>
          operational_to_document
        </modelValue>
-     </referenceTypeMap>     
+       <modelValue>
+         has_document
+       </modelValue>
+       <modelValue>
+         has_publication
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="geometry_ref">
        <modelValue>
          data_to_geometry
        </modelValue>
        <modelValue>
          data_collection_to_geometry
+       </modelValue>
+       <modelValue>
+         has_geometry
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="investigation_ref">
@@ -333,6 +380,9 @@
        <modelValue>
          instrument_host_to_investigation
        </modelValue>
+       <modelValue>
+         has_investigation
+       </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="instrument_ref">
        <modelValue>
@@ -340,7 +390,10 @@
        </modelValue>
        <modelValue>
          is_instrument
-       </modelValue>       
+       </modelValue>
+       <modelValue>
+         has_instrument
+       </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="instrument_host_ref">
        <modelValue>
@@ -352,7 +405,10 @@
        <modelValue>
          is_instrument_host
        </modelValue>
-     </referenceTypeMap>     
+       <modelValue>
+         has_instrument_host
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="member_ref">
        <modelValue>
          inventory_has_LIDVID_Primary
@@ -363,10 +419,30 @@
        <modelValue>
          inventory_has_LID_Secondary
        </modelValue>
+       <modelValue>
+         has_member_LIDVID_Primary
+       </modelValue>
+       <modelValue>
+         has_member_LIDVID_Secondary
+       </modelValue>
+       <modelValue>
+         has_member_LID_Secondary
+       </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="node_ref">
        <modelValue>
          data_collection_curated_by_node
+       </modelValue>
+       <modelValue>
+         has_node
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="personnel_ref">
+       <modelValue>
+         node_to_personnel
+       </modelValue>
+       <modelValue>
+         has_personnel
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="resource_ref">
@@ -382,6 +458,9 @@
        <modelValue>
          operational_to_resource
        </modelValue>
+       <modelValue>
+         has_resource
+       </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="spice_ref">
        <modelValue>
@@ -389,6 +468,9 @@
        </modelValue>
        <modelValue>
          data_collection_to_spice_kernel
+       </modelValue>
+       <modelValue>
+         has_spice
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="target_ref">
@@ -406,14 +488,20 @@
        </modelValue>
        <modelValue>
          instrument_host_to_target
-       </modelValue>       
+       </modelValue>
        <modelValue>
          investigation_to_target
+       </modelValue>
+       <modelValue>
+         has_target
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="thumbnail_ref">
        <modelValue>
          data_to_thumbnail
+       </modelValue>
+       <modelValue>
+         has_thumbnail
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="update_ref">
@@ -425,6 +513,9 @@
        </modelValue>
        <modelValue>
          data_to_update
+       </modelValue>
+       <modelValue>
+         has_update
        </modelValue>
      </referenceTypeMap>
    </references>
