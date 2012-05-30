@@ -17,7 +17,7 @@
 
 <policy>
    <candidates>
-     <namespace prefix="pds" uri="http://pds.nasa.gov/schema/pds4/pds/v07" default="true"/>
+     <namespace prefix="pds" uri="http://pds.nasa.gov/pds4/pds/v08" default="true"/>
      <productMetadata objectType="Product_Bundle">
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
@@ -326,7 +326,7 @@
        <modelValue>
          has_data_set
        </modelValue>
-     </referenceTypeMap>     
+     </referenceTypeMap>
      <referenceTypeMap value="document_ref">
        <modelValue>
          bundle_to_document
