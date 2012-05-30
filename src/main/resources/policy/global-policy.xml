@@ -383,6 +383,9 @@
        <modelValue>
          has_investigation
        </modelValue>
+       <modelValue>
+         has_mission
+       </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="instrument_ref">
        <modelValue>
