@@ -108,6 +108,21 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
       throw new MetExtractionException("Could not find the inventory "
           + "reference_type element tag with the following xpath expression: "
           + ASSOCIATION_TYPE_XPATH);
+    } else {
+      // Map the reference type
+      if (config.containsReferenceTypeMap()) {
+        String refTypeMap = config.getReferenceTypeMap(associationType);
+        if (refTypeMap != null) {
+          log.log(new ToolsLogRecord(ToolsLevel.INFO,
+              "Mapping reference type '" + associationType + "' to '"
+              + refTypeMap + "'.", product.toString()));
+          associationType = refTypeMap;
+        } else {
+          log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+              "No mapping found for reference type '" + associationType
+              + "'.", product.toString()));
+        }
+      }
     }
     if (references.size() == 0) {
       log.log(new ToolsLogRecord(ToolsLevel.INFO, "No associations found.",
