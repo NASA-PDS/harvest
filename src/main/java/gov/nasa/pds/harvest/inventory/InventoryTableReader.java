@@ -30,14 +30,23 @@ import org.apache.commons.io.FilenameUtils;
  *
  */
 public class InventoryTableReader implements InventoryReader {
-  /** The field number of the identifier (LID-VID or LID). */
+  /** The field location of the identifier (LID-VID or LID). */
   private int identifierFieldLocation;
+
+  /** The field length of the identifier (LID-VID or LID). */
+  private int identifierFieldLength;
 
   /** The field number of the file reference. */
   private int filenameFieldLocation;
 
-  /** The field number of the checksum. */
+  /** The field length of the file reference. */
+  private int filenameFieldLength;
+
+  /** The field location of the checksum. */
   private int checksumFieldLocation;
+
+  /** The field length of the checksum. */
+  private int checksumFieldLength;
 
   /** Reads the external data file of the Inventory file. */
   private LineNumberReader reader;
@@ -59,8 +68,11 @@ public class InventoryTableReader implements InventoryReader {
   public InventoryTableReader(File file)
   throws InventoryReaderException {
     filenameFieldLocation = 0;
+    filenameFieldLength = 0;
     checksumFieldLocation = 0;
+    checksumFieldLength = 0;
     identifierFieldLocation = 0;
+    identifierFieldLength = 0;
     dataFile = null;
     parentDirectory = file.getParent();
     XMLExtractor extractor = new XMLExtractor();
@@ -81,27 +93,50 @@ public class InventoryTableReader implements InventoryReader {
       // Extract the field numbers defined in the inventory table section
       // in order to determine the metadata in the data file.
       value = extractor.getValueFromDoc(
-          InventoryKeys.FILE_SPEC_FIELD_NUM_XPATH);
+          InventoryKeys.FILE_SPEC_FIELD_LOCATION_XPATH);
       if (!value.isEmpty()) {
         filenameFieldLocation = Integer.parseInt(value);
       } else {
         throw new Exception("Problems parsing file: " + file + ". XPath "
             + "expression returned no result: "
-            + InventoryKeys.FILE_SPEC_FIELD_NUM_XPATH);
+            + InventoryKeys.FILE_SPEC_FIELD_LOCATION_XPATH);
       }
       value = extractor.getValueFromDoc(
-          InventoryKeys.IDENTIFIER_FIELD_NUM_XPATH);
+          InventoryKeys.FILE_SPEC_FIELD_LENGTH_XPATH);
+      if (!value.isEmpty()) {
+        filenameFieldLength = Integer.parseInt(value);
+      } else {
+        throw new Exception("Problems parsing file: " + file + ". XPath "
+            + "expression returned no result: "
+            + InventoryKeys.FILE_SPEC_FIELD_LENGTH_XPATH);
+      }
+      value = extractor.getValueFromDoc(
+          InventoryKeys.IDENTIFIER_FIELD_LOCATION_XPATH);
       if (!value.isEmpty()) {
         identifierFieldLocation = Integer.parseInt(value);
       } else {
         throw new Exception("Problems parsing file: " + file + ". XPath "
             + "expression returned no result: "
-            + InventoryKeys.IDENTIFIER_FIELD_NUM_XPATH);
+            + InventoryKeys.IDENTIFIER_FIELD_LOCATION_XPATH);
       }
       value = extractor.getValueFromDoc(
-          InventoryKeys.CHECKSUM_FIELD_NUM_XPATH);
+          InventoryKeys.IDENTIFIER_FIELD_LENGTH_XPATH);
+      if (!value.isEmpty()) {
+        identifierFieldLength = Integer.parseInt(value);
+      } else {
+        throw new Exception("Problems parsing file: " + file + ". XPath "
+            + "expression returned no result: "
+            + InventoryKeys.IDENTIFIER_FIELD_LENGTH_XPATH);
+      }
+      value = extractor.getValueFromDoc(
+          InventoryKeys.CHECKSUM_FIELD_LOCATION_XPATH);
       if (!value.isEmpty()) {
         checksumFieldLocation = Integer.parseInt(value);
+      }
+      value = extractor.getValueFromDoc(
+          InventoryKeys.CHECKSUM_FIELD_LENGTH_XPATH);
+      if (!value.isEmpty()) {
+        checksumFieldLength = Integer.parseInt(value);
       }
     } catch (Exception e) {
       throw new InventoryReaderException(e);
@@ -166,14 +201,14 @@ public class InventoryTableReader implements InventoryReader {
     File file = null;
     String identifier = "";
     String checksum = "";
-    String tokens[] = line.split(",");
-    if (filenameFieldLocation != 0) {
+    if (filenameFieldLocation != 0 && filenameFieldLength != 0) {
       try {
-        file = new File(FilenameUtils.separatorsToSystem(
-            tokens[filenameFieldLocation-1].trim()));
-      } catch (ArrayIndexOutOfBoundsException ae) {
+        file = new File(FilenameUtils.separatorsToSystem(line.substring(
+            filenameFieldLocation - 1,
+            (filenameFieldLocation - 1) + filenameFieldLength).trim()));
+      } catch (IndexOutOfBoundsException ae) {
         InventoryReaderException ir = new InventoryReaderException(
-            new ArrayIndexOutOfBoundsException("Could not parse a value "
+            new IndexOutOfBoundsException("Could not parse a value "
                 + "from the file name specification field in the file: "
                 + dataFile));
         ir.setLineNumber(reader.getLineNumber());
@@ -183,12 +218,23 @@ public class InventoryTableReader implements InventoryReader {
         file = new File(parentDirectory, file.toString());
       }
     }
-    if (identifierFieldLocation != 0) {
-      identifier = tokens[identifierFieldLocation-1].trim();
-    }
-    if (checksumFieldLocation != 0) {
+    if (identifierFieldLocation != 0 && identifierFieldLength != 0) {
       try {
-        checksum = tokens[checksumFieldLocation-1].trim();
+      identifier = line.substring(identifierFieldLocation - 1,
+          (identifierFieldLocation - 1) + identifierFieldLength).trim();
+      } catch (IndexOutOfBoundsException ae) {
+        InventoryReaderException ir = new InventoryReaderException(
+            new IndexOutOfBoundsException("Could not parse a value "
+                + "from the identifier (LID or LIDVID) field in the file: "
+                + dataFile));
+        ir.setLineNumber(reader.getLineNumber());
+        throw ir;
+      }
+    }
+    if (checksumFieldLocation != 0 && checksumFieldLength != 0) {
+      try {
+        checksum = line.substring(checksumFieldLocation - 1,
+            (checksumFieldLocation  - 1) + checksumFieldLength).trim();
       } catch (ArrayIndexOutOfBoundsException ae) {
         //TODO: Can we have some lines with checksums? If so, don't throw exception
         /*
