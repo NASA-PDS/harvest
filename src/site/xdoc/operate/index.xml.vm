@@ -213,7 +213,7 @@
   &lt;/collections&gt;
 
   &lt;directories&gt;
-    &lt;path&gt;/home/dph_examples_513B/dph_example_products&lt;/path&gt;
+    &lt;path&gt;/home/dph_examples/dph_example_products&lt;/path&gt;
     &lt;filePattern&gt;*.xml&lt;/filePattern&gt;
   &lt;/directories&gt;
 
@@ -230,45 +230,68 @@
 
   &lt;candidates&gt;
     &lt;namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01"/&gt;
+
     &lt;productMetadata objectType="Product_Observational"&gt;
-      &lt;xPath&gt;//Identification_Area/information_model_version&lt;/xPath&gt;
-      &lt;xPath&gt;//Identification_Area/Modification_History/\
-      Modification_Detail/modification_date&lt;/xPath&gt;
-      &lt;xPath slotName="modification_version_id"&gt;\
-      //Identification_Area/Modification_History/Modification_Detail/version_id&lt;/xPath&gt;
-      &lt;xPath slotName="modification_description"&gt;\
-      //Identification_Area/Modification_History/Modification_Detail/description&lt;/xPath&gt;
-      &lt;xPath&gt;//Observation_Area/Time_Coordinates/start_date_time&lt;/xPath&gt;
-      &lt;xPath&gt;//Observation_Area/Time_Coordinates/stop_date_time&lt;/xPath&gt;
-      &lt;xPath&gt;//Observation_Area/Time_Coordinates/local_mean_solar_time&lt;/xPath&gt;
-      &lt;xPath&gt;//Observation_Area/Time_Coordinates/local_true_solar_time&lt;/xPath&gt;
-      &lt;xPath slotName="investigation_area_name"&gt;\
-      //Observation_Area/Investigation_Area/name&lt;/xPath&gt;
-      &lt;xPath slotName="investigation_area_type"&gt;\
-      //Observation_Area/Investigation_Area/type&lt;/xPath&gt;
-      &lt;xPath slotName="target_identification_name"&gt;\
-      //Observation_Area/Target_Identification/name&lt;/xPath&gt;
-      &lt;xPath slotName="target_identification_type"&gt;\
-      //Observation_Area/Target_Identification/type&lt;/xPath&gt;
-      &lt;xPath slotName="target_identification_description"&gt;\
-      //Observation_Area/Target_Identification/description&lt;/xPath&gt;
-      &lt;xPath&gt;//Observation_Area/Mission_Area/dph:spacecraft_clock_start_count&lt;/xPath&gt;
-      &lt;xPath&gt;//Observation_Area/Mission_Area/dph:spacecraft_clock_stop_count&lt;/xPath&gt;
+      &lt;xPath slotName="information_model_version"&gt;
+        //Identification_Area/information_model_version
+      &lt;/xPath&gt;
+      &lt;xPath slotName="product_class"&gt;
+        //Identification_Area/product_class
+      &lt;/xPath&gt;
+      &lt;xPath slotName="alternate_id"&gt;
+        //Identification_Area/Alias_List/Alias/alternate_id
+      &lt;/xPath&gt;
+      &lt;xPath slotName="alternate_title"&gt;
+        //Identification_Area/Alias_List/Alias/alternate_title
+      &lt;/xPath&gt;
+      &lt;xPath slotName="modification_date"&gt;
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      &lt;/xPath&gt;
+      &lt;xPath slotName="modification_version_id"&gt;
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      &lt;/xPath&gt;
+      &lt;xPath slotName="modification_description"&gt;
+        //Identification_Area/Modification_History/Modification_Detail/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="spacecraft_clock_start_count"&gt;
+        //Observation_Area/Mission_Area/dph:spacecraft_clock_start_count
+      &lt;/xPath&gt;
+      &lt;xPath slotName="spacecraft_clock_stop_count"&gt;
+        //Observation_Area/Mission_Area/dph:spacecraft_clock_stop_count
+      &lt;/xPath&gt;
     &lt;/productMetadata&gt;
 
     &lt;productMetadata objectType="Product_Document"&gt;
-      &lt;xPath&gt;//Identification_Area/information_model_version&lt;/xPath&gt;
-      &lt;xPath&gt;//Identification_Area/Modification_History/\
-      Modification_Detail/modification_date&lt;/xPath&gt;
-      &lt;xPath slotName="modification_version_id"&gt;\
-      //Identification_Area/Modification_History/Modification_Detail/version_id&lt;/xPath&gt;
-      &lt;xPath slotName="modification_description"&gt;\
-      //Identification_Area/Modification_History/Modification_Detail/description&lt;/xPath&gt;
-      &lt;xPath&gt;//Document_Desc/doi&lt;/xPath&gt;
-      &lt;xPath&gt;//Document_Desc/author_list&lt;/xPath&gt;
-      &lt;xPath&gt;//Document_Desc/acknowledgement_text&lt;/xPath&gt;
-      &lt;xPath slotName="document_description"&gt;//Document_Desc/description&lt;/xPath&gt;
-      &lt;xPath&gt;//Document_Desc/publication_date&lt;/xPath&gt;
+      &lt;xPath slotName="information_model_version"&gt;
+        //Identification_Area/information_model_version
+      &lt;/xPath&gt;
+      &lt;xPath slotName="product_class"&gt;
+        //Identification_Area/product_class
+      &lt;/xPath&gt;
+      &lt;xPath slotName="alternate_id"&gt;
+        //Identification_Area/Alias_List/Alias/alternate_id
+      &lt;/xPath&gt;
+      &lt;xPath slotName="alternate_title"&gt;
+        //Identification_Area/Alias_List/Alias/alternate_title
+      &lt;/xPath&gt;
+      &lt;xPath slotName="modification_date"&gt;
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      &lt;/xPath&gt;
+      &lt;xPath slotName="modification_version_id"&gt;
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      &lt;/xPath&gt;
+      &lt;xPath slotName="modification_description"&gt;
+        //Identification_Area/Modification_History/Modification_Detail/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_revision_id"&gt;//Document_Description/revision_id&lt;/xPath&gt;
+      &lt;xPath slotName="document_name"&gt;//Document_Description/document_name&lt;/xPath&gt;
+      &lt;xPath slotName="document_doi"&gt;//Document_Description/doi&lt;/xPath&gt;
+      &lt;xPath slotName="document_author_list"&gt;//Document_Description/author_list&lt;/xPath&gt;
+      &lt;xPath slotName="document_editor_list"&gt;//Document_Description/editor_list&lt;/xPath&gt;
+      &lt;xPath slotName="document_acknowledgement_text"&gt;//Document_Description/acknowledgement_text&lt;/xPath&gt;
+      &lt;xPath slotName="document_copyright"&gt;//Document_Description/copyright&lt;/xPath&gt;
+      &lt;xPath slotName="document_description"&gt;//Document_Description/description&lt;/xPath&gt;
+      &lt;xPath slotName="document_publication_date"&gt;//Document_Description/publication_date&lt;/xPath&gt;
     &lt;/productMetadata&gt;
   &lt;/candidates&gt;
 &lt;/policy&gt;
@@ -279,7 +302,7 @@
 
        <p><b><i>registryPackage</i></b></p>
 
-       <p>Each time the Harvest Tool runs, it creates a package in the registry to group the product registrations together. Specify this element to give a registry package a name and/or description. The following table describest the elements that are allowed:
+       <p>Each time the Harvest Tool runs, it creates a package in the registry to group the product registrations together. Specify this element to give a registry package a name and/or description. The following table describes the elements that are allowed:
        </p>
 
        <table>
@@ -588,127 +611,86 @@ http://pds.nasa.gov/pds4/context-bundle/bundle.xml
      <source>
 PDS Harvest Tool Log
 
-Version                     Version 1.2.0-dev
-Time                        Wed, May 23 2012 at 11:56:55 AM
+Version                     Version 1.2.0
+Time                        Fri, Jun 08 2012 at 12:22:05 PM
+Severity Level              INFO
 Registry Location           http://localhost:8080/registry
-Registry Package Name       Harvest-Package_20120523115655
-Registration Package GUID   urn:uuid:1920ea31-58c6-461d-8496-cfcc75b1a546
+Registry Package Name       Harvest-Package_20120608122203
+Registration Package GUID   urn:uuid:010e1f84-8b90-47f9-b8ef-ff802019712b
 
-INFO:   XML extractor set to the following default namespace: http://pds.nasa.gov/schema/pds4/pds/v05
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] Begin processing.
-WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-           line 40: No mapping found for reference type 'has_investigation'.
-WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-           line 51: No mapping found for reference type 'has_instrument_host'.
-WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-           line 60: No mapping found for reference type 'has_instrument'.
-WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-           line 70: No mapping found for reference type 'has_target'.
-WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-           line 89: No mapping found for reference type 'has_investigation'.
-WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-           line 93: No mapping found for reference type 'has_instrument_host'.
-WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-           line 97: No mapping found for reference type 'has_instrument'.
-WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-           line 101: No mapping found for reference type 'has_target'.
-WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-           line 105: No mapping found for reference type 'has_node'.
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Setting LIDVID-based association, \
-        'urn:nasa:pds:investigation.PHOENIX::1.0', \
-        under slot name 'has_investigation'.
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Setting LID-based association, \
-        'urn:nasa:pds:instrument_host.PHX', \
-        under slot name 'has_instrument_host'.
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Setting LID-based association, \
-        'urn:nasa:pds:instrument.MECA_AFM__PHX', \
-        under slot name 'has_instrument'.
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Setting LIDVID-based association, \
-        'urn:nasa:pds:target.MARS::1.0', \
-        under slot name 'has_target'.
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Setting LID-based association, \
-        'urn:nasa:pds:investigation.PHOENIX::1.0', \
-        under slot name 'has_investigation'.
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Setting LID-based association, \
-        'urn:nasa:pds:instrument_host.PHX', \
-        under slot name 'has_instrument_host'.
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Setting LID-based association, \
-        'urn:nasa:pds:instrument.MECA_AFM__PHX', \
-        under slot name 'has_instrument'.
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Setting LID-based association, \
-        'urn:nasa:pds:target.MARS', \
-        under slot name 'has_target'.
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Setting LID-based association, \
-        'urn:nasa:pds:node.GEO', \
-        under slot name 'has_node'.
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Created access url: \
-        http://pds.nasa.gov/pds4/dph_examples_513B/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Created access url: \
-        file:///pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml
-SUCCESS:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-           Successfully registered product: \
-           urn:nasa:pds:example.DPH.sampleProducts:exampleProducts:TableCharGrouped.PHX-M-MECA-4-NIRDR-1.0::1.0
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Product has the following GUID: urn:uuid:d274e68b-ff2c-4662-bc97-43dfa1e106fe
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Capturing file information for Product_Table_Character_Grouped.xml
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Capturing file object metadata for fs004sdd_001_4e0111040000a0.tab
-WARNING:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-           Generated checksum '653ac7fc8cdeee51a875689bc47a771a' does not match supplied checksum 'd220dac0d1fe312f3f3b9c824f6ac294' \
-           for file object 'fs004sdd_001_4e0111040000a0.tab'.
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Created access url: \
-        http://pds.nasa.gov/pds4/dph_examples_513B/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Created access url: \
-        file:///pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml
-SUCCESS:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Successfully registered product: \
-        urn:nasa:pds:example.DPH.sampleProducts:exampleProducts:TableCharGrouped.PHX-M-MECA-4-NIRDR-1.0:Product_Table_Character_Grouped.xml::1.0
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Product has the following GUID: urn:uuid:82f27243-568d-49cd-9029-2e95cd6cdd81
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Created access url: \
-        http://pds.nasa.gov/pds4/dph_examples_513B/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/fs004sdd_001_4e0111040000a0.tab
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Created access url: \
-        file:///pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/fs004sdd_001_4e0111040000a0.tab
-SUCCESS:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-           Successfully registered product: \
-           urn:nasa:pds:example.DPH.sampleProducts:exampleProducts:TableCharGrouped.PHX-M-MECA-4-NIRDR-1.0:fs004sdd_001_4e0111040000a0.tab::1.0
-INFO:   [/pds4/dph_examples_513B/dph_example_products/product_table_character_grouped/Product_Table_Character_Grouped.xml] \
-        Product has the following GUID: urn:uuid:fb598b1b-a4c3-4492-b602-666908f943a6
+INFO:   XML extractor set to the following default namespace: http://pds.nasa.gov/pds4/pds/v08
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] Begin processing.
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+line 70: Mapping reference type 'bundle_has_browse_collection' to 'collection_ref'.
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+line 76: Mapping reference type 'bundle_has_context_collection' to 'collection_ref'.
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+line 82: Mapping reference type 'bundle_has_data_collection' to 'collection_ref'.
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+line 88: Mapping reference type 'bundle_has_document_collection' to 'collection_ref'.
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+line 94: Mapping reference type 'bundle_has_schema_collection' to 'collection_ref'.
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Setting LID-based association, 'urn:nasa:pds:example.DPH.sampleArchive:browse', \
+under slot name 'collection_ref'.
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Setting LID-based association, 'urn:nasa:pds:example.DPH.sampleArchive:context', \
+under slot name 'collection_ref'.
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Setting LID-based association, 'urn:nasa:pds:example.DPH.sampleArchive:data', \
+under slot name 'collection_ref'.
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Setting LID-based association, 'urn:nasa:pds:example.DPH.sampleArchive:document', \
+under slot name 'collection_ref'.
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Setting LID-based association, 'urn:nasa:pds:example.DPH.sampleArchive:schema', \
+under slot name 'collection_ref'.
+SUCCESS:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Successfully registered product: urn:nasa:pds:example.DPH.sampleArchive::1.0
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Product has the following GUID: urn:uuid:f78f7bdf-782e-4b81-a6fd-4848bd91f38f
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Capturing file information for Product_Bundle.xml
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Capturing file object metadata for README.TXT
+WARNING:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Generated checksum '5ef7af310b99d8189e670830c954a290' does not match supplied checksum \
+'af2dcac26018a73c50ea6014a0c033d8' for file object 'README.TXT'.
+SUCCESS:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Successfully registered product: urn:nasa:pds:example.DPH.sampleArchive:Product_Bundle.xml::1.0
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Product has the following GUID: urn:uuid:6728ed5e-b260-4fd9-b46d-4c7a1adf7e91
+SUCCESS:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Successfully registered product: urn:nasa:pds:example.DPH.sampleArchive:README.TXT::1.0
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Product has the following GUID: urn:uuid:ddbfbe3e-d74f-472d-bf37-7c265cfda324
 
 ...
 
 Summary:
 
-7 of 7 file(s) processed, 0 other file(s) skipped
-1 error(s), 51 warning(s)
+15 of 17 file(s) processed, 0 other file(s) skipped
+2 error(s), 9 warning(s)
 
-6 of 6 products registered.
-35 of 35 ancillary products registered.
+15 of 15 products registered.
+81 of 81 ancillary products registered.
 
 Product Types Registered:
-1 Product_Document
-5 Product_Observational
-35 Product_File_Repository
+1 Product_Target_PDS3
+2 Product_Document
+1 Product_Instrument_PDS3
+1 Product_Mission_PDS3
+1 Product_Browse
+1 Product_Observational
+2 Product_File_Text
+1 Product_Bundle
+1 Product_Instrument_Host_PDS3
+4 Product_Collection
+81 Product_File_Repository
 
-24 of 29 generated checksums matched their supplied value, 6 generated value(s) not checked.
+60 of 66 generated checksums matched their supplied value, 15 generated value(s) not checked.
 
-35 of 35 associations registered.
+91 of 91 associations registered.
 
 
 End of Log
@@ -722,9 +704,8 @@ End of Log
       <source>
 INFO:   XML extractor set to the following default namespace: \
 http://pds.nasa.gov/schema/pds4/pds
-INFO:   [/pds4/VG2PLS_archive/Product_Archive_Bundle.xml] Begin processing.
-SKIP:   [/pds4/VG2PLS_archive/Product_Archive_Bundle.xml] No product_class \
-element found.
+INFO:   [/pds4/VG2PLS_archive/Product_Bundle.xml] Begin processing.
+SKIP:   [/pds4/VG2PLS_archive/Product_Bundle.xml] No product_class element found.
       </source>
 
       <p>The message above is normally the result of a namespace mismatch between the Harvest Tool configuration and the product labels being registered. See the <a href="#PDS4_Data_Product_Registration">PDS4 Data Product Registration</a> section above for details on specifying the namespace in the configuration file. By the way, the message could be telling the truth where the product label does not contain the &lt;product_class&gt; element. If this is the case, then the file is not a valid PDS product label.
