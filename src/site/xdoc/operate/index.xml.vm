@@ -283,15 +283,33 @@
       &lt;xPath slotName="modification_description"&gt;
         //Identification_Area/Modification_History/Modification_Detail/description
       &lt;/xPath&gt;
-      &lt;xPath slotName="document_revision_id"&gt;//Document_Description/revision_id&lt;/xPath&gt;
-      &lt;xPath slotName="document_name"&gt;//Document_Description/document_name&lt;/xPath&gt;
-      &lt;xPath slotName="document_doi"&gt;//Document_Description/doi&lt;/xPath&gt;
-      &lt;xPath slotName="document_author_list"&gt;//Document_Description/author_list&lt;/xPath&gt;
-      &lt;xPath slotName="document_editor_list"&gt;//Document_Description/editor_list&lt;/xPath&gt;
-      &lt;xPath slotName="document_acknowledgement_text"&gt;//Document_Description/acknowledgement_text&lt;/xPath&gt;
-      &lt;xPath slotName="document_copyright"&gt;//Document_Description/copyright&lt;/xPath&gt;
-      &lt;xPath slotName="document_description"&gt;//Document_Description/description&lt;/xPath&gt;
-      &lt;xPath slotName="document_publication_date"&gt;//Document_Description/publication_date&lt;/xPath&gt;
+      &lt;xPath slotName="document_revision_id"&gt;
+        //Document_Description/revision_id
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_name"&gt;
+        //Document_Description/document_name
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_doi"&gt;
+        //Document_Description/doi
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_author_list"&gt;
+        //Document_Description/author_list
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_editor_list"&gt;
+        //Document_Description/editor_list
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_acknowledgement_text"&gt;
+        //Document_Description/acknowledgement_text
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_copyright"&gt;
+        //Document_Description/copyright
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_description"&gt;
+        //Document_Description/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_publication_date"&gt;
+        //Document_Description/publication_date
+      &lt;/xPath&gt;
     &lt;/productMetadata&gt;
   &lt;/candidates&gt;
 &lt;/policy&gt;
@@ -618,8 +636,10 @@ Registry Location           http://localhost:8080/registry
 Registry Package Name       Harvest-Package_20120608122203
 Registration Package GUID   urn:uuid:010e1f84-8b90-47f9-b8ef-ff802019712b
 
-INFO:   XML extractor set to the following default namespace: http://pds.nasa.gov/pds4/pds/v08
-INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] Begin processing.
+INFO:   XML extractor set to the following default namespace: \
+http://pds.nasa.gov/pds4/pds/v08
+INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
+Begin processing.
 INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
 line 70: Mapping reference type 'bundle_has_browse_collection' to 'collection_ref'.
 INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
@@ -654,14 +674,16 @@ Capturing file information for Product_Bundle.xml
 INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
 Capturing file object metadata for README.TXT
 WARNING:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
-Generated checksum '5ef7af310b99d8189e670830c954a290' does not match supplied checksum \
-'af2dcac26018a73c50ea6014a0c033d8' for file object 'README.TXT'.
+Generated checksum '5ef7af310b99d8189e670830c954a290' does not match supplied \
+checksum 'af2dcac26018a73c50ea6014a0c033d8' for file object 'README.TXT'.
 SUCCESS:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
-Successfully registered product: urn:nasa:pds:example.DPH.sampleArchive:Product_Bundle.xml::1.0
+Successfully registered product: \
+urn:nasa:pds:example.DPH.sampleArchive:Product_Bundle.xml::1.0
 INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
 Product has the following GUID: urn:uuid:6728ed5e-b260-4fd9-b46d-4c7a1adf7e91
 SUCCESS:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
-Successfully registered product: urn:nasa:pds:example.DPH.sampleArchive:README.TXT::1.0
+Successfully registered product: \
+urn:nasa:pds:example.DPH.sampleArchive:README.TXT::1.0
 INFO:   [/Users/shardman/test/pds/2010/collections/VG2PLS/Product_Bundle.xml] \
 Product has the following GUID: urn:uuid:ddbfbe3e-d74f-472d-bf37-7c265cfda324
 
@@ -688,7 +710,8 @@ Product Types Registered:
 4 Product_Collection
 81 Product_File_Repository
 
-60 of 66 generated checksums matched their supplied value, 15 generated value(s) not checked.
+60 of 66 generated checksums matched their supplied value, \
+15 generated value(s) not checked.
 
 91 of 91 associations registered.
 
