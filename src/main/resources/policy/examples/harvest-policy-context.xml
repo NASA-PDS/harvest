@@ -4,9 +4,9 @@
   Harvest Tool Example Policy File
 
   This policy file corresponds with the context collections migrated
-  from the PDS central catalog database. By specifying the collection
-  products below, Harvest relies on the collections correctly specifying
-  the products.
+  from the PDS central catalog database. By specifying the bundle product 
+  below, Harvest traverses the directory structure looking for files 
+  specified in the bundle and collection products.
 
   $Id$
 -->
@@ -21,7 +21,7 @@
     <file>$HOME/context_bundle/Product_Bundle_context.xml</file>
   </bundles>
 
-  <accessUrls registerFileUrs="true">
+  <accessUrls registerFileUrls="true">
     <accessUrl>
       <baseUrl>http://pds.nasa.gov/pds4</baseUrl>
       <offset>$HOME</offset>

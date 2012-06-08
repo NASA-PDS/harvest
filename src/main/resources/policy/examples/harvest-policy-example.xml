@@ -182,7 +182,7 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
-      <xPath slotName="instrument_host_name">//Instrument_Host_PDS3/instrument_host_desc</xPath>
+      <xPath slotName="instrument_host_name">//Instrument_Host_PDS3/instrument_host_name</xPath>
       <xPath slotName="instrument_host_desc">//Instrument_Host_PDS3/instrument_host_desc</xPath>
       <xPath slotName="instrument_host_id">//Instrument_Host_PDS3/instrument_host_id</xPath>
       <xPath slotName="instrument_host_type">//Instrument_Host_PDS3/instrument_host_type</xPath>
@@ -358,6 +358,15 @@
       </xPath>
       <xPath slotName="observing_system_description">
         //Observation_Area/Observing_System/description
+      </xPath>
+      <xPath slotName="observing_system_component_name">
+        //Observation_Area/Observing_System/Observing_System_Component/name
+      </xPath>
+      <xPath slotName="observing_system_component_description">
+        //Observation_Area/Observing_System/Observing_System_Component/description
+      </xPath>
+      <xPath slotName="observing_system_component_type">
+        //Observation_Area/Observing_System/Observing_System_Component/observing_system_component_type
       </xPath>
       <xPath slotName="target_name">
         //Observation_Area/Target_Identification/name

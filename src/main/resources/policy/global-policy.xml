@@ -17,7 +17,7 @@
 
 <policy>
    <candidates>
-     <namespace prefix="pds" uri="http://pds.nasa.gov/schema/pds4/pds/v08" default="true"/>
+     <namespace prefix="pds" uri="http://pds.nasa.gov/pds4/pds/v08" default="true"/>
      <productMetadata objectType="Product_Bundle">
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
@@ -99,6 +99,15 @@
       </xPath>
       <xPath slotName="observing_system_description">
         //Observation_Area/Observing_System/description
+      </xPath>
+      <xPath slotName="observing_system_component_name">
+        //Observation_Area/Observing_System/Observing_System_Component/name
+      </xPath>
+      <xPath slotName="observing_system_component_description">
+        //Observation_Area/Observing_System/Observing_System_Component/description
+      </xPath>
+      <xPath slotName="observing_system_component_type">
+        //Observation_Area/Observing_System/Observing_System_Component/observing_system_component_type
       </xPath>
       <xPath slotName="target_name">
         //Observation_Area/Target_Identification/name
@@ -201,6 +210,15 @@
       </xPath>
       <xPath slotName="observing_system_description">
         //Observation_Area/Observing_System/description
+      </xPath>
+      <xPath slotName="observing_system_component_name">
+        //Observation_Area/Observing_System/Observing_System_Component/name
+      </xPath>
+      <xPath slotName="observing_system_component_description">
+        //Observation_Area/Observing_System/Observing_System_Component/description
+      </xPath>
+      <xPath slotName="observing_system_component_type">
+        //Observation_Area/Observing_System/Observing_System_Component/observing_system_component_type
       </xPath>
       <xPath slotName="target_name">
         //Observation_Area/Target_Identification/name
