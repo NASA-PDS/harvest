@@ -24,11 +24,11 @@
 
   <body>
     <release version="1.2.0" date="2012-06-11" description="This release of the Harvest Tool is a component of the integrated release 2.2.0 of the PDS 2010 System. This is an operational release of the system components to date.">
+      <action dev="mcayanan" type="add" issue="PDS-71">
+        Updated to compare tool generated checksums of Product_File_Repository products to its supplied value in either the inventory or associated product label (if provided).
+      </action>
       <action dev="mcayanan" type="add">
         Added the -v, --verbose flag option to change the severity level of the log messaging. Default is set to Info and above.
-      </action>
-      <action dev="mcayanan" type="update" issue="PDS-71">
-        Updated to compare tool generated checksums of Product_File_Repository products to its supplied value in either the inventory or associated product label (if provided).
       </action>
       <action dev="mcayanan" type="update" issue="PDS-74">
         Updated to be able to provide an offset in the policy config to nix file paths of a registered product for an access url.
@@ -41,9 +41,6 @@
       </action>
       <action dev="mcayanan" type="update">
         Updated the policy config to provide the capability to specify a registry package name and description.
-      </action>
-      <action dev="mcayanan" type="update">
-        Updated to remove the validation functionality.
       </action>
       <action dev="mcayanan" type="update">
         Updated summary section of the tool report based on user feedback.
@@ -62,6 +59,9 @@
       </action>
       <action dev="mcayanan" type="fix">
         Fixed to rely on the field_location and field_length attributes instead of commas to parse an inventory table file.
+      </action>
+      <action dev="mcayanan" type="remove">
+        Updated to remove the validation functionality.
       </action>
       <action dev="shardman" type="remove">
         Removed the Release Notes document. This document now serves as the single source for release changes.
