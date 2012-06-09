@@ -13,7 +13,7 @@
 
 <policy>
   <bundles>
-    <file>$HOME/VG2PLS_archive/Product_Archive_Bundle.xml</file>
+    <file>$HOME/VG2PLS_archive/Product_Bundle.xml</file>
   </bundles>
 
   <candidates>

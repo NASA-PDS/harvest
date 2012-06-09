@@ -23,15 +23,15 @@
   </properties>
 
   <body>
-    <release version="1.2.0" date="TBD" description="This release of the Harvest Tool is a component of the integrated release 2.2.0 of the PDS 2010 System.">
+    <release version="1.2.0" date="2012-06-11" description="This release of the Harvest Tool is a component of the integrated release 2.2.0 of the PDS 2010 System. This is an operational release of the system components to date.">
       <action dev="mcayanan" type="add">
         Added the -v, --verbose flag option to change the severity level of the log messaging. Default is set to Info and above.
       </action>
-      <action dev="mcayanan" type="update">
-        PDS-71: Updated to compare tool generated checksums of Product_File_Repository products to its supplied value in either the inventory or associated product label (if provided).
+      <action dev="mcayanan" type="update" issue="PDS-71">
+        Updated to compare tool generated checksums of Product_File_Repository products to its supplied value in either the inventory or associated product label (if provided).
       </action>
-      <action dev="mcayanan" type="update">
-        PDS-74: Updated to be able to provide an offset in the policy config to nix file paths of a registered product for an access url.
+      <action dev="mcayanan" type="update" issue="PDS-74">
+        Updated to be able to provide an offset in the policy config to nix file paths of a registered product for an access url.
       </action>
       <action dev="mcayanan" type="update">
         Updated to map reference types found in the products to a reference type that will be registered with the product.
@@ -40,7 +40,7 @@
         Updated xpath expressions to support the latest changes in the PDS4 data model.
       </action>
       <action dev="mcayanan" type="update">
-        Updated the policy config to provide the capability to specify a reigstry package name and description.
+        Updated the policy config to provide the capability to specify a registry package name and description.
       </action>
       <action dev="mcayanan" type="update">
         Updated to remove the validation functionality.
@@ -52,20 +52,23 @@
         Updated to print to the log the XML Extrinsic and Association descriptions that will be registered when in debug mode.
       </action>
       <action dev="mcayanan" type="update">
-        Updated slot name that holds data objects specified in a product label from "dataClass" to "data_class"
+        Updated slot name that holds data objects specified in a product label from "dataClass" to "data_class".
       </action>
-      <action dev="mcayanan" type="fix">
-        PDS-63: Fixed to support registration of PDS3 labels containing multiple DATA_SET_ID values.
+      <action dev="mcayanan" type="fix" issue="PDS-63">
+        Fixed to support registration of PDS3 labels containing multiple DATA_SET_ID values.
       </action>
-      <action dev="mcayanan" type="fix">
-        PDS-73: Fixed to support handling of metadata extraction where the desired metadata is found multiple times in a product label.
+      <action dev="mcayanan" type="fix" issue="PDS-73">
+        Fixed to support handling of metadata extraction where the desired metadata is found multiple times in a product label.
       </action>
       <action dev="mcayanan" type="fix">
         Fixed to rely on the field_location and field_length attributes instead of commas to parse an inventory table file.
       </action>
+      <action dev="shardman" type="remove">
+        Removed the Release Notes document. This document now serves as the single source for release changes.
+      </action>
     </release>
 
-    <release version="1.1.0" date="2012-01-31" description="This release of the Harvest Tool is a component of the integrated release 2.1.0 of the PDS 2010 System.">
+    <release version="1.1.0" date="2012-01-31" description="This release of the Harvest Tool is a component of the integrated release 2.1.0 of the PDS 2010 System. This is an operational release of the system components to date.">
       <action dev="mcayanan" type="add">
         Added an attribute called 'slotName' to the 'xPath' element tag in the policy configuration file to allow the capability to specify customized slot names in the registry for registered metadata.
       </action>
@@ -95,13 +98,7 @@
       </action>
     </release>
 
-    <release version="1.0.0" date="2011-11-09" description="This release of the Harvest Tool is a component of the integrated release 2.0.0 of the PDS 2010 System.">
-      <action dev="mcayanan" type="fix">
-        PDS-42: Fixed to look for the directory_path_name attribute when constructing the file specification for the document file.
-      </action>
-      <action dev="mcayanan" type="fix">
-        PDS-49: Fixed HarvestController shell script and batch file to no longer throw a NoClassDefFoundError exception.
-      </action>
+    <release version="1.0.0" date="2011-11-09" description="This release of the Harvest Tool is a component of the integrated release 2.0.0 of the PDS 2010 System. This is an operational release of the system components to date.">
       <action dev="mcayanan" type="add">
         Added support for ingestion to the PDS Storage Service.
       </action>
@@ -117,9 +114,15 @@
       <action dev="mcayanan" type="update">
         Update to support validation of older versions of the PDS4 data model.
       </action>
+      <action dev="mcayanan" type="fix" issue="PDS-42">
+        Fixed to look for the directory_path_name attribute when constructing the file specification for the document file.
+      </action>
+      <action dev="mcayanan" type="fix" issue="PDS-49">
+        Fixed HarvestController shell script and batch file to no longer throw a NoClassDefFoundError exception.
+      </action>
     </release>
 
-    <release version="0.4.0" date="2011-08-29" description="This release of the Harvest Tool is a component of the integrated release 1.2.0 of the PDS 2010 System.">
+    <release version="0.4.0" date="2011-08-29" description="This release of the Harvest Tool is a component of the integrated release 1.2.0 of the PDS 2010 System. This release is intended as a prototype release in support of the assessment of the PDS4 standards and the system components to date.">
       <action dev="mcayanan" type="add">
         Added the capability to register PDS3 data products.
       </action>
@@ -149,10 +152,7 @@
       </action>
     </release>
 
-    <release version="0.3.0" date="2011-03-25" description="This release of the Harvest Tool is a component of the integrated release 1.1.0 of the PDS 2010 System.">
-      <action dev="mcayanan" type="update">
-        PDS-2: Update to make sure that an association does not exist in the registry before attempting to register it.
-      </action>
+    <release version="0.3.0" date="2011-03-25" description="This release of the Harvest Tool is a component of the integrated release 1.1.0 of the PDS 2010 System. This release is intended as a prototype release in support of the assessment of the PDS4 standards and the system components to date.">
       <action dev="mcayanan" type="add">
         Added the capability to perform validation on a product label before being ingested into the registry.
       </action>
@@ -164,6 +164,9 @@
       </action>
       <action dev="mcayanan" type="add">
         Added a slot called 'verified' in the associations to indicate if the target reference exists in the registry at the time the association was registered.
+      </action>
+      <action dev="mcayanan" type="update" issue="PDS-2">
+        Update to make sure that an association does not exist in the registry before attempting to register it.
       </action>
       <action dev="mcayanan" type="update">
         Update to interface with the latest version of the Security Service.
@@ -179,7 +182,7 @@
       </action>
     </release>
 
-    <release version="0.2.0" date="2010-10-31" description="This release of the Registry Service is a component of the integrated release 1.0.0 of the PDS 2010 System.">
+    <release version="0.2.0" date="2010-10-31" description="This release of the Registry Service is a component of the integrated release 1.0.0 of the PDS 2010 System. This release is intended as a prototype release in support of the assessment of the PDS4 standards.">
       <action dev="mcayanan" type="add">
          Added the capability to register and crawl a PDS Bundle file.
       </action>
@@ -209,7 +212,7 @@
       </action>
     </release>
 
-    <release version="0.1.0" date="2010-08-25" description="This release of the Harvest Tool is a component of the integrated release 0.1.0 of the PDS 2010 System.">
+    <release version="0.1.0" date="2010-08-25" description="This release of the Harvest Tool is a component of the integrated release 0.1.0 of the PDS 2010 System. This release is intended as a prototype release in support of the demonstration at the Management Council Face-to-Face meeting in August 2010.">
       <action dev="mcayanan" type="add">
          Added the capability to pass in an XML-based, policy file to the tool to find products and what metadata to register.
       </action>
