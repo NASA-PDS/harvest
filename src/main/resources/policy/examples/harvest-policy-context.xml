@@ -169,9 +169,9 @@
       <xPath slotName="data_set_stop_date_time">//Data_Set_PDS3/stop_date_time</xPath>
       <xPath slotName="data_set_producer_full_name">//Data_Set_PDS3/producer_full_name</xPath>
       <xPath slotName="data_set_citation_text">//Data_Set_PDS3/citation_text</xPath>
-      <xPath slotName="data_set_terse_desc">//Data_Set_PDS3/data_set_terse_desc</xPath>
-      <xPath slotName="data_set_abstract_desc">//Data_Set_PDS3/abstract_desc</xPath>
-      <xPath slotName="data_set_desc">//Data_Set_PDS3/data_set_desc</xPath>
+      <xPath slotName="data_set_terse_description">//Data_Set_PDS3/data_set_terse_desc</xPath>
+      <xPath slotName="data_set_abstract_description">//Data_Set_PDS3/abstract_desc</xPath>
+      <xPath slotName="data_set_description">//Data_Set_PDS3/data_set_desc</xPath>
       <xPath slotName="data_set_confidence_level_note">//Data_Set_PDS3/confidence_level_note</xPath>
       <xPath slotName="data_set_archive_status">//Data_Set_PDS3/archive_status</xPath>
       <xPath slotName="data_set_nssdc_medium_type">//Data_Set_PDS3/NSSDC/medium_type</xPath>
@@ -215,8 +215,8 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
-      <xPath slotName="instrument_host_name">//Instrument_Host_PDS3/instrument_host_desc</xPath>
-      <xPath slotName="instrument_host_desc">//Instrument_Host_PDS3/instrument_host_desc</xPath>
+      <xPath slotName="instrument_host_name">//Instrument_Host_PDS3/instrument_host_name</xPath>
+      <xPath slotName="instrument_host_description">//Instrument_Host_PDS3/instrument_host_desc</xPath>
       <xPath slotName="instrument_host_id">//Instrument_Host_PDS3/instrument_host_id</xPath>
       <xPath slotName="instrument_host_type">//Instrument_Host_PDS3/instrument_host_type</xPath>
     </productMetadata>
@@ -259,7 +259,7 @@
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <xPath slotName="instrument_name">//Instrument_PDS3/instrument_name</xPath>
-      <xPath slotName="instrument_desc">//Instrument_PDS3/instrument_desc</xPath>
+      <xPath slotName="instrument_description">//Instrument_PDS3/instrument_desc</xPath>
       <xPath slotName="instrument_id">//Instrument_PDS3/instrument_id</xPath>
       <xPath slotName="instrument_serial_number">//Instrument_PDS3/instrument_serial_number</xPath>
       <xPath slotName="instrument_type">//Instrument_PDS3/instrument_type</xPath>
@@ -304,7 +304,7 @@
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <xPath slotName="mission_name">//Mission_PDS3/mission_name</xPath>
-      <xPath slotName="mission_desc">//Mission_PDS3/mission_desc</xPath>
+      <xPath slotName="mission_description">//Mission_PDS3/mission_desc</xPath>
       <xPath slotName="mission_objectives_summary">//Mission_PDS3/mission_objectives_summary</xPath>
       <xPath slotName="mission_start_date">//Mission_PDS3/mission_start_date</xPath>
       <xPath slotName="mission_stop_date">//Mission_PDS3/mission_stop_date</xPath>
@@ -571,7 +571,7 @@
       </xPath>
       <xPath slotName="target_name">//Target_PDS3/target_name</xPath>
       <xPath slotName="target_primary_body_name">//Target_PDS3/primary_body_name</xPath>
-      <xPath slotName="target_desc">//Target_PDS3/target_desc</xPath>
+      <xPath slotName="target_description">//Target_PDS3/target_desc</xPath>
       <xPath slotName="target_type">//Target_PDS3/target_type</xPath>
     </productMetadata>
   </candidates>
