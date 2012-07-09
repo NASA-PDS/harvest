@@ -200,7 +200,7 @@
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;policy&gt;
   &lt;registryPackage&gt;
-    &lt;name&gt;Harvest Package Example/&gt;
+    &lt;name&gt;Harvest Package Example&lt;/name&gt;
     &lt;description&gt;This is an example of a Harvest run.&lt;/description&gt;
   &lt;/registryPackage&gt;
 
