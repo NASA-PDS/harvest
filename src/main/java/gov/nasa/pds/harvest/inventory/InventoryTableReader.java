@@ -209,8 +209,10 @@ public class InventoryTableReader implements InventoryReader {
       } catch (IndexOutOfBoundsException ae) {
         InventoryReaderException ir = new InventoryReaderException(
             new IndexOutOfBoundsException("Could not parse a value "
-                + "from the file name specification field in the file: "
-                + dataFile));
+                + "from the file name specification field using "
+                + "field location '" + filenameFieldLocation
+                + "' and field length '" + filenameFieldLength
+                + "' in the file: " + dataFile));
         ir.setLineNumber(reader.getLineNumber());
         throw ir;
       }
@@ -225,8 +227,10 @@ public class InventoryTableReader implements InventoryReader {
       } catch (IndexOutOfBoundsException ae) {
         InventoryReaderException ir = new InventoryReaderException(
             new IndexOutOfBoundsException("Could not parse a value "
-                + "from the identifier (LID or LIDVID) field in the file: "
-                + dataFile));
+                + "from the identifier field using "
+                + "field location '" + identifierFieldLocation
+                + "' and field length '" + identifierFieldLength
+                + "' in the file: " + dataFile));
         ir.setLineNumber(reader.getLineNumber());
         throw ir;
       }
@@ -235,7 +239,7 @@ public class InventoryTableReader implements InventoryReader {
       try {
         checksum = line.substring(checksumFieldLocation - 1,
             (checksumFieldLocation  - 1) + checksumFieldLength).trim();
-      } catch (ArrayIndexOutOfBoundsException ae) {
+      } catch (IndexOutOfBoundsException ae) {
         //TODO: Can we have some lines with checksums? If so, don't throw exception
         /*
         InventoryReaderException ir = new InventoryReaderException(
