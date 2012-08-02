@@ -17,6 +17,7 @@ import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.inventory.InventoryEntry;
+import gov.nasa.pds.harvest.inventory.InventoryReaderException;
 import gov.nasa.pds.harvest.inventory.InventoryTableReader;
 import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
@@ -182,8 +183,13 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
           metadata.addMetadata(Constants.REFERENCES, lidVidEntries);
         }
       }
-    } catch (Exception e) {
-      throw new MetExtractionException(ExceptionUtils.getRootCauseMessage(e));
+    } catch (InventoryReaderException ie) {
+      String message = "";
+      if (ie.getLineNumber() != -1) {
+        message += "line " + ie.getLineNumber() + ": ";
+      }
+      message += ie.getMessage();
+      throw new MetExtractionException(message);
     }
     return metadata;
   }
