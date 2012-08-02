@@ -28,9 +28,9 @@ import java.util.Map;
  */
 public class Constants {
 
-  public static final String BUNDLE = "Bundle";
+  public static final String BUNDLE = "Product_Bundle";
 
-  public static final String COLLECTION = "Collection";
+  public static final String COLLECTION = "Product_Collection";
 
   /** The LID in a product label. */
   public static final String LOGICAL_ID = "logical_identifier";
