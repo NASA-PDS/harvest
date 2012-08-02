@@ -192,7 +192,7 @@ public class InventoryTableReader implements InventoryReader {
       if (line == null) {
         reader.close();
         return null;
-      } else if (line.equals("")) {
+      } else if (line.trim().equals("")) {
         return new InventoryEntry();
       }
     } catch (IOException i) {
