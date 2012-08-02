@@ -227,9 +227,9 @@ public class PDSProductCrawler extends ProductCrawler {
   @Override
   protected Metadata getMetadataForProduct(File product) {
     Pds4MetExtractor metExtractor = null;
-    if (objectType.contains(Constants.BUNDLE)) {
+    if (objectType.equalsIgnoreCase(Constants.BUNDLE)) {
       metExtractor = new BundleMetExtractor(metExtractorConfig);
-    } else if (objectType.contains(Constants.COLLECTION)) {
+    } else if (objectType.equalsIgnoreCase(Constants.COLLECTION)) {
       metExtractor = new CollectionMetExtractor(metExtractorConfig);
     } else {
       metExtractor = new Pds4MetExtractor(metExtractorConfig);
