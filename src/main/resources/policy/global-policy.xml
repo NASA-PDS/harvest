@@ -547,5 +547,10 @@
          has_update
        </modelValue>
      </referenceTypeMap>
+     <referenceTypeMap value="volume_ref">
+       <modelValue>
+         has_volume
+       </modelValue>
+     </referenceTypeMap>
    </references>
 </policy>
