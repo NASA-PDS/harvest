@@ -49,7 +49,7 @@ PRODUCT_ID      = "PSP_001332_2620_RED"
 PRODUCT_VERSION = "1.0"
                 </source>
                 
-                <p>If the policy file specified a LID prefix of <i>URN:NASA:PDS</i>, then the LIDVID of this product would be <i>URN:NASA:PDS:MRO-M-HIRISE-3-RDR-V1.0:PSP_001332_2620_RED::1.0</i>. Now, if for example, the <i>PRODUCT_ID</i> was missing from the label, the tool will use the file name and the LIDVID would become <i>URN:NASA:PDS:MRO-M-HIRISE-3-RDR-V1.0:PDS3LABEL::1.0</i>. 
+                <p>If the policy file specified a LID prefix of <i>urn:nasa:pds</i>, then the LIDVID of this product would be <i>urn:nasa:pds:MRO-M-HIRISE-3-RDR-V1.0:PSP_001332_2620_RED::1.0</i>. Now, if for example, the <i>PRODUCT_ID</i> was missing from the label, the tool will use the file name and the LIDVID would become <i>urn:nasa:pds:MRO-M-HIRISE-3-RDR-V1.0:PDS3LABEL::1.0</i>. 
                 </p>
                 
             </subsection>

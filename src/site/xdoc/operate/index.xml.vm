@@ -514,17 +514,17 @@ http://pds.nasa.gov/pds4/context-bundle/bundle.xml
       'Product_Proxy_PDS3' --&gt;
     &lt;pds3ProductMetadata&gt;
         &lt;!-- Prefix to add to the LID of a PDS3 product registration --&gt;
-        &lt;lidPrefix&gt;URN:JPL:PDS:ENGINEERING&lt;/lidPrefix&gt;
+        &lt;lidPrefix&gt;urn:nasa:pds&lt;/lidPrefix&gt;
         &lt;!-- Associations to register with discovered PDS3 products --&gt;
         &lt;associations&gt;
           &lt;!-- Specify either a LID or LIDVID reference --&gt;
           &lt;association&gt;
-            &lt;referenceType&gt;has_Target&lt;/referenceType&gt;
-            &lt;lidVidReference&gt;URN:NASA:PDS:target.MARS::1.0&lt;/lidVidReference&gt;
+            &lt;referenceType&gt;has_target&lt;/referenceType&gt;
+            &lt;lidVidReference&gt;urn:nasa:pds:target.MARS::1.0&lt;/lidVidReference&gt;
           &lt;/association&gt;
           &lt;association&gt;
-            &lt;referenceType&gt;has_Mission&lt;/referenceType&gt;
-            &lt;lidReference&gt;URN:NASA:PDS:mission.MER&lt;/lidReference&gt;
+            &lt;referenceType&gt;has_mission&lt;/referenceType&gt;
+            &lt;lidReference&gt;urn:nasa:pds:mission.MER&lt;/lidReference&gt;
           &lt;/association&gt;
         &lt;/associations&gt;
         &lt;!-- Register any additional metadata. They will be registered as
@@ -532,8 +532,8 @@ http://pds.nasa.gov/pds4/context-bundle/bundle.xml
           register metadata defined in the identification area of the
           Product_Proxy_PDS3 schema. --&gt;
         &lt;ancillaryMetadata&gt;
-          &lt;elementName&gt;START_DATE_TIME&lt;/elementName&gt;
-          &lt;elementName&gt;STOP_DATE_TIME&lt;/elementName&gt;
+          &lt;elementName&gt;START_TIME&lt;/elementName&gt;
+          &lt;elementName&gt;STOP_TIME&lt;/elementName&gt;
         &lt;/ancillaryMetadata&gt;
         &lt;includePaths&gt;
           &lt;path&gt;/data/pds3/label&lt;/path&gt;
@@ -572,7 +572,7 @@ http://pds.nasa.gov/pds4/context-bundle/bundle.xml
         <tr><td>ancillaryMetadata</td><td>Specify ancillary metadata to ingest into the registry for every discovered PDS3 data product.</td></tr>
       </table>
 
-      <p>In the example above, the logical identifiers of every discovered PDS3 data product will be prefixed with <i>URN:JPL:PDS:ENGINEERING</i>.
+      <p>In the example above, the logical identifiers of every discovered PDS3 data product will be prefixed with <i>urn:nasa:pds</i>.
       </p>
 
       <p><b><i>association</i></b></p>
@@ -590,7 +590,7 @@ http://pds.nasa.gov/pds4/context-bundle/bundle.xml
       <p>Note that <i>lidVidReference</i> and <i>lidReference</i> cannot be used together within the same <i>association</i> tag. Only one can be chosen.
       </p>
 
-      <p>In the example above, each discovered PDS3 product will have two associations: one with a LIDVID of <i>URN:NASA:PDS:target.MARS::1.0</i> and association type of <i>has_Target</i>, and one with a LID of <i>URN:NASA:PDS:mission.MER</i> and association type of <i>has_Mission</i>.
+      <p>In the example above, each discovered PDS3 product will have two references: one with a LIDVID of <i>urn:nasa:pds:target.MARS::1.0</i> and reference type of <i>has_target</i>, and one with a LID of <i>urn:nasa:pds:mission.MER</i> and reference type of <i>has_mission</i>.
       </p>
 
       <p><b><i>ancillaryMetadata</i></b></p>
@@ -603,7 +603,7 @@ http://pds.nasa.gov/pds4/context-bundle/bundle.xml
         <tr><td>elementName</td><td>Specify an element name found in the PDS3 data product label.</td></tr>
       </table>
 
-      <p>In the example above, the values from the following elements will be extracted from a PDS3 product label: <i>START_DATE_TIME</i> and <i>STOP_DATE_TIME</i>. If they are found in the label, they will be registered as slots in the registry, using their element names in lowercase form as the slot names. In this case, <i>start_date_time</i> and <i>stop_date_time</i> will be used as slot names in the registry.
+      <p>In the example above, the values from the following elements will be extracted from a PDS3 product label: <i>START_TIME</i> and <i>STOP_TIME</i>. If they are found in the label, they will be registered as slots in the registry, using their element names in lowercase form as the slot names. In this case, <i>start_date_time</i> and <i>stop_date_time</i> will be used as slot names in the registry.
       </p>
 
       <p><b><i>includePaths</i></b></p>

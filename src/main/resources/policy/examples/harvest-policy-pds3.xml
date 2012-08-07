@@ -12,28 +12,26 @@
 -->
 
 <policy>
-  <!-- Specify a single directory containing the PDS3 data products to
-    register -->
+  <!-- Specify a single directory containing the PDS3 data products to register. -->
   <pds3Directory>
     <path>$HOME/pds3</path>
     <filePattern>*.LBL</filePattern>
   </pds3Directory>
   <candidates>
-    <!-- Harvest will register PDS3 data products under the objectType
-      'Product_Proxy_PDS3' -->
+    <!-- Harvest will register PDS3 data products under the objectType 'Product_Proxy_PDS3'. -->
     <pds3ProductMetadata>
-        <!-- Prefix to add to the LID of a PDS3 product registration -->
-        <lidPrefix>URN:JPL:PDS:ENGINEERING</lidPrefix>
-        <!-- Associations to register with discovered PDS3 products -->
+        <!-- Prefix to add to the LID of a PDS3 product registration. -->
+        <lidPrefix>urn:nasa:pds</lidPrefix>
+        <!-- Associations to register with discovered PDS3 products. -->
         <associations>
-          <!-- Specify either a LID or LIDVID reference -->
+          <!-- Specify either a LID or LIDVID reference. -->
           <association>
             <referenceType>has_target</referenceType>
-            <lidVidReference>URN:NASA:PDS:target.MARS::1.0</lidVidReference>
+            <lidVidReference>urn:nasa:pds:target:MARS::1.0</lidVidReference>
           </association>
           <association>
             <referenceType>has_mission</referenceType>
-            <lidReference>URN:NASA:PDS:mission.MER</lidReference>
+            <lidReference>urn:nasa:pds:mission.MER</lidReference>
           </association>
         </associations>
         <!-- Register any additional metadata. They will be registered as
@@ -41,8 +39,8 @@
           register metadata defined in the identification area of the
           Product_Proxy_PDS3 schema. -->
         <ancillaryMetadata>
-          <elementName>START_DATE_TIME</elementName>
-          <elementName>STOP_DATE_TIME</elementName>
+          <elementName>START_TIME</elementName>
+          <elementName>STOP_TIME</elementName>
         </ancillaryMetadata>
     </pds3ProductMetadata>
   </candidates>
