@@ -128,6 +128,9 @@
       <xPath slotName="target_description">
         //Observation_Area/Target_Identification/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
     </productMetadata>
   </candidates>
 </policy>

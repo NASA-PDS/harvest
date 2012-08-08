@@ -61,6 +61,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Observational">
@@ -166,6 +169,9 @@
       <xPath slotName="target_description">
         //Observation_Area/Target_Identification/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Thumbnail">
@@ -204,6 +210,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
     </productMetadata>
   </candidates>

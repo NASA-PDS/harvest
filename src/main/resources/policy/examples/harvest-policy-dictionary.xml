@@ -55,6 +55,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
       <xPath slotName="attribute_name">
         //DD_Attribute_Full/name
       </xPath>

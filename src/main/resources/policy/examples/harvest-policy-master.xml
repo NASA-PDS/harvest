@@ -11,102 +11,6 @@
 
 <policy>
   <candidates>
-     <productMetadata objectType="Collection_Volume_PDS3">
-      <xPath slotName="information_model_version">
-        //Identification_Area/information_model_version
-      </xPath>
-      <xPath slotName="product_class">
-        //Identification_Area/product_class
-      </xPath>
-      <xPath slotName="alternate_id">
-        //Identification_Area/Alias_List/Alias/alternate_id
-      </xPath>
-      <xPath slotName="alternate_title">
-        //Identification_Area/Alias_List/Alias/alternate_title
-      </xPath>
-      <xPath slotName="citation_author_list">
-        //Identification_Area/Citation_Information/author_list
-      </xPath>
-      <xPath slotName="citation_editor_list">
-        //Identification_Area/Citation_Information/editor_list
-      </xPath>
-      <xPath slotName="citation_publication_year">
-        //Identification_Area/Citation_Information/publication_year
-      </xPath>
-      <xPath slotName="citation_keywords">
-        //Identification_Area/Citation_Information/keywords
-      </xPath>
-      <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/description
-      </xPath>
-      <xPath slotName="modification_date">
-        //Identification_Area/Modification_History/Modification_Detail/modification_date
-      </xPath>
-      <xPath slotName="modification_version_id">
-        //Identification_Area/Modification_History/Modification_Detail/version_id
-      </xPath>
-      <xPath slotName="modification_description">
-        //Identification_Area/Modification_History/Modification_Detail/description
-      </xPath>
-      <xPath slotName="volume_archive_status">//Volume_PDS3/archive_status</xPath>
-      <xPath slotName="volume_description">//Volume_PDS3/description</xPath>
-      <xPath slotName="volume_archive_status_note">//Volume_PDS3/archive_status_note</xPath>
-      <xPath slotName="volume_curating_node_id">//Volume_PDS3/curating_node_id</xPath>
-      <xPath slotName="volume_medium_type">//Volume_PDS3/medium_type</xPath>
-      <xPath slotName="volume_publication_date">//Volume_PDS3/publication_date</xPath>
-      <xPath slotName="volume_de_fullname">//Volume_PDS3/volume_de_fullname</xPath>
-      <xPath slotName="volume_format">//Volume_PDS3/volume_format</xPath>
-      <xPath slotName="volume_id">//Volume_PDS3/volume_id</xPath>
-      <xPath slotName="volume_name">//Volume_PDS3/volume_name</xPath>
-      <xPath slotName="volume_set_id">//Volume_PDS3/volume_set_id</xPath>
-      <xPath slotName="volume_size">//Volume_PDS3/volume_size</xPath>
-      <xPath slotName="volume_version_id">//Volume_PDS3/volume_version_id</xPath>
-     </productMetadata>
-
-     <productMetadata objectType="Collection_Volume_Set_PDS3">
-      <xPath slotName="information_model_version">
-        //Identification_Area/information_model_version
-      </xPath>
-      <xPath slotName="product_class">
-        //Identification_Area/product_class
-      </xPath>
-      <xPath slotName="alternate_id">
-        //Identification_Area/Alias_List/Alias/alternate_id
-      </xPath>
-      <xPath slotName="alternate_title">
-        //Identification_Area/Alias_List/Alias/alternate_title
-      </xPath>
-      <xPath slotName="citation_author_list">
-        //Identification_Area/Citation_Information/author_list
-      </xPath>
-      <xPath slotName="citation_editor_list">
-        //Identification_Area/Citation_Information/editor_list
-      </xPath>
-      <xPath slotName="citation_publication_year">
-        //Identification_Area/Citation_Information/publication_year
-      </xPath>
-      <xPath slotName="citation_keywords">
-        //Identification_Area/Citation_Information/keywords
-      </xPath>
-      <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/description
-      </xPath>
-      <xPath slotName="modification_date">
-        //Identification_Area/Modification_History/Modification_Detail/modification_date
-      </xPath>
-      <xPath slotName="modification_version_id">
-        //Identification_Area/Modification_History/Modification_Detail/version_id
-      </xPath>
-      <xPath slotName="modification_description">
-        //Identification_Area/Modification_History/Modification_Detail/description
-      </xPath>
-      <xPath slotName="volume_set_description">//Volume_Set_PDS3/description</xPath>
-      <xPath slotName="volume_set_series_name">//Volume_Set_PDS3/volume_series_name</xPath>
-      <xPath slotName="volume_set_id">//Volume_Set_PDS3/volume_set_id</xPath>
-      <xPath slotName="volume_set_name">//Volume_Set_PDS3/volume_set_name</xPath>
-      <xPath slotName="volume_set_volumes">//Volume_Set_PDS3/volumes</xPath>
-     </productMetadata>
-
     <productMetadata objectType="Product_Attribute_Definition">
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
@@ -143,6 +47,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="attribute_name">
         //DD_Attribute_Full/name
@@ -279,6 +186,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Data_Set_PDS3">
@@ -317,6 +227,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="data_set_id">//Data_Set_PDS3/data_set_id</xPath>
       <xPath slotName="data_set_name">//Data_Set_PDS3/data_set_name</xPath>
@@ -371,6 +284,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
       <xPath slotName="document_revision_id">//Document_Description/revision_id</xPath>
       <xPath slotName="document_name">//Document_Description/document_name</xPath>
       <xPath slotName="document_doi">//Document_Description/doi</xPath>
@@ -419,6 +335,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
       <xPath slotName="instrument_name">//Instrument/name</xPath>
       <xPath slotName="instrument_version_id">//Instrument/version_id</xPath>
       <xPath slotName="instrument_type">//Instrument/type</xPath>
@@ -463,6 +382,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="instrument_host_name">//Instrument/name</xPath>
       <xPath slotName="instrument_host_version_id">//Instrument/version_id</xPath>
@@ -509,6 +431,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
       <xPath slotName="instrument_host_name">//Instrument_Host_PDS3/instrument_host_name</xPath>
       <xPath slotName="instrument_host_description">//Instrument_Host_PDS3/instrument_host_desc</xPath>
       <xPath slotName="instrument_host_id">//Instrument_Host_PDS3/instrument_host_id</xPath>
@@ -551,6 +476,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="instrument_name">//Instrument_PDS3/instrument_name</xPath>
       <xPath slotName="instrument_description">//Instrument_PDS3/instrument_desc</xPath>
@@ -597,6 +525,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
       <xPath slotName="investigation_name">//Investigation/name</xPath>
       <xPath slotName="investigation_type">//Investigation/type</xPath>
       <xPath slotName="investigation_description">//Investigation/description</xPath>
@@ -641,6 +572,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
       <xPath slotName="mission_name">//Mission_PDS3/mission_name</xPath>
       <xPath slotName="mission_description">//Mission_PDS3/mission_desc</xPath>
       <xPath slotName="mission_objectives_summary">//Mission_PDS3/mission_objectives_summary</xPath>
@@ -684,6 +618,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="node_name">//Node/name</xPath>
       <xPath slotName="node_description">//Node/description</xPath>
@@ -793,6 +730,9 @@
       <xPath slotName="target_description">
         //Observation_Area/Target_Identification/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_PDS_Affiliate">
@@ -831,6 +771,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="person_name">//PDS_Affiliate/name</xPath>
       <xPath slotName="person_node_name">//PDS_Affiliate/node_name</xPath>
@@ -883,6 +826,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
       <xPath slotName="person_name">//PDS_Guest/name</xPath>
       <xPath slotName="person_registration_date">//PDS_Guest/registration_date</xPath>
       <xPath slotName="person_electronic_mail_address">//PDS_Guest/electronic_mail_address</xPath>
@@ -927,6 +873,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Resource">
@@ -965,6 +914,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="resource_name">//Resource/name</xPath>
       <xPath slotName="resource_type">//Resource/type</xPath>
@@ -1009,6 +961,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Software">
@@ -1047,6 +1002,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="software_desc_author_list">//Software_Desc/author_list</xPath>
     </productMetadata>
@@ -1087,6 +1045,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="subscriber_full_name">//Subscriber_PDS3/full_name</xPath>
       <xPath slotName="subscriber_local_identifier">//Subscriber_PDS3/local_identifier</xPath>
@@ -1130,6 +1091,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
       <xPath slotName="target_name">//Target/name</xPath>
       <xPath slotName="target_type">//Target/type</xPath>
       <xPath slotName="target_description">//Target/description</xPath>
@@ -1171,6 +1135,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="target_name">//Target_PDS3/target_name</xPath>
       <xPath slotName="target_primary_body_name">//Target_PDS3/primary_body_name</xPath>
@@ -1215,6 +1182,111 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
+    </productMetadata>
+
+    <productMetadata objectType="Product_Volume_PDS3">
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
+      <xPath slotName="volume_archive_status">//Volume_PDS3/archive_status</xPath>
+      <xPath slotName="volume_description">//Volume_PDS3/description</xPath>
+      <xPath slotName="volume_archive_status_note">//Volume_PDS3/archive_status_note</xPath>
+      <xPath slotName="volume_curating_node_id">//Volume_PDS3/curating_node_id</xPath>
+      <xPath slotName="volume_medium_type">//Volume_PDS3/medium_type</xPath>
+      <xPath slotName="volume_publication_date">//Volume_PDS3/publication_date</xPath>
+      <xPath slotName="volume_de_fullname">//Volume_PDS3/volume_de_fullname</xPath>
+      <xPath slotName="volume_format">//Volume_PDS3/volume_format</xPath>
+      <xPath slotName="volume_id">//Volume_PDS3/volume_id</xPath>
+      <xPath slotName="volume_name">//Volume_PDS3/volume_name</xPath>
+      <xPath slotName="volume_set_id">//Volume_PDS3/volume_set_id</xPath>
+      <xPath slotName="volume_size">//Volume_PDS3/volume_size</xPath>
+      <xPath slotName="volume_version_id">//Volume_PDS3/volume_version_id</xPath>
+    </productMetadata>
+
+    <productMetadata objectType="Product_Volume_Set_PDS3">
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keywords">
+        //Identification_Area/Citation_Information/keywords
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
+      <xPath slotName="volume_set_description">//Volume_Set_PDS3/description</xPath>
+      <xPath slotName="volume_set_series_name">//Volume_Set_PDS3/volume_series_name</xPath>
+      <xPath slotName="volume_set_id">//Volume_Set_PDS3/volume_set_id</xPath>
+      <xPath slotName="volume_set_name">//Volume_Set_PDS3/volume_set_name</xPath>
+      <xPath slotName="volume_set_volumes">//Volume_Set_PDS3/volumes</xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_XML_Schema">
@@ -1253,6 +1325,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
     </productMetadata>
   </candidates>

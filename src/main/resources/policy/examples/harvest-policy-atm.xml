@@ -61,6 +61,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
       <xPath slotName="document_revision_id">//Document_Description/revision_id</xPath>
       <xPath slotName="document_name">//Document_Description/document_name</xPath>
       <xPath slotName="document_doi">//Document_Description/doi</xPath>
@@ -109,6 +112,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
       <xPath slotName="instrument_name">//Instrument/name</xPath>
       <xPath slotName="instrument_version_id">//Instrument/version_id</xPath>
       <xPath slotName="instrument_type">//Instrument/type</xPath>
@@ -154,6 +160,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
       <xPath slotName="instrument_host_name">//Instrument/name</xPath>
       <xPath slotName="instrument_host_version_id">//Instrument/version_id</xPath>
       <xPath slotName="instrument_host_type">//Instrument/type</xPath>
@@ -198,6 +207,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="investigation_name">//Investigation/name</xPath>
       <xPath slotName="investigation_type">//Investigation/type</xPath>
@@ -308,6 +320,9 @@
       </xPath>
       <xPath slotName="target_description">
         //Observation_Area/Target_Identification/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
     </productMetadata>
   </candidates>

@@ -56,6 +56,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Document">
@@ -94,6 +97,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="document_revision_id">//Document_Description/revision_id</xPath>
       <xPath slotName="document_name">//Document_Description/document_name</xPath>
@@ -143,6 +149,9 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Instrument_Host_PDS3">
@@ -181,6 +190,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="instrument_host_name">//Instrument_Host_PDS3/instrument_host_name</xPath>
       <xPath slotName="instrument_host_description">//Instrument_Host_PDS3/instrument_host_desc</xPath>
@@ -224,6 +236,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="instrument_name">//Instrument_PDS3/instrument_name</xPath>
       <xPath slotName="instrument_description">//Instrument_PDS3/instrument_desc</xPath>
@@ -269,6 +284,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="mission_name">//Mission_PDS3/mission_name</xPath>
       <xPath slotName="mission_description">//Mission_PDS3/mission_desc</xPath>
@@ -386,6 +404,9 @@
       <xPath slotName="spacecraft_clock_stop_count">
         //Observation_Area/Mission_Area/dph:spacecraft_clock_stop_count
       </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Target_PDS3">
@@ -424,6 +445,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
       <xPath slotName="target_name">//Target_PDS3/target_name</xPath>
       <xPath slotName="target_primary_body_name">//Target_PDS3/primary_body_name</xPath>
@@ -467,6 +491,9 @@
       </xPath>
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
       </xPath>
     </productMetadata>
   </candidates>
