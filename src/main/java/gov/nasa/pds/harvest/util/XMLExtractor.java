@@ -184,7 +184,7 @@ public class XMLExtractor {
      *
      * @param expression An XPath expression.
      *
-     * @return The resulting values or null if nothing was found.
+     * @return The resulting values or an empty list if nothing was found.
      *
      * @throws XPathExpressionException If the given expression was malformed.
      */
@@ -200,7 +200,7 @@ public class XMLExtractor {
      * @param item The starting point from which to evaluate the
      * XPath expression.
      *
-     * @return The resulting values or null if nothing was found.
+     * @return The resulting values or an empty list if nothing was found.
      *
      * @throws XPathExpressionException If the given expression was malformed.
      */

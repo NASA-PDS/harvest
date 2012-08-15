@@ -176,8 +176,10 @@ public class Pds4MetExtractor implements MetExtractor {
         } else {
           name = node.getDisplayName();
         }
-        metadata.addMetadata(name, extractor.getValuesFromDoc(
-            xpath.getValue()));
+        List<String> values = extractor.getValuesFromDoc(xpath.getValue());
+        if (values != null && (!values.isEmpty())) {
+          metadata.addMetadata(name, values);
+        }
       } catch (Exception xe) {
         throw new MetExtractionException("Bad XPath Expression: "
             + xpath.getValue());
