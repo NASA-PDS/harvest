@@ -234,9 +234,9 @@ public class Pds3MetExtractor implements MetExtractor {
     String conformingLid = lid.replaceAll(Constants.URN_ILLEGAL_CHARACTERS, "-");
     if (!conformingLid.equals(lid)) {
       log.log(new ToolsLogRecord(ToolsLevel.WARNING, "Element values used "
-          + "in creating the logical identifier contain URI reserved "
-          + "characters. Replacing with '-' characters: " + conformingLid,
-          product));
+          + "in creating the logical identifier contain URN reserved "
+          + "and/or excluded characters. Replacing with '-' characters: "
+          + conformingLid, product));
     }
     return conformingLid;
   }
