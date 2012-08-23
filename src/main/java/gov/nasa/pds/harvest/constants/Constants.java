@@ -146,4 +146,6 @@ public class Constants {
     /** A list of checksums supplied by an inventory and/or bundle file. */
     public static Map<File, String> suppliedChecksums =
       new HashMap<File, String>();
+
+    public static final String URN_ILLEGAL_CHARACTERS = "[%/\\\\?#\"&<>\\[\\]^`\\{\\|\\}~]";
 }

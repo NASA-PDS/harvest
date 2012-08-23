@@ -14,34 +14,40 @@
 <policy>
   <!-- Specify a single directory containing the PDS3 data products to register. -->
   <pds3Directory>
-    <path>$HOME/pds3</path>
+    <path>/Users/mcayanan/pds3</path>
     <filePattern>*.LBL</filePattern>
   </pds3Directory>
   <candidates>
     <!-- Harvest will register PDS3 data products under the objectType 'Product_Proxy_PDS3'. -->
     <pds3ProductMetadata>
-        <!-- Prefix to add to the LID of a PDS3 product registration. -->
-        <lidPrefix>urn:nasa:pds</lidPrefix>
-        <!-- Associations to register with discovered PDS3 products. -->
-        <associations>
-          <!-- Specify either a LID or LIDVID reference. -->
-          <association>
-            <referenceType>has_target</referenceType>
-            <lidVidReference>urn:nasa:pds:target:MARS::1.0</lidVidReference>
-          </association>
-          <association>
-            <referenceType>has_mission</referenceType>
-            <lidReference>urn:nasa:pds:mission.MER</lidReference>
-          </association>
-        </associations>
-        <!-- Register any additional metadata. They will be registered as
-          slots with their element names in lowercase form. Default is to
+      <!-- Tells Harvest what element values to use to create the LID. -->
+      <lidContents prefix="urn:nasa:jpl">
+        <elementName>DATA_SET_ID</elementName>
+        <elementName>INSTRUMENT_ID</elementName>
+        <elementName>PRODUCT_ID</elementName>
+      </lidContents>
+      <staticMetadata>
+        <slot name="information_model_version">
+          <value>0.8.0.0.k</value>
+        </slot>
+        <slot name="target_ref">
+          <value>urn:nasa:pds:target:MARS::1.0</value>
+        </slot>
+        <slot name="mission_ref">
+          <value>urn:nasa:pds:mission.MER</value>
+        </slot>
+      </staticMetadata>
+        <!-- Register any additional metadata. Default is to
           register metadata defined in the identification area of the
           Product_Proxy_PDS3 schema. -->
-        <ancillaryMetadata>
-          <elementName>START_TIME</elementName>
-          <elementName>STOP_TIME</elementName>
-        </ancillaryMetadata>
+      <ancillaryMetadata>
+        <elementName slotName="start_time">
+          START_TIME
+        </elementName>
+        <elementName slotName="stop_time">
+          STOP_TIME
+        </elementName>
+      </ancillaryMetadata>
     </pds3ProductMetadata>
   </candidates>
 </policy>

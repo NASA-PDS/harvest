@@ -22,11 +22,6 @@
 <xsd:element name="path" type="xsd:string"/>
 <xsd:element name="file" type="xsd:string"/>
 <xsd:element name="filePattern" type="xsd:string"/>
-<xsd:element name="lidPrefix" type="xsd:string"/>
-<xsd:element name="lidReference" type="xsd:string"/>
-<xsd:element name="lidVidReference" type="xsd:string"/>
-<xsd:element name="referenceType" type="xsd:string"/>
-<xsd:element name="elementName" type="xsd:string"/>
 <xsd:element name="baseUrl" type="xsd:string"/>
 <xsd:element name="offset" type="xsd:string"/>
 <xsd:element name="serverUrl" type="xsd:string"/>
@@ -34,14 +29,41 @@
 <xsd:element name="modelValue" type="xsd:string"/>
 <xsd:element name="name" type="xsd:string"/>
 <xsd:element name="description" type="xsd:string"/>
+<xsd:element name="value" type="xsd:string"/>
 
 <xsd:attribute name="objectType" type="xsd:string"/>
 <xsd:attribute name="prefix" type="xsd:string"/>
 <xsd:attribute name="uri" type="xsd:string"/>
 <xsd:attribute name="default" type="xsd:boolean" default="false"/>
 <xsd:attribute name="registerFileUrls" type="xsd:boolean" default="false"/>
+<xsd:attribute name="appendFilename" type="xsd:boolean" default="false"/>
 <xsd:attribute name="slotName" type="xsd:string"/>
 <xsd:attribute name="value" type="xsd:string"/>
+<xsd:attribute name="name" type="xsd:string"/>
+
+<xsd:element name="elementName" type="ElementName"/>
+<xsd:complexType name="ElementName">
+   <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+         <xsd:attribute ref="slotName"/>
+      </xsd:extension>
+   </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:element name="slot" type="Slot"/>
+<xsd:complexType name="Slot">
+  <xsd:sequence>
+    <xsd:element ref="value" maxOccurs="unbounded"/>
+  </xsd:sequence>
+  <xsd:attribute ref="name" use="required"/>
+</xsd:complexType>
+
+<xsd:element name="staticMetadata" type="StaticMetadata"/>
+<xsd:complexType name="StaticMetadata">
+  <xsd:sequence>
+    <xsd:element ref="slot" maxOccurs="unbounded"/>
+  </xsd:sequence>
+</xsd:complexType>
 
 <xsd:element name="registryPackage" type="RegistryPackage"/>
 <xsd:complexType name="RegistryPackage">
@@ -97,11 +119,20 @@
    <xsd:attribute ref="objectType" use="required"/>
 </xsd:complexType>
 
+<xsd:element name="lidContents" type="LidContents"/>
+<xsd:complexType name="LidContents">
+  <xsd:sequence>
+     <xsd:element ref="elementName" minOccurs="0" maxOccurs="unbounded"/>
+  </xsd:sequence>
+  <xsd:attribute ref="prefix" use="required"/>
+  <xsd:attribute ref="appendFilename"/>
+</xsd:complexType>
+
 <xsd:element name="pds3ProductMetadata" type="Pds3ProductMetadata"/>
 <xsd:complexType name="Pds3ProductMetadata">
    <xsd:all>
-      <xsd:element ref="lidPrefix" minOccurs="0"/>
-      <xsd:element ref="associations" minOccurs="0"/>
+      <xsd:element ref="lidContents"/>
+      <xsd:element ref="staticMetadata" minOccurs="0"/>
       <xsd:element ref="ancillaryMetadata" minOccurs="0"/>
       <xsd:element ref="includePaths" minOccurs="0"/>
    </xsd:all>
@@ -131,28 +162,10 @@
    <xsd:attribute ref="value" use="required"/>
 </xsd:complexType>
 
-<xsd:element name="associations" type="Associations"/>
-<xsd:complexType name="Associations">
-   <xsd:sequence>
-      <xsd:element ref="association" minOccurs="0" maxOccurs="unbounded"/>
-   </xsd:sequence>
-</xsd:complexType>
-
 <xsd:element name="references" type="References"/>
 <xsd:complexType name="References">
    <xsd:sequence>
       <xsd:element ref="referenceTypeMap" maxOccurs="unbounded"/>
-   </xsd:sequence>
-</xsd:complexType>
-
-<xsd:element name="association" type="Association"/>
-<xsd:complexType name="Association">
-   <xsd:sequence>
-      <xsd:element ref="referenceType"/>
-      <xsd:choice>
-         <xsd:element ref="lidVidReference"/>
-         <xsd:element ref="lidReference"/>
-      </xsd:choice>
    </xsd:sequence>
 </xsd:complexType>
 

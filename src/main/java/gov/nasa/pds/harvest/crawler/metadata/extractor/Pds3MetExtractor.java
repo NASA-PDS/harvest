@@ -19,10 +19,11 @@ import gov.nasa.jpl.oodt.cas.metadata.MetExtractorConfig;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.constants.Constants;
-import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
-import gov.nasa.pds.harvest.policy.Association;
+import gov.nasa.pds.harvest.policy.ElementName;
+import gov.nasa.pds.harvest.policy.LidContents;
+import gov.nasa.pds.harvest.policy.Slot;
 import gov.nasa.pds.tools.LabelParserException;
 import gov.nasa.pds.tools.label.AttributeStatement;
 import gov.nasa.pds.tools.label.Label;
@@ -105,42 +106,8 @@ public class Pds3MetExtractor implements MetExtractor {
       }
     }
     metadata.addMetadata(Constants.OBJECT_TYPE, "Product_Proxy_PDS3");
-    String dataSetId = "";
-    String productId = "";
-    try {
-      Value value = label.getAttribute("DATA_SET_ID").getValue();
-      if (value instanceof Sequence || value instanceof Set) {
-        Collection collection = (Collection) value;
-        dataSetId = collection.iterator().next().toString();
-      } else {
-        dataSetId = label.getAttribute("DATA_SET_ID").getValue().toString();
-      }
-    } catch (NullPointerException n) {
-      log.log(new ToolsLogRecord(ToolsLevel.WARNING, "DATA_SET_ID not found.",
-          product));
-    }
-    try {
-      productId = label.getAttribute("PRODUCT_ID").getValue().toString();
-    } catch (NullPointerException n) {
-      log.log(new ToolsLogRecord(ToolsLevel.WARNING, "PRODUCT_ID not found. "
-          + "Using file name to create the logical identifier.", product));
-      productId = FilenameUtils.getBaseName(product.toString());
-    }
-    if (dataSetId.isEmpty() && productId.isEmpty()) {
-      throw new MetExtractionException("Could not create a logical " +
-          "identifier due to missing DATA_SET_ID and PRODUCT_ID from the label.");
-    }
-    //ATMOS example used INSTRUMENT_ID/INSTRUMENT_NAME in LID
-    //Should we do the same?
-    String lid = "";
-    if (config.getLidPrefix() != null) {
-      lid += config.getLidPrefix() + ":" + dataSetId + ":" + productId;
-    } else {
-      lid += dataSetId + ":" + productId;
-    }
-    //Product ID or Product Version values may have slash characters
-    //Replace it with a dash character
-    lid = lid.replaceAll("(/|\\\\)", "-");
+
+    String lid = createLid(product, label, config.getLidContents());
     metadata.addMetadata(Constants.LOGICAL_ID, lid);
     //Get the value of PRODUCT_VERSION or default to 1.0
     try {
@@ -168,40 +135,27 @@ public class Pds3MetExtractor implements MetExtractor {
     }
     metadata.addMetadata(Constants.TITLE, title);
 
-    List<ReferenceEntry> references = getReferences(config.getAssociations(),
-        product);
-    if (!references.isEmpty()) {
-      // Register LID-based and LIDVID-based associations as slots
-      for (ReferenceEntry entry : references) {
-        if (!entry.hasVersion()) {
-          metadata.addMetadata(entry.getType(),
-              entry.getLogicalID());
-          log.log(new ToolsLogRecord(ToolsLevel.INFO, "Setting "
-              + "LID-based association, \'" + entry.getLogicalID()
-              + "\', under slot name \'" + entry.getType()
-              + "\'.", product));
-        } else {
-          String lidvid = entry.getLogicalID() + "::" + entry.getVersion();
-          metadata.addMetadata(entry.getType(), lidvid);
-          log.log(new ToolsLogRecord(ToolsLevel.INFO, "Setting "
-              + "LIDVID-based association, \'" + lidvid
-              + "\', under slot name \'" + entry.getType()
-              + "\'.", product));
-        }
-      }
-    } else {
-      log.log(new ToolsLogRecord(ToolsLevel.INFO,
-          "No associations found.", product));
-    }
     // Capture the include paths for file object processing.
     metadata.addMetadata(Constants.INCLUDE_PATHS, config.getIncludePaths());
 
+    // Register any static metadata that is specified in the policy config
+    if (!config.getStaticMetadata().isEmpty()) {
+      for (Slot slot : config.getStaticMetadata()) {
+        metadata.addMetadata(slot.getName(), slot.getValue());
+      }
+    }
+
     // Register additional metadata (if specified)
     if (!config.getAncillaryMetadata().isEmpty()) {
-      for (String element : config.getAncillaryMetadata()) {
+      for (ElementName element : config.getAncillaryMetadata()) {
         try {
-          metadata.addMetadata(element.toLowerCase(),
-              label.getAttribute(element).getValue().toString());
+          String value = label.getAttribute(element.getValue().trim())
+          .getValue().toString();
+          if (element.getSlotName() != null) {
+            metadata.addMetadata(element.getSlotName(), value);
+          } else {
+            metadata.addMetadata(element.getValue().toLowerCase(), value);
+          }
         } catch (NullPointerException n) {
           // Ignore. Element was not found in the label.
         }
@@ -210,29 +164,81 @@ public class Pds3MetExtractor implements MetExtractor {
     return metadata;
   }
 
-  private List<ReferenceEntry> getReferences(List<Association> associations,
-      File product) {
-    List<ReferenceEntry> references = new ArrayList<ReferenceEntry>();
-    for(Association association : associations) {
-      ReferenceEntry entry = new ReferenceEntry();
-      String lidvid = association.getLidVidReference();
-      // Check for a lid or lidvid reference
-      if (lidvid != null) {
+  /**
+   * Creates the logical identifier for the PDS3 product.
+   *
+   * @param product The PDS3 file being registered.
+   * @param label The object representation of the PDS3 label.
+   * @param lidContents The user-specified lid contents.
+   * @return A logical identifier.
+   *
+   * @throws MetExtractionException
+   */
+  private String createLid(File product, Label label,
+      LidContents lidContents) throws MetExtractionException {
+    log.log(new ToolsLogRecord(ToolsLevel.INFO,
+        "Creating logical identifier.", product));
+    String lid ="";
+    String dataSetId = "";
+    String productId = "";
+    if (!lidContents.getElementName().isEmpty()) {
+      List<String> elementValues = new ArrayList<String>();
+      for (ElementName name : lidContents.getElementName()) {
         try {
-          entry.setLogicalID(lidvid.split("::")[0]);
-          entry.setVersion(lidvid.split("::")[1]);
-        } catch (ArrayIndexOutOfBoundsException ae) {
-          log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Expected "
-              + "a LID-VID reference, but found this: " + lidvid,
-              product.toString()));
+          elementValues.add(label.getAttribute(
+              name.getValue().trim()).getValue().toString());
+        } catch (NullPointerException n) {
+          log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
+              name.getValue() + " not found.", product));
         }
-      } else {
-        entry.setLogicalID(association.getLidReference());
       }
-      entry.setType(association.getReferenceType());
-      references.add(entry);
+      lid = lidContents.getPrefix();
+      for (String elementValue : elementValues) {
+        lid += ":" + elementValue;
+      }
+      if (lidContents.isAppendFilename()) {
+        lid += ":" + FilenameUtils.getBaseName(product.toString());
+      }
+    } else {
+      // Default behavior is to use DATA_SET_ID + PRODUCT_ID to form the lid
+      try {
+        Value value = label.getAttribute("DATA_SET_ID").getValue();
+        if (value instanceof Sequence || value instanceof Set) {
+          Collection collection = (Collection) value;
+          dataSetId = collection.iterator().next().toString();
+        } else {
+          dataSetId = label.getAttribute("DATA_SET_ID").getValue().toString();
+        }
+      } catch (NullPointerException n) {
+        log.log(new ToolsLogRecord(ToolsLevel.WARNING, "DATA_SET_ID not found.",
+            product));
+      }
+      try {
+      productId = label.getAttribute("PRODUCT_ID").getValue().toString();
+      } catch (NullPointerException n) {
+        log.log(new ToolsLogRecord(ToolsLevel.WARNING, "PRODUCT_ID not found. "
+            + "Using file name to create the logical identifier.", product));
+        productId = FilenameUtils.getBaseName(product.toString());
+      }
+      if (dataSetId.isEmpty() && productId.isEmpty()) {
+        throw new MetExtractionException("Could not create a logical " +
+          "identifier due to missing DATA_SET_ID and PRODUCT_ID from the label.");
+      }
+      lid += lidContents.getPrefix() + ":" + dataSetId + ":"
+      + productId;
     }
-    return references;
+    log.log(new ToolsLogRecord(ToolsLevel.INFO,
+        "Created the following logical identifier: " + lid, product));
+    //Product ID or Product Version values may have slash characters
+    //Replace it with a dash character
+    String conformingLid = lid.replaceAll(Constants.URN_ILLEGAL_CHARACTERS, "-");
+    if (!conformingLid.equals(lid)) {
+      log.log(new ToolsLogRecord(ToolsLevel.WARNING, "Element values used "
+          + "in creating the logical identifier contain URI reserved "
+          + "characters. Replacing with '-' characters: " + conformingLid,
+          product));
+    }
+    return conformingLid;
   }
 
   /**

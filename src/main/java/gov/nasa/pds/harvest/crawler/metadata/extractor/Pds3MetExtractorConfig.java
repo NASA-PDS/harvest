@@ -17,14 +17,17 @@ package gov.nasa.pds.harvest.crawler.metadata.extractor;
 import java.util.List;
 
 import gov.nasa.jpl.oodt.cas.metadata.MetExtractorConfig;
-import gov.nasa.pds.harvest.policy.Association;
+import gov.nasa.pds.harvest.policy.ElementName;
+import gov.nasa.pds.harvest.policy.LidContents;
 import gov.nasa.pds.harvest.policy.Pds3ProductMetadata;
+import gov.nasa.pds.harvest.policy.Slot;
 
 public class Pds3MetExtractorConfig implements MetExtractorConfig {
-  private List<Association> associations;
-  private String lidPrefix;
-  private List<String> ancillaryMetadata;
+  private List<Slot> staticMetadata;
+  private LidContents lidContents;
+  private List<ElementName> ancillaryMetadata;
   private List<String> includePaths;
+
   /**
    * Default contstructor.
    *
@@ -33,24 +36,44 @@ public class Pds3MetExtractorConfig implements MetExtractorConfig {
    *
    */
   public Pds3MetExtractorConfig(Pds3ProductMetadata metadata) {
-    associations = metadata.getAssociations().getAssociation();
-    lidPrefix = metadata.getLidPrefix();
+    staticMetadata = metadata.getStaticMetadata().getSlot();
+    lidContents = metadata.getLidContents();
     ancillaryMetadata = metadata.getAncillaryMetadata().getElementName();
     includePaths = metadata.getIncludePaths().getPath();
   }
 
-  public List<Association> getAssociations() {
-    return associations;
+  /**
+   * Gets the static metadata.
+   *
+   * @return The list of static metadata.
+   */
+  public List<Slot> getStaticMetadata() {
+    return staticMetadata;
   }
 
-  public String getLidPrefix() {
-    return lidPrefix;
+  /**
+   * Gets the lid contents.
+   *
+   * @return The lid contents.
+   */
+  public LidContents getLidContents() {
+    return lidContents;
   }
 
-  public List<String> getAncillaryMetadata() {
+  /**
+   * Gets the ancillary metadata.
+   *
+   * @return Ancillary metadata.
+   */
+  public List<ElementName> getAncillaryMetadata() {
     return ancillaryMetadata;
   }
 
+  /**
+   * Gets include paths.
+   *
+   * @return include paths.
+   */
   public List<String> getIncludePaths() {
     return includePaths;
   }
