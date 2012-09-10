@@ -28,6 +28,7 @@ import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.stats.HarvestStats;
+import gov.nasa.pds.harvest.util.LidVid;
 import gov.nasa.pds.harvest.util.XMLExtractor;
 
 import java.io.File;
@@ -265,6 +266,9 @@ public class PDSProductCrawler extends ProductCrawler {
         touchedFiles.put(product, product.lastModified());
       }
     }
+    if (Constants.collections.contains(product)) {
+      return false;
+    }
     log.log(new ToolsLogRecord(ToolsLevel.INFO, "Begin processing.", product));
     boolean passFlag = true;
     objectType = "";
@@ -287,6 +291,35 @@ public class PDSProductCrawler extends ProductCrawler {
       ++HarvestStats.numBadFiles;
       return false;
     } else  {
+      try {
+        String lid = extractor.getValueFromDoc(Constants.coreXpathsMap.get(
+          Constants.LOGICAL_ID));
+        String version = extractor.getValueFromDoc(Constants.coreXpathsMap.get(
+            Constants.PRODUCT_VERSION));
+        // Check to see if the product is part of the non-primary member list.
+        int index = Constants.nonPrimaryMembers.indexOf(new LidVid(lid));
+        if (index != -1) {
+          LidVid lidvid = Constants.nonPrimaryMembers.get(index);
+          if (lidvid.hasVersion()) {
+            if (lidvid.getVersion().equals(version)) {
+              log.log(new ToolsLogRecord(ToolsLevel.SKIP,
+                "Not a primary member.", product));
+              ++HarvestStats.numFilesSkipped;
+              return false;
+            }
+          } else {
+            log.log(new ToolsLogRecord(ToolsLevel.SKIP,
+                "Not a primary member.", product));
+              ++HarvestStats.numFilesSkipped;
+              return false;
+          }
+        }
+      } catch (Exception e) {
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Problem extracting "
+            + "LIDVID: " + e.getMessage(), product));
+        ++HarvestStats.numBadFiles;
+        return false;
+      }
       try {
         objectType = extractor.getValueFromDoc(Constants.coreXpathsMap.get(
             Constants.OBJECT_TYPE));

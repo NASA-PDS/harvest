@@ -81,6 +81,9 @@ public class FileObjectRegistrationAction extends CrawlerAction {
   /** A list of actions to perform before file object registration. */
   private List<CrawlerAction> actions;
 
+  /** Flag to enable generation of checksums on the fly. */
+  private boolean generateChecksums;
+
   /**
    * Constructor.
    *
@@ -98,6 +101,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       this.registryUrl = registryUrl;
       this.registryIngester = ingester;
       this.actions = new ArrayList<CrawlerAction>();
+      this.generateChecksums = false;
   }
 
   /**
@@ -410,5 +414,9 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       }
     }
     return null;
+  }
+
+  public void setGenerateChecksums(boolean value) {
+    this.generateChecksums = value;
   }
 }

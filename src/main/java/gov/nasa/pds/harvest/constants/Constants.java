@@ -14,10 +14,13 @@
 package gov.nasa.pds.harvest.constants;
 
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
+import gov.nasa.pds.harvest.util.LidVid;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -92,7 +95,8 @@ public class Constants {
    * The XPath to the data classes in the PDS4 label.
    */
   public static final String DATA_CLASS_XPATH =
-    "//File_Area_Observational/*[not(self::File)]";
+    "//File_Area_Observational/*[not(self::File)] | "
+    + "/Product_Context/*[not(self::Identification_Area) and not(self::Reference_List) and not(self::Discipline_Area)]";
 
   /** Holds the XPaths to the expected metadata in a product label. */
   public static final HashMap<String, String> coreXpathsMap =
@@ -148,4 +152,8 @@ public class Constants {
       new HashMap<File, String>();
 
     public static final String URN_ILLEGAL_CHARACTERS = "[%/\\\\?#\"&<>\\[\\]^`\\{\\|\\}~]";
+
+    public static List<LidVid> nonPrimaryMembers = new ArrayList<LidVid>();
+
+    public static List<File> collections = new ArrayList<File>();
 }

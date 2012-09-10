@@ -17,7 +17,7 @@
 
 <policy>
    <candidates>
-     <namespace prefix="pds" uri="http://pds.nasa.gov/pds4/pds/v08" default="true"/>
+     <namespace prefix="pds" uri="http://pds.nasa.gov/pds4/pds/v09" default="true"/>
      <productMetadata objectType="Product_Bundle">
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
@@ -244,7 +244,15 @@
      </productMetadata>
    </candidates>
    <references>
+     <referenceTypeMap value="agency_ref">
+       <modelValue>
+         node_to_agency
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="associate_ref">
+       <modelValue>
+         collection_to_associate
+       </modelValue>
        <modelValue>
          context_to_associate
        </modelValue>
@@ -263,18 +271,38 @@
      </referenceTypeMap>
      <referenceTypeMap value="browse_ref">
        <modelValue>
-         data_to_browse
+         collection_to_browse
        </modelValue>
        <modelValue>
-         data_collection_to_browse
+         data_to_browse
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="bundle_ref">
+       <modelValue>
+         collection_to_bundle
+       </modelValue>
+       <modelValue>
+         context_to_bundle
+       </modelValue>
+       <modelValue>
+         delivery_manifest_to_bundle
+       </modelValue>
+       <modelValue>
+         package_has_bundle
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="calibration_ref">
        <modelValue>
-         data_to_calibration
+         data_to_calibrated_product
        </modelValue>
        <modelValue>
-         data_collection_to_calibration
+         data_to_calibration_document
+       </modelValue>
+       <modelValue>
+         data_to_calibration_product
+       </modelValue>
+       <modelValue>
+         collection_to_calibration
        </modelValue>
        <modelValue>
          has_calibration
@@ -309,6 +337,15 @@
          bundle_has_spice_kernel_collection
        </modelValue>
        <modelValue>
+         context_to_collection
+       </modelValue>
+       <modelValue>
+         delivery_manifest_to_collection
+       </modelValue>
+       <modelValue>
+         package_has_collection
+       </modelValue>
+       <modelValue>
          has_browse_collection
        </modelValue>
        <modelValue>
@@ -335,20 +372,28 @@
        <modelValue>
          has_spice_kernels_collection
        </modelValue>
+       <modelValue>
+         package_has_collection
+       </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="context_ref">
        <modelValue>
-         data_collection_to_context
+         collection_to_context
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="data_ref">
        <modelValue>
-         data_collection_to_data
+         collection_to_data
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="data_set_ref">
        <modelValue>
          has_data_set
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="delivery_ref">
+       <modelValue>
+         package_has_delivery_manifest
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="document_ref">
@@ -365,7 +410,13 @@
          data_to_document
        </modelValue>
        <modelValue>
-         data_collection_to_document
+         instrument_to_document
+       </modelValue>
+       <modelValue>
+         instrument_host_to_document
+       </modelValue>
+       <modelValue>
+         investigation_to_document
        </modelValue>
        <modelValue>
          operational_to_document
@@ -390,7 +441,7 @@
          data_to_geometry
        </modelValue>
        <modelValue>
-         data_collection_to_geometry
+         collection_to_geometry
        </modelValue>
        <modelValue>
          has_geometry
@@ -446,27 +497,15 @@
      </referenceTypeMap>
      <referenceTypeMap value="member_ref">
        <modelValue>
-         inventory_has_LIDVID_Primary
-       </modelValue>
-       <modelValue>
-         inventory_has_LIDVID_Secondary
-       </modelValue>
-       <modelValue>
-         inventory_has_LID_Secondary
-       </modelValue>
-       <modelValue>
-         has_member_LIDVID_Primary
-       </modelValue>
-       <modelValue>
-         has_member_LIDVID_Secondary
-       </modelValue>
-       <modelValue>
-         has_member_LID_Secondary
+         inventory_has_member_product
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="node_ref">
        <modelValue>
-         data_collection_curated_by_node
+         data_curated_by_node
+       </modelValue>
+       <modelValue>
+         collection_curated_by_node
        </modelValue>
        <modelValue>
          has_node
@@ -480,6 +519,11 @@
          has_personnel
        </modelValue>
      </referenceTypeMap>
+     <referenceTypeMap value="raw_ref">
+       <modelValue>
+         data_to_raw_product
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="resource_ref">
        <modelValue>
          context_to_resource
@@ -488,7 +532,7 @@
          data_to_resource
        </modelValue>
        <modelValue>
-         data_collection_to_resource
+         collection_to_resource
        </modelValue>
        <modelValue>
          operational_to_resource
@@ -497,12 +541,17 @@
          has_resource
        </modelValue>
      </referenceTypeMap>
+     <referenceTypeMap value="schema_ref">
+       <modelValue>
+         collection_to_schema
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="spice_ref">
        <modelValue>
-         data_to_spice_kernel
+         collection_to_spice_kernel
        </modelValue>
        <modelValue>
-         data_collection_to_spice_kernel
+         data_to_spice_kernel
        </modelValue>
        <modelValue>
          has_spice

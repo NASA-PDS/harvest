@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import java.util.Arrays;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -31,22 +32,13 @@ import org.apache.commons.io.FilenameUtils;
  */
 public class InventoryTableReader implements InventoryReader {
   /** The field location of the identifier (LID-VID or LID). */
-  private int identifierFieldLocation;
+  private int identifierFieldNumber;
 
-  /** The field length of the identifier (LID-VID or LID). */
-  private int identifierFieldLength;
+  /** The field location of the member status. */
+  private int memberStatusFieldNumber;
 
-  /** The field number of the file reference. */
-  private int filenameFieldLocation;
-
-  /** The field length of the file reference. */
-  private int filenameFieldLength;
-
-  /** The field location of the checksum. */
-  private int checksumFieldLocation;
-
-  /** The field length of the checksum. */
-  private int checksumFieldLength;
+  /** The field delimiter being used in the inventory table. */
+  private String fieldDelimiter;
 
   /** Reads the external data file of the Inventory file. */
   private LineNumberReader reader;
@@ -67,12 +59,8 @@ public class InventoryTableReader implements InventoryReader {
    */
   public InventoryTableReader(File file)
   throws InventoryReaderException {
-    filenameFieldLocation = 0;
-    filenameFieldLength = 0;
-    checksumFieldLocation = 0;
-    checksumFieldLength = 0;
-    identifierFieldLocation = 0;
-    identifierFieldLength = 0;
+    memberStatusFieldNumber = 0;
+    identifierFieldNumber = 0;
     dataFile = null;
     parentDirectory = file.getParent();
     XMLExtractor extractor = new XMLExtractor();
@@ -93,50 +81,35 @@ public class InventoryTableReader implements InventoryReader {
       // Extract the field numbers defined in the inventory table section
       // in order to determine the metadata in the data file.
       value = extractor.getValueFromDoc(
-          InventoryKeys.FILE_SPEC_FIELD_LOCATION_XPATH);
+          InventoryKeys.MEMBER_STATUS_FIELD_NUMBER_XPATH);
       if (!value.isEmpty()) {
-        filenameFieldLocation = Integer.parseInt(value);
+        memberStatusFieldNumber = Integer.parseInt(value);
       } else {
         throw new Exception("Problems parsing file: " + file + ". XPath "
             + "expression returned no result: "
-            + InventoryKeys.FILE_SPEC_FIELD_LOCATION_XPATH);
+            + InventoryKeys.MEMBER_STATUS_FIELD_NUMBER_XPATH);
       }
       value = extractor.getValueFromDoc(
-          InventoryKeys.FILE_SPEC_FIELD_LENGTH_XPATH);
+          InventoryKeys.LIDVID_LID_FIELD_NUMBER_XPATH);
       if (!value.isEmpty()) {
-        filenameFieldLength = Integer.parseInt(value);
+        identifierFieldNumber = Integer.parseInt(value);
       } else {
         throw new Exception("Problems parsing file: " + file + ". XPath "
             + "expression returned no result: "
-            + InventoryKeys.FILE_SPEC_FIELD_LENGTH_XPATH);
+            + InventoryKeys.LIDVID_LID_FIELD_NUMBER_XPATH);
       }
-      value = extractor.getValueFromDoc(
-          InventoryKeys.IDENTIFIER_FIELD_LOCATION_XPATH);
+      value = extractor.getValueFromDoc(InventoryKeys.FIELD_DELIMITER_XPATH);
       if (!value.isEmpty()) {
-        identifierFieldLocation = Integer.parseInt(value);
+        fieldDelimiter = InventoryKeys.fieldDelimiters.get(
+            value.toLowerCase());
+        if (fieldDelimiter == null) {
+          throw new Exception("Field delimiter value is not a valid value: "
+              + value);
+        }
       } else {
         throw new Exception("Problems parsing file: " + file + ". XPath "
             + "expression returned no result: "
-            + InventoryKeys.IDENTIFIER_FIELD_LOCATION_XPATH);
-      }
-      value = extractor.getValueFromDoc(
-          InventoryKeys.IDENTIFIER_FIELD_LENGTH_XPATH);
-      if (!value.isEmpty()) {
-        identifierFieldLength = Integer.parseInt(value);
-      } else {
-        throw new Exception("Problems parsing file: " + file + ". XPath "
-            + "expression returned no result: "
-            + InventoryKeys.IDENTIFIER_FIELD_LENGTH_XPATH);
-      }
-      value = extractor.getValueFromDoc(
-          InventoryKeys.CHECKSUM_FIELD_LOCATION_XPATH);
-      if (!value.isEmpty()) {
-        checksumFieldLocation = Integer.parseInt(value);
-      }
-      value = extractor.getValueFromDoc(
-          InventoryKeys.CHECKSUM_FIELD_LENGTH_XPATH);
-      if (!value.isEmpty()) {
-        checksumFieldLength = Integer.parseInt(value);
+            + InventoryKeys.FIELD_DELIMITER_XPATH);
       }
     } catch (Exception e) {
       throw new InventoryReaderException(e);
@@ -198,57 +171,37 @@ public class InventoryTableReader implements InventoryReader {
     } catch (IOException i) {
       throw new InventoryReaderException(i);
     }
-    File file = null;
+    if (fieldDelimiter == null) {
+      throw new InventoryReaderException(
+          new Exception("Field delimiter is not set."));
+    }
     String identifier = "";
-    String checksum = "";
-    if (filenameFieldLocation != 0 && filenameFieldLength != 0) {
+    String memberStatus = "";
+    String fields[] = line.split(fieldDelimiter);
+    if (memberStatusFieldNumber != 0) {
       try {
-        file = new File(FilenameUtils.separatorsToSystem(line.substring(
-            filenameFieldLocation - 1,
-            (filenameFieldLocation - 1) + filenameFieldLength).trim()));
+        memberStatus = fields[memberStatusFieldNumber-1].trim();
       } catch (IndexOutOfBoundsException ae) {
         InventoryReaderException ir = new InventoryReaderException(
-            new IndexOutOfBoundsException("Could not parse a value "
-                + "from the file name specification field using "
-                + "field location '" + filenameFieldLocation
-                + "' and field length '" + filenameFieldLength
-                + "' in the file: " + dataFile));
-        ir.setLineNumber(reader.getLineNumber());
-        throw ir;
-      }
-      if (!file.isAbsolute()) {
-        file = new File(parentDirectory, file.toString());
-      }
-    }
-    if (identifierFieldLocation != 0 && identifierFieldLength != 0) {
-      try {
-      identifier = line.substring(identifierFieldLocation - 1,
-          (identifierFieldLocation - 1) + identifierFieldLength).trim();
-      } catch (IndexOutOfBoundsException ae) {
-        InventoryReaderException ir = new InventoryReaderException(
-            new IndexOutOfBoundsException("Could not parse a value "
-                + "from the identifier field using "
-                + "field location '" + identifierFieldLocation
-                + "' and field length '" + identifierFieldLength
-                + "' in the file: " + dataFile));
+            new IndexOutOfBoundsException("Could not retrieve the member "
+                + "status after parsing the line in the file '" + dataFile
+                + "': " + Arrays.asList(fields)));
         ir.setLineNumber(reader.getLineNumber());
         throw ir;
       }
     }
-    if (checksumFieldLocation != 0 && checksumFieldLength != 0) {
+    if (identifierFieldNumber != 0) {
       try {
-        checksum = line.substring(checksumFieldLocation - 1,
-            (checksumFieldLocation  - 1) + checksumFieldLength).trim();
+      identifier = fields[identifierFieldNumber-1].trim();
       } catch (IndexOutOfBoundsException ae) {
-        //TODO: Can we have some lines with checksums? If so, don't throw exception
-        /*
         InventoryReaderException ir = new InventoryReaderException(
-            new ArrayIndexOutOfBoundsException("Could not parse a value "
-                + "from the file name field in the file: " + dataFile));
+            new IndexOutOfBoundsException("Could not retrieve the "
+                + "LIDVID-LID value after parsing the line in the file '"
+                + dataFile + "': " + Arrays.asList(fields)));
         ir.setLineNumber(reader.getLineNumber());
-        */
+        throw ir;
       }
     }
-    return new InventoryEntry(file, checksum, identifier);
+    return new InventoryEntry(identifier, memberStatus);
   }
 }

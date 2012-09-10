@@ -90,13 +90,6 @@
    </xsd:sequence>
 </xsd:complexType>
 
-<xsd:element name="bundles" type="Bundle"/>
-<xsd:complexType name="Bundle">
-   <xsd:sequence>
-      <xsd:element ref="file" maxOccurs="unbounded"/>
-   </xsd:sequence>
-</xsd:complexType>
-
 <xsd:element name="collections" type="Collection"/>
 <xsd:complexType name="Collection">
    <xsd:sequence>
@@ -212,7 +205,6 @@
   <xsd:complexType>
      <xsd:all>
         <xsd:element ref="registryPackage" minOccurs="0"/>
-        <xsd:element ref="bundles" minOccurs="0"/>
         <xsd:element ref="collections" minOccurs="0"/>
         <xsd:element ref="directories" minOccurs="0"/>
         <xsd:element ref="pds3Directory" minOccurs="0"/>

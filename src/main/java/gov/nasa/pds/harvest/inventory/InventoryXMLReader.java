@@ -23,10 +23,6 @@ import javax.xml.xpath.XPathExpressionException;
 
 import net.sf.saxon.tinytree.TinyElementImpl;
 
-import org.apache.commons.io.FilenameUtils;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 /**
  * Class that supports the reading of an XML version of the
  * PDS Inventory file.
@@ -86,22 +82,16 @@ public class InventoryXMLReader implements InventoryReader {
     }
 
     TinyElementImpl entry = memberEntries.get(index++);
-    File file = null;
-    String checksum = "";
     String lidvid = "";
+    String memberStatus = "";
     try {
-      file = new File(FilenameUtils.separatorsToSystem(
-          extractor.getValueFromItem(InventoryKeys.FILE_SPEC_XPATH, entry)));
-      checksum = extractor.getValueFromItem(InventoryKeys.CHECKSUM_XPATH,
-          entry);
       lidvid = extractor.getValueFromItem(
           InventoryKeys.IDENTITY_REFERENCE_XPATH, entry);
+      memberStatus = extractor.getValueFromItem(
+          InventoryKeys.MEMBER_STATUS_XPATH, entry);
     } catch (XPathExpressionException x) {
       throw new InventoryReaderException(x);
     }
-    if (!file.isAbsolute()) {
-      file = new File(parentDirectory, file.toString());
-    }
-    return new InventoryEntry(file, checksum, lidvid);
+    return new InventoryEntry(lidvid, memberStatus);
   }
 }

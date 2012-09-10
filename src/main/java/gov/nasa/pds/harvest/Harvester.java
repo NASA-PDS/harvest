@@ -17,7 +17,6 @@ import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerAction;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.association.AssociationPublisher;
 import gov.nasa.pds.harvest.constants.Constants;
-import gov.nasa.pds.harvest.crawler.BundleCrawler;
 import gov.nasa.pds.harvest.crawler.CollectionCrawler;
 import gov.nasa.pds.harvest.crawler.PDS3ProductCrawler;
 import gov.nasa.pds.harvest.crawler.PDSProductCrawler;
@@ -87,7 +86,6 @@ public class Harvester {
    */
   public Harvester(String registryUrl, String registryPackageGuid)
   throws RegistryClientException, MalformedURLException {
-    this.registryUrl = registryUrl;
     this.registryUrl = registryUrl;
     this.ingester = new RegistryIngester(registryPackageGuid);
     this.daemonPort = -1;
@@ -190,12 +188,6 @@ public class Harvester {
         policy.getCandidates().getProductMetadata(),
         policy.getReferences());
     List<PDSProductCrawler> crawlers = new ArrayList<PDSProductCrawler>();
-    // Crawl bundles
-    for (String bundle : policy.getBundles().getFile()) {
-      BundleCrawler bc = new BundleCrawler(pds4MetExtractorConfig);
-      bc.setProductPath(bundle);
-      crawlers.add(bc);
-    }
     // Crawl collections
     for (String collection : policy.getCollections().getFile()) {
       CollectionCrawler cc = new CollectionCrawler(pds4MetExtractorConfig);

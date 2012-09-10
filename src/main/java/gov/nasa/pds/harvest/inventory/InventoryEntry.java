@@ -31,11 +31,25 @@ public class InventoryEntry {
     /** A logical identifier. */
     private String identifier;
 
+    /** Member status. */
+    private String memberStatus;
+
     /** Default constructor */
     public InventoryEntry() {
         this.file = null;
         this.checksum = "";
         this.identifier = "";
+        this.memberStatus = "";
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param identifier logical identifier.
+     * @param memberStatus member status.
+     */
+    public InventoryEntry(String identifier, String memberStatus) {
+      this(null, "", identifier, memberStatus);
     }
 
     /**
@@ -45,10 +59,11 @@ public class InventoryEntry {
      * @param checksum checksum.
      * @param identifier logical identifier.
      */
-    public InventoryEntry(File file, String checksum, String identifier) {
+    public InventoryEntry(File file, String checksum, String identifier, String memberStatus) {
         this.file = file;
         this.checksum = checksum;
         this.identifier = identifier;
+        this.memberStatus = memberStatus;
     }
 
     /**
@@ -79,13 +94,22 @@ public class InventoryEntry {
     }
 
     /**
+     * Gets the member status.
+     *
+     * @return "P", "Primary", "S", or "Secondary"
+     */
+    public String getMemberStatus() {
+      return memberStatus;
+    }
+
+    /**
      * Determines whether the object is empty.
      *
      * @return true if the object is empty, false otherwise.
      */
     public boolean isEmpty() {
         if (this.file == null && this.checksum.isEmpty()
-            && this.identifier.isEmpty()) {
+            && this.identifier.isEmpty() && this.memberStatus.isEmpty()) {
           return true;
         } else {
           return false;

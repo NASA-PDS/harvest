@@ -21,8 +21,6 @@ import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.logging.formatter.HarvestFormatter;
 import gov.nasa.pds.harvest.logging.handler.HarvestFileHandler;
 import gov.nasa.pds.harvest.logging.handler.HarvestStreamHandler;
-import gov.nasa.pds.harvest.policy.Bundle;
-import gov.nasa.pds.harvest.policy.Collection;
 import gov.nasa.pds.harvest.policy.Directory;
 import gov.nasa.pds.harvest.policy.Namespace;
 import gov.nasa.pds.harvest.policy.Pds3Directory;
@@ -40,6 +38,7 @@ import gov.nasa.pds.registry.exception.RegistryServiceException;
 import gov.nasa.pds.registry.model.RegistryPackage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -66,7 +65,6 @@ import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
@@ -421,30 +419,11 @@ public class HarvestLauncher {
       harvester.setDaemonPort(daemonPort);
       harvester.setWaitInterval(waitInterval);
     }
-    Bundle bundles = new Bundle();
-    Collection collections = new Collection();
     Directory directories = new Directory();
     Pds3Directory pds3Dir = new Pds3Directory();
     for (File target : targets) {
-      try {
-        TargetType type = getTargetType(target);
-        if (TargetType.BUNDLE.equals(type)) {
-          bundles.getFile().add(target.toString());
-        } else if (TargetType.COLLECTION.equals(type)) {
-          collections.getFile().add(target.toString());
-        } else if (TargetType.DIRECTORY.equals(type)) {
-          directories.getPath().add(target.toString());
-          directories.getFilePattern().addAll(regExps);
-        } else {
-          log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Cannot determine if "
-              + "target type is a bundle, collection, or directory.", target)
-          );
-        }
-      } catch (XPathException xpe) {
-        log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "XPathExpression "
-            + "exception: " + ExceptionUtils.getRootCauseMessage(xpe),
-            target));
-      }
+      directories.getPath().add(target.toString());
+      directories.getFilePattern().addAll(regExps);
     }
     if (pds3Directory != null) {
       pds3Dir.setPath(pds3Directory);
@@ -452,11 +431,8 @@ public class HarvestLauncher {
     }
     // Any targets specified on the command line will overwrite any targets
     // specified in the policy file.
-    if ( (!bundles.getFile().isEmpty()) || (!collections.getFile().isEmpty())
-        || (!directories.getPath().isEmpty())
+    if ( (!directories.getPath().isEmpty())
         || (pds3Dir.getPath() != null) ) {
-      policy.setBundles(bundles);
-      policy.setCollections(collections);
       policy.setDirectories(directories);
       policy.setPds3Directory(pds3Dir);
     }
@@ -536,8 +512,6 @@ public class HarvestLauncher {
       // Any targets specified on the command-line overwrite targets
       // specified in the policy config file.
       if (targets.isEmpty()) {
-        targets.addAll(policy.getBundles().getFile());
-        targets.addAll(policy.getCollections().getFile());
         targets.addAll(policy.getDirectories().getPath());
         if (policy.getPds3Directory().getPath() != null) {
           targets.add(policy.getPds3Directory().getPath());
@@ -560,11 +534,14 @@ public class HarvestLauncher {
    *
    * @throws XPathException If an error occurred while parsing the file.
    */
-  private TargetType getTargetType(File target) throws XPathException {
+  private TargetType getTargetType(File target) throws XPathException,
+  FileNotFoundException {
     String PRODUCT_TYPE_XPATH = Constants.IDENTIFICATION_AREA_XPATH + "/"
     + Constants.OBJECT_TYPE;
     TargetType type = TargetType.FILE;
-    if (target.isDirectory()) {
+    if (!target.exists()) {
+      throw new FileNotFoundException("Target does not exist: " + target);
+    } else if (target.isDirectory()) {
       type = TargetType.DIRECTORY;
     } else {
       XMLExtractor extractor = new XMLExtractor();
@@ -584,6 +561,7 @@ public class HarvestLauncher {
     }
     return type;
   }
+
   /**
    * Process main.
    *

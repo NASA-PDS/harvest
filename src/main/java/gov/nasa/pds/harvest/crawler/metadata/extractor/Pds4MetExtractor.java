@@ -174,7 +174,9 @@ public class Pds4MetExtractor implements MetExtractor {
         if (xpath.getSlotName() != null) {
           name = xpath.getSlotName();
         } else {
-          name = node.getDisplayName();
+          if (node != null) {
+            name = node.getDisplayName();
+          }
         }
         List<String> values = extractor.getValuesFromDoc(xpath.getValue());
         if (values != null && (!values.isEmpty())) {

@@ -22,6 +22,7 @@ import gov.nasa.pds.harvest.inventory.InventoryTableReader;
 import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.util.LidVid;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -158,6 +159,10 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
           }
           re.setType(associationType);
           refEntries.add(re);
+          if (!"P".equalsIgnoreCase(entry.getMemberStatus())) {
+            Constants.nonPrimaryMembers.add(new LidVid(re.getLogicalID(),
+                re.getVersion()));
+          }
         }
         entry = reader.getNext();
       }
