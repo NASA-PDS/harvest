@@ -30,6 +30,7 @@
 <xsd:element name="name" type="xsd:string"/>
 <xsd:element name="description" type="xsd:string"/>
 <xsd:element name="value" type="xsd:string"/>
+<xsd:element name="manifest" type="xsd:string"/>
 
 <xsd:attribute name="objectType" type="xsd:string"/>
 <xsd:attribute name="prefix" type="xsd:string"/>
@@ -40,6 +41,7 @@
 <xsd:attribute name="slotName" type="xsd:string"/>
 <xsd:attribute name="value" type="xsd:string"/>
 <xsd:attribute name="name" type="xsd:string"/>
+<xsd:attribute name="generate" type="xsd:boolean" default="false"/>
 
 <xsd:element name="elementName" type="ElementName"/>
 <xsd:complexType name="ElementName">
@@ -201,6 +203,14 @@
    </xsd:sequence>
 </xsd:complexType>
 
+<xsd:element name="checksums" type="Checksums"/>
+<xsd:complexType name="Checksums">
+   <xsd:sequence>
+      <xsd:element ref="manifest" minOccurs="0"/>
+   </xsd:sequence>
+   <xsd:attribute ref="generate"/>
+</xsd:complexType>
+
 <xsd:element name="policy">
   <xsd:complexType>
      <xsd:all>
@@ -210,6 +220,7 @@
         <xsd:element ref="pds3Directory" minOccurs="0"/>
         <xsd:element ref="storageIngestion" minOccurs="0"/>
         <xsd:element ref="accessUrls" minOccurs="0"/>
+        <xsd:element ref="checksums" minOccurs="0"/>
         <xsd:element ref="candidates"/>
         <xsd:element ref="references" minOccurs="0"/>
      </xsd:all>

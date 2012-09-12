@@ -28,11 +28,24 @@ public class HarvestStats {
 
   public static int numWarnings = 0;
 
-  public static int numChecksumsSame = 0;
+  public static int numGeneratedChecksumsSameInManifest = 0;
 
-  public static int numChecksumsDifferent = 0;
+  public static int numGeneratedChecksumsDiffInManifest = 0;
 
-  public static int numChecksumsNotChecked = 0;
+  public static int numGeneratedChecksumsNotCheckedInManifest = 0;
+
+  public static int numGeneratedChecksumsSameInLabel = 0;
+
+  public static int numGeneratedChecksumsDiffInLabel = 0;
+
+  public static int numGeneratedChecksumsNotCheckedInLabel = 0;
+
+  public static int numManifestChecksumsSameInLabel = 0;
+
+  public static int numManifestChecksumsDiffInLabel = 0;
+
+  public static int numManifestChecksumsNotCheckedInLabel = 0;
+
 
   public static HashMap<String, List<File>> registeredProductTypes = new HashMap<String, List<File>>();
 

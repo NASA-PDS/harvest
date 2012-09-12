@@ -27,16 +27,19 @@ import gov.nasa.pds.harvest.crawler.actions.SaveMetadataAction;
 import gov.nasa.pds.harvest.crawler.daemon.HarvestDaemon;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds3MetExtractorConfig;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds4MetExtractorConfig;
+import gov.nasa.pds.harvest.file.ChecksumManifest;
 import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.policy.Policy;
 import gov.nasa.pds.registry.client.SecurityContext;
 import gov.nasa.pds.registry.exception.RegistryClientException;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.oodt.cas.filemgr.structs.exceptions.ConnectionException;
@@ -164,6 +167,9 @@ public class Harvester {
       fileObjectRegistrationActions.add(cauAction);
     }
     fileObjectRegistrationAction.setActions(fileObjectRegistrationActions);
+    //Set the flag to generate checksums
+    fileObjectRegistrationAction.setGenerateChecksums(
+        policy.getChecksums().isGenerate());
     //This is the last action that should be performed.
     ca.add(new SaveMetadataAction());
     return ca;
@@ -175,12 +181,16 @@ public class Harvester {
    * @param policy An object representation of the configuration file that
    *  specifies what to harvest.
    *
-   * @throws MalformedURLException If the registry url is malformed.
    * @throws ConnectionException
+   * @throws IOException
    */
-  public void harvest(Policy policy) throws MalformedURLException,
-  ConnectionException {
+  public void harvest(Policy policy) throws ConnectionException, IOException {
     boolean doCrawlerPersistance = false;
+    if (policy.getChecksums().getManifest() != null) {
+      Map<File, String> checksums = ChecksumManifest.read(
+        new File(policy.getChecksums().getManifest()));
+      fileObjectRegistrationAction.setChecksumManifest(checksums);
+    }
     if (waitInterval != -1 && daemonPort != -1) {
       doCrawlerPersistance = true;
     }

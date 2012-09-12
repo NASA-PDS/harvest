@@ -87,14 +87,34 @@ public class HarvestDaemon extends CrawlDaemon {
   private int numWarnings;
 
   /** Current number of generated checksums matching their supplied value. */
-  private int numChecksumsSame;
+  private int numGeneratedChecksumsSameInManifest;
 
   /** Current number of generated checksums not matching their supplied value.
    */
-  private int numChecksumsDifferent;
+  private int numGeneratedChecksumsDiffInManifest;
 
   /** Current number of generated checksums not checked. */
-  private int numChecksumsNotChecked;
+  private int numGeneratedChecksumsNotCheckedInManifest;
+
+  /** Current number of generated checksums matching their supplied value. */
+  private int numGeneratedChecksumsSameInLabel;
+
+  /** Current number of generated checksums not matching their supplied value.
+   */
+  private int numGeneratedChecksumsDiffInLabel;
+
+  /** Current number of generated checksums not checked. */
+  private int numGeneratedChecksumsNotCheckedInLabel;
+
+  /** Current number of generated checksums matching their supplied value. */
+  private int numManifestChecksumsSameInLabel;
+
+  /** Current number of generated checksums not matching their supplied value.
+   */
+  private int numManifestChecksumsDiffInLabel;
+
+  /** Current number of generated checksums not checked. */
+  private int numManifestChecksumsNotCheckedInLabel;
 
   /** Mapping of registered product types to files. */
   private HashMap<String, List<File>> registeredProductTypes;
@@ -128,9 +148,15 @@ public class HarvestDaemon extends CrawlDaemon {
     numProductsNotRegistered = 0;
     numErrors = 0;
     numWarnings = 0;
-    numChecksumsSame = 0;
-    numChecksumsDifferent = 0;
-    numChecksumsNotChecked = 0;
+    numGeneratedChecksumsSameInManifest = 0;
+    numGeneratedChecksumsDiffInManifest = 0;
+    numGeneratedChecksumsNotCheckedInManifest = 0;
+    numGeneratedChecksumsSameInLabel = 0;
+    numGeneratedChecksumsDiffInLabel = 0;
+    numGeneratedChecksumsNotCheckedInLabel = 0;
+    numManifestChecksumsSameInLabel = 0;
+    numManifestChecksumsDiffInLabel = 0;
+    numManifestChecksumsNotCheckedInLabel = 0;
     registeredProductTypes = new HashMap<String, List<File>>();
   }
 
@@ -222,11 +248,23 @@ public class HarvestDaemon extends CrawlDaemon {
 
     int newWarnings = HarvestStats.numWarnings - numWarnings;
 
-    int newChecksumsSame = HarvestStats.numChecksumsSame - numChecksumsSame;
+    int newGeneratedChecksumsSameInManifest = HarvestStats.numGeneratedChecksumsSameInManifest - numGeneratedChecksumsSameInManifest;
 
-    int newChecksumsDifferent = HarvestStats.numChecksumsDifferent - numChecksumsDifferent;
+    int newGeneratedChecksumsDiffInManifest = HarvestStats.numGeneratedChecksumsDiffInManifest - numGeneratedChecksumsDiffInManifest;
 
-    int newChecksumsNotChecked = HarvestStats.numChecksumsNotChecked - numChecksumsNotChecked;
+    int newGeneratedChecksumsNotCheckedInManifest = HarvestStats.numGeneratedChecksumsNotCheckedInManifest - numGeneratedChecksumsNotCheckedInManifest;
+
+    int newGeneratedChecksumsSameInLabel = HarvestStats.numGeneratedChecksumsSameInLabel - numGeneratedChecksumsSameInLabel;
+
+    int newGeneratedChecksumsDiffInLabel = HarvestStats.numGeneratedChecksumsDiffInLabel - numGeneratedChecksumsDiffInLabel;
+
+    int newGeneratedChecksumsNotCheckedInLabel = HarvestStats.numGeneratedChecksumsNotCheckedInLabel - numGeneratedChecksumsNotCheckedInLabel;
+
+    int newManifestChecksumsSameInLabel = HarvestStats.numManifestChecksumsSameInLabel - numManifestChecksumsSameInLabel;
+
+    int newManifestChecksumsDiffInLabel = HarvestStats.numManifestChecksumsDiffInLabel - numManifestChecksumsDiffInLabel;
+
+    int newManifestChecksumsNotCheckedInLabel = HarvestStats.numManifestChecksumsNotCheckedInLabel - numManifestChecksumsNotCheckedInLabel;
 
     log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
         + (newGoodFiles + newBadFiles + newFilesSkipped)
@@ -272,11 +310,50 @@ public class HarvestDaemon extends CrawlDaemon {
         }
       }
 
-      log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
-          "\n" + newChecksumsSame + " of "
-          + (newChecksumsSame + newChecksumsDifferent)
-          + " new generated checksums matched their supplied value, "
-          + newChecksumsNotChecked + " generated value(s) not checked\n"));
+      int totalGeneratedChecksumsVsManifest =
+        newGeneratedChecksumsSameInManifest
+        + newGeneratedChecksumsDiffInManifest;
+
+      if ( (totalGeneratedChecksumsVsManifest != 0)
+          || (newGeneratedChecksumsNotCheckedInManifest != 0) ) {
+        log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
+            "\n" + newGeneratedChecksumsSameInManifest
+            + " of " + totalGeneratedChecksumsVsManifest
+            + " generated checksums matched "
+            + "their supplied value in the manifest, "
+            + newGeneratedChecksumsNotCheckedInManifest
+            + " generated value(s) not checked\n"));
+      }
+
+      int totalGeneratedChecksumsVsLabel =
+        newGeneratedChecksumsSameInLabel
+        + newGeneratedChecksumsDiffInLabel;
+
+      if ( (totalGeneratedChecksumsVsLabel != 0)
+          || (newGeneratedChecksumsNotCheckedInLabel != 0) ) {
+        log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
+            "\n" + newGeneratedChecksumsSameInLabel
+            + " of " + totalGeneratedChecksumsVsLabel
+            + " generated checksums matched "
+            + "the supplied value in their product label, "
+            + newGeneratedChecksumsNotCheckedInLabel
+            + " generated value(s) not checked\n"));
+      }
+
+      int totalManifestChecksumsVsLabel =
+        newManifestChecksumsSameInLabel
+        + newManifestChecksumsDiffInLabel;
+
+      if ( (totalManifestChecksumsVsLabel != 0)
+          || (newManifestChecksumsNotCheckedInLabel != 0) ) {
+        log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
+            "\n" + newManifestChecksumsSameInLabel
+            + " of " + totalManifestChecksumsVsLabel
+            + " checksums in the manifest matched "
+            + "the supplied value in their product label, "
+            + newManifestChecksumsNotCheckedInLabel
+            + " value(s) not checked\n"));
+      }
 
       log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION, "\n"
           + newAssociationsRegistered + " of "
@@ -298,9 +375,15 @@ public class HarvestDaemon extends CrawlDaemon {
     numAssociationsNotRegistered = HarvestStats.numAssociationsNotRegistered;
     numErrors = HarvestStats.numErrors;
     numWarnings = HarvestStats.numWarnings;
-    numChecksumsSame = HarvestStats.numChecksumsSame;
-    numChecksumsDifferent = HarvestStats.numChecksumsDifferent;
-    numChecksumsNotChecked = HarvestStats.numChecksumsNotChecked;
+    numGeneratedChecksumsSameInManifest = HarvestStats.numGeneratedChecksumsSameInManifest;
+    numGeneratedChecksumsDiffInManifest = HarvestStats.numGeneratedChecksumsDiffInManifest;
+    numGeneratedChecksumsNotCheckedInManifest = HarvestStats.numGeneratedChecksumsNotCheckedInManifest;
+    numGeneratedChecksumsSameInLabel = HarvestStats.numGeneratedChecksumsSameInLabel;
+    numGeneratedChecksumsDiffInLabel = HarvestStats.numGeneratedChecksumsDiffInLabel;
+    numGeneratedChecksumsNotCheckedInLabel = HarvestStats.numGeneratedChecksumsNotCheckedInLabel;
+    numManifestChecksumsSameInLabel = HarvestStats.numManifestChecksumsSameInLabel;
+    numManifestChecksumsDiffInLabel = HarvestStats.numManifestChecksumsDiffInLabel;
+    numManifestChecksumsNotCheckedInLabel = HarvestStats.numManifestChecksumsNotCheckedInLabel;
     registeredProductTypes.clear();
     registeredProductTypes.putAll(HarvestStats.registeredProductTypes);
   }

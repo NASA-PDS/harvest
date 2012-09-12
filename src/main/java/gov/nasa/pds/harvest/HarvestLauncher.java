@@ -399,15 +399,14 @@ public class HarvestLauncher {
    *
    * @throws ParserConfigurationException If an error occurred during
    * metadata extraction.
-   * @throws MalformedURLException If the URL to the registry service
-   * is invalid.
    * @throws RegistryClientException If an error occurred while setting
    * up the Harvester with the PDS Security Service.
    * @throws ConnectionException
+   * @throws IOException
    */
   private void doHarvesting(final Policy policy)
-  throws MalformedURLException, ParserConfigurationException,
-  RegistryClientException, ConnectionException {
+  throws ParserConfigurationException,
+  RegistryClientException, ConnectionException, IOException {
     log.log(new ToolsLogRecord(ToolsLevel.INFO, "XML extractor set to the "
         + "following default namespace: "
         + XMLExtractor.getDefaultNamespace()));

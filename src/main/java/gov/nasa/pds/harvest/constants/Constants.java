@@ -147,10 +147,6 @@ public class Constants {
     public static final Map<File, Metadata> registeredProducts =
       new LinkedHashMap<File, Metadata>();
 
-    /** A list of checksums supplied by an inventory and/or bundle file. */
-    public static Map<File, String> suppliedChecksums =
-      new HashMap<File, String>();
-
     public static final String URN_ILLEGAL_CHARACTERS = "[%/\\\\?#\"&<>\\[\\]^`\\{\\|\\}~]";
 
     public static List<LidVid> nonPrimaryMembers = new ArrayList<LidVid>();

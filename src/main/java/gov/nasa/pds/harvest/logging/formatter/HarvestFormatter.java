@@ -113,13 +113,47 @@ public class HarvestFormatter extends Formatter {
           + lineFeed);
     }
 
-    int totalGeneratedChecksums = HarvestStats.numChecksumsSame
-    + HarvestStats.numChecksumsDifferent;
+    int totalGeneratedChecksumsVsManifest =
+      HarvestStats.numGeneratedChecksumsSameInManifest
+    + HarvestStats.numGeneratedChecksumsDiffInManifest;
 
-    summary.append(lineFeed + HarvestStats.numChecksumsSame + " of "
-        + totalGeneratedChecksums + " generated checksums matched "
-        + "their supplied value, " + HarvestStats.numChecksumsNotChecked
-        + " generated value(s) not checked." + lineFeed);
+    if ( (totalGeneratedChecksumsVsManifest != 0)
+        || (HarvestStats.numGeneratedChecksumsNotCheckedInManifest != 0) ) {
+      summary.append(lineFeed + HarvestStats.numGeneratedChecksumsSameInManifest
+          + " of " + totalGeneratedChecksumsVsManifest
+          + " generated checksums matched "
+          + "their supplied value in the manifest, "
+          + HarvestStats.numGeneratedChecksumsNotCheckedInManifest
+          + " value(s) not checked." + lineFeed);
+    }
+
+    int totalGeneratedChecksumsVsLabel =
+      HarvestStats.numGeneratedChecksumsSameInLabel
+      + HarvestStats.numGeneratedChecksumsDiffInLabel;
+
+    if ( (totalGeneratedChecksumsVsLabel != 0)
+        || (HarvestStats.numGeneratedChecksumsNotCheckedInLabel != 0) ) {
+      summary.append(lineFeed + HarvestStats.numGeneratedChecksumsSameInLabel
+          + " of " + totalGeneratedChecksumsVsLabel
+          + " generated checksums matched "
+          + "the supplied value in their product label, "
+          + HarvestStats.numGeneratedChecksumsNotCheckedInLabel
+          + " value(s) not checked." + lineFeed);
+    }
+
+    int totalManifestChecksumsVsLabel =
+      HarvestStats.numManifestChecksumsSameInLabel
+      + HarvestStats.numManifestChecksumsDiffInLabel;
+
+    if ( (totalManifestChecksumsVsLabel != 0)
+        || (HarvestStats.numManifestChecksumsNotCheckedInLabel != 0) ) {
+      summary.append(lineFeed + HarvestStats.numManifestChecksumsSameInLabel
+          + " of " + totalManifestChecksumsVsLabel
+          + " checksums in the manifest matched "
+          + "the supplied value in their product label, "
+          + HarvestStats.numManifestChecksumsNotCheckedInLabel
+          + " value(s) not checked." + lineFeed);
+    }
 
     summary.append(lineFeed + HarvestStats.numAssociationsRegistered
         + " of " + totalAssociations + " associations registered."

@@ -22,7 +22,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import net.sf.saxon.tinytree.TinyElementImpl;
@@ -84,6 +86,9 @@ public class FileObjectRegistrationAction extends CrawlerAction {
   /** Flag to enable generation of checksums on the fly. */
   private boolean generateChecksums;
 
+  /** Represents the checksum manifest file. */
+  private Map<File, String> checksumManifest;
+
   /**
    * Constructor.
    *
@@ -102,6 +107,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       this.registryIngester = ingester;
       this.actions = new ArrayList<CrawlerAction>();
       this.generateChecksums = false;
+      this.checksumManifest = new HashMap<File, String>();
   }
 
   /**
@@ -204,39 +210,15 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     SimpleDateFormat format = new SimpleDateFormat(
         "yyyy-MM-dd'T'HH:mm:ss.SSSS'Z'");
     List<FileObject> results = new ArrayList<FileObject>();
-    String generatedChecksum = "";
     // Create a file object of the label file
     String lastModified = format.format(new Date(product.lastModified()));
     try {
       log.log(new ToolsLogRecord(ToolsLevel.INFO, "Capturing file information "
           + "for " + product.getName(), product));
-      generatedChecksum = MD5Checksum.getMD5Checksum(product.toString());
-      if (Constants.suppliedChecksums.containsKey(product)) {
-        String suppliedChecksum = Constants.suppliedChecksums.get(product);
-        if (!suppliedChecksum.equals(generatedChecksum)) {
-          log.log(new ToolsLogRecord(ToolsLevel.WARNING,
-              "Generated checksum '" + generatedChecksum
-              + "' does not match supplied checksum '"
-              + suppliedChecksum + "' in the inventory.", product));
-          ++HarvestStats.numChecksumsDifferent;
-        } else {
-          log.log(new ToolsLogRecord(ToolsLevel.INFO,
-              "Generated checksum '" + generatedChecksum
-              + "' matches the supplied checksum '" + suppliedChecksum
-              + "' in the inventory.", product));
-          ++HarvestStats.numChecksumsSame;
-        }
-      } else {
-        if (!Constants.suppliedChecksums.isEmpty()) {
-          log.log(new ToolsLogRecord(ToolsLevel.INFO,
-              "No checksum supplied in the inventory for this product label.",
-              product));
-        }
-        ++HarvestStats.numChecksumsNotChecked;
-      }
+      String checksum = handleChecksum(product, product);
       FileObject fileObject = new FileObject(product.getName(),
           product.getParent(), product.length(),
-          lastModified, generatedChecksum);
+          lastModified, checksum);
       results.add(fileObject);
     } catch (Exception e) {
       log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
@@ -297,26 +279,10 @@ public class FileObjectRegistrationAction extends CrawlerAction {
             creationDateTime = format.format(new Date(f.lastModified()));
           }
           try {
-            generatedChecksum = MD5Checksum.getMD5Checksum(f.toString());
             if (!checksum.isEmpty()) {
-              if (!checksum.equals(generatedChecksum)) {
-                log.log(new ToolsLogRecord(ToolsLevel.WARNING,
-                    "Generated checksum '" + generatedChecksum
-                    + "' does not match supplied checksum '" + checksum
-                    + "' for file object '" + name + "'.", product));
-                ++HarvestStats.numChecksumsDifferent;
-              } else {
-                log.log(new ToolsLogRecord(ToolsLevel.INFO,
-                    "Generated checksum '" + generatedChecksum + "' matches "
-                    + "the supplied checksum '" + checksum
-                    + "' for file object '" + name + "'.", product));
-                ++HarvestStats.numChecksumsSame;
-              }
+              checksum = handleChecksum(product, f, checksum);
             } else {
-              log.log(new ToolsLogRecord(ToolsLevel.INFO,
-                  "No checksum supplied for file object '" + name
-                  + "' in the product label.", product));
-              ++HarvestStats.numChecksumsNotChecked;
+              checksum = handleChecksum(product, f);
             }
           } catch (Exception e) {
             log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
@@ -325,7 +291,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
             throw new Exception("Missing checksum");
           }
           results.add(new FileObject(f.getName(), f.getParent(), size,
-              creationDateTime, generatedChecksum));
+              creationDateTime, checksum));
         }
       } catch (Exception e) {
         ++HarvestStats.numAncillaryProductsNotRegistered;
@@ -346,9 +312,10 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     try {
       log.log(new ToolsLogRecord(ToolsLevel.INFO, "Capturing file object "
           + "metadata for " + product.getName(), product));
+      String checksum = handleChecksum(product, product);
       FileObject fileObject = new FileObject(product.getName(),
           product.getParent(), product.length(),
-          lastModified, MD5Checksum.getMD5Checksum(product.toString()));
+          lastModified, checksum);
       results.add(fileObject);
     } catch (Exception e) {
       log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
@@ -380,7 +347,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
               long size = file.length();
               String creationDateTime = format.format(new Date(
                 file.lastModified()));
-              String checksum = MD5Checksum.getMD5Checksum(file.toString());
+              String checksum = handleChecksum(product, file);
               results.add(new FileObject(file.getName(), file.getParent(),
                   size, creationDateTime, checksum));
             }
@@ -400,6 +367,130 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     return results;
   }
 
+  private String handleChecksum(File product, File fileObject)
+  throws Exception {
+    return handleChecksum(product, fileObject, "");
+  }
+
+  /**
+   * Method to handle checksum processing.
+   *
+   * @param product The source (product label).
+   * @param fileObject The associated file object.
+   * @param checksumInLabel Supplied checksum in the label. Can pass in
+   * an empty value.
+   *
+   * @return The resulting checksum. This will either be the generated value,
+   * the value from the manifest file (if supplied), or the value from the
+   * supplied value in the product label (if provided).
+   *
+   * @throws Exception If there was an error generating the checksum
+   *  (if the flag was on)
+   */
+  private String handleChecksum(File product, File fileObject,
+      String checksumInLabel)
+  throws Exception {
+    String result = "";
+    if (generateChecksums) {
+      String generatedChecksum = MD5Checksum.getMD5Checksum(
+          fileObject.toString());
+      if (!checksumManifest.isEmpty()) {
+        if (checksumManifest.containsKey(fileObject)) {
+          String suppliedChecksum = checksumManifest.get(fileObject);
+          if (!suppliedChecksum.equals(generatedChecksum)) {
+            log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+              "Generated checksum '" + generatedChecksum
+              + "' does not match supplied checksum '"
+              + suppliedChecksum + "' in the manifest for file object '"
+              + fileObject.toString() + "'.", product));
+            ++HarvestStats.numGeneratedChecksumsDiffInManifest;
+          } else {
+            log.log(new ToolsLogRecord(ToolsLevel.INFO,
+              "Generated checksum '" + generatedChecksum
+              + "' matches the supplied checksum '" + suppliedChecksum
+              + "' in the manifest for file object '" + fileObject.toString()
+              + "'.", product));
+            ++HarvestStats.numGeneratedChecksumsSameInManifest;
+          }
+        } else {
+          log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+              "No checksum found in the manifest for file object '"
+              + fileObject.toString() + "'.", product));
+          ++HarvestStats.numGeneratedChecksumsNotCheckedInManifest;
+        }
+      }
+      if (!checksumInLabel.isEmpty()) {
+        if (!generatedChecksum.equals(checksumInLabel)) {
+          log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+              "Generated checksum '" + generatedChecksum
+              + "' does not match supplied checksum '"
+              + checksumInLabel + "' in the product label for file object '"
+              + fileObject.toString() + "'.", product));
+            ++HarvestStats.numGeneratedChecksumsDiffInLabel;
+        } else {
+          log.log(new ToolsLogRecord(ToolsLevel.INFO,
+              "Generated checksum '" + generatedChecksum
+              + "' matches the supplied checksum '" + checksumInLabel
+              + "' in the produt label for file object '"
+              + fileObject.toString() + "'.", product));
+            ++HarvestStats.numGeneratedChecksumsSameInLabel;
+        }
+      } else {
+        log.log(new ToolsLogRecord(ToolsLevel.INFO,
+            "No checksum to compare against in the product label "
+            + "for file object '" + fileObject.toString() + "'.", product));
+        ++HarvestStats.numGeneratedChecksumsNotCheckedInLabel;
+      }
+      result = generatedChecksum;
+    } else {
+      // Checksums will not be generated
+      if (!checksumManifest.isEmpty()) {
+        if (checksumManifest.containsKey(fileObject)) {
+          String suppliedChecksum = checksumManifest.get(fileObject);
+          log.log(new ToolsLogRecord(ToolsLevel.INFO, "Found checksum in "
+              + "the manifest for file object '" + fileObject.toString()
+              + "': " + suppliedChecksum, product));
+          if (!checksumInLabel.isEmpty()) {
+            if (!suppliedChecksum.equals(checksumInLabel)) {
+              log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+                  "Checksum in the manifest '" + suppliedChecksum
+                  + "' does not match the checksum in the product label '"
+                  + checksumInLabel + "' for file object '"
+                  + fileObject.toString() + "'.", product));
+                ++HarvestStats.numManifestChecksumsDiffInLabel;
+            } else {
+              log.log(new ToolsLogRecord(ToolsLevel.INFO,
+                  "Checksum in the manifest '" + suppliedChecksum
+                  + "' matches the checksum in the product label '"
+                  + checksumInLabel + "' for file object '"
+                  + fileObject.toString() + "'.", product));
+                ++HarvestStats.numManifestChecksumsSameInLabel;
+            }
+          } else {
+            log.log(new ToolsLogRecord(ToolsLevel.INFO,
+                "No checksum to compare against in the product label "
+                + "for file object '"
+                + fileObject.toString() + "'.", product));
+            ++HarvestStats.numManifestChecksumsNotCheckedInLabel;
+          }
+          result = suppliedChecksum;
+        } else {
+          log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+              "No checksum found in the manifest for file object '"
+              + fileObject.toString() + "'. ", product));
+        }
+      } else {
+        if (!checksumInLabel.isEmpty()) {
+          log.log(new ToolsLogRecord(ToolsLevel.INFO,
+              "Found checksum in the product label for file object '"
+              + fileObject.toString() + "': " + checksumInLabel, product));
+          result = checksumInLabel;
+        }
+      }
+    }
+    return result;
+  }
+
   private File resolvePath(String name, String basePath,
       List<String> includePaths) {
     File file = new File(basePath, name);
@@ -416,7 +507,21 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     return null;
   }
 
+  /**
+   * Set the flag for checksum generation.
+   *
+   * @param value 'true' to turn on, 'false' to turn off.
+   */
   public void setGenerateChecksums(boolean value) {
     this.generateChecksums = value;
+  }
+
+  /**
+   * Set the map to represent the checksum manifest file.
+   *
+   * @param manifest A mapping of file objects to checksums.
+   */
+  public void setChecksumManifest(Map<File, String> manifest) {
+    this.checksumManifest = manifest;
   }
 }
