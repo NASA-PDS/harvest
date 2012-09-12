@@ -249,6 +249,11 @@
          node_to_agency
        </modelValue>
      </referenceTypeMap>
+     <referenceTypeMap value="archivist_ref">
+       <modelValue>
+         node_to_archivist
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="associate_ref">
        <modelValue>
          collection_to_associate
@@ -495,6 +500,11 @@
          has_instrument_host
        </modelValue>
      </referenceTypeMap>
+     <referenceTypeMap value="manager_ref">
+       <modelValue>
+         node_to_manager
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="member_ref">
        <modelValue>
          inventory_has_member_product
@@ -509,6 +519,11 @@
        </modelValue>
        <modelValue>
          has_node
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="operator_ref">
+       <modelValue>
+         node_to_operator
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="personnel_ref">
