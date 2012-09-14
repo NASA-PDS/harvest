@@ -16,9 +16,10 @@
 -->
 
 <policy>
-   <candidates>
-     <namespace prefix="pds" uri="http://pds.nasa.gov/pds4/pds/v09" default="true"/>
-     <productMetadata objectType="Product_Bundle">
+  <candidates>
+    <namespace prefix="pds" uri="http://pds.nasa.gov/pds4/pds/v09" default="true"/>
+    <productMetadata objectType="Product_Bundle">
+      <!-- Identification_Area -->
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
@@ -55,84 +56,90 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <!-- Context_Area -->
+      <xPath slotName="observation_comment">
+        //Context_Area/comment
+      </xPath>
+      <xPath slotName="observation_start_date_time">
+        //Context_Area/Time_Coordinates/start_date_time
+      </xPath>
+      <xPath slotName="observation_stop_date_time">
+        //Context_Area/Time_Coordinates/stop_date_time
+      </xPath>
+      <xPath slotName="observation_local_mean_solar_time">
+        //Context_Area/Time_Coordinates/local_mean_solar_time
+      </xPath>
+      <xPath slotName="observation_local_true_solar_time">
+        //Context_Area/Time_Coordinates/local_true_solar_time
+      </xPath>
+      <xPath slotName="observation_solar_longitute">
+        //Context_Area/Time_Coordinates/solar_longitude
+      </xPath>
+      <xPath slotName="primary_result_type">
+        //Context_Area/Primary_Result_Summary/type
+      </xPath>
+      <xPath slotName="primary_result_purpose">
+        //Context_Area/Primary_Result_Summary/purpose
+      </xPath>
+      <xPath slotName="primary_result_data_regime">
+        //Context_Area/Primary_Result_Summary/data_regime
+      </xPath>
+      <xPath slotName="primary_result_description">
+        //Context_Area/Primary_Result_Summary/description
+      </xPath>
+      <xPath slotName="primary_result_processing_level_id">
+        //Context_Area/Primary_Result_Summary/processing_level_id
+      </xPath>
+      <xPath slotName="investigation_name">
+        //Context_Area/Investigation_Area/name
+      </xPath>
+      <xPath slotName="investigation_type">
+        //Context_Area/Investigation_Area/type
+      </xPath>
+      <xPath slotName="observing_system_name">
+        //Context_Area/Observing_System/name
+      </xPath>
+      <xPath slotName="observing_system_description">
+        //Context_Area/Observing_System/description
+      </xPath>
+      <xPath slotName="observing_system_component_name">
+        //Context_Area/Observing_System/Observing_System_Component/name
+      </xPath>
+      <xPath slotName="observing_system_component_type">
+        //Context_Area/Observing_System/Observing_System_Component/observing_system_component_type
+      </xPath>
+      <xPath slotName="observing_system_component_description">
+        //Context_Area/Observing_System/Observing_System_Component/description
+      </xPath>
+      <xPath slotName="target_name">
+        //Context_Area/Target_Identification/name
+      </xPath>
+      <xPath slotName="target_alternate_designation">
+        //Context_Area/Target_Identification/alternate_designation
+      </xPath>
+      <xPath slotName="target_type">
+        //Context_Area/Target_Identification/type
+      </xPath>
+      <xPath slotName="target_description">
+        //Context_Area/Target_Identification/description
+      </xPath>
+      <!-- Reference_List -->
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="observation_comment">
-        //Subject_Area/comment
-      </xPath>
-      <xPath slotName="observation_start_date_time">
-        //Subject_Area/Time_Coordinates/start_date_time
-      </xPath>
-      <xPath slotName="observation_stop_date_time">
-        //Subject_Area/Time_Coordinates/stop_date_time
-      </xPath>
-      <xPath slotName="observation_local_mean_solar_time">
-        //Subject_Area/Time_Coordinates/local_mean_solar_time
-      </xPath>
-      <xPath slotName="observation_local_true_solar_time">
-        //Subject_Area/Time_Coordinates/local_true_solar_time
-      </xPath>
-      <xPath slotName="observation_solar_longitute">
-        //Subject_Area/Time_Coordinates/solar_longitude
-      </xPath>
-      <xPath slotName="primary_result_type">
-        //Subject_Area/Primary_Result_Description/type
-      </xPath>
-      <xPath slotName="primary_result_purpose">
-        //Subject_Area/Primary_Result_Description/purpose
-      </xPath>
-      <xPath slotName="primary_result_data_regime">
-        //Subject_Area/Primary_Result_Description/data_regime
-      </xPath>
-      <xPath slotName="primary_result_reduction_level">
-        //Subject_Area/Primary_Result_Description/reduction_level
-      </xPath>
-      <xPath slotName="primary_result_description">
-        //Subject_Area/Primary_Result_Description/description
-      </xPath>
-      <xPath slotName="investigation_name">
-        //Subject_Area/Investigation_Area/name
-      </xPath>
-      <xPath slotName="investigation_type">
-        //Subject_Area/Investigation_Area/type
-      </xPath>
-      <xPath slotName="observing_system_name">
-        //Subject_Area/Observing_System/name
-      </xPath>
-      <xPath slotName="observing_system_description">
-        //Subject_Area/Observing_System/description
-      </xPath>
-      <xPath slotName="observing_system_component_name">
-        //Subject_Area/Observing_System/Observing_System_Component/name
-      </xPath>
-      <xPath slotName="observing_system_component_description">
-        //Subject_Area/Observing_System/Observing_System_Component/description
-      </xPath>
-      <xPath slotName="observing_system_component_type">
-        //Subject_Area/Observing_System/Observing_System_Component/observing_system_component_type
-      </xPath>
-      <xPath slotName="target_name">
-        //Subject_Area/Target_Identification/name
-      </xPath>
-      <xPath slotName="target_alternate_designation">
-        //Subject_Area/Target_Identification/alternate_designation
-      </xPath>
-      <xPath slotName="target_type">
-        //Subject_Area/Target_Identification/type
-      </xPath>
-      <xPath slotName="target_description">
-        //Subject_Area/Target_Identification/description
-      </xPath>
+      <!-- Bundle -->
       <xPath slotName="bundle_type">
         //Bundle/bundle_type
       </xPath>
       <xPath slotName="bundle_description">
         //Bundle/description
       </xPath>
-     </productMetadata>
+      <!-- File_Area_Text -->
+      <!-- Bundle_Member_Entry -->
+    </productMetadata>
 
-     <productMetadata objectType="Product_Collection">
+    <productMetadata objectType="Product_Collection">
+      <!-- Identification_Area -->
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
@@ -169,81 +176,86 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <!-- Context_Area -->
+      <xPath slotName="observation_comment">
+        //Context_Area/comment
+      </xPath>
+      <xPath slotName="observation_start_date_time">
+        //Context_Area/Time_Coordinates/start_date_time
+      </xPath>
+      <xPath slotName="observation_stop_date_time">
+        //Context_Area/Time_Coordinates/stop_date_time
+      </xPath>
+      <xPath slotName="observation_local_mean_solar_time">
+        //Context_Area/Time_Coordinates/local_mean_solar_time
+      </xPath>
+      <xPath slotName="observation_local_true_solar_time">
+        //Context_Area/Time_Coordinates/local_true_solar_time
+      </xPath>
+      <xPath slotName="observation_solar_longitute">
+        //Context_Area/Time_Coordinates/solar_longitude
+      </xPath>
+      <xPath slotName="primary_result_type">
+        //Context_Area/Primary_Result_Summary/type
+      </xPath>
+      <xPath slotName="primary_result_purpose">
+        //Context_Area/Primary_Result_Summary/purpose
+      </xPath>
+      <xPath slotName="primary_result_data_regime">
+        //Context_Area/Primary_Result_Summary/data_regime
+      </xPath>
+      <xPath slotName="primary_result_description">
+        //Context_Area/Primary_Result_Summary/description
+      </xPath>
+      <xPath slotName="primary_result_processing_level_id">
+        //Context_Area/Primary_Result_Summary/processing_level_id
+      </xPath>
+      <xPath slotName="investigation_name">
+        //Context_Area/Investigation_Area/name
+      </xPath>
+      <xPath slotName="investigation_type">
+        //Context_Area/Investigation_Area/type
+      </xPath>
+      <xPath slotName="observing_system_name">
+        //Context_Area/Observing_System/name
+      </xPath>
+      <xPath slotName="observing_system_description">
+        //Context_Area/Observing_System/description
+      </xPath>
+      <xPath slotName="observing_system_component_name">
+        //Context_Area/Observing_System/Observing_System_Component/name
+      </xPath>
+      <xPath slotName="observing_system_component_type">
+        //Context_Area/Observing_System/Observing_System_Component/observing_system_component_type
+      </xPath>
+      <xPath slotName="observing_system_component_description">
+        //Context_Area/Observing_System/Observing_System_Component/description
+      </xPath>
+      <xPath slotName="target_name">
+        //Context_Area/Target_Identification/name
+      </xPath>
+      <xPath slotName="target_alternate_designation">
+        //Context_Area/Target_Identification/alternate_designation
+      </xPath>
+      <xPath slotName="target_type">
+        //Context_Area/Target_Identification/type
+      </xPath>
+      <xPath slotName="target_description">
+        //Context_Area/Target_Identification/description
+      </xPath>
+      <!-- Reference_List -->
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="observation_comment">
-        //Subject_Area/comment
-      </xPath>
-      <xPath slotName="observation_start_date_time">
-        //Subject_Area/Time_Coordinates/start_date_time
-      </xPath>
-      <xPath slotName="observation_stop_date_time">
-        //Subject_Area/Time_Coordinates/stop_date_time
-      </xPath>
-      <xPath slotName="observation_local_mean_solar_time">
-        //Subject_Area/Time_Coordinates/local_mean_solar_time
-      </xPath>
-      <xPath slotName="observation_local_true_solar_time">
-        //Subject_Area/Time_Coordinates/local_true_solar_time
-      </xPath>
-      <xPath slotName="observation_solar_longitute">
-        //Subject_Area/Time_Coordinates/solar_longitude
-      </xPath>
-      <xPath slotName="primary_result_type">
-        //Subject_Area/Primary_Result_Description/type
-      </xPath>
-      <xPath slotName="primary_result_purpose">
-        //Subject_Area/Primary_Result_Description/purpose
-      </xPath>
-      <xPath slotName="primary_result_data_regime">
-        //Subject_Area/Primary_Result_Description/data_regime
-      </xPath>
-      <xPath slotName="primary_result_reduction_level">
-        //Subject_Area/Primary_Result_Description/reduction_level
-      </xPath>
-      <xPath slotName="primary_result_description">
-        //Subject_Area/Primary_Result_Description/description
-      </xPath>
-      <xPath slotName="investigation_name">
-        //Subject_Area/Investigation_Area/name
-      </xPath>
-      <xPath slotName="investigation_type">
-        //Subject_Area/Investigation_Area/type
-      </xPath>
-      <xPath slotName="observing_system_name">
-        //Subject_Area/Observing_System/name
-      </xPath>
-      <xPath slotName="observing_system_description">
-        //Subject_Area/Observing_System/description
-      </xPath>
-      <xPath slotName="observing_system_component_name">
-        //Subject_Area/Observing_System/Observing_System_Component/name
-      </xPath>
-      <xPath slotName="observing_system_component_description">
-        //Subject_Area/Observing_System/Observing_System_Component/description
-      </xPath>
-      <xPath slotName="observing_system_component_type">
-        //Subject_Area/Observing_System/Observing_System_Component/observing_system_component_type
-      </xPath>
-      <xPath slotName="target_name">
-        //Subject_Area/Target_Identification/name
-      </xPath>
-      <xPath slotName="target_alternate_designation">
-        //Subject_Area/Target_Identification/alternate_designation
-      </xPath>
-      <xPath slotName="target_type">
-        //Subject_Area/Target_Identification/type
-      </xPath>
-      <xPath slotName="target_description">
-        //Subject_Area/Target_Identification/description
-      </xPath>
+      <!-- Collection -->
       <xPath slotName="collection_type">
         //Collection/collection_type
       </xPath>
-     </productMetadata>
-   </candidates>
-   <references>
+      <!-- File_Area_Inventory -->
+    </productMetadata>
+  </candidates>
+
+  <references>
      <referenceTypeMap value="agency_ref">
        <modelValue>
          node_to_agency
@@ -622,5 +634,5 @@
          has_volume
        </modelValue>
      </referenceTypeMap>
-   </references>
+  </references>
 </policy>
