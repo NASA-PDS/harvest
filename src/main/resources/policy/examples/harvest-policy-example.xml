@@ -28,6 +28,7 @@
     <namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01"/>
 
     <productMetadata objectType="Product_Browse">
+      <!-- Identification_Area -->
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
@@ -64,12 +65,15 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <!-- Reference_List -->
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <!-- File_Area_Browse -->
     </productMetadata>
 
     <productMetadata objectType="Product_Document">
+      <!-- Identification_Area -->
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
@@ -106,21 +110,92 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <!-- Context_Area -->
+      <xPath slotName="observation_comment">
+        //Context_Area/comment
+      </xPath>
+      <xPath slotName="observation_start_date_time">
+        //Context_Area/Time_Coordinates/start_date_time
+      </xPath>
+      <xPath slotName="observation_stop_date_time">
+        //Context_Area/Time_Coordinates/stop_date_time
+      </xPath>
+      <xPath slotName="observation_local_mean_solar_time">
+        //Context_Area/Time_Coordinates/local_mean_solar_time
+      </xPath>
+      <xPath slotName="observation_local_true_solar_time">
+        //Context_Area/Time_Coordinates/local_true_solar_time
+      </xPath>
+      <xPath slotName="observation_solar_longitute">
+        //Context_Area/Time_Coordinates/solar_longitude
+      </xPath>
+      <xPath slotName="primary_result_type">
+        //Context_Area/Primary_Result_Summary/type
+      </xPath>
+      <xPath slotName="primary_result_purpose">
+        //Context_Area/Primary_Result_Summary/purpose
+      </xPath>
+      <xPath slotName="primary_result_data_regime">
+        //Context_Area/Primary_Result_Summary/data_regime
+      </xPath>
+      <xPath slotName="primary_result_description">
+        //Context_Area/Primary_Result_Summary/description
+      </xPath>
+      <xPath slotName="primary_result_processing_level_id">
+        //Context_Area/Primary_Result_Summary/processing_level_id
+      </xPath>
+      <xPath slotName="investigation_name">
+        //Context_Area/Investigation_Area/name
+      </xPath>
+      <xPath slotName="investigation_type">
+        //Context_Area/Investigation_Area/type
+      </xPath>
+      <xPath slotName="observing_system_name">
+        //Context_Area/Observing_System/name
+      </xPath>
+      <xPath slotName="observing_system_description">
+        //Context_Area/Observing_System/description
+      </xPath>
+      <xPath slotName="observing_system_component_name">
+        //Context_Area/Observing_System/Observing_System_Component/name
+      </xPath>
+      <xPath slotName="observing_system_component_type">
+        //Context_Area/Observing_System/Observing_System_Component/observing_system_component_type
+      </xPath>
+      <xPath slotName="observing_system_component_description">
+        //Context_Area/Observing_System/Observing_System_Component/description
+      </xPath>
+      <xPath slotName="target_name">
+        //Context_Area/Target_Identification/name
+      </xPath>
+      <xPath slotName="target_alternate_designation">
+        //Context_Area/Target_Identification/alternate_designation
+      </xPath>
+      <xPath slotName="target_type">
+        //Context_Area/Target_Identification/type
+      </xPath>
+      <xPath slotName="target_description">
+        //Context_Area/Target_Identification/description
+      </xPath>
+      <!-- Reference_List -->
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="document_revision_id">//Document_Description/revision_id</xPath>
-      <xPath slotName="document_name">//Document_Description/document_name</xPath>
-      <xPath slotName="document_doi">//Document_Description/doi</xPath>
-      <xPath slotName="document_author_list">//Document_Description/author_list</xPath>
-      <xPath slotName="document_editor_list">//Document_Description/editor_list</xPath>
-      <xPath slotName="document_acknowledgement_text">//Document_Description/acknowledgement_text</xPath>
-      <xPath slotName="document_copyright">//Document_Description/copyright</xPath>
-      <xPath slotName="document_description">//Document_Description/description</xPath>
-      <xPath slotName="document_publication_date">//Document_Description/publication_date</xPath>
+      <!-- Document_Format_Set -->
+      <!-- Document -->
+      <xPath slotName="document_revision_id">//Document/revision_id</xPath>
+      <xPath slotName="document_name">//Document/document_name</xPath>
+      <xPath slotName="document_doi">//Document/doi</xPath>
+      <xPath slotName="document_author_list">//Document/author_list</xPath>
+      <xPath slotName="document_editor_list">//Document/editor_list</xPath>
+      <xPath slotName="document_acknowledgement_text">//Document/acknowledgement_text</xPath>
+      <xPath slotName="document_copyright">//Document/copyright</xPath>
+      <xPath slotName="document_description">//Document/description</xPath>
+      <xPath slotName="document_publication_date">//Document/publication_date</xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_File_Text">
+      <!-- Identification_Area -->
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
@@ -157,12 +232,15 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <!-- Reference_List -->
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <!-- File_Area_Text -->
     </productMetadata>
 
     <productMetadata objectType="Product_Mission_PDS3">
+      <!-- Identification_Area -->
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
@@ -199,9 +277,11 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <!-- Reference_List -->
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <!-- Mission_PDS3 -->
       <xPath slotName="mission_name">//Mission_PDS3/mission_name</xPath>
       <xPath slotName="mission_description">//Mission_PDS3/mission_desc</xPath>
       <xPath slotName="mission_objectives_summary">//Mission_PDS3/mission_objectives_summary</xPath>
@@ -210,6 +290,7 @@
     </productMetadata>
 
     <productMetadata objectType="Product_Observational">
+      <!-- Identification_Area -->
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
@@ -246,6 +327,7 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <!-- Observation_Area -->
       <xPath slotName="observation_comment">
         //Observation_Area/comment
       </xPath>
@@ -265,19 +347,19 @@
         //Observation_Area/Time_Coordinates/solar_longitude
       </xPath>
       <xPath slotName="primary_result_type">
-        //Observation_Area/Primary_Result_Description/type
+        //Observation_Area/Primary_Result_Summary/type
       </xPath>
       <xPath slotName="primary_result_purpose">
-        //Observation_Area/Primary_Result_Description/purpose
+        //Observation_Area/Primary_Result_Summary/purpose
       </xPath>
       <xPath slotName="primary_result_data_regime">
-        //Observation_Area/Primary_Result_Description/data_regime
-      </xPath>
-      <xPath slotName="primary_result_reduction_level">
-        //Observation_Area/Primary_Result_Description/reduction_level
+        //Observation_Area/Primary_Result_Summary/data_regime
       </xPath>
       <xPath slotName="primary_result_description">
-        //Observation_Area/Primary_Result_Description/description
+        //Observation_Area/Primary_Result_Summary/description
+      </xPath>
+      <xPath slotName="primary_result_reduction_level">
+        //Observation_Area/Primary_Result_Summary/processing_level_id
       </xPath>
       <xPath slotName="investigation_name">
         //Observation_Area/Investigation_Area/name
@@ -294,11 +376,11 @@
       <xPath slotName="observing_system_component_name">
         //Observation_Area/Observing_System/Observing_System_Component/name
       </xPath>
-      <xPath slotName="observing_system_component_description">
-        //Observation_Area/Observing_System/Observing_System_Component/description
-      </xPath>
       <xPath slotName="observing_system_component_type">
         //Observation_Area/Observing_System/Observing_System_Component/observing_system_component_type
+      </xPath>
+      <xPath slotName="observing_system_component_description">
+        //Observation_Area/Observing_System/Observing_System_Component/description
       </xPath>
       <xPath slotName="target_name">
         //Observation_Area/Target_Identification/name
@@ -312,18 +394,16 @@
       <xPath slotName="target_description">
         //Observation_Area/Target_Identification/description
       </xPath>
-      <xPath slotName="spacecraft_clock_start_count">
-        //Observation_Area/Mission_Area/dph:spacecraft_clock_start_count
-      </xPath>
-      <xPath slotName="spacecraft_clock_stop_count">
-        //Observation_Area/Mission_Area/dph:spacecraft_clock_stop_count
-      </xPath>
+      <!-- Reference_List -->
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <!-- File_Area_Observational -->
+      <!-- File_Area_Observational_Supplemental -->
     </productMetadata>
 
     <productMetadata objectType="Product_XML_Schema">
+      <!-- Identification_Area -->
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
@@ -360,9 +440,11 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <!-- Reference_List -->
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <!-- File_Area_XML_Schema -->
     </productMetadata>
   </candidates>
 </policy>
