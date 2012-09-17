@@ -263,7 +263,7 @@
      </referenceTypeMap>
      <referenceTypeMap value="archivist_ref">
        <modelValue>
-         node_to_archivist
+         node_to_data_archivist
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="associate_ref">
