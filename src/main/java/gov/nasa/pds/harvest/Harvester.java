@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -186,9 +187,11 @@ public class Harvester {
    */
   public void harvest(Policy policy) throws ConnectionException, IOException {
     boolean doCrawlerPersistance = false;
-    if (policy.getChecksums().getManifest() != null) {
-      Map<File, String> checksums = ChecksumManifest.read(
-        new File(policy.getChecksums().getManifest()));
+    if (!policy.getChecksums().getManifest().isEmpty()) {
+      Map<File, String> checksums = new HashMap<File, String>();
+      for (String manifest : policy.getChecksums().getManifest()) {
+        checksums.putAll(ChecksumManifest.read(new File(manifest)));
+      }
       fileObjectRegistrationAction.setChecksumManifest(checksums);
     }
     if (waitInterval != -1 && daemonPort != -1) {
