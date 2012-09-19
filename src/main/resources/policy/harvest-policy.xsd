@@ -206,7 +206,7 @@
 <xsd:element name="checksums" type="Checksums"/>
 <xsd:complexType name="Checksums">
    <xsd:sequence>
-      <xsd:element ref="manifest" minOccurs="0"/>
+      <xsd:element ref="manifest" minOccurs="0" maxOccurs="unbounded"/>
    </xsd:sequence>
    <xsd:attribute ref="generate"/>
 </xsd:complexType>
