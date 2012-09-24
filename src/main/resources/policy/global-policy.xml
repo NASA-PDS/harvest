@@ -17,7 +17,7 @@
 
 <policy>
   <candidates>
-    <namespace prefix="pds" uri="http://pds.nasa.gov/pds4/pds/v09" default="true"/>
+    <namespace prefix="pds" uri="http://pds.nasa.gov/pds4/pds/v03" default="true"/>
     <productMetadata objectType="Product_Bundle">
       <!-- Identification_Area -->
       <xPath slotName="information_model_version">
