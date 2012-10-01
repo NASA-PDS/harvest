@@ -23,6 +23,9 @@
   </properties>
 
   <body>
+    <release version="1.4.0" date="TBD" description="This release of the Harvest Tool is a component of the integrated release 3.1.0 of the PDS 2010 System. This is an operational release of the system components to date.">
+    </release>
+
     <release version="1.3.0" date="2012-09-30" description="This release of the Harvest Tool is a component of the integrated release 3.0.0 of the PDS 2010 System. This is an operational release of the system components to date.">
       <action dev="mcayanan" type="update" issue="PDS-93">
         For PDS4 registration, updated to check that the logical identifier of a product does not contain URN reserved and excluded characters. If it does, issue an error message in the log and do not register the product. For PDS3 registration, if there are URN reserved and/or excluded characters, replace these with dash characters before registering the product.
