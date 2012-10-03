@@ -30,12 +30,6 @@
       <action dev="mcayanan" type="update" issue="PDS-93">
         For PDS4 registration, updated to check that the logical identifier of a product does not contain URN reserved and excluded characters. If it does, issue an error message in the log and do not register the product. For PDS3 registration, if there are URN reserved and/or excluded characters, replace these with dash characters before registering the product.
       </action>
-      <action dev="mcayanan" type="fix" issue="PDS-94">
-        Fixed to key off of 'Product_Collection' and 'Product_Bundle' to determine the proper metadata extraction process.
-      </action>
-      <action dev="mcayanan" type="fix" issue="PDS-95">
-        Fixed to not create an empty slot in the Registry for empty or null element values.
-      </action>
       <action dev="mcayanan" type="update" issue="PDS-97">
         Upgraded support for PDS3 data sets. This includes making changes to the policy config to allow the logical identifier to be configurable, allow static metadata to be set, and allow the slot name for ancillary metadata to be configurable.
       </action>
@@ -44,6 +38,12 @@
       </action>
       <action dev="mcayanan" type="update" issue="PDS-99">
         Updated to utilize a Checksum Manifest file for storing and verifying checksums. Also added a flag in the policy config to enable/disable checksum generation.
+      </action>
+      <action dev="mcayanan" type="fix" issue="PDS-94">
+        Fixed to key off of 'Product_Collection' and 'Product_Bundle' to determine the proper metadata extraction process.
+      </action>
+      <action dev="mcayanan" type="fix" issue="PDS-95">
+        Fixed to not create an empty slot in the Registry for empty or null element values.
       </action>
     </release>
 
