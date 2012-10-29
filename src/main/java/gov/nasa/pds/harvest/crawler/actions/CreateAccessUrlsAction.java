@@ -138,7 +138,7 @@ public class CreateAccessUrlsAction extends CrawlerAction {
       boolean matchedOffset = false;
       for (String offset : accessUrl.getOffset()) {
         if (productFile.startsWith(offset)) {
-          productFile = productFile.replaceFirst(offset, "")
+          productFile = productFile.replace(offset, "")
           .trim();
           matchedOffset = true;
           break;
