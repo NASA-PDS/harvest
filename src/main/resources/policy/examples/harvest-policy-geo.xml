@@ -47,8 +47,8 @@
       <xPath slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keywords">
-        //Identification_Area/Citation_Information/keywords
+      <xPath slotName="citation_keyword">
+        //Identification_Area/Citation_Information/keyword
       </xPath>
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
