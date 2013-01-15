@@ -353,9 +353,9 @@
       <xPath slotName="agency_description">//Agency/description</xPath>
       <!-- Instrument -->
       <xPath slotName="instrument_name">//Instrument/name</xPath>
-      <xPath slotName="instrument_version_id">//Instrument/version_id</xPath>
       <xPath slotName="instrument_type">//Instrument/type</xPath>
       <xPath slotName="instrument_description">//Instrument/description</xPath>
+      <xPath slotName="instrument_model_id">//Instrument/model_id</xPath>
       <xPath slotName="instrument_naif_id">//Instrument/naif_instrument_id</xPath>
       <xPath slotName="instrument_serial_number">//Instrument/serial_number</xPath>
       <!-- Instrument_Host -->
