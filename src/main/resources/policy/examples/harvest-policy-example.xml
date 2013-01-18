@@ -3,9 +3,9 @@
 <!--
   Harvest Tool Example Policy File
 
-  This policy file corresponds with the DPH example bundle. By specifying 
-  he bundle products below, Harvest relies on the bundles correctly 
-  specifying the collections and the collections correctly specifying 
+  This policy file corresponds with the DPH example bundle. By specifying
+  he bundle products below, Harvest relies on the bundles correctly
+  specifying the collections and the collections correctly specifying
   the products.
 
   $Id$
@@ -17,12 +17,14 @@
     <file>$HOME/VG2PLS_archive/context/Collection_Context.xml</file>
     <file>$HOME/VG2PLS_archive/data/Collection_Data.xml</file>
     <file>$HOME/VG2PLS_archive/document/Collection_document.xml</file>
-    <file>$HOME/VG2PLS_archive/schemas/aaCollection_XML_Schema.xml</file>    
+    <file>$HOME/VG2PLS_archive/schemas/aaCollection_XML_Schema.xml</file>
   </collections>
-  
+
   <directories>
     <path>$HOME/VG2PLS_archive</path>
-    <filePattern>*.xml</filePattern>
+    <fileFilter>
+      <include>*.xml</include>
+    </fileFilter>
   </directories>
   <candidates>
     <namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01"/>
