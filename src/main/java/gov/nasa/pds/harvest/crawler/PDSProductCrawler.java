@@ -28,6 +28,8 @@ import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds4MetExtractor;
 import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.policy.DirectoryFilter;
+import gov.nasa.pds.harvest.policy.FileFilter;
 import gov.nasa.pds.harvest.stats.HarvestStats;
 import gov.nasa.pds.harvest.util.LidVid;
 import gov.nasa.pds.harvest.util.XMLExtractor;
@@ -43,6 +45,10 @@ import java.util.logging.Logger;
 
 import net.sf.saxon.trans.XPathException;
 
+import org.apache.commons.io.filefilter.AndFileFilter;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
+import org.apache.commons.io.filefilter.NotFileFilter;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -151,12 +157,29 @@ public class PDSProductCrawler extends ProductCrawler {
   }
 
   /**
-   * Sets the file filter.
+   * Sets the file filter for the crawler.
    *
-   * @param filters A list of file filters.
+   * @param filter A File Filter defined in the Harvest policy config.
    */
-  public void setFileFilter(List<String> filters) {
-    FILE_FILTER = new WildcardOSFilter(filters);
+  public void setFileFilter(FileFilter filter) {
+    if (filter != null && !filter.getInclude().isEmpty()) {
+      FILE_FILTER = new WildcardOSFilter(filter.getInclude());
+    }
+  }
+
+  /**
+   * Sets the directory filter for the crawler.
+   *
+   * @param filter A Directory Filter defined in the Harvest policy config.
+   */
+  public void setDirectoryFilter(DirectoryFilter filter) {
+    if (!filter.getExclude().isEmpty()) {
+      List<IOFileFilter> dirFilters = new ArrayList<IOFileFilter>();
+      dirFilters.add(FileFilterUtils.directoryFileFilter());
+      dirFilters.add(new NotFileFilter(new WildcardOSFilter(
+          filter.getExclude())));
+      DIR_FILTER = new AndFileFilter(dirFilters);
+    }
   }
 
   /**

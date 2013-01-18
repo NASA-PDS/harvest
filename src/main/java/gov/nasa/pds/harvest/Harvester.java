@@ -211,9 +211,11 @@ public class Harvester {
     for (String directory : policy.getDirectories().getPath()) {
       PDSProductCrawler pc = new PDSProductCrawler(pds4MetExtractorConfig);
       pc.setProductPath(directory);
-      List<String> filters = policy.getDirectories().getFilePattern();
-      if (!filters.isEmpty()) {
-        pc.setFileFilter(filters);
+      if (policy.getDirectories().getFileFilter() != null) {
+        pc.setFileFilter(policy.getDirectories().getFileFilter());
+      }
+      if (policy.getDirectories().getDirectoryFilter() != null) {
+        pc.setDirectoryFilter(policy.getDirectories().getDirectoryFilter());
       }
       crawlers.add(pc);
     }
@@ -225,9 +227,11 @@ public class Harvester {
             .getPds3ProductMetadata());
       p3c.setPDS3MetExtractorConfig(pds3MetExtractorConfig);
       p3c.setProductPath(policy.getPds3Directory().getPath());
-      List<String> filters = policy.getPds3Directory().getFilePattern();
-      if (!filters.isEmpty()) {
-        p3c.setFileFilter(filters);
+      if (policy.getPds3Directory().getFileFilter() != null) {
+        p3c.setFileFilter(policy.getPds3Directory().getFileFilter());
+      }
+      if (policy.getPds3Directory().getDirectoryFilter() != null) {
+        p3c.setDirectoryFilter(policy.getPds3Directory().getDirectoryFilter());
       }
       crawlers.add(p3c);
     }

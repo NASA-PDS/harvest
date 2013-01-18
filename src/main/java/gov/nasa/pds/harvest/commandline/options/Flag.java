@@ -37,10 +37,22 @@ public enum Flag {
       + "pattern should be surrounded by quotes. (i.e. -e \"*.xml\")"),
 
   /**
+   * Flag to specify patterns to look for when crawling a target directory
+   * for sub-directories to ignore.
+   *
+   */
+  IGNOREDIR("D", "ignore-dir", "patterns", String.class, true, "Specify "
+      + "patterns to look for when crawling a target directory for "
+      + "sub-directories to ignore. Each pattern should be surrounded by "
+      + "quotes. (i.e. -i \"CATALOG\")"),
+
+  /**
    * Flag to specify a PDS3 directory to crawl for harvesting.
    */
-  PDS3DIRECTORY("D", "pds3-directory", "dir", String.class, "Specify a "
-      + "PDS3 directory to crawl."),
+  ISPDS3DIR("pds3", "is-pds3-dir", "Specify this flag to indicate that the "
+      + "target passed into the command-line is a PDS3 directory. The "
+      + "default assumes that any targets passed into the command line are "
+      + "PDS4 directories."),
 
   /** Flag to display the help. */
   HELP("h", "help", "Display usage."),
@@ -209,7 +221,8 @@ public enum Flag {
 
     options.addOption(new ToolsOption(CONFIG));
     options.addOption(new ToolsOption(REGEXP));
-    options.addOption(new ToolsOption(PDS3DIRECTORY));
+    options.addOption(new ToolsOption(IGNOREDIR));
+    options.addOption(new ToolsOption(ISPDS3DIR));
     options.addOption(new ToolsOption(HELP));
     options.addOption(new ToolsOption(KEYSTOREPASS));
     options.addOption(new ToolsOption(VERBOSE));

@@ -22,6 +22,8 @@ import gov.nasa.pds.harvest.logging.formatter.HarvestFormatter;
 import gov.nasa.pds.harvest.logging.handler.HarvestFileHandler;
 import gov.nasa.pds.harvest.logging.handler.HarvestStreamHandler;
 import gov.nasa.pds.harvest.policy.Directory;
+import gov.nasa.pds.harvest.policy.DirectoryFilter;
+import gov.nasa.pds.harvest.policy.FileFilter;
 import gov.nasa.pds.harvest.policy.Namespace;
 import gov.nasa.pds.harvest.policy.Pds3Directory;
 import gov.nasa.pds.harvest.policy.Policy;
@@ -41,7 +43,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -128,12 +129,19 @@ public class HarvestLauncher {
   /** List of targets specified on the command line. */
   private List<File> targets;
 
-  /** List of regular expressions to use as filters when crawling a directory.
+  /** List of regular expressions to use as file filters when crawling a
+   *  directory.
    */
   private List<String> regExps;
 
-  /** A PDS3 directory specified on the command line. */
-  private String pds3Directory;
+  /**
+   * List of regular expressions for sub-directories to exclude when crawling
+   * a directory.
+   */
+  private List<String> excludeSubDirs;
+
+  /** Indicates whether the target is a PDS3 directory. */
+  private boolean isPDS3Directory;
 
   /** The severity level to set for the tool. */
   private Level severityLevel;
@@ -157,7 +165,8 @@ public class HarvestLauncher {
     keystorePassword = null;
     targets = new ArrayList<File>();
     regExps = new ArrayList<String>();
-    pds3Directory = null;
+    excludeSubDirs = new ArrayList<String>();
+    isPDS3Directory = false;
     severityLevel = ToolsLevel.INFO;
 
     globalPolicy = this.getClass().getResourceAsStream("global-policy.xml");
@@ -238,8 +247,8 @@ public class HarvestLauncher {
         } catch (NumberFormatException n) {
           throw new Exception(n.getMessage());
         }
-      } else if (o.getOpt().equals(Flag.PDS3DIRECTORY.getShortName())) {
-        pds3Directory = o.getValue();
+      } else if (o.getOpt().equals(Flag.ISPDS3DIR.getShortName())) {
+        isPDS3Directory = true;
       } else if (o.getOpt().equals(Flag.VERBOSE.getShortName())) {
         setVerbose(Integer.parseInt(o.getValue()));
       }
@@ -267,6 +276,14 @@ public class HarvestLauncher {
       }
       securityContext = new SecurityContext(keystore, keystorePassword,
           keystore, keystorePassword);
+    }
+    if (isPDS3Directory) {
+      if (targets.size() == 0) {
+        throw new Exception("No targets specified on the command-line.");
+      } else if (targets.size() > 1) {
+        throw new Exception("Cannot specify more than one PDS3 target "
+            +"directory.");
+      }
     }
     setLogger();
   }
@@ -319,13 +336,39 @@ public class HarvestLauncher {
    * Logs header information for the log output.
    *
    */
-  private void logHeader() {
+  private void logHeader(Policy policy) {
+    List<String> targets = new ArrayList<String>();
+    List<String> fileIncludes = new ArrayList<String>();
+    List<String> dirExcludes = new ArrayList<String>();
+    if (policy.getPds3Directory().getPath() != null) {
+      targets.add(policy.getPds3Directory().getPath());
+      fileIncludes = policy.getPds3Directory().getFileFilter().getInclude();
+      dirExcludes = policy.getPds3Directory().getDirectoryFilter().getExclude();
+    } else {
+      targets = policy.getDirectories().getPath();
+      fileIncludes = policy.getDirectories().getFileFilter().getInclude();
+      dirExcludes = policy.getDirectories().getDirectoryFilter().getExclude();
+    }
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
         "PDS Harvest Tool Log\n"));
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
         "Version                     " + ToolInfo.getVersion()));
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
         "Time                        " + Utility.getDateTime()));
+    log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
+        "Target(s)                   " + targets));
+    if (policy.getPds3Directory().getPath() != null) {
+      log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
+        "Target Type                 PDS3"));
+    }
+    if (!fileIncludes.isEmpty()) {
+      log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
+        "File Inclusions             " + fileIncludes));
+    }
+    if (!dirExcludes.isEmpty()) {
+      log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
+        "Directory Exclusions        " + dirExcludes));
+    }
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
         "Severity Level              " + severityLevel.getName()));
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
@@ -407,9 +450,6 @@ public class HarvestLauncher {
   private void doHarvesting(final Policy policy)
   throws ParserConfigurationException,
   RegistryClientException, ConnectionException, IOException {
-    log.log(new ToolsLogRecord(ToolsLevel.INFO, "XML extractor set to the "
-        + "following default namespace: "
-        + XMLExtractor.getDefaultNamespace()));
     Harvester harvester = new Harvester(registryURL, registryPackageGuid);
     if ((username != null) && (password != null)) {
       harvester.setSecurity(securityContext, username, password);
@@ -420,13 +460,22 @@ public class HarvestLauncher {
     }
     Directory directories = new Directory();
     Pds3Directory pds3Dir = new Pds3Directory();
-    for (File target : targets) {
-      directories.getPath().add(target.toString());
-      directories.getFilePattern().addAll(regExps);
-    }
-    if (pds3Directory != null) {
-      pds3Dir.setPath(pds3Directory);
-      pds3Dir.getFilePattern().addAll(regExps);
+    FileFilter fileFilter = new FileFilter();
+    fileFilter.getInclude().addAll(regExps);
+
+    DirectoryFilter dirFilter = new DirectoryFilter();
+    dirFilter.getExclude().addAll(excludeSubDirs);
+
+    if (isPDS3Directory) {
+      pds3Dir.setPath(targets.get(0).toString());
+      pds3Dir.setFileFilter(fileFilter);
+      pds3Dir.setDirectoryFilter(dirFilter);
+    } else {
+      for (File target : targets) {
+        directories.getPath().add(target.toString());
+      }
+      directories.setFileFilter(fileFilter);
+      directories.setDirectoryFilter(dirFilter);
     }
     // Any targets specified on the command line will overwrite any targets
     // specified in the policy file.
@@ -435,6 +484,11 @@ public class HarvestLauncher {
       policy.setDirectories(directories);
       policy.setPds3Directory(pds3Dir);
     }
+    // Display config parameters in the report log
+    logHeader(policy);
+    log.log(new ToolsLogRecord(ToolsLevel.INFO, "XML extractor set to the "
+        + "following default namespace: "
+        + XMLExtractor.getDefaultNamespace()));
     harvester.harvest(policy);
   }
 
@@ -504,9 +558,6 @@ public class HarvestLauncher {
       List<String> targets = new ArrayList<String>();
       for (File f : this.targets) {
         targets.add(f.toString());
-      }
-      if (pds3Directory != null) {
-        targets.add(pds3Directory);
       }
       // Any targets specified on the command-line overwrite targets
       // specified in the policy config file.
@@ -588,7 +639,6 @@ public class HarvestLauncher {
           globalPolicy.getReferences().getReferenceTypeMap());
       setupExtractor(policy.getCandidates().getNamespace());
       createRegistryPackage(policy);
-      logHeader();
       doHarvesting(policy);
       closeHandlers();
     } catch (JAXBException je) {

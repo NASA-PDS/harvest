@@ -21,7 +21,6 @@
 
 <xsd:element name="path" type="xsd:string"/>
 <xsd:element name="file" type="xsd:string"/>
-<xsd:element name="filePattern" type="xsd:string"/>
 <xsd:element name="baseUrl" type="xsd:string"/>
 <xsd:element name="offset" type="xsd:string"/>
 <xsd:element name="serverUrl" type="xsd:string"/>
@@ -31,6 +30,8 @@
 <xsd:element name="description" type="xsd:string"/>
 <xsd:element name="value" type="xsd:string"/>
 <xsd:element name="manifest" type="xsd:string"/>
+<xsd:element name="include" type="xsd:string"/>
+<xsd:element name="exclude" type="xsd:string"/>
 
 <xsd:attribute name="objectType" type="xsd:string"/>
 <xsd:attribute name="prefix" type="xsd:string"/>
@@ -42,6 +43,20 @@
 <xsd:attribute name="value" type="xsd:string"/>
 <xsd:attribute name="name" type="xsd:string"/>
 <xsd:attribute name="generate" type="xsd:boolean" default="false"/>
+
+<xsd:element name="fileFilter" type="FileFilter"/>
+<xsd:complexType name="FileFilter">
+   <xsd:sequence>
+      <xsd:element ref="include" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+</xsd:complexType>
+
+<xsd:element name="directoryFilter" type="DirectoryFilter"/>
+<xsd:complexType name="DirectoryFilter">
+   <xsd:sequence>
+      <xsd:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+</xsd:complexType>
 
 <xsd:element name="elementName" type="ElementName"/>
 <xsd:complexType name="ElementName">
@@ -88,7 +103,8 @@
 <xsd:complexType name="Directory">
    <xsd:sequence>
       <xsd:element ref="path" maxOccurs="unbounded"/>
-      <xsd:element ref="filePattern" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="fileFilter" minOccurs="0" />
+      <xsd:element ref="directoryFilter" minOccurs="0" />
    </xsd:sequence>
 </xsd:complexType>
 
@@ -175,7 +191,8 @@
 <xsd:complexType name="Pds3Directory">
    <xsd:sequence>
       <xsd:element ref="path"/>
-      <xsd:element ref="filePattern" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="fileFilter" minOccurs="0" />
+      <xsd:element ref="directoryFilter" minOccurs="0" />
    </xsd:sequence>
 </xsd:complexType>
 
