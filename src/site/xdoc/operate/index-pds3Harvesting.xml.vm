@@ -25,7 +25,7 @@
     
     <body>
         <section name="Harvesting of PDS3 Data Products">
-            <p>This document details how the Harvest Tool behaves when registering PDS3 data products. The tool does the following when it registers a PDS3 data product:
+            <p>This document details the default behavior of the Harvest Tool when registering PDS3 data products. The tool does the following when it registers a PDS3 data product:
             </p>
 
             <ul>

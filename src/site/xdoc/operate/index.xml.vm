@@ -54,8 +54,9 @@
           <tr><td>-k, --keystore-pass</td><td>Specify a keystore password associated with the keystore file being passed into the tool.</td></tr>
           <tr><td>-l, --log-file</td><td>Specify a log file name. Default is standard out.</td></tr>
           <tr><td>-v, --verbose</td><td>Specify the message severity level and above to include in the log (0=Debug, 1=Info, 2=Warning, 3=Error). Default is Info and above (level 1).</td></tr>
-          <tr><td>-e, --regexp</td><td>Specify file patterns to look for when registering products from a target directory.</td></tr>
-          <tr><td>-D, --pds3-directory</td><td>Specify a target directory to register PDS3 products.</td></tr>
+          <tr><td>-e, --regexp</td><td>Specify file patterns to look for when registering products from a target directory. Each pattern must be surrounded by quotes (i.e. -e "*.xml").</td></tr>
+          <tr><td>-D, --ignore-dir</td><td>Specify patterns to look for when traversing a target directory for sub-directories to ignore. Each pattern must be surrounded by quotes (i.e. -D "CATALOG").</td></tr>
+          <tr><td>-pds3, --is-pds3-dir</td><td>Specify to indicate that the target directory is a PDS3 directory. Note that only one PDS3 target directory can be passed into the tool.</td></tr>
           <tr><td>-P, --port</td><td>Specify a port number to use if running the tool in persistence mode. See the <a href="#Persistence_Mode">Persistence Mode</a> section for more details.</td></tr>
           <tr><td>-w, --wait</td><td>Specify the time, in seconds, to wait in between the crawls if running the tool in persistence mode. See the <a href="#Persistence_Mode">Persistence Mode</a> section for more details.</td></tr>
           <tr><td>-V, --version</td><td>Display the release number and copyright information.</td></tr>
@@ -75,6 +76,8 @@
           <li>Registering Products From Multiple Targets</li>
           <li>Registering Products From Targets Specified In The Policy File</li>
           <li>Registering Products To A Secured Registry Instance</li>
+          <li>Excluding Sub-Directories To Traverse From a Target</li>
+          <li>Registering PDS3 Products From a Single Target</li>
         </ul>
 
         <p><b><i>Registering Products From a Single Target</i></b></p>
@@ -85,7 +88,7 @@
         <source>
 % harvest $HOME/directory -e "*.xml" -c policy.xml
         </source>
-
+        
         <p><b><i>Registering Products From Multiple Targets</i></b></p>
 
         <p>The following command demonstrates how to register products to a non-secured registry instance from two target directories, <i>$HOME/directory1</i> and <i>$HOME/directory2</i>, using the policy file, <i>policy.xml</i>. Only files that end with a <i>.xml</i> file extension will be processed. The output will go to a log file, <i>log-file.txt</i>:
@@ -114,6 +117,26 @@
   -k {keystorePassword}
         </source>
 
+        <p><b><i>Excluding Sub-Directories To Traverse From a Target</i></b></p>
+        
+        <p>The following command demonstrates registering products from a target directory, <i>$HOME/directory</i>, where the tool will not traverse the sub-directory <i>CONTEXT</i>:
+        </p>
+        
+        <source>
+% harvest $HOME/directory -c policy.xml -D "CONTEXT"
+        </source>
+        
+        <p><b><i>Registering PDS3 Products From a Single Target</i></b></p>
+        
+        <p>The following command demonstrates registering PDS3 products to a non-secured registry instance from a target directory, <i>$HOME/pds3Directory</i>, where only files that end with a <i>.LBL</i> file extension, will be processed:
+        </p>
+        
+        <source>
+          % harvest $HOME/pds3Directory -pds3 -e "*.LBL" -c policy.xml
+        </source>
+
+        <p>See the <a href="#PDS3_Product_Registration">PDS Product Registration</a> section for more details on how Harvest Tool supports PDS3 product registration.
+        </p>
       </subsection>
 
       <subsection name="Persistence Mode">
@@ -201,7 +224,12 @@
 
   &lt;directories&gt;
     &lt;path&gt;$HOME/VG2PLS_archive&lt;/path&gt;
-    &lt;filePattern&gt;*.xml&lt;/filePattern&gt;
+    &lt;fileFilter&gt;
+      &lt;include&gt;*.xml&lt;/include&gt;
+    &lt;/fileFilter&gt;
+    &lt;directoryFilter&gt;
+      &lt;exclude&gt;CONTEXT&lt;/exclude&gt;
+    &lt;/directoryFilter&gt;    
   &lt;/directories&gt;
 
   &lt;accessUrls registerFileUrls="true"&gt;
@@ -458,10 +486,11 @@
        <table>
          <tr><th>Element Name</th><th>Description</th></tr>
          <tr><td>path</td><td>Specify a directory path to start crawling. Specify this element tag more than once to point to multiple directories to crawl.</td></tr>
-         <tr><td>filePattern</td><td>Specify a file pattern to look for specific files. If omitted, the default is to get all files within a directory.</td></tr>
+         <tr><td>fileFilter</td><td>Specify patterns to look for when crawling a target directory for files to register. If omitted, the default is to get all files within a directory.</td></tr>
+         <tr><td>directoryFilter</td><td>Specify patterns to look for when crawling a target directory for sub-directories to ignore.</td></tr>
        </table>
 
-       <p>In the example above, the Harvest tool will crawl the directory location, <i>$HOME/VG2PLS_archive</i>, looking for files that have a <i>.xml</i> file extension. The default is to touch all files in the directory if the <i>filePattern</i> element is omitted from the policy file.
+       <p>In the example above, the Harvest tool will crawl the directory location, <i>$HOME/VG2PLS_archive</i>, looking for files that have a <i>.xml</i> file extension. The default is to touch all files in the directory if the <i>filePattern</i> element is omitted from the policy file. In addition, the <i>CONTEXT</i> directory will be ignored while traversing the target directory.
        </p>
 
        <p><b><i>accessUrls</i></b></p>
@@ -625,7 +654,9 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
   &lt;!-- Specify a single directory containing the PDS3 data products to register. --&gt;
   &lt;pds3Directory&gt;
     &lt;path&gt;/Users/mcayanan/pds3&lt;/path&gt;
-    &lt;filePattern&gt;*.LBL&lt;/filePattern&gt;
+    &lt;fileFilter&gt;
+      &lt;include&gt;*.LBL&lt;/include&gt;
+    &lt;/fileFilter&gt;
   &lt;/pds3Directory&gt;
   &lt;candidates&gt;
     &lt;!-- Harvest will register PDS3 data products under the objectType 'Product_Proxy_PDS3'. --&gt;
@@ -677,7 +708,8 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
       <table>
         <tr><th>Element Name</th><th>Description</th></tr>
         <tr><td>path</td><td>Specify a directory location containing the PDS3 data products to register. Only one directory location is allowed per executable run.</td></tr>
-        <tr><td>filePattern</td><td>Specify a file pattern to look for specific files. If omitted, the default is to get all files within a directory.</td></tr>
+        <tr><td>fileFilter</td><td>Specify patterns to look for when crawling a target directory for files to register. If omitted, the default is to get all files within a directory.</td></tr>
+        <tr><td>directoryFilter</td><td>Specify patterns to look for when crawling a target directory for sub-directories to ignore.</td></tr>
       </table>
 
       <p>In the example above, the Harvest Tool will crawl for PDS3 data products starting at the location <i>/data/pds3/dataset</i>, looking for files with a <i>.LBL</i> file extension.
