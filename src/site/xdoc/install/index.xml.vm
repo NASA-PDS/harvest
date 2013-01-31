@@ -132,7 +132,10 @@ ${JAVA_HOME}/bin/java -Dpds.registry="http://node.nasa.gov/registry" \
       <p>The examples above have been broken into multiple lines for readability. The commands should be reassembled into a single line.
       </p>
       
-      <subsection name="Configuring for a Secured Instance of the PDS Registry">
+      <subsection name="Configuring for a Secured Instance of the Registry Service">
+        <p>By default, the Registry Service installation is not a secured instance. If specific steps have been taken to secure the local installation, then the following procedure should be completed in order to allow the Harvest Tool to access the Registry Service.
+        </p>
+
         <p>In order for the Harvest Tool to access a secured instance of the Registry Service, a keystore file must first be generated. Follow the instructions in the PDS Security Service Installation Guide on how to generate this keystore file. Once this is generated, copy the keystore file to the <i>keystore/</i> directory of the <i>Harvest</i> package and rename the file to <i>tomcat_self_sign_keystore</i> as this is what the Harvest shell script and batch file look for by default.
         </p>
       </subsection>
