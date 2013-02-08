@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+
 import net.sf.saxon.tinytree.TinyElementImpl;
 
 /**
@@ -71,7 +73,6 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
     String title = "";
     String associationType = "";
     List<TinyElementImpl> references = new ArrayList<TinyElementImpl>();
-    List<TinyElementImpl> obSysComponents = new ArrayList<TinyElementImpl>();
     try {
       extractor.parse(product);
     } catch (Exception e) {
@@ -89,8 +90,6 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
       associationType = extractor.getValueFromDoc(ASSOCIATION_TYPE_XPATH);
       references = extractor.getNodesFromDoc(Constants.coreXpathsMap.get(
           Constants.REFERENCES));
-      obSysComponents = extractor.getNodesFromDoc(
-          Constants.OBSERVING_SYSTEM_COMPONENT_XPATH);
     } catch (Exception x) {
       //TODO: getMessage() doesn't always return a message
       throw new MetExtractionException(x.getMessage());
@@ -137,12 +136,6 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
     }
     List<ReferenceEntry> refEntries = new ArrayList<ReferenceEntry>();
     try {
-      // Get the Observation System Component metadata
-      if (!obSysComponents.isEmpty()) {
-        metadata.addMetadata(getObservingSystemComponentMet(obSysComponents,
-            product).getHashtable());
-      }
-      // Get the references
       refEntries.addAll(getReferences(references, product));
     } catch (Exception e) {
       throw new MetExtractionException(e.getMessage());

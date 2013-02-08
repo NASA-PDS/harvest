@@ -30,7 +30,6 @@ import gov.nasa.jpl.oodt.cas.metadata.MetExtractorConfig;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.constants.Constants;
-import gov.nasa.pds.harvest.crawler.metadata.ObservingSystemComponent;
 import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
@@ -83,7 +82,6 @@ public class Pds4MetExtractor implements MetExtractor {
     String version = "";
     String title = "";
     List<TinyElementImpl> references = new ArrayList<TinyElementImpl>();
-    List<TinyElementImpl> obSysComponents = new ArrayList<TinyElementImpl>();
     List<TinyElementImpl> dataClasses = new ArrayList<TinyElementImpl>();
     try {
       extractor.parse(product);
@@ -104,8 +102,6 @@ public class Pds4MetExtractor implements MetExtractor {
           Constants.REFERENCES));
       dataClasses = extractor.getNodesFromDoc(Constants.coreXpathsMap.get(
           Constants.DATA_CLASS));
-      obSysComponents = extractor.getNodesFromDoc(
-          Constants.OBSERVING_SYSTEM_COMPONENT_XPATH);
     } catch (Exception x) {
       throw new MetExtractionException(ExceptionUtils.getRootCauseMessage(x));
     }
@@ -133,11 +129,6 @@ public class Pds4MetExtractor implements MetExtractor {
       metadata.addMetadata(Constants.DATA_CLASS, dataClass.getDisplayName());
     }
     try {
-      // Get the Observation System Component metadata
-      if (!obSysComponents.isEmpty()) {
-        metadata.addMetadata(getObservingSystemComponentMet(obSysComponents,
-            product).getHashtable());
-      }
       // Register LID-based and LIDVID-based associations as slots
       for (ReferenceEntry entry : getReferences(references, product)) {
         if (!entry.hasVersion()) {
@@ -196,62 +187,6 @@ public class Pds4MetExtractor implements MetExtractor {
             + xpath.getValue());
       }
     }
-    return metadata;
-  }
-
-  /**
-   * Get the values for an Observing System Component in a product label.
-   *
-   * @param obSysComponents The Observing System Component nodes.
-   * @param product The product label.
-   * @return Metadata object containing the Observing System Component
-   *  metadata.
-   *
-   * @throws MetExtractionException
-   * @throws XPathExpressionException
-   */
-  protected Metadata getObservingSystemComponentMet(
-      List<TinyElementImpl> obSysComponents, File product)
-  throws MetExtractionException, XPathExpressionException {
-    Metadata metadata = new Metadata();
-    List<ObservingSystemComponent> results =
-      new ArrayList<ObservingSystemComponent>();
-    for (TinyElementImpl obSysComponent : obSysComponents) {
-      log.log(new ToolsLogRecord(ToolsLevel.INFO,
-          "Getting Observing System Component metadata.",
-          product.toString(), obSysComponent.getLineNumber()));
-      String name = extractor.getValueFromItem("name",
-          obSysComponent);
-      if (name == null) {
-        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
-            "Could not find required 'name' element within the "
-            + "Observing_System_Component.", product.toString(),
-            obSysComponent.getLineNumber()));
-        continue;
-      }
-      String type = extractor.getValueFromItem(
-          "observing_system_component_type", obSysComponent);
-      if (type == null) {
-        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
-            "Could not find required 'observing_system_component_type' "
-            + "element within the Observing_System_Component.",
-            product.toString(), obSysComponent.getLineNumber()));
-        continue;
-      }
-      String reference = extractor.getValueFromItem(
-          Constants.OBS_SYS_COMPONENT_INTERNAL_REF_XPATH, obSysComponent);
-      if (reference != null) {
-        results.add(new ObservingSystemComponent(name, type, reference));
-      } else {
-        log.log(new ToolsLogRecord(ToolsLevel.INFO,
-            "Could not find 'Internal_Reference' element within the "
-            + "Observing_System_Component.", product.toString(),
-            obSysComponent.getLineNumber()));
-        results.add(new ObservingSystemComponent(name, type));
-      }
-    }
-    metadata.addMetadata(Constants.OBSERVING_SYSTEM_COMPONENT_KEY,
-        results);
     return metadata;
   }
 

@@ -41,22 +41,11 @@ public class Constants {
   /** The VID in a product label. */
   public static final String PRODUCT_VERSION = "version_id";
 
-  /** The object type. */
-  public static final String OBJECT_TYPE = "object_type";
-
-  /** The product class in a product label. */
-  public static final String PRODUCT_CLASS = "product_class";
+  /** The product_class in a product label. */
+  public static final String OBJECT_TYPE = "product_class";
 
   /** The associations in a product label. */
   public static final String REFERENCES = "references";
-
-  /** The observing system components in a product label. */
-  public static final String OBSERVING_SYSTEM_COMPONENTS =
-    "observing_system_components";
-
-  /** The slot name for the Observing System Component. */
-  public static final String OBSERVING_SYSTEM_COMPONENT_KEY =
-    "observing_system_component";
 
   /** The File objects of a product label. */
   public static final String FILE_OBJECTS = "file_objects";
@@ -126,42 +115,41 @@ public class Constants {
     "//Inventory[reference_type='inventory_has_LIDVID_Secondary'] "
     + " | //Inventory[reference_type='inventory_has_LID_Secondary']";
 
-  /** Xpath to the Observing System Component of a product label. */
-  public static final String OBSERVING_SYSTEM_COMPONENT_XPATH =
-    "//Observing_System_Component";
-
-  /** The internal reference for an observing system component. */
-  public static final String OBS_SYS_COMPONENT_INTERNAL_REF_XPATH =
-    "Internal_Reference/lid_reference | Internal_Reference/lidvid_reference";
-
   static {
     coreXpathsMap.put(LOGICAL_ID, IDENTIFICATION_AREA_XPATH + "/"
         + LOGICAL_ID);
     coreXpathsMap.put(PRODUCT_VERSION, IDENTIFICATION_AREA_XPATH + "/"
         + PRODUCT_VERSION);
     coreXpathsMap.put(OBJECT_TYPE, IDENTIFICATION_AREA_XPATH + "/"
-        + PRODUCT_CLASS);
+        + OBJECT_TYPE);
     coreXpathsMap.put(TITLE, IDENTIFICATION_AREA_XPATH + "/" + TITLE);
     coreXpathsMap.put(REFERENCES,
-        "//*[ends-with(name(),'Member_Entry')]"
-      + " | //Internal_Reference");
-    /*
-    coreXpathsMap.put(REFERENCES,
           "//*[ends-with(name(),'Member_Entry')]"
-        + " | //*[not(self::Observing_System_Component)]/Internal_Reference");
-    */
+        + " | //Internal_Reference");
     coreXpathsMap.put(FILE_OBJECTS, "//*[starts-with(name(), 'File_Area')]/"
         + "File | //Document_Format_Set/Document_File");
     coreXpathsMap.put(DATA_CLASS, DATA_CLASS_XPATH);
   }
 
-  /** Map of files to metadata needed for registering associations. */
-  public static final Map<File, Metadata> registeredProducts =
+  /** Mapping of PDS3 to PDS4 names */
+  public static final Map<String, String> pds3ToPds4Map =
+    new HashMap<String, String>();
+
+    static {
+      pds3ToPds4Map.put("PRODUCT_CREATION_TIME",  "last_modification_date_time");
+      pds3ToPds4Map.put("TARGET_NAME", "target_name");
+      pds3ToPds4Map.put("INSTRUMENT_NAME", "instrument_name");
+      pds3ToPds4Map.put("INSTRUMENT_ID", "instrument_name");
+      pds3ToPds4Map.put("INSTRUMENT_HOST_NAME", "instrument_host_name");
+    }
+
+    /** Map of files to metadata needed for registering associations. */
+    public static final Map<File, Metadata> registeredProducts =
       new LinkedHashMap<File, Metadata>();
 
-  public static final String URN_ILLEGAL_CHARACTERS = "[%/\\\\?#\"&<>\\[\\]^`\\{\\|\\}~]";
+    public static final String URN_ILLEGAL_CHARACTERS = "[%/\\\\?#\"&<>\\[\\]^`\\{\\|\\}~]";
 
-  public static List<LidVid> nonPrimaryMembers = new ArrayList<LidVid>();
+    public static List<LidVid> nonPrimaryMembers = new ArrayList<LidVid>();
 
-  public static List<File> collections = new ArrayList<File>();
+    public static List<File> collections = new ArrayList<File>();
 }
