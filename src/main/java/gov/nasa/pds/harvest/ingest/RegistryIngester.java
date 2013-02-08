@@ -33,6 +33,7 @@ import gov.nasa.jpl.oodt.cas.filemgr.structs.exceptions.IngestException;
 import gov.nasa.jpl.oodt.cas.metadata.MetExtractor;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.constants.Constants;
+import gov.nasa.pds.harvest.crawler.metadata.ObservingSystemComponent;
 import gov.nasa.pds.harvest.file.FileObject;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
@@ -266,6 +267,18 @@ public class RegistryIngester implements Ingester {
              Constants.OBJECT_TYPE));
       } else if (key.equals(Constants.TITLE)) {
          product.setName(metadata.getMetadata(Constants.TITLE));
+      } else if (key.equals(Constants.OBSERVING_SYSTEM_COMPONENT_KEY)) {
+        for ( ObservingSystemComponent component :
+          (List<ObservingSystemComponent>) metadata.getAllMetadata(
+              Constants.OBSERVING_SYSTEM_COMPONENT_KEY) ) {
+          List<String> values = new ArrayList<String>();
+          values.add(component.getName());
+          values.add(component.getType());
+          if (component.hasReference()) {
+            values.add(component.getReference());
+          }
+          slots.add(new Slot(key, values));
+        }
       } else {
          List<String> values = new ArrayList<String>();
          if (metadata.isMultiValued(key)) {
@@ -273,7 +286,7 @@ public class RegistryIngester implements Ingester {
          } else {
            values.add(metadata.getMetadata(key));
          }
-           slots.add(new Slot(key, values));
+         slots.add(new Slot(key, values));
       }
     }
     product.setSlots(slots);

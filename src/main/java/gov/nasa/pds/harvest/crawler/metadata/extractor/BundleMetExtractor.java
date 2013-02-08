@@ -61,6 +61,7 @@ public class BundleMetExtractor extends Pds4MetExtractor {
     String logicalID = "";
     String version = "";
     String title = "";
+    List<TinyElementImpl> obSysComponents = new ArrayList<TinyElementImpl>();
     List<TinyElementImpl> references = new ArrayList<TinyElementImpl>();
     try {
       extractor.parse(product);
@@ -78,6 +79,8 @@ public class BundleMetExtractor extends Pds4MetExtractor {
           Constants.TITLE));
       references = extractor.getNodesFromDoc(Constants.coreXpathsMap.get(
           Constants.REFERENCES));
+      obSysComponents = extractor.getNodesFromDoc(
+          Constants.OBSERVING_SYSTEM_COMPONENT_XPATH);
     } catch (Exception x) {
       //TODO: getMessage() doesn't always return a message
       throw new MetExtractionException(x.getMessage());
@@ -103,6 +106,11 @@ public class BundleMetExtractor extends Pds4MetExtractor {
           .getHashtable());
     }
     try {
+      // Get the Observation System Component metadata
+      if (!obSysComponents.isEmpty()) {
+        metadata.addMetadata(getObservingSystemComponentMet(obSysComponents,
+            product).getHashtable());
+      }
       // Register LID-based and LIDVID-based associations as slots
       for (ReferenceEntry entry : getReferences(references, product)) {
         if (!entry.hasVersion()) {
