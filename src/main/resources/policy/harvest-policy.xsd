@@ -47,14 +47,14 @@
 <xsd:element name="fileFilter" type="FileFilter"/>
 <xsd:complexType name="FileFilter">
    <xsd:sequence>
-      <xsd:element ref="include" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="include" maxOccurs="unbounded"/>
    </xsd:sequence>
 </xsd:complexType>
 
 <xsd:element name="directoryFilter" type="DirectoryFilter"/>
 <xsd:complexType name="DirectoryFilter">
    <xsd:sequence>
-      <xsd:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="exclude" maxOccurs="unbounded"/>
    </xsd:sequence>
 </xsd:complexType>
 
@@ -108,6 +108,15 @@
    </xsd:sequence>
 </xsd:complexType>
 
+<xsd:element name="pds3Directories" type="Pds3Directory"/>
+<xsd:complexType name="Pds3Directory">
+   <xsd:sequence>
+      <xsd:element ref="path" maxOccurs="unbounded"/>
+      <xsd:element ref="fileFilter" minOccurs="0" />
+      <xsd:element ref="directoryFilter" minOccurs="0" />
+   </xsd:sequence>
+</xsd:complexType>
+
 <xsd:element name="collections" type="Collection"/>
 <xsd:complexType name="Collection">
    <xsd:sequence>
@@ -139,10 +148,19 @@
   <xsd:attribute ref="appendFilename"/>
 </xsd:complexType>
 
+<xsd:element name="titleContents" type="TitleContents"/>
+<xsd:complexType name="TitleContents">
+   <xsd:sequence>
+      <xsd:element ref="elementName" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute ref="appendFilename"/>
+</xsd:complexType>
+
 <xsd:element name="pds3ProductMetadata" type="Pds3ProductMetadata"/>
 <xsd:complexType name="Pds3ProductMetadata">
    <xsd:all>
       <xsd:element ref="lidContents"/>
+      <xsd:element ref="titleContents"/>
       <xsd:element ref="staticMetadata" minOccurs="0"/>
       <xsd:element ref="ancillaryMetadata" minOccurs="0"/>
       <xsd:element ref="includePaths" minOccurs="0"/>
@@ -187,15 +205,6 @@
    </xsd:sequence>
 </xsd:complexType>
 
-<xsd:element name="pds3Directory" type="Pds3Directory"/>
-<xsd:complexType name="Pds3Directory">
-   <xsd:sequence>
-      <xsd:element ref="path"/>
-      <xsd:element ref="fileFilter" minOccurs="0" />
-      <xsd:element ref="directoryFilter" minOccurs="0" />
-   </xsd:sequence>
-</xsd:complexType>
-
 <xsd:element name="storageIngestion" type="StorageIngestion"/>
 <xsd:complexType name="StorageIngestion">
    <xsd:sequence>
@@ -234,7 +243,7 @@
         <xsd:element ref="registryPackage" minOccurs="0"/>
         <xsd:element ref="collections" minOccurs="0"/>
         <xsd:element ref="directories" minOccurs="0"/>
-        <xsd:element ref="pds3Directory" minOccurs="0"/>
+        <xsd:element ref="pds3Directories" minOccurs="0"/>
         <xsd:element ref="storageIngestion" minOccurs="0"/>
         <xsd:element ref="accessUrls" minOccurs="0"/>
         <xsd:element ref="checksums" minOccurs="0"/>

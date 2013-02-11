@@ -131,18 +131,6 @@ public class Constants {
     coreXpathsMap.put(DATA_CLASS, DATA_CLASS_XPATH);
   }
 
-  /** Mapping of PDS3 to PDS4 names */
-  public static final Map<String, String> pds3ToPds4Map =
-    new HashMap<String, String>();
-
-    static {
-      pds3ToPds4Map.put("PRODUCT_CREATION_TIME",  "last_modification_date_time");
-      pds3ToPds4Map.put("TARGET_NAME", "target_name");
-      pds3ToPds4Map.put("INSTRUMENT_NAME", "instrument_name");
-      pds3ToPds4Map.put("INSTRUMENT_ID", "instrument_name");
-      pds3ToPds4Map.put("INSTRUMENT_HOST_NAME", "instrument_host_name");
-    }
-
     /** Map of files to metadata needed for registering associations. */
     public static final Map<File, Metadata> registeredProducts =
       new LinkedHashMap<File, Metadata>();

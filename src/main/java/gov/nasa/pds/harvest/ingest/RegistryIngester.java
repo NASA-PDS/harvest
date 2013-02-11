@@ -204,24 +204,16 @@ public class RegistryIngester implements Ingester {
       String vid = met.getMetadata(Constants.PRODUCT_VERSION);
       String lidvid = lid + "::" + vid;
       try {
-        if (!hasProduct(registry, lid, vid)) {
-          ExtrinsicObject extrinsic = createProduct(met);
-          guid = ingest(registry, extrinsic);
-          log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
-              "Successfully registered product: " + lidvid, prodFile));
-          log.log(new ToolsLogRecord(ToolsLevel.INFO,
-              "Product has the following GUID: " + guid, prodFile));
-          met.addMetadata(Constants.PRODUCT_GUID, guid);
-          ++HarvestStats.numProductsRegistered;
-          HarvestStats.addProductType(extrinsic.getObjectType(), prodFile);
-          return guid;
-        } else {
-          ++HarvestStats.numProductsNotRegistered;
-          String message = "Product already exists: " + lidvid;
-          log.log(new ToolsLogRecord(ToolsLevel.SEVERE, message,
-              prodFile));
-          throw new IngestException(message);
-        }
+        ExtrinsicObject extrinsic = createProduct(met);
+        guid = ingest(registry, extrinsic);
+        log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
+            "Successfully registered product: " + lidvid, prodFile));
+        log.log(new ToolsLogRecord(ToolsLevel.INFO,
+            "Product has the following GUID: " + guid, prodFile));
+        met.addMetadata(Constants.PRODUCT_GUID, guid);
+        ++HarvestStats.numProductsRegistered;
+        HarvestStats.addProductType(extrinsic.getObjectType(), prodFile);
+        return guid;
       } catch (RegistryServiceException r) {
         ++HarvestStats.numProductsNotRegistered;
         log.log(new ToolsLogRecord(ToolsLevel.SEVERE,

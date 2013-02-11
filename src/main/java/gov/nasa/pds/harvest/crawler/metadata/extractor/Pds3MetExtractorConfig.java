@@ -21,12 +21,14 @@ import gov.nasa.pds.harvest.policy.ElementName;
 import gov.nasa.pds.harvest.policy.LidContents;
 import gov.nasa.pds.harvest.policy.Pds3ProductMetadata;
 import gov.nasa.pds.harvest.policy.Slot;
+import gov.nasa.pds.harvest.policy.TitleContents;
 
 public class Pds3MetExtractorConfig implements MetExtractorConfig {
   private List<Slot> staticMetadata;
   private LidContents lidContents;
   private List<ElementName> ancillaryMetadata;
   private List<String> includePaths;
+  private TitleContents titleContents;
 
   /**
    * Default contstructor.
@@ -38,6 +40,7 @@ public class Pds3MetExtractorConfig implements MetExtractorConfig {
   public Pds3MetExtractorConfig(Pds3ProductMetadata metadata) {
     staticMetadata = metadata.getStaticMetadata().getSlot();
     lidContents = metadata.getLidContents();
+    titleContents = metadata.getTitleContents();
     ancillaryMetadata = metadata.getAncillaryMetadata().getElementName();
     includePaths = metadata.getIncludePaths().getPath();
   }
@@ -58,6 +61,15 @@ public class Pds3MetExtractorConfig implements MetExtractorConfig {
    */
   public LidContents getLidContents() {
     return lidContents;
+  }
+
+  /**
+   * Gets the title contents.
+   *
+   * @return The title contents.
+   */
+  public TitleContents getTitleContents() {
+    return titleContents;
   }
 
   /**

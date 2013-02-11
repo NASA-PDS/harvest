@@ -220,18 +220,19 @@ public class Harvester {
       crawlers.add(pc);
     }
     // Crawl a PDS3 directory
-    if (policy.getPds3Directory().getPath() != null) {
+    for (String directory : policy.getPds3Directories().getPath()) {
       PDS3ProductCrawler p3c = new PDS3ProductCrawler();
       Pds3MetExtractorConfig pds3MetExtractorConfig =
         new Pds3MetExtractorConfig(policy.getCandidates()
             .getPds3ProductMetadata());
       p3c.setPDS3MetExtractorConfig(pds3MetExtractorConfig);
-      p3c.setProductPath(policy.getPds3Directory().getPath());
-      if (policy.getPds3Directory().getFileFilter() != null) {
-        p3c.setFileFilter(policy.getPds3Directory().getFileFilter());
+      p3c.setProductPath(directory);
+      if (policy.getPds3Directories().getFileFilter() != null) {
+        p3c.setFileFilter(policy.getPds3Directories().getFileFilter());
       }
-      if (policy.getPds3Directory().getDirectoryFilter() != null) {
-        p3c.setDirectoryFilter(policy.getPds3Directory().getDirectoryFilter());
+      if (policy.getPds3Directories().getDirectoryFilter() != null) {
+        p3c.setDirectoryFilter(
+            policy.getPds3Directories().getDirectoryFilter());
       }
       crawlers.add(p3c);
     }

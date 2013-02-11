@@ -340,10 +340,10 @@ public class HarvestLauncher {
     List<String> targets = new ArrayList<String>();
     List<String> fileIncludes = new ArrayList<String>();
     List<String> dirExcludes = new ArrayList<String>();
-    if (policy.getPds3Directory().getPath() != null) {
-      targets.add(policy.getPds3Directory().getPath());
-      fileIncludes = policy.getPds3Directory().getFileFilter().getInclude();
-      dirExcludes = policy.getPds3Directory().getDirectoryFilter().getExclude();
+    if (!policy.getPds3Directories().getPath().isEmpty()) {
+      targets.addAll(policy.getPds3Directories().getPath());
+      fileIncludes = policy.getPds3Directories().getFileFilter().getInclude();
+      dirExcludes = policy.getPds3Directories().getDirectoryFilter().getExclude();
     } else {
       targets = policy.getDirectories().getPath();
       fileIncludes = policy.getDirectories().getFileFilter().getInclude();
@@ -357,7 +357,7 @@ public class HarvestLauncher {
         "Time                        " + Utility.getDateTime()));
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
         "Target(s)                   " + targets));
-    if (policy.getPds3Directory().getPath() != null) {
+    if (!policy.getPds3Directories().getPath().isEmpty()) {
       log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
         "Target Type                 PDS3"));
     }
@@ -467,7 +467,9 @@ public class HarvestLauncher {
     dirFilter.getExclude().addAll(excludeSubDirs);
 
     if (isPDS3Directory) {
-      pds3Dir.setPath(targets.get(0).toString());
+      for (File target : targets) {
+        pds3Dir.getPath().add(target.toString());
+      }
       pds3Dir.setFileFilter(fileFilter);
       pds3Dir.setDirectoryFilter(dirFilter);
     } else {
@@ -480,9 +482,9 @@ public class HarvestLauncher {
     // Any targets specified on the command line will overwrite any targets
     // specified in the policy file.
     if ( (!directories.getPath().isEmpty())
-        || (pds3Dir.getPath() != null) ) {
+        || (!pds3Dir.getPath().isEmpty()) ) {
       policy.setDirectories(directories);
-      policy.setPds3Directory(pds3Dir);
+      policy.setPds3Directories(pds3Dir);
     }
     // Display config parameters in the report log
     logHeader(policy);
@@ -563,8 +565,8 @@ public class HarvestLauncher {
       // specified in the policy config file.
       if (targets.isEmpty()) {
         targets.addAll(policy.getDirectories().getPath());
-        if (policy.getPds3Directory().getPath() != null) {
-          targets.add(policy.getPds3Directory().getPath());
+        if (!policy.getPds3Directories().getPath().isEmpty()) {
+          targets.addAll(policy.getPds3Directories().getPath());
         }
       }
       registryPackage.setDescription("This package contains registration "

@@ -24,8 +24,8 @@ import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.policy.ElementName;
 import gov.nasa.pds.harvest.policy.LidContents;
 import gov.nasa.pds.harvest.policy.Slot;
+import gov.nasa.pds.harvest.policy.TitleContents;
 import gov.nasa.pds.tools.LabelParserException;
-import gov.nasa.pds.tools.label.AttributeStatement;
 import gov.nasa.pds.tools.label.Label;
 import gov.nasa.pds.tools.label.ManualPathResolver;
 import gov.nasa.pds.tools.label.Sequence;
@@ -39,7 +39,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FilenameUtils;
@@ -90,21 +89,6 @@ public class Pds3MetExtractor implements MetExtractor {
     } catch (Exception e) {
       throw new MetExtractionException(e.getMessage());
     }
-    // Get the values of all required PDS3 keywords
-    Metadata pds3Met = new Metadata();
-    for (String key : Constants.pds3ToPds4Map.keySet()) {
-      AttributeStatement attribute = label.getAttribute(key);
-      if (attribute != null) {
-        pds3Met.addMetadata(key, attribute.getValue().toString());
-      }
-    }
-    // Register the values using the PDS4 equivalent metadata key
-    for (Entry<String, String> entry : Constants.pds3ToPds4Map.entrySet()) {
-      if (pds3Met.containsKey(entry.getKey())) {
-        metadata.addMetadata(entry.getValue(), pds3Met.getMetadata(
-            entry.getKey()));
-      }
-    }
     metadata.addMetadata(Constants.OBJECT_TYPE, "Product_Proxy_PDS3");
 
     String lid = createLid(product, label, config.getLidContents());
@@ -118,17 +102,8 @@ public class Pds3MetExtractor implements MetExtractor {
       metadata.addMetadata(Constants.PRODUCT_VERSION, "1.0");
     }
     //Create a title
-    String title = "";
-    if (pds3Met.containsKey("INSTRUMENT_HOST_NAME")) {
-      title += pds3Met.getMetadata("INSTRUMENT_HOST_NAME") + " ";
-    }
-    if (pds3Met.containsKey("INSTRUMENT_NAME")) {
-      title += pds3Met.getMetadata("INSTRUMENT_NAME") + " ";
-    } else {
-      if (pds3Met.containsKey("INSTRUMENT_ID")) {
-        title += pds3Met.getMetadata("INSTRUMENT_ID") + " ";
-      }
-    }
+    String title = createTitle(product, label, config.getTitleContents());
+
     //This is a default title.
     if (title.trim().isEmpty()) {
       title = "PDS3 Data Product";
@@ -179,53 +154,32 @@ public class Pds3MetExtractor implements MetExtractor {
     log.log(new ToolsLogRecord(ToolsLevel.INFO,
         "Creating logical identifier.", product));
     String lid ="";
-    String dataSetId = "";
-    String productId = "";
-    if (!lidContents.getElementName().isEmpty()) {
-      List<String> elementValues = new ArrayList<String>();
-      for (ElementName name : lidContents.getElementName()) {
-        try {
-          elementValues.add(label.getAttribute(
-              name.getValue().trim()).getValue().toString());
-        } catch (NullPointerException n) {
-          log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
-              name.getValue() + " not found.", product));
-        }
-      }
-      lid = lidContents.getPrefix();
-      for (String elementValue : elementValues) {
-        lid += ":" + elementValue;
-      }
-      if (lidContents.isAppendFilename()) {
-        lid += ":" + FilenameUtils.getBaseName(product.toString());
-      }
-    } else {
-      // Default behavior is to use DATA_SET_ID + PRODUCT_ID to form the lid
+    List<String> elementValues = new ArrayList<String>();
+    for (ElementName name : lidContents.getElementName()) {
       try {
-        Value value = label.getAttribute("DATA_SET_ID").getValue();
+        Value value = label.getAttribute(name.getValue().trim())
+        .getValue();
+        String val = "";
+        // Get only the first value if multiple values are specified for
+        // an element.
         if (value instanceof Sequence || value instanceof Set) {
           Collection collection = (Collection) value;
-          dataSetId = collection.iterator().next().toString();
+          val = collection.iterator().next().toString();
         } else {
-          dataSetId = label.getAttribute("DATA_SET_ID").getValue().toString();
+          val = value.toString();
         }
+        elementValues.add(val);
       } catch (NullPointerException n) {
-        log.log(new ToolsLogRecord(ToolsLevel.WARNING, "DATA_SET_ID not found.",
-            product));
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
+            name.getValue() + " not found.", product));
       }
-      try {
-      productId = label.getAttribute("PRODUCT_ID").getValue().toString();
-      } catch (NullPointerException n) {
-        log.log(new ToolsLogRecord(ToolsLevel.WARNING, "PRODUCT_ID not found. "
-            + "Using file name to create the logical identifier.", product));
-        productId = FilenameUtils.getBaseName(product.toString());
-      }
-      if (dataSetId.isEmpty() && productId.isEmpty()) {
-        throw new MetExtractionException("Could not create a logical " +
-          "identifier due to missing DATA_SET_ID and PRODUCT_ID from the label.");
-      }
-      lid += lidContents.getPrefix() + ":" + dataSetId + ":"
-      + productId;
+    }
+    lid = lidContents.getPrefix();
+    for (String elementValue : elementValues) {
+      lid += ":" + elementValue;
+    }
+    if (lidContents.isAppendFilename()) {
+      lid += ":" + FilenameUtils.getBaseName(product.toString());
     }
     log.log(new ToolsLogRecord(ToolsLevel.INFO,
         "Created the following logical identifier: " + lid, product));
@@ -239,6 +193,49 @@ public class Pds3MetExtractor implements MetExtractor {
           + conformingLid, product));
     }
     return conformingLid;
+  }
+
+  /**
+   * Creates the title of the PDS3 Proxy Product.
+   *
+   * @param product The product.
+   * @param label The product label.
+   * @param titleContents The title contents.
+   *
+   * @return The resulting value.
+   */
+  private String createTitle(File product, Label label,
+      TitleContents titleContents) {
+    log.log(new ToolsLogRecord(ToolsLevel.INFO,
+        "Creating title.", product));
+    List<String> elementValues = new ArrayList<String>();
+    for (ElementName name : titleContents.getElementName()) {
+      try {
+        Value value = label.getAttribute(name.getValue().trim())
+        .getValue();
+        String val = "";
+        // Get only the first value if multiple values are specified for
+        // an element.
+        if (value instanceof Sequence || value instanceof Set) {
+          Collection collection = (Collection) value;
+          val = collection.iterator().next().toString();
+        } else {
+          val = value.toString();
+        }
+        elementValues.add(val);
+      } catch (NullPointerException n) {
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
+            name.getValue() + " not found.", product));
+      }
+    }
+    String title = "";
+    for (String elementValue : elementValues) {
+        title += " " + elementValue;
+    }
+    if (titleContents.isAppendFilename()) {
+      title += " " + FilenameUtils.getBaseName(product.toString());
+    }
+    return title.trim();
   }
 
   /**
