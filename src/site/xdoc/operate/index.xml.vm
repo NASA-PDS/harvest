@@ -132,7 +132,7 @@
         </p>
         
         <source>
-          % harvest $HOME/pds3Directory -pds3 -e "*.LBL" -c policy.xml
+% harvest $HOME/pds3Directory -pds3 -e "*.LBL" -c policy.xml
         </source>
 
         <p>See the <a href="#PDS3_Product_Registration">PDS Product Registration</a> section for more details on how Harvest Tool supports PDS3 product registration.
@@ -643,12 +643,9 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
      </subsection>
 
     <subsection name="PDS3 Product Registration">
-      <p>By default, the tool registers discovered PDS3 products under the <i>Product_Proxy_PDS3</i> objectType in the registry. Additionally, the tool has to dynamically create certain metadata in order to support ingestion of PDS3 data products into the registry. The <a href="index-pds3Harvesting.html">Harvesting of PDS3 Data Products</a> section details how the Harvest Tool behaves when registering PDS3 data products. If viewing this document in PDF form, see the appendix for details.
+      <p>By default, the tool registers discovered PDS3 products under the <i>Product_Proxy_PDS3</i> objectType in the registry. Additionally, the tool has to dynamically create certain metadata in order to support ingestion of PDS3 data products into the registry. The following is an example of a policy file to perform product registration of PDS3 data products:
       </p>
-
-      <p>The following is an example of a policy file to perform product registration of PDS3 data products:
-      </p>
-
+      
       <source>
 &lt;policy&gt;
   &lt;!-- Specify a single directory containing the PDS3 data products to register. --&gt;
@@ -667,6 +664,10 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
         &lt;elementName&gt;INSTRUMENT_ID&lt;/elementName&gt;
         &lt;elementName&gt;PRODUCT_ID&lt;/elementName&gt;
       &lt;/lidContents&gt;
+      &lt;titleContents&gt;
+        &lt;elementName&gt;DATA_SET_ID&lt;/elementName&gt;
+        &lt;elementName&gt;PRODUCT_ID&lt;/elementName&gt;
+      &lt;/titleContents&gt;
       &lt;staticMetadata&gt;
         &lt;slot name="information_model_version"&gt;
           &lt;value&gt;0.8.0.0.k&lt;/value&gt;
@@ -697,7 +698,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
 &lt;/policy&gt;
       </source>
 
-      <p>This policy file is made up of the following complex type elements: <i>pds3Directory</i>, <i>pds3ProductMetadata</i>, <i>lidContents</i>, <i>staticMetadata</i>, <i>ancillaryMetadata</i>, and <i>includePaths</i>.
+      <p>This policy file is made up of the following complex type elements: <i>pds3Directory</i>, <i>pds3ProductMetadata</i>, <i>lidContents</i>, <i>titleContents</i>, <i>staticMetadata</i>, <i>ancillaryMetadata</i>, and <i>includePaths</i>.
       </p>
 
       <p><b><i>pds3Directory</i></b></p>
@@ -707,7 +708,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
 
       <table>
         <tr><th>Element Name</th><th>Description</th></tr>
-        <tr><td>path</td><td>Specify a directory location containing the PDS3 data products to register. Only one directory location is allowed per executable run.</td></tr>
+        <tr><td>path</td><td>Specify a directory location containing the PDS3 data products to register. Multiple tags can be specified to point to other directories to crawl.</td></tr>
         <tr><td>fileFilter</td><td>Specify patterns to look for when crawling a target directory for files to register. If omitted, the default is to get all files within a directory.</td></tr>
         <tr><td>directoryFilter</td><td>Specify patterns to look for when crawling a target directory for sub-directories to ignore.</td></tr>
       </table>
@@ -745,9 +746,25 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
 
       <p>In the policy example above, the logical identifier will be formed using the following contents: prefix + <i>DATA_SET_ID</i> + ":" + <i>INSTRUMENT_ID</i> + ":" + <i>PRODUCT_ID</i>.
       </p>
-
-      <p>If no <i>elementName</i> elements are specified, by default, the logical identifier will be formed using the following contents: prefix + ":" + <i>DATA_SET_ID</i> + ":" + <i>PRODUCT_ID</i>. If <i>DATA_SET_ID</i> is missing from the label, then it will be omitted in the logical identifier. If <i>PRODUCT_ID</i> is missing, the Harvest Tool will use the product label filename (minus the file extension) instead.
+      
+      <p><b><i>titleContents</i></b></p>
+      
+      <p>Specify this element to tell the Harvest Tool how to generate the title of the registered PDS3 product.
       </p>
+      
+      <p>There is an optional attribute that can be specified called <i>appendFilename</i>. When this attribute is specified and set to <i>true</i>, the Harvest Tool will append the product label filename (minus the extension) to the end of the title.
+      </p>
+      
+      <p>The following table describes the elements that are allowed:
+      </p>
+      
+      <table>
+        <tr><th>Element name</th><th>Description</th></tr>
+        <tr><td>elementName</td><td>Specify an element name whose value will be used in creating the title of the registered product. Can be specified more than once.</td></tr>
+      </table>
+      
+      <p>In the policy example above, the title contents will be formed using the following contents: <i>DATA_SET_ID</i> + " " + <i>PRODUCT_ID</i>.
+      </p>      
 
       <p><b><i>staticMetadata</i></b></p>
 
