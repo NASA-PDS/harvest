@@ -170,7 +170,7 @@ public class Pds3MetExtractor implements MetExtractor {
         }
         elementValues.add(val);
       } catch (NullPointerException n) {
-        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
+        log.log(new ToolsLogRecord(ToolsLevel.WARNING,
             name.getValue() + " not found.", product));
       }
     }
@@ -224,7 +224,7 @@ public class Pds3MetExtractor implements MetExtractor {
         }
         elementValues.add(val);
       } catch (NullPointerException n) {
-        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
+        log.log(new ToolsLogRecord(ToolsLevel.WARNING,
             name.getValue() + " not found.", product));
       }
     }
