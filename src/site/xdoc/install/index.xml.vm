@@ -96,7 +96,7 @@ or
           </p>
         </li>
         <li><b>keystore/</b><br/>
-          <p>This directory contains the keystore file needed for Harvest to support product registration to a secured instance of the PDS Registry.
+          <p>This directory contains the keystore file needed for Harvest to support product registration to a secured instance of the Registry Service.
           </p>
         </li>
       </ul>
