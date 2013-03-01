@@ -1,4 +1,4 @@
-// Copyright 2006-2010, by the California Institute of Technology.
+// Copyright 2006-2013, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -78,13 +78,12 @@ public class Constants {
   public static final String CREATION_DATE_TIME = "creation_date_time";
 
   /** The access urls to get the registered product. */
-  public static final String ACCESS_URLS = "accessUrls";
+  public static final String ACCESS_URLS = "access_url";
 
   /** The product identifier associated to a product registered with the
    *  PDS Storage Service.
    */
-  public static final String STORAGE_SERVICE_PRODUCT_ID =
-    "storageServiceProductId";
+  public static final String STORAGE_SERVICE_PRODUCT_ID = "storage_product_id";
 
   /** The data classes found in a PDS4 label. */
   public static final String DATA_CLASS = "data_class";
