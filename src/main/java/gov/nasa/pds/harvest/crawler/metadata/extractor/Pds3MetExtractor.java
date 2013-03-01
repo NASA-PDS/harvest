@@ -124,12 +124,28 @@ public class Pds3MetExtractor implements MetExtractor {
     if (!config.getAncillaryMetadata().isEmpty()) {
       for (ElementName element : config.getAncillaryMetadata()) {
         try {
-          String value = label.getAttribute(element.getValue().trim())
-          .getValue().toString();
-          if (element.getSlotName() != null) {
-            metadata.addMetadata(element.getSlotName(), value);
+          Value value = label.getAttribute(element.getValue().trim())
+          .getValue();
+          if (value instanceof Sequence || value instanceof Set) {
+            List<String> multValues = new ArrayList<String>();
+            Collection collection = (Collection) value;
+            for (Object o : collection) {
+              multValues.add(o.toString());
+            }
+            if (element.getSlotName() != null) {
+              metadata.addMetadata(element.getSlotName(), multValues);
+            } else {
+              metadata.addMetadata(element.getValue().toLowerCase(),
+                  multValues);
+            }
           } else {
-            metadata.addMetadata(element.getValue().toLowerCase(), value);
+            if (element.getSlotName() != null) {
+              metadata.addMetadata(element.getSlotName(),
+                  value.toString());
+            } else {
+              metadata.addMetadata(element.getValue().toLowerCase(),
+                  value.toString());
+            }
           }
         } catch (NullPointerException n) {
           // Ignore. Element was not found in the label.
