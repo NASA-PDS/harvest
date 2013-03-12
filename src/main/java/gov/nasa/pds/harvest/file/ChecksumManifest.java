@@ -60,7 +60,7 @@ public class ChecksumManifest {
         if (line.equals("")) {
           continue;
         }
-        String[] tokens = line.split("\\s{1,2}");
+        String[] tokens = line.split("\\s{1,2}", 2);
         File file = new File(tokens[1]);
         if (!file.isAbsolute()) {
           file = new File(parent, file.toString());
