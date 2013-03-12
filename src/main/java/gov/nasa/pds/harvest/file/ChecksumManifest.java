@@ -60,7 +60,7 @@ public class ChecksumManifest {
         if (line.equals("")) {
           continue;
         }
-        String[] tokens = line.split("\\s{2}");
+        String[] tokens = line.split("\\s{1,2}");
         File file = new File(tokens[1]);
         if (!file.isAbsolute()) {
           file = new File(parent, file.toString());
@@ -72,6 +72,10 @@ public class ChecksumManifest {
             + file.toString() + "' with checksum of '"
             + tokens[0] + "'.", manifest));
       }
+    } catch (ArrayIndexOutOfBoundsException ae) {
+      log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Could not tokenize: "
+          + line, manifest.toString(), reader.getLineNumber()));
+      throw new IOException(ae.getMessage());
     } finally {
       reader.close();
     }
