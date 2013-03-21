@@ -40,6 +40,9 @@
         Updated to no longer provide any default registration of metadata for PDS3 product registration.
       </action>
       <action dev="mcayanan" type="update">
+        Updated to support extraction of metadata within objects in a label for PDS3 product registrations.
+      </action>
+      <action dev="mcayanan" type="update">
         Updated header in the report log with additional, user specified parameters: targets, file inclusions, directory exclusions.
       </action>
       <action dev="mcayanan" type="update">

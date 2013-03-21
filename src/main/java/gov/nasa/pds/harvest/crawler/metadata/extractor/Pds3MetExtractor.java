@@ -25,7 +25,9 @@ import gov.nasa.pds.harvest.policy.ElementName;
 import gov.nasa.pds.harvest.policy.LidContents;
 import gov.nasa.pds.harvest.policy.Slot;
 import gov.nasa.pds.harvest.policy.TitleContents;
+import gov.nasa.pds.harvest.util.StatementFinder;
 import gov.nasa.pds.tools.LabelParserException;
+import gov.nasa.pds.tools.label.AttributeStatement;
 import gov.nasa.pds.tools.label.Label;
 import gov.nasa.pds.tools.label.ManualPathResolver;
 import gov.nasa.pds.tools.label.Sequence;
@@ -123,33 +125,32 @@ public class Pds3MetExtractor implements MetExtractor {
     // Register additional metadata (if specified)
     if (!config.getAncillaryMetadata().isEmpty()) {
       for (ElementName element : config.getAncillaryMetadata()) {
-        try {
-          Value value = label.getAttribute(element.getValue().trim())
-          .getValue();
-          if (value instanceof Sequence || value instanceof Set) {
-            List<String> multValues = new ArrayList<String>();
-            Collection collection = (Collection) value;
-            for (Object o : collection) {
-              multValues.add(o.toString());
-            }
-            if (element.getSlotName() != null) {
-              metadata.addMetadata(element.getSlotName(), multValues);
+          List<AttributeStatement> attributes = StatementFinder
+          .getStatementsRecursively(label, element.getValue().trim());
+          for (AttributeStatement attribute : attributes) {
+            Value value = attribute.getValue();
+            if (value instanceof Sequence || value instanceof Set) {
+              List<String> multValues = new ArrayList<String>();
+              Collection collection = (Collection) value;
+              for (Object o : collection) {
+                multValues.add(o.toString());
+              }
+              if (element.getSlotName() != null) {
+                metadata.addMetadata(element.getSlotName(), multValues);
+              } else {
+                metadata.addMetadata(element.getValue().toLowerCase(),
+                    multValues);
+              }
             } else {
-              metadata.addMetadata(element.getValue().toLowerCase(),
-                  multValues);
-            }
-          } else {
-            if (element.getSlotName() != null) {
-              metadata.addMetadata(element.getSlotName(),
-                  value.toString());
-            } else {
-              metadata.addMetadata(element.getValue().toLowerCase(),
-                  value.toString());
+              if (element.getSlotName() != null) {
+                metadata.addMetadata(element.getSlotName(),
+                    value.toString());
+              } else {
+                metadata.addMetadata(element.getValue().toLowerCase(),
+                    value.toString());
+              }
             }
           }
-        } catch (NullPointerException n) {
-          // Ignore. Element was not found in the label.
-        }
       }
     }
     return metadata;
