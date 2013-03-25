@@ -69,7 +69,7 @@ public class BundleMetExtractor extends Pds4MetExtractor {
     }
     try {
       objectType = extractor.getValueFromDoc(Constants.coreXpathsMap.get(
-          Constants.OBJECT_TYPE));
+          Constants.PRODUCT_CLASS));
       logicalID = extractor.getValueFromDoc(Constants.coreXpathsMap.get(
           Constants.LOGICAL_ID));
       version = extractor.getValueFromDoc(Constants.coreXpathsMap.get(

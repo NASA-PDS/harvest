@@ -52,6 +52,9 @@
         Updated the mechanism for specifying PDS3 target directories on the command-line. A '-pds3, --is-pds3-dir' flag option is used instead of specifying '-D, --pds3-directory' to indicate that a target directory on the command-line is for PDS3 product registration.
       </action>
       <action dev="mcayanan" type="fix">
+        Fixed to allow product_class to appear as a slot.
+      </action>
+      <action dev="mcayanan" type="fix">
         Fixed to support handling of windows paths as offset specifications when creating access urls.
       </action>
       <action dev="mcayanan" type="fix">

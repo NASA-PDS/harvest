@@ -41,8 +41,11 @@ public class Constants {
   /** The VID in a product label. */
   public static final String PRODUCT_VERSION = "version_id";
 
-  /** The product_class in a product label. */
-  public static final String OBJECT_TYPE = "product_class";
+  /** The object type (product_class) in a product label. */
+  public static final String OBJECT_TYPE = "object_type";
+
+  /** The product_class tag in a product label. */
+  public static final String PRODUCT_CLASS = "product_class";
 
   /** The associations in a product label. */
   public static final String REFERENCES = "references";
@@ -119,8 +122,8 @@ public class Constants {
         + LOGICAL_ID);
     coreXpathsMap.put(PRODUCT_VERSION, IDENTIFICATION_AREA_XPATH + "/"
         + PRODUCT_VERSION);
-    coreXpathsMap.put(OBJECT_TYPE, IDENTIFICATION_AREA_XPATH + "/"
-        + OBJECT_TYPE);
+    coreXpathsMap.put(PRODUCT_CLASS, IDENTIFICATION_AREA_XPATH + "/"
+        + PRODUCT_CLASS);
     coreXpathsMap.put(TITLE, IDENTIFICATION_AREA_XPATH + "/" + TITLE);
     coreXpathsMap.put(REFERENCES,
           "//*[ends-with(name(),'Member_Entry')]"

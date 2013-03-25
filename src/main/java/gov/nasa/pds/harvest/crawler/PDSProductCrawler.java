@@ -103,7 +103,7 @@ public class PDSProductCrawler extends ProductCrawler {
     String[] reqMetadata = {
         Constants.PRODUCT_VERSION,
         Constants.LOGICAL_ID,
-        Constants.OBJECT_TYPE
+        Constants.PRODUCT_CLASS
         };
     setRequiredMetadata(Arrays.asList(reqMetadata));
     FILE_FILTER = new WildcardOSFilter("*");
@@ -347,10 +347,10 @@ public class PDSProductCrawler extends ProductCrawler {
       }
       try {
         objectType = extractor.getValueFromDoc(Constants.coreXpathsMap.get(
-            Constants.OBJECT_TYPE));
+            Constants.PRODUCT_CLASS));
         if ("".equals(objectType)) {
           log.log(new ToolsLogRecord(ToolsLevel.SKIP, "No "
-              + Constants.OBJECT_TYPE + " element found.", product));
+              + Constants.PRODUCT_CLASS + " element found.", product));
           ++HarvestStats.numFilesSkipped;
           passFlag = false;
         } else if (metExtractorConfig.hasObjectType(objectType)) {
@@ -365,7 +365,7 @@ public class PDSProductCrawler extends ProductCrawler {
         }
       } catch (Exception e) {
         log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Problem getting '"
-            + Constants.OBJECT_TYPE + "': " + e.getMessage(), product));
+            + Constants.PRODUCT_CLASS + "': " + e.getMessage(), product));
         ++HarvestStats.numBadFiles;
         return false;
       }
