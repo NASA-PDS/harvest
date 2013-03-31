@@ -1037,6 +1037,9 @@
      </referenceTypeMap>
      <referenceTypeMap value="associate_ref">
        <modelValue>
+         bundle_to_associate
+       </modelValue>
+       <modelValue>
          collection_to_associate
        </modelValue>
        <modelValue>
@@ -1233,6 +1236,49 @@
          has_geometry
        </modelValue>
      </referenceTypeMap>
+     <referenceTypeMap value="instrument_host_ref">
+       <modelValue>
+         bundle_to_instrument_host
+       </modelValue>
+       <modelValue>
+         collection_to_instrument_host
+       </modelValue>
+       <modelValue>
+         document_to_instrument_host
+       </modelValue>
+       <modelValue>
+         instrument_to_instrument_host
+       </modelValue>
+       <modelValue>
+         is_instrument_host
+       </modelValue>
+       <modelValue>
+         resource_to_instrument_host
+       </modelValue>
+       <modelValue>
+         has_instrument_host
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="instrument_ref">
+       <modelValue>
+         bundle_to_instrument
+       </modelValue>
+       <modelValue>
+         collection_to_instrument
+       </modelValue>
+       <modelValue>
+         document_to_instrument
+       </modelValue>
+       <modelValue>
+         is_instrument
+       </modelValue>
+       <modelValue>
+         resource_to_instrument
+       </modelValue>
+       <modelValue>
+         has_instrument
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="investigation_ref">
        <modelValue>
          bundle_to_investigation
@@ -1250,35 +1296,13 @@
          instrument_host_to_investigation
        </modelValue>
        <modelValue>
+         resource_to_investigation
+       </modelValue>
+       <modelValue>
          has_investigation
        </modelValue>
        <modelValue>
          has_mission
-       </modelValue>
-     </referenceTypeMap>
-     <referenceTypeMap value="instrument_ref">
-       <modelValue>
-         document_to_instrument
-       </modelValue>
-       <modelValue>
-         is_instrument
-       </modelValue>
-       <modelValue>
-         has_instrument
-       </modelValue>
-     </referenceTypeMap>
-     <referenceTypeMap value="instrument_host_ref">
-       <modelValue>
-         document_to_instrument_host
-       </modelValue>
-       <modelValue>
-         instrument_to_instrument_host
-       </modelValue>
-       <modelValue>
-         is_instrument_host
-       </modelValue>
-       <modelValue>
-         has_instrument_host
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="manager_ref">
@@ -1319,6 +1343,9 @@
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="personnel_ref">
+       <modelValue>
+         collection_to_personnel
+       </modelValue>
        <modelValue>
          node_to_personnel
        </modelValue>
@@ -1382,6 +1409,9 @@
        </modelValue>
        <modelValue>
          investigation_to_target
+       </modelValue>
+       <modelValue>
+         resource_to_target
        </modelValue>
        <modelValue>
          has_target
