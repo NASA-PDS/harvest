@@ -96,14 +96,14 @@ or
           </p>
         </li>
         <li><b>keystore/</b><br/>
-          <p>This directory contains the keystore file needed for Harvest to support product registration to a secured instance of the Registry Service.
+          <p>This directory contains the keystore file needed for Harvest to support product registration to a secured instance of the Registry Service. The file contained in this directory should be replaced with a keystore file from the local installation.
           </p>
         </li>
       </ul>
     </section>
 
     <section name="Configuring the Tool">
-      <p>By default, the Harvest Tool comes configured to access the Registry Service at the specific URL location <i>http://localhost:8080/registry</i>. This should be modified to represent the URL location of the Registry Service target installation. To change the URL location, the <i>harvest</i> script should be modified as follows:
+      <p>By default, the Harvest Tool comes configured to access the Registry Service at the <i>http://localhost:8080/registry</i> endpoint. This should be modified to represent the endpoint of the Registry Service target installation. To change the endpoint, the <i>harvest</i> script should be modified as follows:
       </p>
 
       <source>
@@ -136,7 +136,10 @@ ${JAVA_HOME}/bin/java -Dpds.registry="http://node.nasa.gov/registry" \
         <p>By default, the Registry Service installation is not a secured instance. If specific steps have been taken to secure the local installation, then the following procedure should be completed in order to allow the Harvest Tool to access the Registry Service.
         </p>
 
-        <p>In order for the Harvest Tool to access a secured instance of the Registry Service, a keystore file must first be generated. Follow the instructions in the PDS Security Service Installation Guide on how to generate this keystore file. Once this is generated, copy the keystore file to the <i>keystore/</i> directory of the <i>Harvest</i> package and rename the file to <i>tomcat_self_sign_keystore</i> as this is what the Harvest shell script and batch file look for by default.
+        <p>In order for the Harvest Tool to access a secured instance of the Registry Service, a keystore file must first be generated. See the <a href="../../../release/index-tomcat.html" target="_blank">Tomcat Deployment</a> document for details on how to generate this keystore file. Once this is file has been generated, copy the keystore file to the <i>keystore/</i> directory of the <i>Harvest</i> package and rename the file to <i>tomcat_self_sign_keystore</i> as this is what the Harvest shell script and batch file look for by default.
+        </p>
+
+        <p>In addition to generating and copying the keystore file, follow the instructions in the previous section to modify the Registry Service endpoint. If the endpoint is <i>http://localhost:8080/registry</i>, it should be changed to <i>https://localhost:8443/registry</i> for a secured instance.
         </p>
       </subsection>
     </section>
