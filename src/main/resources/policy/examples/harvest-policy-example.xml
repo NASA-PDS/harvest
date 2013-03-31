@@ -3,10 +3,7 @@
 <!--
   Harvest Tool Example Policy File
 
-  This policy file corresponds with the DPH example bundle. By specifying
-  he bundle products below, Harvest relies on the bundles correctly
-  specifying the collections and the collections correctly specifying
-  the products.
+  This policy file corresponds with the DPH example bundle.
 
   $Id$
 -->
@@ -26,6 +23,7 @@
       <include>*.xml</include>
     </fileFilter>
   </directories>
+
   <candidates>
     <namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01"/>
 
@@ -239,56 +237,6 @@
         //Reference_List/External_Reference/description
       </xPath>
       <!-- File_Area_Text -->
-    </productMetadata>
-
-    <productMetadata objectType="Product_Mission_PDS3">
-      <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
-        //Identification_Area/information_model_version
-      </xPath>
-      <xPath slotName="product_class">
-        //Identification_Area/product_class
-      </xPath>
-      <xPath slotName="alternate_id">
-        //Identification_Area/Alias_List/Alias/alternate_id
-      </xPath>
-      <xPath slotName="alternate_title">
-        //Identification_Area/Alias_List/Alias/alternate_title
-      </xPath>
-      <xPath slotName="citation_author_list">
-        //Identification_Area/Citation_Information/author_list
-      </xPath>
-      <xPath slotName="citation_editor_list">
-        //Identification_Area/Citation_Information/editor_list
-      </xPath>
-      <xPath slotName="citation_publication_year">
-        //Identification_Area/Citation_Information/publication_year
-      </xPath>
-      <xPath slotName="citation_keyword">
-        //Identification_Area/Citation_Information/keyword
-      </xPath>
-      <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/description
-      </xPath>
-      <xPath slotName="modification_date">
-        //Identification_Area/Modification_History/Modification_Detail/modification_date
-      </xPath>
-      <xPath slotName="modification_version_id">
-        //Identification_Area/Modification_History/Modification_Detail/version_id
-      </xPath>
-      <xPath slotName="modification_description">
-        //Identification_Area/Modification_History/Modification_Detail/description
-      </xPath>
-      <!-- Reference_List -->
-      <xPath slotName="external_reference_description">
-        //Reference_List/External_Reference/description
-      </xPath>
-      <!-- Mission_PDS3 -->
-      <xPath slotName="mission_name">//Mission_PDS3/mission_name</xPath>
-      <xPath slotName="mission_description">//Mission_PDS3/mission_desc</xPath>
-      <xPath slotName="mission_objectives_summary">//Mission_PDS3/mission_objectives_summary</xPath>
-      <xPath slotName="mission_start_date">//Mission_PDS3/mission_start_date</xPath>
-      <xPath slotName="mission_stop_date">//Mission_PDS3/mission_stop_date</xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Observational">
