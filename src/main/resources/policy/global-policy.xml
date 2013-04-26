@@ -1172,6 +1172,9 @@
      </referenceTypeMap>
      <referenceTypeMap value="data_ref">
        <modelValue>
+         browse_to_data
+       </modelValue>
+       <modelValue>
          collection_to_data
        </modelValue>
      </referenceTypeMap>
@@ -1418,6 +1421,9 @@
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="thumbnail_ref">
+       <modelValue>
+         browse_to_thumbnail
+       </modelValue>
        <modelValue>
          data_to_thumbnail
        </modelValue>
