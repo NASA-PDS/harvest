@@ -17,7 +17,7 @@
 
 <policy>
   <candidates>
-    <namespace prefix="pds" uri="http://pds.nasa.gov/pds4/pds/v03" default="true"/>
+    <namespace prefix="pds" uri="http://pds.nasa.gov/pds4/pds/v1" default="true"/>
 
     <productMetadata objectType="Product_Attribute_Definition">
       <!-- Identification_Area -->
