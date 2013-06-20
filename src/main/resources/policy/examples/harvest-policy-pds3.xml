@@ -48,25 +48,25 @@
       <!-- Register static metadata for each product. -->
       <staticMetadata>
         <slot name="information_model_version">
-          <value>0.3.1.0.b</value>
+          <value>1.0.0.0</value>
         </slot>
         <slot name="product_class">
           <value>Product_Proxy_PDS3</value>
         </slot>
         <slot name="data_set_ref">
-          <value>urn:nasa:pds:context_pds3:data_set:data_set.VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0</value>
+          <value>urn:nasa:pds:context_pds3:data_set:data_set.vg2-j-pls-5-summ-ele-mom-96.0sec-v1.0</value>
         </slot>
         <slot name="investigation_ref">
-          <value>urn:nasa:pds:context_pds3:investigation:mission.VOYAGER</value>
+          <value>urn:nasa:pds:context_pds3:investigation:mission.voyager</value>
         </slot>
         <slot name="instrument_host_ref">
-          <value>urn:nasa:pds:context_pds3:instrument_host:instrument_host.VG2</value>
+          <value>urn:nasa:pds:context_pds3:instrument_host:instrument_host.vg2</value>
         </slot>
         <slot name="instrument_ref">
-          <value>urn:nasa:pds:context_pds3:instrument:instrument.PLS__VG2</value>
+          <value>urn:nasa:pds:context_pds3:instrument:instrument.pls_vg2</value>
         </slot>
         <slot name="target_ref">
-          <value>urn:nasa:pds:context_pds3:target:target.JUPITER</value>
+          <value>urn:nasa:pds:context_pds3:target:target.planet.jupiter</value>
         </slot>
       </staticMetadata>
 
