@@ -198,6 +198,7 @@ public class Pds3MetExtractor implements MetExtractor {
     if (lidContents.isAppendFilename()) {
       lid += ":" + FilenameUtils.getBaseName(product.toString());
     }
+    lid = lid.toLowerCase();
     log.log(new ToolsLogRecord(ToolsLevel.INFO,
         "Created the following logical identifier: " + lid, product));
     //Product ID or Product Version values may have slash characters
