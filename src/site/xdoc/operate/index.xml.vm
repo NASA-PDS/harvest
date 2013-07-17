@@ -49,6 +49,7 @@
 
         <table>
           <tr><th>Command-Line Option</th><th>Description</th></tr>
+          <tr><td>-c, --config</td><td>Specify a policy configuration file to set the tool behavior. (This flag is required)</td></tr>
           <tr><td>-u, --username</td><td>Specify a username for authentication with the PDS Security Service.</td></tr>
           <tr><td>-p, --password</td><td>Specify a password associated with the username.</td></tr>
           <tr><td>-k, --keystore-pass</td><td>Specify a keystore password associated with the keystore file being passed into the tool.</td></tr>
@@ -203,10 +204,10 @@
    </section>
 
    <section name="Harvest Policy File">
-     <p>The Harvest policy file is an XML-based configuration file that the tool uses to find products and register their metadata. The schema for the policy file can be found in the <a href="index-policy-schema.html">Harvest Policy Schema</a> section. If viewing this document in PDF form, see the appendix for details. This section details how to setup the policy file to do PDS data product registration.
+     <p>The Harvest policy file is an XML-based configuration file that the tool uses to find products and register their metadata. The schema for the policy file can be found in the <a href="index-policy-schema.html">Harvest Policy Schema</a> section. This section details how to setup the policy file to do PDS product registration.
      </p>
 
-     <subsection name="PDS4 Data Product Registration">
+     <subsection name="PDS4 Product Registration">
        <p>The following is an example of a policy file to perform registration of PDS4 data products:
        </p>
 
@@ -408,7 +409,8 @@
         //Observation_Area/Observing_System/Observing_System_Component/description
       &lt;/xPath&gt;
       &lt;xPath slotName="observing_system_component_type"&gt;
-        //Observation_Area/Observing_System/Observing_System_Component/observing_system_component_type
+        //Observation_Area/Observing_System/Observing_System_Component/\
+        observing_system_component_type
       &lt;/xPath&gt;
       &lt;xPath slotName="target_name"&gt;
         //Observation_Area/Target_Identification/name
@@ -448,7 +450,7 @@
        <table>
          <tr><th>Element Name</th><th>Description</th></tr>
          <tr><td>name</td><td>Specify a package name. If this element is not specified, the default is to create a package with the name <i>Harvest-Package_&lt;current datetimestamp&gt;</i>.</td></tr>
-         <tr><td>description</td><td>Specify a package description.If this element is not specified, the default is to create a description that lists the targets that were specified in the policy config file.</td></tr>
+         <tr><td>description</td><td>Specify a package description. If this element is not specified, the default is to create a description that lists the targets that were specified in the policy config file.</td></tr>
        </table>
 
        <p><b><i>collections</i></b></p>
@@ -643,7 +645,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
      </subsection>
 
     <subsection name="PDS3 Product Registration">
-      <p>By default, the tool registers discovered PDS3 products under the <i>Product_Proxy_PDS3</i> objectType in the registry. Additionally, the tool has to dynamically create certain metadata in order to support ingestion of PDS3 data products into the registry. The following is an example of a policy file to perform product registration of PDS3 data products:
+      <p>By default, the tool registers discovered PDS3 products under the <i>Product_Proxy_PDS3</i> objectType in the registry. Additionally, the tool has to dynamically create certain metadata in order to support ingestion of PDS3 data products into the registry. The following is an example of a policy file to perform product registration of PDS3 products:
       </p>
       
       <source>
@@ -656,7 +658,10 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
     &lt;/fileFilter&gt;
   &lt;/pds3Directory&gt;
   &lt;candidates&gt;
-    &lt;!-- Harvest will register PDS3 data products under the objectType 'Product_Proxy_PDS3'. --&gt;
+    &lt;!--
+      Harvest will register PDS3 data products under the objectType 
+      'Product_Proxy_PDS3'. 
+    --&gt;
     &lt;pds3ProductMetadata&gt;
       &lt;!-- Tells Harvest what element values to use to create the LID. --&gt;
       &lt;lidContents prefix="urn:nasa:jpl"&gt;
@@ -722,7 +727,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
       </p>
 
       <table>
-        <tr><th>Element name</th><th>Description</th></tr>
+        <tr><th>Element Name</th><th>Description</th></tr>
         <tr><td>lidContents</td><td>Tells the Harvest Tool what fields to use to form the logical identifier.</td></tr>
         <tr><td>staticMetadata</td><td>Specify static metadata to add as slots for every discovered PDS3 data product.</td></tr>
         <tr><td>ancillaryMetadata</td><td>Specify ancillary metadata to add as slots for every discovered PDS3 data product.</td></tr>
@@ -740,7 +745,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
       </p>
 
       <table>
-        <tr><th>Element name</th><th>Description</th></tr>
+        <tr><th>Element Name</th><th>Description</th></tr>
         <tr><td>elementName</td><td>Specify an element name whose value will be used in creating the logical identifier. Can be specified more than once.</td></tr>
       </table>
 
@@ -759,7 +764,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
       </p>
       
       <table>
-        <tr><th>Element name</th><th>Description</th></tr>
+        <tr><th>Element Name</th><th>Description</th></tr>
         <tr><td>elementName</td><td>Specify an element name whose value will be used in creating the title of the registered product. Can be specified more than once.</td></tr>
       </table>
       
@@ -772,7 +777,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
       </p>
 
       <table>
-        <tr><th>Element name</th><th>Description</th></tr>
+        <tr><th>Element Name</th><th>Description</th></tr>
         <tr><td>slot</td><td>The slot element contains a <i>name</i> attribute to specify what slot name to use in the registry. The <i>value</i> tag specifies the slot value.</td></tr>
       </table>
 
@@ -785,7 +790,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
       </p>
 
       <table>
-        <tr><th>Element name</th><th>Description</th></tr>
+        <tr><th>Element Name</th><th>Description</th></tr>
         <tr><td>elementName</td><td>Specify an element name found in the PDS3 data product label. An optional <i>slotName</i> attribute can be used to set the slot name for this element. If <i>slotName</i> is not set, the tool will use the element name in lowercase form as the slot name.</td></tr>
       </table>
 
@@ -798,7 +803,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
       </p>
 
       <table>
-        <tr><th>Element name</th><th>Description</th></tr>
+        <tr><th>Element Name</th><th>Description</th></tr>
         <tr><td>path</td><td>Specify the directory location of where to find the file references in a label. This element can be specified more than once to specify multiple search paths.</td></tr>
       </table>
 
