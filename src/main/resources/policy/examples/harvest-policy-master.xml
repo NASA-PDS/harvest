@@ -62,6 +62,9 @@
         //Reference_List/External_Reference/description
       </xPath>
       <!-- File_Area_Browse -->
+      <xPath slotName="file_name">
+        //File_Area_Browse/File/file_name
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_DIP">
@@ -271,7 +274,6 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <!-- Document_Format_Set -->
       <!-- Document -->
       <xPath slotName="document_revision_id">//Document/revision_id</xPath>
       <xPath slotName="document_name">//Document/document_name</xPath>
@@ -282,6 +284,10 @@
       <xPath slotName="document_copyright">//Document/copyright</xPath>
       <xPath slotName="document_description">//Document/description</xPath>
       <xPath slotName="document_publication_date">//Document/publication_date</xPath>
+      <!-- Document_Format_Set -->
+      <xPath slotName="file_name">
+        //Document_Format_Set/Document_File/file_name
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_File_Text">
@@ -327,6 +333,9 @@
         //Reference_List/External_Reference/description
       </xPath>
       <!-- File_Area_Text -->
+      <xPath slotName="file_name">
+        //File_Area_Text/File/file_name
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Observational">
@@ -439,6 +448,9 @@
         //Reference_List/External_Reference/description
       </xPath>
       <!-- File_Area_Observational -->
+      <xPath slotName="file_name">
+        //File_Area_Observational/File/file_name
+      </xPath>
       <!-- File_Area_Observational_Supplemental -->
     </productMetadata>
 
@@ -792,6 +804,9 @@
         //Reference_List/External_Reference/description
       </xPath>
       <!-- File_Area_Encoded_Image -->
+      <xPath slotName="file_name">
+        //File_Area_Encoded_Image/File/file_name
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Update">
@@ -882,6 +897,9 @@
         //Reference_List/External_Reference/description
       </xPath>
       <!-- File_Area_XML_Schema -->
+      <xPath slotName="file_name">
+        //File_Area_XML_Schema/File/file_name
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Zipped">
