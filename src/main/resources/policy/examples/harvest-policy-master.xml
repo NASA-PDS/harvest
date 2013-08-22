@@ -253,7 +253,7 @@
         //Context_Area/Observing_System/Observing_System_Component/name
       </xPath>
       <xPath slotName="observing_system_component_type">
-        //Context_Area/Observing_System/Observing_System_Component/observing_system_component_type
+        //Context_Area/Observing_System/Observing_System_Component/type
       </xPath>
       <xPath slotName="observing_system_component_description">
         //Context_Area/Observing_System/Observing_System_Component/description
@@ -426,7 +426,7 @@
         //Observation_Area/Observing_System/Observing_System_Component/name
       </xPath>
       <xPath slotName="observing_system_component_type">
-        //Observation_Area/Observing_System/Observing_System_Component/observing_system_component_type
+        //Observation_Area/Observing_System/Observing_System_Component/type
       </xPath>
       <xPath slotName="observing_system_component_description">
         //Observation_Area/Observing_System/Observing_System_Component/description
@@ -636,7 +636,7 @@
         //Observation_Area/Observing_System/Observing_System_Component/name
       </xPath>
       <xPath slotName="observing_system_component_type">
-        //Observation_Area/Observing_System/Observing_System_Component/observing_system_component_type
+        //Observation_Area/Observing_System/Observing_System_Component/type
       </xPath>
       <xPath slotName="observing_system_component_description">
         //Observation_Area/Observing_System/Observing_System_Component/description

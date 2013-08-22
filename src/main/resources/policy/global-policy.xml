@@ -251,7 +251,7 @@
         //Context_Area/Observing_System/Observing_System_Component/name
       </xPath>
       <xPath slotName="observing_system_component_type">
-        //Context_Area/Observing_System/Observing_System_Component/observing_system_component_type
+        //Context_Area/Observing_System/Observing_System_Component/type
       </xPath>
       <xPath slotName="observing_system_component_description">
         //Context_Area/Observing_System/Observing_System_Component/description
@@ -476,7 +476,7 @@
         //Context_Area/Observing_System/Observing_System_Component/name
       </xPath>
       <xPath slotName="observing_system_component_type">
-        //Context_Area/Observing_System/Observing_System_Component/observing_system_component_type
+        //Context_Area/Observing_System/Observing_System_Component/type
       </xPath>
       <xPath slotName="observing_system_component_description">
         //Context_Area/Observing_System/Observing_System_Component/description
@@ -1362,6 +1362,9 @@
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="resource_ref">
+       <modelValue>
+         bundle_to_resource
+       </modelValue>
        <modelValue>
          context_to_resource
        </modelValue>
