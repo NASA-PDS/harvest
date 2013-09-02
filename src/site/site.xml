@@ -35,7 +35,7 @@
 
     <menu name="Software Documentation">
       <item name="About Harvest Tool" href="index.html"/>
-      <item name="Design (pdf)" href="docs/pds2010_harvest_design.pdf"/>
+      <item name="Design (pdf)" href="docs/pds4_harvest_design.pdf"/>
       <item name="Installation" href="install/index.html"/>
       <item name="Operation" href="operate/index.html"/>
     </menu>
