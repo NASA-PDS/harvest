@@ -1454,4 +1454,72 @@
        </modelValue>
      </referenceTypeMap>
   </references>
+
+  <fileTypes>
+    <fileTypeMap value="Binary">
+      <modelValue>
+        File_Area_Binary
+      </modelValue>
+    </fileTypeMap>
+    <fileTypeMap value="Browse">
+      <modelValue>
+        File_Area_Browse
+      </modelValue>
+    </fileTypeMap>
+    <fileTypeMap value="Checksum">
+      <modelValue>
+        File_Area_Checksum_Manifest
+      </modelValue>
+    </fileTypeMap>
+    <fileTypeMap value="Thumbnail">
+      <modelValue>
+        File_Area_Encoded_Image
+      </modelValue>
+    </fileTypeMap>
+    <fileTypeMap value="Inventory">
+      <modelValue>
+        File_Area_Inventory
+      </modelValue>
+    </fileTypeMap>
+    <fileTypeMap value="Observation">
+      <modelValue>
+        File_Area_Observational
+      </modelValue>
+    </fileTypeMap>
+    <fileTypeMap value="Supplement">
+      <modelValue>
+        File_Area_Observational_Supplemental
+      </modelValue>
+    </fileTypeMap>
+    <fileTypeMap value="Spice">
+      <modelValue>
+        File_Area_SPICE_Kernel
+      </modelValue>
+    </fileTypeMap>
+    <fileTypeMap value="Service">
+      <modelValue>
+        File_Area_Service_Description
+      </modelValue>
+    </fileTypeMap>
+    <fileTypeMap value="Text">
+      <modelValue>
+        File_Area_Text
+      </modelValue>
+    </fileTypeMap>
+    <fileTypeMap value="Transfer">
+      <modelValue>
+        File_Area_Transfer_Manifest
+      </modelValue>
+    </fileTypeMap>
+    <fileTypeMap value="Schema">
+      <modelValue>
+        File_Area_XML_Schema
+      </modelValue>
+    </fileTypeMap>
+    <fileTypeMap value="Document">
+      <modelValue>
+        Document_Format_Set
+      </modelValue>
+    </fileTypeMap>
+  </fileTypes>
 </policy>

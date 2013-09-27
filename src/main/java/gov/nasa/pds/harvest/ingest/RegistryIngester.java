@@ -375,9 +375,14 @@ public class RegistryIngester implements Ingester {
     metadata.addMetadata(Constants.FILE_LOCATION, fileObject.getLocation());
     metadata.addMetadata(Constants.FILE_SIZE, Long.toString(
         fileObject.getSize()));
+    metadata.addMetadata(Constants.MIME_TYPE, fileObject.getMimeType());
     if ( (fileObject.getChecksum()) != null
         && (!fileObject.getChecksum().isEmpty()) ) {
       metadata.addMetadata(Constants.MD5_CHECKSUM, fileObject.getChecksum());
+    }
+    if ( (fileObject.getFileType() != null
+        && (!fileObject.getFileType().isEmpty()))) {
+      metadata.addMetadata(Constants.FILE_TYPE, fileObject.getFileType());
     }
     metadata.addMetadata(Constants.CREATION_DATE_TIME,
         fileObject.getCreationDateTime());

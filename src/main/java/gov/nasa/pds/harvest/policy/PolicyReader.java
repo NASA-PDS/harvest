@@ -17,7 +17,7 @@ package gov.nasa.pds.harvest.policy;
 import gov.nasa.pds.harvest.util.XMLValidationEventHandler;
 
 import java.io.File;
-import java.io.InputStream;
+import java.net.URL;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -34,9 +34,9 @@ public class PolicyReader {
     public final static String POLICY_PACKAGE = "gov.nasa.pds.harvest.policy";
     public final static String POLICY_SCHEMA = "harvest-policy.xsd";
 
-    public static Policy unmarshall(InputStream policyXML)
+    public static Policy unmarshall(URL policyXML)
     throws SAXParseException, JAXBException, SAXException {
-        return unmarshall(new StreamSource(policyXML));
+      return unmarshall(new StreamSource(policyXML.toString()));
     }
 
     public static Policy unmarshall(File policyXML)
@@ -59,7 +59,8 @@ public class PolicyReader {
                     + se.getMessage());
         }
         um.setSchema(schema);
-        um.setEventHandler(new XMLValidationEventHandler());
+        um.setEventHandler(new XMLValidationEventHandler(
+            policyXML.getSystemId()));
         JAXBElement<Policy> policy = um.unmarshal(policyXML, Policy.class);
         return policy.getValue();
     }

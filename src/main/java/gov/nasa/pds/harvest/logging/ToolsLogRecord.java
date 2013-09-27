@@ -25,6 +25,10 @@ public class ToolsLogRecord extends LogRecord {
         this(level, message, null, -1);
     }
 
+    public ToolsLogRecord(Level level, String message, int line) {
+      this(level, message, null, line);
+    }
+
     public ToolsLogRecord(Level level, File filename) {
         this(level, "", filename.toString(), -1);
     }

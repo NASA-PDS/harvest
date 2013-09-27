@@ -331,6 +331,10 @@
           <groupId>lucene</groupId>
           <artifactId>lucene-core</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>apache</groupId>
+          <artifactId>tika</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -355,6 +359,17 @@
       <artifactId>cas-filemgr</artifactId>
       <version>0.3</version>
       <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.tika</groupId>
+          <artifactId>tika-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-core</artifactId>
+      <version>1.4</version>
     </dependency>
   </dependencies>
 

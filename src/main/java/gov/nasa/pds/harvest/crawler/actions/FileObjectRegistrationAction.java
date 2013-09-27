@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import net.sf.saxon.om.NodeInfo;
 import net.sf.saxon.tinytree.TinyElementImpl;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -43,6 +44,8 @@ import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.policy.FileTypeMap;
+import gov.nasa.pds.harvest.policy.FileTypes;
 import gov.nasa.pds.harvest.stats.HarvestStats;
 import gov.nasa.pds.harvest.util.PointerStatementFinder;
 import gov.nasa.pds.harvest.util.XMLExtractor;
@@ -89,6 +92,11 @@ public class FileObjectRegistrationAction extends CrawlerAction {
   /** Represents the checksum manifest file. */
   private Map<File, String> checksumManifest;
 
+  /** Represents a mapping of File_Area_* element names to a
+   * file type.
+   */
+  private FileTypes fileTypes;
+
   /**
    * Constructor.
    *
@@ -108,6 +116,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       this.actions = new ArrayList<CrawlerAction>();
       this.generateChecksums = false;
       this.checksumManifest = new HashMap<File, String>();
+      this.fileTypes = new FileTypes();
   }
 
   /**
@@ -218,7 +227,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       String checksum = handleChecksum(product, product);
       FileObject fileObject = new FileObject(product.getName(),
           product.getParent(), product.length(),
-          lastModified, checksum);
+          lastModified, checksum, "Label");
       results.add(fileObject);
     } catch (Exception e) {
       log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
@@ -236,6 +245,8 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     List<TinyElementImpl> fileObjects = extractor.getNodesFromDoc(
         Constants.coreXpathsMap.get(Constants.FILE_OBJECTS));
     for (TinyElementImpl file : fileObjects) {
+      String fileType = "";
+      NodeInfo parent = file.getParent();
       String fileLocation = product.getParent();
       String name = "";
       long size = -1;
@@ -290,8 +301,22 @@ public class FileObjectRegistrationAction extends CrawlerAction {
                 + e.getMessage(), product.toString()));
             throw new Exception("Missing checksum");
           }
+          if (containsFileTypes()) {
+            if (getFileType(parent.getLocalPart()) != null) {
+              fileType = getFileType(parent.getLocalPart());
+              log.log(new ToolsLogRecord(ToolsLevel.INFO,
+                  "Setting file type for the file object '" + f.getName()
+                  + "' to '" + fileType + "'", product.toString(),
+                  file.getLineNumber()));
+            } else {
+              log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+                "No file type mapping provided for '"
+                  + parent.getLocalPart() + "'",
+                product.toString(), file.getLineNumber()));
+            }
+          }
           results.add(new FileObject(f.getName(), f.getParent(), size,
-              creationDateTime, checksum));
+              creationDateTime, checksum, fileType));
         }
       } catch (Exception e) {
         ++HarvestStats.numAncillaryProductsNotRegistered;
@@ -315,7 +340,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       String checksum = handleChecksum(product, product);
       FileObject fileObject = new FileObject(product.getName(),
           product.getParent(), product.length(),
-          lastModified, checksum);
+          lastModified, checksum, "Label");
       results.add(fileObject);
     } catch (Exception e) {
       log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
@@ -334,6 +359,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       throw new MetExtractionException(e.getMessage());
     }
     // File references are found in pointer statements in a label.
+    // TODO: What file types do we give for PDS3 registered products?
     String basePath = product.getParent();
     List<PointerStatement> pointers = PointerStatementFinder.find(label);
     for (PointerStatement ps : pointers) {
@@ -349,7 +375,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
                 file.lastModified()));
               String checksum = handleChecksum(product, file);
               results.add(new FileObject(file.getName(), file.getParent(),
-                  size, creationDateTime, checksum));
+                  size, creationDateTime, checksum, "Observation"));
             }
           } else {
             log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "File object not "
@@ -523,5 +549,45 @@ public class FileObjectRegistrationAction extends CrawlerAction {
    */
   public void setChecksumManifest(Map<File, String> manifest) {
     this.checksumManifest = manifest;
+  }
+
+  /**
+   * Set the file type mapping.
+   *
+   * @param fileTypes The file type mapping.
+   */
+  public void setFileTypes(FileTypes fileTypes) {
+    this.fileTypes = fileTypes;
+  }
+
+  /**
+   * Determine if there is a file type mapping.
+   *
+   * @return 'true' if there is one, 'false' otherwise.
+   */
+  private boolean containsFileTypes() {
+    if (!fileTypes.getFileTypeMap().isEmpty()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Get the file type of the given model value.
+   *
+   * @param modelValue The model value.
+   *
+   * @return The mapped file type or 'null' if it cannot be found.
+   */
+  private String getFileType(String modelValue) {
+    for (FileTypeMap fileTypeMap : fileTypes.getFileTypeMap()) {
+      for (String value : fileTypeMap.getModelValue()) {
+        if (value.trim().equals(modelValue)) {
+          return fileTypeMap.getValue();
+        }
+      }
+    }
+    return null;
   }
 }

@@ -25,6 +25,11 @@ import javax.xml.bind.ValidationEventHandler;
 public class XMLValidationEventHandler implements ValidationEventHandler {
     private static Logger log = Logger.getLogger(
             XMLValidationEventHandler.class.getName());
+    private String systemId;
+
+    public XMLValidationEventHandler(String systemId) {
+      this.systemId = systemId;
+    }
 
     public boolean handleEvent(ValidationEvent event) {
         Level level = null;
@@ -34,10 +39,14 @@ public class XMLValidationEventHandler implements ValidationEventHandler {
         } else if(event.getSeverity() == ValidationEvent.WARNING) {
             level = ToolsLevel.WARNING;
         }
-        log.log(new ToolsLogRecord(level, event.getMessage(),
+        if (event.getLocator().getURL() != null) {
+          log.log(new ToolsLogRecord(level, event.getMessage(),
                 event.getLocator().getURL().toString(),
                 event.getLocator().getLineNumber()));
-
+        } else {
+          log.log(new ToolsLogRecord(level, event.getMessage(),
+              systemId, event.getLocator().getLineNumber()));
+        }
         return false;
     }
 

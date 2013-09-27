@@ -17,6 +17,8 @@ package gov.nasa.pds.harvest.file;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tika.Tika;
+
 /**
  * Class that contains file information to be used in registering file objects
  * to the PDS4 Registry.
@@ -46,6 +48,10 @@ public class FileObject {
   /** Access urls to the file object. */
   private List<String> accessUrls;
 
+  private String mimeType;
+
+  private String fileType;
+
   /**
    * Constructor.
    *
@@ -56,7 +62,7 @@ public class FileObject {
    * @param checksum checksum of the file.
    */
   public FileObject(String name, String location, long size,
-      String creationDateTime, String checksum) {
+      String creationDateTime, String checksum, String fileType) {
     this.name = name;
     this.location = location;
     this.size = size;
@@ -64,6 +70,8 @@ public class FileObject {
     this.checksum = checksum;
     this.storageServiceProductId = null;
     this.accessUrls = new ArrayList<String>();
+    this.fileType = fileType;
+    this.mimeType = new Tika().detect(name);
   }
 
   public String getName() {return name;}
@@ -75,6 +83,10 @@ public class FileObject {
   public String getCreationDateTime() {return creationDateTime;}
 
   public String getChecksum() {return checksum;}
+
+  public String getMimeType() {return mimeType;}
+
+  public String getFileType() {return fileType;}
 
   public void setStorageServiceProductId(String productId) {
     this.storageServiceProductId = productId;

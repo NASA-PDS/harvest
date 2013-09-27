@@ -103,7 +103,7 @@ public class PDSProductCrawler extends ProductCrawler {
     String[] reqMetadata = {
         Constants.PRODUCT_VERSION,
         Constants.LOGICAL_ID,
-        Constants.PRODUCT_CLASS
+        Constants.OBJECT_TYPE,
         };
     setRequiredMetadata(Arrays.asList(reqMetadata));
     FILE_FILTER = new WildcardOSFilter("*");

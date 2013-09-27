@@ -43,6 +43,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.UnmarshalException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
@@ -71,6 +73,7 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.Priority;
 import org.apache.oodt.cas.filemgr.structs.exceptions.ConnectionException;
+import org.xml.sax.SAXParseException;
 
 /**
  * Wrapper class of the Harvest tool that handles the command-line processing.
@@ -87,7 +90,7 @@ public class HarvestLauncher {
   private File policy;
 
   /** The internal policy file. */
-  private InputStream globalPolicy;
+  private URL globalPolicy;
 
   /** password of the authorized user. */
   private String password;
@@ -169,7 +172,7 @@ public class HarvestLauncher {
     isPDS3Directory = false;
     severityLevel = ToolsLevel.INFO;
 
-    globalPolicy = this.getClass().getResourceAsStream("global-policy.xml");
+    globalPolicy = this.getClass().getResource("global-policy.xml");
   }
 
   /**
@@ -639,6 +642,8 @@ public class HarvestLauncher {
           globalPolicy.getCandidates().getProductMetadata());
       policy.getReferences().getReferenceTypeMap().addAll(
           globalPolicy.getReferences().getReferenceTypeMap());
+      policy.getFileTypes().getFileTypeMap().addAll(
+          globalPolicy.getFileTypes().getFileTypeMap());
       setupExtractor(policy.getCandidates().getNamespace());
       createRegistryPackage(policy);
       doHarvesting(policy);

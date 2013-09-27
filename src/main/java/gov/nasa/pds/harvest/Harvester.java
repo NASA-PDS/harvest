@@ -171,6 +171,7 @@ public class Harvester {
     //Set the flag to generate checksums
     fileObjectRegistrationAction.setGenerateChecksums(
         policy.getChecksums().isGenerate());
+    fileObjectRegistrationAction.setFileTypes(policy.getFileTypes());
     //This is the last action that should be performed.
     ca.add(new SaveMetadataAction());
     return ca;

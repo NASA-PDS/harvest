@@ -198,6 +198,21 @@
    </xsd:sequence>
 </xsd:complexType>
 
+<xsd:element name="fileTypeMap" type="FileTypeMap"/>
+<xsd:complexType name="FileTypeMap">
+   <xsd:sequence>
+      <xsd:element ref="modelValue" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute ref="value" use="required"/>
+</xsd:complexType>
+
+<xsd:element name="fileTypes" type="FileTypes"/>
+<xsd:complexType name="FileTypes">
+   <xsd:sequence>
+      <xsd:element ref="fileTypeMap" maxOccurs="unbounded"/>
+   </xsd:sequence>
+</xsd:complexType>
+
 <xsd:element name="ancillaryMetadata" type="AncillaryMetadata"/>
 <xsd:complexType name="AncillaryMetadata">
    <xsd:sequence>
@@ -249,6 +264,7 @@
         <xsd:element ref="checksums" minOccurs="0"/>
         <xsd:element ref="candidates"/>
         <xsd:element ref="references" minOccurs="0"/>
+        <xsd:element ref="fileTypes" minOccurs="0"/>
      </xsd:all>
   </xsd:complexType>
 </xsd:element>

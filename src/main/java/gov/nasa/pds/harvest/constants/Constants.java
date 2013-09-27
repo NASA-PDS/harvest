@@ -83,6 +83,12 @@ public class Constants {
   /** The access urls to get the registered product. */
   public static final String ACCESS_URLS = "access_url";
 
+  /** The mime type of the registered file object. */
+  public static final String MIME_TYPE = "mime_type";
+
+  /** The file type of the registered file object. */
+  public static final String FILE_TYPE = "file_type";
+
   /** The product identifier associated to a product registered with the
    *  PDS Storage Service.
    */
@@ -133,13 +139,13 @@ public class Constants {
     coreXpathsMap.put(DATA_CLASS, DATA_CLASS_XPATH);
   }
 
-    /** Map of files to metadata needed for registering associations. */
-    public static final Map<File, Metadata> registeredProducts =
-      new LinkedHashMap<File, Metadata>();
+  /** Map of files to metadata needed for registering associations. */
+  public static final Map<File, Metadata> registeredProducts =
+    new LinkedHashMap<File, Metadata>();
 
-    public static final String URN_ILLEGAL_CHARACTERS = "[%/\\\\?#\"&<>\\[\\]^`\\{\\|\\}~]";
+  public static final String URN_ILLEGAL_CHARACTERS = "[%/\\\\?#\"&<>\\[\\]^`\\{\\|\\}~]";
 
-    public static List<LidVid> nonPrimaryMembers = new ArrayList<LidVid>();
+  public static List<LidVid> nonPrimaryMembers = new ArrayList<LidVid>();
 
-    public static List<File> collections = new ArrayList<File>();
+  public static List<File> collections = new ArrayList<File>();
 }
