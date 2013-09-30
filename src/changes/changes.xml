@@ -23,12 +23,15 @@
   </properties>
 
   <body>
-    <release version="1.5.0" date="TBD" description="TBD">
+    <release version="1.5.0" date="2013-09-30" description="This release of the Harvest Tool is a component of the integrated release 4.0.0 of the PDS4 System. This is an operational release of the system components to date.">
       <action dev="mcayanan" type="add">
         Added the capability to detect a file object's mime type. This value will be added as a slot in the registry under the name 'mime_type'.
       </action>
       <action dev="mcayanan" type="add">
         Added the capability to associate a specified file object in a product label to a file type. This value will be added as a slot in the registry under the name 'file_type'.
+      </action>
+      <action dev="shardman" type="update">
+        Modified to support v1.1 of the data model.
       </action>
       <action dev="mcayanan" type="fix">
         Fixed so that any errors that are found while reading in the global policy file will be reported in the log.

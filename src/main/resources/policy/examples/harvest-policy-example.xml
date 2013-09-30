@@ -132,20 +132,35 @@
       <xPath slotName="observation_solar_longitute">
         //Context_Area/Time_Coordinates/solar_longitude
       </xPath>
-      <xPath slotName="primary_result_type">
-        //Context_Area/Primary_Result_Summary/type
-      </xPath>
       <xPath slotName="primary_result_purpose">
         //Context_Area/Primary_Result_Summary/purpose
       </xPath>
-      <xPath slotName="primary_result_data_regime">
-        //Context_Area/Primary_Result_Summary/data_regime
+      <xPath slotName="primary_result_processing_level">
+        //Context_Area/Primary_Result_Summary/processing_level
       </xPath>
       <xPath slotName="primary_result_description">
         //Context_Area/Primary_Result_Summary/description
       </xPath>
-      <xPath slotName="primary_result_processing_level_id">
-        //Context_Area/Primary_Result_Summary/processing_level_id
+      <xPath slotName="primary_result_wavelength_range">
+        //Context_Area/Primary_Result_Summary/Science_Facets/wavelength_range
+      </xPath>
+      <xPath slotName="primary_result_domain">
+        //Context_Area/Primary_Result_Summary/Science_Facets/domain
+      </xPath>
+      <xPath slotName="primary_result_discipline_name">
+        //Context_Area/Primary_Result_Summary/Science_Facets/discipline_name
+      </xPath>
+      <xPath slotName="primary_result_facet1">
+        //Context_Area/Primary_Result_Summary/Science_Facets/facet1
+      </xPath>
+      <xPath slotName="primary_result_subfacet1">
+        //Context_Area/Primary_Result_Summary/Science_Facets/subfacet1
+      </xPath>
+      <xPath slotName="primary_result_facet2">
+        //Context_Area/Primary_Result_Summary/Science_Facets/facet2
+      </xPath>
+      <xPath slotName="primary_result_subfacet2">
+        //Context_Area/Primary_Result_Summary/Science_Facets/subfacet2
       </xPath>
       <xPath slotName="investigation_name">
         //Context_Area/Investigation_Area/name
@@ -305,20 +320,35 @@
       <xPath slotName="observation_solar_longitute">
         //Observation_Area/Time_Coordinates/solar_longitude
       </xPath>
-      <xPath slotName="primary_result_type">
-        //Observation_Area/Primary_Result_Summary/type
-      </xPath>
       <xPath slotName="primary_result_purpose">
         //Observation_Area/Primary_Result_Summary/purpose
       </xPath>
-      <xPath slotName="primary_result_data_regime">
-        //Observation_Area/Primary_Result_Summary/data_regime
+      <xPath slotName="primary_result_processing_level">
+        //Observation_Area/Primary_Result_Summary/processing_level
       </xPath>
       <xPath slotName="primary_result_description">
         //Observation_Area/Primary_Result_Summary/description
       </xPath>
-      <xPath slotName="primary_result_reduction_level">
-        //Observation_Area/Primary_Result_Summary/processing_level_id
+      <xPath slotName="primary_result_wavelength_range">
+        //Observation_Area/Primary_Result_Summary/Science_Facets/wavelength_range
+      </xPath>
+      <xPath slotName="primary_result_domain">
+        //Observation_Area/Primary_Result_Summary/Science_Facets/domain
+      </xPath>
+      <xPath slotName="primary_result_discipline_name">
+        //Observation_Area/Primary_Result_Summary/Science_Facets/discipline_name
+      </xPath>
+      <xPath slotName="primary_result_facet1">
+        //Observation_Area/Primary_Result_Summary/Science_Facets/facet1
+      </xPath>
+      <xPath slotName="primary_result_subfacet1">
+        //Observation_Area/Primary_Result_Summary/Science_Facets/subfacet1
+      </xPath>
+      <xPath slotName="primary_result_facet2">
+        //Observation_Area/Primary_Result_Summary/Science_Facets/facet2
+      </xPath>
+      <xPath slotName="primary_result_subfacet2">
+        //Observation_Area/Primary_Result_Summary/Science_Facets/subfacet2
       </xPath>
       <xPath slotName="investigation_name">
         //Observation_Area/Investigation_Area/name
