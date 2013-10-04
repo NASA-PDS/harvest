@@ -26,7 +26,7 @@
 
   <groupId>gov.nasa.pds.2010.ingest</groupId>
   <artifactId>harvest</artifactId>
-  <version>1.5.0</version>
+  <version>${harvest-version}</version>
   <packaging>jar</packaging>
 
   <name>Harvest Tool</name>
@@ -303,7 +303,7 @@
     <dependency>
       <groupId>gov.nasa.pds.2010.registry</groupId>
       <artifactId>registry-core</artifactId>
-      <version>1.5.0</version>
+      <version>${registry-version}</version>
       <scope>compile</scope>
       <exclusions>
         <exclusion>
@@ -352,13 +352,13 @@
     <dependency>
       <groupId>gov.nasa.pds</groupId>
       <artifactId>product-tools</artifactId>
-      <version>3.3.0</version>
+      <version>${product-tools-version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.oodt</groupId>
       <artifactId>cas-filemgr</artifactId>
-      <version>0.6</version>
+      <version>${oodt-version}</version>
       <scope>compile</scope>
       <exclusions>
         <exclusion>
