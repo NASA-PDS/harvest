@@ -10,15 +10,15 @@
 
 <policy>
   <collections>
-    <file>$HOME/VG2PLS_archive/browse/Collection_Browse.xml</file>
-    <file>$HOME/VG2PLS_archive/context/Collection_Context.xml</file>
-    <file>$HOME/VG2PLS_archive/data/Collection_Data.xml</file>
-    <file>$HOME/VG2PLS_archive/document/Collection_document.xml</file>
-    <file>$HOME/VG2PLS_archive/schemas/aaCollection_XML_Schema.xml</file>
+    <file>$HOME/dph_example_archive_VG2PLS/browse/Collection_browse.xml</file>
+    <file>$HOME/dph_example_archive_VG2PLS/context/Collection_context.xml</file>
+    <file>$HOME/dph_example_archive_VG2PLS/data/Collection_data.xml</file>
+    <file>$HOME/dph_example_archive_VG2PLS/document/Collection_document.xml</file>
+    <file>$HOME/dph_example_archive_VG2PLS/xml_schema/Collection_xml_schema.xml</file>
   </collections>
 
   <directories>
-    <path>$HOME/VG2PLS_archive</path>
+    <path>$HOME/dph_example_archive_VG2PLS</path>
     <fileFilter>
       <include>*.xml</include>
     </fileFilter>
