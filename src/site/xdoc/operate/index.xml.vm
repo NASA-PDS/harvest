@@ -89,7 +89,7 @@
         <source>
 % harvest $HOME/directory -e "*.xml" -c policy.xml
         </source>
-        
+
         <p><b><i>Registering Products From Multiple Targets</i></b></p>
 
         <p>The following command demonstrates how to register products to a non-secured registry instance from two target directories, <i>$HOME/directory1</i> and <i>$HOME/directory2</i>, using the policy file, <i>policy.xml</i>. Only files that end with a <i>.xml</i> file extension will be processed. The output will go to a log file, <i>log-file.txt</i>:
@@ -119,19 +119,19 @@
         </source>
 
         <p><b><i>Excluding Sub-Directories To Traverse From a Target</i></b></p>
-        
+
         <p>The following command demonstrates registering products from a target directory, <i>$HOME/directory</i>, where the tool will not traverse the sub-directory <i>CONTEXT</i>:
         </p>
-        
+
         <source>
 % harvest $HOME/directory -c policy.xml -D "CONTEXT"
         </source>
-        
+
         <p><b><i>Registering PDS3 Products From a Single Target</i></b></p>
-        
+
         <p>The following command demonstrates registering PDS3 products to a non-secured registry instance from a target directory, <i>$HOME/pds3Directory</i>, where only files that end with a <i>.LBL</i> file extension, will be processed:
         </p>
-        
+
         <source>
 % harvest $HOME/pds3Directory -pds3 -e "*.LBL" -c policy.xml
         </source>
@@ -230,7 +230,7 @@
     &lt;/fileFilter&gt;
     &lt;directoryFilter&gt;
       &lt;exclude&gt;CONTEXT&lt;/exclude&gt;
-    &lt;/directoryFilter&gt;    
+    &lt;/directoryFilter&gt;
   &lt;/directories&gt;
 
   &lt;accessUrls registerFileUrls="true"&gt;
@@ -647,7 +647,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
     <subsection name="PDS3 Product Registration">
       <p>By default, the tool registers discovered PDS3 products under the <i>Product_Proxy_PDS3</i> objectType in the registry. Additionally, the tool has to dynamically create certain metadata in order to support ingestion of PDS3 data products into the registry. The following is an example of a policy file to perform product registration of PDS3 products:
       </p>
-      
+
       <source>
 &lt;policy&gt;
   &lt;!-- Specify a single directory containing the PDS3 data products to register. --&gt;
@@ -659,12 +659,12 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
   &lt;/pds3Directory&gt;
   &lt;candidates&gt;
     &lt;!--
-      Harvest will register PDS3 data products under the objectType 
-      'Product_Proxy_PDS3'. 
+      Harvest will register PDS3 data products under the objectType
+      'Product_Proxy_PDS3'.
     --&gt;
     &lt;pds3ProductMetadata&gt;
       &lt;!-- Tells Harvest what element values to use to create the LID. --&gt;
-      &lt;lidContents prefix="urn:nasa:jpl"&gt;
+      &lt;lidContents prefix="urn:nasa:pds"&gt;
         &lt;elementName&gt;DATA_SET_ID&lt;/elementName&gt;
         &lt;elementName&gt;INSTRUMENT_ID&lt;/elementName&gt;
         &lt;elementName&gt;PRODUCT_ID&lt;/elementName&gt;
@@ -751,25 +751,25 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
 
       <p>In the policy example above, the logical identifier will be formed using the following contents: prefix + <i>DATA_SET_ID</i> + ":" + <i>INSTRUMENT_ID</i> + ":" + <i>PRODUCT_ID</i>.
       </p>
-      
+
       <p><b><i>titleContents</i></b></p>
-      
+
       <p>Specify this element to tell the Harvest Tool how to generate the title of the registered PDS3 product.
       </p>
-      
+
       <p>There is an optional attribute that can be specified called <i>appendFilename</i>. When this attribute is specified and set to <i>true</i>, the Harvest Tool will append the product label filename (minus the extension) to the end of the title.
       </p>
-      
+
       <p>The following table describes the elements that are allowed:
       </p>
-      
+
       <table>
         <tr><th>Element Name</th><th>Description</th></tr>
         <tr><td>elementName</td><td>Specify an element name whose value will be used in creating the title of the registered product. Can be specified more than once.</td></tr>
       </table>
-      
+
       <p>In the policy example above, the title contents will be formed using the following contents: <i>DATA_SET_ID</i> + " " + <i>PRODUCT_ID</i>.
-      </p>      
+      </p>
 
       <p><b><i>staticMetadata</i></b></p>
 
