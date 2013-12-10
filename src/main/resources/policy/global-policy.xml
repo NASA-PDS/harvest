@@ -583,6 +583,12 @@
       <!-- Agency -->
       <xPath slotName="agency_name">//Agency/name</xPath>
       <xPath slotName="agency_description">//Agency/description</xPath>
+      <!-- Facility -->
+      <xPath slotName="facility_name">//Facility/name</xPath>
+      <xPath slotName="facility_type">//Facility/type</xPath>
+      <xPath slotName="facility_address">//Facility/address</xPath>
+      <xPath slotName="facility_country">//Facility/country</xPath>
+      <xPath slotName="facility_description">//Facility/description</xPath>
       <!-- Instrument -->
       <xPath slotName="instrument_name">//Instrument/name</xPath>
       <xPath slotName="instrument_type">//Instrument/type</xPath>
@@ -637,6 +643,13 @@
       <xPath slotName="target_name">//Target/name</xPath>
       <xPath slotName="target_type">//Target/type</xPath>
       <xPath slotName="target_description">//Target/description</xPath>
+      <!-- Telescope -->
+      <xPath slotName="telescope_aperture">//Telescope/aperture</xPath>
+      <xPath slotName="telescope_longitude">//Telescope/telescope_longitude</xPath>
+      <xPath slotName="telescope_latitude">//Telescope/telescope_latitude</xPath>
+      <xPath slotName="telescope_altitude">//Telescope/altitude</xPath>
+      <xPath slotName="telescope_coordinate_source">//Telescope/coordinate_source</xPath>
+      <xPath slotName="telescope_description">//Telescope/description</xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Data_Set_PDS3">
