@@ -38,6 +38,7 @@ public class PDSNamespaceContext implements NamespaceContext {
      */
     public PDSNamespaceContext() {
         this.namespaces = new HashMap<String, String>();
+        this.namespaces.put("xml", "http://www.w3.org/XML/1998/namespace");
     }
 
     /**

@@ -25,6 +25,7 @@ import net.sf.saxon.Configuration;
 import net.sf.saxon.event.ParseOptions;
 import net.sf.saxon.om.DocumentInfo;
 import net.sf.saxon.tinytree.TinyElementImpl;
+import net.sf.saxon.tinytree.TinyNodeImpl;
 import net.sf.saxon.trans.XPathException;
 import net.sf.saxon.xpath.XPathEvaluator;
 
@@ -70,6 +71,7 @@ public class XMLExtractor {
       String uri = src.toURI().toString();
       Configuration configuration = xpath.getConfiguration();
       configuration.setLineNumbering(true);
+      configuration.setXIncludeAware(true);
       ParseOptions options = new ParseOptions();
       options.setErrorListener(new XMLErrorListener());
       xml = configuration.buildDocument(new SAXSource(new InputSource(uri)),
@@ -257,5 +259,44 @@ public class XMLExtractor {
     throws XPathExpressionException {
         return (List<TinyElementImpl>) xpath.evaluate(
                 expression, item, XPathConstants.NODESET);
+    }
+
+    /**
+     * Gets the values of the given expression.
+     *
+     * @param expression An XPath expression.
+     *
+     * @return The resulting values or an empty list if nothing was found.
+     *
+     * @throws XPathExpressionException If the given expression was malformed.
+     */
+    public List<String> getAttributeValuesFromDoc(String expression)
+    throws XPathExpressionException {
+        return getAttributeValuesFromItem(expression, xml);
+    }
+
+    /**
+     * Gets the values of the given expression.
+     *
+     * @param expression An XPath expression.
+     * @param item The starting point from which to evaluate the
+     * XPath expression.
+     *
+     * @return The resulting values or an empty list if nothing was found.
+     *
+     * @throws XPathExpressionException If the given expression was malformed.
+     */
+    public List<String> getAttributeValuesFromItem(String expression, Object item)
+    throws XPathExpressionException {
+        List<String> vals = new ArrayList<String>();
+        List<TinyNodeImpl> nList = (List<TinyNodeImpl>) xpath.evaluate(
+            expression, item, XPathConstants.NODESET);
+        if (nList != null) {
+            for (int i = 0, sz = nList.size(); i < sz; i++) {
+                TinyNodeImpl aNode = nList.get(i);
+                vals.add(aNode.getStringValue());
+            }
+        }
+        return vals;
     }
 }

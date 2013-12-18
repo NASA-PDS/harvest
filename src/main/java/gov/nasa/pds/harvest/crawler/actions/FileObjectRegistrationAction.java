@@ -241,6 +241,34 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     } catch (Exception e) {
       throw new Exception("Parse failure: " + e.getMessage());
     }
+    // Search for "xml:base" attributes within the merged XML. This will
+    // tell us if there are any xincludes.
+    List<String> xincludes = extractor.getAttributeValuesFromDoc("//@xml:base");
+    for (String xinclude : xincludes) {
+      File xincludeFile = new File(product.getParent(), xinclude).getCanonicalFile();
+      log.log(new ToolsLogRecord(ToolsLevel.INFO,
+          "Capturing file information for " + xincludeFile.getName(),
+          product));
+      try {
+        if (xincludeFile.exists()) {
+          String lastMod = format.format(new Date(xincludeFile.lastModified()));
+          String checksum = handleChecksum(xincludeFile, product);
+          FileObject fileObject = new FileObject(xincludeFile.getName(),
+            xincludeFile.getParent(), xincludeFile.length(), lastMod, checksum,
+            "Label Fragment");
+          results.add(fileObject);
+        } else {
+          log.log(new ToolsLogRecord(ToolsLevel.WARNING, "File object does "
+              + "not exist: " + xincludeFile, product));
+          ++HarvestStats.numAncillaryProductsNotRegistered;
+        }
+      } catch (Exception e) {
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error "
+            + "occurred while generating checksum for " + xincludeFile.getName()
+            + ": " + e.getMessage(), product.toString()));
+        ++HarvestStats.numAncillaryProductsNotRegistered;
+      }
+    }
     // Search for File_Area_*/File tags within the product label
     List<TinyElementImpl> fileObjects = extractor.getNodesFromDoc(
         Constants.coreXpathsMap.get(Constants.FILE_OBJECTS));
