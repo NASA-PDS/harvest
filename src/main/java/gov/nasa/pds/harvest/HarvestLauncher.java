@@ -535,11 +535,11 @@ public class HarvestLauncher {
    *
    * @throws RegistryClientException If an error occurred while initializing
    * the RegistryClient.
-   * @throws RegistryServiceException If an error occurred while trying to
+   * @throws Exception If an error occurred while trying to
    * register a package to the Registry.
    */
   private void createRegistryPackage(Policy policy)
-  throws RegistryClientException, RegistryServiceException {
+  throws RegistryClientException, Exception {
     RegistryClient client = null;
     DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
     if ( (username != null) && (password != null) ) {
@@ -575,7 +575,12 @@ public class HarvestLauncher {
       registryPackage.setDescription("This package contains registration "
           + "of the following targets: " + targets.toString());
     }
-    registryPackageGuid = client.publishObject(registryPackage);
+    try {
+      registryPackageGuid = client.publishObject(registryPackage);
+    } catch (RegistryServiceException rse) {
+      throw new Exception("Registry Service error occurred while "
+          + "attempting to create a Registry Package: " + rse.getMessage());
+    }
   }
 
   /**
