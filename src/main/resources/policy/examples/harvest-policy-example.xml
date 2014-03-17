@@ -24,6 +24,15 @@
     </fileFilter>
   </directories>
 
+  <accessUrls registerFileUrls="false">
+    <accessUrl>
+      <baseUrl>http://starbase.jpl.nasa.gov</baseUrl>
+      <offset>$HOME</offset>
+    </accessUrl>
+  </accessUrls>
+
+  <checksums generate="true"/>
+
   <candidates>
     <namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01"/>
 

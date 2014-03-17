@@ -27,10 +27,12 @@
 
   <accessUrls registerFileUrls="false">
     <accessUrl>
-      <baseUrl>http://starbase.jpl.nasa.gov/pds4</baseUrl>
+      <baseUrl>http://starbase.jpl.nasa.gov</baseUrl>
       <offset>$HOME</offset>
     </accessUrl>
   </accessUrls>
+
+  <checksums generate="true"/>
 
   <candidates>
     <!-- Harvest will register PDS3 data products under the objectType 'Product_Proxy_PDS3'. -->
