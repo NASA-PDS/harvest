@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Copyright 2010-2013, by the California Institute of Technology.
+  Copyright 2010-2014, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology
   Transfer at the California Institute of Technology.
@@ -598,7 +598,10 @@
       <xPath slotName="instrument_serial_number">//Instrument/serial_number</xPath>
       <!-- Instrument_Host -->
       <xPath slotName="instrument_host_name">//Instrument_Host/name</xPath>
+      <!-- Version 1.1.0.1 or earlier for version identifier -->
       <xPath slotName="instrument_host_version_id">//Instrument_Host/version_id</xPath>
+      <!-- Version 1.2.0.0 or later for version identifier -->
+      <xPath slotName="instrument_host_version_id">//Instrument_Host/instrument_host_version_id</xPath>
       <xPath slotName="instrument_host_type">//Instrument_Host/type</xPath>
       <xPath slotName="instrument_host_description">//Instrument_Host/description</xPath>
       <xPath slotName="instrument_host_naif_id">//Instrument_Host/naif_host_id</xPath>
@@ -698,8 +701,12 @@
       <xPath slotName="data_set_id">//Data_Set_PDS3/data_set_id</xPath>
       <xPath slotName="data_set_name">//Data_Set_PDS3/data_set_name</xPath>
       <xPath slotName="data_set_release_date">//Data_Set_PDS3/data_set_release_date</xPath>
+      <!-- Version 1.1.0.1 or earlier for start and stop time -->
       <xPath slotName="data_set_start_date_time">//Data_Set_PDS3/start_date_time</xPath>
       <xPath slotName="data_set_stop_date_time">//Data_Set_PDS3/stop_date_time</xPath>
+      <!-- Version 1.2.0.0 or later for start and stop time -->
+      <xPath slotName="data_set_start_date_time">//Data_Set_PDS3/start_time</xPath>
+      <xPath slotName="data_set_stop_date_time">//Data_Set_PDS3/stop_time</xPath>
       <xPath slotName="data_set_producer_full_name">//Data_Set_PDS3/producer_full_name</xPath>
       <xPath slotName="data_set_citation_text">//Data_Set_PDS3/citation_text</xPath>
       <xPath slotName="data_set_terse_description">//Data_Set_PDS3/data_set_terse_desc</xPath>
@@ -1092,12 +1099,6 @@
          document_to_associate
        </modelValue>
        <modelValue>
-         data_collection_to_associate
-       </modelValue>
-       <modelValue>
-         operational_to_associate
-       </modelValue>
-       <modelValue>
          has_association
        </modelValue>
      </referenceTypeMap>
@@ -1112,12 +1113,6 @@
      <referenceTypeMap value="bundle_ref">
        <modelValue>
          collection_to_bundle
-       </modelValue>
-       <modelValue>
-         context_to_bundle
-       </modelValue>
-       <modelValue>
-         delivery_manifest_to_bundle
        </modelValue>
        <modelValue>
          package_has_bundle
@@ -1204,9 +1199,6 @@
        <modelValue>
          has_spice_kernels_collection
        </modelValue>
-       <modelValue>
-         package_has_collection
-       </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="context_ref">
        <modelValue>
@@ -1224,11 +1216,6 @@
      <referenceTypeMap value="data_set_ref">
        <modelValue>
          has_data_set
-       </modelValue>
-     </referenceTypeMap>
-     <referenceTypeMap value="delivery_ref">
-       <modelValue>
-         package_has_delivery_manifest
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="document_ref">
@@ -1271,6 +1258,11 @@
          collection_to_errata
        </modelValue>
      </referenceTypeMap>
+     <referenceTypeMap value="facility_ref">
+       <modelValue>
+         is_facility
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="geometry_ref">
        <modelValue>
          data_to_geometry
@@ -1296,10 +1288,16 @@
          instrument_to_instrument_host
        </modelValue>
        <modelValue>
+         investigation_to_instrument_host
+       </modelValue>
+       <modelValue>
          is_instrument_host
        </modelValue>
        <modelValue>
          resource_to_instrument_host
+       </modelValue>
+       <modelValue>
+         target_to_instrument_host
        </modelValue>
        <modelValue>
          has_instrument_host
@@ -1316,10 +1314,19 @@
          document_to_instrument
        </modelValue>
        <modelValue>
+         instrument_host_to_instrument
+       </modelValue>
+       <modelValue>
+         investigation_to_instrument
+       </modelValue>
+       <modelValue>
          is_instrument
        </modelValue>
        <modelValue>
          resource_to_instrument
+       </modelValue>
+       <modelValue>
+         target_to_instrument
        </modelValue>
        <modelValue>
          has_instrument
@@ -1343,6 +1350,9 @@
        </modelValue>
        <modelValue>
          resource_to_investigation
+       </modelValue>
+       <modelValue>
+         target_to_investigation
        </modelValue>
        <modelValue>
          has_investigation
@@ -1379,13 +1389,12 @@
      </referenceTypeMap>
      <referenceTypeMap value="other_ref">
        <modelValue>
-         is_facility
-       </modelValue>
-       <modelValue>
          is_other
        </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="package_ref">
        <modelValue>
-         is_telescope
+         package_compiled_from_package
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="personnel_ref">
@@ -1399,6 +1408,11 @@
          has_personnel
        </modelValue>
      </referenceTypeMap>
+     <referenceTypeMap value="product_ref">
+       <modelValue>
+         package_has_product
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="raw_ref">
        <modelValue>
          data_to_raw_product
@@ -1406,19 +1420,10 @@
      </referenceTypeMap>
      <referenceTypeMap value="resource_ref">
        <modelValue>
-         bundle_to_resource
-       </modelValue>
-       <modelValue>
-         context_to_resource
-       </modelValue>
-       <modelValue>
          data_to_resource
        </modelValue>
        <modelValue>
          collection_to_resource
-       </modelValue>
-       <modelValue>
-         operational_to_resource
        </modelValue>
        <modelValue>
          has_resource
@@ -1464,6 +1469,11 @@
        </modelValue>
        <modelValue>
          has_target
+       </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="telescope_ref">
+       <modelValue>
+         is_telescope
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="thumbnail_ref">

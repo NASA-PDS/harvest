@@ -353,6 +353,136 @@
       </xPath>
     </productMetadata>
 
+    <productMetadata objectType="Product_Native">
+      <!-- Identification_Area -->
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keyword">
+        //Identification_Area/Citation_Information/keyword
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <!-- Context_Area -->
+      <xPath slotName="observation_comment">
+        //Context_Area/comment
+      </xPath>
+      <xPath slotName="observation_start_date_time">
+        //Context_Area/Time_Coordinates/start_date_time
+      </xPath>
+      <xPath slotName="observation_stop_date_time">
+        //Context_Area/Time_Coordinates/stop_date_time
+      </xPath>
+      <xPath slotName="observation_local_mean_solar_time">
+        //Context_Area/Time_Coordinates/local_mean_solar_time
+      </xPath>
+      <xPath slotName="observation_local_true_solar_time">
+        //Context_Area/Time_Coordinates/local_true_solar_time
+      </xPath>
+      <xPath slotName="observation_solar_longitute">
+        //Context_Area/Time_Coordinates/solar_longitude
+      </xPath>
+      <xPath slotName="primary_result_purpose">
+        //Context_Area/Primary_Result_Summary/purpose
+      </xPath>
+      <xPath slotName="primary_result_processing_level">
+        //Context_Area/Primary_Result_Summary/processing_level
+      </xPath>
+      <xPath slotName="primary_result_description">
+        //Context_Area/Primary_Result_Summary/description
+      </xPath>
+      <xPath slotName="primary_result_wavelength_range">
+        //Context_Area/Primary_Result_Summary/Science_Facets/wavelength_range
+      </xPath>
+      <xPath slotName="primary_result_domain">
+        //Context_Area/Primary_Result_Summary/Science_Facets/domain
+      </xPath>
+      <xPath slotName="primary_result_discipline_name">
+        //Context_Area/Primary_Result_Summary/Science_Facets/discipline_name
+      </xPath>
+      <xPath slotName="primary_result_facet1">
+        //Context_Area/Primary_Result_Summary/Science_Facets/facet1
+      </xPath>
+      <xPath slotName="primary_result_subfacet1">
+        //Context_Area/Primary_Result_Summary/Science_Facets/subfacet1
+      </xPath>
+      <xPath slotName="primary_result_facet2">
+        //Context_Area/Primary_Result_Summary/Science_Facets/facet2
+      </xPath>
+      <xPath slotName="primary_result_subfacet2">
+        //Context_Area/Primary_Result_Summary/Science_Facets/subfacet2
+      </xPath>
+      <xPath slotName="investigation_name">
+        //Context_Area/Investigation_Area/name
+      </xPath>
+      <xPath slotName="investigation_type">
+        //Context_Area/Investigation_Area/type
+      </xPath>
+      <xPath slotName="observing_system_name">
+        //Context_Area/Observing_System/name
+      </xPath>
+      <xPath slotName="observing_system_description">
+        //Context_Area/Observing_System/description
+      </xPath>
+      <xPath slotName="observing_system_component_name">
+        //Context_Area/Observing_System/Observing_System_Component/name
+      </xPath>
+      <xPath slotName="observing_system_component_type">
+        //Context_Area/Observing_System/Observing_System_Component/type
+      </xPath>
+      <xPath slotName="observing_system_component_description">
+        //Context_Area/Observing_System/Observing_System_Component/description
+      </xPath>
+      <xPath slotName="target_name">
+        //Context_Area/Target_Identification/name
+      </xPath>
+      <xPath slotName="target_alternate_designation">
+        //Context_Area/Target_Identification/alternate_designation
+      </xPath>
+      <xPath slotName="target_type">
+        //Context_Area/Target_Identification/type
+      </xPath>
+      <xPath slotName="target_description">
+        //Context_Area/Target_Identification/description
+      </xPath>
+      <!-- Reference_List -->
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
+      <!-- File_Area_Native -->
+      <xPath slotName="file_name">
+        //File_Area_Native/File/file_name
+      </xPath>
+    </productMetadata>
+
     <productMetadata objectType="Product_Observational">
       <!-- Identification_Area -->
       <xPath slotName="information_model_version">
@@ -527,6 +657,9 @@
         //Reference_List/External_Reference/description
       </xPath>
       <!-- File_Area_Binary -->
+      <xPath slotName="file_name">
+        //File_Area_Binary/File/file_name
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_SIP">
@@ -578,7 +711,7 @@
       </xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_SPICE_Kernal">
+    <productMetadata objectType="Product_SPICE_Kernel">
       <!-- Identification_Area -->
       <xPath slotName="information_model_version">
         //Identification_Area/information_model_version
@@ -702,7 +835,10 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <!-- File_Area_SPICE_Kernal -->
+      <!-- File_Area_SPICE_Kernel -->
+      <xPath slotName="file_name">
+        //File_Area_SPICE_Kernel/File/file_name
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Service">
@@ -748,6 +884,9 @@
         //Reference_List/External_Reference/description
       </xPath>
       <!-- File_Area_Service_Description -->
+      <xPath slotName="file_name">
+        //File_Area_Service_Description/File/file_name
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Software">
@@ -794,13 +933,16 @@
       </xPath>
       <!-- Software -->
       <xPath slotName="software_name">//Software/name</xPath>
+      <!-- Version 1.1.0.1 or earlier for version identifier -->
       <xPath slotName="software_version_id">//Software/version_id</xPath>
+      <!-- Version 1.2.0.0 or later for version identifier -->
+      <xPath slotName="software_version_id">//Software/software_version_id</xPath>
       <xPath slotName="software_author_list">//Software/author_list</xPath>
+      <xPath slotName="software_programmers_manual_id">//Software/programmers_manual_id</xPath>
+      <xPath slotName="software_id">//Software/software_id</xPath>
+      <xPath slotName="software_type">//Software/software_type</xPath>
+      <xPath slotName="software_users_manual_id">//Software/users_manual_id</xPath>
       <xPath slotName="software_description">//Software/description</xPath>
-      <xPath slotName="software_programmers_manual_identifier">//Software/programmers_manual_identifier</xPath>
-      <xPath slotName="software_software_id">//Software/software_id</xPath>
-      <xPath slotName="software_software_type">//Software/software_type</xPath>
-      <xPath slotName="software_users_manual_identifier">//Software/users_manual_identifier</xPath>
       <!-- Software_Binary -->
       <!-- Software_Script -->
       <!-- Software_Source -->
@@ -989,6 +1131,9 @@
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- File -->
+      <xPath slotName="file_name">
+        //File/file_name
+      </xPath>
       <!-- Zipped_Member_Entry -->
     </productMetadata>
   </candidates>
