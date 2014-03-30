@@ -50,7 +50,7 @@
       <!-- Register static metadata for each product. -->
       <staticMetadata>
         <slot name="information_model_version">
-          <value>1.1.0.1</value>
+          <value>1.2.0.1</value>
         </slot>
         <slot name="product_class">
           <value>Product_Proxy_PDS3</value>

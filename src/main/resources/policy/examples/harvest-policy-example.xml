@@ -9,6 +9,11 @@
 -->
 
 <policy>
+  <registryPackage>
+    <name>Harvest Package Example Bundle Run</name>
+    <description>This is a Harvest run of the example bundle.</description>
+  </registryPackage>
+
   <collections>
     <file>$HOME/dph_example_archive_VG2PLS/browse/Collection_browse.xml</file>
     <file>$HOME/dph_example_archive_VG2PLS/context/Collection_context.xml</file>

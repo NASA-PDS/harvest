@@ -1373,10 +1373,13 @@
      </referenceTypeMap>
      <referenceTypeMap value="node_ref">
        <modelValue>
-         data_curated_by_node
+         bundle_curated_by_node
        </modelValue>
        <modelValue>
          collection_curated_by_node
+       </modelValue>
+       <modelValue>
+         data_curated_by_node
        </modelValue>
        <modelValue>
          has_node
