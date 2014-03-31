@@ -23,16 +23,7 @@
   </properties>
 
   <body>
-    <release version="1.6.0" date="2014-03-31" description="This release of the Harvest Tool is a component of the integrated release 4.1.0 of the PDS4 System. This is an operational release of the system components to date.">
-      <action dev="mcayanan" type="add" issue="PDS-233">
-        Added support for labels utilizing xinclude statements. Label fragments will get registered as File Objects under the file type "Label Fragment".
-      </action>
-      <action dev="mcayanan" type="update" issue="PDS-253">
-        Updated Unix shell script and Windows batch file to provide a more user friendly message when JAVA_HOME is not set in the environment.
-      </action>
-      <action dev="mcayanan" type="update">
-        Updated to return a more descriptive message when an error occurs while creating a registry package.
-      </action>
+    <release version="1.7.0" date="TBD" description="TBD">
     </release>
 
     <release version="1.5.0" date="2013-09-30" description="This release of the Harvest Tool is a component of the integrated release 4.0.0 of the PDS4 System. This is an operational release of the system components to date.">
