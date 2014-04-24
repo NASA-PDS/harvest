@@ -36,7 +36,9 @@
     </accessUrl>
   </accessUrls>
 
-  <checksums generate="true"/>
+  <checksums generate="true">
+    <manifest>$HOME/dph_example_archive_VG2PLS/bundle_checksums.txt</manifest>
+  </checksums>
 
   <candidates>
     <namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01"/>
