@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
-
 import net.sf.saxon.tinytree.TinyElementImpl;
 
 /**
@@ -181,7 +179,18 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
                 + "\', under slot name \'" + entry.getType()
                 + "\'.", product));
           } else {
-            lidVidEntries.add(entry);
+            // If a LIDVID reference is not of type 'member_ref', 
+            // register it as a slot
+            if (!"member_ref".equalsIgnoreCase(entry.getType())) {
+              String lidvid = entry.getLogicalID() + "::" + entry.getVersion();
+              metadata.addMetadata(entry.getType(), lidvid);
+              log.log(new ToolsLogRecord(ToolsLevel.INFO, "Setting "
+                  + "LIDVID-based association, \'" + lidvid
+                  + "\', under slot name \'" + entry.getType()
+                  + "\'.", product));
+            } else {
+              lidVidEntries.add(entry);
+            }
           }
         }
         if (!lidVidEntries.isEmpty()) {
