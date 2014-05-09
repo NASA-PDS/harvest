@@ -13,6 +13,7 @@
 // $Id$
 package gov.nasa.pds.harvest.util;
 
+import gov.nasa.pds.harvest.policy.Policy;
 import gov.nasa.pds.registry.model.Association;
 import gov.nasa.pds.registry.model.ExtrinsicObject;
 import gov.nasa.pds.registry.model.RegistryObject;
@@ -23,8 +24,12 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -115,5 +120,47 @@ public class Utility {
       //Marshal object into file.
       m.marshal(association, output);
       return output.toString();
+    }
+    
+    /**
+     * Returns given string with environment variable references expanded.
+     * e.g. $HOME or ${HOME}.
+     * 
+     * @param string The string to expand.
+     * 
+     * @return The expanded string or the original string if no environment
+     *  variables were expanded.
+     * 
+     */
+    public static String resolveEnvVars(String string)
+    {
+      Pattern p = Pattern.compile("\\$\\{(\\w+)\\}|\\$(\\w+)");
+      Matcher m = p.matcher(string);
+      StringBuffer sb = new StringBuffer();
+      while(m.find()){
+        String envVarName = null == m.group(1) ? m.group(2) : m.group(1);
+        String envVarValue = System.getenv(envVarName);
+        m.appendReplacement(sb, null == envVarValue ? "" : envVarValue);
+      }
+      m.appendTail(sb);
+      return sb.toString();
+    }
+    
+    /**
+     * Returns list of strings with environment variable references expanded.
+     * e.g. $HOME or ${HOME}
+     * 
+     * @param strings A list of strings to expand.
+     * 
+     * @return A list of expanded strings or the original strings if no 
+     * environment variables were expanded.
+     * 
+     */
+    public static List<String> resolveEnvVars(List<String> strings) {
+      List<String> result = new ArrayList<String>();
+      for (String s : strings) {
+        result.add(resolveEnvVars(s));
+      }
+      return result;
     }
 }

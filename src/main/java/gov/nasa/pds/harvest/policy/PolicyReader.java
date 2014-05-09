@@ -1,4 +1,4 @@
-// Copyright 2006-2010, by the California Institute of Technology.
+// Copyright 2006-2014, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -30,6 +30,12 @@ import javax.xml.validation.SchemaFactory;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+/**
+ * Class to read the Harvest Policy file.
+ * 
+ * @author mcayanan
+ *
+ */
 public class PolicyReader {
     public final static String POLICY_PACKAGE = "gov.nasa.pds.harvest.policy";
     public final static String POLICY_SCHEMA = "harvest-policy.xsd";
@@ -58,6 +64,7 @@ public class PolicyReader {
             throw new SAXException("Problems parsing harvest policy schema: "
                     + se.getMessage());
         }
+        um.setListener(new UnmarshallerListener());
         um.setSchema(schema);
         um.setEventHandler(new XMLValidationEventHandler(
             policyXML.getSystemId()));
