@@ -24,6 +24,9 @@
 
   <body>
     <release version="1.7.0" date="TBD" description="TBD">
+      <action dev="mcayanan" type="fix">
+        Fixed to set LIDVID-based references as slots for a Collection product when the reference type is not of type "member_ref".
+      </action>
     </release>
 
     <release version="1.5.0" date="2013-09-30" description="This release of the Harvest Tool is a component of the integrated release 4.0.0 of the PDS4 System. This is an operational release of the system components to date.">
