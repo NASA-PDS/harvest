@@ -19,13 +19,17 @@ import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.registry.model.Slot;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
-import net.sf.saxon.tinytree.TinyElementImpl;
+import net.sf.saxon.tree.tiny.TinyElementImpl;
 
 /**
  * Class that extracts metadata from a PDS Bundle file.
@@ -62,6 +66,7 @@ public class BundleMetExtractor extends Pds4MetExtractor {
     String version = "";
     String title = "";
     List<TinyElementImpl> references = new ArrayList<TinyElementImpl>();
+    List<Slot> slots = new ArrayList<Slot>();
     try {
       extractor.parse(product);
     } catch (Exception e) {
@@ -99,19 +104,20 @@ public class BundleMetExtractor extends Pds4MetExtractor {
           product));
     }
     if ((!"".equals(objectType)) && (config.hasObjectType(objectType))) {
-      metadata.addMetadata(extractMetadata(config.getMetXPaths(objectType))
-          .getHashtable());
+      slots.addAll(extractMetadata(config.getMetXPaths(objectType)));
     }
     try {
+      HashMap<String, List<String>> refMap = 
+          new HashMap<String, List<String>>();
       // Register LID-based and LIDVID-based associations as slots
       for (ReferenceEntry entry : getReferences(references, product)) {
+        String value = "";
         if (!entry.hasVersion()) {
-          metadata.addMetadata(entry.getType(),
-              entry.getLogicalID());
           log.log(new ToolsLogRecord(ToolsLevel.INFO, "Setting "
               + "LID-based association, \'" + entry.getLogicalID()
               + "\', under slot name \'" + entry.getType()
               + "\'.", product));
+          value = entry.getLogicalID();
         } else {
           String lidvid = entry.getLogicalID() + "::" + entry.getVersion();
           metadata.addMetadata(entry.getType(), lidvid);
@@ -119,11 +125,28 @@ public class BundleMetExtractor extends Pds4MetExtractor {
               + "LIDVID-based association, \'" + lidvid
               + "\', under slot name \'" + entry.getType()
               + "\'.", product));
+          value = lidvid;
         }
+        List<String> values = refMap.get(entry.getType());
+        if (values == null) {
+          values = new ArrayList<String>();
+          refMap.put(entry.getType(), values);
+          values.add(value);
+        } else {
+          values.add(value);
+        }    
       }
+      if (!refMap.isEmpty()) {
+        for (Map.Entry<String, List<String>> entry : refMap.entrySet()) {
+          slots.add(new Slot(entry.getKey(), entry.getValue()));
+        }
+      }      
     } catch (Exception e) {
       throw new MetExtractionException(e.getMessage());
     }
+    if (!slots.isEmpty()) {
+      metadata.addMetadata(Constants.SLOT_METADATA, slots);
+    }    
     return metadata;
   }
 }

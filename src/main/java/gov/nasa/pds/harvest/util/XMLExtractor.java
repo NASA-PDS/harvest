@@ -22,10 +22,10 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import net.sf.saxon.Configuration;
-import net.sf.saxon.event.ParseOptions;
+import net.sf.saxon.lib.ParseOptions;
 import net.sf.saxon.om.DocumentInfo;
-import net.sf.saxon.tinytree.TinyElementImpl;
-import net.sf.saxon.tinytree.TinyNodeImpl;
+import net.sf.saxon.tree.tiny.TinyElementImpl;
+import net.sf.saxon.tree.tiny.TinyNodeImpl;
 import net.sf.saxon.trans.XPathException;
 import net.sf.saxon.xpath.XPathEvaluator;
 

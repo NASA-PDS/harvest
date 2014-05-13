@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import net.sf.saxon.om.NodeInfo;
-import net.sf.saxon.tinytree.TinyElementImpl;
+import net.sf.saxon.tree.tiny.TinyElementImpl;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 
@@ -39,6 +39,7 @@ import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.file.FileObject;
+import gov.nasa.pds.harvest.file.FileSize;
 import gov.nasa.pds.harvest.file.MD5Checksum;
 import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.inventory.ReferenceEntry;
@@ -226,7 +227,8 @@ public class FileObjectRegistrationAction extends CrawlerAction {
           + "for " + product.getName(), product));
       String checksum = handleChecksum(product, product);
       FileObject fileObject = new FileObject(product.getName(),
-          product.getParent(), product.length(),
+          product.getParent(), 
+          new FileSize(product.length(), Constants.BYTE),
           lastModified, checksum, "Label");
       results.add(fileObject);
     } catch (Exception e) {
@@ -254,8 +256,9 @@ public class FileObjectRegistrationAction extends CrawlerAction {
           String lastMod = format.format(new Date(xincludeFile.lastModified()));
           String checksum = handleChecksum(xincludeFile, product);
           FileObject fileObject = new FileObject(xincludeFile.getName(),
-            xincludeFile.getParent(), xincludeFile.length(), lastMod, checksum,
-            "Label Fragment");
+            xincludeFile.getParent(), 
+            new FileSize(xincludeFile.length(), Constants.BYTE), 
+            lastMod, checksum, "Label Fragment");
           results.add(fileObject);
         } else {
           log.log(new ToolsLogRecord(ToolsLevel.WARNING, "File object does "
@@ -280,12 +283,17 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       long size = -1;
       String checksum = "";
       String creationDateTime = "";
+      String unit = "";
       List<TinyElementImpl> children = extractor.getNodesFromItem("*", file);
       for (TinyElementImpl child : children) {
         if ("file_name".equals(child.getLocalPart())) {
           name = child.getStringValue();
         } else if ("file_size".equals(child.getLocalPart())) {
           size = Long.parseLong(child.getStringValue());
+          unit = child.getAttributeValue("", "unit");
+          if (unit == null) {
+            unit = "";
+          }
         } else if ("md5_checksum".equals(child.getLocalPart())) {
           checksum = child.getStringValue();
         } else if ("creation_date_time".equals(child.getLocalPart())) {
@@ -313,6 +321,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
         } else {
           if (size == -1) {
             size = f.length();
+            unit = Constants.BYTE;
           }
           if (creationDateTime.isEmpty()) {
             creationDateTime = format.format(new Date(f.lastModified()));
@@ -343,8 +352,9 @@ public class FileObjectRegistrationAction extends CrawlerAction {
                 product.toString(), file.getLineNumber()));
             }
           }
-          results.add(new FileObject(f.getName(), f.getParent(), size,
-              creationDateTime, checksum, fileType));
+          results.add(new FileObject(f.getName(), f.getParent(), 
+              new FileSize(size, unit), creationDateTime, checksum, 
+              fileType));
         }
       } catch (Exception e) {
         ++HarvestStats.numAncillaryProductsNotRegistered;
@@ -367,7 +377,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
           + "metadata for " + product.getName(), product));
       String checksum = handleChecksum(product, product);
       FileObject fileObject = new FileObject(product.getName(),
-          product.getParent(), product.length(),
+          product.getParent(), new FileSize(product.length(), Constants.BYTE),
           lastModified, checksum, "Label");
       results.add(fileObject);
     } catch (Exception e) {
@@ -403,7 +413,8 @@ public class FileObjectRegistrationAction extends CrawlerAction {
                 file.lastModified()));
               String checksum = handleChecksum(product, file);
               results.add(new FileObject(file.getName(), file.getParent(),
-                  size, creationDateTime, checksum, "Observation"));
+                  new FileSize(size, Constants.BYTE), 
+                  creationDateTime, checksum, "Observation"));
             }
           } else {
             log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "File object not "

@@ -27,6 +27,9 @@
       <action dev="mcayanan" type="fix" issue="PDS-270">
         Fixed to resolve environment variables specified within the Harvest policy file.
       </action>
+      <action dev="mcayanan" type="add" issue="PDS-272">
+        Added support for capturing the units designation from PDS4 labels and registering it with the registry as the slotType. For PDS3 registrations, allow the user to define the slotType in the ancillary metadata section for a given keyword.
+      </action>      
       <action dev="mcayanan" type="fix">
         Fixed to set LIDVID-based references as slots for a Collection product when the reference type is not of type "member_ref".
       </action>

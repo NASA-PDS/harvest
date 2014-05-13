@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlValue;
  *   &lt;simpleContent>
  *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
  *       &lt;attribute ref="{}slotName"/>
+ *       &lt;attribute ref="{}slotType"/>
  *     &lt;/extension>
  *   &lt;/simpleContent>
  * &lt;/complexType>
@@ -56,6 +57,8 @@ public class ElementName {
     protected String value;
     @XmlAttribute
     protected String slotName;
+    @XmlAttribute
+    protected String slotType;
 
     /**
      * Gets the value of the value property.
@@ -105,4 +108,28 @@ public class ElementName {
         this.slotName = value;
     }
 
+    /**
+     * Gets the value of the slotType property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getSlotType() {
+        return slotType;
+    }
+
+    /**
+     * Sets the value of the slotType property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setSlotType(String value) {
+        this.slotType = value;
+    }
+    
 }

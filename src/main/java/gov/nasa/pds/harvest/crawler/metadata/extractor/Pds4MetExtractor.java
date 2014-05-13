@@ -16,15 +16,17 @@ package gov.nasa.pds.harvest.crawler.metadata.extractor;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 
-import net.sf.saxon.tinytree.TinyElementImpl;
-
+import net.sf.saxon.tree.tiny.TinyElementImpl;
 import gov.nasa.jpl.oodt.cas.metadata.MetExtractor;
 import gov.nasa.jpl.oodt.cas.metadata.MetExtractorConfig;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
@@ -35,6 +37,7 @@ import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.policy.XPath;
 import gov.nasa.pds.harvest.util.XMLExtractor;
+import gov.nasa.pds.registry.model.Slot;
 
 /**
  * Class to extract metadata from a PDS4 XML file.
@@ -83,6 +86,7 @@ public class Pds4MetExtractor implements MetExtractor {
     String title = "";
     List<TinyElementImpl> references = new ArrayList<TinyElementImpl>();
     List<TinyElementImpl> dataClasses = new ArrayList<TinyElementImpl>();
+    List<Slot> slots = new ArrayList<Slot>();    
     try {
       extractor.parse(product);
     } catch (Exception e) {
@@ -122,33 +126,54 @@ public class Pds4MetExtractor implements MetExtractor {
           product));
     }
     if ((!"".equals(objectType)) && (config.hasObjectType(objectType))) {
-      metadata.addMetadata(extractMetadata(config.getMetXPaths(objectType))
-          .getHashtable());
+      slots.addAll(extractMetadata(config.getMetXPaths(objectType)));
     }
-    for (TinyElementImpl dataClass : dataClasses) {
-      metadata.addMetadata(Constants.DATA_CLASS, dataClass.getDisplayName());
+    if (dataClasses.size() != 0) {
+      List<String> values = new ArrayList<String>();
+      for (TinyElementImpl dataClass : dataClasses) {
+         values.add(dataClass.getDisplayName());
+      }
+      slots.add(new Slot(Constants.DATA_CLASS, values));
     }
     try {
+      HashMap<String, List<String>> refMap = 
+          new HashMap<String, List<String>>();
       // Register LID-based and LIDVID-based associations as slots
       for (ReferenceEntry entry : getReferences(references, product)) {
+        String value = "";
         if (!entry.hasVersion()) {
-          metadata.addMetadata(entry.getType(),
-              entry.getLogicalID());
           log.log(new ToolsLogRecord(ToolsLevel.INFO, "Setting "
               + "LID-based association, \'" + entry.getLogicalID()
               + "\', under slot name \'" + entry.getType()
               + "\'.", product));
+          value = entry.getLogicalID();
         } else {
           String lidvid = entry.getLogicalID() + "::" + entry.getVersion();
-          metadata.addMetadata(entry.getType(), lidvid);
           log.log(new ToolsLogRecord(ToolsLevel.INFO, "Setting "
               + "LIDVID-based association, \'" + lidvid
               + "\', under slot name \'" + entry.getType()
               + "\'.", product));
+          value = lidvid;
+        }
+        List<String> values = refMap.get(entry.getType());
+        if (values == null) {
+          values = new ArrayList<String>();
+          refMap.put(entry.getType(), values);
+          values.add(value);
+        } else {
+          values.add(value);
+        }
+      }
+      if (!refMap.isEmpty()) {
+        for (Map.Entry<String, List<String>> entry : refMap.entrySet()) {
+          slots.add(new Slot(entry.getKey(), entry.getValue()));
         }
       }
     } catch (Exception e) {
       throw new MetExtractionException(ExceptionUtils.getRootCauseMessage(e));
+    }
+    if (!slots.isEmpty()) {
+      metadata.addMetadata(Constants.SLOT_METADATA, slots);
     }
     return metadata;
   }
@@ -158,14 +183,14 @@ public class Pds4MetExtractor implements MetExtractor {
    *
    * @param xPaths A list of xpath expressions.
    *
-   * @return A metadata object containing the extracted metadata.
+   * @return A list of Slots that contain the extracted metadata.
    *
    * @throws MetExtractionException If a bad xPath expression was
    *  encountered.
    */
-  protected Metadata extractMetadata(List<XPath> xPaths)
+  protected List<Slot> extractMetadata(List<XPath> xPaths)
   throws MetExtractionException {
-    Metadata metadata = new Metadata();
+    List<Slot> slots = new ArrayList<Slot>();
     for (XPath xpath : xPaths) {
       try {
         TinyElementImpl node = extractor.getNodeFromDoc(
@@ -180,14 +205,19 @@ public class Pds4MetExtractor implements MetExtractor {
         }
         List<String> values = extractor.getValuesFromDoc(xpath.getValue());
         if (values != null && (!values.isEmpty())) {
-          metadata.addMetadata(name, values);
+          Slot slot = new Slot(name, values);
+          String unit = node.getAttributeValue("", Constants.UNIT);
+          if (unit != null) {
+            slot.setSlotType(unit);
+          }
+          slots.add(slot);
         }
       } catch (Exception xe) {
         throw new MetExtractionException("Bad XPath Expression: "
             + xpath.getValue());
       }
     }
-    return metadata;
+    return slots;
   }
 
   /**

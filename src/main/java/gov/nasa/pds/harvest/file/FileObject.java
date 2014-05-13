@@ -1,4 +1,4 @@
-// Copyright 2006-2011, by the California Institute of Technology.
+// Copyright 2006-2014, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -34,7 +34,7 @@ public class FileObject {
   private String location;
 
   /** File size. */
-  private long size;
+  private FileSize size;
 
   /** File creation date time. */
   private String creationDateTime;
@@ -51,7 +51,7 @@ public class FileObject {
   private String mimeType;
 
   private String fileType;
-
+  
   /**
    * Constructor.
    *
@@ -61,7 +61,7 @@ public class FileObject {
    * @param creationDateTime File creation date time.
    * @param checksum checksum of the file.
    */
-  public FileObject(String name, String location, long size,
+  public FileObject(String name, String location, FileSize size,
       String creationDateTime, String checksum, String fileType) {
     this.name = name;
     this.location = location;
@@ -78,7 +78,7 @@ public class FileObject {
 
   public String getLocation() {return location;}
 
-  public long getSize() {return size;}
+  public FileSize getSize() {return size;}
 
   public String getCreationDateTime() {return creationDateTime;}
 

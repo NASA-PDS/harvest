@@ -40,6 +40,7 @@
 <xsd:attribute name="registerFileUrls" type="xsd:boolean" default="false"/>
 <xsd:attribute name="appendFilename" type="xsd:boolean" default="false"/>
 <xsd:attribute name="slotName" type="xsd:string"/>
+<xsd:attribute name="slotType" type="xsd:string"/>
 <xsd:attribute name="value" type="xsd:string"/>
 <xsd:attribute name="name" type="xsd:string"/>
 <xsd:attribute name="generate" type="xsd:boolean" default="false"/>
@@ -63,6 +64,7 @@
    <xsd:simpleContent>
       <xsd:extension base="xsd:string">
          <xsd:attribute ref="slotName"/>
+         <xsd:attribute ref="slotType"/>
       </xsd:extension>
    </xsd:simpleContent>
 </xsd:complexType>

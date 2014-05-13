@@ -16,6 +16,7 @@ package gov.nasa.pds.harvest.ingest;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +35,7 @@ import gov.nasa.jpl.oodt.cas.metadata.MetExtractor;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.file.FileObject;
+import gov.nasa.pds.harvest.file.FileSize;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.stats.HarvestStats;
@@ -205,7 +207,7 @@ public class RegistryIngester implements Ingester {
       String lidvid = lid + "::" + vid;
       try {
         if (!hasProduct(registry, lid, vid)) {
-          ExtrinsicObject extrinsic = createProduct(met);
+          ExtrinsicObject extrinsic = createProduct(met, prodFile);
           guid = ingest(registry, extrinsic);
           log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
               "Successfully registered product: " + lidvid, prodFile));
@@ -248,7 +250,7 @@ public class RegistryIngester implements Ingester {
      *
      * @return A Product object.
      */
-  private ExtrinsicObject createProduct(Metadata metadata) {
+  private ExtrinsicObject createProduct(Metadata metadata, File prodFile) {
     ExtrinsicObject product = new ExtrinsicObject();
     Set<Slot> slots = new HashSet<Slot>();
     Set metSet = metadata.getHashtable().entrySet();
@@ -261,22 +263,32 @@ public class RegistryIngester implements Ingester {
       }
       if (key.equals(Constants.LOGICAL_ID)) {
         product.setLid(metadata.getMetadata(Constants.LOGICAL_ID));
+      } else if (key.equals(Constants.PRODUCT_VERSION)) {
+        slots.add(new Slot(Constants.PRODUCT_VERSION, 
+            Arrays.asList(new String[]{
+                metadata.getMetadata(Constants.PRODUCT_VERSION)}
+            )));
       } else if (key.equals(Constants.OBJECT_TYPE)) {
-         product.setObjectType(metadata.getMetadata(
+        product.setObjectType(metadata.getMetadata(
              Constants.OBJECT_TYPE));
       } else if (key.equals(Constants.TITLE)) {
-         product.setName(metadata.getMetadata(Constants.TITLE));
+        product.setName(metadata.getMetadata(Constants.TITLE));
+      } else if (key.equals(Constants.SLOT_METADATA)) {
+        slots.addAll(metadata.getAllMetadata(Constants.SLOT_METADATA));
       } else {
-         List<String> values = new ArrayList<String>();
-         if (metadata.isMultiValued(key)) {
-           values.addAll(metadata.getAllMetadata(key));
-         } else {
-           values.add(metadata.getMetadata(key));
-         }
-           slots.add(new Slot(key, values));
+        log.log(new ToolsLogRecord(ToolsLevel.WARNING, 
+            "Creating unexpected slot: " + key, prodFile));
+        List<String> values = new ArrayList<String>();
+        if (metadata.isMultiValued(key)) {
+          values.addAll(metadata.getAllMetadata(key));
+        } else {
+          values.add(metadata.getMetadata(key));
+        }
+        slots.add(new Slot(key, values));
       }
+      product.setSlots(slots);
     }
-    product.setSlots(slots);
+
     if (log.getParent().getHandlers()[0].getLevel().intValue()
         <= ToolsLevel.DEBUG.intValue()) {
       try {
@@ -331,7 +343,7 @@ public class RegistryIngester implements Ingester {
   public String ingest(URL registry, File sourceFile, FileObject fileObject,
       Metadata met) throws IngestException {
     Metadata fileObjectMet = createFileObjectMetadata(fileObject, met);
-    ExtrinsicObject fileProduct = createProduct(fileObjectMet);
+    ExtrinsicObject fileProduct = createProduct(fileObjectMet, sourceFile);
     String guid = "";
     String lid = fileObjectMet.getMetadata(Constants.LOGICAL_ID);
     String vid = fileObjectMet.getMetadata(Constants.PRODUCT_VERSION);
@@ -365,33 +377,52 @@ public class RegistryIngester implements Ingester {
   private Metadata createFileObjectMetadata(FileObject fileObject,
       Metadata sourceMet) {
     Metadata metadata = new Metadata();
+    List<Slot> slots = new ArrayList<Slot>();
     metadata.addMetadata(Constants.LOGICAL_ID, sourceMet.getMetadata(
         Constants.LOGICAL_ID) + ":" + fileObject.getName());
     metadata.addMetadata(Constants.TITLE, FilenameUtils.getBaseName(
         fileObject.getName()));
     metadata.addMetadata(Constants.OBJECT_TYPE,
         Constants.FILE_OBJECT_PRODUCT_TYPE);
-    metadata.addMetadata(Constants.FILE_NAME, fileObject.getName());
-    metadata.addMetadata(Constants.FILE_LOCATION, fileObject.getLocation());
-    metadata.addMetadata(Constants.FILE_SIZE, Long.toString(
-        fileObject.getSize()));
-    metadata.addMetadata(Constants.MIME_TYPE, fileObject.getMimeType());
+    
+    slots.add(new Slot(Constants.FILE_NAME, 
+        Arrays.asList(new String[]{fileObject.getName()})));
+
+    slots.add(new Slot(Constants.FILE_LOCATION, 
+        Arrays.asList(new String[]{fileObject.getLocation()})));
+    
+    FileSize fs = fileObject.getSize();
+    Slot fsSlot = new Slot(Constants.FILE_SIZE, Arrays.asList(
+        new String[]{new Long(fs.getSize()).toString()}));
+    if (fs.hasUnits()) {
+      fsSlot.setSlotType(fs.getUnits());
+    }
+    slots.add(fsSlot);
+    
+    slots.add(new Slot(Constants.MIME_TYPE, 
+        Arrays.asList(new String[]{fileObject.getMimeType()})));
+
     if ( (fileObject.getChecksum()) != null
         && (!fileObject.getChecksum().isEmpty()) ) {
-      metadata.addMetadata(Constants.MD5_CHECKSUM, fileObject.getChecksum());
+      slots.add(new Slot(Constants.MD5_CHECKSUM, 
+          Arrays.asList(new String[]{fileObject.getChecksum()})));
     }
+    
     if ( (fileObject.getFileType() != null
         && (!fileObject.getFileType().isEmpty()))) {
-      metadata.addMetadata(Constants.FILE_TYPE, fileObject.getFileType());
+      slots.add(new Slot(Constants.FILE_TYPE, 
+          Arrays.asList(new String[]{fileObject.getFileType()})));      
     }
-    metadata.addMetadata(Constants.CREATION_DATE_TIME,
-        fileObject.getCreationDateTime());
+    
+    slots.add(new Slot(Constants.CREATION_DATE_TIME, 
+        Arrays.asList(new String[]{fileObject.getCreationDateTime()})));  
+
     if (fileObject.getStorageServiceProductId() != null) {
-      metadata.addMetadata(Constants.STORAGE_SERVICE_PRODUCT_ID,
-        fileObject.getStorageServiceProductId());
+      slots.add(new Slot(Constants.STORAGE_SERVICE_PRODUCT_ID, 
+          Arrays.asList(new String[]{fileObject.getStorageServiceProductId()})));
     }
     if (!fileObject.getAccessUrls().isEmpty()) {
-      metadata.addMetadata(Constants.ACCESS_URLS, fileObject.getAccessUrls());
+      slots.add(new Slot(Constants.ACCESS_URLS, fileObject.getAccessUrls()));      
     }
     for (Iterator i = sourceMet.getHashtable().entrySet().iterator();
     i.hasNext();) {
@@ -400,8 +431,12 @@ public class RegistryIngester implements Ingester {
       if (key.equals("dd_version_id")
           || key.equals("std_ref_version_id")
           || key.equals(Constants.PRODUCT_VERSION)) {
-        metadata.addMetadata(key, sourceMet.getMetadata(key));
+        slots.add(new Slot(key, Arrays.asList(
+            new String[]{sourceMet.getMetadata(key)})));      
       }
+    }
+    if (!slots.isEmpty()) {
+      metadata.addMetadata(Constants.SLOT_METADATA, slots);
     }
     return metadata;
   }

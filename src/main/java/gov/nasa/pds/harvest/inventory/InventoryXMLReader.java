@@ -21,7 +21,7 @@ import java.util.List;
 
 import javax.xml.xpath.XPathExpressionException;
 
-import net.sf.saxon.tinytree.TinyElementImpl;
+import net.sf.saxon.tree.tiny.TinyElementImpl;
 
 /**
  * Class that supports the reading of an XML version of the

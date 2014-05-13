@@ -23,13 +23,17 @@ import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.util.LidVid;
+import gov.nasa.pds.registry.model.Slot;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
-import net.sf.saxon.tinytree.TinyElementImpl;
+import net.sf.saxon.tree.tiny.TinyElementImpl;
 
 /**
  * Class to extract metadata from a PDS Collection file.
@@ -71,6 +75,7 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
     String title = "";
     String associationType = "";
     List<TinyElementImpl> references = new ArrayList<TinyElementImpl>();
+    List<Slot> slots = new ArrayList<Slot>();    
     try {
       extractor.parse(product);
     } catch (Exception e) {
@@ -129,8 +134,7 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
           product));
     }
     if ((!"".equals(objectType)) && (config.hasObjectType(objectType))) {
-      metadata.addMetadata(extractMetadata(config.getMetXPaths(objectType))
-          .getHashtable());
+      slots.addAll(extractMetadata(config.getMetXPaths(objectType)));
     }
     List<ReferenceEntry> refEntries = new ArrayList<ReferenceEntry>();
     try {
@@ -168,31 +172,48 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
         log.log(new ToolsLogRecord(ToolsLevel.INFO,
             "No associations found.", reader.getDataFile()));
       } else {
+        HashMap<String, List<String>> refMap = 
+            new HashMap<String, List<String>>();
         // Search for LID-based associations and register them as slots
         List<ReferenceEntry> lidVidEntries = new ArrayList<ReferenceEntry>();
         for (ReferenceEntry entry : refEntries) {
+          String value = "";
           if (!entry.hasVersion()) {
-            metadata.addMetadata(entry.getType(),
-                entry.getLogicalID());
             log.log(new ToolsLogRecord(ToolsLevel.INFO, "Setting "
                 + "LID-based association, \'" + entry.getLogicalID()
                 + "\', under slot name \'" + entry.getType()
                 + "\'.", product));
+            value = entry.getLogicalID();
           } else {
             // If a LIDVID reference is not of type 'member_ref', 
             // register it as a slot
             if (!"member_ref".equalsIgnoreCase(entry.getType())) {
               String lidvid = entry.getLogicalID() + "::" + entry.getVersion();
-              metadata.addMetadata(entry.getType(), lidvid);
               log.log(new ToolsLogRecord(ToolsLevel.INFO, "Setting "
                   + "LIDVID-based association, \'" + lidvid
                   + "\', under slot name \'" + entry.getType()
                   + "\'.", product));
+              value = lidvid;
             } else {
               lidVidEntries.add(entry);
             }
           }
+          if (!value.isEmpty()) {
+            List<String> values = refMap.get(entry.getType());
+            if (values == null) {
+              values = new ArrayList<String>();
+              refMap.put(entry.getType(), values);
+              values.add(value);
+            } else {
+              values.add(value);
+            }            
+          }
         }
+        if (!refMap.isEmpty()) {
+          for (Map.Entry<String, List<String>> entry : refMap.entrySet()) {
+            slots.add(new Slot(entry.getKey(), entry.getValue()));
+          }
+        }        
         if (!lidVidEntries.isEmpty()) {
           metadata.addMetadata(Constants.REFERENCES, lidVidEntries);
         }
@@ -205,6 +226,9 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
       message += ie.getMessage();
       throw new MetExtractionException(message);
     }
+    if (!slots.isEmpty()) {
+      metadata.addMetadata(Constants.SLOT_METADATA, slots);
+    }    
     return metadata;
   }
 }

@@ -791,7 +791,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
 
       <table>
         <tr><th>Element Name</th><th>Description</th></tr>
-        <tr><td>elementName</td><td>Specify an element name found in the PDS3 data product label. An optional <i>slotName</i> attribute can be used to set the slot name for this element. If <i>slotName</i> is not set, the tool will use the element name in lowercase form as the slot name.</td></tr>
+        <tr><td>elementName</td><td>Specify an element name found in the PDS3 data product label. An optional <i>slotName</i> attribute can be used to set the slot name for this element. If <i>slotName</i> is not set, the tool will use the element name in lowercase form as the slot name. In addition, a <i>slotType</i> attribute can be used to define units to go along with an extracted value. The units will be registered as the <i>slotType</i> in the registry.</td></tr>
       </table>
 
       <p>In the example above, the values from the following elements will be extracted from a PDS3 product label: <i>START_DATE_TIME</i> and <i>STOP_DATE_TIME</i>.

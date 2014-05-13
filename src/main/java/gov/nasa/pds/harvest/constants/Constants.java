@@ -99,6 +99,19 @@ public class Constants {
 
   public static final String FILE_OBJECT_PRODUCT_TYPE = "Product_File_Repository";
 
+  /** The slots to add to a product to be registered. */
+  public static final String SLOT_METADATA = "slot_metadata";
+  
+  /** The unit attribute stores the units for an element in a PDS4 product 
+   *  label. 
+   */
+  public static final String UNIT = "unit";
+  
+  /** The byte unit value is the de facto unit value when determining file 
+   * sizes for a registered product. 
+   */
+  public static final String BYTE = "byte";
+  
   /**
    * The XPath to the data classes in the PDS4 label.
    */

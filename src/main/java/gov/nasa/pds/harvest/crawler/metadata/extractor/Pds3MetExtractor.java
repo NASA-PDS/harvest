@@ -1,4 +1,4 @@
-// Copyright 2006-2011, by the California Institute of Technology.
+// Copyright 2006-2014, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -23,9 +23,9 @@ import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.policy.ElementName;
 import gov.nasa.pds.harvest.policy.LidContents;
-import gov.nasa.pds.harvest.policy.Slot;
 import gov.nasa.pds.harvest.policy.TitleContents;
 import gov.nasa.pds.harvest.util.StatementFinder;
+import gov.nasa.pds.registry.model.Slot;
 import gov.nasa.pds.tools.LabelParserException;
 import gov.nasa.pds.tools.label.AttributeStatement;
 import gov.nasa.pds.tools.label.Label;
@@ -115,43 +115,47 @@ public class Pds3MetExtractor implements MetExtractor {
     // Capture the include paths for file object processing.
     metadata.addMetadata(Constants.INCLUDE_PATHS, config.getIncludePaths());
 
+    List<Slot> slots = new ArrayList<Slot>();
     // Register any static metadata that is specified in the policy config
     if (!config.getStaticMetadata().isEmpty()) {
-      for (Slot slot : config.getStaticMetadata()) {
-        metadata.addMetadata(slot.getName(), slot.getValue());
+      for (gov.nasa.pds.harvest.policy.Slot slot : config.getStaticMetadata()) {
+        slots.add(new Slot(slot.getName(), slot.getValue()));
       }
     }
 
     // Register additional metadata (if specified)
     if (!config.getAncillaryMetadata().isEmpty()) {
       for (ElementName element : config.getAncillaryMetadata()) {
-          List<AttributeStatement> attributes = StatementFinder
-          .getStatementsRecursively(label, element.getValue().trim());
-          for (AttributeStatement attribute : attributes) {
-            Value value = attribute.getValue();
-            if (value instanceof Sequence || value instanceof Set) {
-              List<String> multValues = new ArrayList<String>();
-              Collection collection = (Collection) value;
-              for (Object o : collection) {
-                multValues.add(o.toString());
-              }
-              if (element.getSlotName() != null) {
-                metadata.addMetadata(element.getSlotName(), multValues);
-              } else {
-                metadata.addMetadata(element.getValue().toLowerCase(),
-                    multValues);
-              }
-            } else {
-              if (element.getSlotName() != null) {
-                metadata.addMetadata(element.getSlotName(),
-                    value.toString());
-              } else {
-                metadata.addMetadata(element.getValue().toLowerCase(),
-                    value.toString());
-              }
+        List<AttributeStatement> attributes = StatementFinder
+        .getStatementsRecursively(label, element.getValue().trim());
+        List<String> extractedValues = new ArrayList<String>();
+        for (AttributeStatement attribute : attributes) {
+          Value value = attribute.getValue();
+          if (value instanceof Sequence || value instanceof Set) {
+            List<String> multValues = new ArrayList<String>();
+            Collection collection = (Collection) value;
+            for (Object o : collection) {
+              multValues.add(o.toString());
             }
+            extractedValues.addAll(multValues);
+          } else {
+            extractedValues.add(value.toString());
           }
+        }
+        Slot slot = null;
+        if (element.getSlotName() != null) {
+          slot = new Slot(element.getSlotName(), extractedValues);
+        } else {
+          slot = new Slot(element.getValue().toLowerCase(), extractedValues);
+        }
+        if (element.getSlotType() != null) {
+          slot.setSlotType(element.getSlotType());
+        }
+        slots.add(slot);
       }
+    }
+    if (!slots.isEmpty()) {
+      metadata.addMetadata(Constants.SLOT_METADATA, slots);
     }
     return metadata;
   }
@@ -224,8 +228,6 @@ public class Pds3MetExtractor implements MetExtractor {
    */
   private String createTitle(File product, Label label,
       TitleContents titleContents) {
-    log.log(new ToolsLogRecord(ToolsLevel.INFO,
-        "Creating title.", product));
     List<String> elementValues = new ArrayList<String>();
     for (ElementName name : titleContents.getElementName()) {
       try {
@@ -253,6 +255,8 @@ public class Pds3MetExtractor implements MetExtractor {
     if (titleContents.isAppendFilename()) {
       title += " " + FilenameUtils.getBaseName(product.toString());
     }
+    log.log(new ToolsLogRecord(ToolsLevel.INFO,
+        "Created title: " + title.trim(), product));    
     return title.trim();
   }
 

@@ -34,6 +34,7 @@ import gov.nasa.pds.harvest.file.FileObject;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.policy.AccessUrl;
+import gov.nasa.pds.registry.model.Slot;
 
 /**
  * Class that creates access urls based on a given set of base urls.
@@ -94,7 +95,11 @@ public class CreateAccessUrlsAction extends CrawlerAction {
           ExceptionUtils.getRootCauseMessage(e));
     }
     if (!urls.isEmpty()) {
-      metadata.addMetadata(Constants.ACCESS_URLS, urls);
+      if (metadata.containsKey(Constants.SLOT_METADATA)) {
+        List<Slot> slots = new ArrayList<Slot>();
+        slots.add(new Slot(Constants.ACCESS_URLS, urls));
+        metadata.addMetadata(Constants.SLOT_METADATA, slots);
+      }
     }
     return true;
   }
