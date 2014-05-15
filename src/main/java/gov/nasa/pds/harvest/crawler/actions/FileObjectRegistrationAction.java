@@ -398,6 +398,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     }
     // File references are found in pointer statements in a label.
     // TODO: What file types do we give for PDS3 registered products?
+    List<File> uniqueFiles = new ArrayList<File>();
     String basePath = product.getParent();
     List<PointerStatement> pointers = PointerStatementFinder.find(label);
     for (PointerStatement ps : pointers) {
@@ -405,7 +406,8 @@ public class FileObjectRegistrationAction extends CrawlerAction {
         File file = resolvePath(fileRef.getPath(), basePath, includePaths);
         try {
           if (file != null) {
-            if (!file.getName().equals(product.getName())) {
+            if (!file.getName().equals(product.getName()) 
+                && !uniqueFiles.contains(file)) {
               log.log(new ToolsLogRecord(ToolsLevel.INFO, "Capturing file "
                 + "object metadata for " + file.getName(), product));
               long size = file.length();
@@ -415,6 +417,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
               results.add(new FileObject(file.getName(), file.getParent(),
                   new FileSize(size, Constants.BYTE), 
                   creationDateTime, checksum, "Observation"));
+              uniqueFiles.add(file);
             }
           } else {
             log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "File object not "

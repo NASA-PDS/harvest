@@ -29,7 +29,10 @@
       </action>
       <action dev="mcayanan" type="add" issue="PDS-272">
         Added support for capturing the units designation from PDS4 labels and registering it with the registry as the slotType. For PDS3 registrations, allow the user to define the slotType in the ancillary metadata section for a given keyword.
-      </action>      
+      </action>
+      <action dev="mcayanan" type="add" issue="PDS-274">
+        Fixed to not register a file product more than once if it is referenced multiple times in a label.
+      </action>  
       <action dev="mcayanan" type="fix">
         Fixed to set LIDVID-based references as slots for a Collection product when the reference type is not of type "member_ref".
       </action>
