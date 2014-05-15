@@ -429,10 +429,12 @@ public class RegistryIngester implements Ingester {
       Map.Entry entry = (Map.Entry) i.next();
       String key = entry.getKey().toString();
       if (key.equals("dd_version_id")
-          || key.equals("std_ref_version_id")
-          || key.equals(Constants.PRODUCT_VERSION)) {
+          || key.equals("std_ref_version_id")) {
         slots.add(new Slot(key, Arrays.asList(
             new String[]{sourceMet.getMetadata(key)})));      
+      } else if (key.equals(Constants.PRODUCT_VERSION)) {
+        metadata.addMetadata(Constants.PRODUCT_VERSION, 
+            sourceMet.getMetadata(Constants.PRODUCT_VERSION));
       }
     }
     if (!slots.isEmpty()) {
