@@ -208,10 +208,12 @@ public class Pds3MetExtractor implements MetExtractor {
     //Product ID or Product Version values may have slash characters
     //Replace it with a dash character
     String conformingLid = lid.replaceAll(Constants.URN_ILLEGAL_CHARACTERS, "-");
+    //Replace whitespaces with an underscore
+    conformingLid = conformingLid.replaceAll("\\s+", "_");
     if (!conformingLid.equals(lid)) {
-      log.log(new ToolsLogRecord(ToolsLevel.WARNING, "Element values used "
-          + "in creating the logical identifier contain URN reserved "
-          + "and/or excluded characters. Replacing with '-' characters: "
+      log.log(new ToolsLogRecord(ToolsLevel.WARNING, "logical identifier "
+          + "contained URN reserved and/or excluded characters. "
+          + "Converting logical identifier to the following: "
           + conformingLid, product));
     }
     return conformingLid;
