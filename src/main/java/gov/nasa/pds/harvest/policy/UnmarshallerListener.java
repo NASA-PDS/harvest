@@ -42,19 +42,29 @@ public class UnmarshallerListener extends Listener {
   public void afterUnmarshal(Object target, Object parent) {
     if (target instanceof Directory) {
       Directory dir = (Directory) target;
-      dir.path = Utility.resolveEnvVars(dir.path);
+      if (dir.path != null) {
+        dir.path = Utility.resolveEnvVars(dir.path);
+      }
     } else if (target instanceof Checksums) {
       Checksums checksums = (Checksums) target;
-      checksums.manifest = Utility.resolveEnvVars(checksums.manifest);
+      if (checksums.manifest != null) {
+        checksums.manifest = Utility.resolveEnvVars(checksums.manifest);
+      }
     } else if (target instanceof Pds3Directory) {
       Pds3Directory dir = (Pds3Directory) target;
-      dir.path = Utility.resolveEnvVars(dir.path);      
+      if (dir.path != null) {
+        dir.path = Utility.resolveEnvVars(dir.path);
+      }
     } else if (target instanceof Collection) {
       Collection collection = (Collection) target;
-      collection.file = Utility.resolveEnvVars(collection.file);
+      if (collection.file != null) {
+        collection.file = Utility.resolveEnvVars(collection.file);
+      }
     } else if (target instanceof AccessUrl) {
       AccessUrl url = (AccessUrl) target;
-      url.offset = Utility.resolveEnvVars(url.offset);
+      if (url.offset != null) {
+        url.offset = Utility.resolveEnvVars(url.offset);
+      }
     }
   }
 }
