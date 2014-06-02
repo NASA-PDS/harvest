@@ -23,6 +23,9 @@
   </properties>
 
   <body>
+    <release version="1.7.0" date="TBD" description="TBD">
+    </release>
+
     <release version="1.6.1" date="2014-06-02" description="This release of the Harvest Tool is a component of the integrated release 4.1.1 of the PDS4 System. This is an operational release of the system components to date.">
       <action dev="mcayanan" type="fix" issue="PDS-270">
         Modified to resolve environment variables specified within the Harvest policy file.
