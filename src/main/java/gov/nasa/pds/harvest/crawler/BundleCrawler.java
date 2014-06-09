@@ -45,7 +45,12 @@ public class BundleCrawler extends CollectionCrawler {
     CrawlerActionRepo repo = new CrawlerActionRepo();
     repo.loadActions(getActions());
     setActionRepo(repo);
-    handleFile(bundle);
+    if (bundle.canRead()) {
+      handleFile(bundle);
+    } else {
+      log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "File does not have read "
+          + "permissions: " + bundle));
+    }
     try {
       InventoryReader reader = new InventoryXMLReader(bundle);
       for (InventoryEntry entry = new InventoryEntry(); entry != null;) {

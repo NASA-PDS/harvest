@@ -204,7 +204,11 @@ public class PDSProductCrawler extends ProductCrawler {
     CrawlerActionRepo repo = new CrawlerActionRepo();
     repo.loadActions(crawlerActions);
     setActionRepo(repo);
-    super.crawl(dir);
+    try {
+      super.crawl(dir);
+    } catch (IllegalArgumentException ie) {
+      log.log(new ToolsLogRecord(ToolsLevel.SEVERE, ie.getMessage()));
+    }
   }
 
   /**

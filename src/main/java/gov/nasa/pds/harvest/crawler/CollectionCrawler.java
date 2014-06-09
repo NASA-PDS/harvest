@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerActionRepo;
 import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds4MetExtractorConfig;
+import gov.nasa.pds.harvest.logging.ToolsLevel;
+import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 
 /**
  * A crawler class for a PDS Collection file.
@@ -41,7 +43,12 @@ public class CollectionCrawler extends PDSProductCrawler {
     CrawlerActionRepo repo = new CrawlerActionRepo();
     repo.loadActions(getActions());
     setActionRepo(repo);
-    handleFile(collection);
-    Constants.collections.add(collection);
+    if (collection.canRead()) {
+      handleFile(collection);
+      Constants.collections.add(collection);
+    } else {
+      log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "File does not have read "
+          + "permissions: " + collection));
+    }
   }
 }
