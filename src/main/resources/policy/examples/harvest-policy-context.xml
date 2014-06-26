@@ -45,6 +45,8 @@
     </accessUrl>
   </accessUrls>
 
+  <checksums generate="true"/>
+
   <candidates>
     <!-- All context product metadata definitions are captured in the global policy -->
   </candidates>

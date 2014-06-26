@@ -82,6 +82,12 @@
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
+      <xPath slotName="external_reference_doi">
+        //Reference_List/External_Reference/doi
+      </xPath>
+      <xPath slotName="external_reference_text">
+        //Reference_List/External_Reference/reference_text
+      </xPath>
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
@@ -212,6 +218,12 @@
         //Context_Area/Target_Identification/description
       </xPath>
       <!-- Reference_List -->
+      <xPath slotName="external_reference_doi">
+        //Reference_List/External_Reference/doi
+      </xPath>
+      <xPath slotName="external_reference_text">
+        //Reference_List/External_Reference/reference_text
+      </xPath>
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
@@ -270,6 +282,12 @@
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
+      <xPath slotName="external_reference_doi">
+        //Reference_List/External_Reference/doi
+      </xPath>
+      <xPath slotName="external_reference_text">
+        //Reference_List/External_Reference/reference_text
+      </xPath>
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
@@ -400,6 +418,12 @@
         //Observation_Area/Target_Identification/description
       </xPath>
       <!-- Reference_List -->
+      <xPath slotName="external_reference_doi">
+        //Reference_List/External_Reference/doi
+      </xPath>
+      <xPath slotName="external_reference_text">
+        //Reference_List/External_Reference/reference_text
+      </xPath>
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
@@ -449,6 +473,12 @@
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
+      <xPath slotName="external_reference_doi">
+        //Reference_List/External_Reference/doi
+      </xPath>
+      <xPath slotName="external_reference_text">
+        //Reference_List/External_Reference/reference_text
+      </xPath>
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>

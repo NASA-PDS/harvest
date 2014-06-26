@@ -39,6 +39,9 @@
       <action dev="mcayanan" type="fix" issue="PDS-274">
         Modified to not register a file product more than once if it is referenced multiple times in a label.
       </action>  
+      <action dev="shardman" type="update">
+        Modified the configuration files to extract External_Reference.reference_text from product labels.
+      </action>
       <action dev="mcayanan" type="fix">
         Modified to set LIDVID-based references as slots for a Collection product when the reference type is not of type "member_ref".
       </action>
