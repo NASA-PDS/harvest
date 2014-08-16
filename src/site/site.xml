@@ -19,7 +19,7 @@
 <project name="Harvest Tool">
   <bannerLeft>
     <src>images/pds4_logo.png</src>
-    <href>http://pds-cm.jpl.nasa.gov/pds4/</href>
+    <href>https://pds-cm.jpl.nasa.gov/pds4/</href>
   </bannerLeft>
 
   <bannerRight>
@@ -30,7 +30,7 @@
 
   <body>
     <links>
-      <item name="Harvest" href="http://pds-cm.jpl.nasa.gov/pds4/ingest/harvest/index.html" />
+      <item name="Harvest" href="https://pds-cm.jpl.nasa.gov/pds4/ingest/harvest/index.html" />
     </links>
 
     <menu name="Software Documentation">
