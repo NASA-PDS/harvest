@@ -225,9 +225,9 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     try {
       log.log(new ToolsLogRecord(ToolsLevel.INFO, "Capturing file information "
           + "for " + product.getName(), product));
-      String checksum = handleChecksum(product, product);
+      String checksum = handleChecksum(product, product, null);
       FileObject fileObject = new FileObject(product.getName(),
-          product.getParent(), 
+          product.getParent(),
           new FileSize(product.length(), Constants.BYTE),
           lastModified, checksum, "Label");
       results.add(fileObject);
@@ -254,10 +254,10 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       try {
         if (xincludeFile.exists()) {
           String lastMod = format.format(new Date(xincludeFile.lastModified()));
-          String checksum = handleChecksum(xincludeFile, product);
+          String checksum = handleChecksum(xincludeFile, product, null);
           FileObject fileObject = new FileObject(xincludeFile.getName(),
-            xincludeFile.getParent(), 
-            new FileSize(xincludeFile.length(), Constants.BYTE), 
+            xincludeFile.getParent(),
+            new FileSize(xincludeFile.length(), Constants.BYTE),
             lastMod, checksum, "Label Fragment");
           results.add(fileObject);
         } else {
@@ -352,8 +352,8 @@ public class FileObjectRegistrationAction extends CrawlerAction {
                 product.toString(), file.getLineNumber()));
             }
           }
-          results.add(new FileObject(f.getName(), f.getParent(), 
-              new FileSize(size, unit), creationDateTime, checksum, 
+          results.add(new FileObject(f.getName(), f.getParent(),
+              new FileSize(size, unit), creationDateTime, checksum,
               fileType));
         }
       } catch (Exception e) {
@@ -375,7 +375,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     try {
       log.log(new ToolsLogRecord(ToolsLevel.INFO, "Capturing file object "
           + "metadata for " + product.getName(), product));
-      String checksum = handleChecksum(product, product);
+      String checksum = handleChecksum(product, product, null);
       FileObject fileObject = new FileObject(product.getName(),
           product.getParent(), new FileSize(product.length(), Constants.BYTE),
           lastModified, checksum, "Label");
@@ -406,16 +406,16 @@ public class FileObjectRegistrationAction extends CrawlerAction {
         File file = resolvePath(fileRef.getPath(), basePath, includePaths);
         try {
           if (file != null) {
-            if (!file.getName().equals(product.getName()) 
+            if (!file.getName().equals(product.getName())
                 && !uniqueFiles.contains(file)) {
               log.log(new ToolsLogRecord(ToolsLevel.INFO, "Capturing file "
                 + "object metadata for " + file.getName(), product));
               long size = file.length();
               String creationDateTime = format.format(new Date(
                 file.lastModified()));
-              String checksum = handleChecksum(product, file);
+              String checksum = handleChecksum(product, file, null);
               results.add(new FileObject(file.getName(), file.getParent(),
-                  new FileSize(size, Constants.BYTE), 
+                  new FileSize(size, Constants.BYTE),
                   creationDateTime, checksum, "Observation"));
               uniqueFiles.add(file);
             }
@@ -487,27 +487,29 @@ public class FileObjectRegistrationAction extends CrawlerAction {
           ++HarvestStats.numGeneratedChecksumsNotCheckedInManifest;
         }
       }
-      if (!checksumInLabel.isEmpty()) {
-        if (!generatedChecksum.equals(checksumInLabel)) {
-          log.log(new ToolsLogRecord(ToolsLevel.WARNING,
-              "Generated checksum '" + generatedChecksum
-              + "' does not match supplied checksum '"
-              + checksumInLabel + "' in the product label for file object '"
-              + fileObject.toString() + "'.", product));
-            ++HarvestStats.numGeneratedChecksumsDiffInLabel;
+      if (checksumInLabel != null) {
+        if (!checksumInLabel.isEmpty()) {
+          if (!generatedChecksum.equals(checksumInLabel)) {
+            log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+                "Generated checksum '" + generatedChecksum
+                + "' does not match supplied checksum '"
+                + checksumInLabel + "' in the product label for file object '"
+                + fileObject.toString() + "'.", product));
+              ++HarvestStats.numGeneratedChecksumsDiffInLabel;
+          } else {
+            log.log(new ToolsLogRecord(ToolsLevel.INFO,
+                "Generated checksum '" + generatedChecksum
+                + "' matches the supplied checksum '" + checksumInLabel
+                + "' in the produt label for file object '"
+                + fileObject.toString() + "'.", product));
+              ++HarvestStats.numGeneratedChecksumsSameInLabel;
+          }
         } else {
           log.log(new ToolsLogRecord(ToolsLevel.INFO,
-              "Generated checksum '" + generatedChecksum
-              + "' matches the supplied checksum '" + checksumInLabel
-              + "' in the produt label for file object '"
-              + fileObject.toString() + "'.", product));
-            ++HarvestStats.numGeneratedChecksumsSameInLabel;
+              "No checksum to compare against in the product label "
+              + "for file object '" + fileObject.toString() + "'.", product));
+          ++HarvestStats.numGeneratedChecksumsNotCheckedInLabel;
         }
-      } else {
-        log.log(new ToolsLogRecord(ToolsLevel.INFO,
-            "No checksum to compare against in the product label "
-            + "for file object '" + fileObject.toString() + "'.", product));
-        ++HarvestStats.numGeneratedChecksumsNotCheckedInLabel;
       }
       result = generatedChecksum;
     } else {
@@ -518,28 +520,30 @@ public class FileObjectRegistrationAction extends CrawlerAction {
           log.log(new ToolsLogRecord(ToolsLevel.INFO, "Found checksum in "
               + "the manifest for file object '" + fileObject.toString()
               + "': " + suppliedChecksum, product));
-          if (!checksumInLabel.isEmpty()) {
-            if (!suppliedChecksum.equals(checksumInLabel)) {
-              log.log(new ToolsLogRecord(ToolsLevel.WARNING,
-                  "Checksum in the manifest '" + suppliedChecksum
-                  + "' does not match the checksum in the product label '"
-                  + checksumInLabel + "' for file object '"
-                  + fileObject.toString() + "'.", product));
-                ++HarvestStats.numManifestChecksumsDiffInLabel;
+          if (checksumInLabel != null) {
+            if (!checksumInLabel.isEmpty()) {
+              if (!suppliedChecksum.equals(checksumInLabel)) {
+                log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+                    "Checksum in the manifest '" + suppliedChecksum
+                    + "' does not match the checksum in the product label '"
+                    + checksumInLabel + "' for file object '"
+                    + fileObject.toString() + "'.", product));
+                  ++HarvestStats.numManifestChecksumsDiffInLabel;
+              } else {
+                log.log(new ToolsLogRecord(ToolsLevel.INFO,
+                    "Checksum in the manifest '" + suppliedChecksum
+                    + "' matches the checksum in the product label '"
+                    + checksumInLabel + "' for file object '"
+                    + fileObject.toString() + "'.", product));
+                  ++HarvestStats.numManifestChecksumsSameInLabel;
+              }
             } else {
               log.log(new ToolsLogRecord(ToolsLevel.INFO,
-                  "Checksum in the manifest '" + suppliedChecksum
-                  + "' matches the checksum in the product label '"
-                  + checksumInLabel + "' for file object '"
+                  "No checksum to compare against in the product label "
+                  + "for file object '"
                   + fileObject.toString() + "'.", product));
-                ++HarvestStats.numManifestChecksumsSameInLabel;
+              ++HarvestStats.numManifestChecksumsNotCheckedInLabel;
             }
-          } else {
-            log.log(new ToolsLogRecord(ToolsLevel.INFO,
-                "No checksum to compare against in the product label "
-                + "for file object '"
-                + fileObject.toString() + "'.", product));
-            ++HarvestStats.numManifestChecksumsNotCheckedInLabel;
           }
           result = suppliedChecksum;
         } else {
@@ -548,11 +552,13 @@ public class FileObjectRegistrationAction extends CrawlerAction {
               + fileObject.toString() + "'. ", product));
         }
       } else {
-        if (!checksumInLabel.isEmpty()) {
-          log.log(new ToolsLogRecord(ToolsLevel.INFO,
-              "Found checksum in the product label for file object '"
-              + fileObject.toString() + "': " + checksumInLabel, product));
-          result = checksumInLabel;
+        if (checksumInLabel != null) {
+          if (!checksumInLabel.isEmpty()) {
+            log.log(new ToolsLogRecord(ToolsLevel.INFO,
+                "Found checksum in the product label for file object '"
+                + fileObject.toString() + "': " + checksumInLabel, product));
+            result = checksumInLabel;
+          }
         }
       }
     }
