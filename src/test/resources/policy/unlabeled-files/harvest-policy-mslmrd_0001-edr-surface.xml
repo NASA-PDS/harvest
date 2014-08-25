@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Harvest Tool Example Policy File
+
+  This policy file provides an example configuration for registering
+  PDS3 unlabeled files. products. By specifying the base path below,
+  Harvest crawls the directory structure recursively looking for files
+  without an extension of "LBL". Additionally, the THUMBNAIL sub-directory
+  will be ignored.
+
+  $Id$
+-->
+
+<policy>
+  <pds3Directories>
+    <path>$HOME/test/msl/MSLMRD_0001/EXTRAS/EDR/CRUISE</path>
+    <fileFilter>
+      <exclude>*.LBL</exclude>
+    </fileFilter>
+    <directoryFilter>
+      <exclude>THUMBNAIL</exclude>
+    </directoryFilter>
+  </pds3Directories>
+
+  <checksums generate="true"/>
+
+  <accessUrls registerFileUrls="true">
+    <accessUrl>
+      <baseUrl>http://starbase.jpl.nasa.gov</baseUrl>
+      <offset>$HOME/test/msl</offset>
+    </accessUrl>
+  </accessUrls>
+
+  <candidates>
+    <!--
+      When the "objectType="Product_File_Repository" attribute is defined,
+      this tells Harvest to register all files as Product_File_Repository
+      products.
+     -->
+    <pds3ProductMetadata objectType="Product_File_Repository">
+      <!-- The file name will be appended to formulate the lid for each
+       Product_File_Repository product registered.
+       -->
+      <lidContents prefix="urn:nasa:jpl:msl-m-mardi-2-edr-img-v1.0:extras:edr:surface"/>
+      <!--
+        The staticMetadata element defines the set of static metadata
+        that will be set as slots for each Product_File_Repository
+        product.
+       -->
+      <staticMetadata>
+        <slot name="product_class">
+          <value>Product_File_Repository</value>
+        </slot>
+        <slot name="file_type">
+          <value>Extra</value>
+        </slot>
+      </staticMetadata>
+    </pds3ProductMetadata>
+  </candidates>
+</policy>
+
