@@ -1,4 +1,4 @@
-// Copyright 2006-2010, by the California Institute of Technology.
+// Copyright 2006-2014, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -42,7 +42,6 @@ import gov.nasa.pds.registry.model.RegistryPackage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -56,7 +55,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.UnmarshalException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
@@ -73,7 +71,6 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.Priority;
 import org.apache.oodt.cas.filemgr.structs.exceptions.ConnectionException;
-import org.xml.sax.SAXParseException;
 
 /**
  * Wrapper class of the Harvest tool that handles the command-line processing.
@@ -342,14 +339,17 @@ public class HarvestLauncher {
   private void logHeader(Policy policy) {
     List<String> targets = new ArrayList<String>();
     List<String> fileIncludes = new ArrayList<String>();
+    List<String> fileExcludes = new ArrayList<String>();
     List<String> dirExcludes = new ArrayList<String>();
     if (!policy.getPds3Directories().getPath().isEmpty()) {
       targets.addAll(policy.getPds3Directories().getPath());
       fileIncludes = policy.getPds3Directories().getFileFilter().getInclude();
+      fileExcludes = policy.getPds3Directories().getFileFilter().getExclude();
       dirExcludes = policy.getPds3Directories().getDirectoryFilter().getExclude();
     } else {
       targets = policy.getDirectories().getPath();
       fileIncludes = policy.getDirectories().getFileFilter().getInclude();
+      fileExcludes = policy.getDirectories().getFileFilter().getExclude();
       dirExcludes = policy.getDirectories().getDirectoryFilter().getExclude();
     }
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
@@ -361,12 +361,23 @@ public class HarvestLauncher {
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
         "Target(s)                   " + targets));
     if (!policy.getPds3Directories().getPath().isEmpty()) {
-      log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
-        "Target Type                 PDS3"));
+      String objectType = policy.getCandidates().getPds3ProductMetadata()
+          .getObjectType();
+      if (objectType != null && objectType.equals(Constants.FILE_OBJECT_PRODUCT_TYPE)) {
+        log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
+            "Target Type                 PDS3 Files Only"));
+      }  else {
+        log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
+            "Target Type                 PDS3"));
+      }
     }
     if (!fileIncludes.isEmpty()) {
       log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
         "File Inclusions             " + fileIncludes));
+    }
+    if (!fileExcludes.isEmpty()) {
+      log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
+        "File Exclusions             " + fileExcludes));
     }
     if (!dirExcludes.isEmpty()) {
       log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,

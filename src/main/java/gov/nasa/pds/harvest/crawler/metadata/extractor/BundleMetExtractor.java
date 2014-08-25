@@ -1,4 +1,4 @@
-// Copyright 2006-2010, by the California Institute of Technology.
+// Copyright 2006-2014, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -107,7 +107,7 @@ public class BundleMetExtractor extends Pds4MetExtractor {
       slots.addAll(extractMetadata(config.getMetXPaths(objectType)));
     }
     try {
-      HashMap<String, List<String>> refMap = 
+      HashMap<String, List<String>> refMap =
           new HashMap<String, List<String>>();
       // Register LID-based and LIDVID-based associations as slots
       for (ReferenceEntry entry : getReferences(references, product)) {
@@ -120,7 +120,6 @@ public class BundleMetExtractor extends Pds4MetExtractor {
           value = entry.getLogicalID();
         } else {
           String lidvid = entry.getLogicalID() + "::" + entry.getVersion();
-          metadata.addMetadata(entry.getType(), lidvid);
           log.log(new ToolsLogRecord(ToolsLevel.INFO, "Setting "
               + "LIDVID-based association, \'" + lidvid
               + "\', under slot name \'" + entry.getType()
@@ -134,19 +133,19 @@ public class BundleMetExtractor extends Pds4MetExtractor {
           values.add(value);
         } else {
           values.add(value);
-        }    
+        }
       }
       if (!refMap.isEmpty()) {
         for (Map.Entry<String, List<String>> entry : refMap.entrySet()) {
           slots.add(new Slot(entry.getKey(), entry.getValue()));
         }
-      }      
+      }
     } catch (Exception e) {
       throw new MetExtractionException(e.getMessage());
     }
     if (!slots.isEmpty()) {
       metadata.addMetadata(Constants.SLOT_METADATA, slots);
-    }    
+    }
     return metadata;
   }
 }

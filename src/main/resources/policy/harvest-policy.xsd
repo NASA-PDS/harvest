@@ -47,9 +47,10 @@
 
 <xsd:element name="fileFilter" type="FileFilter"/>
 <xsd:complexType name="FileFilter">
-   <xsd:sequence>
+   <xsd:choice>
       <xsd:element ref="include" maxOccurs="unbounded"/>
-   </xsd:sequence>
+      <xsd:element ref="exclude" maxOccurs="unbounded"/>
+   </xsd:choice>
 </xsd:complexType>
 
 <xsd:element name="directoryFilter" type="DirectoryFilter"/>
@@ -162,12 +163,15 @@
 <xsd:complexType name="Pds3ProductMetadata">
    <xsd:all>
       <xsd:element ref="lidContents"/>
-      <xsd:element ref="titleContents"/>
+      <xsd:element ref="titleContents" minOccurs="0"/>
       <xsd:element ref="staticMetadata" minOccurs="0"/>
       <xsd:element ref="ancillaryMetadata" minOccurs="0"/>
       <xsd:element ref="includePaths" minOccurs="0"/>
    </xsd:all>
+   <xsd:attribute ref="objectType"/>
 </xsd:complexType>
+
+
 
 <xsd:element name="includePaths" type="IncludePath"/>
 <xsd:complexType name="IncludePath">

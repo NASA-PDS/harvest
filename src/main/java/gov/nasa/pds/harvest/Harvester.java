@@ -1,4 +1,4 @@
-// Copyright 2006-2010, by the California Institute of Technology.
+// Copyright 2006-2014, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -18,6 +18,7 @@ import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.association.AssociationPublisher;
 import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.crawler.CollectionCrawler;
+import gov.nasa.pds.harvest.crawler.PDS3FileCrawler;
 import gov.nasa.pds.harvest.crawler.PDS3ProductCrawler;
 import gov.nasa.pds.harvest.crawler.PDSProductCrawler;
 import gov.nasa.pds.harvest.crawler.actions.CreateAccessUrlsAction;
@@ -146,7 +147,8 @@ public class Harvester {
    * @throws MalformedURLException
    * @throws RegistryClientException
    */
-  private List<CrawlerAction> getDefaultCrawlerActions(Policy policy)
+  private List<CrawlerAction> getDefaultCrawlerActions(Policy policy,
+      PDSProductCrawler crawler)
   throws MalformedURLException, ConnectionException {
     List<CrawlerAction> ca = new ArrayList<CrawlerAction>();
     List<CrawlerAction> fileObjectRegistrationActions =
@@ -174,6 +176,11 @@ public class Harvester {
     fileObjectRegistrationAction.setFileTypes(policy.getFileTypes());
     //This is the last action that should be performed.
     ca.add(new SaveMetadataAction());
+    // Remove the File Object Registration crawler action if this is
+    // a Product_File_Repository Crawler
+    if (crawler instanceof PDS3FileCrawler) {
+      ca.remove(fileObjectRegistrationAction);
+    }
     return ca;
   }
 
@@ -188,8 +195,8 @@ public class Harvester {
    */
   public void harvest(Policy policy) throws ConnectionException, IOException {
     boolean doCrawlerPersistance = false;
+    Map<File, String> checksums = new HashMap<File, String>();
     if (!policy.getChecksums().getManifest().isEmpty()) {
-      Map<File, String> checksums = new HashMap<File, String>();
       for (String manifest : policy.getChecksums().getManifest()) {
         checksums.putAll(ChecksumManifest.read(new File(manifest)));
       }
@@ -223,6 +230,18 @@ public class Harvester {
     // Crawl a PDS3 directory
     for (String directory : policy.getPds3Directories().getPath()) {
       PDS3ProductCrawler p3c = new PDS3ProductCrawler();
+      // If the objectType attribute was set to "Product_File_Repository",
+      // then the tool should just register everything as a
+      // Product_File_Repository product.
+      String pds3ObjectType = policy.getCandidates().getPds3ProductMetadata()
+          .getObjectType();
+      if (pds3ObjectType != null
+          && pds3ObjectType.equals(Constants.FILE_OBJECT_PRODUCT_TYPE)) {
+        PDS3FileCrawler crawler = new PDS3FileCrawler();
+        crawler.setChecksumManifest(checksums);
+        crawler.setGenerateChecksums(policy.getChecksums().isGenerate());
+        p3c = crawler;
+      }
       Pds3MetExtractorConfig pds3MetExtractorConfig =
         new Pds3MetExtractorConfig(policy.getCandidates()
             .getPds3ProductMetadata());
@@ -242,7 +261,7 @@ public class Harvester {
     for (PDSProductCrawler crawler : crawlers) {
       crawler.setRegistryUrl(registryUrl);
       crawler.setIngester(ingester);
-      crawler.addActions(getDefaultCrawlerActions(policy));
+      crawler.addActions(getDefaultCrawlerActions(policy, crawler));
       if (!doCrawlerPersistance) {
         crawler.crawl();
       }

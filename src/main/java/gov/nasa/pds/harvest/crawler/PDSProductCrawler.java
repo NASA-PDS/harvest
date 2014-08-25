@@ -1,4 +1,4 @@
-// Copyright 2006-2010, by the California Institute of Technology.
+// Copyright 2006-2014, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -106,7 +106,10 @@ public class PDSProductCrawler extends ProductCrawler {
         Constants.OBJECT_TYPE,
         };
     setRequiredMetadata(Arrays.asList(reqMetadata));
-    FILE_FILTER = new WildcardOSFilter("*");
+    List<IOFileFilter> fileFilters = new ArrayList<IOFileFilter>();
+    fileFilters.add(FileFilterUtils.fileFileFilter());
+    fileFilters.add(new WildcardOSFilter("*"));
+    FILE_FILTER = new AndFileFilter(fileFilters);
     crawlerActions.add(new LogMissingReqMetadataAction(getRequiredMetadata()));
     crawlerActions.add(new LidCheckerAction());
   }
@@ -162,9 +165,15 @@ public class PDSProductCrawler extends ProductCrawler {
    * @param filter A File Filter defined in the Harvest policy config.
    */
   public void setFileFilter(FileFilter filter) {
+    List<IOFileFilter> filters = new ArrayList<IOFileFilter>();
+    filters.add(FileFilterUtils.fileFileFilter());
     if (filter != null && !filter.getInclude().isEmpty()) {
-      FILE_FILTER = new WildcardOSFilter(filter.getInclude());
+      filters.add(new WildcardOSFilter(filter.getInclude()));
+    } else if (filter != null && !filter.getExclude().isEmpty()) {
+      filters.add(new NotFileFilter(new WildcardOSFilter(
+          filter.getExclude())));
     }
+    FILE_FILTER = new AndFileFilter(filters);
   }
 
   /**
