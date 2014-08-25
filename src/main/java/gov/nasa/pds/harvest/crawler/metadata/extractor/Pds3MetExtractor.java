@@ -199,6 +199,32 @@ public class Pds3MetExtractor implements MetExtractor {
     for (String elementValue : elementValues) {
       lid += ":" + elementValue;
     }
+    if (lidContents.isAppendParentDir()) {
+      String parent = product.getParent();
+      String offset = lidContents.getOffset();
+      if (offset != null) {
+        boolean matchedOffset = false;
+        if (parent.startsWith(offset)) {
+          parent = parent.replace(offset, "")
+            .trim();
+          matchedOffset = true;
+        }
+        if ( (offset != null) && (!matchedOffset) ) {
+          log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+              "Cannot trim path of product '" + product
+              + "' as it does not start with the supplied offset: "
+              + offset, product));
+        }
+      }
+      if (!parent.isEmpty()) {
+        parent = parent.replaceAll("[/|\\\\]", ":");
+        if (parent.startsWith(":")) {
+          lid += parent.toLowerCase();
+        } else {
+          lid += ":" + parent.toLowerCase();
+        }
+      }
+    }
     if (lidContents.isAppendFilename()) {
       lid += ":" + FilenameUtils.getBaseName(product.toString());
     }
@@ -258,7 +284,7 @@ public class Pds3MetExtractor implements MetExtractor {
       title += " " + FilenameUtils.getBaseName(product.toString());
     }
     log.log(new ToolsLogRecord(ToolsLevel.INFO,
-        "Created title: " + title.trim(), product));    
+        "Created title: " + title.trim(), product));
     return title.trim();
   }
 

@@ -39,6 +39,7 @@
 <xsd:attribute name="default" type="xsd:boolean" default="false"/>
 <xsd:attribute name="registerFileUrls" type="xsd:boolean" default="false"/>
 <xsd:attribute name="appendFilename" type="xsd:boolean" default="false"/>
+<xsd:attribute name="appendParentDir" type="xsd:boolean" default="false"/>
 <xsd:attribute name="slotName" type="xsd:string"/>
 <xsd:attribute name="slotType" type="xsd:string"/>
 <xsd:attribute name="value" type="xsd:string"/>
@@ -145,10 +146,12 @@
 <xsd:element name="lidContents" type="LidContents"/>
 <xsd:complexType name="LidContents">
   <xsd:sequence>
+     <xsd:element ref="offset" minOccurs="0"/>
      <xsd:element ref="elementName" minOccurs="0" maxOccurs="unbounded"/>
   </xsd:sequence>
   <xsd:attribute ref="prefix" use="required"/>
   <xsd:attribute ref="appendFilename"/>
+  <xsd:attribute ref="appendParentDir"/>
 </xsd:complexType>
 
 <xsd:element name="titleContents" type="TitleContents"/>

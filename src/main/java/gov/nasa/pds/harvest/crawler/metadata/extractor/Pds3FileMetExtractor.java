@@ -67,7 +67,37 @@ public class Pds3FileMetExtractor implements MetExtractor {
       throws MetExtractionException {
     Metadata metadata = new Metadata();
     metadata.addMetadata(Constants.OBJECT_TYPE, Constants.FILE_OBJECT_PRODUCT_TYPE);
-    String lid = config.getLidContents().getPrefix() + ":" + product.getName();
+    String lid = config.getLidContents().getPrefix();
+    if (config.getLidContents().isAppendParentDir()) {
+      String parent = product.getParent();
+      String offset = config.getLidContents().getOffset();
+      if (offset != null) {
+        boolean matchedOffset = false;
+        if (parent.startsWith(offset)) {
+          parent = parent.replace(offset, "")
+            .trim();
+          matchedOffset = true;
+        }
+        if ( (offset != null) && (!matchedOffset) ) {
+          log.log(new ToolsLogRecord(ToolsLevel.WARNING,
+              "Cannot trim path of product '" + product
+              + "' as it does not start with the supplied offset: "
+              + offset, product));
+        }
+      }
+      if (!parent.isEmpty()) {
+        parent = parent.replaceAll("[/|\\\\]", ":");
+        if (parent.startsWith(":")) {
+          lid += parent.toLowerCase();
+        } else {
+          lid += ":" + parent.toLowerCase();
+        }
+      }
+    }
+    if (config.getLidContents().isAppendFilename()) {
+      lid += ":" + FilenameUtils.getBaseName(product.toString());
+    }
+    lid += ":" + product.getName();
     metadata.addMetadata(Constants.LOGICAL_ID, lid);
     metadata.addMetadata(Constants.PRODUCT_VERSION, "1.0");
     List<String> fileTypes = new ArrayList<String>();

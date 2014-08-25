@@ -21,23 +21,23 @@ import javax.xml.bind.Unmarshaller.Listener;
  * Listener class that is used during the unmarshalling process
  * to resolve environment variables that might be defined within a Policy
  * file.
- * 
+ *
  * @author mcayanan
  *
  */
 public class UnmarshallerListener extends Listener {
-  
+
   /**
    * Resolves environment variables that could be found in one of
    * the following elements in the policy file:
-   * 
+   *
    * <ul>
    *   <li>path within a Directory or Pds3Directory Element</li>
    *   <li>manifest within a Checksum Element</li>
    *   <li>file within a Collection Element</li>
    *   <li>offset within an AccessUrl Element</li>
    * </ul>
-   * 
+   *
    */
   public void afterUnmarshal(Object target, Object parent) {
     if (target instanceof Directory) {
@@ -64,6 +64,11 @@ public class UnmarshallerListener extends Listener {
       AccessUrl url = (AccessUrl) target;
       if (url.offset != null) {
         url.offset = Utility.resolveEnvVars(url.offset);
+      }
+    } else if (target instanceof LidContents) {
+      LidContents lid = (LidContents) target;
+      if (lid.offset != null) {
+        lid.offset = Utility.resolveEnvVars(lid.offset);
       }
     }
   }

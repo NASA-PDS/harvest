@@ -14,13 +14,10 @@
 
 <policy>
   <pds3Directories>
-    <path>$HOME/test/msl/MSLMRD_0001/EXTRAS/EDR/CRUISE</path>
+    <path>$HOME/test/msl/MSLMRD_0001/EXTRAS/EDR/SURFACE</path>
     <fileFilter>
       <exclude>*.LBL</exclude>
     </fileFilter>
-    <directoryFilter>
-      <exclude>THUMBNAIL</exclude>
-    </directoryFilter>
   </pds3Directories>
 
   <checksums generate="true"/>
@@ -42,7 +39,9 @@
       <!-- The file name will be appended to formulate the lid for each
        Product_File_Repository product registered.
        -->
-      <lidContents prefix="urn:nasa:jpl:msl-m-mardi-2-edr-img-v1.0:extras:edr:surface"/>
+      <lidContents prefix="urn:nasa:jpl:msl-m-mardi-2-edr-img-v1.0:extras:edr:surface"  appendParentDir="true">
+        <offset>$HOME/test/msl/MSLMRD_0001/EXTRAS/EDR/SURFACE</offset>
+      </lidContents>
       <!--
         The staticMetadata element defines the set of static metadata
         that will be set as slots for each Product_File_Repository
