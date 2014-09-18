@@ -150,7 +150,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     }
     for (FileObject fileObject : fileObjectEntries) {
       String lid = metadata.getMetadata(Constants.LOGICAL_ID) + ":"
-      + fileObject.getName();
+      + fileObject.getName().toLowerCase();
       String vid = metadata.getMetadata(Constants.PRODUCT_VERSION);
       String lidvid = lid + "::" + vid;
       try {
