@@ -24,6 +24,12 @@
 
   <body>
     <release version="1.7.0" date="TBD" description="TBD">
+      <action dev="mcayanan" type="add" issues="PDS-289">
+        Added support for reading a checksum file for performing checksum validation during a PDS3 harvest run.
+      </action>
+      <action dev="mcayanan" type="fix">
+        Fixed to create LIDs all in lowercase letters for Product_File_Repository products.
+      </action>
       <action dev="mcayanan" type="fix">
         Fixed to report to the log if a target file or directory is not readable.
       </action>
@@ -38,7 +44,7 @@
       </action>
       <action dev="mcayanan" type="fix" issue="PDS-274">
         Modified to not register a file product more than once if it is referenced multiple times in a label.
-      </action>  
+      </action>
       <action dev="shardman" type="update">
         Modified the configuration files to extract External_Reference.reference_text from product labels.
       </action>
