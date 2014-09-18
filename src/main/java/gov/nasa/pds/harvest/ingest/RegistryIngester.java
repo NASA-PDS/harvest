@@ -1,4 +1,4 @@
-// Copyright 2006-2010, by the California Institute of Technology.
+// Copyright 2006-2014, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -220,7 +220,7 @@ public class RegistryIngester implements Ingester {
         } else {
           ++HarvestStats.numProductsNotRegistered;
           String message = "Product already exists: " + lidvid;
-          log.log(new ToolsLogRecord(ToolsLevel.SEVERE, message,
+          log.log(new ToolsLogRecord(ToolsLevel.WARNING, message,
               prodFile));
           throw new IngestException(message);
         }
@@ -264,7 +264,7 @@ public class RegistryIngester implements Ingester {
       if (key.equals(Constants.LOGICAL_ID)) {
         product.setLid(metadata.getMetadata(Constants.LOGICAL_ID));
       } else if (key.equals(Constants.PRODUCT_VERSION)) {
-        slots.add(new Slot(Constants.PRODUCT_VERSION, 
+        slots.add(new Slot(Constants.PRODUCT_VERSION,
             Arrays.asList(new String[]{
                 metadata.getMetadata(Constants.PRODUCT_VERSION)}
             )));
@@ -276,7 +276,7 @@ public class RegistryIngester implements Ingester {
       } else if (key.equals(Constants.SLOT_METADATA)) {
         slots.addAll(metadata.getAllMetadata(Constants.SLOT_METADATA));
       } else {
-        log.log(new ToolsLogRecord(ToolsLevel.WARNING, 
+        log.log(new ToolsLogRecord(ToolsLevel.WARNING,
             "Creating unexpected slot: " + key, prodFile));
         List<String> values = new ArrayList<String>();
         if (metadata.isMultiValued(key)) {
@@ -384,13 +384,13 @@ public class RegistryIngester implements Ingester {
         fileObject.getName()));
     metadata.addMetadata(Constants.OBJECT_TYPE,
         Constants.FILE_OBJECT_PRODUCT_TYPE);
-    
-    slots.add(new Slot(Constants.FILE_NAME, 
+
+    slots.add(new Slot(Constants.FILE_NAME,
         Arrays.asList(new String[]{fileObject.getName()})));
 
-    slots.add(new Slot(Constants.FILE_LOCATION, 
+    slots.add(new Slot(Constants.FILE_LOCATION,
         Arrays.asList(new String[]{fileObject.getLocation()})));
-    
+
     FileSize fs = fileObject.getSize();
     Slot fsSlot = new Slot(Constants.FILE_SIZE, Arrays.asList(
         new String[]{new Long(fs.getSize()).toString()}));
@@ -398,31 +398,31 @@ public class RegistryIngester implements Ingester {
       fsSlot.setSlotType(fs.getUnits());
     }
     slots.add(fsSlot);
-    
-    slots.add(new Slot(Constants.MIME_TYPE, 
+
+    slots.add(new Slot(Constants.MIME_TYPE,
         Arrays.asList(new String[]{fileObject.getMimeType()})));
 
     if ( (fileObject.getChecksum()) != null
         && (!fileObject.getChecksum().isEmpty()) ) {
-      slots.add(new Slot(Constants.MD5_CHECKSUM, 
+      slots.add(new Slot(Constants.MD5_CHECKSUM,
           Arrays.asList(new String[]{fileObject.getChecksum()})));
     }
-    
+
     if ( (fileObject.getFileType() != null
         && (!fileObject.getFileType().isEmpty()))) {
-      slots.add(new Slot(Constants.FILE_TYPE, 
-          Arrays.asList(new String[]{fileObject.getFileType()})));      
+      slots.add(new Slot(Constants.FILE_TYPE,
+          Arrays.asList(new String[]{fileObject.getFileType()})));
     }
-    
-    slots.add(new Slot(Constants.CREATION_DATE_TIME, 
-        Arrays.asList(new String[]{fileObject.getCreationDateTime()})));  
+
+    slots.add(new Slot(Constants.CREATION_DATE_TIME,
+        Arrays.asList(new String[]{fileObject.getCreationDateTime()})));
 
     if (fileObject.getStorageServiceProductId() != null) {
-      slots.add(new Slot(Constants.STORAGE_SERVICE_PRODUCT_ID, 
+      slots.add(new Slot(Constants.STORAGE_SERVICE_PRODUCT_ID,
           Arrays.asList(new String[]{fileObject.getStorageServiceProductId()})));
     }
     if (!fileObject.getAccessUrls().isEmpty()) {
-      slots.add(new Slot(Constants.ACCESS_URLS, fileObject.getAccessUrls()));      
+      slots.add(new Slot(Constants.ACCESS_URLS, fileObject.getAccessUrls()));
     }
     for (Iterator i = sourceMet.getHashtable().entrySet().iterator();
     i.hasNext();) {
@@ -431,9 +431,9 @@ public class RegistryIngester implements Ingester {
       if (key.equals("dd_version_id")
           || key.equals("std_ref_version_id")) {
         slots.add(new Slot(key, Arrays.asList(
-            new String[]{sourceMet.getMetadata(key)})));      
+            new String[]{sourceMet.getMetadata(key)})));
       } else if (key.equals(Constants.PRODUCT_VERSION)) {
-        metadata.addMetadata(Constants.PRODUCT_VERSION, 
+        metadata.addMetadata(Constants.PRODUCT_VERSION,
             sourceMet.getMetadata(Constants.PRODUCT_VERSION));
       }
     }
