@@ -1174,6 +1174,9 @@
          context_to_associate
        </modelValue>
        <modelValue>
+         data_to_associate
+       </modelValue>
+       <modelValue>
          document_to_associate
        </modelValue>
        <modelValue>
@@ -1199,9 +1202,6 @@
      <referenceTypeMap value="calibration_ref">
        <modelValue>
          data_to_calibrated_product
-       </modelValue>
-       <modelValue>
-         data_to_calibration_document
        </modelValue>
        <modelValue>
          data_to_calibration_product
@@ -1307,7 +1307,13 @@
          context_to_document
        </modelValue>
        <modelValue>
+         data_to_calibration_document
+       </modelValue>
+       <modelValue>
          data_to_document
+       </modelValue>
+       <modelValue>
+         described_by_document
        </modelValue>
        <modelValue>
          instrument_to_document
@@ -1476,6 +1482,9 @@
      <referenceTypeMap value="package_ref">
        <modelValue>
          package_compiled_from_package
+       </modelValue>
+       <modelValue>
+         zip_to_package
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="personnel_ref">
