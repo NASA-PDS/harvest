@@ -28,6 +28,7 @@ import gov.nasa.pds.harvest.policy.Namespace;
 import gov.nasa.pds.harvest.policy.Pds3Directory;
 import gov.nasa.pds.harvest.policy.Policy;
 import gov.nasa.pds.harvest.policy.PolicyReader;
+import gov.nasa.pds.harvest.stats.HarvestStats;
 import gov.nasa.pds.harvest.target.TargetType;
 import gov.nasa.pds.harvest.util.PDSNamespaceContext;
 import gov.nasa.pds.harvest.util.ToolInfo;
@@ -594,6 +595,24 @@ public class HarvestLauncher {
     }
   }
 
+  private void deleteRegistryPackage(String guid) throws Exception {
+    RegistryClient client = null;
+    if ( (username != null) && (password != null) ) {
+      client = new RegistryClient(registryURL, securityContext, username,
+          password);
+    } else {
+      client = new RegistryClient(registryURL);
+    }
+    try {
+      client.deleteObject(guid, RegistryPackage.class);
+      log.log(new ToolsLogRecord(ToolsLevel.INFO, "Deleted package with the "
+          + "following guid: " + guid));
+    } catch (RegistryServiceException rse) {
+      throw new Exception("Registry Service error occurred while "
+          + "attempting to create a Registry Package: " + rse.getMessage());
+    }
+  }
+
   /**
    * Get the target type of the file.
    *
@@ -663,6 +682,13 @@ public class HarvestLauncher {
       setupExtractor(policy.getCandidates().getNamespace());
       createRegistryPackage(policy);
       doHarvesting(policy);
+      if ( (HarvestStats.numProductsRegistered == 0) &&
+           (HarvestStats.numAncillaryProductsRegistered == 0) &&
+           (HarvestStats.numAssociationsRegistered == 0) ) {
+        log.log(new ToolsLogRecord(ToolsLevel.INFO, "Nothing registered. "
+           + "Deleting package '" + registryPackageGuid + "'."));
+        deleteRegistryPackage(registryPackageGuid);
+      }
       closeHandlers();
     } catch (JAXBException je) {
       //Don't do anything

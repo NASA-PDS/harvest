@@ -27,6 +27,9 @@
       <action dev="mcayanan" type="add" issues="PDS-289">
         Added support for reading a checksum file for performing checksum validation during a PDS3 harvest run.
       </action>
+      <action dev="mcayanan" type="update" issues="PDS-299">
+        Harvest: Delete harvest package if run results in no registrations
+      </action>
       <action dev="mcayanan" type="fix">
         Fixed to create LIDs all in lowercase letters for Product_File_Repository products.
       </action>
