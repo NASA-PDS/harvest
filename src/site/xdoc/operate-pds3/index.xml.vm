@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright 2010-2012, by the California Institute of Technology.
+  ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
+  Any commercial use must be negotiated with the Office of Technology Transfer
+  at the California Institute of Technology.
+
+  This software is subject to U. S. export control laws and regulations
+  (22 C.F.R. 120-130 and 15 C.F.R. 730-774). To the extent that the software
+  is subject to U.S. export control laws and regulations, the recipient has
+  the responsibility to obtain export licenses or other export authority as
+  may be required before exporting such information to foreign countries or
+  providing access to foreign nationals.
+
+  $Id$
+-->
+
+<document>
+  <properties>
+    <title>Operation</title>
+    <author email="Michael.Cayanan@jpl.nasa.gov">Michael Cayanan</author>
+    <author email="Sean.Hardman@jpl.nasa.gov">Sean Hardman</author>
+  </properties>
+
+  <body>
+    <section name="Operation">
+      <p>This document describes how to operate the Harvest Tool software for use with PDS3 data product registration. The following topics can be found in this document:
+      </p>
+
+      <ul>
+        <li><a href="#Quick_Start">Quick Start</a></li>
+        <li><a href="#Command-Line Options">Command-Line Options</a></li>
+        <li><a href="#Advanced_Usage">Advanced Usage</a></li>
+        <li><a href="#Harvest_Policy_File">Harvest Policy File</a></li>
+        <li><a href="#Report_Format">Report Format</a></li>
+        <li><a href="#Common_Errors">Common Errors</a></li>
+      </ul>
+
+      <p>Note: The command-line examples in this section have been broken into multiple lines for readability. The commands should be reassembled into a single line prior to execution.
+      </p>
+    </section>
+
+    <section name="Quick Start">
+      <p>This section is intended to give a quick and easy way to set up the Harvest policy configuration file and how to run the tool. For a more detailed explanation on other ways to set up the policy configuration file as well as other ways of running the tool, go to the <a href="#Harvest_Policy_File">Harvest Policy File</a> and <a href="#Advanced_Usage">Advanced Usage</a> sections.
+      </p>
+
+      <subsection name="Setup">
+        <p>Included in the Harvest package is an example policy configuration file for PDS3 data product registration. Go to the <i>examples/</i> folder, make a copy of the <i>harvest-policy-pds3.xml</i> file and modify it as necessary. The following breaks down the policy file example and indicates what modifications are to be performed.
+        </p>
+
+        <p><b><i>Registry Package</i></b></p>
+
+        <source>
+&lt;registryPackage&gt;
+  &lt;name&gt;Harvest Package Example PDS3 Products&lt;/name&gt;
+  &lt;description&gt;This is a Harvest run of the Example PDS3 products.&lt;/description&gt;
+&lt;/registryPackage&gt;
+        </source>
+
+        <p>Specify a Registry package name and description. This allows the Registry to associate registered products of a Harvest run to a particular package.
+        </p>
+
+        <p><b><i>PDS3 Directories</i></b></p>
+
+        <source>
+&lt;pds3Directories&gt;
+  &lt;path&gt;$HOME/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA&lt;/path&gt;
+  &lt;fileFilter&gt;
+    &lt;include&gt;*.LBL&lt;/include&gt;
+  &lt;/fileFilter&gt;
+&lt;/pds3Directories&gt;
+        </source>
+
+        <p>Specify the top level directory for Harvest to crawl for products to register.
+        </p>
+
+        <p><b><i>Access URLs</i></b></p>
+
+        <source>
+&lt;accessUrls registerFileUrls="false"&gt;
+  &lt;accessUrl&gt;
+    &lt;baseUrl&gt;http://starbase.jpl.nasa.gov&lt;/baseUrl&gt;
+    &lt;offset&gt;$HOME&lt;/offset&gt;
+  &lt;/accessUrl&gt;
+&lt;/accessUrls&gt;
+        </source>
+
+        <p>Specify the base URL of where the physical data products are located. This allows Harvest to provide links to the physical data products in the slots of each registered product in the Registry.
+        </p>
+
+        <p><b><i>Checksums</i></b></p>
+
+        <source>
+&lt;checksums generate="true"&gt;
+  &lt;manifest&gt;$HOME/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/CHECKSUMS.TXT&lt;/manifest&gt;
+&lt;/checksums&gt;
+        </source>
+
+        <p>Specify a Checksum Manifest file. With this configuration, Harvest will generate checksums for each file object to be registered and compare against the supplied checksums in the data product label as well as the manifest file.
+        </p>
+
+        <p><b><i>LID Contents</i></b></p>
+
+        <source>
+&lt;lidContents prefix="urn:nasa:pds" appendFilename="true"&gt;
+  &lt;elementName&gt;DATA_SET_ID&lt;/elementName&gt;
+&lt;/lidContents&gt;
+        </source>
+
+        <p>Specify any additional elements to use to formulate the LID for each PDS3 data product that will get registered.
+        </p>
+
+        <p><b><i>Title Contents</i></b></p>
+
+        <source>
+&lt;titleContents appendFilename="true"&gt;
+  &lt;elementName&gt;DATA_SET_ID&lt;/elementName&gt;
+&lt;/titleContents&gt;
+        </source>
+
+        <p>Specify any additional elements to use to formulate the title for each PDS3 data product that will get registered.
+        </p>
+
+        <p><b><i>Static Metadata</i></b></p>
+
+        <source>
+&lt;staticMetadata&gt;
+  &lt;slot name="information_model_version"&gt;
+    &lt;value&gt;1.2.0.1&lt;/value&gt;
+  &lt;/slot&gt;
+  &lt;slot name="product_class"&gt;
+    &lt;value&gt;Product_Proxy_PDS3&lt;/value&gt;
+  &lt;/slot&gt;
+  &lt;slot name="data_set_ref"&gt;
+    &lt;value&gt;urn:nasa:pds:context_pds3:data_set:data_set.vg2-j-pls-5-summ-ele-mom-96.0sec-v1.0&lt;/value&gt;
+  &lt;/slot&gt;
+  &lt;slot name="investigation_ref"&gt;
+    &lt;value&gt;urn:nasa:pds:context_pds3:investigation:mission.voyager&lt;/value&gt;
+  &lt;/slot&gt;
+  &lt;slot name="instrument_host_ref"&gt;
+    &lt;value&gt;urn:nasa:pds:context_pds3:instrument_host:instrument_host.vg2&lt;/value&gt;
+  &lt;/slot&gt;
+  &lt;slot name="instrument_ref"&gt;
+    &lt;value&gt;urn:nasa:pds:context_pds3:instrument:instrument.pls_vg2&lt;/value&gt;
+  &lt;/slot&gt;
+  &lt;slot name="target_ref"&gt;
+    &lt;value&gt;urn:nasa:pds:context_pds3:target:target.planet.jupiter&lt;/value&gt;
+  &lt;/slot&gt;
+&lt;/staticMetadata&gt;
+        </source>
+
+        <p>Specify metadata to go with each PDS3 data product registration.
+        </p>
+
+        <p><b><i>Ancillary Metadata</i></b></p>
+
+        <source>
+&lt;ancillaryMetadata&gt;
+  &lt;elementName slotName="observation_start_date_time"&gt;
+    START_TIME
+  &lt;/elementName&gt;
+  &lt;elementName slotName="observation_stop_date_time"&gt;
+    STOP_TIME
+  &lt;/elementName&gt;
+  &lt;elementName slotName="product_type"&gt;
+    PRODUCT_TYPE
+  &lt;/elementName&gt;
+  &lt;elementName slotName="creation_date_time"&gt;
+    PRODUCT_CREATION_TIME
+  &lt;/elementName&gt;
+  &lt;elementName slotName="encoding_type"&gt;
+    INTERCHANGE_FORMAT
+  &lt;/elementName&gt;
+&lt;/ancillaryMetadata&gt;
+        </source>
+
+        <p>Specify metadata to extract from each data product label.
+        </p>
+
+      </subsection>
+
+      <subsection name="Running The Tool">
+        <p>The following command demonstrates the recommended way to run Harvest:
+        </p>
+
+        <source>
+%> harvest -c harvest-policy-pds3.xml -l harvest.log
+        </source>
+
+        <p>The <i>-c</i> flag option specifies the policy configuration file while the <i>-l</i> flag option specifies the log file for the Harvest output.
+        </p>
+      </subsection>
+    </section>
+
+    <section name="Command-Line Options">
+      <p>The following table describes the command-line options available:
+      </p>
+
+      <table>
+        <tr><th>Command-Line Option</th><th>Description</th></tr>
+        <tr><td>-c, --config</td><td>Specify a policy configuration file to set the tool behavior. (This flag is required)</td></tr>
+        <tr><td>-u, --username</td><td>Specify a username for authentication with the PDS Security Service.</td></tr>
+        <tr><td>-p, --password</td><td>Specify a password associated with the username.</td></tr>
+        <tr><td>-k, --keystore-pass</td><td>Specify a keystore password associated with the keystore file being passed into the tool.</td></tr>
+        <tr><td>-l, --log-file</td><td>Specify a log file name. Default is standard out.</td></tr>
+        <tr><td>-v, --verbose</td><td>Specify the message severity level and above to include in the log (0=Debug, 1=Info, 2=Warning, 3=Error). Default is Info and above (level 1).</td></tr>
+        <tr><td>-e, --regexp</td><td>Specify file patterns to look for when registering products from a target directory. Each pattern must be surrounded by quotes (i.e. -e "*.xml").</td></tr>
+        <tr><td>-D, --ignore-dir</td><td>Specify patterns to look for when traversing a target directory for sub-directories to ignore. Each pattern must be surrounded by quotes (i.e. -D "CATALOG").</td></tr>
+        <tr><td>-pds3, --is-pds3-dir</td><td>Specify to indicate that the target directory is a PDS3 directory. Note that only one PDS3 target directory can be passed into the tool.</td></tr>
+        <tr><td>-P, --port</td><td>Specify a port number to use if running the tool in persistence mode. See the <a href="#Persistence_Mode">Persistence Mode</a> section for more details.</td></tr>
+        <tr><td>-w, --wait</td><td>Specify the time, in seconds, to wait in between the crawls if running the tool in persistence mode. See the <a href="#Persistence_Mode">Persistence Mode</a> section for more details.</td></tr>
+        <tr><td>-V, --version</td><td>Display the release number and copyright information.</td></tr>
+        <tr><td>-h, --help</td><td>Display <i>harvest</i> usage.</td></tr>
+      </table>
+    </section>
+
+    <section name="Advanced Usage">
+      <p>This section describes more advanced ways to run the tool, as well as its behaviors and caveats.
+      </p>
+
+      <subsection name="Tool Execution">
+        <p>The Harvest Tool operates with a policy file to register product metadata. Details on how to create this policy file can be found in the <a href="#Harvest_Policy_File">Harvest Policy File</a> section.
+        </p>
+
+        <p>This section demonstrates some of the other ways that the tool can be executed:
+        </p>
+
+        <ul>
+          <li>Registering PDS3 Data Products From a Single Target</li>
+          <li>Registering PDS3 Data Products From Multiple Targets</li>
+          <li>Registering PDS3 Data Products From Targets Specified In The Policy File</li>
+          <li>Registering PDS3 Data Products To A Secured Registry Instance</li>
+          <li>Excluding Sub-Directories To Traverse From a Target</li>
+        </ul>
+
+        <p><b><i>Registering PDS3 Products From a Single Target</i></b></p>
+
+        <p>The following command demonstrates registering PDS3 data products to a non-secured registry instance from a target directory, <i>$HOME/directory</i>, where only files that end with a <i>.LBL</i> file extension, will be processed:
+        </p>
+
+        <source>
+% harvest $HOME/directory -pds3 -e "*.LBL" -c policy.xml
+        </source>
+
+        <p><b><i>Registering PDS3 Products From Multiple Targets</i></b></p>
+
+        <p>The following command demonstrates how to register PDS3 data products to a non-secured registry instance from two target directories, <i>$HOME/directory1</i> and <i>$HOME/directory2</i>, using the policy file, <i>policy.xml</i>. Only files that end with a <i>.LBL</i> file extension will be processed. The output will go to a log file, <i>harvest.log</i>:
+        </p>
+
+        <source>
+% harvest $HOME/directory1, $HOME/directory2 -pds3 -e "*.LBL" -c policy.xml -l harvest.log
+        </source>
+
+        <p><b><i>Registering PDS3 Products From Targets Specified In The Policy File</i></b></p>
+
+        <p>Targets can either be specified on the command-line or in in the policy file. Any targets specified on the command-line will overwrite any targets specified in the policy file. The following command demonstrates registering PDS3 data products based on targets specified in the policy file, <i>policy.xml</i>:
+        </p>
+
+        <source>
+% harvest -c policy.xml
+        </source>
+
+        <p><b><i>Registering Products To A Secured Registry Instance</i></b></p>
+
+        <p>The following command demonstrates how to register PDS3 data products to a secured registry instance from a target directory, <i>$HOME/directory</i>, using the policy file, <i>policy.xml</i>:
+        </p>
+
+        <source>
+% harvest $HOME/directory -pds3 -c policy.xml -u {username} -p {password} \
+  -k {keystorePassword}
+        </source>
+
+        <p><b><i>Excluding Sub-Directories To Traverse From a Target</i></b></p>
+
+        <p>The following command demonstrates registering PDS3 data products from a target directory, <i>$HOME/directory</i>, where the tool will not traverse the sub-directory <i>CONTEXT</i>:
+        </p>
+
+        <source>
+% harvest $HOME/directory -pds3 -c policy.xml -D "CONTEXT"
+        </source>
+      </subsection>
+
+      <subsection name="Persistence Mode">
+        <p>The Harvest Tool can be run in persistence mode through an XML-RPC accessible web service called a daemon. Under this scenario, the Harvest Tool wakes up periodically, inspects a target directory or directories, and registers the latest products. This section details how to set this up.
+        </p>
+
+        <p>In order to run the tool through the daemon, the command-line option flags <i>-P</i> and <i>-w</i> need to be used. This tells the Harvest Tool the port number to use and how long to sleep in between crawls, respectively. When the daemon is running, it can be accessed through the following url: <i>http://localhost:{port number}/xmlrpc</i>. The following command demonstrates launching the Harvest Tool through the daemon on port <i>9001</i>, where it will wait 120 seconds in between crawls:
+        </p>
+
+        <source>
+% harvest -c policy.xml -u {username} -p {password} \
+  -k {keystorePassword} -l log.txt -P 9001 -w 120
+        </source>
+
+        <p>After running the above command, the daemon will be accessible at <i>http://localhost:9001/xmlrpc</i>.
+        </p>
+
+        <p>In order to stop the daemon from running, a daemon controller is needed. The <i>bin/</i> directory of the Harvest Tool release package contains a shell script, <i>harvest-ctrl</i>, and a batch file, <i>harvest-ctrl.bat</i>, which are used to gracefully shut down the daemon service on a UNIX-like and Windows system, respectively. In addition, they can provide a few additional statistics about the crawling.
+        </p>
+
+        <p>The following table describes the command-line options available for <i>harvest-ctrl</i>:
+        </p>
+
+        <table>
+          <tr><th>Command-Line Option</th><th>Description</th></tr>
+          <tr><td>--url</td><td>Specify the URL of the daemon service running the Harvest Tool.</td></tr>
+          <tr><td>--operation</td><td>Specify a single operation to perform. List of valid operations can be found in the next table.</td></tr>
+        </table>
+
+        <p>The following table describes the operation names available to pass with the <i>--operation</i> command-line option:
+        </p>
+
+        <table>
+          <tr><th>Operation Option</th><th>Description</th></tr>
+          <tr><td>--stop</td><td>Specify this operation to shut down the daemon service.</td></tr>
+          <tr><td>--isRunning</td><td>Gives an indication whether the daemon service is running.</td></tr>
+          <tr><td>--getNumCrawls</td><td>Returns the number of crawls that have occurred.</td></tr>
+          <tr><td>--getWaitInterval</td><td>Returns the time, in seconds, that the crawler has to wait in between crawls.</td></tr>
+          <tr><td>--getMilisCrawling</td><td>Returns the amount of milliseconds spent crawling.</td></tr>
+          <tr><td>--getAverageCrawlTime</td><td>Returns the average amount of time, in milliseconds, spent during each crawl.</td></tr>
+        </table>
+
+        <p>The following examples demonstrate how to run <i>harvest-ctrl</i> using a few of the different operations. For demonstration purposes, assume that the daemon service is located at the following url: <i>http://localhost:9001/xmlrpc</i>.
+        </p>
+
+        <p><b><i>Determine the Status of the Daemon Service</i></b></p>
+
+        <p>The following command is used to find out if the daemon service is still running:
+        </p>
+
+        <source>
+% harvest-ctrl --url http://localhost:9001/xmlrpc --operation --isRunning
+        </source>
+
+        <p><b><i>Shutdown the Daemon Service</i></b></p>
+
+        <p>The following command demonstrates shutting down the daemon service:
+        </p>
+
+        <source>
+% harvest-ctrl --url http://localhost:9001/xmlrpc --operation --stop
+        </source>
+      </subsection>
+   </section>
+
+   <section name="Harvest Policy File">
+     <p>The Harvest policy file is an XML-based configuration file that the tool uses to find products and register their metadata. The schema for the policy file can be found in the <a href="index-policy-schema.html">Harvest Policy Schema</a> section. This section describes the valid elements that are available to setup the policy file to do PDS3 data product registration.
+     </p>
+
+    <subsection name="PDS3 Data Product Registration">
+      <p>By default, the tool registers discovered PDS3 products under the <i>Product_Proxy_PDS3</i> objectType in the registry. Additionally, the tool has to dynamically create certain metadata in order to support ingestion of PDS3 data products into the registry. The following is an example of a policy file to perform product registration of PDS3 data products:
+      </p>
+
+      <source>
+&lt;policy&gt;
+  &lt;!-- Specify a single directory containing the PDS3 data products to register. --&gt;
+  &lt;pds3Directory&gt;
+    &lt;path&gt;/Users/mcayanan/pds3&lt;/path&gt;
+    &lt;fileFilter&gt;
+      &lt;include&gt;*.LBL&lt;/include&gt;
+    &lt;/fileFilter&gt;
+  &lt;/pds3Directory&gt;
+  &lt;candidates&gt;
+    &lt;!--
+      Harvest will register PDS3 data products under the objectType
+      'Product_Proxy_PDS3'.
+    --&gt;
+    &lt;pds3ProductMetadata&gt;
+      &lt;!-- Tells Harvest what element values to use to create the LID. --&gt;
+      &lt;lidContents prefix="urn:nasa:pds"&gt;
+        &lt;elementName&gt;DATA_SET_ID&lt;/elementName&gt;
+        &lt;elementName&gt;INSTRUMENT_ID&lt;/elementName&gt;
+        &lt;elementName&gt;PRODUCT_ID&lt;/elementName&gt;
+      &lt;/lidContents&gt;
+      &lt;titleContents&gt;
+        &lt;elementName&gt;DATA_SET_ID&lt;/elementName&gt;
+        &lt;elementName&gt;PRODUCT_ID&lt;/elementName&gt;
+      &lt;/titleContents&gt;
+      &lt;staticMetadata&gt;
+        &lt;slot name="information_model_version"&gt;
+          &lt;value&gt;0.8.0.0.k&lt;/value&gt;
+        &lt;/slot&gt;
+        &lt;slot name="target_ref"&gt;
+          &lt;value&gt;urn:nasa:pds:target:MARS::1.0&lt;/value&gt;
+        &lt;/slot&gt;
+        &lt;slot name="mission_ref"&gt;
+          &lt;value&gt;urn:nasa:pds:mission.MER&lt;/value&gt;
+        &lt;/slot&gt;
+      &lt;/staticMetadata&gt;
+      &lt;!-- Register any additional metadata. Default is to
+        register metadata defined in the identification area of the
+        Product_Proxy_PDS3 schema. --&gt;
+      &lt;ancillaryMetadata&gt;
+        &lt;elementName slotName="start_time"&gt;
+          START_TIME
+        &lt;/elementName&gt;
+        &lt;elementName slotName="stop_time"&gt;
+          STOP_TIME
+        &lt;/elementName&gt;
+      &lt;/ancillaryMetadata&gt;
+      &lt;includePaths&gt;
+        &lt;path&gt;/data/pds3/label&lt;/path&gt;
+      &lt;/includePaths&gt;
+    &lt;/pds3ProductMetadata&gt;
+  &lt;/candidates&gt;
+&lt;/policy&gt;
+      </source>
+
+      <p>This policy file is made up of the following complex type elements: <i>pds3Directory</i>, <i>pds3ProductMetadata</i>, <i>lidContents</i>, <i>titleContents</i>, <i>staticMetadata</i>, <i>ancillaryMetadata</i>, and <i>includePaths</i>.
+      </p>
+
+      <p><b><i>pds3Directory</i></b></p>
+
+      <p>Specify this element to tell the Harvest Tool the directory location to crawl. The following table describes the elements that are allowed:
+      </p>
+
+      <table>
+        <tr><th>Element Name</th><th>Description</th></tr>
+        <tr><td>path</td><td>Specify a directory location containing the PDS3 data products to register. Multiple tags can be specified to point to other directories to crawl.</td></tr>
+        <tr><td>fileFilter</td><td>Specify one or more <i>include</i> elements, where each element value contains a pattern to look for when crawling a target directory for files to register. If omitted, the default is to get all files within a directory.</td></tr>
+        <tr><td>directoryFilter</td><td>Specify one or more <i>exclude</i> elements, where each element value contains a pattern to look for when crawling a target directory for sub-directories to ignore.</td></tr>
+      </table>
+
+      <p>In the example above, the Harvest Tool will crawl for PDS3 data products starting at the location <i>/data/pds3/dataset</i>, looking for files with a <i>.LBL</i> file extension.
+      </p>
+
+      <p><b><i>pds3ProductMetadata</i></b></p>
+
+      <p>Specify this element to tell the Harvest Tool what metadata to ingest into the registry when registering PDS3 data products. This element must be specified within the <i>candidates</i> tag as shown in the example. The following table describes the elements that are allowed:
+      </p>
+
+      <table>
+        <tr><th>Element Name</th><th>Description</th></tr>
+        <tr><td>lidContents</td><td>Tells the Harvest Tool what fields to use to form the logical identifier.</td></tr>
+        <tr><td>staticMetadata</td><td>Specify static metadata to add as slots for every discovered PDS3 data product.</td></tr>
+        <tr><td>ancillaryMetadata</td><td>Specify ancillary metadata to add as slots for every discovered PDS3 data product.</td></tr>
+      </table>
+
+      <p><b><i>lidContents</i></b></p>
+
+      <p>Specify this element to tell the Harvest Tool how to generate the logical identifier. The <i>prefix</i> attribute specifies what to prepend to the logical identifier. This is a required attribute. In the example above, the logical identifiers of every discovered PDS3 data product will be prefixed with <i>urn:nasa:pds</i>.
+      </p>
+
+      <p>The following table describes the optional attributes that are allowed:
+      </p>
+
+      <table>
+        <tr><th>Attribute Name</th><th>Description</th></tr>
+        <tr><td>appendFilename</td><td>When set to <i>true</i>, the tool will append the product label filename (minus the extension) to the end of the logical identifier.</td></tr>
+      </table>
+
+      <p>The following table describes the elements that are allowed:
+      </p>
+
+      <table>
+        <tr><th>Element Name</th><th>Description</th></tr>
+        <tr><td>elementName</td><td>Specify an element name whose value will be used in creating the logical identifier. Can be specified more than once.</td></tr>
+      </table>
+
+      <p>In the policy example above, the logical identifier will be formed using the following contents: prefix + <i>DATA_SET_ID</i> + ":" + <i>INSTRUMENT_ID</i> + ":" + <i>PRODUCT_ID</i>.
+      </p>
+
+      <p><b><i>titleContents</i></b></p>
+
+      <p>Specify this element to tell the Harvest Tool how to generate the title of the registered PDS3 product.
+      </p>
+
+      <p>There is an optional attribute that can be specified called <i>appendFilename</i>. When this attribute is specified and set to <i>true</i>, the Harvest Tool will append the product label filename (minus the extension) to the end of the title.
+      </p>
+
+      <p>The following table describes the elements that are allowed:
+      </p>
+
+      <table>
+        <tr><th>Element Name</th><th>Description</th></tr>
+        <tr><td>elementName</td><td>Specify an element name whose value will be used in creating the title of the registered product. Can be specified more than once.</td></tr>
+      </table>
+
+      <p>In the policy example above, the title contents will be formed using the following contents: <i>DATA_SET_ID</i> + " " + <i>PRODUCT_ID</i>.
+      </p>
+
+      <p><b><i>staticMetadata</i></b></p>
+
+      <p>Specify this element to tell the Harvest Tool to register a set of static metadata with the discovered PDS3 data products. The following table describes the elements that are allowed:
+      </p>
+
+      <table>
+        <tr><th>Element Name</th><th>Description</th></tr>
+        <tr><td>slot</td><td>The slot element contains a <i>name</i> attribute to specify what slot name to use in the registry. The <i>value</i> tag specifies the slot value.</td></tr>
+      </table>
+
+      <p>In the policy example above, it specifies that for every PDS3 data product that is registered, the following metadata will be added as slots: <i>information_model_version</i>, <i>target_ref</i>, and <i>mission_ref</i>.
+      </p>
+
+      <p><b><i>ancillaryMetadata</i></b></p>
+
+      <p>Specify this element to tell the Harvest tool what additional metadata to register. The following table describes the elements that are allowed:
+      </p>
+
+      <table>
+        <tr><th>Element Name</th><th>Description</th></tr>
+        <tr><td>elementName</td><td>Specify an element name found in the PDS3 data product label. An optional <i>slotName</i> attribute can be used to set the slot name for this element. If <i>slotName</i> is not set, the tool will use the element name in lowercase form as the slot name. In addition, a <i>slotType</i> attribute can be used to define units to go along with an extracted value. The units will be registered as the <i>slotType</i> in the registry.</td></tr>
+      </table>
+
+      <p>In the example above, the values from the following elements will be extracted from a PDS3 product label: <i>START_DATE_TIME</i> and <i>STOP_DATE_TIME</i>.
+      </p>
+
+      <p><b><i>includePaths</i></b></p>
+
+      <p>Specify this element to tell the Harvest tool the locations of where to find file references specified in a label. By default, the tool will look for the file reference in the location of the label file. The following table describes the elements that are allowed:
+      </p>
+
+      <table>
+        <tr><th>Element Name</th><th>Description</th></tr>
+        <tr><td>path</td><td>Specify the directory location of where to find the file references in a label. This element can be specified more than once to specify multiple search paths.</td></tr>
+      </table>
+
+      <p>In the example above, the tool will look at the <i>/data/pds3/label</i> directory for file references if they cannot be found in the same location as the label file.
+      </p>
+
+    </subsection>
+  </section>
+
+  <section name="Report Format">
+    <p>This section describes the contents of the Harvest Tool report. At this time, the Harvest Tool only outputs a series of log messages. The log will report the success or failure of a discovered product attempting to be registered. Additionally, any syntactical errors in a discovered product are reported. A log consists of a severity level, file name, and a message. The following is an example of some of the log messages that can be expected from the Harvest Tool:
+     </p>
+
+     <source>
+PDS Harvest Tool Log
+
+Version                     Version 1.7.0-dev
+Time                        Thu, Sep 18 2014 at 05:41:08 PM
+Target(s)                   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA]
+Target Type                 PDS3
+File Inclusions             [*.LBL]
+Severity Level              INFO
+Registry Location           http://localhost:8080/registry
+Registry Package Name       Harvest Package Example PDS3 Products
+Registration Package GUID   urn:uuid:f6ac9627-aa58-43f2-b07a-fd2f66237fd7
+
+INFO:   XML extractor set to the following default namespace: http://pds.nasa.gov/pds4/pds/v1
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/CHECKSUMS.TXT] \
+Processing checksum manifest.
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Begin processing.
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Creating logical identifier.
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Created the following logical identifier: urn:nasa:pds:vg2-j-pls-5-summ-ele-mom-96.0sec-v1.0:ele_mom
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Created title: VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0 ELE_MOM
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL]
+Created access url: http://starbase.jpl.nasa.gov/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL
+SUCCESS:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Successfully registered product: urn:nasa:pds:vg2-j-pls-5-summ-ele-mom-96.0sec-v1.0:ele_mom::1.0
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Product has the following GUID: urn:uuid:3a2da8de-72f4-4ca9-a9e7-7db6405daf18
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Capturing file object metadata for ELE_MOM.LBL
+WARNING:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Generated checksum 'c63f0c34641c60a786edad1dea542c72' does not match supplied checksum 'c5a1215ba4a2d1287f3bd855dd62dc17' in the manifest for file object \
+'/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL'.
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Capturing file object metadata for ELE_MOM.TAB
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Generated checksum '2b555c42a7e7b4981407c9a824237f4a' matches the supplied checksum '2b555c42a7e7b4981407c9a824237f4a' in the manifest for file object \
+'/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.TAB'.
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Created access url: http://starbase.jpl.nasa.gov/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL
+SUCCESS:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Successfully registered product: urn:nasa:pds:vg2-j-pls-5-summ-ele-mom-96.0sec-v1.0:ele_mom:ele_mom.lbl::1.0
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Product has the following GUID: urn:uuid:92e68631-f0f6-4a05-ac77-1d3f0c2f2aa8
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Created access url: http://starbase.jpl.nasa.gov/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.TAB
+SUCCESS:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Successfully registered product: urn:nasa:pds:vg2-j-pls-5-summ-ele-mom-96.0sec-v1.0:ele_mom:ele_mom.tab::1.0
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Product has the following GUID: urn:uuid:7a98092a-2f8e-480d-b884-15311b8cff77
+SUCCESS:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Successfully registered association to urn:nasa:pds:vg2-j-pls-5-summ-ele-mom-96.0sec-v1.0:ele_mom:ele_mom.lbl::1.0
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Association has the following GUID: urn:uuid:785fb3fe-1520-4608-8464-4ad53cf5571e
+SUCCESS:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Successfully registered association to urn:nasa:pds:vg2-j-pls-5-summ-ele-mom-96.0sec-v1.0:ele_mom:ele_mom.tab::1.0
+INFO:   [/Users/mcayanan/pds3/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/DATA/ELE_MOM.LBL] \
+Association has the following GUID: urn:uuid:87a037e3-f4c7-42a2-9a8f-d435a0c0e51d
+
+Summary:
+
+1 of 1 file(s) processed, 0 other file(s) skipped
+0 error(s), 1 warning(s)
+
+1 of 1 products registered.
+2 of 2 ancillary products registered.
+
+Product Types Registered:
+2 Product_File_Repository
+1 Product_Proxy_PDS3
+
+1 of 2 generated checksums matched their supplied value in the manifest, 0 value(s) not checked.
+
+2 of 2 associations registered.
+
+
+End of Log
+
+
+
+     </source>
+    </section>
+
+    <section name="Common Errors">
+      <p>At this time, there are no common errors to report.
+      </p>
+    </section>
+  </body>
+</document>

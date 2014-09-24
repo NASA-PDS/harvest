@@ -1,0 +1,1141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright 2010-2012, by the California Institute of Technology.
+  ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
+  Any commercial use must be negotiated with the Office of Technology Transfer
+  at the California Institute of Technology.
+
+  This software is subject to U. S. export control laws and regulations
+  (22 C.F.R. 120-130 and 15 C.F.R. 730-774). To the extent that the software
+  is subject to U.S. export control laws and regulations, the recipient has
+  the responsibility to obtain export licenses or other export authority as
+  may be required before exporting such information to foreign countries or
+  providing access to foreign nationals.
+
+  $Id$
+-->
+
+<document>
+  <properties>
+    <title>Operation</title>
+    <author email="Michael.Cayanan@jpl.nasa.gov">Michael Cayanan</author>
+    <author email="Sean.Hardman@jpl.nasa.gov">Sean Hardman</author>
+  </properties>
+
+  <body>
+    <section name="Operation">
+      <p>This document describes how to operate the Harvest Tool software for use with PDS4 data product registration. The following topics can be found in this document:
+      </p>
+
+      <ul>
+        <li><a href="#Quick_Start">Quick Start</a></li>
+        <li><a href="#Command-Line Options">Command-Line Options</a></li>
+        <li><a href="#Advanced_Usage">Advanced Usage</a></li>
+        <li><a href="#Harvest_Policy_File">Harvest Policy File</a></li>
+        <li><a href="#Report_Format">Report Format</a></li>
+        <li><a href="#Common_Errors">Common Errors</a></li>
+      </ul>
+
+      <p>Note: The command-line examples in this section have been broken into multiple lines for readability. The commands should be reassembled into a single line prior to execution.
+      </p>
+    </section>
+
+    <section name="Quick Start">
+      <p>This section is intended to give a quick and easy way to set up the Harvest policy configuration file and run the tool. For a more detailed explanation on other ways to set up the policy configuration file as well as other ways of running the tool, go to the <a href="#Harvest_Policy_File">Harvest Policy File</a> and <a href="#Advanced_Usage">Advanced Usage</a> sections.
+      </p>
+
+      <subsection name="Setup">
+        <p>Included in the Harvest package is an example policy configuration file for PDS4 product registration. Go to the <i>examples/</i> folder, make a copy of the <i>harvest-policy-example.xml</i> file and modify it as necessary. The following breaks down the policy file example and indicates what modifications are to be performed.
+        </p>
+
+        <p><b><i>Registry Package</i></b></p>
+
+        <source>
+&lt;registryPackage&gt;
+  &lt;name&gt;Harvest Package Example Bundle Run&lt;/name&gt;
+  &lt;description&gt;This is a Harvest run of the example bundle.&lt;/description&gt;
+&lt;/registryPackage&gt;
+        </source>
+
+        <p>Specify a Registry package name and description. This allows the Registry to associate registered products of a Harvest run to a particular package.
+        </p>
+
+        <p><b><i>Collections</i></b></p>
+
+        <source>
+&lt;collections&gt;
+  &lt;file&gt;$HOME/dph_example_archive_VG2PLS/browse/Collection_browse.xml&lt;/file&gt;
+  &lt;file&gt;$HOME/dph_example_archive_VG2PLS/context/Collection_context.xml&lt;/file&gt;
+  &lt;file&gt;$HOME/dph_example_archive_VG2PLS/data/Collection_data.xml&lt;/file&gt;
+  &lt;file&gt;$HOME/dph_example_archive_VG2PLS/document/Collection_document.xml&lt;/file&gt;
+  &lt;file&gt;$HOME/dph_example_archive_VG2PLS/xml_schema/Collection_xml_schema.xml&lt;/file&gt;
+&lt;/collections&gt;
+        </source>
+
+        <p>Specify collection products here. This allows Harvest to be able to distinguish between primary members and secondary members of a collection while traversing a target directory.
+        </p>
+
+        <p><b><i>Directories</i></b></p>
+
+        <source>
+&lt;directories&gt;
+  &lt;path&gt;$HOME/dph_example_archive_VG2PLS&lt;/path&gt;
+  &lt;fileFilter&gt;
+    &lt;include&gt;*.xml&lt;/include&gt;
+  &lt;/fileFilter&gt;
+&lt;/directories&gt;
+        </source>
+
+        <p>Specify the top level directory for Harvest to crawl for products to register.
+        </p>
+
+        <p><b><i>Access URLs</i></b></p>
+
+        <source>
+&lt;accessUrls registerFileUrls="false"&gt;
+  &lt;accessUrl&gt;
+    &lt;baseUrl&gt;http://starbase.jpl.nasa.gov&lt;/baseUrl&gt;
+    &lt;offset&gt;$HOME&lt;/offset&gt;
+  &lt;/accessUrl&gt;
+&lt;/accessUrls&gt;
+        </source>
+
+        <p>Specify the base URL of where the physical data products are located. This allows Harvest to provide links to the physical data products in the slots of each registered product in the Registry.
+        </p>
+
+        <p><b><i>Checksums</i></b></p>
+
+        <source>
+&lt;checksums generate="true"&gt;
+  &lt;manifest&gt;$HOME/dph_example_archive_VG2PLS/bundle_checksums.txt&lt;/manifest&gt;
+&lt;/checksums&gt;
+        </source>
+
+        <p>Specify a Checksum Manifest file. With this configuration, Harvest will generate checksums for each file object to be registered and compare against the supplied checksums in the data product label as well as the manifest file.
+        </p>
+
+        <p><b><i>Candidate Products</i></b></p>
+
+        <source>
+&lt;candidates&gt;
+
+...
+
+  &lt;productMetadata objectType="Product_Browse"&gt;
+    &lt;xPath slotName="information_model_version"&gt;
+      //Identification_Area/information_model_version
+    &lt;/xPath&gt;
+
+...
+
+&lt;candidates&gt;
+        </source>
+
+        <p>Specify any additional product types for Harvest to register here. Note that Harvest reads in an internal global policy config which already includes the following product types:
+        </p>
+
+        <ul>
+          <li>Product_Attribute_Definition</li>
+          <li>Product_Bundle</li>
+          <li>Product_Class_Definition</li>
+          <li>Product_Collection</li>
+          <li>Product_Context</li>
+          <li>Product_Data_Set_PDS3</li>
+          <li>Product_Instrument_Host_PDS3</li>
+          <li>Product_Instrument_PDS3</li>
+          <li>Product_Mission_PDS3</li>
+          <li>Product_Subscription_PDS3</li>
+          <li>Product_Target_PDS3</li>
+          <li>Product_Volume_PDS3</li>
+          <li>Product_Volume_Set_PDS3</li>
+        </ul>
+
+        <p>Additionally, the <i>candidates</i> section in this policy config example already specifies the following product types:
+        </p>
+
+        <ul>
+          <li>Product_Browse</li>
+          <li>Product_Document</li>
+          <li>Product_File_Text</li>
+          <li>Product_Observational</li>
+          <li>Product_XML_Schema</li>
+        </ul>
+
+        <p>For the <i>Product_Observational</i> area:
+        </p>
+
+        <source>
+&lt;productMetadata objectType="Product_Observational"&gt;
+  &lt;!-- Identification_Area --&gt;
+  &lt;xPath slotName="information_model_version"&gt;
+    //Identification_Area/information_model_version
+  &lt;/xPath&gt;
+  &lt;xPath slotName="product_class"&gt;
+    //Identification_Area/product_class
+  &lt;/xPath&gt;
+  &lt;xPath slotName="alternate_id"&gt;
+    //Identification_Area/Alias_List/Alias/alternate_id
+  &lt;/xPath&gt;
+  &lt;xPath slotName="alternate_title"&gt;
+    //Identification_Area/Alias_List/Alias/alternate_title
+  &lt;/xPath&gt;
+  &lt;xPath slotName="citation_author_list"&gt;
+    //Identification_Area/Citation_Information/author_list
+  &lt;/xPath&gt;
+...
+&lt;/productMetadata&gt;
+        </source>
+
+        <p>add XPaths, as well as a meaningful slot name, for the &lt;Discipline_Area&gt; and &lt;Mission_Area&gt; metadata of interest to be included for every <i>Product_Observational</i> registration.
+        </p>
+
+        <p>Note that the XPaths already defined in the example policy should not be modified as it allows the Registry to be populated with a consistent set of metadata for every product that is registered.
+        </p>
+
+
+        <p><b><i>Namespaces</i></b></p>
+
+        <p>It is highly encouraged to define this in the policy when specifying XPaths to metadata that reside in a namespace other than the default PDS namespace. Doing so will make the policy more readable.
+        </p>
+
+        <p>As an example, check out this PDS4 data product label  <a href="index-data-product-label.html">here</a>, which contains metadata within the &lt;Discipline_Area&gt; and &lt;Mission_Area&gt; sections that reside in namespaces other than the default PDS namespace. To extract metadata from these sections, do the following:
+        </p>
+
+        <p>Set the namespaces in the <i>candidates</i> section of the policy config file:
+        </p>
+
+        <source>
+&lt;candidates&gt;
+  &lt;namespace prefix="disp" uri="http://pds.nasa.gov/pds4/disp/v1"/&gt;
+  &lt;namespace prefix="sp" uri="http://pds.nasa.gov/pds4/sp/v1"/&gt;
+  &lt;namespace prefix="geom" uri="http://pds.nasa.gov/pds4/geom/v0"/&gt;
+  &lt;namespace prefix="sbn" uri="http://pds.nasa.gov/pds4/sbn/v0"/&gt;
+  &lt;namespace prefix="epoxi" uri="http://pds.nasa.gov/pds4/mission/epoxi/v0"/&gt;
+
+...
+
+&lt;/candidates&gt;
+        </source>
+
+        <p>Then add the additional XPaths to extract metadata within the &lt;Discipline_Area&gt; and &lt;Mission_Area&gt; sections from <i>Product_Observational</i> products:
+        </p>
+
+        <source>
+  &lt;productMetadata objectType="Product_Observational"&gt;
+
+...
+
+    &lt;!-- Mission_Area metadata --&gt;
+    &lt;xPath slotName="spacecraft_clock_start_count"&gt;
+      //Mission_Area/epoxi:EPOXI_Attributes/epoxi:Observation_Parameters/epoxi:spacecraft_clock_start_count
+    &lt;/xPath&gt;
+    &lt;xPath slotName="spacecraft_clock_stop_count"&gt;
+      //Mission_Area/epoxi:EPOXI_Attributes/epoxi:Observation_Parameters/epoxi:spacecraft_clock_stop_count
+    &lt;/xPath&gt;
+    &lt;xPath slotName="total_integration_time"&gt;
+      //Mission_Area/epoxi:EPOXI_Attributes/epoxi:Observation_Parameters/epoxi:total_integration_time
+    &lt;/xPath&gt;
+
+    &lt;!-- Discipline_Area metadata --&gt;
+    &lt;xPath slotName="start_julian_date"&gt;
+      //Discipline_Area/sbn:Times/sbn:start_Julian_date
+    &lt;/xPath&gt;
+    &lt;xPath slotName="display_settings_local_reference_type"&gt;
+      //Discipline_Area/disp:Display_Settings/disp:Local_Internal_Reference/disp:local_reference_type
+    &lt;/xPath&gt;
+    &lt;xPath slotName="special_characteristics_local_identifier_reference"&gt;
+      //Discipline_Area/sp:Spectral_Characteristics/sp:local_identifier_reference
+    &lt;/xPath&gt;
+    &lt;xPath slotName="geometry_vertical_display_direction"&gt;
+      //Discipline_Area/geom:Geometry/geom:Image_Display_Geometry/geom:Display_Direction/disp:vertical_display_direction
+    &lt;/xPath&gt;
+  &lt;/productMetadata&gt;
+
+&lt;/candidates&gt;
+        </source>
+        
+        <p>Note that the XPaths are utilizing the <i>prefix</i> values from the namespaces defined in the policy.
+        </p>
+      </subsection>
+
+      <subsection name="Running The Tool">
+        <p>The following command demonstrates the recommended way to run Harvest:
+        </p>
+
+        <source>
+%> harvest -c harvest-policy-example.xml -l harvest.log
+        </source>
+
+        <p>The <i>-c</i> flag option specifies the policy configuration file while the <i>-l</i> flag option specifies the log file for the Harvest output.
+        </p>
+      </subsection>
+    </section>
+
+    <section name="Command-Line Options">
+      <p>The following table describes the command-line options available:
+      </p>
+
+      <table>
+        <tr><th>Command-Line Option</th><th>Description</th></tr>
+        <tr><td>-c, --config</td><td>Specify a policy configuration file to set the tool behavior. (This flag is required)</td></tr>
+        <tr><td>-u, --username</td><td>Specify a username for authentication with the PDS Security Service.</td></tr>
+        <tr><td>-p, --password</td><td>Specify a password associated with the username.</td></tr>
+        <tr><td>-k, --keystore-pass</td><td>Specify a keystore password associated with the keystore file being passed into the tool.</td></tr>
+        <tr><td>-l, --log-file</td><td>Specify a log file name. Default is standard out.</td></tr>
+        <tr><td>-v, --verbose</td><td>Specify the message severity level and above to include in the log (0=Debug, 1=Info, 2=Warning, 3=Error). Default is Info and above (level 1).</td></tr>
+        <tr><td>-e, --regexp</td><td>Specify file patterns to look for when registering products from a target directory. Each pattern must be surrounded by quotes (i.e. -e "*.xml").</td></tr>
+        <tr><td>-D, --ignore-dir</td><td>Specify patterns to look for when traversing a target directory for sub-directories to ignore. Each pattern must be surrounded by quotes (i.e. -D "CATALOG").</td></tr>
+        <tr><td>-P, --port</td><td>Specify a port number to use if running the tool in persistence mode. See the <a href="#Persistence_Mode">Persistence Mode</a> section for more details.</td></tr>
+        <tr><td>-w, --wait</td><td>Specify the time, in seconds, to wait in between the crawls if running the tool in persistence mode. See the <a href="#Persistence_Mode">Persistence Mode</a> section for more details.</td></tr>
+        <tr><td>-V, --version</td><td>Display the release number and copyright information.</td></tr>
+        <tr><td>-h, --help</td><td>Display <i>harvest</i> usage.</td></tr>
+      </table>
+    </section>
+
+    <section name="Advanced Usage">
+      <p>This section describes more advanced ways to run the tool, as well as its behaviors and caveats. 
+      </p>
+
+      <subsection name="Tool Execution">
+        <p>The Harvest Tool operates with a policy file to register product metadata. Details on how to create this policy file can be found in the <a href="#Harvest_Policy_File">Harvest Policy File</a> section.
+        </p>
+
+        <p>This section demonstrates some of the other ways that the tool can be executed:
+        </p>
+
+        <ul>
+          <li>Registering Products From a Single Target</li>
+          <li>Registering Products From Multiple Targets</li>
+          <li>Registering Products From Targets Specified In The Policy File</li>
+          <li>Registering Products To A Secured Registry Instance</li>
+          <li>Excluding Sub-Directories To Traverse From a Target</li>
+        </ul>
+
+        <p><b><i>Registering Products From a Single Target</i></b></p>
+
+        <p>The following command demonstrates how to register products to a non-secured registry instance from a target directory, <i>$HOME/directory</i>, where only files that end with a <i>.xml</i> file extension, will be processed:
+        </p>
+
+        <source>
+% harvest $HOME/directory -e "*.xml" -c policy.xml
+        </source>
+
+        <p><b><i>Registering Products From Multiple Targets</i></b></p>
+
+        <p>The following command demonstrates how to register products to a non-secured registry instance from two target directories, <i>$HOME/directory1</i> and <i>$HOME/directory2</i>, using the policy file, <i>policy.xml</i>. Only files that end with a <i>.xml</i> file extension will be processed. The output will go to a log file, <i>log-file.txt</i>:
+        </p>
+
+        <source>
+% harvest $HOME/directory1, $HOME/directory2 -e "*.xml" -c policy.xml -l log-file.txt
+        </source>
+
+        <p><b><i>Registering Products From Targets Specified In The Policy File</i></b></p>
+
+        <p>Targets can either be specified on the command-line or in in the policy file. Any targets specified on the command-line will overwrite any targets specified in the policy file. The following command demonstrates registering products based on targets specified in the policy file, <i>policy.xml</i>:
+        </p>
+
+        <source>
+% harvest -c policy.xml
+        </source>
+
+        <p><b><i>Registering Products To A Secured Registry Instance</i></b></p>
+
+        <p>The following command demonstrates how to register products to a secured registry instance from a target directory, <i>$HOME/directory</i>, using the policy file, <i>policy.xml</i>:
+        </p>
+
+        <source>
+% harvest $HOME/directory -c policy.xml -u {username} -p {password} \
+  -k {keystorePassword}
+        </source>
+
+        <p><b><i>Excluding Sub-Directories To Traverse From a Target</i></b></p>
+
+        <p>The following command demonstrates registering products from a target directory, <i>$HOME/directory</i>, where the tool will not traverse the sub-directory <i>CONTEXT</i>:
+        </p>
+
+        <source>
+% harvest $HOME/directory -c policy.xml -D "CONTEXT"
+        </source>
+      </subsection>
+
+      <subsection name="Persistence Mode">
+        <p>The Harvest Tool can be run in persistence mode through an XML-RPC accessible web service called a daemon. Under this scenario, the Harvest Tool wakes up periodically, inspects a target directory or directories, and registers the latest products. This section details how to set this up.
+        </p>
+
+        <p>In order to run the tool through the daemon, the command-line option flags <i>-P</i> and <i>-w</i> need to be used. This tells the Harvest Tool the port number to use and how long to sleep in between crawls, respectively. When the daemon is running, it can be accessed through the following url: <i>http://localhost:{port number}/xmlrpc</i>. The following command demonstrates launching the Harvest Tool through the daemon on port <i>9001</i>, where it will wait 120 seconds in between crawls:
+        </p>
+
+        <source>
+% harvest -c policy.xml -u {username} -p {password} \
+  -k {keystorePassword} -l log.txt -P 9001 -w 120
+        </source>
+
+        <p>After running the above command, the daemon will be accessible at <i>http://localhost:9001/xmlrpc</i>.
+        </p>
+
+        <p>In order to stop the daemon from running, a daemon controller is needed. The <i>bin/</i> directory of the Harvest Tool release package contains a shell script, <i>harvest-ctrl</i>, and a batch file, <i>harvest-ctrl.bat</i>, which are used to gracefully shut down the daemon service on a UNIX-like and Windows system, respectively. In addition, they can provide a few additional statistics about the crawling.
+        </p>
+
+        <p>The following table describes the command-line options available for <i>harvest-ctrl</i>:
+        </p>
+
+        <table>
+          <tr><th>Command-Line Option</th><th>Description</th></tr>
+          <tr><td>--url</td><td>Specify the URL of the daemon service running the Harvest Tool.</td></tr>
+          <tr><td>--operation</td><td>Specify a single operation to perform. List of valid operations can be found in the next table.</td></tr>
+        </table>
+
+        <p>The following table describes the operation names available to pass with the <i>--operation</i> command-line option:
+        </p>
+
+        <table>
+          <tr><th>Operation Option</th><th>Description</th></tr>
+          <tr><td>--stop</td><td>Specify this operation to shut down the daemon service.</td></tr>
+          <tr><td>--isRunning</td><td>Gives an indication whether the daemon service is running.</td></tr>
+          <tr><td>--getNumCrawls</td><td>Returns the number of crawls that have occurred.</td></tr>
+          <tr><td>--getWaitInterval</td><td>Returns the time, in seconds, that the crawler has to wait in between crawls.</td></tr>
+          <tr><td>--getMilisCrawling</td><td>Returns the amount of milliseconds spent crawling.</td></tr>
+          <tr><td>--getAverageCrawlTime</td><td>Returns the average amount of time, in milliseconds, spent during each crawl.</td></tr>
+        </table>
+
+        <p>The following examples demonstrate how to run <i>harvest-ctrl</i> using a few of the different operations. For demonstration purposes, assume that the daemon service is located at the following url: <i>http://localhost:9001/xmlrpc</i>.
+        </p>
+
+        <p><b><i>Determine the Status of the Daemon Service</i></b></p>
+
+        <p>The following command is used to find out if the daemon service is still running:
+        </p>
+
+        <source>
+% harvest-ctrl --url http://localhost:9001/xmlrpc --operation --isRunning
+        </source>
+
+        <p><b><i>Shutdown the Daemon Service</i></b></p>
+
+        <p>The following command demonstrates shutting down the daemon service:
+        </p>
+
+        <source>
+% harvest-ctrl --url http://localhost:9001/xmlrpc --operation --stop
+        </source>
+      </subsection>
+   </section>
+
+   <section name="Harvest Policy File">
+     <p>The Harvest policy file is an XML-based configuration file that the tool uses to find products and register their metadata. The schema for the policy file can be found in the <a href="index-policy-schema.html">Harvest Policy Schema</a> section. This section describes the valid elements that are available to setup the policy file to do PDS4 data product registration.
+     </p>
+
+     <subsection name="PDS4 Data Product Registration">
+       <p>The following is an example of a policy file to perform registration of PDS4 data products:
+       </p>
+
+       <source>
+&lt;policy&gt;
+  &lt;registryPackage&gt;
+    &lt;name&gt;Harvest Package Example&lt;/name&gt;
+    &lt;description&gt;This is an example of a Harvest run.&lt;/description&gt;
+  &lt;/registryPackage&gt;
+
+  &lt;collections&gt;
+    &lt;file&gt;$HOME/VG2PLS_archive/data/Collection_Data.xml&lt;/file&gt;
+    &lt;file&gt;$HOME/VG2PLS_archive/document/Collection_document.xml&lt;/file&gt;
+  &lt;/collections&gt;
+
+  &lt;directories&gt;
+    &lt;path&gt;$HOME/VG2PLS_archive&lt;/path&gt;
+    &lt;fileFilter&gt;
+      &lt;include&gt;*.xml&lt;/include&gt;
+    &lt;/fileFilter&gt;
+    &lt;directoryFilter&gt;
+      &lt;exclude&gt;CONTEXT&lt;/exclude&gt;
+    &lt;/directoryFilter&gt;
+  &lt;/directories&gt;
+
+  &lt;accessUrls registerFileUrls="true"&gt;
+    &lt;accessUrl&gt;
+      &lt;baseUrl&gt;http://pds.nasa.gov/pds4&lt;/baseUrl&gt;
+      &lt;offset&gt;$HOME&lt;/offset&gt;
+    &lt;/accessUrl&gt;
+  &lt;/accessUrls&gt;
+
+  &lt;checksums generate="true"&gt;
+    &lt;manifest&gt;$HOME/VG2PLS_archive/vg2pls_archive.md5&lt;/manifest&gt;
+  &lt;/checksums&gt;
+
+  &lt;storageIngestion&gt;
+    &lt;serverUrl&gt;http://localhost:9000&lt;/serverUrl&gt;
+  &lt;/storageIngestion&gt;
+
+  &lt;candidates&gt;
+    &lt;namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01"/&gt;
+
+    &lt;productMetadata objectType="Product_Document"&gt;
+      &lt;xPath slotName="information_model_version"&gt;
+        //Identification_Area/information_model_version
+      &lt;/xPath&gt;
+      &lt;xPath slotName="product_class"&gt;
+        //Identification_Area/product_class
+      &lt;/xPath&gt;
+      &lt;xPath slotName="alternate_id"&gt;
+        //Identification_Area/Alias_List/Alias/alternate_id
+      &lt;/xPath&gt;
+      &lt;xPath slotName="alternate_title"&gt;
+        //Identification_Area/Alias_List/Alias/alternate_title
+      &lt;/xPath&gt;
+      &lt;xPath slotName="citation_author_list"&gt;
+        //Identification_Area/Citation_Information/author_list
+      &lt;/xPath&gt;
+      &lt;xPath slotName="citation_editor_list"&gt;
+        //Identification_Area/Citation_Information/editor_list
+      &lt;/xPath&gt;
+      &lt;xPath slotName="citation_publication_year"&gt;
+        //Identification_Area/Citation_Information/publication_year
+      &lt;/xPath&gt;
+      &lt;xPath slotName="citation_keywords"&gt;
+        //Identification_Area/Citation_Information/keywords
+      &lt;/xPath&gt;
+      &lt;xPath slotName="citation_description"&gt;
+        //Identification_Area/Citation_Information/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="modification_date"&gt;
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      &lt;/xPath&gt;
+      &lt;xPath slotName="modification_version_id"&gt;
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      &lt;/xPath&gt;
+      &lt;xPath slotName="modification_description"&gt;
+        //Identification_Area/Modification_History/Modification_Detail/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="external_reference_description"&gt;
+        //Reference_List/External_Reference/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_revision_id"&gt;
+        //Document_Description/revision_id
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_name"&gt;
+        //Document_Description/document_name
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_doi"&gt;
+        //Document_Description/doi
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_author_list"&gt;
+        //Document_Description/author_list
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_editor_list"&gt;
+        //Document_Description/editor_list
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_acknowledgement_text"&gt;
+        //Document_Description/acknowledgement_text
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_copyright"&gt;
+        //Document_Description/copyright
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_description"&gt;
+        //Document_Description/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="document_publication_date"&gt;
+        //Document_Description/publication_date
+      &lt;/xPath&gt;
+    &lt;/productMetadata&gt;
+
+    &lt;productMetadata objectType="Product_Observational"&gt;
+      &lt;xPath slotName="information_model_version"&gt;
+        //Identification_Area/information_model_version
+      &lt;/xPath&gt;
+      &lt;xPath slotName="product_class"&gt;
+        //Identification_Area/product_class
+      &lt;/xPath&gt;
+      &lt;xPath slotName="alternate_id"&gt;
+        //Identification_Area/Alias_List/Alias/alternate_id
+      &lt;/xPath&gt;
+      &lt;xPath slotName="alternate_title"&gt;
+        //Identification_Area/Alias_List/Alias/alternate_title
+      &lt;/xPath&gt;
+      &lt;xPath slotName="citation_author_list"&gt;
+        //Identification_Area/Citation_Information/author_list
+      &lt;/xPath&gt;
+      &lt;xPath slotName="citation_editor_list"&gt;
+        //Identification_Area/Citation_Information/editor_list
+      &lt;/xPath&gt;
+      &lt;xPath slotName="citation_publication_year"&gt;
+        //Identification_Area/Citation_Information/publication_year
+      &lt;/xPath&gt;
+      &lt;xPath slotName="citation_keywords"&gt;
+        //Identification_Area/Citation_Information/keywords
+      &lt;/xPath&gt;
+      &lt;xPath slotName="citation_description"&gt;
+        //Identification_Area/Citation_Information/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="modification_date"&gt;
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      &lt;/xPath&gt;
+      &lt;xPath slotName="modification_version_id"&gt;
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      &lt;/xPath&gt;
+      &lt;xPath slotName="modification_description"&gt;
+        //Identification_Area/Modification_History/Modification_Detail/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="observation_comment"&gt;
+        //Observation_Area/comment
+      &lt;/xPath&gt;
+      &lt;xPath slotName="observation_start_date_time"&gt;
+        //Observation_Area/Time_Coordinates/start_date_time
+      &lt;/xPath&gt;
+      &lt;xPath slotName="observation_stop_date_time"&gt;
+        //Observation_Area/Time_Coordinates/stop_date_time
+      &lt;/xPath&gt;
+      &lt;xPath slotName="observation_local_mean_solar_time"&gt;
+        //Observation_Area/Time_Coordinates/local_mean_solar_time
+      &lt;/xPath&gt;
+      &lt;xPath slotName="observation_local_true_solar_time"&gt;
+        //Observation_Area/Time_Coordinates/local_true_solar_time
+      &lt;/xPath&gt;
+      &lt;xPath slotName="observation_solar_longitute"&gt;
+        //Observation_Area/Time_Coordinates/solar_longitude
+      &lt;/xPath&gt;
+      &lt;xPath slotName="primary_result_type"&gt;
+        //Observation_Area/Primary_Result_Description/type
+      &lt;/xPath&gt;
+      &lt;xPath slotName="primary_result_purpose"&gt;
+        //Observation_Area/Primary_Result_Description/purpose
+      &lt;/xPath&gt;
+      &lt;xPath slotName="primary_result_data_regime"&gt;
+        //Observation_Area/Primary_Result_Description/data_regime
+      &lt;/xPath&gt;
+      &lt;xPath slotName="primary_result_reduction_level"&gt;
+        //Observation_Area/Primary_Result_Description/reduction_level
+      &lt;/xPath&gt;
+      &lt;xPath slotName="primary_result_description"&gt;
+        //Observation_Area/Primary_Result_Description/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="investigation_name"&gt;
+        //Observation_Area/Investigation_Area/name
+      &lt;/xPath&gt;
+      &lt;xPath slotName="investigation_type"&gt;
+        //Observation_Area/Investigation_Area/type
+      &lt;/xPath&gt;
+      &lt;xPath slotName="observing_system_name"&gt;
+        //Observation_Area/Observing_System/name
+      &lt;/xPath&gt;
+      &lt;xPath slotName="observing_system_description"&gt;
+        //Observation_Area/Observing_System/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="observing_system_component_name"&gt;
+        //Observation_Area/Observing_System/Observing_System_Component/name
+      &lt;/xPath&gt;
+      &lt;xPath slotName="observing_system_component_description"&gt;
+        //Observation_Area/Observing_System/Observing_System_Component/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="observing_system_component_type"&gt;
+        //Observation_Area/Observing_System/Observing_System_Component/\
+        observing_system_component_type
+      &lt;/xPath&gt;
+      &lt;xPath slotName="target_name"&gt;
+        //Observation_Area/Target_Identification/name
+      &lt;/xPath&gt;
+      &lt;xPath slotName="target_alternate_designation"&gt;
+        //Observation_Area/Target_Identification/alternate_designation
+      &lt;/xPath&gt;
+      &lt;xPath slotName="target_type"&gt;
+        //Observation_Area/Target_Identification/type
+      &lt;/xPath&gt;
+      &lt;xPath slotName="target_description"&gt;
+        //Observation_Area/Target_Identification/description
+      &lt;/xPath&gt;
+      &lt;xPath slotName="spacecraft_clock_start_count"&gt;
+        //Observation_Area/Mission_Area/dph:spacecraft_clock_start_count
+      &lt;/xPath&gt;
+      &lt;xPath slotName="spacecraft_clock_stop_count"&gt;
+        //Observation_Area/Mission_Area/dph:spacecraft_clock_stop_count
+      &lt;/xPath&gt;
+      &lt;xPath slotName="external_reference_description"&gt;
+        //Reference_List/External_Reference/description
+      &lt;/xPath&gt;
+    &lt;/productMetadata&gt;
+
+  &lt;/candidates&gt;
+&lt;/policy&gt;
+       </source>
+
+       <p>The policy file is made up of the following complex type elements: <i>registryPackage</i>, <i>collections</i>, <i>directories</i>, <i>checksums</i>, <i>storageIngestion</i>, <i>accessUrls</i>, <i>candidates</i>, and <i>productMetadata</i>.
+       </p>
+
+       <p><b><i>registryPackage</i></b></p>
+
+       <p>Each time the Harvest Tool runs, it creates a package in the registry to group the product registrations together. Specify this element to give a registry package a name and/or description. The following table describes the elements that are allowed:
+       </p>
+
+       <table>
+         <tr><th>Element Name</th><th>Description</th></tr>
+         <tr><td>name</td><td>Specify a package name. If this element is not specified, the default is to create a package with the name <i>Harvest-Package_&lt;current datetimestamp&gt;</i>.</td></tr>
+         <tr><td>description</td><td>Specify a package description. If this element is not specified, the default is to create a description that lists the targets that were specified in the policy config file.</td></tr>
+       </table>
+
+       <p><b><i>collections</i></b></p>
+
+       <p>Specify this element to tell the Harvest Tool to register the collections first before crawling a target directory. This is required if the target directory contains collections that are co-located with its members and in order to distinguish primary versus secondary members.
+       </p>
+
+       <p>The following table describes the elements that are allowed:
+       </p>
+
+       <table>
+         <tr><th>Element Name</th><th>Description</th></tr>
+         <tr><td>file</td><td>Specify a collection file. Specify this element tag more than once to point to multiple collection files.</td></tr>
+       </table>
+
+       <p>In the example above, the Harvest Tool will register the following collections before crawling the target directory:
+       </p>
+
+       <ul>
+         <li>$HOME/VG2PLS_archive/data/Collection_Data.xml</li>
+         <li>$HOME/VG2PLS_archive/document/Collection_document.xml</li>
+       </ul>
+
+       <p>Once these collections are registered, the primary and secondary members are cached in memory and as the Harvest Tool crawls through a target directory, any secondary members will be identified and will not be registered. In addition, a <i>SKIP</i> message will be issued in the log report to indicate that the tool has identified a non-primary member.
+       </p>
+
+       <p>In the case where the target directory consists of a hierarchy structure where the collection product is located one-level above its members, much like the PDS context bundle, then there is no need to specify the collections in the Harvest policy config file. Under this scenario, the collections will be registered first before the Harvest Tool traverses down the sub-directory containing the members.
+       </p>
+
+       <p><b><i>directories</i></b></p>
+
+       <p>Specify this element to tell the Harvest Tool where to crawl for data products. The following table describes the elements that are allowed:
+       </p>
+
+       <table>
+         <tr><th>Element Name</th><th>Description</th></tr>
+         <tr><td>path</td><td>Specify a directory path to start crawling. Specify this element tag more than once to point to multiple directories to crawl.</td></tr>
+         <tr><td>fileFilter</td><td>Specify one or more <i>include</i> elements, where each element value contains a pattern to look for when crawling a target directory for files to register. If omitted, the default is to get all files within a directory.</td></tr>
+         <tr><td>directoryFilter</td><td>Specify one or more <i>exclude</i> elements, where each element value contains a pattern to look for when crawling a target directory for sub-directories to ignore.</td></tr>
+       </table>
+
+       <p>In the example above, the Harvest tool will crawl the directory location, <i>$HOME/VG2PLS_archive</i>, looking for files that have a <i>.xml</i> file extension. The default is to touch all files in the directory if the <i>filePattern</i> element is omitted from the policy file. In addition, the <i>CONTEXT</i> directory will be ignored while traversing the target directory.
+       </p>
+
+       <p><b><i>accessUrls</i></b></p>
+
+       <p>Specify this element to provide links to the physical data products. The links will be placed in the registry as slots under the slot name <i>accessUrl</i>. An optional attribute can be specified named <i>registerFileUrls</i>, which if set to <i>true</i>, will create <i>file</i> url links.
+       </p>
+
+       <p>The <i>accessUrls</i> element can contain multiple <i>accessUrl</i> element tags. The following table describes the elements that are allowed within the <i>accessUrl</i> tag:
+       </p>
+
+       <table>
+         <tr><th>Element Name</th><th>Description</th></tr>
+         <tr><td>baseUrl</td><td>Specify a base url.</td></tr>
+         <tr><td>offset</td><td>Optionally specify an offset to nix from the absolute path of each product before appending it to the base url. Can be specified more than once.</td></tr>
+       </table>
+
+       <p>In the policy example above, the Harvest Tool will nix any absolute path of a product starting with <i>$HOME</i> before appending it to the starting base url of <i>http://pds.nasa.gov/pds4</i>. The following example demonstrates what the resulting access url will be for a registered product located at <i>$HOME/VG2PLS_archive/browse/Collection_Browse.xml</i>:
+       </p>
+
+       <source>
+http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
+       </source>
+
+       <p><b><i>checksums</i></b></p>
+
+       <p>Checksum generation is turned off by default in the Harvest Tool. In order to turn this on, set the <i>generate</i> attribute to <i>true</i>. The following table describes the elements that are allowed within the <i>checksum</i> tag:
+       </p>
+
+       <table>
+         <tr><th>Element Name</th><th>Description</th></tr>
+         <tr><td>manifest</td><td>Specify a checksum manifest file. Can be specified more than once.</td></tr>
+       </table>
+
+       <p>The following describes the tool behavior based on the different checksum settings:
+       </p>
+
+       <p><i>Checksum Manifest File Provided and Generate Flag Set To true</i></p>
+
+       <p>Harvest will generate a checksum for each file encountered and verify it against the supplied checksum file. If the data file checksum was supplied in the label, Harvest will verify it as well. A warning message will be issued in the log report if a mismatch occurs. In any case, the generated checksum value is included in the associated Product_File_Repository product.
+       </p>
+
+       <p><i>Checksum Manifest File Provided and Generate Flag Set To False (or not set at all)</i></p>
+
+       <p>Harvest will not generate checksums, but will use the value from the checksum manifest file to populate the associated Product_File_Repository product. If a data file checksum was supplied in the label, compare the value from the manifest against the value supplied in the label and issue a warning if there is a mismatch.
+       </p>
+
+       <p><i>Checksum Manifest File Not Provided and Generate Flag Set To True</i></p>
+
+       <p>Harvest will generate a checksum for each file encountered and verify it against an optional checksum supplied in the label. If there is a mismatch, a warning message will be issued in the log report. The generated value is included in the associated Product_File_Repository product.
+       </p>
+
+       <p><i>Checksum Manifest File Not Provided and Generate Flag Set To False</i></p>
+
+       <p>Harvest will not generate checksums. If the data file checksum was supplied in the label, populate the associated Product_File_Repository product with that value.
+       </p>
+
+       <p><b><i>storageIngestion</i></b></p>
+
+       <p>Specify this element to tell the Harvest Tool to ingest data products to the PDS Storage Service. The following table describes the elements that are allowed:
+       </p>
+
+       <table>
+         <tr><th>Element Name</th><th>Description</th></tr>
+         <tr><td>serverUrl</td><td>Specify the url to the PDS Storage Service.</td></tr>
+       </table>
+
+       <p>In the example above, the Harvest Tool will ingest data products to the PDS Storage Service at <i>http://localhost:9000</i>. When a data product is ingested to the PDS Storage, it returns a product id which is a reference to the ingested product. This id is placed as a slot in the registry under the slot name <i>storageServiceProductId</i>.
+       </p>
+
+       <p><b><i>candidates</i></b></p>
+
+       <p>Specify this element to tell the Harvest Tool what product types to register and what metadata to extract from a data product. This is a required element in the policy file. The following table describes the elements that are allowed:
+       </p>
+
+       <table>
+         <tr><th>Element Name</th><th>Description</th></tr>
+         <tr><td>namespace</td><td>Specify to allow the Harvest Tool to extract metadata that is in a namespace other than the default PDS namespace.</td></tr>
+         <tr><td>productMetadata</td><td>Specify to tell the tool what object types and what metadata to register.</td></tr>
+       </table>
+
+       <p>By default, the Harvest Tool defines the default namespace to be the PDS namespace. To override this default, specify the <i>default</i> attribute in the namespace element and give it a value of <i>true</i>. The following sets the <i>dph</i> namespace to be the default namespace in Harvest:
+       </p>
+
+       <source>
+&lt;candidates&gt;
+  &lt;namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01" default="true"/&gt;
+          ...
+       </source>
+
+       <p>Namespaces need to be defined in the Harvest policy file only if the metadata to be extracted exists in a namespace other than the PDS namespace. In the example above, a namespace with the prefix <i>dph</i> and uri <i>http://pds.nasa.gov/schema/pds4/dph/v01</i> has been defined. This means that any xPath expressions defined in the policy file will be able to use the <i>dph</i> prefix to be able to extract metadata that are within the dph namespace. xPaths will be explained in greater detail in the <i>productMetadata</i> section.
+       </p>
+
+       <p><b><i>productMetadata</i></b></p>
+
+       <p>Specify this element to tell the Harvest Tool what metadata to register. It requires an attribute called <i>objectType</i> that tells the Harvest Tool what product types to register. The following table describes the elements that are allowed:
+       </p>
+
+       <table>
+         <tr><th>Element Name</th><th>Description</th></tr>
+         <tr><td>xPath</td><td>Specify an XPath expression to extract metadata.</td></tr>
+       </table>
+
+       <p>In the example above, the policy file tells the Harvest Tool to look for and register the <i>Product_Document</i> and <i>Product_Observational</i> object types.
+       </p>
+
+       <p>Also in the example is a set of <i>xPath</i> elements found under each <i>productMetadata</i> element. This defines what metadata to extract from the different products. XPath is a query language that uses path expressions to select nodes in an XML document. These path expressions look very much like expressions in a traditional computer file system. In its simplest form, prepending a <i>//</i> before a name will find the element no matter where it is in the XML file.
+       </p>
+
+       <p>The following XPath expression will find the <i>start_date_time</i> element within the default namespace, no matter where this element is located in the file:
+       </p>
+
+       <source>
+//start_date_time
+       </source>
+
+       <p>The following XPath expression will find the <i>spacecraft_clock_start_count</i> element within the dph namespace, no matter where this element is located in the file:
+       </p>
+
+       <source>
+//dph:spacecraft_clock_start_count
+       </source>
+
+
+       <p>The following XPath expression will find all <i>information_model_version</i> elements that are children of <i>Identification_Area</i> within the default namespace:
+       </p>
+
+       <source>
+//Identification_Area/information_model_version
+       </source>
+
+       <p>The following XPath expression will find all <i>name</i> elements that are children of <i>Target_Identification</i> and that have a value of <i>MARS</i>:
+       </p>
+
+       <source>
+//Target_Identification/name[text()="MARS"]
+       </source>
+
+       <p>For a more detailed explanation on XPath, go to your favorite search engine and type <i>XPath tutorial</i>.
+       </p>
+
+       <p>The <i>slotName</i> attribute within the <i>xPath</i> element allows the renaming of metadata element names when they are registered as slots in the registry. By default, the slot name is set to the element name that results from an xpath expression. For example, for the xpath expression, //Target_Identification/name, the slot name will be set to <i>name</i>.
+       </p>
+
+       <p>The following demonstrates setting the policy file to find any <i>name</i> elements that are children of <i>Target_Identification</i> and setting the slot name to <i>target_identification_name</i>:
+       </p>
+
+       <source>
+&lt;xPath slotName="target_identification_name"&gt;//Target_Identification/name&lt;/xPath&gt;
+       </source>
+     </subsection>
+  </section>
+
+  <section name="Report Format">
+    <p>This section describes the contents of the Harvest Tool report. At this time, the Harvest Tool only outputs a series of log messages. The log will report the success or failure of a discovered product attempting to be registered. Additionally, any syntactical errors in a discovered product are reported. A log consists of a severity level, file name, and a message. The following is an example of some of the log messages that can be expected from the Harvest Tool:
+     </p>
+
+     <source>
+PDS Harvest Tool Log
+
+Version                     Version 1.7.0-dev
+Time                        Thu, Sep 18 2014 at 03:18:45 PM
+Target(s)                   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS]
+File Inclusions             [*.xml]
+Severity Level              INFO
+Registry Location           http://localhost:8080/registry
+Registry Package Name       Harvest Package Example
+Registration Package GUID   urn:uuid:e421ff5f-1e2a-447f-b035-2e2b6d01b507
+
+INFO:   XML extractor set to the following default namespace: \
+http://pds.nasa.gov/pds4/pds/v1
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/bundle_checksums.txt] \
+Processing checksum manifest.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Begin processing.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+line 58: Mapping reference type 'bundle_to_investigation' to 'investigation_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+line 69: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+line 78: Mapping reference type 'is_instrument' to 'instrument_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+line 88: Mapping reference type 'bundle_to_target' to 'target_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+line 134: Mapping reference type 'bundle_has_browse_collection' to 'collection_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+line 140: Mapping reference type 'bundle_has_context_collection' to 'collection_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+line 146: Mapping reference type 'bundle_has_data_collection' to 'collection_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+line 152: Mapping reference type 'bundle_has_document_collection' to 'collection_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+line 158: Mapping reference type 'bundle_has_schema_collection' to 'collection_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Setting LIDVID-based association, 'urn:nasa:pds:context:investigation:mission.voyager::1.0', under slot name 'investigation_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:instrument_host:instrument_host.vg2', under slot name 'instrument_host_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:instrument:instrument.pls__vg2', under slot name 'instrument_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Setting LIDVID-based association, 'urn:nasa:pds:context:target:planet.jupiter::1.0', under slot name 'target_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Setting LID-based association, 'urn:nasa:pds:example.dph.sample_archive_bundle:browse', under slot name 'collection_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Setting LID-based association, 'urn:nasa:pds:example.dph.sample_archive_bundle:context', under slot name 'collection_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Setting LID-based association, 'urn:nasa:pds:example.dph.sample_archive_bundle:data', under slot name 'collection_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Setting LID-based association, 'urn:nasa:pds:example.dph.sample_archive_bundle:document', under slot name 'collection_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Setting LID-based association, 'urn:nasa:pds:example.dph.sample_archive_bundle:xml_schema', under slot name 'collection_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Created access url: http://starbase.jpl.nasa.gov/pds4/1300/dph_example_archive_VG2PLS/Product_Bundle.xml
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Successfully registered product: urn:nasa:pds:example.dph.sample_archive_bundle::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Product has the following GUID: urn:uuid:244f8300-2b2a-4eaf-8747-7d0b9ba6301d
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Capturing file information for Product_Bundle.xml
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Found checksum in the manifest for file object '/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml': e19987082da554aea2f91e8206b34c11
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Capturing file object metadata for README.TXT
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Found checksum in the manifest for file object '/Users/mcayanan/pds4/dph_example_archive_VG2PLS/README.TXT': e7da7276dd553f30496b868a2007bf5b
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+No checksum to compare against in the product label for file object '/Users/mcayanan/pds4/dph_example_archive_VG2PLS/README.TXT'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+line 102: Setting file type for the file object 'README.TXT' to 'Text'
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Created access url: http://starbase.jpl.nasa.gov/pds4/1300/dph_example_archive_VG2PLS/Product_Bundle.xml
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Successfully registered product: urn:nasa:pds:example.dph.sample_archive_bundle:product_bundle.xml::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Product has the following GUID: urn:uuid:f416c468-3f6c-451a-ad4c-2a5ed2730ce4
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Created access url: http://starbase.jpl.nasa.gov/pds4/1300/dph_example_archive_VG2PLS/README.TXT
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Successfully registered product: urn:nasa:pds:example.dph.sample_archive_bundle:readme.txt::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/Product_Bundle.xml] \
+Product has the following GUID: urn:uuid:be482995-780c-4b41-8d04-fde0e23176c2
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Begin processing.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Mapping reference type 'inventory_has_member_product' to 'member_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+line 61: Mapping reference type 'collection_to_investigation' to 'investigation_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+line 72: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+line 81: Mapping reference type 'is_instrument' to 'instrument_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+line 91: Mapping reference type 'collection_to_target' to 'target_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+line 99: Mapping reference type 'collection_curated_by_node' to 'node_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+line 101: Mapping reference type 'collection_to_context' to 'context_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+line 101: Mapping reference type 'collection_to_context' to 'context_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+line 101: Mapping reference type 'collection_to_context' to 'context_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+line 101: Mapping reference type 'collection_to_context' to 'context_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Setting LIDVID-based association, 'urn:nasa:pds:context:investigation:mission.voyager::1.0', under slot name 'investigation_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:instrument_host:instrument_host.vg2', under slot name 'instrument_host_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:instrument:instrument.pls__vg2', under slot name 'instrument_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Setting LIDVID-based association, 'urn:nasa:pds:context:target:planet.jupiter::1.0', under slot name 'target_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:node:node.ppi-ucla', under slot name 'node_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:instrument_host:instrument_host.vg2', under slot name 'context_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:instrument:instrument.pls__vg2', under slot name 'context_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.voyager', under slot name 'context_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:target:planet.jupiter', under slot name 'context_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Created access url: http://starbase.jpl.nasa.gov/pds4/1300/dph_example_archive_VG2PLS/data/Collection_data.xml
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Successfully registered product: urn:nasa:pds:example.dph.sample_archive_bundle:data::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Product has the following GUID: urn:uuid:bf5eccd3-3f0c-4fe9-9eaf-3517d5d7a21d
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Capturing file information for Collection_data.xml
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Found checksum in the manifest for file object '/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml': dd32522a6d225ce3fdacf716fe10dafd
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Capturing file object metadata for Collection_data_inventory.tab
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Found checksum in the manifest for file object '/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data_inventory.tab': 2cef640ecac021083ef1fe3f03f4c6f6
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Checksum in the manifest '2cef640ecac021083ef1fe3f03f4c6f6' matches the checksum in the product label '2cef640ecac021083ef1fe3f03f4c6f6' for file object \
+'/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data_inventory.tab'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+line 118: Setting file type for the file object 'Collection_data_inventory.tab' to 'Inventory'
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Created access url: http://starbase.jpl.nasa.gov/pds4/1300/dph_example_archive_VG2PLS/data/Collection_data.xml
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Successfully registered product: urn:nasa:pds:example.dph.sample_archive_bundle:data:collection_data.xml::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Product has the following GUID: urn:uuid:2da0dcda-63b9-49d6-8e29-20a2028d6e7e
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Created access url: http://starbase.jpl.nasa.gov/pds4/1300/dph_example_archive_VG2PLS/data/Collection_data_inventory.tab
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Successfully registered product: urn:nasa:pds:example.dph.sample_archive_bundle:data:collection_data_inventory.tab::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/Collection_data.xml] \
+Product has the following GUID: urn:uuid:3dc660c6-ff43-4851-97eb-aa92ad00e2b3
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Begin processing.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+line 54: Mapping reference type 'data_to_investigation' to 'investigation_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+line 65: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+line 74: Mapping reference type 'is_instrument' to 'instrument_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+line 84: Mapping reference type 'data_to_target' to 'target_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+line 103: Mapping reference type 'data_curated_by_node' to 'node_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.voyager', under slot name 'investigation_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:instrument_host:instrument_host.vg2', under slot name 'instrument_host_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:instrument:instrument.pls__vg2', under slot name 'instrument_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:target:planet.jupiter', under slot name 'target_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Setting LID-based association, 'urn:nasa:pds:context:node:node.ppi-ucla', under slot name 'node_ref'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Created access url: http://starbase.jpl.nasa.gov/pds4/1300/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Successfully registered product: urn:nasa:pds:example.dph.sample_archive_bundle:data:tablechar.vg2-j-pls-5-summ-ele-mom-96.0sec-v1.0::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Product has the following GUID: urn:uuid:020b4ac7-9c03-4419-9385-e1103376834d
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Capturing file information for ele_mom_tblChar.xml
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Found checksum in the manifest for file object '/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml': 34842f734ac4df865b2a0a78163a6aab
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Capturing file object metadata for ELE_MOM.TAB
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Found checksum in the manifest for file object '/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ELE_MOM.TAB': 2b555c42a7e7b4981407c9a824237f4a
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Checksum in the manifest '2b555c42a7e7b4981407c9a824237f4a' matches the checksum in the product label '2b555c42a7e7b4981407c9a824237f4a' for file object \
+'/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ELE_MOM.TAB'.
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+line 108: Setting file type for the file object 'ELE_MOM.TAB' to 'Observation'
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Created access url: http://starbase.jpl.nasa.gov/pds4/1300/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Successfully registered product: urn:nasa:pds:example.dph.sample_archive_bundle:data:tablechar.vg2-j-pls-5-summ-ele-mom-96.0sec-v1.0:ele_mom_tblchar.xml::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Product has the following GUID: urn:uuid:0668a9d6-1d1a-4208-ac7a-f7cbee3cdd08
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Created access url: http://starbase.jpl.nasa.gov/pds4/1300/dph_example_archive_VG2PLS/data/ELE_MOM.TAB
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Successfully registered product: urn:nasa:pds:example.dph.sample_archive_bundle:data:tablechar.vg2-j-pls-5-summ-ele-mom-96.0sec-v1.0:ele_mom.tab::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/data/ele_mom_tblChar.xml] \
+Product has the following GUID: urn:uuid:f976c4d3-04f7-4d59-b272-1a6bea2855a8
+
+...
+
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/browse/Collection_browse.xml] \
+Successfully registered association to urn:nasa:pds:example.dph.sample_archive_bundle:browse:collection_browse.xml::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/browse/Collection_browse.xml] \
+Association has the following GUID: urn:uuid:7dd4f202-3b9a-41eb-a2a8-633b202e93c4
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/browse/Collection_browse.xml] \
+Successfully registered association to urn:nasa:pds:example.dph.sample_archive_bundle:browse:collection_browse_inventory.tab::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/browse/Collection_browse.xml] \
+Association has the following GUID: urn:uuid:2ab90a3f-58f8-4778-b648-129803cf07f3
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/browse/ele_mom_browse.xml] \
+Successfully registered association to urn:nasa:pds:example.dph.sample_archive_bundle:browse:ele_mom:ele_mom_browse.xml::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/browse/ele_mom_browse.xml] \
+Association has the following GUID: urn:uuid:5d9bc31f-9315-4ec9-857b-df0c4d0ef0e2
+SUCCESS:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/browse/ele_mom_browse.xml] \
+Successfully registered association to urn:nasa:pds:example.dph.sample_archive_bundle:browse:ele_mom:ele_mom.pdf::1.0
+INFO:   [/Users/mcayanan/pds4/dph_example_archive_VG2PLS/browse/ele_mom_browse.xml] \
+Association has the following GUID: urn:uuid:226d96bf-cecd-42a7-913a-db76f33861df
+
+Summary:
+
+13 of 13 file(s) processed, 5 other file(s) skipped
+0 error(s), 7 warning(s)
+
+13 of 13 products registered.
+24 of 24 ancillary products registered.
+
+Product Types Registered:
+2 Product_Document
+1 Product_Browse
+1 Product_Observational
+3 Product_File_Text
+1 Product_Bundle
+5 Product_Collection
+24 Product_File_Repository
+
+9 of 9 checksums in the manifest matched the supplied value in their product label, 1 value(s) not checked.
+
+35 of 35 associations registered.
+
+
+End of Log
+
+     </source>
+    </section>
+
+    <section name="Common Errors">
+      <p>Execution of the Harvest Tool may result in the following message appearing in the log:
+      </p>
+
+      <source>
+INFO:   XML extractor set to the following default namespace: \
+http://pds.nasa.gov/schema/pds4/pds
+INFO:   [/pds4/VG2PLS_archive/Product_Bundle.xml] Begin processing.
+SKIP:   [/pds4/VG2PLS_archive/Product_Bundle.xml] No product_class element found.
+      </source>
+
+      <p>The message above is normally the result of a namespace mismatch between the Harvest Tool configuration and the product labels being registered. See the <a href="#PDS4_Data_Product_Registration">PDS4 Data Product Registration</a> section above for details on specifying the namespace in the configuration file. By the way, the message could be telling the truth where the product label does not contain the &lt;product_class&gt; element. If this is the case, then the file is not a valid PDS product label.
+      </p>
+    </section>
+  </body>
+</document>
