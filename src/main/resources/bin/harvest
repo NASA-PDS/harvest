@@ -48,5 +48,5 @@ HARVEST_JAR=`ls ${LIB_DIR}/harvest-*.jar`
 
 # Executes Harvest via the executable jar file
 # Arguments are passed in to the tool via '$@'
-"${JAVA_HOME}"/bin/java -Dpds.registry="http://localhost:8080/registry" -Dpds.security.keystore="${KEYSTORE}" -jar ${HARVEST_JAR} "$@"
+"${JAVA_HOME}"/bin/java -Xms256m -Xmx1024m -Dpds.registry="http://localhost:8080/registry" -Dpds.security.keystore="${KEYSTORE}" -jar ${HARVEST_JAR} "$@"
 
