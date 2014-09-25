@@ -559,6 +559,12 @@
         //Collection/description
       </xPath>
       <!-- File_Area_Inventory -->
+      <xPath slotName="file_name">
+        //File_Area_Inventory/File/file_name
+      </xPath>
+      <xPath slotName="member_count">
+        //File_Area_Inventory/Inventory/records
+      </xPath>
     </productMetadata>
 
     <productMetadata objectType="Product_Context">
@@ -1509,6 +1515,9 @@
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="resource_ref">
+       <modelValue>
+         bundle_to_resource
+       </modelValue>
        <modelValue>
          data_to_resource
        </modelValue>
