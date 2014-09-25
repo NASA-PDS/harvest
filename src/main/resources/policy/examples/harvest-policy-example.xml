@@ -417,6 +417,13 @@
       <xPath slotName="target_description">
         //Observation_Area/Target_Identification/description
       </xPath>
+      <!-- Mission_Area -->
+      <xPath slotName="spacecraft_clock_start_count">
+        //Observation_Area/Mission_Area/dph:spacecraft_clock_start_count
+      </xPath>
+      <xPath slotName="spacecraft_clock_stop_count">
+        //Observation_Area/Mission_Area/dph:spacecraft_clock_stop_count
+      </xPath>
       <!-- Reference_List -->
       <xPath slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
