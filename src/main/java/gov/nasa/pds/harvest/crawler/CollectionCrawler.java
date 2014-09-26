@@ -47,8 +47,8 @@ public class CollectionCrawler extends PDSProductCrawler {
       handleFile(collection);
       Constants.collections.add(collection);
     } else {
-      log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "File does not have read "
-          + "permissions: " + collection));
+      log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Unreadable target: "
+          + collection));
     }
   }
 }

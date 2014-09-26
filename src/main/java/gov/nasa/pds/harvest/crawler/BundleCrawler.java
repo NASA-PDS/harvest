@@ -48,8 +48,8 @@ public class BundleCrawler extends CollectionCrawler {
     if (bundle.canRead()) {
       handleFile(bundle);
     } else {
-      log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "File does not have read "
-          + "permissions: " + bundle));
+      log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Unreadable target: "
+          + bundle));
     }
     try {
       InventoryReader reader = new InventoryXMLReader(bundle);
