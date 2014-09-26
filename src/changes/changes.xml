@@ -30,6 +30,9 @@
       <action dev="mcayanan" type="update" issues="PDS-299">
         Harvest: Delete harvest package if run results in no registrations
       </action>
+      <action dev="mcayanan" type="update">
+        Updated to set LIDVID members of a Collection Product in a slot instead of a hard association.
+      </action>
       <action dev="mcayanan" type="fix">
         Fixed to create LIDs all in lowercase letters for Product_File_Repository products.
       </action>
