@@ -682,23 +682,29 @@ public class HarvestLauncher {
       setupExtractor(policy.getCandidates().getNamespace());
       createRegistryPackage(policy);
       doHarvesting(policy);
-      if ( (HarvestStats.numProductsRegistered == 0) &&
-           (HarvestStats.numAncillaryProductsRegistered == 0) &&
-           (HarvestStats.numAssociationsRegistered == 0) ) {
-        log.log(new ToolsLogRecord(ToolsLevel.INFO, "Nothing registered. "
-           + "Deleting package '" + registryPackageGuid + "'."));
-        deleteRegistryPackage(registryPackageGuid);
-      }
-      closeHandlers();
     } catch (JAXBException je) {
       //Don't do anything
     } catch (ParseException pEx) {
       System.err.println("Command-line parse failure: "
             + pEx.getMessage());
-      System.exit(1);
     } catch (Exception e) {
+      e.printStackTrace();
       System.out.println(e.getMessage());
-      System.exit(1);
+    } finally {
+      if ( (registryPackageGuid != null) &&
+          ((HarvestStats.numProductsRegistered == 0) &&
+          (HarvestStats.numAncillaryProductsRegistered == 0) &&
+          (HarvestStats.numAssociationsRegistered == 0)) ) {
+        log.log(new ToolsLogRecord(ToolsLevel.INFO, "Nothing registered. "
+          + "Deleting package '" + registryPackageGuid + "'."));
+        try {
+          deleteRegistryPackage(registryPackageGuid);
+        } catch (Exception e) {
+          System.out.println("Error occurred while trying to delete empty "
+            + "package '" + registryPackageGuid + "': " + e.getMessage());
+        }
+      }
+      closeHandlers();
     }
   }
 
