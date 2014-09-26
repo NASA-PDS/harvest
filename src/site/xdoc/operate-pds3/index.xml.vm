@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Copyright 2010-2012, by the California Institute of Technology.
+  Copyright 2010-2014, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology Transfer
   at the California Institute of Technology.
@@ -18,13 +18,13 @@
 
 <document>
   <properties>
-    <title>Operation</title>
+    <title>Operation (PDS3)</title>
     <author email="Michael.Cayanan@jpl.nasa.gov">Michael Cayanan</author>
     <author email="Sean.Hardman@jpl.nasa.gov">Sean Hardman</author>
   </properties>
 
   <body>
-    <section name="Operation">
+    <section name="Operation (PDS3)">
       <p>This document describes how to operate the Harvest Tool software for use with PDS3 data product registration. The following topics can be found in this document:
       </p>
 
