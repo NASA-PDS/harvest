@@ -26,7 +26,7 @@
 
   <groupId>gov.nasa.pds.2010.ingest</groupId>
   <artifactId>harvest</artifactId>
-  <version>1.7.0-dev</version>
+  <version>1.7.0</version>
   <packaging>jar</packaging>
 
   <name>Harvest Tool</name>
