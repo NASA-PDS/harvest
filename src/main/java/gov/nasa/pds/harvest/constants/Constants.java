@@ -1,4 +1,4 @@
-// Copyright 2006-2013, by the California Institute of Technology.
+// Copyright 2006-2014, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -148,7 +148,7 @@ public class Constants {
           "//*[ends-with(name(),'Member_Entry')]"
         + " | //Internal_Reference");
     coreXpathsMap.put(FILE_OBJECTS, "//*[starts-with(name(), 'File_Area')]/"
-        + "File | //Document_Format_Set/Document_File");
+        + "File | //Document_File");
     coreXpathsMap.put(DATA_CLASS, DATA_CLASS_XPATH);
   }
 

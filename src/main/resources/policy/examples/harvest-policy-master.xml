@@ -321,11 +321,19 @@
       <xPath slotName="document_editor_list">//Document/editor_list</xPath>
       <xPath slotName="document_acknowledgement_text">//Document/acknowledgement_text</xPath>
       <xPath slotName="document_copyright">//Document/copyright</xPath>
-      <xPath slotName="document_description">//Document/description</xPath>
       <xPath slotName="document_publication_date">//Document/publication_date</xPath>
-      <!-- Document_Format_Set -->
+      <xPath slotName="document_editions">//Document/document_editions</xPath>
+      <xPath slotName="document_description">//Document/description</xPath>
+      <!-- Document_Edition -->
+      <xPath slotName="document_edition_name">//Document_Edition/edition_name</xPath>
+      <xPath slotName="document_edition_files">//Document_Edition/files</xPath>
+      <xPath slotName="document_edition_language">//Document_Edition/language</xPath>
+      <!-- Document_File -->
+      <xPath slotName="document_standard_id">
+        //Document_File/document_standard_id
+      </xPath>
       <xPath slotName="file_name">
-        //Document_Format_Set/Document_File/file_name
+        //Document_File/file_name
       </xPath>
     </productMetadata>
 

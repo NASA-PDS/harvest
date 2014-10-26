@@ -1670,7 +1670,7 @@
     </fileTypeMap>
     <fileTypeMap value="Document">
       <modelValue>
-        Document_Format_Set
+        Document_Edition
       </modelValue>
     </fileTypeMap>
   </fileTypes>
