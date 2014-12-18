@@ -68,7 +68,7 @@ public class Pds3FileMetExtractor implements MetExtractor {
     Metadata metadata = new Metadata();
     metadata.addMetadata(Constants.OBJECT_TYPE, Constants.FILE_OBJECT_PRODUCT_TYPE);
     String lid = config.getLidContents().getPrefix();
-    if (config.getLidContents().isAppendParentDir()) {
+    if (config.getLidContents().isAppendDir()) {
       String parent = product.getParent();
       String offset = config.getLidContents().getOffset();
       if (offset != null) {
@@ -98,6 +98,7 @@ public class Pds3FileMetExtractor implements MetExtractor {
       lid += ":" + FilenameUtils.getBaseName(product.toString());
     }
     lid += ":" + product.getName();
+    lid = lid.toLowerCase();
     metadata.addMetadata(Constants.LOGICAL_ID, lid);
     metadata.addMetadata(Constants.PRODUCT_VERSION, "1.0");
     List<String> fileTypes = new ArrayList<String>();

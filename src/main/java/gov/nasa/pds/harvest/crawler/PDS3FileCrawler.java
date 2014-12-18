@@ -18,12 +18,21 @@ import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds3FileMetExtractor;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.policy.FileFilter;
 import gov.nasa.pds.harvest.stats.HarvestStats;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.filefilter.AndFileFilter;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
+import org.apache.commons.io.filefilter.NotFileFilter;
 
 /**
  * Crawler class intended to be used for registering PDS3 files as
@@ -46,6 +55,23 @@ public class PDS3FileCrawler extends PDS3ProductCrawler {
   public PDS3FileCrawler() {
     generateChecksums = false;
     checksumManifest = new HashMap<File, String>();
+    List<IOFileFilter> fileFilters = new ArrayList<IOFileFilter>();
+    fileFilters.add(FileFilterUtils.fileFileFilter());
+    fileFilters.add(new NotFileFilter(new WildcardOSFilter("*.LBL")));
+    FILE_FILTER = new AndFileFilter(fileFilters);
+  }
+
+  public void setFileFilter(FileFilter filter) {
+    List<IOFileFilter> filters = new ArrayList<IOFileFilter>();
+    filters.add(FileFilterUtils.fileFileFilter());
+    if (filter != null && !filter.getInclude().isEmpty()) {
+      filters.add(new WildcardOSFilter(filter.getInclude()));
+    } else if (filter != null && !filter.getExclude().isEmpty()) {
+      filters.add(new NotFileFilter(new WildcardOSFilter(
+          filter.getExclude())));
+    }
+    filters.add(new NotFileFilter(new WildcardOSFilter("*.LBL")));
+    FILE_FILTER = new AndFileFilter(filters);
   }
 
   protected Metadata getMetadataForProduct(File product) {
@@ -84,7 +110,17 @@ public class PDS3FileCrawler extends PDS3ProductCrawler {
         passFlag = false;
         ++HarvestStats.numFilesSkipped;
       } else {
-        ++HarvestStats.numGoodFiles;
+        // Check for associated label file
+        String labelFileName = FilenameUtils.getBaseName((product.getName())) + ".LBL";
+        File label = new File(product.getParent(), labelFileName);
+        if (label.exists()) {
+          ++HarvestStats.numFilesSkipped;
+          log.log(new ToolsLogRecord(ToolsLevel.SKIP,
+              "An associated label file exists '" + label.toString() + "'", product));
+          passFlag = false;
+        } else {
+          ++HarvestStats.numGoodFiles;
+        }
       }
     } catch (SecurityException se) {
       passFlag = false;

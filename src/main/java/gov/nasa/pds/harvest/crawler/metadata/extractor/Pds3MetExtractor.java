@@ -199,7 +199,7 @@ public class Pds3MetExtractor implements MetExtractor {
     for (String elementValue : elementValues) {
       lid += ":" + elementValue;
     }
-    if (lidContents.isAppendParentDir()) {
+    if (lidContents.isAppendDir()) {
       String parent = product.getParent();
       String offset = lidContents.getOffset();
       if (offset != null) {

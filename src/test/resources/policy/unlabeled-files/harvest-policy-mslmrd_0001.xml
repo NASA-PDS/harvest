@@ -14,10 +14,7 @@
 
 <policy>
   <pds3Directories>
-    <path>$HOME/test/msl/MSLMRD_0001/EXTRAS/EDR/CRUISE</path>
-    <fileFilter>
-      <exclude>*.LBL</exclude>
-    </fileFilter>
+    <path>$HOME/test/msl/MSLMRD_0001</path>
   </pds3Directories>
 
   <checksums generate="true"/>
@@ -39,8 +36,8 @@
       <!-- The file name will be appended to formulate the lid for each
        Product_File_Repository product registered.
        -->
-      <lidContents prefix="urn:nasa:jpl:msl-m-mardi-2-edr-vid-v1.0:extras:edr:cruise" appendParentDir="true">
-        <offset>$HOME/test/msl/MSLMRD_0001/EXTRAS/EDR/CRUISE</offset>
+      <lidContents prefix="urn:nasa:pds:msl-m-mardi-2-edr-vid-v1.0" appendDir="true">
+        <offset>$HOME/test/msl/MSLMRD_0001</offset>
       </lidContents>
 
       <staticMetadata>
