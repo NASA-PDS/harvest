@@ -86,14 +86,14 @@
       <xPath slotName="attribute_type">
         //DD_Attribute_Full/type
       </xPath>
-      <xPath slotName="attribute_name_space_id">
-        //DD_Attribute_Full/name_space_id
+      <xPath slotName="attribute_namespace_id">
+        //DD_Attribute_Full/namespace_id
       </xPath>
       <xPath slotName="attribute_nillable_flag">
         //DD_Attribute_Full/nillable_flag
       </xPath>
-      <xPath slotName="attribute_submitter_id">
-        //DD_Attribute_Full/submitter_id
+      <xPath slotName="attribute_submitter_name">
+        //DD_Attribute_Full/submitter_name
       </xPath>
       <xPath slotName="attribute_definition">
         //DD_Attribute_Full/definition
@@ -110,6 +110,7 @@
       <xPath slotName="attribute_concept">
         //DD_Attribute_Full/attribute_concept
       </xPath>
+      <!-- DD_Attribute_Full/Terminological_Entry -->
       <xPath slotName="attribute_term_entry_name">
         //DD_Attribute_Full/Terminological_Entry/name
       </xPath>
@@ -122,6 +123,7 @@
       <xPath slotName="attribute_term_entry_preferred_flag">
         //DD_Attribute_Full/Terminological_Entry/preferred_flag
       </xPath>
+      <!-- DD_Attribute_Full/DD_Value_Domain_Full -->
       <xPath slotName="attribute_value_domain_enumeration_flag">
         //DD_Attribute_Full/DD_Value_Domain_Full/enumeration_flag
       </xPath>
@@ -149,23 +151,24 @@
       <xPath slotName="attribute_value_domain_unit_of_measure_type">
         //DD_Attribute_Full/DD_Value_Domain_Full/unit_of_measure_type
       </xPath>
+      <xPath slotName="attribute_value_domain_conceptual_domain">
+        //DD_Attribute_Full/DD_Value_Domain_Full/conceptual_domain
+      </xPath>
       <xPath slotName="attribute_value_domain_specified_unit_id">
         //DD_Attribute_Full/DD_Value_Domain_Full/specified_unit_id
       </xPath>
+      <!-- DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value -->
       <xPath slotName="attribute_value_domain_value">
-        //DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value/value
+        //DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value_Full/value
       </xPath>
       <xPath slotName="attribute_value_domain_value_meaning">
-        //DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value/value_meaning
+        //DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value_Full/value_meaning
       </xPath>
       <xPath slotName="attribute_value_domain_value_begin_date">
-        //DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value/value_begin_date
+        //DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value_Full/value_begin_date
       </xPath>
       <xPath slotName="attribute_value_domain_value_end_date">
-        //DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value/value_end_date
-      </xPath>
-      <xPath slotName="attribute_value_domain_conceptual_domain">
-        //DD_Attribute_Full/DD_Value_Domain_Full/conceptual_domain
+        //DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value_Full/value_end_date
       </xPath>
     </productMetadata>
 
@@ -374,11 +377,11 @@
       <xPath slotName="class_type">
         //DD_Class_Full/type
       </xPath>
-      <xPath slotName="class_name_space_id">
-        //DD_Class_Full/name_space_id
+      <xPath slotName="class_namespace_id">
+        //DD_Class_Full/namespace_id
       </xPath>
-      <xPath slotName="class_submitter_id">
-        //DD_Class_Full/submitter_id
+      <xPath slotName="class_submitter_name">
+        //DD_Class_Full/submitter_name
       </xPath>
       <xPath slotName="class_definition">
         //DD_Class_Full/definition
@@ -391,6 +394,12 @@
       </xPath>
       <xPath slotName="class_registration_authority_id">
         //DD_Class_Full/registration_authority_id
+      </xPath>
+      <xPath slotName="class_abstract_flag">
+        //DD_Class_Full/abstract_flag
+      </xPath>
+      <xPath slotName="class_element_flag">
+        //DD_Class_Full/element_flag
       </xPath>
       <xPath slotName="class_association_local_identifier">
         //DD_Class_Full/DD_Association/local_identifier
