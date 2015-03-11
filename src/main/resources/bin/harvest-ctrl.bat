@@ -30,6 +30,6 @@ set PARENT_DIR=%SCRIPT_DIR%..
 set LIB_DIR=%PARENT_DIR%\lib
 
 :: Execute the application.
-"%JAVA_HOME%"\bin\java -Djava.ext.dirs="%LIB_DIR%" gov.nasa.jpl.oodt.cas.crawl.daemon.CrawlDaemonController %*
+"%JAVA_HOME%"\bin\java -Xms256m -Xmx1024m -Djava.ext.dirs="%LIB_DIR%" gov.nasa.jpl.oodt.cas.crawl.daemon.CrawlDaemonController %*
 
 :END
