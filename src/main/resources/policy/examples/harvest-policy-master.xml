@@ -12,6 +12,10 @@
     Product_Class_Definition
     Product_Collection
     Product_Context
+    Product_DIP
+    Product_DIP_Deep_Archive
+    Product_SIP
+    Product_SIP_Deep_Archive
     Product_*_PDS3
 
   $Id$
@@ -70,116 +74,6 @@
       <!-- File_Area_Browse -->
       <xPath slotName="file_name">
         //File_Area_Browse/File/file_name
-      </xPath>
-    </productMetadata>
-
-    <productMetadata objectType="Product_DIP">
-      <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
-        //Identification_Area/information_model_version
-      </xPath>
-      <xPath slotName="product_class">
-        //Identification_Area/product_class
-      </xPath>
-      <xPath slotName="alternate_id">
-        //Identification_Area/Alias_List/Alias/alternate_id
-      </xPath>
-      <xPath slotName="alternate_title">
-        //Identification_Area/Alias_List/Alias/alternate_title
-      </xPath>
-      <xPath slotName="citation_author_list">
-        //Identification_Area/Citation_Information/author_list
-      </xPath>
-      <xPath slotName="citation_editor_list">
-        //Identification_Area/Citation_Information/editor_list
-      </xPath>
-      <xPath slotName="citation_publication_year">
-        //Identification_Area/Citation_Information/publication_year
-      </xPath>
-      <xPath slotName="citation_keyword">
-        //Identification_Area/Citation_Information/keyword
-      </xPath>
-      <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/description
-      </xPath>
-      <xPath slotName="modification_date">
-        //Identification_Area/Modification_History/Modification_Detail/modification_date
-      </xPath>
-      <xPath slotName="modification_version_id">
-        //Identification_Area/Modification_History/Modification_Detail/version_id
-      </xPath>
-      <xPath slotName="modification_description">
-        //Identification_Area/Modification_History/Modification_Detail/description
-      </xPath>
-      <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
-        //Reference_List/External_Reference/doi
-      </xPath>
-      <xPath slotName="external_reference_text">
-        //Reference_List/External_Reference/reference_text
-      </xPath>
-      <xPath slotName="external_reference_description">
-        //Reference_List/External_Reference/description
-      </xPath>
-      <!-- Information_Package_Component -->
-      <!-- Dissemination_Information_Package -->
-      <xPath slotName="dip_description">
-        //Dissemination_Information_Package/description
-      </xPath>
-    </productMetadata>
-
-    <productMetadata objectType="Product_DIP_Deep_Archive">
-      <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
-        //Identification_Area/information_model_version
-      </xPath>
-      <xPath slotName="product_class">
-        //Identification_Area/product_class
-      </xPath>
-      <xPath slotName="alternate_id">
-        //Identification_Area/Alias_List/Alias/alternate_id
-      </xPath>
-      <xPath slotName="alternate_title">
-        //Identification_Area/Alias_List/Alias/alternate_title
-      </xPath>
-      <xPath slotName="citation_author_list">
-        //Identification_Area/Citation_Information/author_list
-      </xPath>
-      <xPath slotName="citation_editor_list">
-        //Identification_Area/Citation_Information/editor_list
-      </xPath>
-      <xPath slotName="citation_publication_year">
-        //Identification_Area/Citation_Information/publication_year
-      </xPath>
-      <xPath slotName="citation_keyword">
-        //Identification_Area/Citation_Information/keyword
-      </xPath>
-      <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/description
-      </xPath>
-      <xPath slotName="modification_date">
-        //Identification_Area/Modification_History/Modification_Detail/modification_date
-      </xPath>
-      <xPath slotName="modification_version_id">
-        //Identification_Area/Modification_History/Modification_Detail/version_id
-      </xPath>
-      <xPath slotName="modification_description">
-        //Identification_Area/Modification_History/Modification_Detail/description
-      </xPath>
-      <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
-        //Reference_List/External_Reference/doi
-      </xPath>
-      <xPath slotName="external_reference_text">
-        //Reference_List/External_Reference/reference_text
-      </xPath>
-      <xPath slotName="external_reference_description">
-        //Reference_List/External_Reference/description
-      </xPath>
-      <!-- Information_Package_Component -->
-      <!-- DIP_Deep_Archive -->
-      <xPath slotName="dip_deep_archive_description">
-        //DIP_Deep_Archive/description
       </xPath>
     </productMetadata>
 
@@ -715,61 +609,6 @@
       <!-- File_Area_Binary -->
       <xPath slotName="file_name">
         //File_Area_Binary/File/file_name
-      </xPath>
-    </productMetadata>
-
-    <productMetadata objectType="Product_SIP">
-      <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
-        //Identification_Area/information_model_version
-      </xPath>
-      <xPath slotName="product_class">
-        //Identification_Area/product_class
-      </xPath>
-      <xPath slotName="alternate_id">
-        //Identification_Area/Alias_List/Alias/alternate_id
-      </xPath>
-      <xPath slotName="alternate_title">
-        //Identification_Area/Alias_List/Alias/alternate_title
-      </xPath>
-      <xPath slotName="citation_author_list">
-        //Identification_Area/Citation_Information/author_list
-      </xPath>
-      <xPath slotName="citation_editor_list">
-        //Identification_Area/Citation_Information/editor_list
-      </xPath>
-      <xPath slotName="citation_publication_year">
-        //Identification_Area/Citation_Information/publication_year
-      </xPath>
-      <xPath slotName="citation_keyword">
-        //Identification_Area/Citation_Information/keyword
-      </xPath>
-      <xPath slotName="citation_description">
-        //Identification_Area/Citation_Information/description
-      </xPath>
-      <xPath slotName="modification_date">
-        //Identification_Area/Modification_History/Modification_Detail/modification_date
-      </xPath>
-      <xPath slotName="modification_version_id">
-        //Identification_Area/Modification_History/Modification_Detail/version_id
-      </xPath>
-      <xPath slotName="modification_description">
-        //Identification_Area/Modification_History/Modification_Detail/description
-      </xPath>
-      <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
-        //Reference_List/External_Reference/doi
-      </xPath>
-      <xPath slotName="external_reference_text">
-        //Reference_List/External_Reference/reference_text
-      </xPath>
-      <xPath slotName="external_reference_description">
-        //Reference_List/External_Reference/description
-      </xPath>
-      <!-- Information_Package_Component -->
-      <!-- Submission_Information_Package -->
-      <xPath slotName="dip_description">
-        //Submission_Information_Package/description
       </xPath>
     </productMetadata>
 
