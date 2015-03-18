@@ -1897,6 +1897,11 @@
   </references>
 
   <fileTypes>
+    <fileTypeMap value="Document">
+      <modelValue>
+        Document_Edition
+      </modelValue>
+    </fileTypeMap>
     <fileTypeMap value="Binary">
       <modelValue>
         File_Area_Binary
@@ -1932,6 +1937,11 @@
         File_Area_Observational_Supplemental
       </modelValue>
     </fileTypeMap>
+    <fileTypeMap value="SIP">
+      <modelValue>
+        File_Area_SIP_Deep_Archive
+      </modelValue>
+    </fileTypeMap>
     <fileTypeMap value="Spice">
       <modelValue>
         File_Area_SPICE_Kernel
@@ -1955,11 +1965,6 @@
     <fileTypeMap value="Schema">
       <modelValue>
         File_Area_XML_Schema
-      </modelValue>
-    </fileTypeMap>
-    <fileTypeMap value="Document">
-      <modelValue>
-        Document_Edition
       </modelValue>
     </fileTypeMap>
   </fileTypes>
