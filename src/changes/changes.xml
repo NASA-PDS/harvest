@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Copyright 2010-2014, by the California Institute of Technology.
+  Copyright 2010-2015, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology Transfer
   at the California Institute of Technology.
@@ -23,7 +23,7 @@
   </properties>
 
   <body>
-    <release version="1.8.0" date="TBD" description="TBD">
+    <release version="1.8.0" date="2015-03-31" description="This release of the Harvest Tool is a component of the integrated release 5.1.0 of the PDS4 System. This is an operational release of the system components to date.">
       <action dev="shardman, mcayanan" type="update">
         Added arguments in the shell scripts and Windows batch files to bump up the heap space memory allocation.
       </action>
