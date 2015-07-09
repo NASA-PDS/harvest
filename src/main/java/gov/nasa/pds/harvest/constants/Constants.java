@@ -1,4 +1,4 @@
-// Copyright 2006-2014, by the California Institute of Technology.
+// Copyright 2006-2015, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -13,15 +13,12 @@
 // $Id$
 package gov.nasa.pds.harvest.constants;
 
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.util.LidVid;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Class that holds constants used in Harvest.
@@ -101,17 +98,17 @@ public class Constants {
 
   /** The slots to add to a product to be registered. */
   public static final String SLOT_METADATA = "slot_metadata";
-  
-  /** The unit attribute stores the units for an element in a PDS4 product 
-   *  label. 
+
+  /** The unit attribute stores the units for an element in a PDS4 product
+   *  label.
    */
   public static final String UNIT = "unit";
-  
-  /** The byte unit value is the de facto unit value when determining file 
-   * sizes for a registered product. 
+
+  /** The byte unit value is the de facto unit value when determining file
+   * sizes for a registered product.
    */
   public static final String BYTE = "byte";
-  
+
   /**
    * The XPath to the data classes in the PDS4 label.
    */
@@ -152,13 +149,11 @@ public class Constants {
     coreXpathsMap.put(DATA_CLASS, DATA_CLASS_XPATH);
   }
 
-  /** Map of files to metadata needed for registering associations. */
-  public static final Map<File, Metadata> registeredProducts =
-    new LinkedHashMap<File, Metadata>();
-
   public static final String URN_ILLEGAL_CHARACTERS = "[%/\\\\?#\"&<>\\[\\]^`\\{\\|\\}~]";
 
   public static List<LidVid> nonPrimaryMembers = new ArrayList<LidVid>();
 
   public static List<File> collections = new ArrayList<File>();
+
+  public static final int DEFAULT_BATCH_MODE = 50;
 }

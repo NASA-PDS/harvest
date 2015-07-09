@@ -1,4 +1,4 @@
-// Copyright 2006-2010, by the California Institute of Technology.
+// Copyright 2006-2015, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -10,8 +10,8 @@
 // may be required before exporting such information to foreign countries or
 // providing access to foreign nationals.
 //
-// $Id: AssociationPublisherAction.java 9158 2011-06-15 16:08:22Z mcayanan $
-package gov.nasa.pds.harvest.association;
+// $Id$
+package gov.nasa.pds.harvest.crawler.actions;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -24,6 +24,9 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
 
+import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerAction;
+import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerActionPhases;
+import gov.nasa.jpl.oodt.cas.crawl.structs.exceptions.CrawlerActionException;
 import gov.nasa.jpl.oodt.cas.filemgr.structs.exceptions.IngestException;
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.constants.Constants;
@@ -45,19 +48,23 @@ import gov.nasa.pds.registry.model.Slot;
  * @author mcayanan
  *
  */
-public class AssociationPublisher {
+public class AssociationAction extends CrawlerAction {
   /** Logger object. */
   private static Logger log = Logger.getLogger(
-      AssociationPublisher.class.getName());
+      AssociationAction.class.getName());
+
+  /** Crawler action ID. */
+  private final String ID = "AssociationRegistrationAction";
+
+  /** Crawler action description. */
+  private final String DESCRIPTION = "Registers associations associated with "
+    + "a registered product.";
 
   /** The registry url. */
   private URL registryUrl;
 
   /** The registry ingester. */
   private RegistryIngester registryIngester;
-
-  /** The usernname of the authorized user. */
-  private String user;
 
   /**
    * Constructor.
@@ -68,8 +75,13 @@ public class AssociationPublisher {
    * @throws RegistryClientException
    * @throws MalformedURLException
    */
-  public AssociationPublisher(String registryUrl, RegistryIngester ingester)
+  public AssociationAction(String registryUrl, RegistryIngester ingester)
   throws MalformedURLException {
+    super();
+    String []phases = {CrawlerActionPhases.POST_INGEST_SUCCESS};
+    setPhases(Arrays.asList(phases));
+    setId(ID);
+    setDescription(DESCRIPTION);
     this.registryUrl = new URL(registryUrl);
     this.registryIngester = ingester;
   }
@@ -83,17 +95,18 @@ public class AssociationPublisher {
    * @return 'true' if the associations were registered successfully.
    *
    */
-  public boolean publish(File product, Metadata productMetadata) {
+  public boolean performAction(File product, Metadata metadata)
+      throws CrawlerActionException {
     boolean passFlag = false;
 
-    if (!productMetadata.containsKey(Constants.REFERENCES)) {
+    if (!metadata.containsKey(Constants.REFERENCES)) {
       return passFlag;
     }
 
     for (ReferenceEntry refEntry: (List<ReferenceEntry>)
-        productMetadata.getAllMetadata(Constants.REFERENCES)) {
+        metadata.getAllMetadata(Constants.REFERENCES)) {
       try {
-        Association association = createAssociation(product, productMetadata,
+        Association association = createAssociation(product, metadata,
             refEntry);
         String targetReference = refEntry.getLogicalID();
         if (refEntry.hasVersion()) {
@@ -101,12 +114,6 @@ public class AssociationPublisher {
         }
         String guid = registryIngester.ingest(registryUrl, product,
             association, targetReference);
-        log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
-            "Successfully registered association to " + targetReference,
-            product));
-        log.log(new ToolsLogRecord(ToolsLevel.INFO,
-            "Association has the following GUID: " + guid, product));
-        ++HarvestStats.numAssociationsRegistered;
         passFlag = true;
       } catch (IngestException i) {
         log.log(new ToolsLogRecord(ToolsLevel.SEVERE,

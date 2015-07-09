@@ -254,7 +254,7 @@
 
 &lt;/candidates&gt;
         </source>
-        
+
         <p>Note that the XPaths are utilizing the <i>prefix</i> values from the namespaces defined in the policy.
         </p>
       </subsection>
@@ -269,6 +269,14 @@
 
         <p>The <i>-c</i> flag option specifies the policy configuration file while the <i>-l</i> flag option specifies the log file for the Harvest output.
         </p>
+
+        <p>For large registrations (i.e. million products), it is recommended to run Harvest with the batch mode flag for faster performance:
+        </p>
+
+        <source>
+%> harvest -c harvest-policy-example.xml -l harvest.log -b
+        </source>
+
       </subsection>
     </section>
 
@@ -283,6 +291,7 @@
         <tr><td>-p, --password</td><td>Specify a password associated with the username.</td></tr>
         <tr><td>-k, --keystore-pass</td><td>Specify a keystore password associated with the keystore file being passed into the tool.</td></tr>
         <tr><td>-l, --log-file</td><td>Specify a log file name. Default is standard out.</td></tr>
+        <tr><td>-b, --batch-mode</td><td>Tells the tool to perform batch registration. Optionally specify an integer value that represents how many products to ingest at one time. The default is to register 50 products at a time if no value is specified.</td></tr>
         <tr><td>-v, --verbose</td><td>Specify the message severity level and above to include in the log (0=Debug, 1=Info, 2=Warning, 3=Error). Default is Info and above (level 1).</td></tr>
         <tr><td>-e, --regexp</td><td>Specify file patterns to look for when registering products from a target directory. Each pattern must be surrounded by quotes (i.e. -e "*.xml").</td></tr>
         <tr><td>-D, --ignore-dir</td><td>Specify patterns to look for when traversing a target directory for sub-directories to ignore. Each pattern must be surrounded by quotes (i.e. -D "CATALOG").</td></tr>
@@ -294,7 +303,7 @@
     </section>
 
     <section name="Advanced Usage">
-      <p>This section describes more advanced ways to run the tool, as well as its behaviors and caveats. 
+      <p>This section describes more advanced ways to run the tool, as well as its behaviors and caveats.
       </p>
 
       <subsection name="Tool Execution">
@@ -308,6 +317,7 @@
           <li>Registering Products From a Single Target</li>
           <li>Registering Products From Multiple Targets</li>
           <li>Registering Products From Targets Specified In The Policy File</li>
+          <li>Registering a Million Products</li>
           <li>Registering Products To A Secured Registry Instance</li>
           <li>Excluding Sub-Directories To Traverse From a Target</li>
         </ul>
@@ -337,6 +347,22 @@
 
         <source>
 % harvest -c policy.xml
+        </source>
+
+        <p><b><i>Registering a Million Products</i></b></p>
+
+        <p>When registering a million products in a single run, it is recommended to run Harvest with the <i>-b, --batch-mode</i> flag option for faster performance. The following command demonstrates running Harvest in batch mode:
+        </p>
+
+        <source>
+% harvest -c policy.xml -b
+        </source>
+
+        <p>In batch mode, the default is to register 50 products at a time. To modify this behavior, specify an integer value after the <i>-b, --batch-mode</i> flag. The following command demonstrates running Harvest in batch mode, where it will register 100 products at a time.
+        </p>
+
+        <source>
+% harvest -c policy.xml -b 100
         </source>
 
         <p><b><i>Registering Products To A Secured Registry Instance</i></b></p>

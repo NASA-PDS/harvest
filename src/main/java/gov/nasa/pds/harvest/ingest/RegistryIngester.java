@@ -1,4 +1,4 @@
-// Copyright 2006-2014, by the California Institute of Technology.
+// Copyright 2006-2015, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -48,6 +48,7 @@ import gov.nasa.pds.registry.model.Association;
 import gov.nasa.pds.registry.model.ExtrinsicObject;
 import gov.nasa.pds.registry.model.PagedResponse;
 import gov.nasa.pds.registry.model.Slot;
+import gov.nasa.pds.registry.model.naming.DefaultIdentifierGenerator;
 import gov.nasa.pds.registry.query.AssociationFilter;
 import gov.nasa.pds.registry.query.ExtrinsicFilter;
 import gov.nasa.pds.registry.query.RegistryQuery;
@@ -75,6 +76,20 @@ public class RegistryIngester implements Ingester {
   /** The security context. */
   private SecurityContext securityContext;
 
+  /** Indicates the number of concurrent registrations to make during
+   *  batch mode.
+   */
+  private int batchMode;
+
+  /** Registry Client object. */
+  private RegistryClient client;
+
+  /** UUID generator. */
+  private DefaultIdentifierGenerator idGenerator;
+
+  /** Batch Manager object associated with this Ingester. */
+  private BatchManager batchManager;
+
   /**
    * Default constructor.
    *
@@ -101,7 +116,22 @@ public class RegistryIngester implements Ingester {
     this.user = user;
     this.securityContext = securityContext;
     this.registryPackageGuid = packageGuid;
+    this.batchMode = 0;
+    this.batchManager = null;
+    idGenerator = new DefaultIdentifierGenerator();
+  }
 
+  private RegistryClient getClient(URL registry)
+      throws RegistryClientException {
+    if (client == null) {
+      client = new RegistryClient(registry.toString(),
+          securityContext, user, password);
+      if (registryPackageGuid != null) {
+        client.setRegistrationPackageId(registryPackageGuid);
+      }
+      this.batchManager = new BatchManager(client);
+    }
+    return client;
   }
 
   /**
@@ -128,8 +158,7 @@ public class RegistryIngester implements Ingester {
   public boolean hasProduct(URL registry, String lid)
   throws CatalogException {
     try {
-      RegistryClient client = new RegistryClient(registry.toString(),
-          securityContext, user, password);
+      RegistryClient client = getClient(registry);
       ExtrinsicObject extrinsic = client.getLatestObject(lid,
           ExtrinsicObject.class);
       return true;
@@ -158,8 +187,7 @@ public class RegistryIngester implements Ingester {
           String vid) throws CatalogException {
     RegistryClient client = null;
     try {
-      client = new RegistryClient(registry.toString(),
-          securityContext, user, password);
+      client = getClient(registry);
     } catch (RegistryClientException rc) {
       throw new CatalogException(rc.getMessage());
     }
@@ -201,22 +229,15 @@ public class RegistryIngester implements Ingester {
    */
   public String ingest(URL registry, File prodFile, Metadata met)
   throws IngestException {
-      String guid = "";
       String lid = met.getMetadata(Constants.LOGICAL_ID);
       String vid = met.getMetadata(Constants.PRODUCT_VERSION);
       String lidvid = lid + "::" + vid;
       try {
         if (!hasProduct(registry, lid, vid)) {
           ExtrinsicObject extrinsic = createProduct(met, prodFile);
-          guid = ingest(registry, extrinsic);
-          log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
-              "Successfully registered product: " + lidvid, prodFile));
-          log.log(new ToolsLogRecord(ToolsLevel.INFO,
-              "Product has the following GUID: " + guid, prodFile));
-          met.addMetadata(Constants.PRODUCT_GUID, guid);
-          ++HarvestStats.numProductsRegistered;
-          HarvestStats.addProductType(extrinsic.getObjectType(), prodFile);
-          return guid;
+          ingest(registry, prodFile, extrinsic);
+          met.addMetadata(Constants.PRODUCT_GUID, extrinsic.getGuid());
+          return extrinsic.getGuid();
         } else {
           ++HarvestStats.numProductsNotRegistered;
           String message = "Product already exists: " + lidvid;
@@ -224,22 +245,12 @@ public class RegistryIngester implements Ingester {
               prodFile));
           throw new IngestException(message);
         }
-      } catch (RegistryServiceException r) {
-        ++HarvestStats.numProductsNotRegistered;
-        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
-            r.getMessage(), prodFile));
-        throw new IngestException(r.getMessage());
       } catch (CatalogException c) {
         ++HarvestStats.numProductsNotRegistered;
         log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error while "
             + "checking for the existence of a registered product: "
             + c.getMessage(), prodFile));
         throw new IngestException(c.getMessage());
-      } catch (RegistryClientException rce) {
-        ++HarvestStats.numProductsNotRegistered;
-        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
-            "Error while initializing RegistryClient: " + rce.getMessage()));
-        throw new IngestException(rce.getMessage());
       }
   }
 
@@ -252,6 +263,7 @@ public class RegistryIngester implements Ingester {
      */
   private ExtrinsicObject createProduct(Metadata metadata, File prodFile) {
     ExtrinsicObject product = new ExtrinsicObject();
+    product.setGuid(idGenerator.getGuid());
     Set<Slot> slots = new HashSet<Slot>();
     Set metSet = metadata.getHashtable().entrySet();
     for (Iterator i = metSet.iterator(); i.hasNext();) {
@@ -314,20 +326,16 @@ public class RegistryIngester implements Ingester {
    * the registry client.
    * @throws CatalogException
    */
-  private String ingest(URL registry, ExtrinsicObject extrinsic)
-  throws RegistryServiceException, RegistryClientException, CatalogException {
-    String guid = "";
-    RegistryClient client = new RegistryClient(registry.toString(),
-        securityContext, user, password);
-    if (!registryPackageGuid.isEmpty()) {
-      client.setRegistrationPackageId(registryPackageGuid);
-    }
+  private void ingest(URL registry, File product, ExtrinsicObject extrinsic)
+  throws CatalogException {
+    boolean versionObject = false;
     if (hasProduct(registry, extrinsic.getLid())) {
-      guid = client.versionObject(extrinsic);
-    } else {
-      guid = client.publishObject(extrinsic);
+      versionObject = true;
     }
-    return guid;
+    batchManager.cache(extrinsic, product, versionObject);
+    if (batchManager.getCacheSize() >= batchMode) {
+      batchManager.ingest();
+    }
   }
 
   /**
@@ -344,26 +352,20 @@ public class RegistryIngester implements Ingester {
       Metadata met) throws IngestException {
     Metadata fileObjectMet = createFileObjectMetadata(fileObject, met);
     ExtrinsicObject fileProduct = createProduct(fileObjectMet, sourceFile);
-    String guid = "";
     String lid = fileObjectMet.getMetadata(Constants.LOGICAL_ID);
     String vid = fileObjectMet.getMetadata(Constants.PRODUCT_VERSION);
     String lidvid = lid + "::" + vid;
     try {
       if (!hasProduct(registry, lid, vid)) {
-        guid = ingest(registry, fileProduct);
+        ingest(registry, sourceFile, fileProduct);
       } else {
         throw new IngestException("Product already exists: " + lidvid);
       }
-    } catch (RegistryServiceException rse) {
-      throw new IngestException(rse.getMessage());
     } catch (CatalogException ce) {
       throw new IngestException("Error while checking for the existence of a "
         + "registered product: " + ce.getMessage());
-    } catch (RegistryClientException rce) {
-      throw new IngestException("Error while initializing RegistryClient: "
-          + rce.getMessage());
     }
-    return guid;
+    return fileProduct.getGuid();
   }
 
   /**
@@ -378,8 +380,16 @@ public class RegistryIngester implements Ingester {
       Metadata sourceMet) {
     Metadata metadata = new Metadata();
     List<Slot> slots = new ArrayList<Slot>();
-    metadata.addMetadata(Constants.LOGICAL_ID, sourceMet.getMetadata(
-        Constants.LOGICAL_ID) + ":" + fileObject.getName());
+    String lid = sourceMet.getMetadata(Constants.LOGICAL_ID);
+    String extension = FilenameUtils.getExtension(fileObject.getName());
+    if ("xml".equalsIgnoreCase(extension)) {
+      String filename = FilenameUtils.removeExtension(fileObject.getName());
+      filename += "_xml";
+      lid += ":" + filename;
+    } else {
+      lid += ":" + fileObject.getName();
+    }
+    metadata.addMetadata(Constants.LOGICAL_ID, lid);
     metadata.addMetadata(Constants.TITLE, FilenameUtils.getBaseName(
         fileObject.getName()));
     metadata.addMetadata(Constants.OBJECT_TYPE,
@@ -457,26 +467,26 @@ public class RegistryIngester implements Ingester {
    */
   public String ingest(URL registry, File sourceFile, Association association,
       String targetReference) throws IngestException {
-    String guid = "";
     try {
-      RegistryClient client = new RegistryClient(registry.toString(),
-          securityContext, user, password);
-      if (!registryPackageGuid.isEmpty()) {
-        client.setRegistrationPackageId(registryPackageGuid);
-      }
       if (!hasAssociation(registry, association)) {
-        guid = client.publishObject(association);
+        String guid = "";
+        guid = idGenerator.getGuid();
+        association.setGuid(guid);
+        batchManager.cache(association, sourceFile, false);
+        if (batchManager.getCacheSize() >= batchMode) {
+          batchManager.ingest();
+        }
+        return guid;
       } else {
         String message = "Association to " + targetReference + ", with \'"
         + association.getAssociationType() + "\' association type, already "
         + "exists in the registry.";
         throw new IngestException(message);
       }
-    } catch (Exception e) {
+    } catch (RegistryClientException e) {
       throw new IngestException("Problem registering association to "
-         + targetReference + ": " + e.getMessage());
+          + targetReference + ": " + e.getMessage());
     }
-    return guid;
   }
 
   /**
@@ -492,18 +502,22 @@ public class RegistryIngester implements Ingester {
   throws RegistryClientException {
     boolean result = false;
     AssociationFilter filter = new AssociationFilter.Builder()
-    .sourceObject(association.getSourceObject())
     .targetObject(association.getTargetObject())
     .associationType(association.getAssociationType()).build();
     RegistryQuery<AssociationFilter> query = new RegistryQuery
     .Builder<AssociationFilter>().filter(filter).build();
     try {
-      RegistryClient client = new RegistryClient(registry.toString(),
-          securityContext, user, password);
-      PagedResponse<Association> response = client.getAssociations(
+      RegistryClient client = getClient(registry);
+      PagedResponse<Association> responses = client.getAssociations(
         query, 1, 10);
-      if (response.getNumFound() != 0) {
-        result = true;
+      if (responses.getNumFound() != 0) {
+        for (Association response : responses.getResults()) {
+          if (response.getSourceObject().equals(
+              association.getSourceObject())) {
+            result = true;
+            break;
+          }
+        }
       }
     } catch (RegistryServiceException r) {
       //Do nothing
@@ -528,8 +542,7 @@ public class RegistryIngester implements Ingester {
     RegistryQuery<ExtrinsicFilter> query = new RegistryQuery
     .Builder<ExtrinsicFilter>().filter(filter).build();
     try {
-      RegistryClient client = new RegistryClient(registry.toString(),
-          securityContext, user, password);
+      RegistryClient client = getClient(registry);
       PagedResponse<ExtrinsicObject> pr = client.getExtrinsics(query,
         null, null);
       if (pr.getNumFound() != 0) {
@@ -568,5 +581,22 @@ public class RegistryIngester implements Ingester {
           MetExtractor extractor, File metConfFile)
           throws IngestException {
       //No need for this method at this time
+  }
+
+  /**
+   * Sets the number of concurrent registrations to make
+   * during batch mode.
+   *
+   * @param value An integer value.
+   */
+  public void setBatchMode(int value) {
+    this.batchMode = value;
+  }
+
+  /**
+   * @return The Batch Manager object.
+   */
+  public BatchManager getBatchManager() {
+    return this.batchManager;
   }
 }

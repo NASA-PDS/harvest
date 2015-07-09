@@ -1,4 +1,4 @@
-// Copyright 2006-2014, by the California Institute of Technology.
+// Copyright 2006-2015, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -14,17 +14,15 @@
 package gov.nasa.pds.harvest;
 
 import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerAction;
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
-import gov.nasa.pds.harvest.association.AssociationPublisher;
 import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.crawler.CollectionCrawler;
 import gov.nasa.pds.harvest.crawler.PDS3FileCrawler;
 import gov.nasa.pds.harvest.crawler.PDS3ProductCrawler;
 import gov.nasa.pds.harvest.crawler.PDSProductCrawler;
+import gov.nasa.pds.harvest.crawler.actions.AssociationAction;
 import gov.nasa.pds.harvest.crawler.actions.CreateAccessUrlsAction;
 import gov.nasa.pds.harvest.crawler.actions.FileObjectRegistrationAction;
 import gov.nasa.pds.harvest.crawler.actions.StorageIngestAction;
-import gov.nasa.pds.harvest.crawler.actions.SaveMetadataAction;
 import gov.nasa.pds.harvest.crawler.daemon.HarvestDaemon;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds3MetExtractorConfig;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds4MetExtractorConfig;
@@ -42,7 +40,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.oodt.cas.filemgr.structs.exceptions.ConnectionException;
 
@@ -69,8 +66,8 @@ public class Harvester {
    */
   private int waitInterval;
 
-  /** Object that registers the associations. */
-  private AssociationPublisher associationPublisher;
+  /** CrawlerAction that registers the associations. */
+  private AssociationAction associationAction;
 
   /** CrawlerAction that performs file object registration. */
   private FileObjectRegistrationAction fileObjectRegistrationAction;
@@ -95,7 +92,7 @@ public class Harvester {
     this.ingester = new RegistryIngester(registryPackageGuid);
     this.daemonPort = -1;
     this.waitInterval = -1;
-    this.associationPublisher = new AssociationPublisher(this.registryUrl,
+    this.associationAction = new AssociationAction(this.registryUrl,
         this.ingester);
     this.fileObjectRegistrationAction = new FileObjectRegistrationAction(
         this.registryUrl, this.ingester);
@@ -115,7 +112,7 @@ public class Harvester {
       String password) throws MalformedURLException {
     this.ingester = new RegistryIngester(registryPackageGuid,
         securityContext, username, password);
-    this.associationPublisher = new AssociationPublisher(this.registryUrl,
+    this.associationAction = new AssociationAction(this.registryUrl,
         this.ingester);
     this.fileObjectRegistrationAction = new FileObjectRegistrationAction(
         this.registryUrl, this.ingester);
@@ -137,6 +134,16 @@ public class Harvester {
    */
   public void setWaitInterval(int interval) {
     this.waitInterval = interval;
+  }
+
+  /**
+   * Sets the number of concurrent registrations to make
+   * during batch mode.
+   *
+   * @param value integer value.
+   */
+  public void setBatchMode(int value) {
+    this.ingester.setBatchMode(value);
   }
 
   /**
@@ -174,8 +181,9 @@ public class Harvester {
     fileObjectRegistrationAction.setGenerateChecksums(
         policy.getChecksums().isGenerate());
     fileObjectRegistrationAction.setFileTypes(policy.getFileTypes());
+    ca.add(associationAction);
     //This is the last action that should be performed.
-    ca.add(new SaveMetadataAction());
+//    ca.add(new SaveMetadataAction());
     // Remove the File Object Registration crawler action if this is
     // a Product_File_Repository Crawler
     if (crawler instanceof PDS3FileCrawler) {
@@ -270,12 +278,10 @@ public class Harvester {
     // do the crawling
     if (doCrawlerPersistance) {
       new HarvestDaemon(waitInterval, crawlers, daemonPort,
-          associationPublisher, ingester).startCrawling();
+          ingester).startCrawling();
     } else {
-      for (Entry<File, Metadata> entry
-          : Constants.registeredProducts.entrySet()) {
-        associationPublisher.publish(entry.getKey(), entry.getValue());
-      }
+      // Need to ingest any leftover products sitting in the queue
+      ingester.getBatchManager().ingest();
     }
   }
 }

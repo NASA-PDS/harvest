@@ -24,6 +24,12 @@
 
   <body>
     <release version="1.9.0" date="TBD" description="TBD">
+      <action dev="mcayanan" type="update" issue="PDS-361">
+        Improved registration performance.
+      </action>
+      <action dev="mcayanan" type="fix" issue="PDS-367">
+        Fixed to create Product_File_Repository LIDs to end with an '_xml' instead of a '.xml' so that they can be properly retrieved by LID in the Registry.
+      </action>
     </release>
 
     <release version="1.8.0" date="2015-03-31" description="This release of the Harvest Tool is a component of the integrated release 5.1.0 of the PDS4 System. This is an operational release of the system components to date.">

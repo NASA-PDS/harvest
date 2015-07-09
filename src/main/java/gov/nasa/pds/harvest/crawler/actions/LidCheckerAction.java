@@ -1,4 +1,4 @@
-// Copyright 2006-2012, by the California Institute of Technology.
+// Copyright 2006-2015, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -80,6 +80,13 @@ public class LidCheckerAction extends CrawlerAction {
         log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Lid contains URN "
             + "reserved and/or excluded characters: " + lid, product));
         passFlag = false;
+      }
+      for (String badEnding : Arrays.asList(new String[]{".xml", ".json"})) {
+        if (lid.endsWith(badEnding)) {
+          log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
+              "Lid cannot end in '" + badEnding + "': " + lid, product));
+          passFlag = false;
+        }
       }
     }
     return passFlag;

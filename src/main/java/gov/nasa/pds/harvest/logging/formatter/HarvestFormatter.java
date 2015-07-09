@@ -18,6 +18,7 @@ import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.stats.HarvestStats;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Formatter;
@@ -107,9 +108,9 @@ public class HarvestFormatter extends Formatter {
         + totalAncillaryProducts + " ancillary products registered."
         + doubleLineFeed);
     summary.append("Product Types Registered:" + lineFeed);
-    for (Entry<String, List<File>> entry :
+    for (Entry<String, BigInteger> entry :
       HarvestStats.registeredProductTypes.entrySet()) {
-      summary.append(entry.getValue().size() + " " + entry.getKey()
+      summary.append(entry.getValue().toString() + " " + entry.getKey()
           + lineFeed);
     }
 

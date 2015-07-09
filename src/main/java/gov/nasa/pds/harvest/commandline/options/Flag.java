@@ -1,4 +1,4 @@
-// Copyright 2006-2010, by the California Institute of Technology.
+// Copyright 2006-2015, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -22,6 +22,12 @@ import org.apache.commons.cli.Options;
  *
  */
 public enum Flag {
+
+  BATCHMODE("b", "batch-mode", "value", int.class,
+      "Enable batch registration. Optionally specify an integer value to "
+      + "tell the tool how many to register concurrently. "
+      + "The default is to perform 50 concurrent registrations at a time."),
+
   /** Flag to specify a configuration file to configure the tool behavior.
    */
   CONFIG("c", "config", "file", String.class, "Specify a policy "
@@ -218,6 +224,10 @@ public enum Flag {
 
   static {
     options = new Options();
+
+    ToolsOption batch = new ToolsOption(BATCHMODE);
+    batch.setOptionalArg(true);
+    options.addOption(batch);
 
     options.addOption(new ToolsOption(CONFIG));
     options.addOption(new ToolsOption(REGEXP));

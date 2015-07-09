@@ -1,4 +1,4 @@
-// Copyright 2006-2014, by the California Institute of Technology.
+// Copyright 2006-2015, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -147,6 +147,11 @@ public class HarvestLauncher {
   /** The severity level to set for the tool. */
   private Level severityLevel;
 
+  /** Indicates the number of products to register concurrently during
+   *  batch mode.
+   */
+  private int batchMode;
+
   /**
    * Default constructor.
    *
@@ -169,6 +174,7 @@ public class HarvestLauncher {
     excludeSubDirs = new ArrayList<String>();
     isPDS3Directory = false;
     severityLevel = ToolsLevel.INFO;
+    batchMode = 0;
 
     globalPolicy = this.getClass().getResource("global-policy.xml");
   }
@@ -252,6 +258,21 @@ public class HarvestLauncher {
         isPDS3Directory = true;
       } else if (o.getOpt().equals(Flag.VERBOSE.getShortName())) {
         setVerbose(Integer.parseInt(o.getValue()));
+      } else if (o.getOpt().equals(Flag.BATCHMODE.getShortName())) {
+        try {
+          if (o.getValue() != null) {
+            batchMode = Integer.parseInt(o.getValue());
+            if (batchMode <= 0) {
+              throw new Exception("Must enter a value greater than 0 for "
+                  + "the '-b' flag option.");
+            }
+          } else {
+            batchMode = Constants.DEFAULT_BATCH_MODE;
+          }
+        } catch (NumberFormatException n) {
+          throw new Exception("Invalid value entered for '-b' flag option: "
+              + n.getMessage());
+        }
       }
     }
     if (policy == null) {
@@ -391,7 +412,11 @@ public class HarvestLauncher {
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
         "Registry Package Name       " + registryPackageName));
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
-        "Registration Package GUID   " + registryPackageGuid + "\n"));
+        "Registration Package GUID   " + registryPackageGuid));
+    if (batchMode != 0) {
+      log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
+        "Batch Mode                  " + batchMode + "\n"));
+    }
   }
 
   /**
@@ -473,6 +498,7 @@ public class HarvestLauncher {
       harvester.setDaemonPort(daemonPort);
       harvester.setWaitInterval(waitInterval);
     }
+    harvester.setBatchMode(batchMode);
     Directory directories = new Directory();
     Pds3Directory pds3Dir = new Pds3Directory();
     FileFilter fileFilter = new FileFilter();

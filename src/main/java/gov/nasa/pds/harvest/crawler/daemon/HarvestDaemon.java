@@ -1,4 +1,4 @@
-// Copyright 2006-2010, by the California Institute of Technology.
+// Copyright 2006-2015, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -14,18 +14,15 @@
 package gov.nasa.pds.harvest.crawler.daemon;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.apache.xmlrpc.WebServer;
 
 import gov.nasa.jpl.oodt.cas.crawl.daemon.CrawlDaemon;
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
-import gov.nasa.pds.harvest.association.AssociationPublisher;
-import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.crawler.PDSProductCrawler;
 import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
@@ -49,9 +46,6 @@ public class HarvestDaemon extends CrawlDaemon {
 
   /** A list of crawlers. */
   private List<PDSProductCrawler> crawlers;
-
-  /** The association publisher. */
-  private AssociationPublisher associationPublisher;
 
   /** Current number of good files. */
   private int numGoodFiles;
@@ -116,8 +110,11 @@ public class HarvestDaemon extends CrawlDaemon {
   /** Current number of generated checksums not checked. */
   private int numManifestChecksumsNotCheckedInLabel;
 
-  /** Mapping of registered product types to files. */
-  private HashMap<String, List<File>> registeredProductTypes;
+  /** Mapping of the current count of registered product types. */
+  private HashMap<String, BigInteger> registeredProductTypes;
+
+  /** Registry ingester. */
+  private RegistryIngester ingester;
 
   /**
    * Constructor
@@ -126,16 +123,14 @@ public class HarvestDaemon extends CrawlDaemon {
    * @param crawlers A list of PDSProductCrawler objects to be used during
    * crawler persistance.
    * @param port The port nunmber to be used.
-   * @param associationPublisher An AssociationPublisher object to process
-   * the associations.
    */
   public HarvestDaemon(int wait, List<PDSProductCrawler> crawlers, int port,
-      AssociationPublisher associationPublisher, RegistryIngester ingester) {
+      RegistryIngester ingester) {
     super(wait, null, port);
     this.daemonPort = port;
-    this.associationPublisher = associationPublisher;
     this.crawlers = new ArrayList<PDSProductCrawler>();
     this.crawlers.addAll(crawlers);
+    this.ingester = ingester;
 
     numAncillaryProductsNotRegistered = 0;
     numAncillaryProductsRegistered = 0;
@@ -157,7 +152,7 @@ public class HarvestDaemon extends CrawlDaemon {
     numManifestChecksumsSameInLabel = 0;
     numManifestChecksumsDiffInLabel = 0;
     numManifestChecksumsNotCheckedInLabel = 0;
-    registeredProductTypes = new HashMap<String, List<File>>();
+    registeredProductTypes = new HashMap<String, BigInteger>();
   }
 
   /**
@@ -183,14 +178,20 @@ public class HarvestDaemon extends CrawlDaemon {
         setMilisCrawling((long) getMilisCrawling() + (timeAfter - timeBefore));
         setNumCrawls(getNumCrawls() + 1);
       }
+      // May need to ingest any leftover products sitting in the queue
+      ingester.getBatchManager().ingest();
+/*
       for ( Entry<File, Metadata> entry :
         Constants.registeredProducts.entrySet()) {
         associationPublisher.publish(entry.getKey(), entry.getValue());
       }
+      // Need to ingest any leftover products sitting in the queue
+      ingester.getBatchManager().ingest();
+*/
       printSummary();
 
       //Make sure to clear the map of registered products
-      Constants.registeredProducts.clear();
+//      Constants.registeredProducts.clear();
 
       log.log(new ToolsLogRecord(ToolsLevel.INFO, "Sleeping for: ["
           + getWaitInterval() + "] seconds"));
@@ -296,16 +297,15 @@ public class HarvestDaemon extends CrawlDaemon {
           "\nNew Product Types Registered:\n"));
       for (String key : HarvestStats.registeredProductTypes.keySet()) {
         if (registeredProductTypes.containsKey(key)) {
-          int numNewProductTypes =
-            HarvestStats.registeredProductTypes.get(key).size()
-            - registeredProductTypes.get(key).size();
-          if (numNewProductTypes != 0) {
+          BigInteger numNewProductTypes =
+            HarvestStats.registeredProductTypes.get(key).subtract(registeredProductTypes.get(key));
+          if (numNewProductTypes.longValue() != 0) {
             log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
               numNewProductTypes + " " + key));
           }
         } else {
           log.log(new ToolsLogRecord(ToolsLevel.NOTIFICATION,
-              HarvestStats.registeredProductTypes.get(key).size() + " "
+              HarvestStats.registeredProductTypes.get(key).toString() + " "
               + key));
         }
       }

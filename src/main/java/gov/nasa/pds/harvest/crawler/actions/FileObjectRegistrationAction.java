@@ -1,4 +1,4 @@
-// Copyright 2006-2011, by the California Institute of Technology.
+// Copyright 2006-2015, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -170,13 +170,6 @@ public class FileObjectRegistrationAction extends CrawlerAction {
         }
         String guid = registryIngester.ingest(new URL(registryUrl), product,
             fileObject, metadata);
-        log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
-            "Successfully registered product: " + lidvid, product));
-        log.log(new ToolsLogRecord(ToolsLevel.INFO,
-            "Product has the following GUID: " + guid, product));
-        ++HarvestStats.numAncillaryProductsRegistered;
-        HarvestStats.addProductType(Constants.FILE_OBJECT_PRODUCT_TYPE,
-            new File(fileObject.getLocation(), fileObject.getName()));
         // Create a reference entry of the file association and add that
           // back to the list of reference entries to be processed later.
         ReferenceEntry refEntry = new ReferenceEntry();

@@ -1,6 +1,7 @@
 package gov.nasa.pds.harvest.stats;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,17 +48,15 @@ public class HarvestStats {
   public static int numManifestChecksumsNotCheckedInLabel = 0;
 
 
-  public static HashMap<String, List<File>> registeredProductTypes = new HashMap<String, List<File>>();
+  public static HashMap<String, BigInteger> registeredProductTypes = new HashMap<String, BigInteger>();
 
-  public static void addProductType(String type, File file) {
+  public static void addProductType(String type) {
     if (registeredProductTypes.containsKey(type)) {
-      List<File> list = registeredProductTypes.get(type);
-      list.add(file);
-      registeredProductTypes.put(type, list);
+      BigInteger count = registeredProductTypes.get(type);
+      count = count.add(BigInteger.ONE);
+      registeredProductTypes.put(type, count);
     } else {
-      List<File> list = new ArrayList<File>();
-      list.add(file);
-      registeredProductTypes.put(type, list);
+      registeredProductTypes.put(type, BigInteger.ONE);
     }
   }
 }
