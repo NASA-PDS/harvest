@@ -23,6 +23,60 @@
 
 <policy>
   <candidates>
+    <productMetadata objectType="Product_Ancillary">
+      <!-- Identification_Area -->
+      <xPath slotName="information_model_version">
+        //Identification_Area/information_model_version
+      </xPath>
+      <xPath slotName="product_class">
+        //Identification_Area/product_class
+      </xPath>
+      <xPath slotName="alternate_id">
+        //Identification_Area/Alias_List/Alias/alternate_id
+      </xPath>
+      <xPath slotName="alternate_title">
+        //Identification_Area/Alias_List/Alias/alternate_title
+      </xPath>
+      <xPath slotName="citation_author_list">
+        //Identification_Area/Citation_Information/author_list
+      </xPath>
+      <xPath slotName="citation_editor_list">
+        //Identification_Area/Citation_Information/editor_list
+      </xPath>
+      <xPath slotName="citation_publication_year">
+        //Identification_Area/Citation_Information/publication_year
+      </xPath>
+      <xPath slotName="citation_keyword">
+        //Identification_Area/Citation_Information/keyword
+      </xPath>
+      <xPath slotName="citation_description">
+        //Identification_Area/Citation_Information/description
+      </xPath>
+      <xPath slotName="modification_date">
+        //Identification_Area/Modification_History/Modification_Detail/modification_date
+      </xPath>
+      <xPath slotName="modification_version_id">
+        //Identification_Area/Modification_History/Modification_Detail/version_id
+      </xPath>
+      <xPath slotName="modification_description">
+        //Identification_Area/Modification_History/Modification_Detail/description
+      </xPath>
+      <!-- Reference_List -->
+      <xPath slotName="external_reference_doi">
+        //Reference_List/External_Reference/doi
+      </xPath>
+      <xPath slotName="external_reference_text">
+        //Reference_List/External_Reference/reference_text
+      </xPath>
+      <xPath slotName="external_reference_description">
+        //Reference_List/External_Reference/description
+      </xPath>
+      <!-- File_Area_Ancillary -->
+      <xPath slotName="file_name">
+        //File_Area_Ancillary/File/file_name
+      </xPath>
+    </productMetadata>
+
     <productMetadata objectType="Product_Browse">
       <!-- Identification_Area -->
       <xPath slotName="information_model_version">
