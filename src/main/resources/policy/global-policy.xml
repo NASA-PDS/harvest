@@ -1901,6 +1901,9 @@
       <modelValue>
         Document_Edition
       </modelValue>
+      <modelValue>
+        Document_Format_Set
+      </modelValue>
     </fileTypeMap>
     <fileTypeMap value="Binary">
       <modelValue>
