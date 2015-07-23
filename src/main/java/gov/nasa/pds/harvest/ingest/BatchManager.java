@@ -164,45 +164,7 @@ public class BatchManager {
       list.setObjects(registryObjects);
       try {
         if (version) {
-          //TODO: Need API for versioniong objects
-          for (Map.Entry<File, List<RegistryObject>> entry
-              : versionObjects.entrySet()) {
-            for (RegistryObject object : entry.getValue()) {
-              try {
-                String guid = client.versionObject(object);
-                log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
-                    "Successfully registered product: "
-                        + object.getLid() + "::"
-                        + object.getSlot(Constants.PRODUCT_VERSION)
-                        .getValues().get(0),
-                     entry.getKey()));
-                log.log(new ToolsLogRecord(ToolsLevel.INFO,
-                    "Product has the following GUID: " + guid,
-                    entry.getKey()));
-                if (Constants.FILE_OBJECT_PRODUCT_TYPE.equals(
-                    object.getObjectType())) {
-                  ++HarvestStats.numAncillaryProductsRegistered;
-                  HarvestStats.addProductType(
-                      Constants.FILE_OBJECT_PRODUCT_TYPE);
-                } else {
-                  ++HarvestStats.numProductsRegistered;
-                  HarvestStats.addProductType(object.getObjectType());
-                }
-
-              } catch (RegistryServiceException r) {
-                // Associations will never call the versionObjects method.
-                // So don't even check for it here.
-                if (Constants.FILE_OBJECT_PRODUCT_TYPE.equals(
-                    object.getObjectType())) {
-                  ++HarvestStats.numAncillaryProductsNotRegistered;
-                } else {
-                  ++HarvestStats.numProductsNotRegistered;
-                }
-                log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
-                    r.getMessage(), entry.getKey()));
-              }
-            }
-          }
+          client.versionObjects(list, true);
         } else {
           client.publishObjects(list);
         }
