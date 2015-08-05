@@ -23,15 +23,9 @@
   </properties>
 
   <body>
-    <release version="1.9.0" date="TBD" description="TBD">
-       <action dev="mcayanan" type="update" issue="PDS-361">
-        Added capability to perform batch registration on objects that need to be versioned. (Inherited from registry-core).
-      </action>
-    </release>
-
-    <release version="1.8.1" date="2015-07-13" description="This release of the Harvest Tool is a component of the integrated release 5.1.1 of the PDS4 System. This is an operational release of the system components to date.">
+    <release version="1.8.1" date="2015-08-05" description="This release of the Harvest Tool is a component of the integrated release 5.1.1 of the PDS4 System. This is an operational release of the system components to date.">
       <action dev="mcayanan" type="update" issue="PDS-361">
-        Improved registration performance.
+        Improved registration performance by adding capability to perform batch registration on objects.
       </action>
       <action dev="mcayanan" type="fix" issue="PDS-367">
         Fixed to create Product_File_Repository LIDs to end with an '_xml' instead of a '.xml' so that they can be properly retrieved by LID in the Registry.
