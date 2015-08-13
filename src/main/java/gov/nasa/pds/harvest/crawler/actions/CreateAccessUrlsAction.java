@@ -14,7 +14,10 @@
 package gov.nasa.pds.harvest.crawler.actions;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -143,7 +146,7 @@ public class CreateAccessUrlsAction extends CrawlerAction {
       boolean matchedOffset = false;
       for (String offset : accessUrl.getOffset()) {
         if (productFile.startsWith(offset)) {
-          productFile = productFile.replace(offset, "")
+          productFile = productFile.replaceFirst(offset, "")
           .trim();
           matchedOffset = true;
           break;
@@ -155,11 +158,26 @@ public class CreateAccessUrlsAction extends CrawlerAction {
             + "' as it does not start with any of the supplied offsets: "
             + accessUrl.getOffset(), source));
       }
-      URI uri = UriBuilder.fromUri(accessUrl.getBaseUrl()).path(
-          FilenameUtils.separatorsToUnix(productFile)).build();
-      log.log(new ToolsLogRecord(ToolsLevel.INFO, "Created access url: "
+      productFile = FilenameUtils.separatorsToUnix(productFile);
+      String uriString = "";
+
+      if (accessUrl.getBaseUrl().endsWith("/") && productFile.startsWith("/")) {
+        uriString = accessUrl.getBaseUrl() + productFile.substring(1);
+      } else if (accessUrl.getBaseUrl().endsWith("/") || productFile.startsWith("/")) {
+        uriString = accessUrl.getBaseUrl() + productFile;
+      } else {
+        uriString = accessUrl.getBaseUrl() + "/" + productFile;
+      }
+      try {
+        URI uri = new URI(uriString);
+        log.log(new ToolsLogRecord(ToolsLevel.INFO, "Created access url: "
           + uri, source));
-      urls.add(uri.toString());
+        urls.add(uri.toString());
+      } catch (URISyntaxException u) {
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE,
+            "Malformed URL syntax '" + uriString + "': " + u.getMessage(),
+            source));
+      }
     }
     if (registerFileUrls) {
       URI uri = UriBuilder.fromPath("file://"
