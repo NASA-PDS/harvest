@@ -156,4 +156,6 @@ public class Constants {
   public static List<File> collections = new ArrayList<File>();
 
   public static final int DEFAULT_BATCH_MODE = 50;
+
+  public static final int TITLE_MAX_LENGTH = 255;
 }

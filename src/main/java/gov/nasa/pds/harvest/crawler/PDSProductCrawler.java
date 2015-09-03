@@ -21,6 +21,7 @@ import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.constants.Constants;
 import gov.nasa.pds.harvest.crawler.actions.LidCheckerAction;
 import gov.nasa.pds.harvest.crawler.actions.LogMissingReqMetadataAction;
+import gov.nasa.pds.harvest.crawler.actions.TitleLengthCheckerAction;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds4MetExtractorConfig;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.BundleMetExtractor;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.CollectionMetExtractor;
@@ -112,6 +113,7 @@ public class PDSProductCrawler extends ProductCrawler {
     FILE_FILTER = new AndFileFilter(fileFilters);
     crawlerActions.add(new LogMissingReqMetadataAction(getRequiredMetadata()));
     crawlerActions.add(new LidCheckerAction());
+    crawlerActions.add(new TitleLengthCheckerAction());
   }
 
   /**

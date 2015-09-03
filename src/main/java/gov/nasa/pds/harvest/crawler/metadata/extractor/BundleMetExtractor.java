@@ -94,7 +94,8 @@ public class BundleMetExtractor extends Pds4MetExtractor {
       metadata.addMetadata(Constants.PRODUCT_VERSION, version);
     }
     if (!"".equals(title)) {
-      metadata.addMetadata(Constants.TITLE, title);
+      String trimmedTitle = title.replaceAll("\\s+", " ").trim();
+      metadata.addMetadata(Constants.TITLE, trimmedTitle);
     }
     if (!"".equals(objectType)) {
       metadata.addMetadata(Constants.OBJECT_TYPE, objectType);

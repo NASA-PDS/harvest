@@ -27,6 +27,9 @@
       <action dev="mcayanan" type="fix" issue="PDS-388">
         Fixed to handle special characters in access URL specifications.
       </action>
+      <action dev="mcayanan" type="fix" issue="PDS-393">
+        Strip extra whitespaces from the title metadata value in the label prior to ingestion.
+      </action>
     </release>
 
     <release version="1.8.1" date="2015-08-05" description="This release of the Harvest Tool is a component of the integrated release 5.1.1 of the PDS4 System. This is an operational release of the system components to date.">

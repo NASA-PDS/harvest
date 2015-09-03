@@ -110,7 +110,8 @@ public class Pds3MetExtractor implements MetExtractor {
     if (title.trim().isEmpty()) {
       title = "PDS3 Data Product";
     }
-    metadata.addMetadata(Constants.TITLE, title);
+    String trimmedTitle = title.replaceAll("\\s+", " ").trim();
+    metadata.addMetadata(Constants.TITLE, trimmedTitle);
 
     // Capture the include paths for file object processing.
     metadata.addMetadata(Constants.INCLUDE_PATHS, config.getIncludePaths());

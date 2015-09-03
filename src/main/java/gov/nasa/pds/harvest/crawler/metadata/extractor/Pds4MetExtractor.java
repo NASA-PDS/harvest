@@ -86,7 +86,7 @@ public class Pds4MetExtractor implements MetExtractor {
     String title = "";
     List<TinyElementImpl> references = new ArrayList<TinyElementImpl>();
     List<TinyElementImpl> dataClasses = new ArrayList<TinyElementImpl>();
-    List<Slot> slots = new ArrayList<Slot>();    
+    List<Slot> slots = new ArrayList<Slot>();
     try {
       extractor.parse(product);
     } catch (Exception e) {
@@ -116,7 +116,8 @@ public class Pds4MetExtractor implements MetExtractor {
       metadata.addMetadata(Constants.PRODUCT_VERSION, version);
     }
     if (!"".equals(title)) {
-      metadata.addMetadata(Constants.TITLE, title);
+      String trimmedTitle = title.replaceAll("\\s+", " ").trim();
+      metadata.addMetadata(Constants.TITLE, trimmedTitle);
     }
     if (!"".equals(objectType)) {
       metadata.addMetadata(Constants.OBJECT_TYPE, objectType);
@@ -136,7 +137,7 @@ public class Pds4MetExtractor implements MetExtractor {
       slots.add(new Slot(Constants.DATA_CLASS, values));
     }
     try {
-      HashMap<String, List<String>> refMap = 
+      HashMap<String, List<String>> refMap =
           new HashMap<String, List<String>>();
       // Register LID-based and LIDVID-based associations as slots
       for (ReferenceEntry entry : getReferences(references, product)) {

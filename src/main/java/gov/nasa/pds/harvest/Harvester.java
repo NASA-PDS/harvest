@@ -27,6 +27,7 @@ import gov.nasa.pds.harvest.crawler.daemon.HarvestDaemon;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds3MetExtractorConfig;
 import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds4MetExtractorConfig;
 import gov.nasa.pds.harvest.file.ChecksumManifest;
+import gov.nasa.pds.harvest.ingest.BatchManager;
 import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.policy.Policy;
 import gov.nasa.pds.registry.client.SecurityContext;
@@ -281,7 +282,10 @@ public class Harvester {
           ingester).startCrawling();
     } else {
       // Need to ingest any leftover products sitting in the queue
-      ingester.getBatchManager().ingest();
+      BatchManager bm = ingester.getBatchManager();
+      if (bm != null) {
+        bm.ingest();
+      }
     }
   }
 }
