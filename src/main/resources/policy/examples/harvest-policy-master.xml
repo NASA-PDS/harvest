@@ -842,6 +842,43 @@
       <xPath slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
+      <!-- Service -->
+      <xPath slotName="service_name">
+        //Service/name
+      </xPath>
+      <xPath slotName="service_abstract_desc">
+        //Service/abstract_desc
+      </xPath>
+      <xPath slotName="service_version_id">
+        //Service/version_id
+      </xPath>
+      <xPath slotName="service_url">
+        //Service/url
+      </xPath>
+      <xPath slotName="service_release_date">
+        //Service/release_date
+      </xPath>
+      <xPath slotName="service_type">
+        //Service/service_type
+      </xPath>
+      <xPath slotName="service_interface_type">
+        //Service/interface_type
+      </xPath>
+      <xPath slotName="service_category">
+        //Service/category
+      </xPath>
+      <xPath slotName="service_software_language">
+        //Service/software_language
+      </xPath>
+      <xPath slotName="service_supported_operating_system_note">
+        //Service/supported_operating_system_note
+      </xPath>
+      <xPath slotName="service_system_requirements_note">
+        //Service/system_requirements_note
+      </xPath>
+      <xPath slotName="service_description">
+        //Service/description
+      </xPath>
       <!-- Reference_List -->
       <xPath slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
