@@ -270,6 +270,7 @@
       <xPath slotName="document_acknowledgement_text">//Document/acknowledgement_text</xPath>
       <xPath slotName="document_copyright">//Document/copyright</xPath>
       <xPath slotName="document_publication_date">//Document/publication_date</xPath>
+      <!-- Version 1.3.0.0 or later for document_editions -->
       <xPath slotName="document_editions">//Document/document_editions</xPath>
       <xPath slotName="document_description">//Document/description</xPath>
       <!-- Document_Edition -->
@@ -277,6 +278,7 @@
       <xPath slotName="document_edition_files">//Document_Edition/files</xPath>
       <xPath slotName="document_edition_language">//Document_Edition/language</xPath>
       <!-- Document_File -->
+      <!-- Supports all versions, whether under Document_Format_Set or Document_Edition -->
       <xPath slotName="document_standard_id">
         //Document_File/document_standard_id
       </xPath>
