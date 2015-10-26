@@ -24,6 +24,7 @@ import org.apache.xmlrpc.WebServer;
 
 import gov.nasa.jpl.oodt.cas.crawl.daemon.CrawlDaemon;
 import gov.nasa.pds.harvest.crawler.PDSProductCrawler;
+import gov.nasa.pds.harvest.ingest.BatchManager;
 import gov.nasa.pds.harvest.ingest.RegistryIngester;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
@@ -179,19 +180,12 @@ public class HarvestDaemon extends CrawlDaemon {
         setNumCrawls(getNumCrawls() + 1);
       }
       // May need to ingest any leftover products sitting in the queue
-      ingester.getBatchManager().ingest();
-/*
-      for ( Entry<File, Metadata> entry :
-        Constants.registeredProducts.entrySet()) {
-        associationPublisher.publish(entry.getKey(), entry.getValue());
-      }
       // Need to ingest any leftover products sitting in the queue
-      ingester.getBatchManager().ingest();
-*/
+      BatchManager bm = ingester.getBatchManager();
+      if (bm != null) {
+        bm.ingest();
+      }
       printSummary();
-
-      //Make sure to clear the map of registered products
-//      Constants.registeredProducts.clear();
 
       log.log(new ToolsLogRecord(ToolsLevel.INFO, "Sleeping for: ["
           + getWaitInterval() + "] seconds"));

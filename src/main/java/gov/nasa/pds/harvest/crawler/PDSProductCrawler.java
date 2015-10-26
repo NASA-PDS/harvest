@@ -324,7 +324,6 @@ public class PDSProductCrawler extends ProductCrawler {
         log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Parse failure: "
             + xe.getMessage(), product));
       }
-      ++HarvestStats.numBadFiles;
       passFlag = false;
     }
     if (passFlag == false) {
