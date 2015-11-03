@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -146,7 +147,7 @@ public class CreateAccessUrlsAction extends CrawlerAction {
       boolean matchedOffset = false;
       for (String offset : accessUrl.getOffset()) {
         if (productFile.startsWith(offset)) {
-          productFile = productFile.replaceFirst(offset, "")
+          productFile = productFile.replaceFirst(Pattern.quote(offset), "")
           .trim();
           matchedOffset = true;
           break;
