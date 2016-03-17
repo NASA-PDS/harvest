@@ -1930,6 +1930,11 @@
         File_Area_Inventory
       </modelValue>
     </fileTypeMap>
+    <fileTypeMap value="Native">
+      <modelValue>
+        File_Area_Native
+      </modelValue>
+    </fileTypeMap>
     <fileTypeMap value="Observation">
       <modelValue>
         File_Area_Observational
