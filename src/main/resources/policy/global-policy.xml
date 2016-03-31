@@ -1453,6 +1453,11 @@
          node_to_agency
        </modelValue>
      </referenceTypeMap>
+     <referenceTypeMap value="archival_ref">
+       <modelValue>
+         native_to_archival
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="archivist_ref">
        <modelValue>
          node_to_data_archivist
