@@ -34,7 +34,7 @@ public class InventoryKeys {
    * inventory table.
    */
   public static final String MEMBER_STATUS_FIELD_NUMBER_XPATH =
-    "//Inventory/Record_Delimited/Field_Delimited[name='Member_Status']/field_number";
+    "//Inventory/Record_Delimited/Field_Delimited[name='Member_Status' or name='Member Status']/field_number";
 
   /**
    * XPath to determine the field location of the LID-LIDVID field in the
