@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Copyright 2010-2015, by the California Institute of Technology.
+  Copyright 2010-2016, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology Transfer
   at the California Institute of Technology.
@@ -24,12 +24,12 @@
 
   <body>
     <release version="1.11.0" date="TBD" description="TBD">
-      <action dev="mcayanan" type="fix" issue="PDS-443">
-        Fixed to also recognize "Member Status" as a valid field name for the Field_Delimited element in the Inventory area of a collection.
-      </action>
     </release>
 
     <release version="1.10.0" date="2016-03-31" description="This release of the Harvest Tool is a component of the integrated release 6.1.0 of the PDS4 System. This is an operational release of the system components to date.">
+      <action dev="mcayanan" type="fix" issue="PDS-443">
+        Fixed to also recognize "Member Status" as a valid field name for the Field_Delimited element in the Inventory area of a collection.
+      </action>
       <action dev="shardman" type="update">
         Updated the JRE requirement to 1.7 in the Installation document.
       </action>
