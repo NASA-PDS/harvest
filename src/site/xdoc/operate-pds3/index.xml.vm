@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Copyright 2010-2014, by the California Institute of Technology.
+  Copyright 2010-2016, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology Transfer
   at the California Institute of Technology.
@@ -341,6 +341,47 @@
         <source>
 % harvest-ctrl --url http://localhost:9001/xmlrpc --operation --stop
         </source>
+      </subsection>
+      
+      <subsection name="PDS3 Unlabeled File Registration">
+        <p>Normally, the Harvest Tool is used for registering labeled products. However, there may be a use case for wanting to register unlabeled files (browse images, thumbnail images, etc.). This section details how to set up the policy file to do this.
+        </p>
+        
+        <p>Included in the Harvest package is an example policy configuration file for registering unlabeled PDS3 files. Go to the <i>examples/</i> folder, make a copy of the <i>harvest-policy-unlabeled-pds3-files.xml</i> file and modify it as necessary. The set up is similar to what is described in the <a href="#Setup">Setup</a> section. The only difference is that the <i>candidates</i> area is configured slightly differently as seen below:
+        </p>
+        
+        <source>
+&lt;candidates&gt;
+  &lt;pds3ProductMetadata objectType="Product_File_Repository"&gt;
+    &lt;lidContents prefix="urn:nasa:pds:msl-m-hazcam-5-rdr-v1.0" appendDir="true"&gt;
+      &lt;offset&gt;$HOME/MSLHAZ_1XXX&lt;/offset&gt;
+    &lt;/lidContents&gt;
+    
+    &lt;staticMetadata&gt;
+      &lt;slot name="product_class"&gt;
+        &lt;value&gt;Product_File_Repository&lt;/value&gt;
+      &lt;/slot&gt;
+      &lt;slot name="file_type"&gt;
+        &lt;value&gt;Extra&lt;/value&gt;
+      &lt;/slot&gt;
+    &lt;/staticMetadata&gt;
+  &lt;/pds3ProductMetadata&gt;
+&lt;/candidates&gt;
+        </source>
+        
+        <p>The <i>objectType="Product_File_Repository"</i> attribute must be specified in the config file. This tells the tool to perform unlabeled file registration. Each file being processed will be registered as a <i>Product_File_Repository</i> product. As the tool crawls a directory, it first checks that each file about to be processed does not have an associated label file in the same directory. If it does, it will skip this file.
+        </p>
+        
+        <p>For the <i>lidContents</i> area, the full path to the target file being registered will be appended to the <i>prefix</i> value. Specify an <i>offset</i> to trim off of the path. In this example, <i>$HOME/MSHLHAZ_1XXX</i> will be trimmed off the file path before appending to the <i>prefix</i>.
+        </p>
+        
+        <p>Once the policy file has been modified, run the tool as you normally would:
+        </p>
+        
+        <source>
+%> harvest -c harvest-policy-unlabeled-pds3-files.xml -l harvest-unlabeled-pds3-files.log
+        </source>
+        
       </subsection>
    </section>
 

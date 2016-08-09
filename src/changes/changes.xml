@@ -24,6 +24,9 @@
 
   <body>
     <release version="1.11.0" date="TBD" description="TBD">
+      <action dev="mcayanan" type="add" issue="PDS-288">
+        Added support for registering unlabeled files in a PDS3 harvest run.
+      </action>
       <action dev="mcayanan" type="update" issue="PDS-464">
         Updated Windows System Properties Install Guide.
       </action>    
