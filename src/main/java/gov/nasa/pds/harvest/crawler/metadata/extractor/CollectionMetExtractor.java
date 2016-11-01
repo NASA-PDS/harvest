@@ -1,4 +1,4 @@
-// Copyright 2006-2014, by the California Institute of Technology.
+// Copyright 2006-2016, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -50,6 +50,8 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
   public static final String ASSOCIATION_TYPE_XPATH = "//*[starts-with("
       + "name(),'Inventory')]/reference_type";
 
+  private boolean cacheNonPrimaryMembers;
+  
   /**
    * Constructor.
    *
@@ -57,6 +59,7 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
    */
   public CollectionMetExtractor(Pds4MetExtractorConfig config) {
     super(config);
+    this.cacheNonPrimaryMembers = false;
   }
 
   /**
@@ -162,7 +165,8 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
           }
           re.setType(associationType);
           refEntries.add(re);
-          if (!"P".equalsIgnoreCase(entry.getMemberStatus())) {
+          if ( cacheNonPrimaryMembers && 
+              !("P".equalsIgnoreCase(entry.getMemberStatus())) ) {
             Constants.nonPrimaryMembers.add(new LidVid(re.getLogicalID(),
                 re.getVersion()));
           }
@@ -225,5 +229,9 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
       metadata.addMetadata(Constants.SLOT_METADATA, slots);
     }
     return metadata;
+  }
+  
+  public void setCacheNonPrimaryMembers(boolean value) {
+    this.cacheNonPrimaryMembers = value;
   }
 }

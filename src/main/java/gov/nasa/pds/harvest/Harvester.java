@@ -1,4 +1,4 @@
-// Copyright 2006-2015, by the California Institute of Technology.
+// Copyright 2006-2016, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -222,6 +222,7 @@ public class Harvester {
     for (String collection : policy.getCollections().getFile()) {
       CollectionCrawler cc = new CollectionCrawler(pds4MetExtractorConfig);
       cc.setProductPath(collection);
+      cc.setCacheNonPrimaryMembers(true);
       crawlers.add(cc);
     }
     // Crawl directories

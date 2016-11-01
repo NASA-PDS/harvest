@@ -1,4 +1,4 @@
-// Copyright 2006-2014, by the California Institute of Technology.
+// Copyright 2006-2016, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -80,12 +80,15 @@ public class PDSProductCrawler extends ProductCrawler {
   /** A map of files that were touched during crawler persistance. */
   protected Map<File, Long> touchedFiles;
 
+  private boolean cacheNonPrimaryMembers;
+  
   /**
    * Default constructor.
    *
    */
   public PDSProductCrawler() {
     this(null);
+    cacheNonPrimaryMembers = false;
   }
 
   /**
@@ -272,6 +275,10 @@ public class PDSProductCrawler extends ProductCrawler {
       metExtractor = new BundleMetExtractor(metExtractorConfig);
     } else if (objectType.equalsIgnoreCase(Constants.COLLECTION)) {
       metExtractor = new CollectionMetExtractor(metExtractorConfig);
+      if (cacheNonPrimaryMembers) {
+        CollectionMetExtractor ce = (CollectionMetExtractor) metExtractor;
+        ce.setCacheNonPrimaryMembers(cacheNonPrimaryMembers);
+      }
     } else {
       metExtractor = new Pds4MetExtractor(metExtractorConfig);
     }
@@ -385,5 +392,13 @@ public class PDSProductCrawler extends ProductCrawler {
       }
     }
     return passFlag;
+  }
+  
+  public void setCacheNonPrimaryMembers(boolean value) {
+    this.cacheNonPrimaryMembers = value;
+  }
+  
+  public boolean getCacheNonPrimaryMembers() {
+    return this.cacheNonPrimaryMembers;
   }
 }
