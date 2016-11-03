@@ -1,4 +1,4 @@
-// Copyright 2006-2014, by the California Institute of Technology.
+// Copyright 2006-2016, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -47,8 +47,14 @@ public class UnmarshallerListener extends Listener {
       }
     } else if (target instanceof Checksums) {
       Checksums checksums = (Checksums) target;
-      if (checksums.manifest != null) {
-        checksums.manifest = Utility.resolveEnvVars(checksums.manifest);
+      if (checksums.getManifest() != null) {
+        Manifest cm = checksums.getManifest();
+        if (cm.value != null) {
+          cm.value = Utility.resolveEnvVars(cm.value);
+        }
+        if (cm.basePath != null) {
+          cm.basePath = Utility.resolveEnvVars(cm.basePath);
+        }
       }
     } else if (target instanceof Pds3Directory) {
       Pds3Directory dir = (Pds3Directory) target;

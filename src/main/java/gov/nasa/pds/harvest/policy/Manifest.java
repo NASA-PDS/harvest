@@ -26,88 +26,83 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
 
 
 /**
- * <p>Java class for Checksums complex type.
+ * <p>Java class for Manifest complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Checksums">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{}manifest" minOccurs="0"/>
- *       &lt;/sequence>
- *       &lt;attribute ref="{}generate"/>
- *     &lt;/restriction>
- *   &lt;/complexContent>
+ * &lt;complexType name="Manifest">
+ *   &lt;simpleContent>
+ *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
+ *       &lt;attribute ref="{}basePath"/>
+ *     &lt;/extension>
+ *   &lt;/simpleContent>
  * &lt;/complexType>
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Checksums", propOrder = {
-    "manifest"
+@XmlType(name = "Manifest", propOrder = {
+    "value"
 })
-public class Checksums {
+public class Manifest {
 
-    protected Manifest manifest;
-    @XmlAttribute(name = "generate")
-    protected Boolean generate;
+    @XmlValue
+    protected String value;
+    @XmlAttribute(name = "basePath")
+    protected String basePath;
 
     /**
-     * Gets the value of the manifest property.
+     * Gets the value of the value property.
      * 
      * @return
      *     possible object is
-     *     {@link Manifest }
+     *     {@link String }
      *     
      */
-    public Manifest getManifest() {
-        return manifest;
+    public String getValue() {
+        return value.trim();
     }
 
     /**
-     * Sets the value of the manifest property.
+     * Sets the value of the value property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Manifest }
+     *     {@link String }
      *     
      */
-    public void setManifest(Manifest value) {
-        this.manifest = value;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     /**
-     * Gets the value of the generate property.
+     * Gets the value of the basePath property.
      * 
      * @return
      *     possible object is
-     *     {@link Boolean }
+     *     {@link String }
      *     
      */
-    public boolean isGenerate() {
-        if (generate == null) {
-            return false;
-        } else {
-            return generate;
-        }
+    public String getBasePath() {
+        return basePath;
     }
 
     /**
-     * Sets the value of the generate property.
+     * Sets the value of the basePath property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Boolean }
+     *     {@link String }
      *     
      */
-    public void setGenerate(Boolean value) {
-        this.generate = value;
+    public void setBasePath(String value) {
+        this.basePath = value;
     }
 
 }

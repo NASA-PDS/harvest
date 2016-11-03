@@ -29,6 +29,7 @@ import gov.nasa.pds.harvest.crawler.metadata.extractor.Pds4MetExtractorConfig;
 import gov.nasa.pds.harvest.file.ChecksumManifest;
 import gov.nasa.pds.harvest.ingest.BatchManager;
 import gov.nasa.pds.harvest.ingest.RegistryIngester;
+import gov.nasa.pds.harvest.policy.Manifest;
 import gov.nasa.pds.harvest.policy.Policy;
 import gov.nasa.pds.registry.client.SecurityContext;
 import gov.nasa.pds.registry.exception.RegistryClientException;
@@ -205,10 +206,11 @@ public class Harvester {
   public void harvest(Policy policy) throws ConnectionException, IOException {
     boolean doCrawlerPersistance = false;
     Map<File, String> checksums = new HashMap<File, String>();
-    if (!policy.getChecksums().getManifest().isEmpty()) {
-      for (String manifest : policy.getChecksums().getManifest()) {
-        checksums.putAll(ChecksumManifest.read(new File(manifest)));
-      }
+    if (policy.getChecksums().getManifest() != null) {
+      Manifest manifest = policy.getChecksums().getManifest();
+      ChecksumManifest cm = new ChecksumManifest(
+          manifest.getBasePath());
+      checksums.putAll(cm.read(new File(manifest.getValue())));
       fileObjectRegistrationAction.setChecksumManifest(checksums);
     }
     if (waitInterval != -1 && daemonPort != -1) {

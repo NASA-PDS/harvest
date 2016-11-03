@@ -32,7 +32,9 @@
     </accessUrl>
   </accessUrls>
 
-  <checksums generate="true"/>
+  <checksums generate="true">
+    <manifest>$HOME/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/CHECKSUMS.TXT</manifest>
+  </checksums>
 
   <candidates>
     <!-- Harvest will register PDS3 data products under the objectType 'Product_Proxy_PDS3'. -->

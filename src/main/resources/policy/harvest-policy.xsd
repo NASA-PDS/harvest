@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!--
-  Copyright 2010-2014, by the California Institute of Technology.
+  Copyright 2010-2016, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology
   Transfer at the California Institute of Technology.
@@ -29,7 +29,6 @@
 <xsd:element name="name" type="xsd:string"/>
 <xsd:element name="description" type="xsd:string"/>
 <xsd:element name="value" type="xsd:string"/>
-<xsd:element name="manifest" type="xsd:string"/>
 <xsd:element name="include" type="xsd:string"/>
 <xsd:element name="exclude" type="xsd:string"/>
 
@@ -45,6 +44,16 @@
 <xsd:attribute name="value" type="xsd:string"/>
 <xsd:attribute name="name" type="xsd:string"/>
 <xsd:attribute name="generate" type="xsd:boolean" default="false"/>
+<xsd:attribute name="basePath" type="xsd:string"/>
+
+<xsd:element name="manifest" type="Manifest"/>
+<xsd:complexType name="Manifest">
+   <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+         <xsd:attribute ref="basePath"/>
+      </xsd:extension>
+   </xsd:simpleContent>
+</xsd:complexType>
 
 <xsd:element name="fileFilter" type="FileFilter"/>
 <xsd:complexType name="FileFilter">
@@ -254,7 +263,7 @@
 <xsd:element name="checksums" type="Checksums"/>
 <xsd:complexType name="Checksums">
    <xsd:sequence>
-      <xsd:element ref="manifest" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="manifest" minOccurs="0" maxOccurs="1"/>
    </xsd:sequence>
    <xsd:attribute ref="generate"/>
 </xsd:complexType>

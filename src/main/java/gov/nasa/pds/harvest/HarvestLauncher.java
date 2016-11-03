@@ -1,4 +1,4 @@
-// Copyright 2006-2015, by the California Institute of Technology.
+// Copyright 2006-2016, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -24,6 +24,7 @@ import gov.nasa.pds.harvest.logging.handler.HarvestStreamHandler;
 import gov.nasa.pds.harvest.policy.Directory;
 import gov.nasa.pds.harvest.policy.DirectoryFilter;
 import gov.nasa.pds.harvest.policy.FileFilter;
+import gov.nasa.pds.harvest.policy.Manifest;
 import gov.nasa.pds.harvest.policy.Namespace;
 import gov.nasa.pds.harvest.policy.Pds3Directory;
 import gov.nasa.pds.harvest.policy.Policy;
@@ -413,10 +414,18 @@ public class HarvestLauncher {
         "Registry Package Name       " + registryPackageName));
     log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
         "Registration Package GUID   " + registryPackageGuid));
+    if (policy.getChecksums().getManifest() != null) {
+      Manifest m = policy.getChecksums().getManifest();
+      log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
+        "Checksum Manifest File      " + m.getValue().trim()));
+      log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
+        "Manifest File Base Path     " + m.getBasePath().trim()));
+    }
     if (batchMode != 0) {
       log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION,
-        "Batch Mode                  " + batchMode + "\n"));
+        "Batch Mode                  " + batchMode));
     }
+    log.log(new ToolsLogRecord(ToolsLevel.CONFIGURATION, "\n"));
   }
 
   /**
@@ -526,6 +535,32 @@ public class HarvestLauncher {
         || (!pds3Dir.getPath().isEmpty()) ) {
       policy.setDirectories(directories);
       policy.setPds3Directories(pds3Dir);
+    }
+    // Set the base path if a checksum manifest file was specified
+    if (policy.getChecksums().getManifest() != null) {
+      Manifest m = policy.getChecksums().getManifest();
+      if (m.getBasePath() == null) {
+        if (policy.getDirectories().getPath().size() > 1 ||
+            policy.getPds3Directories().getPath().size() > 1) {
+          throw new ParserConfigurationException("Must specify a basePath "
+              + "for the Checksum Manifest file if multiple target "
+              + "directories are specified.");
+        }
+        String basePath = "";
+        if (!policy.getDirectories().getPath().isEmpty()) {
+          basePath = policy.getDirectories().getPath().get(0);
+        } else if (!policy.getPds3Directories().getPath().isEmpty()) {
+          basePath = policy.getPds3Directories().getPath().get(0);
+        } else {
+          throw new ParserConfigurationException("No target directory "
+              + "specified in the configuration to set the base path "
+              + "for the Checksum Manifest file.");
+        }
+        log.log(new ToolsLogRecord(ToolsLevel.DEBUG, 
+            "Setting base path for use in the Checksum Manifest file to '"
+                + basePath + "'"));
+        m.setBasePath(basePath);
+      }
     }
     // Display config parameters in the report log
     logHeader(policy);

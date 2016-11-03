@@ -1,4 +1,4 @@
-// Copyright 2006-2012, by the California Institute of Technology.
+// Copyright 2006-2016, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -37,6 +37,17 @@ public class ChecksumManifest {
   private static Logger log = Logger.getLogger(
       ChecksumManifest.class.getName());
 
+  private File basePath;
+  
+  /**
+   * Constructor.
+   * 
+   * @param basePath A base path for resolving relative file references.
+   */
+  public ChecksumManifest(String basePath) {
+    this.basePath = new File(basePath);
+  }
+  
   /**
    * Reads a checksum manifest file.
    *
@@ -46,10 +57,9 @@ public class ChecksumManifest {
    *
    * @throws IOException If there was an error reading the checksum manifest.
    */
-  public static HashMap<File, String> read(File manifest)
+  public HashMap<File, String> read(File manifest)
   throws IOException {
     HashMap<File, String> checksums = new HashMap<File, String>();
-    String parent = manifest.getParent();
     LineNumberReader reader = new LineNumberReader(new FileReader(manifest));
     String line = "";
     try {
@@ -63,7 +73,7 @@ public class ChecksumManifest {
         String[] tokens = line.split("\\s{1,2}", 2);
         File file = new File(tokens[1]);
         if (!file.isAbsolute()) {
-          file = new File(parent, file.toString());
+          file = new File(basePath, file.toString());
         }
         //Normalize the file
         file = new File(FilenameUtils.normalize(file.toString()));

@@ -108,11 +108,16 @@
 
         <source>
 &lt;checksums generate="true"&gt;
-  &lt;manifest&gt;$HOME/dph_example_archive_VG2PLS/bundle_checksums.txt&lt;/manifest&gt;
+  &lt;manifest basePath="$HOME/dph_example_archive_VG2PLS"&gt;
+    $HOME/dph_example_archive_VG2PLS/bundle_checksums.txt
+  &lt;/manifest&gt;
 &lt;/checksums&gt;
         </source>
 
-        <p>Specify a Checksum Manifest file. With this configuration, Harvest will generate checksums for each file object to be registered and compare against the supplied checksums in the data product label as well as the manifest file.
+        <p>Specify a Checksum Manifest file. The <i>basePath</i> attribute is used to resolve relative file references, if found, within a Manifest file. If this attribute is not specified in the policy configuration file, the default behavior is to use the target directory as the base path. If there are multiple target directories specified, then it is required to explicitly specify a base path value in the policy.
+        </p>
+        
+        <p>With this configuration, Harvest will generate checksums for each file object to be registered and compare against the supplied checksums in the data product label as well as the manifest file.
         </p>
 
         <p><b><i>Candidate Products</i></b></p>
