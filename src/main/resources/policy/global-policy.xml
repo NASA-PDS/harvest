@@ -628,6 +628,10 @@
       <!-- Agency -->
       <xPath slotName="agency_name">//Agency/name</xPath>
       <xPath slotName="agency_description">//Agency/description</xPath>
+      <!-- Airborne -->
+      <xPath slotName="airborne_name">//Airborne/name</xPath>
+      <xPath slotName="airborne_type">//Airborne/type</xPath>
+      <xPath slotName="airborne_description">//Airborne/description</xPath>      
       <!-- Facility -->
       <xPath slotName="facility_name">//Facility/name</xPath>
       <xPath slotName="facility_type">//Facility/type</xPath>
