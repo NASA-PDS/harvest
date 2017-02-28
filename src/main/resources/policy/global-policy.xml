@@ -1453,6 +1453,14 @@
          node_to_agency
        </modelValue>
      </referenceTypeMap>
+     <referenceTypeMap value="airborne_ref">
+       <modelValue>
+         is_airborne
+       </modelValue>
+       <modelValue>
+         telescope_to_airborne
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="archival_ref">
        <modelValue>
          native_to_archival
@@ -1644,7 +1652,13 @@
      </referenceTypeMap>
      <referenceTypeMap value="facility_ref">
        <modelValue>
+         instrument_to_facility
+       </modelValue>
+       <modelValue>
          is_facility
+       </modelValue>
+       <modelValue>
+         telescope_to_facility
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="geometry_ref">
@@ -1769,6 +1783,14 @@
          has_node
        </modelValue>
      </referenceTypeMap>
+     <referenceTypeMap value="observatory_ref">
+       <modelValue>
+         instrument_to_observatory
+       </modelValue>
+       <modelValue>
+         telescope_to_observatory
+       </modelValue>
+     </referenceTypeMap>
      <referenceTypeMap value="operator_ref">
        <modelValue>
          node_to_operator
@@ -1865,6 +1887,9 @@
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="telescope_ref">
+       <modelValue>
+         instrument_to_telescope
+       </modelValue>
        <modelValue>
          is_telescope
        </modelValue>
