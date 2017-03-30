@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Copyright 2010-2016, by the California Institute of Technology.
+  Copyright 2010-2017, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology Transfer
   at the California Institute of Technology.
@@ -23,12 +23,15 @@
   </properties>
 
   <body>
-    <release version="TBD" date="TBD" description="TBD">
+    <release version="1.12.0" date="2017-03-31" description="This release of the Harvest Tool is a component of the integrated release 7.1.0 of the PDS4 System. This is an operational release of the system components to date.">
       <action dev="mcayanan" type="fix" issue="PDS-471">
         The tool needs to support collections with multiple collection product versions.
       </action>
       <action dev="mcayanan" type="update" issue="PDS-473">
         Improved resolution of relative file path references in a Checksum Manifest file.
+      </action>
+      <action dev="shardman" type="update">
+        Added support for Airborne and Telescope context products.
       </action>
     </release>
 
