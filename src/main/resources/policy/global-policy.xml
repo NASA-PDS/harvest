@@ -48,6 +48,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+      <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>      
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -201,6 +204,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+       <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>     
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -342,6 +348,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+       <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -459,6 +468,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+      <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -605,6 +617,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+       <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -733,6 +748,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+       <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -802,6 +820,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+       <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -872,6 +893,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+       <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -942,6 +966,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+       <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -997,6 +1024,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+       <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -1054,6 +1084,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+       <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -1110,6 +1143,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+       <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -1180,6 +1216,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+      <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -1250,6 +1289,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+      <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -1304,6 +1346,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+      <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -1359,6 +1404,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+      <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>       
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -1423,6 +1471,9 @@
       <xPath slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
+      <xPath slotName="citation_doi">
+        //Identification_Area/Citation_Information/doi
+      </xPath>       
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -1496,6 +1547,9 @@
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="browse_ref">
+       <modelValue>
+         browse_to_browse
+       </modelValue>     
        <modelValue>
          collection_to_browse
        </modelValue>
@@ -1610,6 +1664,9 @@
      </referenceTypeMap>
      <referenceTypeMap value="document_ref">
        <modelValue>
+         browse_to_document
+       </modelValue>     
+       <modelValue>
          bundle_to_document
        </modelValue>
        <modelValue>
@@ -1657,6 +1714,9 @@
      <referenceTypeMap value="facility_ref">
        <modelValue>
          instrument_to_facility
+       </modelValue>
+       <modelValue>
+         investigation_to_facility
        </modelValue>
        <modelValue>
          is_facility
@@ -1716,6 +1776,9 @@
          document_to_instrument
        </modelValue>
        <modelValue>
+         facility_to_instrument
+       </modelValue>        
+       <modelValue>
          instrument_host_to_instrument
        </modelValue>
        <modelValue>
@@ -1729,6 +1792,9 @@
        </modelValue>
        <modelValue>
          target_to_instrument
+       </modelValue>
+       <modelValue>
+         telescope_to_instrument
        </modelValue>
        <modelValue>
          has_instrument
@@ -1747,6 +1813,9 @@
        <modelValue>
          document_to_investigation
        </modelValue>
+       <modelValue>
+         facility_to_investigation
+       </modelValue>       
        <modelValue>
          instrument_host_to_investigation
        </modelValue>
@@ -1891,6 +1960,9 @@
        </modelValue>
      </referenceTypeMap>
      <referenceTypeMap value="telescope_ref">
+       <modelValue>
+         facility_to_telescope
+       </modelValue>     
        <modelValue>
          instrument_to_telescope
        </modelValue>
