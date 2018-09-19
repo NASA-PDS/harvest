@@ -70,6 +70,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>                    
       <!-- DD_Attribute_Full -->
       <xPath slotName="attribute_name">
         //DD_Attribute_Full/name
@@ -308,6 +323,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Bundle -->
       <xPath slotName="bundle_type">
         //Bundle/bundle_type
@@ -370,6 +400,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- DD_Class_Full -->
       <xPath slotName="class_name">
         //DD_Class_Full/name
@@ -572,6 +617,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Collection -->
       <xPath slotName="collection_type">
         //Collection/collection_type
@@ -640,6 +700,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Agency -->
       <xPath slotName="agency_name">//Agency/name</xPath>
       <xPath slotName="agency_description">//Agency/description</xPath>
@@ -770,6 +845,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Data_Set_PDS3 -->
       <xPath slotName="data_set_id">//Data_Set_PDS3/data_set_id</xPath>
       <xPath slotName="data_set_name">//Data_Set_PDS3/data_set_name</xPath>
@@ -842,6 +932,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Information_Package_Component -->
       <xPath slotName="checksum_manifest_checksum">
         //Information_Package_Component/checksum_manifest_checksum
@@ -915,6 +1020,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Information_Package_Component -->
       <xPath slotName="checksum_manifest_checksum">
         //Information_Package_Component/checksum_manifest_checksum
@@ -988,6 +1108,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Instrument_Host_PDS3 -->
       <xPath slotName="instrument_host_name">//Instrument_Host_PDS3/instrument_host_name</xPath>
       <xPath slotName="instrument_host_description">//Instrument_Host_PDS3/instrument_host_desc</xPath>
@@ -1046,6 +1181,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Instrument_PDS3 -->
       <xPath slotName="instrument_name">//Instrument_PDS3/instrument_name</xPath>
       <xPath slotName="instrument_description">//Instrument_PDS3/instrument_desc</xPath>
@@ -1106,6 +1256,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Mission_PDS3 -->
       <xPath slotName="mission_name">//Mission_PDS3/mission_name</xPath>
       <xPath slotName="mission_description">//Mission_PDS3/mission_desc</xPath>
@@ -1165,6 +1330,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Information_Package_Component -->
       <xPath slotName="checksum_manifest_checksum">
         //Information_Package_Component/checksum_manifest_checksum
@@ -1238,6 +1418,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Information_Package_Component_Deep_Archive -->
       <xPath slotName="manifest_checksum">
         //Information_Package_Component_Deep_Archive/manifest_checksum
@@ -1311,6 +1506,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Subscriber_PDS3 -->
       <xPath slotName="subscriber_full_name">//Subscriber_PDS3/full_name</xPath>
       <xPath slotName="subscriber_local_identifier">//Subscriber_PDS3/local_identifier</xPath>
@@ -1368,6 +1578,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Target_PDS3 -->
       <xPath slotName="target_name">//Target_PDS3/target_name</xPath>
       <xPath slotName="target_primary_body_name">//Target_PDS3/primary_body_name</xPath>
@@ -1426,6 +1651,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Volume_PDS3 -->
       <xPath slotName="volume_archive_status">//Volume_PDS3/archive_status</xPath>
       <xPath slotName="volume_description">//Volume_PDS3/description</xPath>
@@ -1493,6 +1733,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Volume_Set_PDS3 -->
       <xPath slotName="volume_set_description">//Volume_Set_PDS3/description</xPath>
       <xPath slotName="volume_set_series_name">//Volume_Set_PDS3/volume_series_name</xPath>
@@ -1921,6 +2176,23 @@
        <modelValue>
          collection_to_schema
        </modelValue>
+     </referenceTypeMap>
+     <referenceTypeMap value="source_product_ref">
+       <modelValue>
+         data_to_calibrated_source_product
+       </modelValue>
+       <modelValue>
+         data_to_derived_source_product
+       </modelValue>
+       <modelValue>
+         data_to_partially_processed_source_product
+       </modelValue>
+       <modelValue>
+         data_to_raw_source_product
+       </modelValue>       
+       <modelValue>
+         data_to_telemetry_source_product
+       </modelValue>                     
      </referenceTypeMap>
      <referenceTypeMap value="spice_ref">
        <modelValue>

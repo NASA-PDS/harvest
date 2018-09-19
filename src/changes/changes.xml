@@ -35,6 +35,9 @@
       </action>
       <action dev="mcayanan" type="update" issue="SW-36">
         Updated reference type mapping to support additional browse product relationships.
+      </action>
+      <action dev="mcayanan" type="add" issue="SW-38">
+        Added support for Source_Product_* classes.
       </action>                  
     </release>
 

@@ -92,6 +92,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- File_Area_Ancillary -->
       <xPath slotName="file_name">
         //File_Area_Ancillary/File/file_name
@@ -231,6 +246,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- Document -->
       <xPath slotName="document_revision_id">//Document/revision_id</xPath>
       <xPath slotName="document_name">//Document/document_name</xPath>
@@ -403,6 +433,21 @@
       <xPath slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
+      <xPath slotName="source_product_curating_facility">
+        //Reference_List/Source_Product_External/curating_facility
+      </xPath>
+      <xPath slotName="source_product_description">
+        //Reference_List/Source_Product_External/description
+      </xPath>
+      <xPath slotName="source_product_doi">
+        //Reference_List/Source_Product_External/doi
+      </xPath>
+      <xPath slotName="source_product_identifier">
+        //Reference_List/Source_Product_External/external_source_product_identifier
+      </xPath>
+      <xPath slotName="source_product_reference_type">
+        //Reference_List/Source_Product_External/reference_type
+      </xPath>      
       <!-- File_Area_Observational -->
       <xPath slotName="file_name">
         //File_Area_Observational/File/file_name

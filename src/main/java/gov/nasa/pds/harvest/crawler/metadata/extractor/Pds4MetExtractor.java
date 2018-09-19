@@ -36,6 +36,7 @@ import gov.nasa.pds.harvest.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.logging.ToolsLevel;
 import gov.nasa.pds.harvest.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.policy.XPath;
+import gov.nasa.pds.harvest.util.LidVid;
 import gov.nasa.pds.harvest.util.XMLExtractor;
 import gov.nasa.pds.registry.model.Slot;
 
@@ -244,16 +245,15 @@ public class Pds4MetExtractor implements MetExtractor {
     for (TinyElementImpl reference : references) {
       List<TinyElementImpl> children = extractor.getNodesFromItem("*",
           reference);
-      ReferenceEntry re = new ReferenceEntry();
-      re.setFile(product);
+      List<LidVid> lidvids = new ArrayList<LidVid>();
+      String refTypeMap = "";
       for (TinyElementImpl child : children) {
-        re.setLineNumber(child.getLineNumber());
         name = child.getLocalPart();
         value = child.getStringValue();
         if (name.equals("lidvid_reference")) {
           try {
-            re.setLogicalID(value.split("::")[0]);
-            re.setVersion(value.split("::")[1]);
+            String[] tokens = value.split("::");
+            lidvids.add(new LidVid(tokens[0], tokens[1]));
           } catch (ArrayIndexOutOfBoundsException ae) {
             log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Expected "
                 + "a LID-VID reference, but found this: " + value,
@@ -262,33 +262,51 @@ public class Pds4MetExtractor implements MetExtractor {
             break;
           }
         } else if (name.equals("lid_reference")) {
-          re.setLogicalID(value);
+          lidvids.add(new LidVid(value));
         } else if (name.equals(REFERENCE_TYPE)) {
           if (config.containsReferenceTypeMap()) {
-            String refTypeMap = config.getReferenceTypeMap(value);
+            refTypeMap = config.getReferenceTypeMap(value);
             if (refTypeMap != null) {
               log.log(new ToolsLogRecord(ToolsLevel.INFO,
                   "Mapping reference type '" + value + "' to '"
                   + refTypeMap + "'.", product.toString(),
                   child.getLineNumber()));
-              re.setType(refTypeMap);
             } else {
               log.log(new ToolsLogRecord(ToolsLevel.WARNING,
                   "No mapping found for reference type '" + value
                   + "'.", product.toString(), child.getLineNumber()));
-              re.setType(value);
+              refTypeMap = value;
             }
           } else {
-            re.setType(value);
+            refTypeMap = value;
           }
         }
       }
-      if (re.getType() == null) {
+      if (lidvids.isEmpty()) {
+        log.log(new ToolsLogRecord(ToolsLevel.SEVERE, 
+            "Missing one or more 'lidvid_reference' or 'lid_reference' elements.",
+            product.toString(), reference.getLineNumber()));
+      } else if (refTypeMap.isEmpty()) {
         log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Could not find \'"
             + REFERENCE_TYPE + "\' element.", product.toString(),
-            re.getLineNumber()));
+            reference.getLineNumber()));        
       } else {
-        refEntries.add(re);
+        // This allows us to support the one-to-many relationship
+        // use case (i.e. Source_Product_Internal area can contain
+        // multiple lidvids that are associated to a single reference type)
+        for (LidVid lidvid : lidvids) {
+          ReferenceEntry re = new ReferenceEntry();
+          if (lidvid.hasVersion()) {
+            re.setLogicalID(lidvid.getLid());
+            re.setVersion(lidvid.getVersion());
+          } else {
+            re.setLogicalID(lidvid.getLid());
+          }
+          re.setFile(product);
+          re.setType(refTypeMap);
+          re.setLineNumber(reference.getLineNumber());
+          refEntries.add(re);
+        }
       }
     }
     return refEntries;
