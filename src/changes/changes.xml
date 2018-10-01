@@ -23,6 +23,9 @@
   </properties>
 
   <body>
+    <release version="1.16.0" date="2019-03-29" description="This release of the Harvest Tool is a component of the integrated release 9.1.0 of the PDS4 System. This is an operational release of the system components to date.">
+    </release>
+      
     <release version="1.15.0" date="2018-09-28" description="This release of the Harvest Tool is a component of the integrated release 9.0.0 of the PDS4 System. This is an operational release of the system components to date.">
       <action dev="mcayanan" type="update" issue="SW-33">
         Updated to extract doi metadata from the Citation_Information area.
