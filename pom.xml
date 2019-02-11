@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!--
-  Copyright 2010-2018, by the California Institute of Technology.
+  Copyright 2016-2018, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology
   Transfer at the California Institute of Technology.
@@ -26,12 +26,12 @@
 
   <groupId>gov.nasa.pds.2010.ingest</groupId>
   <artifactId>harvest</artifactId>
-  <version>1.16.0-dev</version>
+  <version>0.4.0-dev</version>
   <packaging>jar</packaging>
 
   <name>Harvest Tool</name>
   <description>
-    The Harvest Tool provides functionality for capturing and registering product metadata. The tool will run locally at the Discipline Node to crawl the local data repository in order to discover products and register associated metadata with the Registry Service.
+    The Harvest Tool provides functionality for capturing and indexing product metadata. The tool will run locally at the Discipline Node to crawl the local data repository in order to discover products and index associated metadata with the Search Service.
   </description>
   <url>https://pds-cm.jpl.nasa.gov/pds4/ingest/harvest/</url>
 
@@ -64,46 +64,19 @@
     </developer>
   </developers>
 
-  <contributors>
-    <contributor>
-      <name>Steve Hughes</name>
-      <email>John.S.Hughes@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>System Engineering Lead</role>
-      </roles>
-    </contributor>
-    <contributor>
-      <name>Ron Joyner</name>
-      <email>Ronald.Joyner@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>System Engineer</role>
-      </roles>
-    </contributor>
-    <contributor>
-      <name>Chris Mattmann</name>
-      <email>Chris.Mattmann@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>OODT Consultant</role>
-      </roles>
-    </contributor>
-  </contributors>
-
   <build>
     <resources>
       <resource>
         <filtering>true</filtering>
-        <targetPath>gov/nasa/pds/harvest/util</targetPath>
-        <directory>src/main/resources/conf</directory>
+        <targetPath>gov/nasa/pds/harvest/search/util</targetPath>
+        <directory>src/main/resources/policy</directory>
         <includes>
-          <include>harvest.properties</include>
+          <include>harvest-search.properties</include>
         </includes>
       </resource>
       <resource>
         <filtering>true</filtering>
-        <targetPath>gov/nasa/pds/harvest/policy</targetPath>
+        <targetPath>gov/nasa/pds/harvest/search/policy</targetPath>
         <directory>src/main/resources/policy</directory>
         <includes>
           <include>harvest-policy.xsd</include>
@@ -111,7 +84,7 @@
       </resource>
       <resource>
         <filtering>true</filtering>
-        <targetPath>gov/nasa/pds/harvest</targetPath>
+        <targetPath>gov/nasa/pds/harvest/search</targetPath>
         <directory>src/main/resources/policy</directory>
         <includes>
           <include>global-policy.xml</include>
@@ -125,7 +98,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>gov.nasa.pds.harvest.HarvestLauncher</mainClass>
+              <mainClass>gov.nasa.pds.harvest.search.HarvestSearchLauncher</mainClass>
               <addClasspath>true</addClasspath>
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
             </manifest>
@@ -293,6 +266,10 @@
           <groupId>xerces</groupId>
           <artifactId>xercesImpl</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-jdk14</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <!--
@@ -347,6 +324,10 @@
           <groupId>org.apache.tika</groupId>
           <artifactId>tika-core</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>org.apache.solr</groupId>
+          <artifactId>solr-core</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -354,6 +335,37 @@
       <artifactId>tika-core</artifactId>
       <version>1.4</version>
     </dependency>
+    <dependency>
+      <groupId>gov.nasa.pds.2010.search</groupId>
+      <artifactId>search-core</artifactId>
+      <version>${search-version}</version>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>net.sf.saxon</groupId>
+          <artifactId>saxon</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>net.sf.saxon</groupId>
+          <artifactId>saxon-dom</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.solr</groupId>
+          <artifactId>solr-core</artifactId>
+        </exclusion>        
+      </exclusions>
+    </dependency> 
+    <dependency>
+      <artifactId>solr-solrj</artifactId>
+      <groupId>org.apache.solr</groupId>
+      <version>7.5.0</version>
+      <scope>compile</scope>
+    </dependency>
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-jdk14</artifactId>
+	    <version>1.7.25</version>
+	</dependency>
   </dependencies>
 
   <!-- Project Information and Reports inherited from parent. -->

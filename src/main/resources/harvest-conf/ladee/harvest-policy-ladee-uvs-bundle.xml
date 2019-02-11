@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Harvest Tool Policy File
+-->
+
+<policy>
+  <registryPackage>
+    <name>Harvest Package Atmospheres LADEE UVS Bundle Product</name>
+    <description>This is a Harvest run of the Atmospheres LADEE UVS Bundle product.</description>
+  </registryPackage>
+
+  <directories>
+    <path>/PDS/data/anonymous/PDS/data/PDS4/LADEE/uvs_bundle</path>
+    <fileFilter>
+      <include>*.xml</include>
+      <include>*.XML</include>
+    </fileFilter>
+    <directoryFilter>
+      <exclude>calibration</exclude>
+      <exclude>context</exclude>
+      <exclude>data_calibrated</exclude>
+      <exclude>data_raw</exclude>
+      <exclude>document</exclude>
+      <exclude>xml_schema</exclude>
+    </directoryFilter>
+  </directories>
+
+  <accessUrls registerFileUrls="false">
+    <accessUrl>
+      <baseUrl>http://atmos.nmsu.edu/PDS</baseUrl>
+      <offset>/PDS/data/anonymous/PDS</offset>
+    </accessUrl>
+  </accessUrls>
+
+  <checksums generate="true" />
+
+  <candidates>
+    <namespace prefix="ladee" uri="http://pds.nasa.gov/pds4/ladee/v1"/>
+  </candidates>
+</policy>

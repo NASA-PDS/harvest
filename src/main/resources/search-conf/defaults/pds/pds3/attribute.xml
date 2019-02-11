@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product>
+  <specification>
+    <title>PDS3-Attribute</title>
+    <query>
+      <registryPath>objectType</registryPath>
+      <value>Product_Attribute_Definition</value>
+    </query>
+    <query>
+      <registryPath>status</registryPath>
+      <value>Approved</value>
+    </query>
+    <checkAssociations>true</checkAssociations>
+  </specification>
+
+  <indexFields>
+    <!-- Identifier Fields -->
+    <field name="search_id" type="required">
+      <outputString format="text">pds3:{lid}</outputString>
+    </field>
+    <field name="identifier" type="required">
+      <registryPath>lid</registryPath>
+    </field>
+    <field name="version_id" type="string">
+      <registryPath>version_id</registryPath>
+    </field>
+    <!-- Search UI Fields -->
+    <!-- The resLocation field is not populated since there is no jump page. -->
+    <field name="title" type="required">
+      <registryPath>name</registryPath>
+    </field>
+    <field name="description" type="required">
+      <registryPath>attribute_definition</registryPath>
+    </field>
+    <field name="data_product_type" type="required">
+      <outputString format="text">Attribute_Definition</outputString>
+    </field>
+    <field name="data_class" type="string">
+      <registryPath>data_class</registryPath>
+    </field>
+    <field name="objectType" type="string">
+      <registryPath>objectType</registryPath>
+    </field>
+    <field name="pds_model_version" type="string">
+      <registryPath>attribute_type</registryPath>
+    </field>
+    <field name="agency_name" type="string" default="nasa">
+      <registryPath>node_ref.agency_ref.alternate_id</registryPath>
+    </field>
+    <!-- Identification_Area Fields -->
+    <field name="product_class" type="string">
+      <registryPath>product_class</registryPath>
+    </field>
+    <field name="alternate_id" type="string">
+      <registryPath>alternate_id</registryPath>
+    </field>
+    <field name="alternate_title" type="string">
+      <registryPath>alternate_title</registryPath>
+    </field>
+    <field name="citation_keyword" type="string">
+      <registryPath>citation_keyword</registryPath>
+    </field>
+    <field name="modification_date" type="date">
+      <registryPath>modification_date</registryPath>
+    </field>
+    <field name="modification_description" type="string">
+      <registryPath>modification_description</registryPath>
+    </field>
+    <!-- DD_Attribute_Full -->
+    <field name="attribute_name" type="string">
+      <registryPath>attribute_name</registryPath>
+    </field>
+    <field name="attribute_version_id" type="string">
+      <registryPath>attribute_version_id</registryPath>
+    </field>
+    <field name="attribute_class_name" type="string">
+      <registryPath>attribute_class_name</registryPath>
+    </field>
+    <field name="attribute_local_identifier" type="string">
+      <registryPath>attribute_local_identifier</registryPath>
+    </field>
+    <field name="attribute_steward_id" type="string">
+      <registryPath>attribute_steward_id</registryPath>
+    </field>
+    <field name="attribute_type" type="string">
+      <registryPath>attribute_type</registryPath>
+    </field>
+    <field name="attribute_namespace_id" type="string">
+      <registryPath>attribute_namespace_id</registryPath>
+    </field>
+    <field name="attribute_nillable_flag" type="string">
+      <registryPath>attribute_nillable_flag</registryPath>
+    </field>
+    <field name="attribute_submitter_name" type="string">
+      <registryPath>attribute_submitter_name</registryPath>
+    </field>
+    <field name="attribute_definition" type="string">
+      <registryPath>attribute_definition</registryPath>
+    </field>
+    <field name="attribute_comment" type="string">
+      <registryPath>attribute_comment</registryPath>
+    </field>
+    <field name="attribute_registered_by" type="string">
+      <registryPath>attribute_registered_by</registryPath>
+    </field>
+    <field name="attribute_registration_authority_id" type="string">
+      <registryPath>attribute_registration_authority_id</registryPath>
+    </field>
+    <field name="attribute_concept" type="string">
+      <registryPath>attribute_concept</registryPath>
+    </field>
+    <!-- DD_Attribute_Full/Terminological_Entry Fields -->
+    <field name="attribute_term_entry_name" type="string">
+      <registryPath>attribute_term_entry_name</registryPath>
+    </field>
+    <field name="attribute_term_entry_definition" type="string">
+      <registryPath>attribute_term_entry_definition</registryPath>
+    </field>
+    <field name="attribute_term_entry_language" type="string">
+      <registryPath>attribute_term_entry_language</registryPath>
+    </field>
+    <field name="attribute_term_entry_preferred_flag" type="string">
+      <registryPath>attribute_term_entry_preferred_flag</registryPath>
+    </field>
+    <!-- DD_Attribute_Full/DD_Value_Domain_Full Fields -->
+    <field name="attribute_value_domain_enumeration_flag" type="string">
+      <registryPath>attribute_value_domain_enumeration_flag</registryPath>
+    </field>
+    <field name="attribute_value_domain_value_data_type" type="string">
+      <registryPath>attribute_value_domain_value_data_type</registryPath>
+    </field>
+    <field name="attribute_value_domain_formation_rule" type="string">
+      <registryPath>attribute_value_domain_formation_rule</registryPath>
+    </field>
+    <field name="attribute_value_domain_minimum_characters" type="string">
+      <registryPath>attribute_value_domain_minimum_characters</registryPath>
+    </field>
+    <field name="attribute_value_domain_maximum_characters" type="string">
+      <registryPath>attribute_value_domain_maximum_characters</registryPath>
+    </field>
+    <field name="attribute_value_domain_minimum_value" type="string">
+      <registryPath>attribute_value_domain_minimum_value</registryPath>
+    </field>
+    <field name="attribute_value_domain_maximum_value" type="string">
+      <registryPath>attribute_value_domain_maximum_value</registryPath>
+    </field>
+    <field name="attribute_value_domain_pattern" type="string">
+      <registryPath>attribute_value_domain_pattern</registryPath>
+    </field>
+    <field name="attribute_value_domain_unit_of_measure_type" type="string">
+      <registryPath>attribute_value_domain_unit_of_measure_type</registryPath>
+    </field>
+    <field name="attribute_value_domain_conceptual_domain" type="string">
+      <registryPath>attribute_value_domain_conceptual_domain</registryPath>
+    </field>
+    <field name="attribute_value_domain_specified_unit_id" type="string">
+      <registryPath>attribute_value_domain_specified_unit_id</registryPath>
+    </field>
+    <!-- DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value Fields -->
+    <field name="attribute_value_domain_value" type="string">
+      <registryPath>attribute_value_domain_value</registryPath>
+    </field>
+    <field name="attribute_value_domain_value_meaning" type="string">
+      <registryPath>attribute_value_domain_value_meaning</registryPath>
+    </field>
+    <field name="attribute_value_domain_value_begin_date" type="string">
+      <registryPath>attribute_value_domain_value_begin_date</registryPath>
+    </field>
+    <field name="attribute_value_domain_value_end_date" type="string">
+      <registryPath>attribute_value_domain_value_end_date</registryPath>
+    </field>
+  </indexFields>
+</product>

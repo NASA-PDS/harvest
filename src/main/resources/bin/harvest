@@ -12,7 +12,7 @@
 # may be required before exporting such information to foreign countries or
 # providing access to foreign nationals.
 #
-# $Id$
+# $Id: harvest 13499 2014-09-25 23:45:29Z shardman $
 
 # Bourne Shell script that allows easy execution of the Harvest Tool
 # without the need to set the CLASSPATH or having to type in that long java
@@ -38,15 +38,10 @@ if [ ! -f ${LIB_DIR}/harvest-*.jar ]; then
     exit 1
 fi
 
-if [ ! -f ${KEYSTORE} ]; then
-    echo "Cannot find keystore file: ${KEYSTORE}" 1>&2
-    exit 1
-fi
-
 # Finds the jar file in LIB_DIR and sets it to HARVEST_JAR.
 HARVEST_JAR=`ls ${LIB_DIR}/harvest-*.jar`
 
 # Executes Harvest via the executable jar file
 # Arguments are passed in to the tool via '$@'
-"${JAVA_HOME}"/bin/java -Xms256m -Xmx1024m -Dpds.registry="http://localhost:8080/registry" -Dpds.security.keystore="${KEYSTORE}" -jar ${HARVEST_JAR} "$@"
+"${JAVA_HOME}"/bin/java -Xms256m -Xmx1024m -Dpds.search="http://localhost:8983/solr" -Dpds.harvest.search.conf="${PARENT_DIR}/search-conf" -jar ${HARVEST_JAR} "$@"
 

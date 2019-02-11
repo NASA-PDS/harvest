@@ -33,6 +33,7 @@
         <li><a href="#Command-Line Options">Command-Line Options</a></li>
         <li><a href="#Advanced_Usage">Advanced Usage</a></li>
         <li><a href="#Harvest_Policy_File">Harvest Policy File</a></li>
+        <li><a href="#Search_Core_Configurations">Search Core Configurations</a></li>
         <li><a href="#Report_Format">Report Format</a></li>
         <li><a href="#Common_Errors">Common Errors</a></li>
       </ul>
@@ -47,18 +48,6 @@
 
       <subsection name="Setup">
         <p>Included in the Harvest package is an example policy configuration file for PDS3 data product registration. Go to the <i>examples/</i> folder, make a copy of the <i>harvest-policy-pds3.xml</i> file and modify it as necessary. The following breaks down the policy file example and indicates what modifications are to be performed.
-        </p>
-
-        <p><b><i>Registry Package</i></b></p>
-
-        <source>
-&lt;registryPackage&gt;
-  &lt;name&gt;Harvest Package Example PDS3 Products&lt;/name&gt;
-  &lt;description&gt;This is a Harvest run of the Example PDS3 products.&lt;/description&gt;
-&lt;/registryPackage&gt;
-        </source>
-
-        <p>Specify a Registry package name and description. This allows the Registry to associate registered products of a Harvest run to a particular package.
         </p>
 
         <p><b><i>PDS3 Directories</i></b></p>
@@ -202,22 +191,21 @@
       <p>The following table describes the command-line options available:
       </p>
 
-      <table>
-        <tr><th>Command-Line Option</th><th>Description</th></tr>
-        <tr><td>-c, --config</td><td>Specify a policy configuration file to set the tool behavior. (This flag is required)</td></tr>
-        <tr><td>-u, --username</td><td>Specify a username for authentication with the PDS Security Service.</td></tr>
-        <tr><td>-p, --password</td><td>Specify a password associated with the username.</td></tr>
-        <tr><td>-k, --keystore-pass</td><td>Specify a keystore password associated with the keystore file being passed into the tool.</td></tr>
-        <tr><td>-l, --log-file</td><td>Specify a log file name. Default is standard out.</td></tr>
-        <tr><td>-v, --verbose</td><td>Specify the message severity level and above to include in the log (0=Debug, 1=Info, 2=Warning, 3=Error). Default is Info and above (level 1).</td></tr>
-        <tr><td>-e, --regexp</td><td>Specify file patterns to look for when registering products from a target directory. Each pattern must be surrounded by quotes (i.e. -e "*.xml").</td></tr>
-        <tr><td>-D, --ignore-dir</td><td>Specify patterns to look for when traversing a target directory for sub-directories to ignore. Each pattern must be surrounded by quotes (i.e. -D "CATALOG").</td></tr>
-        <tr><td>-pds3, --is-pds3-dir</td><td>Specify to indicate that the target directory is a PDS3 directory. Note that only one PDS3 target directory can be passed into the tool.</td></tr>
-        <tr><td>-P, --port</td><td>Specify a port number to use if running the tool in persistence mode. See the <a href="#Persistence_Mode">Persistence Mode</a> section for more details.</td></tr>
-        <tr><td>-w, --wait</td><td>Specify the time, in seconds, to wait in between the crawls if running the tool in persistence mode. See the <a href="#Persistence_Mode">Persistence Mode</a> section for more details.</td></tr>
-        <tr><td>-V, --version</td><td>Display the release number and copyright information.</td></tr>
-        <tr><td>-h, --help</td><td>Display <i>harvest</i> usage.</td></tr>
-      </table>
+        <table>
+          <tr><th>Command-Line Option</th><th>Description</th></tr>
+          <tr><td>-c, --harvest-config &lt;file&gt;</td><td>Specify a harvest policy configuration file to set the tool behavior. (This flag is required)</td></tr>
+          <tr><td>-C, --doc-config &lt;dir&gt;</td><td>Specify the directory location where the document generation configuration files reside. The default is to look in the 'search-conf' directory that resides in the tool package.</td></tr>
+          <tr><td>-D, --ignore-dir</td><td>Specify patterns to look for when traversing a target directory for sub-directories to ignore. Each pattern must be surrounded by quotes (i.e. -D "CATALOG").</td></tr>
+          <tr><td>-e, --regexp</td><td>Specify file patterns to look for when registering products from a target directory. Each pattern must be surrounded by quotes (i.e. -e "*.xml").</td></tr>
+          <tr><td>-h, --help</td><td>Display <i>harvest</i> usage.</td></tr>
+          <tr><td>-l, --log-file</td><td>Specify a log file name. Default is standard out.</td></tr>
+          <tr><td>-o, --output-dir</td><td>Specify a directory location to tell the tool where to output the Solr documents. The default is to write to the current working directory.</td></tr>
+          <tr><td>-P, --port</td><td>Specify a port number to use if running the tool in persistence mode.</td></tr>
+          <tr><td>-pds3, --is-pds3-dir</td><td>Specify the flag to indicate that the target passed into the command-line is a PDS3 directory. The default assumes that any targets passed into the command-line are PDS4 directories.</td></tr>
+          <tr><td>-v, --verbose</td><td>Specify the message severity level and above to include in the log (0=Debug, 1=Info, 2=Warning, 3=Error). Default is Info and above (level 1).</td></tr>
+          <tr><td>-V, --version</td><td>Display the release number and copyright information.</td></tr>
+          <tr><td>-w, --wait</td><td>Specify the time, in seconds, to wait in between the crawls if running the tool in persistence mode.</td></tr>
+        </table>
     </section>
 
     <section name="Advanced Usage">
@@ -245,7 +233,7 @@
         </p>
 
         <source>
-% harvest $HOME/directory -pds3 -e "*.LBL" -c policy.xml
+% ./harvest $HOME/directory -pds3 -e "*.LBL" -c policy.xml -C ../search-conf/defaults
         </source>
 
         <p><b><i>Registering PDS3 Products From Multiple Targets</i></b></p>
@@ -254,7 +242,7 @@
         </p>
 
         <source>
-% harvest $HOME/directory1, $HOME/directory2 -pds3 -e "*.LBL" -c policy.xml -l harvest.log
+% ./harvest $HOME/directory1, $HOME/directory2 -pds3 -e "*.LBL" -c policy.xml -C ../search-conf/defaults -l harvest.log
         </source>
 
         <p><b><i>Registering PDS3 Products From Targets Specified In The Policy File</i></b></p>
@@ -263,17 +251,7 @@
         </p>
 
         <source>
-% harvest -c policy.xml
-        </source>
-
-        <p><b><i>Registering Products To A Secured Registry Instance</i></b></p>
-
-        <p>The following command demonstrates how to register PDS3 data products to a secured registry instance from a target directory, <i>$HOME/directory</i>, using the policy file, <i>policy.xml</i>:
-        </p>
-
-        <source>
-% harvest $HOME/directory -pds3 -c policy.xml -u {username} -p {password} \
-  -k {keystorePassword}
+% ./harvest -c policy.xml
         </source>
 
         <p><b><i>Excluding Sub-Directories To Traverse From a Target</i></b></p>
@@ -282,7 +260,7 @@
         </p>
 
         <source>
-% harvest $HOME/directory -pds3 -c policy.xml -D "CONTEXT"
+% ./harvest $HOME/directory -pds3 -c policy.xml -C ../search-conf/defaults -D "CONTEXT"
         </source>
       </subsection>
 
@@ -294,8 +272,7 @@
         </p>
 
         <source>
-% harvest -c policy.xml -u {username} -p {password} \
-  -k {keystorePassword} -l log.txt -P 9001 -w 120
+% ./harvest -c policy.xml -C ../search-conf/defaults -l log.txt -P 9001 -w 120
         </source>
 
         <p>After running the above command, the daemon will be accessible at <i>http://localhost:9001/xmlrpc</i>.
@@ -346,47 +323,6 @@
         <source>
 % harvest-ctrl --url http://localhost:9001/xmlrpc --operation --stop
         </source>
-      </subsection>
-      
-      <subsection name="PDS3 Unlabeled File Registration">
-        <p>Normally, the Harvest Tool is used for registering labeled products. However, there may be a use case for wanting to register unlabeled files (browse images, thumbnail images, etc.). This section details how to set up the policy file to do this.
-        </p>
-        
-        <p>Included in the Harvest package is an example policy configuration file for registering unlabeled PDS3 files. Go to the <i>examples/</i> folder, make a copy of the <i>harvest-policy-unlabeled-pds3-files.xml</i> file and modify it as necessary. The set up is similar to what is described in the <a href="#Setup">Setup</a> section. The only difference is that the <i>candidates</i> area is configured slightly differently as seen below:
-        </p>
-        
-        <source>
-&lt;candidates&gt;
-  &lt;pds3ProductMetadata objectType="Product_File_Repository"&gt;
-    &lt;lidContents prefix="urn:nasa:pds:msl-m-hazcam-5-rdr-v1.0" appendDir="true"&gt;
-      &lt;offset&gt;$HOME/MSLHAZ_1XXX&lt;/offset&gt;
-    &lt;/lidContents&gt;
-    
-    &lt;staticMetadata&gt;
-      &lt;slot name="product_class"&gt;
-        &lt;value&gt;Product_File_Repository&lt;/value&gt;
-      &lt;/slot&gt;
-      &lt;slot name="file_type"&gt;
-        &lt;value&gt;Extra&lt;/value&gt;
-      &lt;/slot&gt;
-    &lt;/staticMetadata&gt;
-  &lt;/pds3ProductMetadata&gt;
-&lt;/candidates&gt;
-        </source>
-        
-        <p>The <i>objectType="Product_File_Repository"</i> attribute must be specified in the config file. This tells the tool to perform unlabeled file registration. Each file being processed will be registered as a <i>Product_File_Repository</i> product. As the tool crawls a directory, it first checks that each file about to be processed does not have an associated label file in the same directory. If it does, it will skip this file.
-        </p>
-        
-        <p>For the <i>lidContents</i> area, the full path to the target file being registered will be appended to the <i>prefix</i> value. Specify an <i>offset</i> to trim off of the path. In this example, <i>$HOME/MSHLHAZ_1XXX</i> will be trimmed off the file path before appending to the <i>prefix</i>.
-        </p>
-        
-        <p>Once the policy file has been modified, run the tool as you normally would:
-        </p>
-        
-        <source>
-%> harvest -c harvest-policy-unlabeled-pds3-files.xml -l harvest-unlabeled-pds3-files.log
-        </source>
-        
       </subsection>
    </section>
 
@@ -567,6 +503,63 @@
 
     </subsection>
   </section>
+
+  <section name="Search Core Configurations">
+    <p>Running the Search Core is based around XML configuration files that must include query information, data source specifications, and the fields to be included in the index. The following sections will outline the basic schema for creating a configuration file. Once a configuration file has been created, you can specify its location using the <i>-c</i> command-line option or in the properties file.
+    </p>
+
+    <subsection name="Defaults">
+      <p>Default configurations are provided for the following data types (assumes Harvest is installed at <i>/usr/local/harvest</i>, if not, update the file paths as needed):
+      </p>
+
+      <table>
+        <tr><th>File Name</th><th>Product Class</th></tr>
+        <tr><td colspan="2"><b>PDS3 Products (/usr/local/harvest/search-conf/defaults/pds/pds3)</b></td></tr>
+        <tr>
+          <td>attribute.xml</td>
+          <td>Product_Attribute_Definition</td>
+        </tr>
+        <tr>
+          <td>class.xml</td>
+          <td>Product_Class_Definition</td>
+        </tr>
+        <tr>
+           <td>context.xml</td>
+          <td>Product_Context</td>
+        </tr>
+        <tr>
+          <td>dataset.xml</td>
+          <td>Product_Data_Set_PDS3</td>
+        </tr>
+        <tr>
+          <td>instrument.xml</td>
+          <td>Product_Instrument_PDS3</td>
+        </tr>
+        <tr>
+          <td>instrumenthost.xml</td>
+          <td>Product_Instrument_Host_PDS3</td>
+        </tr>
+        <tr>
+          <td>investigation.xml</td>
+          <td>Product_Mission_PDS3</td>
+        </tr>
+        <tr>
+          <td>service.xml</td>
+          <td>Product_Service</td>
+        </tr>
+        <tr>
+          <td>target.xml</td>
+          <td>Product_Target_PDS3</td>
+        </tr>
+        <tr><td colspan="2"><b>PDS3 PSA Products (/usr/local/harvest/search-conf/defaults/psa/pds3)</b></td></tr>
+        <tr>
+          <td>dataset.xml</td>
+          <td>Product_Data_Set_PDS3</td>
+        </tr>
+      </table>
+    </subsection>
+  </section>
+
 
   <section name="Report Format">
     <p>This section describes the contents of the Harvest Tool report. At this time, the Harvest Tool only outputs a series of log messages. The log will report the success or failure of a discovered product attempting to be registered. Additionally, any syntactical errors in a discovered product are reported. A log consists of a severity level, file name, and a message. The following is an example of some of the log messages that can be expected from the Harvest Tool:

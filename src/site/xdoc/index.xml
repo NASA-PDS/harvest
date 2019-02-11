@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2010-2011, by the California Institute of Technology.
+  Copyright 2016, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology 
   Transfer at the California Institute of Technology.
@@ -24,7 +24,7 @@
 
   <body>
     <section name="About Harvest Tool">
-      <p>The Harvest Tool provides functionality for capturing and registering product metadata. The tool will run locally at the Discipline Node to crawl the local data repository in order to discover products and register associated metadata with the Registry Service.
+      <p>The Harvest Tool provides functionality for capturing and indexing product metadata. The tool will run locally at the Discipline Node to crawl the local data repository in order to discover products and index associated metadata with the Search Service. The Tool additionally stores the entire product label contents into another index within the Search Service.
       </p>
 
       <p>Please send comments, change requests and bug reports to the <a href="mailto:pds_operator@jpl.nasa.gov">PDS Operator</a> at pds_operator@jpl.nasa.gov.

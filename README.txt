@@ -1,5 +1,5 @@
-The Harvest Tool is a command-line application for crawling a specified
-directory and discovering desired products to register with the PDS Registry
+The Harvest-Search Tool is a command-line application for crawling a specified
+directory and discovering desired products to register with the PDS Search
 Service.
 
 The software is packaged in a JAR file with corresponding shell scripts 

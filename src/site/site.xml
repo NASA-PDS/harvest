@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!--
-  Copyright 2010-2014, by the California Institute of Technology.
+  Copyright 2016-2018, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology
   Transfer at the California Institute of Technology.
@@ -35,7 +35,6 @@
 
     <menu name="Software Documentation">
       <item name="About Harvest Tool" href="index.html"/>
-      <item name="Design (pdf)" href="docs/pds4_harvest_design.pdf"/>
       <item name="Installation" href="install/index.html"/>
       <item name="Operation (PDS3)" href="operate-pds3/index.html"/>
       <item name="Operation (PDS4)" href="operate-pds4/index.html"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Copyright 2010-2016, by the California Institute of Technology.
+  Copyright 2016-2018, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology Transfer
   at the California Institute of Technology.
@@ -92,61 +92,19 @@ or
           <p>This directory contains a local web site with the Harvest Tool documentation, javadoc, unit test results and other configuration management related information. Just point the desired web browser to the <i>index.html</i> file in this directory.
           </p>
         </li>
-        <li><b>examples/</b><br/>
-          <p>This directory contains examples of the policy file used for specifying how the Harvest Tool discovers products and extracts metadata for registration.
+        <li><b>harvest-conf/</b><br/>
+          <p>This directory contains examples and specific instances of harvest-related policy files used for specifying how the Harvest Tool discovers products and extracts metadata for registration.
           </p>
         </li>
         <li><b>lib/</b><br/>
           <p>This directory contains the dependent jar files for the tool along with the executable jar file (${project.artifactId}-${project.version}.jar) containing the Harvest Tool software.
           </p>
         </li>
-        <li><b>keystore/</b><br/>
-          <p>This directory contains the keystore file needed for Harvest to support product registration to a secured instance of the Registry Service. The file contained in this directory should be replaced with a keystore file from the local installation.
+        <li><b>search-conf/</b><br/>
+          <p>This directory contains examples and specific instances of search-related policy files used for specifying how the Harvest Tool extracts metadata and generates search index files.
           </p>
         </li>
       </ul>
-    </section>
-
-    <section name="Configuring the Tool">
-      <p>By default, the Harvest Tool comes configured to access the Registry Service at the <i>http://localhost:8080/registry</i> endpoint. This should be modified to represent the endpoint of the Registry Service target installation. To change the endpoint, the <i>harvest</i> script should be modified as follows:
-      </p>
-
-      <source>
-${JAVA_HOME}/bin/java -Dpds.registry="http://localhost:8080/registry" \
--Dpds.security.keystore="${KEYSTORE}" -jar ${HARVEST_JAR} "$@"
-
-  should be changed to (if hosted at node.nasa.gov on port 80):
-
-${JAVA_HOME}/bin/java -Dpds.registry="http://node.nasa.gov/registry" \
--Dpds.security.keystore="${KEYSTORE}" -jar ${HARVEST_JAR} "$@"
-      </source>
-
-      <p>To change the endpoint for Windows, the <i>harvest.bat</i> script should be modified as follows:
-      </p>
-
-      <source>
-"%JAVA_HOME%"\bin\java -Dpds.registry="http://localhost:8080/registry" \
--Dpds.security.keystore="%KEYSTORE%" -jar "%HARVEST_JAR%" %*
-
-  should be changed to (if hosted at node.nasa.gov on port 80):
-
-"%JAVA_HOME%"\bin\java -Dpds.registry="http://node.nasa.gov/registry" \
--Dpds.security.keystore="%KEYSTORE%" -jar "%HARVEST_JAR%" %*
-      </source>
-
-      <p>The examples above have been broken into multiple lines for readability. The commands should be reassembled into a single line.
-      </p>
-
-      <subsection name="Configuring for a Secured Instance of the Registry Service">
-        <p>By default, the Registry Service installation is not a secured instance. If specific steps have been taken to secure the local installation, then the following procedure should be completed in order to allow the Harvest Tool to access the Registry Service.
-        </p>
-
-        <p>In order for the Harvest Tool to access a secured instance of the Registry Service, a keystore file must first be generated. See the <a href="../../../release/index-tomcat.html" target="_blank">Tomcat Deployment</a> document for details on how to generate this keystore file. Once this is file has been generated, copy the keystore file to the <i>keystore/</i> directory of the <i>Harvest</i> package and rename the file to <i>tomcat_self_sign_keystore</i> as this is what the Harvest shell script and batch file look for by default.
-        </p>
-
-        <p>In addition to generating and copying the keystore file, follow the instructions in the previous section to modify the Registry Service endpoint. If the endpoint is <i>http://localhost:8080/registry</i>, it should be changed to <i>https://localhost:8443/registry</i> for a secured instance.
-        </p>
-      </subsection>
     </section>
 
     <section name="Configuring the Environment">

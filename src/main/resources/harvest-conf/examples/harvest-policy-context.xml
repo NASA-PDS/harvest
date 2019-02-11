@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Harvest Tool Example Policy File
+
+  This policy file corresponds with the context collections migrated
+  from the PDS central catalog database.
+
+  $Id$
+-->
+
+<policy>
+  <collections>
+    <file>$HOME/context_bundle/context_agency/collection_context_agency_1.0.xml</file>
+    <file>$HOME/context_bundle/context_dataset/collection_context_dataset_1.0.xml</file>
+    <file>$HOME/context_bundle/context_insthost/collection_context_insthost_1.0.xml</file>
+    <file>$HOME/context_bundle/context_instrument/collection_context_instrument_1.0.xml</file>
+    <file>$HOME/context_bundle/context_mission/collection_context_mission_1.0.xml</file>
+    <file>$HOME/context_bundle/context_node/collection_context_node_1.0.xml</file>
+    <file>$HOME/context_bundle/context_personnel/collection_context_affil_1.0.xml</file>
+    <file>$HOME/context_bundle/context_personnel/collection_context_guest_1.0.xml</file>
+    <file>$HOME/context_bundle/context_resource/collection_context_resource_1.0.xml</file>
+    <file>$HOME/context_bundle/context_subscription/collection_context_subscription_1.0.xml</file>
+    <file>$HOME/context_bundle/context_target/collection_context_target_1.0.xml</file>
+    <file>$HOME/context_bundle/context_volume/collection_context_volume_1.0.xml</file>
+    <file>$HOME/context_bundle/context_volumeset/collection_context_volumeset_1.0.xml</file>
+  </collections>
+
+  <directories>
+    <path>$HOME/context_bundle</path>
+    <fileFilter>
+      <include>*.xml</include>
+    </fileFilter>
+  </directories>
+
+  <accessUrls registerFileUrls="false">
+    <accessUrl>
+      <baseUrl>http://pds.nasa.gov/pds4</baseUrl>
+      <offset>$HOME</offset>
+    </accessUrl>
+  </accessUrls>
+
+  <checksums generate="true"/>
+
+  <candidates>
+    <!-- All context product metadata definitions are captured in the global policy -->
+  </candidates>
+</policy>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product>
+  <specification>
+    <title>PDS4-Context</title>
+    <query>
+      <registryPath>objectType</registryPath>
+      <value>Product_Context</value>
+    </query>
+    <query>
+      <registryPath>status</registryPath>
+      <value>Approved</value>
+    </query>
+    <checkAssociations>true</checkAssociations>
+  </specification>
+
+  <indexFields>
+    <!-- Identifier Fields -->
+    <field name="search_id" type="required">
+      <outputString format="text">pds4:{lid}</outputString>
+    </field>
+    <field name="identifier" type="required">
+      <registryPath>lid</registryPath>
+    </field>
+    <field name="version_id" type="string">
+      <registryPath>version_id</registryPath>
+    </field>
+    <!-- Search UI Fields -->
+    <field name="title" type="required">
+      <registryPath>name</registryPath>
+    </field>
+    <field name="description" type="required">
+      <registryPath>citation_description</registryPath>
+      <registryPath>resource_description</registryPath>
+    </field>
+    <field name="resLocation" type="required">
+      <registryPath>resource_url</registryPath>
+      <outputString format="url">/ds-view/pds/viewContext.jsp?identifier={lid}&amp;version={version_id}</outputString>
+    </field>
+    <field name="data_product_type" type="string">
+      <registryPath>data_class</registryPath>
+    </field>
+    <field name="data_class" type="string">
+      <registryPath>data_class</registryPath>
+    </field>
+    <field name="objectType" type="string">
+      <registryPath>objectType</registryPath>
+    </field>
+    <field name="pds_model_version" type="string">
+      <outputString format="text">pds4</outputString>
+    </field>
+    <field name="agency_name" type="string" default="nasa">
+      <registryPath>node_ref.agency_ref.alternate_id</registryPath>
+    </field>
+    <!-- Identification_Area Fields -->
+    <field name="product_class" type="string">
+      <registryPath>product_class</registryPath>
+    </field>
+    <field name="alternate_id" type="string">
+      <registryPath>alternate_id</registryPath>
+    </field>
+    <field name="alternate_title" type="string">
+      <registryPath>alternate_title</registryPath>
+    </field>
+    <field name="citation_doi" type="string">
+      <registryPath>citation_doi</registryPath>
+    </field>
+    <field name="citation_keyword" type="string">
+      <registryPath>citation_keyword</registryPath>
+    </field>
+    <field name="modification_date" type="date">
+      <registryPath>modification_date</registryPath>
+    </field>
+    <field name="modification_description" type="string">
+      <registryPath>modification_description</registryPath>
+    </field>
+    <!-- Reference_List Fields -->
+    <field name="external_reference_text" type="string">
+      <registryPath>external_reference_text</registryPath>
+    </field>
+    <!-- Airborne Fields -->
+    <field name="airborne_name" type="string">
+      <registryPath>airborne_name</registryPath>
+    </field>
+    <field name="airborne_type" type="string">
+      <registryPath>airborne_type</registryPath>
+    </field>
+    <field name="airborne_description" type="string">
+      <registryPath>airborne_description</registryPath>
+    </field>
+    <!-- Facility Fields -->
+    <field name="facility_name" type="float">
+      <registryPath>facility_name</registryPath>
+    </field>
+    <field name="facility_type" type="float">
+      <registryPath>facility_type</registryPath>
+    </field>
+    <field name="facility_address" type="float">
+      <registryPath>facility_address</registryPath>
+    </field>
+    <field name="facility_country" type="float">
+      <registryPath>facility_country</registryPath>
+    </field>
+    <field name="facility_description" type="float">
+      <registryPath>facility_description</registryPath>
+    </field>
+    <!-- Instrument Fields -->
+    <field name="instrument_ref" type="string">
+      <registryPath>instrument_ref</registryPath>
+    </field>
+    <field name="instrument_name" type="string">
+      <registryPath>instrument_name</registryPath>
+      <registryPath>instrument_ref.instrument_name</registryPath>
+    </field>
+    <field name="instrument_type" type="string">
+      <registryPath>instrument_type</registryPath>
+    </field>
+    <field name="instrument_description" type="string">
+      <registryPath>instrument_description</registryPath>
+    </field>
+    <field name="instrument_model_id" type="string">
+      <registryPath>instrument_model_id</registryPath>
+    </field>
+    <field name="instrument_naif_id" type="string">
+      <registryPath>instrument_naif_id</registryPath>
+    </field>
+    <field name="instrument_serial_number" type="string">
+      <registryPath>instrument_serial_number</registryPath>
+    </field>
+    <!-- Instrument Host Fields -->
+    <field name="instrument_host_ref" type="string">
+      <registryPath>instrument_host_ref</registryPath>
+    </field>
+    <field name="instrument_host_name" type="string">
+      <registryPath>instrument_host_name</registryPath>
+      <registryPath>instrument_host_ref.instrument_host_name</registryPath>
+    </field>
+    <field name="instrument_host_version_id" type="string">
+      <registryPath>instrument_host_version_id</registryPath>
+    </field>
+    <field name="instrument_host_type" type="string">
+      <registryPath>instrument_host_type</registryPath>
+    </field>
+    <field name="instrument_host_description" type="string">
+      <registryPath>instrument_host_description</registryPath>
+    </field>
+    <field name="instrument_host_naif_id" type="string">
+      <registryPath>instrument_host_naif_id</registryPath>
+    </field>
+    <field name="instrument_host_serial_number" type="string">
+      <registryPath>instrument_host_serial_number</registryPath>
+    </field>
+    <!-- Investigation Fields -->
+    <field name="investigation_ref" type="string">
+      <registryPath>investigation_ref</registryPath>
+    </field>
+    <field name="investigation_name" type="string">
+      <registryPath>investigation_name</registryPath>
+      <registryPath>investigation_ref.investigation_name</registryPath>
+    </field>
+    <field name="investigation_type" type="string">
+      <registryPath>investigation_type</registryPath>
+    </field>
+    <field name="investigation_description" type="string">
+      <registryPath>investigation_description</registryPath>
+    </field>
+    <field name="investigation_start_date" type="date">
+      <registryPath>investigation_start_date</registryPath>
+    </field>
+    <field name="investigation_stop_date" type="date">
+      <registryPath>investigation_stop_date</registryPath>
+    </field>
+    <!-- PDS Affiliate Fields -->
+    <field name="person_name" type="string">
+      <registryPath>person_name</registryPath>
+    </field>
+    <field name="person_registration_date" type="string">
+      <registryPath>person_registration_date</registryPath>
+    </field>
+    <field name="person_electronic_mail_address" type="string">
+      <registryPath>person_electronic_mail_address</registryPath>
+    </field>
+    <field name="person_sort_name" type="string">
+      <registryPath>person_sort_name</registryPath>
+    </field>
+    <field name="person_affiliation_type" type="string">
+      <registryPath>person_affiliation_type</registryPath>
+    </field>
+    <field name="person_alternate_telephone_number" type="string">
+      <registryPath>person_alternate_telephone_number</registryPath>
+    </field>
+    <field name="person_institution_name" type="string">
+      <registryPath>person_institution_name</registryPath>
+    </field>
+    <field name="person_phone_book_flag" type="string">
+      <registryPath>person_phone_book_flag</registryPath>
+    </field>
+    <field name="person_postal_address_text" type="string">
+      <registryPath>person_postal_address_text</registryPath>
+    </field>
+    <field name="person_team_name" type="string">
+      <registryPath>person_team_name</registryPath>
+    </field>
+    <field name="person_telephone_number" type="string">
+      <registryPath>person_telephone_number</registryPath>
+    </field>
+    <field name="person_description" type="string">
+      <registryPath>person_description</registryPath>
+    </field>
+    <!-- Resource Fields -->
+    <field name="resource_name" type="string">
+      <registryPath>resource_name</registryPath>
+    </field>
+    <field name="resource_type" type="string">
+      <registryPath>resource_type</registryPath>
+    </field>
+    <field name="resource_url" type="string">
+      <registryPath>resource_url</registryPath>
+    </field>
+    <field name="resource_description" type="string">
+      <registryPath>resource_description</registryPath>
+    </field>
+    <!-- Target Fields -->
+    <field name="target_ref" type="string">
+      <registryPath>target_ref</registryPath>
+    </field>
+    <field name="target_name" type="string">
+      <registryPath>target_name</registryPath>
+      <registryPath>target_ref.target_name</registryPath>
+    </field>
+    <field name="target_type" type="string">
+      <registryPath>target_type</registryPath>
+    </field>
+    <field name="target_description" type="string">
+      <registryPath>target_description</registryPath>
+    </field>
+    <!-- Telescope Fields -->
+    <field name="telescope_aperture" type="string">
+      <registryPath>telescope_aperture</registryPath>
+    </field>
+    <field name="telescope_longitude" type="string">
+      <registryPath>telescope_longitude</registryPath>
+    </field>
+    <field name="telescope_latitude" type="string">
+      <registryPath>telescope_latitude</registryPath>
+    </field>
+    <field name="telescope_altitude" type="string">
+      <registryPath>telescope_altitude</registryPath>
+    </field>
+    <field name="telescope_coordinate_source" type="string">
+      <registryPath>telescope_coordinate_source</registryPath>
+    </field>
+    <field name="telescope_description" type="string">
+      <registryPath>telescope_description</registryPath>
+    </field>
+    <!-- Miscellaneous Fields -->
+    <field name="associate_ref" type="string">
+      <registryPath>associate_ref</registryPath>
+    </field>
+    <!-- File Reference Fields -->
+    <field name="file_ref_name" type="string">
+      <registryPath>file_ref.file_name</registryPath>
+    </field>
+    <field name="file_ref_location" type="string">
+      <registryPath>file_ref.file_location</registryPath>
+    </field>
+    <field name="file_ref_url" type="string">
+      <registryPath>file_ref.access_url</registryPath>
+    </field>
+    <field name="file_ref_size" type="string">
+      <registryPath>file_ref.file_size</registryPath>
+    </field>
+  </indexFields>
+</product>

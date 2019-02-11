@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!--
-  Copyright 2010, by the California Institute of Technology.
+  Copyright 2010-2018, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology
   Transfer at the California Institute of Technology.
@@ -53,14 +53,14 @@
       <lineEnding>keep</lineEnding>
     </fileSet>
     <fileSet>
-      <directory>src/main/resources/policy/examples</directory>
-      <outputDirectory>examples</outputDirectory>
+      <directory>src/main/resources/harvest-conf</directory>
+      <outputDirectory>harvest-conf</outputDirectory>
       <fileMode>644</fileMode>
       <lineEnding>unix</lineEnding>
     </fileSet>
     <fileSet>
-      <directory>src/main/resources/keystore</directory>
-      <outputDirectory>keystore</outputDirectory>
+      <directory>src/main/resources/search-conf</directory>
+      <outputDirectory>search-conf</outputDirectory>
       <fileMode>644</fileMode>
       <lineEnding>unix</lineEnding>
     </fileSet>

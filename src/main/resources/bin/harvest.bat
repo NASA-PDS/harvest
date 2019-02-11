@@ -40,17 +40,12 @@ echo Cannot find Harvest jar file in %LIB_DIR%
 goto END
 )
 
-if not exist "%KEYSTORE%" (
-echo Cannot find keystore file: %KEYSTORE%
-goto END
-)
-
 :: Finds the jar file in LIB_DIR and sets it to HARVEST_JAR.
 for %%i in ("%LIB_DIR%"\harvest-*.jar) do set HARVEST_JAR=%%i
 
 :: Executes Harvest via the executable jar file
 :: The special variable '%*' allows the arguments
 :: to be passed into the executable.
-"%JAVA_HOME%"\bin\java -Xms256m -Xmx1024m -Dpds.registry="http://localhost:8080/registry" -Dpds.security.keystore="%KEYSTORE%" -jar "%HARVEST_JAR%" %*
+"%JAVA_HOME%"\bin\java -Xms256m -Xmx1024m -Dpds.search="http://localhost:8983/solr" -Dpds.harvest.search.conf="%PARENT_DIR%\search-conf" -jar "%HARVEST_JAR%" %*
 
 :END
