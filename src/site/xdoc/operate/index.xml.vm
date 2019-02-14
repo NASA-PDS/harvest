@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Copyright 2018, by the California Institute of Technology.
+  Copyright 2018-2019, by the California Institute of Technology.
   ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology Transfer
   at the California Institute of Technology.
@@ -66,7 +66,7 @@
         </p>
 
         <source>
-%> harvest -c ../harvest-conf/harvest-policy-example.xml -C ../search-conf/defaults
+%> harvest -c ../harvest-conf/harvest-policy-example.xml -C ../search-conf/defaults/pds/pds4
         </source>
 
         <p>In the example above, the <i>-c</i> flag option specifies the example harvest policy configuration file while the <i>-C</i> flag option specifies location for the default search policy configuration files. The following command is a MAVEN-specific example:
