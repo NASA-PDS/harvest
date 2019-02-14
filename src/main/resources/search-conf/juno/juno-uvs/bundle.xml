@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product>
+  <specification>
+    <title>PDS4-JUNO-UVS-Bundle</title>
+    <query>
+      <registryPath>objectType</registryPath>
+      <value>Product_Bundle</value>
+    </query>
+    <query>
+      <registryPath>lid</registryPath>
+      <value>urn:nasa:pds:juno_uvs_bundle*</value>
+    </query>
+    <query>
+      <registryPath>status</registryPath>
+      <value>Approved</value>
+    </query>
+    <checkAssociations>true</checkAssociations>
+  </specification>
+
+  <indexFields>
+    <!-- Identifier Fields -->
+    <field name="search_id" type="required">
+      <outputString format="text">pds4:{lid}</outputString>
+    </field>
+    <field name="identifier" type="required">
+      <registryPath>lid</registryPath>
+    </field>
+    <field name="version_id" type="string">
+      <registryPath>version_id</registryPath>
+    </field>
+    <!-- Search UI Fields -->
+    <field name="title" type="required">
+      <registryPath>name</registryPath>
+    </field>
+    <field name="description" type="required">
+      <registryPath>citation_description</registryPath>
+    </field>
+    <field name="resLocation" type="required">
+      <outputString format="url">/ds-view/pds/viewBundle.jsp?identifier={lid}&amp;version={version_id}</outputString>
+    </field>
+    <field name="data_product_type" type="string">
+      <outputString format="text">Bundle</outputString>
+    </field>
+    <field name="objectType" type="string">
+      <registryPath>objectType</registryPath>
+    </field>
+    <field name="pds_model_version" type="string">
+      <outputString format="text">pds4</outputString>
+    </field>
+    <field name="agency_name" type="string" default="nasa">
+      <registryPath>node_ref.agency_ref.alternate_id</registryPath>
+    </field>
+    <field name="resource_name" type="string">
+      <registryPath>resource_ref.resource_name</registryPath>
+    </field>
+    <field name="resource_ref" type="string">
+      <registryPath>resource_ref</registryPath>
+    </field>
+    <field name="resource_url" type="string">
+      <registryPath>resource_ref.resource_url</registryPath>
+    </field>
+    <!-- Identification_Area Fields -->
+    <field name="product_class" type="string">
+      <registryPath>product_class</registryPath>
+    </field>
+    <field name="alternate_id" type="string">
+      <registryPath>alternate_id</registryPath>
+    </field>
+    <field name="alternate_title" type="string">
+      <registryPath>alternate_title</registryPath>
+    </field>
+    <field name="citation_author_list" type="string">
+      <registryPath>citation_author_list</registryPath>
+    </field>
+    <field name="citation_editor_list" type="string">
+      <registryPath>citation_editor_list</registryPath>
+    </field>
+    <field name="citation_publication_year" type="string">
+      <registryPath>citation_publication_year</registryPath>
+    </field>
+    <field name="citation_doi" type="string">
+      <registryPath>citation_doi</registryPath>
+    </field>
+    <field name="citation_keyword" type="string">
+      <registryPath>citation_keyword</registryPath>
+    </field>
+    <field name="citation_description" type="string">
+      <registryPath>citation_description</registryPath>
+    </field>
+    <field name="modification_date" type="date">
+      <registryPath>modification_date</registryPath>
+    </field>
+    <field name="modification_description" type="string">
+      <registryPath>modification_description</registryPath>
+    </field>
+    <!-- Context_Area Fields -->
+    <field name="observation_start_date_time" type="date">
+      <registryPath>observation_start_date_time</registryPath>
+    </field>
+    <field name="observation_stop_date_time" type="date">
+      <registryPath>observation_stop_date_time</registryPath>
+    </field>
+    <field name="observation_local_mean_solar_time" type="date">
+      <registryPath>observation_local_mean_solar_time</registryPath>
+    </field>
+    <field name="observation_local_true_solar_time" type="date">
+      <registryPath>observation_local_true_solar_time</registryPath>
+    </field>
+    <field name="observation_solar_longitude" type="string">
+      <registryPath>observation_solar_longitude</registryPath>
+    </field>
+    <field name="primary_result_purpose" type="string">
+      <registryPath>primary_result_purpose</registryPath>
+    </field>
+    <field name="primary_result_processing_level" type="string">
+      <registryPath>primary_result_processing_level</registryPath>
+    </field>
+    <field name="primary_result_description" type="string">
+      <registryPath>primary_result_description</registryPath>
+    </field>
+    <field name="primary_result_wavelength_range" type="string">
+      <registryPath>primary_result_wavelength_range</registryPath>
+    </field>
+    <field name="primary_result_domain" type="string">
+      <registryPath>primary_result_domain</registryPath>
+    </field>
+    <field name="primary_result_discipline_name" type="string">
+      <registryPath>primary_result_discipline_name</registryPath>
+    </field>
+    <field name="investigation_name" type="string">
+      <registryPath>investigation_name</registryPath>
+    </field>
+    <field name="investigation_ref" type="string">
+      <registryPath>investigation_ref</registryPath>
+    </field>
+    <field name="observing_system_name" type="string">
+      <registryPath>observing_system_name</registryPath>
+    </field>
+    <field name="observing_system_component_name" type="string">
+      <registryPath>observing_system_component_name</registryPath>
+    </field>
+    <field name="observing_system_component_type" type="string">
+      <registryPath>observing_system_component_type</registryPath>
+    </field>
+    <field name="target_name" type="string">
+      <registryPath>target_name</registryPath>
+    </field>
+    <field name="target_ref" type="string">
+      <registryPath>target_ref</registryPath>
+    </field>
+    <field name="instrument_name" type="string">
+      <registryPath>instrument_ref.instrument_name</registryPath>
+    </field>
+    <field name="instrument_ref" type="string">
+      <registryPath>instrument_ref</registryPath>
+    </field>
+    <field name="instrument_host_ref" type="string">
+      <registryPath>instrument_host_ref</registryPath>
+    </field>
+    <field name="other_ref" type="string">
+      <registryPath>other_ref</registryPath>
+    </field>
+    <!-- Reference_List Fields -->
+    <field name="external_reference_text" type="string">
+      <registryPath>external_reference_text</registryPath>
+    </field>
+    <!-- Bundle Fields -->
+    <field name="bundle_type" type="string">
+      <registryPath>bundle_type</registryPath>
+    </field>
+    <field name="bundle_description" type="string">
+      <registryPath>bundle_description</registryPath>
+    </field>
+    <!-- Collection Reference Fields -->
+    <field name="collection_name" type="string">
+      <registryPath>collection_ref.collection_name</registryPath>
+    </field>
+    <field name="collection_type" type="string">
+      <registryPath>collection_ref.collection_type</registryPath>
+    </field>
+    <field name="collection_ref" type="string">
+      <registryPath>collection_ref</registryPath>
+    </field>
+    <!-- File Reference Fields -->
+    <field name="file_ref_name" type="string">
+      <registryPath>file_ref.file_name</registryPath>
+    </field>
+    <field name="file_ref_location" type="string">
+      <registryPath>file_ref.file_location</registryPath>
+    </field>
+    <field name="file_ref_url" type="string">
+      <registryPath>file_ref.access_url</registryPath>
+    </field>
+    <field name="file_ref_size" type="string">
+      <registryPath>file_ref.file_size</registryPath>
+    </field>
+  </indexFields>
+</product>
