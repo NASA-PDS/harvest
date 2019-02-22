@@ -53,16 +53,16 @@
       <lineEnding>keep</lineEnding>
     </fileSet>
     <fileSet>
-      <directory>src/main/resources/policy/examples</directory>
-      <outputDirectory>examples</outputDirectory>
+      <directory>src/main/resources/harvest-conf</directory>
+      <outputDirectory>harvest-conf</outputDirectory>
       <fileMode>644</fileMode>
-      <lineEnding>crlf</lineEnding>
+      <lineEnding>keep</lineEnding>
     </fileSet>
     <fileSet>
-      <directory>src/main/resources/conf/defaults/pds</directory>
-      <outputDirectory>conf</outputDirectory>
+      <directory>src/main/resources/search-conf</directory>
+      <outputDirectory>search-conf</outputDirectory>
       <fileMode>644</fileMode>
-      <lineEnding>crlf</lineEnding>
+      <lineEnding>keep</lineEnding>
     </fileSet>
   </fileSets>
 
