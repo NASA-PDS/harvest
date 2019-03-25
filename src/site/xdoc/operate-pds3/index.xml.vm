@@ -179,10 +179,37 @@
         </p>
 
         <source>
-%> harvest -c harvest-policy-pds3.xml -l harvest.log
+%> harvest -c ../harvest-conf/examples/harvest-policy-pds3.xml -C ../search-conf/defaults -l harvest.log
         </source>
 
-        <p>The <i>-c</i> flag option specifies the policy configuration file while the <i>-l</i> flag option specifies the log file for the Harvest output.
+        <p>In the example above, the <i>-c</i> flag option specifies the example harvest policy configuration file while the <i>-C</i> flag option specifies location for the default search policy configuration files. The following command is a MAVEN-specific example:
+        </p>
+
+        <p>The above command will register the full product label into a Solr Collection index named <i>.system</i>, where it can be looked up using its Logical Identifier, but with period <i>.</i> characters instead of colon <i>:</i> characters due to limitations with Solr. Additionally, Harvest will write out the search index files for the target bundle into a <i>solr-docs</i> directory at the current working directory. 
+        </p>
+        
+        <p>Once the Harvest run is complete, use the Solr Post Tool to ingest the Search documents. Depending on the deployment set up of the Search Service, run the appropriate command below:
+        </p>
+        
+        <p><b><i>For Non-Dockerized Search Service Instances</i></b></p>
+                
+        <source>
+%> $SOLR_HOME/bin/post -c pds -params tr="add-hierarchy.xsl" $HOME/${project.artifactId}-${project.version}/bin/solr-docs
+        </source>
+        
+        <p>The Search documents will get ingested into a Solr collection named <i>pds</i>. The last parameter assumes that the <i>solr-docs</i> directory was created in the <i>${project.artifactId}-${project.version}/bin</i> directory.
+        </p>
+        
+        <p><b><i>For Dockerized Search Service Instances</i></b></p>
+                
+        <source>
+% docker exec -it search-service post -c pds -params "tr=add-hierarchy.xsl" /data/solr-docs
+        </source>
+        
+        <p>The Search documents will get ingested into a Solr collection named <i>pds</i>. The <i>/data/solr-docs</i> directory references a location within the Search Service Docker Container that is bind-mounted to the <i>solr-docs</i> directory at the Host machine. So this path should always get passed in for each Docker Post command.  
+        </p>
+        
+        <p>Once the Search documents have been indexed, it is recommended to rename the <i>solr-docs</i> directory and move it to a safe location for later retrieval in the event that they will need to be re-indexed.
         </p>
       </subsection>
     </section>

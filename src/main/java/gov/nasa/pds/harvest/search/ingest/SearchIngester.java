@@ -135,9 +135,9 @@ public class SearchIngester implements Ingester {
     List<String> collections = CollectionAdminRequest.listCollections(client);
     if (!collections.contains(".system")) {
       log.log(new ToolsLogRecord(ToolsLevel.INFO, 
-          "Creating the .system collection with 2 shards and 2 replicas"));
+          "Creating the .system collection with 1 shards and 1 replicas"));
       CollectionAdminRequest.Create req = 
-          CollectionAdminRequest.createCollection(".system", 2, 2);
+          CollectionAdminRequest.createCollection(".system", 1, 1);
       req.process(client);
     }
   }
@@ -187,7 +187,8 @@ public class SearchIngester implements Ingester {
     boolean foundProduct = false;
     try {
       client = getClient(registry);
-      SolrQuery query = new SolrQuery("blobName:" + Utility.createBlobName(lid));
+      SolrQuery query = new SolrQuery("blobName:" + Utility.createBlobName(lid)
+        + " AND version:" + Double.valueOf(vid).intValue());
       QueryResponse response = client.query(".system", query);
       SolrDocumentList documents = response.getResults();
       if (documents.getNumFound() != 0) {
@@ -217,7 +218,7 @@ public class SearchIngester implements Ingester {
       String vid = met.getMetadata(Constants.PRODUCT_VERSION);
       String lidvid = lid + "::" + vid;
       try {
-        if (!hasProduct(searchUrl, lid, vid)) {
+          if (!hasProduct(searchUrl, lid, vid)) {
           String endPoint = "/.system/blob/" + Utility.createBlobName(lid);
           ContentStreamUpdateRequest up = new ContentStreamUpdateRequest(endPoint);
           up.addFile(prodFile, MediaType.APPLICATION_OCTET_STREAM);
@@ -237,7 +238,7 @@ public class SearchIngester implements Ingester {
               prodFile));
           throw new IngestException(message);
         }
-      } catch (CatalogException c) {
+        } catch (CatalogException c) {
         ++HarvestSolrStats.numProductsNotRegistered;
         log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error while "
             + "checking for the existence of a registered product: "
