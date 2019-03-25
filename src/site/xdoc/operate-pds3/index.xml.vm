@@ -558,6 +558,20 @@
         </tr>
       </table>
     </subsection>
+
+    <subsection name="Specifying Resources">
+      <p>The <i>resources/</i> folder in the Harvest Tool Release Package contains a JSON-formatted file that represents a snapshot of the Resource Products currently registerd at the PDS Engineering Node. This file is read in at execution time so that the tool can populate the <i>resource.*</i> fields set in the Search Core configuration files. Below is an example of how a resource is formatted in this file:  
+      </p>
+        
+      <source>
+  "urn:nasa:pds:context_pds3:resource:resource.1076_viola__browsert_asteroids-missions": {
+    "resource_name": "Solar System Exploration: Missions to Asteroids", 
+    "resource_url": <![CDATA["http://solarsystem.jpl.nasa.gov/missions/profile.cfm?Sort=Target\&Target=Asteroids\&Era=Present"]]>
+  }
+      </source>
+      <p><i>urn:nasa:pds:context_pds3:resource:resource.1076_viola__browsert_asteroids-missions</i> represents the LID of the Resource, while <i>resource_name</i> and <i>resource_url</i> is the name to give to the Resource and the URL, respectively. In the event that your particular resource does not exist, simply edit the <i>resources/registered_resources.json</i> file and add to the existing list in the above format.
+      </p>
+    </subsection>    
   </section>
 
 

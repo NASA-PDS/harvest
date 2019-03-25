@@ -55,8 +55,8 @@
     <field name="pds_model_version" type="string">
       <outputString format="text">pds3</outputString>
     </field>
-    <field name="agency_name" type="string" default="Unknown">
-      <registryPath>node_ref.agency_ref.alternate_id</registryPath>
+    <field name="agency_name" type="string">
+      <outputString format="text">esa</outputString>
     </field>
     <!-- Identification_Area Fields -->
     <field name="product_class" type="string">
@@ -91,7 +91,7 @@
       <registryPath>resource_ref</registryPath>
     </field>
     <field name="node_id" type="string">
-      <registryPath>node_ref.alternate_id</registryPath>
+      <registryPath>psa</registryPath>
     </field>
     <!-- Data_Set_PDS3 Fields -->
     <field name="data_set_id" type="string">

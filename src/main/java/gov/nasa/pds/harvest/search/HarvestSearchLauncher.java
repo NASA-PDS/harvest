@@ -123,6 +123,8 @@ public class HarvestSearchLauncher {
   private File configDir;
   
   private File outputDir;
+  
+  private File registeredResources;
 
   private String searchUrl;
   
@@ -149,6 +151,8 @@ public class HarvestSearchLauncher {
 
     globalPolicy = this.getClass().getResource("global-policy.xml");
     searchUrl = System.getProperty("pds.search");
+    registeredResources = new File(System.getProperty("resources.home")
+        + "/registered_resources.json");
   }
 
   /**
@@ -420,7 +424,8 @@ public class HarvestSearchLauncher {
   private void doHarvesting(final Policy policy)
   throws ParserConfigurationException, IOException, ConnectionException, 
   SearchCoreException, SearchCoreFatalException {
-    HarvesterSearch harvester = new HarvesterSearch(this.searchUrl, this.configDir, this.outputDir);
+    HarvesterSearch harvester = new HarvesterSearch(this.searchUrl, 
+        this.configDir, this.outputDir, this.registeredResources);
     if (daemonPort != -1 && waitInterval != -1) {
       harvester.setDaemonPort(daemonPort);
       harvester.setWaitInterval(waitInterval);

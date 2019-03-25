@@ -14,6 +14,8 @@
 package gov.nasa.pds.harvest.search.doc;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -21,14 +23,22 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 
 import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.stats.HarvestSolrStats;
 import gov.nasa.pds.harvest.search.util.DocWriter;
 import gov.nasa.pds.registry.model.ExtrinsicObject;
+import gov.nasa.pds.registry.model.Slot;
 import gov.nasa.pds.registry.model.wrapper.ExtendedExtrinsicObject;
 import gov.nasa.pds.search.core.exception.SearchCoreException;
 import gov.nasa.pds.search.core.exception.SearchCoreFatalException;
@@ -56,7 +66,12 @@ public class SearchDocGenerator {
   
   private DocWriter writer = null;
   
-  public SearchDocGenerator(File configDirectory, File outputDirectory)
+  private HashMap<String, JsonElement> resources;
+  
+  private File resourceFile;
+  
+  public SearchDocGenerator(File configDirectory, File outputDirectory, 
+      File resource)
       throws SearchCoreException, SearchCoreFatalException {
     Product product = null;
     configs = new ArrayList<Product>();
@@ -72,13 +87,31 @@ public class SearchDocGenerator {
       }
     }
     this.outputDirectory = outputDirectory;
+    this.resources = new HashMap<String, JsonElement>();
+    this.resourceFile = resource;
+    try {
+      setResources(this.resourceFile);
+    } catch (Exception e) {
+      throw new SearchCoreFatalException("Error while parsing registered "
+          + "resources: " + e.getMessage());
+    }
   }
 
+  private void setResources(File resource) throws JsonSyntaxException,
+  JsonIOException, FileNotFoundException {
+    Gson gson = new Gson();
+    JsonObject json = gson.fromJson(new FileReader(resource), JsonObject.class);
+    for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
+      this.resources.put(entry.getKey(), entry.getValue());
+    }
+  }
+  
   /**
    * Generate the Solr document file for the given extrinsic object.
    * 
    * @param extrinsic Extrinsic object.
    * @param metadata Metadata associated with the given extrinsic object.
+   * @param obj SearchDocState object.
    * 
    * @throws Exception If an error occurred while generating the document file.
    */
@@ -340,9 +373,28 @@ public class SearchDocGenerator {
           }
         } else if ("collection_ref".equalsIgnoreCase(pathList.get(0))) {
           List<String> refs = searchExtrinsic.getSlotValues("collection_ref");
-          for (String ref : refs) {
-            if (Constants.collectionMap.containsKey(ref)) {
-              extrinsics.add(Constants.collectionMap.get(ref));
+          if (refs != null) {
+            for (String ref : refs) {
+              if (Constants.collectionMap.containsKey(ref)) {
+                extrinsics.add(Constants.collectionMap.get(ref));
+              }
+            }
+          }
+        } else if ("resource_ref".equalsIgnoreCase(pathList.get(0))) {
+          List<String> refs = searchExtrinsic.getSlotValues("resource_ref");
+          if (refs != null) {
+            for (String ref : refs) {
+              if (resources.containsKey(ref)) {
+                JsonObject members = resources.get(ref).getAsJsonObject();
+                ExtrinsicObject resource = new ExtrinsicObject();
+                resource.setLid(ref);
+                for (Map.Entry<String, JsonElement> entry : members.entrySet()) {
+                  List<String> values = new ArrayList<String>();
+                  values.add(entry.getValue().getAsString());
+                  resource.addSlot(new Slot(entry.getKey(), values));
+                }
+                extrinsics.add(resource);
+              }
             }
           }
         }

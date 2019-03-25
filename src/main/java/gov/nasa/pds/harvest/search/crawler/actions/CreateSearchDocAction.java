@@ -60,8 +60,11 @@ public class CreateSearchDocAction extends CrawlerAction {
   
   private SearchDocState searchDocState;
   
-  public CreateSearchDocAction(File configDir, File outputDir, SearchDocState searchDocState) throws SearchCoreException, SearchCoreFatalException {
-    generator = new SearchDocGenerator(configDir, outputDir);
+  public CreateSearchDocAction(File configDir, File outputDir, 
+      File registeredResources, SearchDocState searchDocState) 
+          throws SearchCoreException, SearchCoreFatalException {
+    generator = new SearchDocGenerator(configDir, outputDir, 
+        registeredResources);
     String []phases = {CrawlerActionPhases.POST_INGEST_SUCCESS};
     setPhases(Arrays.asList(phases));
     setId(ID);
@@ -75,9 +78,7 @@ public class CreateSearchDocAction extends CrawlerAction {
       throws CrawlerActionException {
     try {
       ExtrinsicObject extrinsic = createProduct(productMetadata, product);
-
       generator.generate(extrinsic, productMetadata, this.searchDocState);
-
       String lidvid = extrinsic.getLid() + "::" + extrinsic.getSlot(
           Constants.PRODUCT_VERSION).getValues().get(0);
       LOG.log(new ToolsLogRecord(ToolsLevel.INFO, 

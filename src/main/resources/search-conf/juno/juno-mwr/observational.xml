@@ -50,8 +50,8 @@
     <field name="pds_model_version" type="string">
       <outputString format="text">pds4</outputString>
     </field>
-    <field name="agency_name" type="string" default="nasa">
-      <registryPath>node_ref.agency_ref.alternate_id</registryPath>
+    <field name="agency_name" type="string">
+      <outputString format="text">nasa</outputString>
     </field>
     <!-- Identification_Area Fields -->
     <field name="product_class" type="string">
@@ -142,8 +142,11 @@
     <field name="target_ref" type="string">
       <registryPath>target_ref</registryPath>
     </field>
+    <field name="instrument_host_name" type="string">
+      <registryPath>instrument_host_name</registryPath>
+    </field>    
     <field name="instrument_name" type="string">
-      <registryPath>instrument_ref.instrument_name</registryPath>
+      <registryPath>instrument_name</registryPath>
     </field>
     <field name="instrument_ref" type="string">
       <registryPath>instrument_ref</registryPath>

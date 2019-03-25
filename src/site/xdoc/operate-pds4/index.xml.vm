@@ -968,6 +968,21 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
 &lt;/product&gt;
       </source>
     </subsection>
+    
+    <subsection name="Specifying Resources">
+      <p>The <i>resources/</i> folder in the Harvest Tool Release Package contains a JSON-formatted file that represents a snapshot of the Resource Products currently registerd at the PDS Engineering Node. This file is read in at execution time so that the tool can populate the <i>resource.*</i> fields set in the Search Core configuration files. Below is an example of how a resource is formatted in this file:  
+      </p>
+        
+      <source>
+  "urn:nasa:pds:context:resource:resource.a17fuvs_online": {
+    "resource_name": "Apollo 17 Far-Ultraviolet Spectrometer (FUVS) Data Graphs Bundle Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a17fuvs/"
+  }    
+      </source>
+      <p><i>urn:nasa:pds:context:resource:resource.a17fuvs_online</i> represents the LID of the Resource, while <i>resource_name</i> and <i>resource_url</i> is the name to give to the Resource and the URL, respectively. In the event that your particular resource does not exist, simply edit the <i>resources/registered_resources.json</i> file and add to the existing list in ths above format.
+      </p>
+    </subsection>
+
   </section>
 
 

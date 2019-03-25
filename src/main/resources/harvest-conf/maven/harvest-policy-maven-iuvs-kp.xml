@@ -205,6 +205,12 @@
       <xPath slotName="investigation_type">
         //Context_Area/Investigation_Area/type
       </xPath>
+      <xPath slotName="instrument_host_name">
+        //Context_Area/Observing_System/Observing_System_Component[type='Spacecraft']/name
+      </xPath>    
+      <xPath slotName="instrument_name">
+        //Context_Area/Observing_System/Observing_System_Component[type='Instrument']/name
+      </xPath>      
       <xPath slotName="observing_system_name">
         //Context_Area/Observing_System/name
       </xPath>
@@ -397,6 +403,12 @@
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Observation_Area -->
+      <xPath slotName="instrument_host_name">
+        //Observing_System/Observing_System_Component[type='Spacecraft']/name
+      </xPath>       
+      <xPath slotName="instrument_name">
+        //Observing_System/Observing_System_Component[type='Instrument']/name
+      </xPath>     
       <xPath slotName="observation_comment">
         //Observation_Area/comment
       </xPath>

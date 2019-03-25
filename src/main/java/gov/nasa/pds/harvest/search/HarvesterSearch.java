@@ -78,16 +78,20 @@ public class HarvesterSearch {
   
   private SearchDocState searchDocState;
   
+  private File registeredResources;
+  
   /**
    * Constructor.
    *
    * @param searchUrl The search service location.
    * @param configDir Top level directory to the Search Core configuration files.
    * @param outputDir Directory location of the generated Solr documents.
+   * @param resources JSON file used as a lookup table for populating resources.
    *
    *
    */
-  public HarvesterSearch(String searchUrl, File configDir, File outputDir) {
+  public HarvesterSearch(String searchUrl, File configDir, File outputDir, 
+      File resources) {
     this.daemonPort = -1;
     this.waitInterval = -1;
     this.fileObjectRegistrationAction = new FileObjectRegistrationAction();
@@ -96,6 +100,7 @@ public class HarvesterSearch {
     this.ingester = new SearchIngester(searchUrl);
     this.searchUrl = searchUrl;
     this.searchDocState = new SearchDocState();
+    this.registeredResources = resources;
   }
 
   /**
@@ -161,7 +166,8 @@ public class HarvesterSearch {
     if (crawler instanceof PDS3FileCrawler) {
       ca.remove(fileObjectRegistrationAction);
     }
-    CreateSearchDocAction createSearchDoc = new CreateSearchDocAction(configDir, outputDir, this.searchDocState);
+    CreateSearchDocAction createSearchDoc = new CreateSearchDocAction(
+        configDir, outputDir, this.registeredResources, this.searchDocState);
     if (crawler instanceof CollectionCrawler) {
       createSearchDoc.setCacheCollection(true);
     }

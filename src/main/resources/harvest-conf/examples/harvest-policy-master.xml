@@ -198,7 +198,13 @@
       </xPath>
       <xPath slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
+      </xPath>
+      <xPath slotName="instrument_host_name">
+        //Context_Area/Observing_System/Observing_System_Component[type='Spacecraft']/name
       </xPath>       
+      <xPath slotName="instrument_name">
+        //Context_Area/Observing_System/Observing_System_Component[type='Instrument']/name
+      </xPath>   
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -598,7 +604,13 @@
       </xPath>
       <xPath slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
+      </xPath>
+      <xPath slotName="instrument_host_name">
+        //Observing_System/Observing_System_Component[type='Spacecraft']/name
       </xPath>       
+      <xPath slotName="instrument_name">
+        //Observing_System/Observing_System_Component[type='Instrument']/name
+      </xPath>        
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
@@ -979,7 +991,10 @@
       </xPath>
       <xPath slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
-      </xPath>       
+      </xPath>
+      <xPath slotName="investigation_name">
+        //Observation_Area/Investigation_Area/name
+      </xPath>             
       <xPath slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>

@@ -64,6 +64,15 @@
       <fileMode>644</fileMode>
       <lineEnding>keep</lineEnding>
     </fileSet>
+    <fileSet>
+      <directory>src/main/resources/util</directory>
+      <outputDirectory>resources</outputDirectory>
+      <includes>
+        <include>registered_resources.json</include>
+      </includes>
+      <fileMode>644</fileMode>
+      <lineEnding>keep</lineEnding>
+    </fileSet>
   </fileSets>
 
   <files>
