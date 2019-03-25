@@ -77,7 +77,7 @@
 -o ../ -l ../harvest-maven-ngims.log
         </source>
 
-        <p>The above command will write out the search index files for the MAVEN NGIMS bundle into <i>solr-docs</i> directory one directory up from the <i>bin</i> directory. In an environment where multiple bundles will be indexed, that directory should be renamed and then copied to the local Search Service installation where the <i>search-core</i> index and post commands can be executed to make that content available from the Search Service.
+        <p>The above command will write out the search index files for the MAVEN NGIMS bundle into a <i>solr-docs</i> directory one directory up from the <i>bin</i> directory. In an environment where multiple bundles will be indexed, that directory should be renamed and then copied to the local Search Service installation where the <i>search-core</i> index and post commands can be executed to make that content available from the Search Service:
         </p>
 
         <source>
