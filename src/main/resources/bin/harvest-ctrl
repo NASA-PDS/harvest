@@ -20,8 +20,13 @@
 # Set the JAVA_HOME environment variable here in the script if it will
 # not be defined in the environment.
 if [ -z "${JAVA_HOME}" ]; then
-   echo "The JAVA_HOME environment variable is not set." 1>&2
-   exit 1
+   JAVA_CMD=`which java`
+   if [ $? -ne 0 ]; then
+     echo "JAVA_HOME is not set as an environment variable"
+     exit 1
+   fi
+else
+   JAVA_CMD="${JAVA_HOME}"/bin/java
 fi
 
 # Setup environment variables.
@@ -30,4 +35,4 @@ PARENT_DIR=`cd ${SCRIPT_DIR}/.. && pwd`
 LIB_DIR=${PARENT_DIR}/lib
 
 # Execute the application.
-"${JAVA_HOME}"/bin/java -Xms256m -Xmx1024m -Dpds.search="http://localhost:8983/solr" -Dpds.harvest.search.conf="${PARENT_DIR}/search-conf" -Dresources.home=${PARENT_DIR}/resources -Djava.ext.dirs=${LIB_DIR} gov.nasa.jpl.oodt.cas.crawl.daemon.CrawlDaemonController $*
+${JAVA_CMD} -Xms256m -Xmx1024m -Dpds.search="http://localhost:8983/solr" -Dpds.harvest.search.conf="${PARENT_DIR}/search-conf" -Dresources.home=${PARENT_DIR}/resources -Djava.ext.dirs=${LIB_DIR} gov.nasa.jpl.oodt.cas.crawl.daemon.CrawlDaemonController $*

@@ -582,7 +582,7 @@ public class HarvestSearchLauncher {
     ca.setThreshold(Priority.FATAL);
     BasicConfigurator.configure(ca);
     if (args.length == 0) {
-      System.out.println("\nType 'harvest-search -h' for usage");
+      System.out.println("\nType 'harvest -h' for usage");
       System.exit(0);
     }
     try {
