@@ -13,7 +13,9 @@
 // $Id: SearchIngester.java 14165 2015-07-09 18:20:14Z mcayanan $
 package gov.nasa.pds.harvest.search.ingest;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.pdfbox.io.IOUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -29,10 +32,12 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.request.AbstractUpdateRequest;
 import org.apache.solr.client.solrj.request.CollectionAdminRequest;
 import org.apache.solr.client.solrj.request.ContentStreamUpdateRequest;
-import org.apache.solr.client.solrj.response.CollectionAdminResponse;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.util.ContentStreamBase.StringStream;
 import org.apache.solr.common.util.NamedList;
+import org.json.JSONObject;
+import org.json.XML;
 
 import gov.nasa.jpl.oodt.cas.filemgr.ingest.Ingester;
 import gov.nasa.jpl.oodt.cas.filemgr.structs.exceptions.CatalogException;
@@ -112,9 +117,9 @@ public class SearchIngester implements Ingester {
     if (client == null) {
       client = new HttpSolrClient.Builder(url.toString()).build();
       try {
-        createSystemCollection(client);
+        createCollections(client);
       } catch (SolrServerException se) {
-        throw new SolrServerException("Error creating .system collection: "
+        throw new SolrServerException("Error creating .system and/or xpath collection: "
             + se.getMessage());
       }
     }
@@ -122,7 +127,7 @@ public class SearchIngester implements Ingester {
   }
 
   /**
-   * Creates the .system collection if it does not exist.
+   * Creates the .system and xpath collections if it does not exist.
    * 
    * @param client The SolrClient.
    * 
@@ -130,7 +135,7 @@ public class SearchIngester implements Ingester {
    * Server.
    * @throws IOException If an IO error occurred.
    */
-  private void createSystemCollection(SolrClient client)
+  private void createCollections(SolrClient client)
       throws SolrServerException, IOException {
     List<String> collections = CollectionAdminRequest.listCollections(client);
     if (!collections.contains(".system")) {
@@ -140,6 +145,13 @@ public class SearchIngester implements Ingester {
           CollectionAdminRequest.createCollection(".system", 1, 1);
       req.process(client);
     }
+    if (!collections.contains("xpath")) {
+      log.log(new ToolsLogRecord(ToolsLevel.INFO, 
+          "Creating the xpath collection with 1 shards and 1 replicas"));
+      CollectionAdminRequest.Create req = 
+          CollectionAdminRequest.createCollection("xpath", 1, 1);
+      req.process(client);
+    }    
   }
   
   /**
@@ -230,6 +242,15 @@ public class SearchIngester implements Ingester {
                   + "Label file blob can be found here: " + registeredBlob,
                prodFile));
           ++HarvestSolrStats.numProductsRegistered;
+          try {
+            postXPaths(searchUrl, prodFile, met);
+            ++HarvestSolrStats.numXPathDocsRegistered;
+          } catch (Exception e) {
+            log.log(new ToolsLogRecord(ToolsLevel.SEVERE, 
+                "Error posting to xpath Solr Collection endpoint: "
+                    + e.getMessage()));
+            ++HarvestSolrStats.numXPathDocsNotRegistered;
+          }
           return Utility.createBlobName(lid);
         } else {
           ++HarvestSolrStats.numProductsNotRegistered;
@@ -254,6 +275,30 @@ public class SearchIngester implements Ingester {
       }
   }
 
+  private void postXPaths(URL searchUrl, File prodFile, Metadata met)
+      throws IOException, SolrServerException {
+    String endPoint = "/xpath/update/json/docs";
+    ContentStreamUpdateRequest up = new ContentStreamUpdateRequest(endPoint);
+    BufferedReader br = null;
+    FileReader fr = null;
+    try {
+      fr = new FileReader(prodFile);
+      br = new BufferedReader(fr);
+      JSONObject json = XML.toJSONObject(br);
+      StringStream stringStream = new StringStream(json.toString(2), 
+          MediaType.APPLICATION_JSON);
+      up.addContentStream(stringStream);
+      up.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
+      NamedList<Object> list = getClient(searchUrl).request(up);
+      log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
+          "Successfully posted document of XPaths of entire label to the xpath Solr collection",
+           prodFile));
+    } finally {
+      IOUtils.closeQuietly(br);
+      IOUtils.closeQuietly(fr);
+    }
+  }
+  
   /**
    * Method not implemented at this time.
    *

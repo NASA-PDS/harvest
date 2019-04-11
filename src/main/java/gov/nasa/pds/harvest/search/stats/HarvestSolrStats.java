@@ -21,6 +21,10 @@ public class HarvestSolrStats {
 
   public static int numDocumentsNotCreated = 0;
 
+  public static int numXPathDocsRegistered = 0;
+
+  public static int numXPathDocsNotRegistered = 0;
+  
   public static int numAncillaryProductsRegistered = 0;
 
   public static int numAncillaryProductsNotRegistered = 0;
