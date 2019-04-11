@@ -9,6 +9,11 @@
 -->
 
 <policy>
+  <!-- 
+       Specify collection products here. This allows Harvest to be able to 
+       distinguish between primary members and secondary members of a collection 
+       while traversing a target directory.
+    -->
   <collections>
     <file>$HOME/dph_example_archive_VG2PLS/browse/Collection_browse.xml</file>
     <file>$HOME/dph_example_archive_VG2PLS/context/Collection_context.xml</file>
@@ -17,6 +22,9 @@
     <file>$HOME/dph_example_archive_VG2PLS/xml_schema/Collection_xml_schema.xml</file>
   </collections>
 
+  <!-- 
+       Specify the top level directory for Harvest to crawl for products to register 
+    -->
   <directories>
     <path>$HOME/dph_example_archive_VG2PLS</path>
     <fileFilter>
@@ -24,6 +32,11 @@
     </fileFilter>
   </directories>
 
+  <!--
+      Specify the base URL of where the physical data products are located. This 
+      allows Harvest to provide links to the physical data products in the slots
+      of each registered product in the Registry.
+    -->
   <accessUrls registerFileUrls="false">
     <accessUrl>
       <baseUrl>http://starbase.jpl.nasa.gov</baseUrl>
@@ -31,15 +44,41 @@
     </accessUrl>
   </accessUrls>
 
+  <!--
+      Specify an optional Checksum Manifest file.
+    -->
   <checksums generate="true">
     <manifest basePath="$HOME/dph_example_archive_VG2PLS">
         $HOME/dph_example_archive_VG2PLS/bundle_checksums.txt
     </manifest>
   </checksums>
 
+  
   <candidates>
+    <!--
+	In order to extract metadata from Local Data Dictionaries, you must
+	specify there namespace here. A few additional comments are noted
+	below.
+
+	NOTE: This example contains DPH example bundle attributes under
+	Product_Observational configuration. Be sure to remove the following
+	DPH namespace and those slots when modifying this config for operational use.
+	Search for "dph:" to remove.
+      -->
     <namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01"/>
 
+    <!-- Additional namespace examples:
+    <namespace prefix="disp" uri="http://pds.nasa.gov/pds4/disp/v1"/>
+    <namespace prefix="sp" uri="http://pds.nasa.gov/pds4/sp/v1"/>
+    <namespace prefix="geom" uri="http://pds.nasa.gov/pds4/geom/v0"/>
+    <namespace prefix="sbn" uri="http://pds.nasa.gov/pds4/sbn/v0"/>
+    -->
+
+    <!-- 
+	 The productMetadata configuration is for specifying mappings
+	 from PDS4 XPaths to flattened, human-readable slotNames for
+	 use in Search
+      -->
     <productMetadata objectType="Product_Browse">
       <!-- Identification_Area -->
       <xPath slotName="information_model_version">
@@ -576,12 +615,15 @@
         //Observation_Area/Target_Identification/description
       </xPath>
       <!-- Mission_Area -->
+      <!-- ***************************************** -->
+      <!-- EXAMPLE ONLY - REMOVE FOR OPERATIONAL USE -->
       <xPath slotName="spacecraft_clock_start_count">
         //Observation_Area/Mission_Area/dph:spacecraft_clock_start_count
       </xPath>
       <xPath slotName="spacecraft_clock_stop_count">
         //Observation_Area/Mission_Area/dph:spacecraft_clock_stop_count
       </xPath>
+      <!-- ***************************************** -->
       <!-- Reference_List -->
       <xPath slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
