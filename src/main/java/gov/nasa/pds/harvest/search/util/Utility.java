@@ -164,8 +164,9 @@ public class Utility {
       return result;
     }
     
-    public static String createBlobName(String lid) {
-      lid = lid.replaceAll(":", ".");
-      return lid;
+    public static String createBlobName(String lid, String vid) {
+      String lidvid = lid + "__" + vid;
+      lidvid = lidvid.replaceAll(":", ".");
+      return lidvid;
     }
 }

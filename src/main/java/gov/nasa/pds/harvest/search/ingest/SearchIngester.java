@@ -199,8 +199,7 @@ public class SearchIngester implements Ingester {
     boolean foundProduct = false;
     try {
       client = getClient(registry);
-      SolrQuery query = new SolrQuery("blobName:" + Utility.createBlobName(lid)
-        + " AND version:" + Double.valueOf(vid).intValue());
+      SolrQuery query = new SolrQuery("blobName:" + Utility.createBlobName(lid, vid));
       QueryResponse response = client.query(".system", query);
       SolrDocumentList documents = response.getResults();
       if (documents.getNumFound() != 0) {
@@ -208,7 +207,7 @@ public class SearchIngester implements Ingester {
       }
     } catch (Exception e) {
       throw new CatalogException("Error while trying to find blob with blobName '"
-          + Utility.createBlobName(lid) + "': " + e.getMessage());
+          + Utility.createBlobName(lid, vid) + "': " + e.getMessage());
     }
     return foundProduct;
   }
@@ -231,7 +230,7 @@ public class SearchIngester implements Ingester {
       String lidvid = lid + "::" + vid;
       try {
           if (!hasProduct(searchUrl, lid, vid)) {
-          String endPoint = "/.system/blob/" + Utility.createBlobName(lid);
+          String endPoint = "/.system/blob/" + Utility.createBlobName(lid, vid);
           ContentStreamUpdateRequest up = new ContentStreamUpdateRequest(endPoint);
           up.addFile(prodFile, MediaType.APPLICATION_OCTET_STREAM);
           up.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
@@ -251,7 +250,7 @@ public class SearchIngester implements Ingester {
                     + e.getMessage()));
             ++HarvestSolrStats.numXPathDocsNotRegistered;
           }
-          return Utility.createBlobName(lid);
+          return Utility.createBlobName(lid, vid);
         } else {
           ++HarvestSolrStats.numProductsNotRegistered;
           String message = "Product already exists: " + lidvid;
@@ -285,6 +284,9 @@ public class SearchIngester implements Ingester {
       fr = new FileReader(prodFile);
       br = new BufferedReader(fr);
       JSONObject json = XML.toJSONObject(br);
+      String lidvid = met.getMetadata(Constants.LOGICAL_ID) + "::"
+      + met.getMetadata(Constants.PRODUCT_VERSION);
+      json.append("id", lidvid);
       StringStream stringStream = new StringStream(json.toString(2), 
           MediaType.APPLICATION_JSON);
       up.addContentStream(stringStream);
