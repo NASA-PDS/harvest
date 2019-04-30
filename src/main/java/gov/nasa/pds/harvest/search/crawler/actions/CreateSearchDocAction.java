@@ -81,7 +81,7 @@ public class CreateSearchDocAction extends CrawlerAction {
       generator.generate(extrinsic, productMetadata, this.searchDocState);
       String lidvid = extrinsic.getLid() + "::" + extrinsic.getSlot(
           Constants.PRODUCT_VERSION).getValues().get(0);
-      LOG.log(new ToolsLogRecord(ToolsLevel.INFO, 
+      LOG.log(new ToolsLogRecord(ToolsLevel.SUCCESS, 
           "Successfully generated document file for " + lidvid + ".", product));
       if (cacheCollection && "Product_Collection".equalsIgnoreCase(
           productMetadata.getMetadata(Constants.PRODUCT_CLASS))) {

@@ -22,7 +22,7 @@
     <field name="search_id" type="required">
       <outputString format="text">pds4:{lid}</outputString>
     </field>
-    <field name="identifier" type="required">
+    <field name="lid" type="required">
       <registryPath>lid</registryPath>
     </field>
     <field name="version_id" type="string">
