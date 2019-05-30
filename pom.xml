@@ -193,7 +193,7 @@
     <repository>
       <id>oodt-repo</id>
       <name>OODT Private Maven Repository</name>
-      <url>http://oodt.jpl.nasa.gov/download/private</url>
+      <url>https://osr.jpl.nasa.gov/download/private</url>
     </repository>
   </repositories>
 
