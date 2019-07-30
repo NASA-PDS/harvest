@@ -42,6 +42,7 @@
         <include>harvest.bat</include>
         <include>harvest-ctrl</include>
         <include>harvest-ctrl.bat</include>
+	<include>search-post</include>
       </includes>
       <fileMode>755</fileMode>
       <lineEnding>keep</lineEnding>
@@ -53,14 +54,8 @@
       <lineEnding>keep</lineEnding>
     </fileSet>
     <fileSet>
-      <directory>src/main/resources/harvest-conf</directory>
-      <outputDirectory>harvest-conf</outputDirectory>
-      <fileMode>644</fileMode>
-      <lineEnding>keep</lineEnding>
-    </fileSet>
-    <fileSet>
-      <directory>src/main/resources/search-conf</directory>
-      <outputDirectory>search-conf</outputDirectory>
+      <directory>src/main/resources/conf</directory>
+      <outputDirectory>conf</outputDirectory>
       <fileMode>644</fileMode>
       <lineEnding>keep</lineEnding>
     </fileSet>

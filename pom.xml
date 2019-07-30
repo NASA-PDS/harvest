@@ -18,15 +18,10 @@
 
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>gov.nasa.pds.2010</groupId>
-    <artifactId>ingest</artifactId>
-    <version>0.0.0</version>
-  </parent>
 
-  <groupId>gov.nasa.pds.2010.ingest</groupId>
+  <groupId>gov.nasa.pds</groupId>
   <artifactId>harvest</artifactId>
-  <version>2.0.0</version>
+  <version>2.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Harvest Tool</name>
@@ -94,6 +89,11 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.7.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <archive>
@@ -155,6 +155,19 @@
       </plugin>
     </plugins>
   </build>
+
+  <scm>
+    <url>https://github.com/NASA-PDS-Incubator/pds4-harvest/tree/master</url>
+    <connection>scm:git:git://github.com/NASA-PDS-Incubator/pds4-harvest.git</connection>
+    <developerConnection>scm:git:ssh://github.com:NASA-PDS-Incubator/pds4-harvest.git</developerConnection>
+  </scm>
+
+  <properties>
+    <registry-version>1.16.0</registry-version>
+    <oodt-version>0.12</oodt-version>
+    <search-version>2.0.0</search-version>
+    <product-tools-version>4.0.1</product-tools-version>
+  </properties>
 
   <repositories>
     <!-- Hosts the PDS and OODT artifacts. -->
@@ -310,7 +323,7 @@
     </dependency>
     <dependency>
       <groupId>gov.nasa.pds</groupId>
-      <artifactId>product-tools</artifactId>
+      <artifactId>pds3-product-tools</artifactId>
       <version>${product-tools-version}</version>
       <scope>compile</scope>
     </dependency>

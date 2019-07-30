@@ -142,7 +142,7 @@ public class HarvestSearchLauncher {
     excludeSubDirs = new ArrayList<String>();
     isPDS3Directory = false;
     severityLevel = ToolsLevel.INFO;
-    outputDir = new File("").getAbsoluteFile();
+    outputDir = null;
     configDir = null;
     String value = System.getProperty("pds.harvest.search.conf");
     if (value != null && !value.isEmpty()) {
@@ -152,7 +152,7 @@ public class HarvestSearchLauncher {
     globalPolicy = this.getClass().getResource("global-policy.xml");
     searchUrl = System.getProperty("pds.search");
     registeredResources = new File(System.getProperty("resources.home")
-        + "/registered_resources.json");
+        + File.separator + "registered_resources.json");
   }
 
   /**
@@ -229,7 +229,7 @@ public class HarvestSearchLauncher {
       } else if (o.getOpt().equals(Flag.DOC_CONFIG.getShortName())) {
         configDir = new File(o.getValue());
       } else if (o.getOpt().equals(Flag.OUTPUT_DIR.getShortName())) {
-        outputDir = new File(o.getValue());
+        outputDir = new File(o.getValue(), Constants.SOLR_DOC_DIR);
       }
     }
     if (policy == null) {
@@ -244,7 +244,15 @@ public class HarvestSearchLauncher {
             +"directory.");
       }
     }
-    outputDir = new File(outputDir, Constants.SOLR_DOC_DIR);
+    if (outputDir == null) {
+    	String dataPath = System.getProperty("pds.registry.data");
+    	if (dataPath != null) {
+    		outputDir = new File(dataPath);
+	    } else {
+	    	outputDir = new File("").getAbsoluteFile();
+	    }
+    }
+    
     setLogger();
   }
 

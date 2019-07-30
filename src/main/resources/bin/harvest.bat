@@ -46,6 +46,6 @@ for %%i in ("%LIB_DIR%"\harvest-*.jar) do set HARVEST_JAR=%%i
 :: Executes Harvest via the executable jar file
 :: The special variable '%*' allows the arguments
 :: to be passed into the executable.
-"%JAVA_HOME%"\bin\java -Xms256m -Xmx1024m -Dpds.search="http://localhost:8983/solr" -Dpds.harvest.search.conf="%PARENT_DIR%\search-conf" -Dresources.home="%PARENT_DIR%\resources" -jar "%HARVEST_JAR%" %*
+"%JAVA_HOME%"\bin\java -Xms256m -Xmx1024m -Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true -Dpds.search="http://localhost:8983/solr" -Dpds.harvest.search.conf="%PARENT_DIR%\conf\search" -Dresources.home="%PARENT_DIR%\resources" -jar "%HARVEST_JAR%" %*
 
 :END

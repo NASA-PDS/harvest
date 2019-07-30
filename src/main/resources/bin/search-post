@@ -12,49 +12,51 @@
 # may be required before exporting such information to foreign countries or
 # providing access to foreign nationals.
 
-# Bourne Shell script that allows easy execution of the Harvest Tool
-# without the need to set the CLASSPATH or having to type in that long java
-# command (java gov.nasa.pds.harvest.HarvestLauncher ...)
-
-# Expects the Harvest jar file to be in the ../lib directory.
-
 ################################################################################
-# UPDATE VARIABLES AS NEEDED
-JAVA_HOME=
-SOLR_URL=http://localhost:8983/solr
+# Set Environment Variables As Needed
+# REGISTRY_HOME=/path/to/registry
+# SOLR_HOME=/path/to/solr
 ################################################################################
 
 ################################################################################
 # WARNING: Should not need to update below. Proceed with caution.
 ################################################################################
 
-# Check if the JAVA_HOME environment variable is set.
-if [ -z "${JAVA_HOME}" ]; then
-   JAVA_CMD=`which java`
-   if [ $? -ne 0 ]; then
-     echo "JAVA_HOME is not set as an environment variable"
-     exit 1
-   fi
-else
-   JAVA_CMD="${JAVA_HOME}"/bin/java
-fi
-
 # Setup environment variables.
 SCRIPT_DIR=`cd "$( dirname $0 )" && pwd`
 PARENT_DIR=`cd ${SCRIPT_DIR}/.. && pwd`
 
-LIB_DIR=${PARENT_DIR}/lib
-KEYSTORE=${PARENT_DIR}/keystore/tomcat_self_sign_keystore
+usage() {
+    echo
+    echo "$(basename $0) (docker or standalone) [optional:solr-docs-dir]" 1>&2
+    echo
+    exit 1
+}
+
+# Check arguments
+if [ $# -lt 1 ]; then
+    echo "ERROR: Missing argument." 1>&2
+    usage
+elif [ "$1" != "docker" ] && [ "$1" != "standalone" ]; then
+    echo "ERROR: Invalid argument." 1>&2
+    usage
+fi
+
+install=$1
+registry_data=$2
 
 # Check Registry Data exists where expected
 if [ -z "${REGISTRY_HOME}" ]; then
     REGISTRY_HOME=${PARENT_DIR}/../registry
 fi
 
-REGISTRY_DATA=${REGISTRY_HOME}/../registry-data/solr-docs
+if [ -z "$registry_data" ]; then
+    registry_data=${REGISTRY_HOME}/../registry-data/solr-docs
+fi
+echo $registry_data
 
 # Check for Registry installation
-if [ ! -e "${REGISTRY_HOME}" ] && [ ! -e "${REGISTRY_HOME}" ]; then
+if [ ! -e "${REGISTRY_HOME}" ]; then
     echo
     echo "ERROR: Registry does not exist at ${REGISTRY_HOME}." 1>&2
     echo "       Verify Registry has been installed and path is valid." 1>&2
@@ -63,27 +65,34 @@ if [ ! -e "${REGISTRY_HOME}" ] && [ ! -e "${REGISTRY_HOME}" ]; then
     exit 1
 fi
 
-if [ ! -e "${REGISTRY_DATA}" ]; then
+if [ ! -e "${registry_data}" ]; then
     echo
-    echo "ERROR: ${REGISTRY_DATA} does not exist as expected." 1>&2
+    echo "ERROR: ${registry_data} does not exist as expected." 1>&2
     echo "       Verify Registry installation completed successfully." 1>&2
     echo
     exit 1
 fi
 
+# Execute Solr Post depending on installation method
+if [ "$install" == "standalone" ]; then
+    if [ -z "${SOLR_HOME}" ]; then
+	SOLR_HOME=${PARENT_DIR}/../solr-7.7.2
+    fi
 
-# Check for dependencies.
-if [ ! -f ${LIB_DIR}/harvest-*.jar ]; then
-    echo
-    echo "ERROR: Cannot find Harvest jar file in ${LIB_DIR}" 1>&2
-    echo
-    exit 1
+    if [ ! -d "${SOLR_HOME}" ]; then
+	echo
+	echo "ERROR: Solr does not exist at ${SOLR_HOME}." 1>&2
+	echo "       Verify Solr has been downloaded and unpackaged." 1>&2
+	echo "       If path to Solr Home differs, please add path to this script." 1>&2
+	echo
+	exit 1
+    fi
+
+    $SOLR_HOME/bin/post -c pds -params tr="add-hierarchy.xsl" $REGISTRY_DATA
+elif [ "$install" == "docker" ]; then
+    docker exec -it registry post -c pds -params "tr=add-hierarchy.xsl" /data/registry-data/solr-docs
 fi
+    
 
-# Finds the jar file in LIB_DIR and sets it to HARVEST_JAR.
-HARVEST_JAR=`ls ${LIB_DIR}/harvest-*.jar`
-
-# Executes Harvest via the executable jar file
-# Arguments are passed in to the tool via '$@'
-${JAVA_CMD} -Xms256m -Xmx1024m -Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true -Dpds.search=${SOLR_URL} -Dpds.harvest.search.conf="${PARENT_DIR}/conf/search" -Dpds.registry.data=${REGISTRY_DATA} -Dresources.home=${PARENT_DIR}/resources -jar ${HARVEST_JAR} "$@"
+exit 0
 

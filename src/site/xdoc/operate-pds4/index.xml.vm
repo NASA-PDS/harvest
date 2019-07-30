@@ -19,8 +19,8 @@
 <document>
   <properties>
     <title>Operation (PDS4)</title>
-    <author email="Michael.Cayanan@jpl.nasa.gov">Michael Cayanan</author>
-    <author email="Sean.Hardman@jpl.nasa.gov">Sean Hardman</author>
+    <author email="Galen.Hollins@jpl.nasa.gov">Galen Hollins</author>
+    <author email="Jordan.h.Padams@jpl.nasa.gov">Jordan Padams</author>
   </properties>
 
   <body>
@@ -33,7 +33,7 @@
         <li><a href="#Command-Line Options">Command-Line Options</a></li>
         <li><a href="#Advanced_Usage">Advanced Usage</a></li>
         <li><a href="#Harvest_Policy_File">Harvest Policy File</a></li>
-        <li><a href="#Search_Core_Configurations">Search Core Configurations</a></li>
+        <li><a href="#Search_API_Config_Files">Search API Config Files</a></li>
         <li><a href="#Report_Format">Report Format</a></li>
         <li><a href="#Common_Errors">Common Errors</a></li>
       </ul>
@@ -50,7 +50,7 @@
         <p>Included in the Harvest package is an example policy configuration file for PDS4 product registration. Go to the <i>examples/</i> folder, make a copy of the <i>harvest-policy-example.xml</i> file and modify it as necessary. The following breaks down the policy file example and indicates what modifications are to be performed.
         </p>
 
-        <p><b><i>Collections</i></b></p>
+        <h5>Collections</h5>
 
         <source>
 &lt;collections&gt;
@@ -65,7 +65,7 @@
         <p>Specify collection products here. This allows Harvest to be able to distinguish between primary members and secondary members of a collection while traversing a target directory.
         </p>
 
-        <p><b><i>Directories</i></b></p>
+        <h5>Directories</h5>
 
         <source>
 &lt;directories&gt;
@@ -79,7 +79,7 @@
         <p>Specify the top level directory for Harvest to crawl for products to register.
         </p>
 
-        <p><b><i>Access URLs</i></b></p>
+        <h5>Access URLs</h5>
 
         <source>
 &lt;accessUrls registerFileUrls="false"&gt;
@@ -92,8 +92,17 @@
 
         <p>Specify the base URL of where the physical data products are located. This allows Harvest to provide links to the physical data products in the slots of each registered product in the Registry.
         </p>
+        
+        <p>For the example above, if a bundle is online at <b>http://starbase.jpl.nasa.gov/</b>dph_example_archive_VG2PLS/<br /><br />
+        
+        And on the machine you are running Harvest, the path to that bundle is <b>$HOME/</b>dph_example_archive_VG2PLS/<br /><br />
+        
+        In order for Harvest to registry this product with this URL, we need to specify what path <i>offset</i>
+        should be replaced with the <i>baseUrl</i>. In this case, the offset = $HOME, and the baseUrl is
+        http://starbase.jpl.nasa.gov .
+        </p>
 
-        <p><b><i>Checksums</i></b></p>
+        <h5>Checksums</h5>
 
         <source>
 &lt;checksums generate="true"&gt;
@@ -109,7 +118,7 @@
         <p>With this configuration, Harvest will generate checksums for each file object to be registered and compare against the supplied checksums in the data product label as well as the manifest file.
         </p>
 
-        <p><b><i>Candidate Products</i></b></p>
+        <h5>Candidate Products</h5>
 
         <source>
 &lt;candidates&gt;
@@ -188,7 +197,7 @@
         </p>
 
 
-        <p><b><i>Namespaces</i></b></p>
+        <h5>Namespaces</h5>
 
         <p>It is highly encouraged to define this in the policy when specifying XPaths to metadata that reside in a namespace other than the default PDS namespace. Doing so will make the policy more readable.
         </p>
@@ -258,7 +267,7 @@
         </p>
 
         <source>
-%> ./harvest -c ../harvest-conf/harvest-policy-example.xml -C ../search-conf/defaults
+%> ./harvest -c ../conf/harvest/harvest-policy-example.xml
         </source>
 
         <p>In the example above, the <i>-c</i> flag option specifies the example harvest policy configuration file while the <i>-C</i> flag option specifies location for the default search policy configuration files. The following command is a MAVEN-specific example:
@@ -270,28 +279,26 @@
         <p>Once the Harvest run is complete, use the Solr Post Tool to ingest the Search documents. Depending on the deployment set up of the Search Service, run the appropriate command below:
         </p>
         
-        <p><b><i>For Non-Dockerized Search Service Instances</i></b></p>
+        <h5>For Non-Dockerized Registry Instances</h5>
                 
         <source>
-%> $SOLR_HOME/bin/post -c pds -params tr="add-hierarchy.xsl" $HOME/${project.artifactId}-${project.version}/bin/solr-docs
+# Linux / Mac Users
+%> search-post standalone
+
+# Windows Users
+%> C:\path\to\solr\bin\post -c pds -params tr="add-hierarchy.xsl" C:\path\to\registry\solr-docs
         </source>
         
-        <p>The last parameter assumes that the <i>solr-docs</i> directory was created in the <i>${project.artifactId}-${project.version}/bin</i> directory.
-        </p>
-        
-        <p><b><i>For Dockerized Search Service Instances</i></b></p>
+        <h5>For Dockerized Registry Instances</h5>
                 
         <source>
-% docker exec -it search-service post -c pds -params "tr=add-hierarchy.xsl" /data/solr-docs
+%> search-post docker
         </source>
         
         <p>The above command assumes that the <i>/data/solr-docs</i> directory was bind-mounted to the <i>solr-docs</i> directory. So this path should always get passed in for each Docker Post command.  
         </p>
         
         <p>In both scenarios above, the Search documents will get ingested into a Solr collection named <i>pds</i>.
-        </p>
-        
-        <p>Once the Search documents have been indexed, it is recommended to rename the <i>solr-docs</i> directory and move it to a safe location for later retrieval in the event that they will need to be re-indexed.
         </p>
              
       </subsection>
@@ -303,8 +310,8 @@
 
         <table>
           <tr><th>Command-Line Option</th><th>Description</th></tr>
-          <tr><td>-c, --harvest-config &lt;file&gt;</td><td>Specify a harvest policy configuration file to set the tool behavior. (This flag is required)</td></tr>
-          <tr><td>-C, --doc-config &lt;dir&gt;</td><td>Specify the directory location where the document generation configuration files reside. The default is to look in the 'search-conf' directory that resides in the tool package.</td></tr>
+          <tr><td>-c, --conf/harvestig &lt;file&gt;</td><td>Specify a harvest policy configuration file to set the tool behavior. (This flag is required)</td></tr>
+          <tr><td>-C, --doc-config &lt;dir&gt;</td><td>Specify the directory location where the document generation configuration files reside. The default is to look in the 'conf/search' directory that resides in the tool package.</td></tr>
           <tr><td>-D, --ignore-dir</td><td>Specify patterns to look for when traversing a target directory for sub-directories to ignore. Each pattern must be surrounded by quotes (i.e. -D "CATALOG").</td></tr>
           <tr><td>-e, --regexp</td><td>Specify file patterns to look for when registering and indexing products from a target directory. Each pattern must be surrounded by quotes (i.e. -e "*.xml").</td></tr>
           <tr><td>-h, --help</td><td>Display <i>harvest</i> usage.</td></tr>
@@ -336,20 +343,20 @@
           <li>Excluding Sub-Directories To Traverse From a Target</li>
         </ul>
 
-        <p><b><i>Indexing more metadata</i></b></p>
+        <h5>Indexing more metadata</h5>
 
-        <p>What gets indexed into the Search Service is determined by a set of document generation configuration files. In the majority of use-case scenarios, the default set of configuration files provided in the <i>search-conf/defaults</i> directory is sufficient and can be passed into the tool using the <i>-C, --doc-config</i> flag option like so:
+        <p>What gets indexed into the Registry and Search indexes is determined by a set of document generation configuration files. In the majority of use-case scenarios, the default set of configuration files provided in the <i>conf/search/defaults</i> directory is sufficient and is included by default, however you can also specify other config to pass into the tool using the <i>-C, --doc-config</i> flag option like so:
         </p>
 
         <source>
-% harvest $HOME/directory -e "*.xml" -c ../harvest-conf/harvest-policy-example.xml -C ../search-conf/defaults -l harvest.log
+% harvest $HOME/directory -e "*.xml" -c ../conf/harvest/harvest-policy-example.xml -C ../conf/search/defaults -l harvest.log
         </source>
 
-        <p>The Harvest Tool package provides examples of how other document generation configuration files were set up to ingest bundles from various missions. They can be found in the <i>search-conf</i> directory. The following command demonstrates registering and indexing the MAVEN NGIMS bundle:
+        <p>The Harvest Tool package provides examples of how other document generation configuration files were set up to ingest bundles from various missions. They can be found in the <i>conf/search</i> directory. The following command demonstrates registering and indexing the MAVEN NGIMS bundle:
         </p>
         
         <source>
-% ./harvest -c ../harvest-conf/harvest-policy-maven-ngims.xml -C ../search-conf/maven-ngims \
+% ./harvest -c ../conf/harvest/harvest-policy-maven-ngims.xml -C ../conf/search/maven-ngims \
 -o ../ -l ../harvest-maven-ngims.log
         </source>
 
@@ -359,46 +366,46 @@
         <source>
 % mv ../solr-docs ../solr-docs-maven-ngims
 % cp -r ../solr-docs-maven-ngims /usr/local/search-service/pds/solr-docs
-% search-core -P -H /usr/local/search-service/pds
+% search-post [docker or standalone]
         </source>
         
-        <p>For more details on document generation configuration files, see the <a href="Search_Core_Configurations">Search Core Configurations Section</a>.
+        <p>For more details on document generation configuration files, see the <a href="Search_API_Config_Files">Search API Config Files Section</a>.
         </p>
         
-        <p><b><i>Registering Products From Targets Specified In The Policy File</i></b></p>
+        <h5>Registering Products From Targets Specified In The Policy File</h5>
 
         <p>Targets can either be specified on the command-line or in in the policy file. Any targets specified on the command-line will overwrite any targets specified in the policy file. The following command demonstrates registering products based on targets specified in the policy file, <i>policy.xml</i>:
         </p>
 
         <source>
-% ./harvest -c policy.xml -C ../search-conf/defaults
+% ./harvest -c policy.xml
         </source>        
 
-        <p><b><i>Registering Products From a Single Target</i></b></p>
+        <h5>Registering Products From a Single Target</h5>
 
         <p>The following command demonstrates how to register products to a non-secured registry instance from a target directory, <i>$HOME/directory</i>, where only files that end with a <i>.xml</i> file extension, will be processed:
         </p>
 
         <source>
-% ./harvest $HOME/directory -e "*.xml" -c policy.xml -C ../search-conf/defaults
+% ./harvest $HOME/directory -e "*.xml" -c policy.xml
         </source>
 
-        <p><b><i>Registering Products From Multiple Targets</i></b></p>
+        <h5>Registering Products From Multiple Targets</h5>
 
         <p>The following command demonstrates how to register products to a non-secured registry instance from two target directories, <i>$HOME/directory1</i> and <i>$HOME/directory2</i>, using the policy file, <i>policy.xml</i>. Only files that end with a <i>.xml</i> file extension will be processed. The output will go to a log file, <i>log-file.txt</i>:
         </p>
 
         <source>
-% ./harvest $HOME/directory1, $HOME/directory2 -e "*.xml" -c policy.xml -C ../search-conf/defaults -l log-file.txt
+% ./harvest $HOME/directory1, $HOME/directory2 -e "*.xml" -c policy.xml -l log-file.txt
         </source>
 
-        <p><b><i>Excluding Sub-Directories To Traverse From a Target</i></b></p>
+        <h5>Excluding Sub-Directories To Traverse From a Target</h5>
 
         <p>The following command demonstrates registering products from a target directory, <i>$HOME/directory</i>, where the tool will not traverse the sub-directory <i>CONTEXT</i>:
         </p>
 
         <source>
-% ./harvest $HOME/directory -c policy.xml  -C ../search-conf/defaults -D "CONTEXT"
+% ./harvest $HOME/directory -c policy.xml -D "CONTEXT"
         </source>
 
       </subsection>
@@ -445,7 +452,7 @@
         <p>The following examples demonstrate how to run <i>harvest-ctrl</i> using a few of the different operations. For demonstration purposes, assume that the daemon service is located at the following url: <i>http://localhost:9001/xmlrpc</i>.
         </p>
 
-        <p><b><i>Determine the Status of the Daemon Service</i></b></p>
+        <h5>Determine the Status of the Daemon Service</h5>
 
         <p>The following command is used to find out if the daemon service is still running:
         </p>
@@ -454,7 +461,7 @@
 % harvest-ctrl --url http://localhost:9001/xmlrpc --operation --isRunning
         </source>
 
-        <p><b><i>Shutdown the Daemon Service</i></b></p>
+        <h5>Shutdown the Daemon Service</h5>
 
         <p>The following command demonstrates shutting down the daemon service:
         </p>
@@ -704,7 +711,7 @@
        <p>The policy file is made up of the following complex type elements: <i>registryPackage</i>, <i>collections</i>, <i>directories</i>, <i>checksums</i>, <i>storageIngestion</i>, <i>accessUrls</i>, <i>candidates</i>, and <i>productMetadata</i>.
        </p>
 
-       <p><b><i>registryPackage</i></b></p>
+       <h5>registryPackage</h5>
 
        <p>Each time the Harvest Tool runs, it creates a package in the registry to group the product registrations together. Specify this element to give a registry package a name and/or description. The following table describes the elements that are allowed:
        </p>
@@ -715,7 +722,7 @@
          <tr><td>description</td><td>Specify a package description. If this element is not specified, the default is to create a description that lists the targets that were specified in the policy config file.</td></tr>
        </table>
 
-       <p><b><i>collections</i></b></p>
+       <h5>collections</h5>
 
        <p>Specify this element to tell the Harvest Tool to register the collections first before crawling a target directory. This is required if the target directory contains collections that are co-located with its members and in order to distinguish primary versus secondary members.
        </p>
@@ -742,7 +749,7 @@
        <p>In the case where the target directory consists of a hierarchy structure where the collection product is located one-level above its members, much like the PDS context bundle, then there is no need to specify the collections in the Harvest policy config file. Under this scenario, the collections will be registered first before the Harvest Tool traverses down the sub-directory containing the members.
        </p>
 
-       <p><b><i>directories</i></b></p>
+       <h5>directories</h5>
 
        <p>Specify this element to tell the Harvest Tool where to crawl for data products. The following table describes the elements that are allowed:
        </p>
@@ -757,7 +764,7 @@
        <p>In the example above, the Harvest tool will crawl the directory location, <i>$HOME/VG2PLS_archive</i>, looking for files that have a <i>.xml</i> file extension. The default is to touch all files in the directory if the <i>filePattern</i> element is omitted from the policy file. In addition, the <i>CONTEXT</i> directory will be ignored while traversing the target directory.
        </p>
 
-       <p><b><i>accessUrls</i></b></p>
+       <h5>accessUrls</h5>
 
        <p>Specify this element to provide links to the physical data products. The links will be placed in the registry as slots under the slot name <i>accessUrl</i>. An optional attribute can be specified named <i>registerFileUrls</i>, which if set to <i>true</i>, will create <i>file</i> url links.
        </p>
@@ -778,7 +785,7 @@
 http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
        </source>
 
-       <p><b><i>checksums</i></b></p>
+       <h5>checksums</h5>
 
        <p>Checksum generation is turned off by default in the Harvest Tool. In order to turn this on, set the <i>generate</i> attribute to <i>true</i>. The following table describes the elements that are allowed within the <i>checksum</i> tag:
        </p>
@@ -811,7 +818,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
        <p>Harvest will not generate checksums. If the data file checksum was supplied in the label, populate the associated Product_File_Repository product with that value.
        </p>
 
-       <p><b><i>storageIngestion</i></b></p>
+       <h5>storageIngestion</h5>
 
        <p>Specify this element to tell the Harvest Tool to ingest data products to the PDS Storage Service. The following table describes the elements that are allowed:
        </p>
@@ -824,7 +831,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
        <p>In the example above, the Harvest Tool will ingest data products to the PDS Storage Service at <i>http://localhost:9000</i>. When a data product is ingested to the PDS Storage, it returns a product id which is a reference to the ingested product. This id is placed as a slot in the registry under the slot name <i>storageServiceProductId</i>.
        </p>
 
-       <p><b><i>candidates</i></b></p>
+       <h5>candidates</h5>
 
        <p>Specify this element to tell the Harvest Tool what product types to register and what metadata to extract from a data product. This is a required element in the policy file. The following table describes the elements that are allowed:
        </p>
@@ -847,7 +854,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
        <p>Namespaces need to be defined in the Harvest policy file only if the metadata to be extracted exists in a namespace other than the PDS namespace. In the example above, a namespace with the prefix <i>dph</i> and uri <i>http://pds.nasa.gov/schema/pds4/dph/v01</i> has been defined. This means that any xPath expressions defined in the policy file will be able to use the <i>dph</i> prefix to be able to extract metadata that are within the dph namespace. xPaths will be explained in greater detail in the <i>productMetadata</i> section.
        </p>
 
-       <p><b><i>productMetadata</i></b></p>
+       <h5>productMetadata</h5>
 
        <p>Specify this element to tell the Harvest Tool what metadata to register. It requires an attribute called <i>objectType</i> that tells the Harvest Tool what product types to register. The following table describes the elements that are allowed:
        </p>
@@ -907,8 +914,8 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
      </subsection>
   </section>
 
-  <section name="Search Core Configurations">
-    <p>Running the Search Core is based around XML configuration files that must include query information, data source specifications, and the fields to be included in the index. The following sections will outline the basic schema for creating a configuration file. Once a configuration file has been created, you can specify its location using the <i>-C</i> command-line option.
+  <section name="Search API Config Files">
+    <p>The Search API XML configuration files include query information, data source specifications, and the fields to be included in the index. The following sections will outline the basic schema for creating a configuration file. Once a configuration file has been created, you can specify its location using the <i>-C</i> command-line option.
     </p>
 
     <subsection name="Defaults">
@@ -917,7 +924,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
 
       <table>
         <tr><th>File Name</th><th>Product Class</th></tr>
-        <tr><td colspan="2"><b>PDS4 Products (/usr/local/harvest/search-conf/defaults/pds/pds4)</b></td></tr>
+        <tr><td colspan="2"><b>PDS4 Products (/usr/local/harvest/conf/search/defaults/pds/pds4)</b></td></tr>
         <tr>
           <td>attribute.xml</td>
           <td>Product_Attribute_Definition</td>
@@ -1019,7 +1026,7 @@ Time                        Thu, Feb 07 2019 at 10:27:08 AM
 Target(s)                   [/Users/mcayanan/pds4/V1900/dph_example_archive]
 File Inclusions             [*.xml]
 Severity Level              INFO
-Config directory            ../search-conf/defaults
+Config directory            ../conf/search/defaults
 Output directory            /Users/mcayanan/harvest-0.4.0-dev/bin/solr-docs
 
 INFO:   XML extractor set to the following default namespace: http://pds.nasa.gov/pds4/pds/v1
@@ -1815,18 +1822,42 @@ End of Log
     </section>
 
     <section name="Common Errors">
-      <p>Execution of the Harvest Tool may result in the following message appearing in the log:
-      </p>
-
-      <source>
-INFO:   XML extractor set to the following default namespace: \
-http://pds.nasa.gov/schema/pds4/pds
-INFO:   [/pds4/VG2PLS_archive/Product_Bundle.xml] Begin processing.
-SKIP:   [/pds4/VG2PLS_archive/Product_Bundle.xml] No product_class element found.
-      </source>
-
-      <p>The message above is normally the result of a namespace mismatch between the Harvest Tool configuration and the product labels being registered. See the <a href="#PDS4_Data_Product_Registration">PDS4 Data Product Registration</a> section above for details on specifying the namespace in the configuration file. By the way, the message could be telling the truth where the product label does not contain the &lt;product_class&gt; element. If this is the case, then the file is not a valid PDS product label.
-      </p>
+      <subsection name="Namespace Mismatch Error">
+        <p>Execution of the Harvest Tool may result in the following message appearing in the log:
+        </p>
+  
+        <source>
+  INFO:   XML extractor set to the following default namespace: \
+  http://pds.nasa.gov/schema/pds4/pds
+  INFO:   [/pds4/VG2PLS_archive/Product_Bundle.xml] Begin processing.
+  SKIP:   [/pds4/VG2PLS_archive/Product_Bundle.xml] No product_class element found.
+        </source>
+  
+        <p>The message above is normally the result of a namespace mismatch between the Harvest Tool configuration and the product labels being registered. See the <a href="#PDS4_Data_Product_Registration">PDS4 Data Product Registration</a> section above for details on specifying the namespace in the configuration file. By the way, the message could be telling the truth where the product label does not contain the &lt;product_class&gt; element. If this is the case, then the file is not a valid PDS product label.
+        </p>
+      </subsection>
+      <subsection name="Illegal Reflective Access Operation Warning">
+        <p>Execution of the Harvest Tool may result in the following message appearing after execution starts:</p>
+        <source>
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.sun.xml.bind.v2.runtime.reflect.opt.Injector$1 (file:/Users/jpadams/test/harvest-2.0.0/lib/jaxb-impl-2.2.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int)
+WARNING: Please consider reporting this to the maintainers of com.sun.xml.bind.v2.runtime.reflect.opt.Injector$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+        </source>
+        <p>These WARNING messages appear if the software is run with Java versions 9+. Although they are nuisance, they will not negatively impact your Harvest run.</p>
+      </subsection>
+      <subsection name="Failed XPath Ingestion">
+        <p>Execution of the Harvest Tool may result in the following message appearing in the log:
+        </p>
+        
+        <source>
+          TBD
+        </source>
+        
+        <p>TBD
+        </p>
+      </subsection>
     </section>
   </body>
 </document>

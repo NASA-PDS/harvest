@@ -245,7 +245,7 @@ public class SearchIngester implements Ingester {
             postXPaths(searchUrl, prodFile, met);
             ++HarvestSolrStats.numXPathDocsRegistered;
           } catch (Exception e) {
-            log.log(new ToolsLogRecord(ToolsLevel.SEVERE, 
+            log.log(new ToolsLogRecord(ToolsLevel.INFO,
                 "Error posting to xpath Solr Collection endpoint: "
                     + e.getMessage()));
             ++HarvestSolrStats.numXPathDocsNotRegistered;

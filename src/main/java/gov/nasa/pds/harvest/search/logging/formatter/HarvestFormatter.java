@@ -103,15 +103,15 @@ public class HarvestFormatter extends Formatter {
     summary.append(lineFeed);
     summary.append(String.format("%-10d %-25s", HarvestSolrStats.numProductsNotRegistered, "Failed to register"));
     summary.append(doubleLineFeed);
-    summary.append("XPath Solr Documents:" + lineFeed);
-    summary.append(String.format("%-10d %-25s", HarvestSolrStats.numXPathDocsRegistered, "Successfully registered"));
-    summary.append(lineFeed);
-    summary.append(String.format("%-10d %-25s", HarvestSolrStats.numXPathDocsNotRegistered, "Failed to register"));
-    summary.append(doubleLineFeed);
     summary.append("Search Service Solr Documents:" + lineFeed);
     summary.append(String.format("%-10d %-25s", HarvestSolrStats.numDocumentsCreated, "Successfully created"));
     summary.append(lineFeed);
     summary.append(String.format("%-10d %-25s", HarvestSolrStats.numDocumentsNotCreated, "Failed to get created"));
+    summary.append(doubleLineFeed);
+    summary.append("XPath Solr Documents (Quick Look Only, Ignore Failed Ingestions):" + lineFeed);
+    summary.append(String.format("%-10d %-25s", HarvestSolrStats.numXPathDocsRegistered, "Successfully registered"));
+    summary.append(lineFeed);
+    summary.append(String.format("%-10d %-25s", HarvestSolrStats.numXPathDocsNotRegistered, "Failed to register"));
     summary.append(doubleLineFeed);
     
     summary.append("Product Types Handled:" + lineFeed);
