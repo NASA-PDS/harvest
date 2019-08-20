@@ -80,7 +80,7 @@
     <field name="modification_description" type="string">
       <registryPath>modification_description</registryPath>
     </field>
-    <!-- Context_Area Fields -->
+    <!-- Observation -->
     <field name="observation_start_date_time" type="date">
       <registryPath>observation_start_date_time</registryPath>
     </field>
@@ -96,6 +96,10 @@
     <field name="observation_solar_longitude" type="string">
       <registryPath>observation_solar_longitude</registryPath>
     </field>
+    <field name="observation_comment" type="string">
+      <registryPath>observation_comment</registryPath>
+    </field>
+    <!-- Primary Result -->
     <field name="primary_result_purpose" type="string">
       <registryPath>primary_result_purpose</registryPath>
     </field>
@@ -114,14 +118,22 @@
     <field name="primary_result_discipline_name" type="string">
       <registryPath>primary_result_discipline_name</registryPath>
     </field>
+    <!-- Investigation -->
     <field name="investigation_name" type="string">
       <registryPath>investigation_name</registryPath>
+    </field>
+    <field name="investigation_type" type="string">
+      <registryPath>investigation_type</registryPath>
     </field>
     <field name="investigation_ref" type="string">
       <registryPath>investigation_ref</registryPath>
     </field>
+    <!-- Observing System -->
     <field name="observing_system_name" type="string">
       <registryPath>observing_system_name</registryPath>
+    </field>
+    <field name="observing_system_description" type="string">
+      <registryPath>observing_system_description</registryPath>
     </field>
     <field name="observing_system_component_name" type="string">
       <registryPath>observing_system_component_name</registryPath>
@@ -129,12 +141,24 @@
     <field name="observing_system_component_type" type="string">
       <registryPath>observing_system_component_type</registryPath>
     </field>
+    <field name="observing_system_component_description" type="string">
+      <registryPath>observing_system_component_description</registryPath>
+    </field>
+    <!-- Target -->
     <field name="target_name" type="string">
       <registryPath>target_name</registryPath>
+      <registryPath>target_alternate_designation</registryPath>
     </field>
     <field name="target_ref" type="string">
       <registryPath>target_ref</registryPath>
     </field>
+    <field name="target_type" type="string">
+      <registryPath>target_type</registryPath>
+    </field>
+    <field name="target_description" type="string">
+      <registryPath>target_description</registryPath>
+    </field>
+    <!-- instrument -->
     <field name="instrument_host_name" type="string">
       <registryPath>instrument_host_name</registryPath>
     </field>
@@ -154,6 +178,12 @@
     <field name="external_reference_text" type="string">
       <registryPath>external_reference_text</registryPath>
     </field>
+    <field name="external_reference_description" type="string">
+      <registryPath>external_reference_description</registryPath>
+    </field>
+    <field name="external_reference_doi" type="string">
+      <registryPath>external_reference_doi</registryPath>
+    </field>
     <!-- Document Fields -->
     <!-- Consider adding these fields to enable document specific search. -->
     <!-- Document_File Fields -->
@@ -172,6 +202,22 @@
     </field>
     <field name="file_ref_size" type="string">
       <registryPath>file_ref.file_size</registryPath>
+    </field>
+    <!-- Source_Product Fields -->
+    <field name="source_product_curating_facility" type="string">
+      <registryPath>source_product_curating_facility</registryPath>
+    </field>
+    <field name="source_product_description" type="string">
+      <registryPath>source_product_description</registryPath>
+    </field>
+    <field name="source_product_doi" type="string">
+      <registryPath>source_product_doi</registryPath>
+    </field>
+    <field name="source_product_identifier" type="string">
+      <registryPath>source_product_identifier</registryPath>
+    </field>
+    <field name="source_product_reference_type" type="string">
+      <registryPath>source_product_reference_type</registryPath>
     </field>
   </indexFields>
 </product>

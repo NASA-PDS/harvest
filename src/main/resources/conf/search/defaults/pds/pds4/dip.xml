@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product>
+  <specification>
+    <title>PDS4-DIP</title>
+    <query>
+      <registryPath>objectType</registryPath>
+      <value>Product_DIP</value>
+    </query>
+    <query>
+      <registryPath>status</registryPath>
+      <value>Approved</value>
+    </query>
+    <checkAssociations>true</checkAssociations>
+  </specification>
+
+  <indexFields>
+    <!-- Identifier Fields -->
+    <field name="search_id" type="required">
+        <outputString format="text">pds4:{lid}</outputString>
+    </field>
+    <field name="lid" type="required">
+        <registryPath>lid</registryPath>
+    </field>
+    <field name="version_id" type="string">
+      <registryPath>version_id</registryPath>
+    </field>
+    <!-- Identification_Area Fields -->
+    <field name="product_class" type="string">
+      <registryPath>product_class</registryPath>
+    </field>
+    <field name="alternate_id" type="string">
+      <registryPath>alternate_id</registryPath>
+    </field>
+    <field name="alternate_title" type="string">
+      <registryPath>alternate_title</registryPath>
+    </field>
+    <!-- Search -->
+    <field name="description" type="required">
+      <registryPath>dip_description</registryPath>
+    </field>
+    <!-- Reference_List Fields -->
+    <field name="external_reference_text" type="string">
+      <registryPath>external_reference_text</registryPath>
+    </field>
+    <field name="external_reference_description" type="string">
+      <registryPath>external_reference_description</registryPath>
+    </field>
+    <field name="external_reference_doi" type="string">
+      <registryPath>external_reference_doi</registryPath>
+    </field>
+    <!-- Citation -->
+    <field name="citation_author_list" type="string">
+      <registryPath>citation_author_list</registryPath>
+    </field>
+    <field name="citation_editor_list" type="string">
+      <registryPath>citation_editor_list</registryPath>
+    </field>
+    <field name="citation_publication_year" type="string">
+      <registryPath>citation_publication_year</registryPath>
+    </field>
+    <field name="citation_doi" type="string">
+      <registryPath>citation_doi</registryPath>
+    </field>
+    <field name="citation_keyword" type="string">
+      <registryPath>citation_keyword</registryPath>
+    </field>
+    <field name="citation_description" type="string">
+      <registryPath>citation_description</registryPath>
+    </field>
+    <!-- Source_Product Fields -->
+    <field name="source_product_curating_facility" type="string">
+      <registryPath>source_product_curating_facility</registryPath>
+    </field>
+    <field name="source_product_description" type="string">
+      <registryPath>source_product_description</registryPath>
+    </field>
+    <field name="source_product_doi" type="string">
+      <registryPath>source_product_doi</registryPath>
+    </field>
+    <field name="source_product_identifier" type="string">
+      <registryPath>source_product_identifier</registryPath>
+    </field>
+    <field name="source_product_reference_type" type="string">
+      <registryPath>source_product_reference_type</registryPath>
+    </field>
+    <!-- Checksum -->
+    <field name="checksum_type" type="string">
+      <registryPath>checksum_type</registryPath>
+    </field>
+    <field name="checksum_manifest_checksum" type="string">
+      <registryPath>checksum_manifest_checksum</registryPath>
+    </field>
+    <field name="transfer_manifest_checksum" type="string">
+      <registryPath>transfer_manifest_checksum</registryPath>
+    </field>
+    <!-- Modification -->
+    <field name="modification_date" type="date">
+      <registryPath>modification_date</registryPath>
+    </field>
+    <field name="modification_description" type="string">
+      <registryPath>modification_description</registryPath>
+    </field>
+    <!-- Other -->
+    <field name="file_name" type="string">
+      <registryPath>file_name</registryPath>
+    </field>
+  </indexFields>
+</product>
