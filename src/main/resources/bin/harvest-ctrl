@@ -34,5 +34,7 @@ SCRIPT_DIR=`dirname $0`
 PARENT_DIR=`cd ${SCRIPT_DIR}/.. && pwd`
 LIB_DIR=${PARENT_DIR}/lib
 
+SEARCH_CONF=${PARENT_DIR}/conf/search/defaults
+
 # Execute the application.
-${JAVA_CMD} -Xms256m -Xmx1024m -Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true -Dpds.search="http://localhost:8983/solr" -Dpds.harvest.search.conf="${PARENT_DIR}/conf/search" -Dresources.home=${PARENT_DIR}/resources -Djava.ext.dirs=${LIB_DIR} gov.nasa.jpl.oodt.cas.crawl.daemon.CrawlDaemonController $*
+${JAVA_CMD} -Xms256m -Xmx1024m -Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true -Dpds.search="http://localhost:8983/solr" -Dpds.harvest.search.conf=${SEARCH_CONF} -Dresources.home=${PARENT_DIR}/resources -Djava.ext.dirs=${LIB_DIR} gov.nasa.jpl.oodt.cas.crawl.daemon.CrawlDaemonController $*

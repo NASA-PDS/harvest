@@ -43,9 +43,11 @@ goto END
 :: Finds the jar file in LIB_DIR and sets it to HARVEST_JAR.
 for %%i in ("%LIB_DIR%"\harvest-*.jar) do set HARVEST_JAR=%%i
 
+set SEARCH_CONF=%PARENT_DIR%\conf\search\defaults
+
 :: Executes Harvest via the executable jar file
 :: The special variable '%*' allows the arguments
 :: to be passed into the executable.
-"%JAVA_HOME%"\bin\java -Xms256m -Xmx1024m -Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true -Dpds.search="http://localhost:8983/solr" -Dpds.harvest.search.conf="%PARENT_DIR%\conf\search" -Dresources.home="%PARENT_DIR%\resources" -jar "%HARVEST_JAR%" %*
+"%JAVA_HOME%"\bin\java -Xms256m -Xmx1024m -Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true -Dpds.search="http://localhost:8983/solr" -Dpds.harvest.search.conf="%SEARCH_CONF%" -Dresources.home="%PARENT_DIR%\resources" -jar "%HARVEST_JAR%" %*
 
 :END

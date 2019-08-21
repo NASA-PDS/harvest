@@ -52,6 +52,7 @@ if [ -z "${REGISTRY_HOME}" ]; then
 fi
 
 REGISTRY_DATA=${REGISTRY_HOME}/../registry-data/solr-docs
+SEARCH_CONF=${PARENT_DIR}/conf/search/defaults
 
 # Check for Registry installation
 if [ ! -e "${REGISTRY_HOME}" ] && [ ! -e "${REGISTRY_HOME}" ]; then
@@ -85,5 +86,5 @@ HARVEST_JAR=`ls ${LIB_DIR}/harvest-*.jar`
 
 # Executes Harvest via the executable jar file
 # Arguments are passed in to the tool via '$@'
-${JAVA_CMD} -Xms256m -Xmx1024m -Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true -Dpds.search=${SOLR_URL} -Dpds.harvest.search.conf="${PARENT_DIR}/conf/search" -Dpds.registry.data=${REGISTRY_DATA} -Dresources.home=${PARENT_DIR}/resources -jar ${HARVEST_JAR} "$@"
+${JAVA_CMD} -Xms256m -Xmx1024m -Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true -Dpds.search=${SOLR_URL} -Dpds.harvest.search.conf=${SEARCH_CONF} -Dpds.registry.data=${REGISTRY_DATA} -Dresources.home=${PARENT_DIR}/resources -jar ${HARVEST_JAR} "$@"
 
