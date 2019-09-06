@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
 
@@ -43,13 +42,12 @@ import gov.nasa.pds.registry.model.wrapper.ExtendedExtrinsicObject;
 import gov.nasa.pds.search.core.exception.SearchCoreException;
 import gov.nasa.pds.search.core.exception.SearchCoreFatalException;
 import gov.nasa.pds.search.core.registry.ProductClassException;
-import gov.nasa.pds.search.core.schema.CoreConfigReader;
 import gov.nasa.pds.search.core.schema.Field;
 import gov.nasa.pds.search.core.schema.OutputString;
 import gov.nasa.pds.search.core.schema.OutputStringFormat;
 import gov.nasa.pds.search.core.schema.Product;
-import gov.nasa.pds.search.core.schema.Query;
 import gov.nasa.pds.search.core.util.Debugger;
+
 
 /**
  * Class that generates the Search document files.
@@ -58,53 +56,39 @@ import gov.nasa.pds.search.core.util.Debugger;
  *
  */
 public class SearchDocGenerator {
-  private static final int SOLR_DOC_THRESHOLD = 1000;
-  
-  private List<Product> configs;
-  
-  private File outputDirectory;
-  
-  private DocWriter writer = null;
-  
-  private HashMap<String, JsonElement> resources;
-  
-  private File resourceFile;
-  
-  public SearchDocGenerator(File configDirectory, File outputDirectory, 
-      File resource)
-      throws SearchCoreException, SearchCoreFatalException {
-    Product product = null;
-    configs = new ArrayList<Product>();
-    List<File> configFiles = getCoreConfigs(configDirectory);
-    for (File config : configFiles) {
-      try {
-        product = CoreConfigReader.unmarshall(config);
-        configs.add(product);
-      } catch (Exception e) {
-        throw new SearchCoreFatalException("Error: Problem parsing " + config
-            + "\nError Message: " + e.getMessage() 
-            + "\nCause: " + e.getCause().getMessage());
-      }
-    }
-    this.outputDirectory = outputDirectory;
-    this.resources = new HashMap<String, JsonElement>();
-    this.resourceFile = resource;
-    try {
-      setResources(this.resourceFile);
-    } catch (Exception e) {
-      throw new SearchCoreFatalException("Error while parsing registered "
-          + "resources: " + e.getMessage());
-    }
-  }
+	private static final int SOLR_DOC_THRESHOLD = 1000;
 
-  private void setResources(File resource) throws JsonSyntaxException,
-  JsonIOException, FileNotFoundException {
-    Gson gson = new Gson();
-    JsonObject json = gson.fromJson(new FileReader(resource), JsonObject.class);
-    for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
-      this.resources.put(entry.getKey(), entry.getValue());
-    }
-  }
+	private File outputDirectory;
+
+	private DocWriter writer = null;
+	private HashMap<String, JsonElement> resources;
+	private File resourceFile;  
+  
+	
+	public SearchDocGenerator(File configDirectory, File outputDirectory, File resource)
+			throws SearchCoreException, SearchCoreFatalException 
+	{
+		SearchConfigManager.getInstance().loadConfigs(configDirectory);
+		
+		this.outputDirectory = outputDirectory;
+		this.resources = new HashMap<String, JsonElement>();
+		this.resourceFile = resource;
+		
+		try {
+			setResources(this.resourceFile);
+		} catch (Exception e) {
+			throw new SearchCoreFatalException("Error while parsing registered " + "resources: " + e.getMessage());
+		}
+	}
+
+	
+	private void setResources(File resource) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
+		Gson gson = new Gson();
+		JsonObject json = gson.fromJson(new FileReader(resource), JsonObject.class);
+		for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
+			this.resources.put(entry.getKey(), entry.getValue());
+		}
+	}
   
   /**
    * Generate the Solr document file for the given extrinsic object.
@@ -115,55 +99,72 @@ public class SearchDocGenerator {
    * 
    * @throws Exception If an error occurred while generating the document file.
    */
-  public void generate(ExtrinsicObject extrinsic, Metadata metadata, SearchDocState obj)
-      throws Exception {
-    Product config = null;
-    for (Product c : configs) {
-      for (Query q : c.getSpecification().getQuery()) {
-        String registryPath = q.getRegistryPath();
-        if ("objectType".equalsIgnoreCase(registryPath)) {
-          if (extrinsic.getObjectType().equalsIgnoreCase(q.getValue())) {
-            config = c;
-          }
-        }
-      }
-    }
-    
-    try {
-      if (config == null) {
-        throw new Exception("Could not find a configuration file for "
-            + "object type '" + extrinsic.getObjectType() + "'");
-      }
-      Map<String, String> typeMap = new HashMap<String, String>();
-      typeMap = setFieldTypes(config);
+	public void generate(ExtrinsicObject extrinsic, Metadata metadata, SearchDocState obj) throws Exception 
+	{
+		// Extract Data Class
+		String dataClass = null;		
+		Slot slot = extrinsic.getSlot("data_class");
+		if(slot != null)
+		{
+			List<String> values = slot.getValues();
+			if(values != null && !values.isEmpty())
+			{
+				dataClass = values.get(0);
+			}
+		}
+		
+		// Object Type
+		String objectType = extrinsic.getObjectType(); 
+		
+		// Find a configuration for this ExtrinsicObject / Metadata 
+		SearchConfigManager mgr = SearchConfigManager.getInstance();
+		Product config = mgr.findConfigByDataClass(dataClass);
+		if(config == null)
+		{
+			config = mgr.findConfigByObjectType(objectType);
+		}
+		if(config == null) 
+		{
+			throw new Exception("Could not find a configuration file for " 
+				+ "objectType '" + objectType + "' or data_class '" + dataClass + "'");
+		}
+		
+		// Generate Solr XML document for this ExtrinsicObject / Metadata
+		try 
+		{
+			Map<String, String> typeMap = new HashMap<String, String>();
+			typeMap = setFieldTypes(config);
 
-      // Create output directory
-      createOutputDirectory();
+			// Create output directory
+			createOutputDirectory();
 
-      ExtendedExtrinsicObject extendedExtrinsic = new ExtendedExtrinsicObject(extrinsic);
-      Map<String, List<String>> fieldMap = new HashMap<String, List<String>>();
-      fieldMap.putAll(setFieldValues(extendedExtrinsic, config, metadata));
+			ExtendedExtrinsicObject extendedExtrinsic = new ExtendedExtrinsicObject(extrinsic);
+			Map<String, List<String>> fieldMap = new HashMap<String, List<String>>();
+			fieldMap.putAll(setFieldValues(extendedExtrinsic, config, metadata));
 
-      // Increment our product counter
-      obj.incrementCounter();
+			// Increment our product counter
+			obj.incrementCounter();
 
-      // Get the file number based on the THRESHOLD
-      int outSeqNum = getOutputSeqNumber(obj.getCounter());
+			// Get the file number based on the THRESHOLD
+			int outSeqNum = getOutputSeqNumber(obj.getCounter());
 
-      writer = new DocWriter(fieldMap, this.outputDirectory, outSeqNum,
-          config.getSpecification().getTitle(), typeMap);
+			writer = new DocWriter(fieldMap, this.outputDirectory, outSeqNum, 
+					config.getSpecification().getTitle(), typeMap);
 
-      // Write the file
-      writer.write();
+			// Write the file
+			writer.write();
 
-      ++HarvestSolrStats.numDocumentsCreated;
-      HarvestSolrStats.addProductType(extrinsic.getObjectType());
-    } catch (Exception e) {
-      ++HarvestSolrStats.numDocumentsNotCreated;
-      throw e;
-    }
-  }
-  
+			++HarvestSolrStats.numDocumentsCreated;
+			HarvestSolrStats.addProductType(extrinsic.getObjectType());
+		} 
+		catch(Exception ex) 
+		{
+			++HarvestSolrStats.numDocumentsNotCreated;
+			throw ex;
+		}
+	}
+
+	
   /**
    * Get all of the attributes and their values and place them into a HashMap,
    * valArray. The HashMap is made of of attrName->value pairs. The value in
@@ -473,16 +474,4 @@ public class SearchDocGenerator {
     return counter / SOLR_DOC_THRESHOLD;
   }
 
-  private List<File> getCoreConfigs(File configDir)
-      throws SearchCoreException { 
-    if (configDir.isDirectory()) {
-      return new ArrayList<File>(FileUtils.listFiles(configDir, 
-          new String[] {"xml"}, true));
-    } else if (configDir.isFile()) {
-      return Arrays.asList(configDir);
-    } else {
-      throw new SearchCoreException (configDir.getAbsolutePath()
-          + " does not exist.");
-    }
-  }
 }

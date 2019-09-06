@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product>
+  <specification>
+    <title>PDS4-Context-Instrument</title>
+    <query>
+      <registryPath>data_class</registryPath>
+      <value>Instrument</value>
+    </query>
+    <checkAssociations>true</checkAssociations>
+  </specification>
+
+  <indexFields>
+    <!-- Identifier Fields -->
+    <field name="lid" type="required">
+      <registryPath>lid</registryPath>
+    </field>
+    <field name="version_id" type="string">
+      <registryPath>version_id</registryPath>
+    </field>
+    <field name="product_class" type="string">
+      <registryPath>product_class</registryPath>
+    </field>
+    <field name="data_class" type="string">
+      <registryPath>data_class</registryPath>
+    </field>
+
+    <!-- Search Fields -->
+    <field name="title" type="required">
+      <registryPath>name</registryPath>
+      <registryPath>instrument_name</registryPath>
+      <registryPath>alternate_title</registryPath>
+      <registryPath>alternate_id</registryPath>
+    </field>
+    <field name="description" type="required">
+      <registryPath>instrument_description</registryPath>
+    </field>
+    <field name="instrument_name" type="required">
+      <registryPath>name</registryPath>
+      <registryPath>instrument_name</registryPath>
+      <registryPath>alternate_title</registryPath>
+      <registryPath>alternate_id</registryPath>
+    </field>
+    <field name="instrument_type" type="string">
+      <registryPath>instrument_type</registryPath>
+    </field>
+
+    <!-- Internal References -->
+    <field name="instrument_host_ref" type="string">
+      <registryPath>instrument_host_ref</registryPath>
+    </field>
+    <field name="document_ref" type="string">
+      <registryPath>document_ref</registryPath>
+    </field>
+
+    <!-- External References -->
+    <field name="external_reference_text" type="string">
+      <registryPath>external_reference_text</registryPath>
+    </field>
+
+  </indexFields>
+
+</product>
+
