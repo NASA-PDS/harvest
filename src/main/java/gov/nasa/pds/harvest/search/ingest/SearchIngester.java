@@ -18,6 +18,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.security.MessageDigest;
+import java.util.Base64;
 import java.util.List;
 
 import java.util.logging.Logger;
@@ -34,6 +37,7 @@ import org.apache.solr.client.solrj.request.CollectionAdminRequest;
 import org.apache.solr.client.solrj.request.ContentStreamUpdateRequest;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.util.ContentStreamBase.StringStream;
 import org.apache.solr.common.util.NamedList;
 import org.json.JSONObject;
@@ -49,275 +53,274 @@ import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.logging.ToolsLevel;
 import gov.nasa.pds.harvest.search.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.search.stats.HarvestSolrStats;
-import gov.nasa.pds.harvest.search.util.Utility;
 import gov.nasa.pds.registry.client.SecurityContext;
 import gov.nasa.pds.registry.model.naming.DefaultIdentifierGenerator;
 
-
 /**
- * Class that supports ingestion of PDS4 product labels as a 
- * blob into the PDS Search Service.
+ * Class that supports ingestion of PDS4 product labels as a blob into the PDS
+ * Search Service.
  *
  * @author mcayanan
  *
  */
 public class SearchIngester implements Ingester {
-  /** Logger object. */
-  private static Logger log = Logger.getLogger(
-      SearchIngester.class.getName());
+	private static Logger log = Logger.getLogger(SearchIngester.class.getName());
 
-  /** Password of the authorized user. */
-  private String password;
+	/** Password of the authorized user. */
+	private String password;
 
-  /** Username of the authorized user. */
-  private String user;
+	/** Username of the authorized user. */
+	private String user;
 
-  /** The registry package guid. */
-  private String registryPackageGuid;
+	/** The registry package guid. */
+	private String registryPackageGuid;
 
-  /** The security context. */
-  private SecurityContext securityContext;
+	/** The security context. */
+	private SecurityContext securityContext;
 
-  /** Solr Client object. */
-  private SolrClient client;
+	/** Solr Client object. */
+	private SolrClient client;
 
-  /** UUID generator. */
-  private DefaultIdentifierGenerator idGenerator;
+	/** UUID generator. */
+	private DefaultIdentifierGenerator idGenerator;
 
-  /**
-   * Default constructor.
-   *
-   * @param packageGuid The GUID of the registry package to associate to
-   * the products being registered.
-   *
-   */
-  public SearchIngester(String packageGuid) {
-    this(packageGuid, null, null, null);
-  }
+	/**
+	 * Default constructor.
+	 *
+	 * @param packageGuid The GUID of the registry package to associate to the
+	 *                    products being registered.
+	 *
+	 */
+	public SearchIngester(String packageGuid) {
+		this(packageGuid, null, null, null);
+	}
 
-  /**
-    * Constructor.
-    *
-    * @param packageGuid The GUID of the registry package to associate to
-    * the products being registered.
-    * @param securityContext An object containing keystore information.
-    * @param user An authorized user.
-    * @param password The password associated with the user.
-    */
-  public SearchIngester(String packageGuid, SecurityContext securityContext,
-      String user, String password) {
-    this.password = password;
-    this.user = user;
-    this.securityContext = securityContext;
-    this.registryPackageGuid = packageGuid;
-    idGenerator = new DefaultIdentifierGenerator();
-  }
+	/**
+	 * Constructor.
+	 *
+	 * @param packageGuid     The GUID of the registry package to associate to the
+	 *                        products being registered.
+	 * @param securityContext An object containing keystore information.
+	 * @param user            An authorized user.
+	 * @param password        The password associated with the user.
+	 */
+	public SearchIngester(String packageGuid, SecurityContext securityContext, String user, String password) {
+		this.password = password;
+		this.user = user;
+		this.securityContext = securityContext;
+		this.registryPackageGuid = packageGuid;
+		idGenerator = new DefaultIdentifierGenerator();
+	}
 
-  private SolrClient getClient(URL url) throws SolrServerException, IOException {
-    if (client == null) {
-      client = new HttpSolrClient.Builder(url.toString()).build();
-      try {
-        createCollections(client);
-      } catch (SolrServerException se) {
-        throw new SolrServerException("Error creating .system and/or xpath collection: "
-            + se.getMessage());
-      }
-    }
-    return client;
-  }
+	private SolrClient getClient(URL url) throws SolrServerException, IOException {
+		if (client == null) {
+			client = new HttpSolrClient.Builder(url.toString()).build();
+			try {
+				createCollections(client);
+			} catch (SolrServerException se) {
+				throw new SolrServerException("Error creating .system and/or xpath collection: " + se.getMessage());
+			}
+		}
+		return client;
+	}
 
-  /**
-   * Creates the .system and xpath collections if it does not exist.
-   * 
-   * @param client The SolrClient.
-   * 
-   * @throws SolrServerException If an error occurred talking to the Solr 
-   * Server.
-   * @throws IOException If an IO error occurred.
-   */
-  private void createCollections(SolrClient client)
-      throws SolrServerException, IOException {
-    List<String> collections = CollectionAdminRequest.listCollections(client);
-    if (!collections.contains(".system")) {
-      log.log(new ToolsLogRecord(ToolsLevel.INFO, 
-          "Creating the .system collection with 1 shards and 1 replicas"));
-      CollectionAdminRequest.Create req = 
-          CollectionAdminRequest.createCollection(".system", 1, 1);
-      req.process(client);
-    }
-    if (!collections.contains("xpath")) {
-      log.log(new ToolsLogRecord(ToolsLevel.INFO, 
-          "Creating the xpath collection with 1 shards and 1 replicas"));
-      CollectionAdminRequest.Create req = 
-          CollectionAdminRequest.createCollection("xpath", 1, 1);
-      req.process(client);
-    }    
-  }
-  
-  /**
-   * Method not used at this time.
-   *
-   */
-  public boolean hasProduct(URL registry, File productFile)
-  throws CatalogException {
-      // No use for this method for now
-    return false;
-  }
+	/**
+	 * Creates the .system and xpath collections if it does not exist.
+	 * 
+	 * @param client The SolrClient.
+	 * 
+	 * @throws SolrServerException If an error occurred talking to the Solr Server.
+	 * @throws IOException         If an IO error occurred.
+	 */
+	private void createCollections(SolrClient client) throws SolrServerException, IOException 
+	{
+		List<String> collections = CollectionAdminRequest.listCollections(client);
 
-  /**
-   * Determines whether a product is already in the registry.
-   *
-   * @param registry The URL to the registry service.
-   * @param lid The PDS4 logical identifier.
-   *
-   * @return 'true' if the logical identifier was found in the registry.
-   * 'false' otherwise.
-   *
-   * @throws CatalogException exception ignored.
-   */
-  public boolean hasProduct(URL registry, String lid)
-  throws CatalogException {
-    return false;
-  }
+		if (!collections.contains("xpath")) 
+		{
+			log.log(new ToolsLogRecord(ToolsLevel.INFO, "Creating the xpath collection with 1 shards and 1 replicas"));
+			CollectionAdminRequest.Create req = CollectionAdminRequest.createCollection("xpath", 1, 1);
+			req.process(client);
+		}
+	}
 
-  /**
-   * Determines whether a version of a product is already in the registry.
-   *
-   * @param registry The URL to the registry service.
-   * @param lid The PDS4 logical identifier.
-   * @param vid The version of the product.
-   *
-   * @return 'true' if the logical identifier and version was found in the
-   * registry.
-   *
-   * @throws CatalogException If an error occurred while talking to the
-   * ingester.
-   */
-  public boolean hasProduct(URL registry, String lid,
-          String vid) throws CatalogException {
-    SolrClient client = null;
-    boolean foundProduct = false;
-    try {
-      client = getClient(registry);
-      SolrQuery query = new SolrQuery("blobName:" + Utility.createBlobName(lid, vid));
-      QueryResponse response = client.query(".system", query);
-      SolrDocumentList documents = response.getResults();
-      if (documents.getNumFound() != 0) {
-        foundProduct = true;
-      }
-    } catch (Exception e) {
-      throw new CatalogException("Error while trying to find blob with blobName '"
-          + Utility.createBlobName(lid, vid) + "': " + e.getMessage());
-    }
-    return foundProduct;
-  }
+	/**
+	 * Method not used at this time.
+	 *
+	 */
+	public boolean hasProduct(URL registry, File productFile) throws CatalogException {
+		// No use for this method for now
+		return false;
+	}
 
-  /**
-   * Ingests the product into the registry.
-   *
-   * @param searchUrl The URL to the Search Service.
-   * @param prodFile The PDS4 product file.
-   * @param met The metadata to register.
-   *
-   * @return The URL of the registered product.
-   * @throws IngestException If an error occurred while ingesting the
-   * product.
-   */
-  public String ingest(URL searchUrl, File prodFile, Metadata met)
-  throws IngestException {
-      String lid = met.getMetadata(Constants.LOGICAL_ID);
-      String vid = met.getMetadata(Constants.PRODUCT_VERSION);
-      String lidvid = lid + "::" + vid;
-      try {
-          if (!hasProduct(searchUrl, lid, vid)) {
-          String endPoint = "/.system/blob/" + Utility.createBlobName(lid, vid);
-          ContentStreamUpdateRequest up = new ContentStreamUpdateRequest(endPoint);
-          up.addFile(prodFile, MediaType.APPLICATION_OCTET_STREAM);
-          up.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
-          NamedList<Object> list = getClient(searchUrl).request(up);
-          String registeredBlob = searchUrl + endPoint;
-          log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
-              "Successfully registered product: " + lidvid + ". "
-                  + "Label file blob can be found here: " + registeredBlob,
-               prodFile));
-          ++HarvestSolrStats.numProductsRegistered;
-          try {
-            postXPaths(searchUrl, prodFile, met);
-            ++HarvestSolrStats.numXPathDocsRegistered;
-          } catch (Exception e) {
-            log.log(new ToolsLogRecord(ToolsLevel.INFO,
-                "Error posting to xpath Solr Collection endpoint: "
-                    + e.getMessage()));
-            ++HarvestSolrStats.numXPathDocsNotRegistered;
-          }
-          return Utility.createBlobName(lid, vid);
-        } else {
-          ++HarvestSolrStats.numProductsNotRegistered;
-          String message = "Product already exists: " + lidvid;
-          log.log(new ToolsLogRecord(ToolsLevel.WARNING, message,
-              prodFile));
-          throw new IngestException(message);
-        }
-        } catch (CatalogException c) {
-        ++HarvestSolrStats.numProductsNotRegistered;
-        log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error while "
-            + "checking for the existence of a registered product: "
-            + c.getMessage(), prodFile));
-        throw new IngestException(c.getMessage());
-      } catch (IOException io) {
-        // TODO Auto-generated catch block
-        io.printStackTrace();
-        throw new IngestException(io.getMessage());
-      } catch (SolrServerException se) {
-        // TODO Auto-generated catch block
-        throw new IngestException(se.getMessage());
-      }
-  }
+	/**
+	 * Determines whether a product is already in the registry.
+	 *
+	 * @param registry The URL to the registry service.
+	 * @param lid      The PDS4 logical identifier.
+	 *
+	 * @return 'true' if the logical identifier was found in the registry. 'false'
+	 *         otherwise.
+	 *
+	 * @throws CatalogException exception ignored.
+	 */
+	public boolean hasProduct(URL registry, String lid) throws CatalogException {
+		return false;
+	}
 
-  private void postXPaths(URL searchUrl, File prodFile, Metadata met)
-      throws IOException, SolrServerException {
-    String endPoint = "/xpath/update/json/docs";
-    ContentStreamUpdateRequest up = new ContentStreamUpdateRequest(endPoint);
-    BufferedReader br = null;
-    FileReader fr = null;
-    try {
-      fr = new FileReader(prodFile);
-      br = new BufferedReader(fr);
-      JSONObject json = XML.toJSONObject(br);
-      String lidvid = met.getMetadata(Constants.LOGICAL_ID) + "::"
-      + met.getMetadata(Constants.PRODUCT_VERSION);
-      json.append("id", lidvid);
-      StringStream stringStream = new StringStream(json.toString(2), 
-          MediaType.APPLICATION_JSON);
-      up.addContentStream(stringStream);
-      up.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
-      NamedList<Object> list = getClient(searchUrl).request(up);
-      log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
-          "Successfully posted document of XPaths of entire label to the xpath Solr collection",
-           prodFile));
-    } finally {
-      IOUtils.closeQuietly(br);
-      IOUtils.closeQuietly(fr);
-    }
-  }
-  
-  /**
-   * Method not implemented at this time.
-   *
-   */
-  public String ingest(URL fmUrl, File prodFile, MetExtractor extractor,
-          File metConfFile) throws IngestException {
-    //No need for this method at this time
-    return null;
-  }
+	/**
+	 * Determines whether a version of a product is already in the registry.
+	 *
+	 * @param registry The URL to the registry service.
+	 * @param lid      The PDS4 logical identifier.
+	 * @param vid      The version of the product.
+	 *
+	 * @return 'true' if the logical identifier and version was found in the
+	 *         registry.
+	 *
+	 * @throws CatalogException If an error occurred while talking to the ingester.
+	 */
+	public boolean hasProduct(URL registry, String lid, String vid) throws CatalogException 
+	{
+		SolrClient client = null;
+		String lidvid = lid + "::" + vid;
 
-  /**
-   * Method not implemented at this time.
-   *
-   */
-  public void ingest(URL fmUrl, List<String> prodFiles,
-          MetExtractor extractor, File metConfFile)
-          throws IngestException {
-      //No need for this method at this time
-  }
+		try 
+		{
+			client = getClient(registry);
+
+			SolrQuery query = new SolrQuery("lidvid:\"" + lidvid + "\"");
+			QueryResponse response = client.query("registry", query);
+			
+			SolrDocumentList documents = response.getResults();
+			return (documents.getNumFound() != 0); 
+		}
+		catch (Exception e)
+		{
+			throw new CatalogException("Error while trying to find blob " + lidvid 
+					+ ": " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Ingests the product into the registry.
+	 *
+	 * @param searchUrl The URL to the Search Service.
+	 * @param prodFile  The PDS4 product file.
+	 * @param met       The metadata to register.
+	 *
+	 * @return The URL of the registered product.
+	 * @throws IngestException If an error occurred while ingesting the product.
+	 */
+	public String ingest(URL searchUrl, File prodFile, Metadata met) throws IngestException 
+	{
+		String lid = met.getMetadata(Constants.LOGICAL_ID);
+		String vid = met.getMetadata(Constants.PRODUCT_VERSION);
+		String lidvid = lid + "::" + vid;
+
+		try 
+		{
+			if(!hasProduct(searchUrl, lid, vid)) 
+			{
+				// Read the file content in memory
+				byte[] fileContent = Files.readAllBytes(prodFile.toPath());				
+				// Calculate MD5 hash
+				byte[] md5hash = MessageDigest.getInstance("MD5").digest(fileContent);
+				String strMd5 = Base64.getEncoder().encodeToString(md5hash);				
+				// Base64 encode file content to store in Solr binary field
+				String strFileContent = Base64.getEncoder().encodeToString(fileContent);
+				
+				// Create Solr document
+				final SolrInputDocument doc = new SolrInputDocument();
+				doc.addField("lid", lid);
+				doc.addField("vid", vid);		
+				doc.addField("lidvid", lidvid);
+				doc.addField("name", prodFile.getName());
+				doc.addField("md5", strMd5);
+				doc.addField("content", strFileContent);
+				
+				// Save the document
+				SolrClient client = getClient(searchUrl);
+				client.add("registry", doc);
+				client.commit("registry");
+				
+				log.log(new ToolsLogRecord(ToolsLevel.SUCCESS, "Successfully registered product: " + lidvid, prodFile));
+				++HarvestSolrStats.numProductsRegistered;
+		
+				try 
+				{
+					postXPaths(searchUrl, prodFile, met);
+					++HarvestSolrStats.numXPathDocsRegistered;
+				} 
+				catch (Exception e) 
+				{
+					log.log(new ToolsLogRecord(ToolsLevel.INFO,
+							"Error posting to xpath Solr Collection endpoint: " + e.getMessage()));
+					++HarvestSolrStats.numXPathDocsNotRegistered;
+				}
+				
+				return lidvid;
+			} 
+			else 
+			{
+				++HarvestSolrStats.numProductsNotRegistered;
+				String message = "Product already exists: " + lidvid;
+				log.log(new ToolsLogRecord(ToolsLevel.WARNING, message, prodFile));
+				throw new IngestException(message);
+			}
+		} 
+		catch(CatalogException c)
+		{
+			++HarvestSolrStats.numProductsNotRegistered;
+			log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error while " 
+			+ "checking for the existence of a registered product: " + c.getMessage(), prodFile));
+			throw new IngestException(c.getMessage());
+		} 
+		catch(Exception ex)
+		{
+			throw new IngestException(ex);
+		} 
+	}
+
+	
+	private void postXPaths(URL searchUrl, File prodFile, Metadata met) throws IOException, SolrServerException {
+		String endPoint = "/xpath/update/json/docs";
+		ContentStreamUpdateRequest up = new ContentStreamUpdateRequest(endPoint);
+		BufferedReader br = null;
+		FileReader fr = null;
+		try {
+			fr = new FileReader(prodFile);
+			br = new BufferedReader(fr);
+			JSONObject json = XML.toJSONObject(br);
+			String lidvid = met.getMetadata(Constants.LOGICAL_ID) + "::" + met.getMetadata(Constants.PRODUCT_VERSION);
+			json.append("id", lidvid);
+			StringStream stringStream = new StringStream(json.toString(2), MediaType.APPLICATION_JSON);
+			up.addContentStream(stringStream);
+			up.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
+			NamedList<Object> list = getClient(searchUrl).request(up);
+			log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
+					"Successfully posted document of XPaths of entire label to the xpath Solr collection", prodFile));
+		} finally {
+			IOUtils.closeQuietly(br);
+			IOUtils.closeQuietly(fr);
+		}
+	}
+
+	/**
+	 * Method not implemented at this time.
+	 *
+	 */
+	public String ingest(URL fmUrl, File prodFile, MetExtractor extractor, File metConfFile) throws IngestException {
+		// No need for this method at this time
+		return null;
+	}
+
+	/**
+	 * Method not implemented at this time.
+	 *
+	 */
+	public void ingest(URL fmUrl, List<String> prodFiles, MetExtractor extractor, File metConfFile)
+			throws IngestException {
+		// No need for this method at this time
+	}
 }

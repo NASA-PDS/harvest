@@ -13,14 +13,11 @@
 // $Id$
 package gov.nasa.pds.harvest.search.util;
 
-import gov.nasa.pds.harvest.search.policy.Policy;
 import gov.nasa.pds.registry.model.Association;
 import gov.nasa.pds.registry.model.ExtrinsicObject;
-import gov.nasa.pds.registry.model.RegistryObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -164,9 +161,4 @@ public class Utility {
       return result;
     }
     
-    public static String createBlobName(String lid, String vid) {
-      String lidvid = lid + "__" + vid;
-      lidvid = lidvid.replaceAll(":", ".");
-      return lidvid;
-    }
 }

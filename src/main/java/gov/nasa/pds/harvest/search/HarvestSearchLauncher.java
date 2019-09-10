@@ -232,10 +232,12 @@ public class HarvestSearchLauncher {
         outputDir = new File(o.getValue(), Constants.SOLR_DOC_DIR);
       }
     }
+    
     if (policy == null) {
       throw new Exception("Missing '-c' flag option. Policy file must be "
           + "specified.");
     }
+    
     if (isPDS3Directory) {
       if (targets.size() == 0) {
         throw new Exception("No targets specified on the command-line.");
@@ -244,12 +246,20 @@ public class HarvestSearchLauncher {
             +"directory.");
       }
     }
-    if (outputDir == null) {
+    
+    if (outputDir == null) 
+    {
     	String dataPath = System.getProperty("pds.registry.data");
-    	if (dataPath != null) {
+    	if (dataPath != null) 
+    	{
     		outputDir = new File(dataPath);
-	    } else {
-	    	outputDir = new File("").getAbsoluteFile();
+	    } 
+    	else 
+    	{
+	    	// !!! Replaced current directory with "/tmp/harvest". 
+    		// There is a bug (feature?) somewhere which deletes all files recursively from this folder!!!
+    		// If you run this project in Eclipse and don't provide output directory, all project files are removed.
+	    	outputDir = new File("/tmp/harvest").getAbsoluteFile();
 	    }
     }
     
@@ -571,6 +581,7 @@ public class HarvestSearchLauncher {
       DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'");
       String now = dateFormat.format(new Date());
       File backup = new File(outputDir.getParent(), Constants.SOLR_DOC_DIR + "_pre" + now);
+      
       if (backup.isDirectory()) {
         FileUtils.deleteQuietly(backup);
       }
@@ -584,28 +595,28 @@ public class HarvestSearchLauncher {
    *
    * @param args Command-line arguments.
    */
-  private void processMain(String []args) {
+  private void processMain(String []args) 
+  {
     //This removes the log4j warnings
     ConsoleAppender ca = new ConsoleAppender(new PatternLayout("%-5p %m%n"));
     ca.setThreshold(Priority.FATAL);
+  
     BasicConfigurator.configure(ca);
     if (args.length == 0) {
       System.out.println("\nType 'harvest -h' for usage");
       System.exit(0);
     }
-    try {
+    
+    try 
+    {
       CommandLine commandline = parse(args);
       query(commandline);
       Policy policy = PolicyReader.unmarshall(this.policy);
       Policy globalPolicy = PolicyReader.unmarshall(this.globalPolicy);
-      policy.getCandidates().getNamespace().addAll(
-          globalPolicy.getCandidates().getNamespace());
-      policy.getCandidates().getProductMetadata().addAll(
-          globalPolicy.getCandidates().getProductMetadata());
-      policy.getReferences().getReferenceTypeMap().addAll(
-          globalPolicy.getReferences().getReferenceTypeMap());
-      policy.getFileTypes().getFileTypeMap().addAll(
-          globalPolicy.getFileTypes().getFileTypeMap());
+      policy.getCandidates().getNamespace().addAll(globalPolicy.getCandidates().getNamespace());
+      policy.getCandidates().getProductMetadata().addAll(globalPolicy.getCandidates().getProductMetadata());
+      policy.getReferences().getReferenceTypeMap().addAll(globalPolicy.getReferences().getReferenceTypeMap());
+      policy.getFileTypes().getFileTypeMap().addAll(globalPolicy.getFileTypes().getFileTypeMap());
       setupExtractor(policy.getCandidates().getNamespace());
       backupOutputDirectory(outputDir);
       doHarvesting(policy);
