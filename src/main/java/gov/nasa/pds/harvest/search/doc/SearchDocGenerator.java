@@ -36,6 +36,7 @@ import gov.nasa.jpl.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.stats.HarvestSolrStats;
 import gov.nasa.pds.harvest.search.util.DocWriter;
+import gov.nasa.pds.harvest.search.util.TransactionManager;
 import gov.nasa.pds.registry.model.ExtrinsicObject;
 import gov.nasa.pds.registry.model.Slot;
 import gov.nasa.pds.registry.model.wrapper.ExtendedExtrinsicObject;
@@ -141,6 +142,10 @@ public class SearchDocGenerator {
 			ExtendedExtrinsicObject extendedExtrinsic = new ExtendedExtrinsicObject(extrinsic);
 			Map<String, List<String>> fieldMap = new HashMap<String, List<String>>();
 			fieldMap.putAll(setFieldValues(extendedExtrinsic, config, metadata));
+			
+			// Add transaction ID
+			typeMap.put("transaction_id", "string");
+			fieldMap.put("transaction_id", Arrays.asList(TransactionManager.getInstance().getTransactionId()));
 
 			// Increment our product counter
 			obj.incrementCounter();

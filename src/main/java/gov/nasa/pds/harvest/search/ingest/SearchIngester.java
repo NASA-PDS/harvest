@@ -53,8 +53,8 @@ import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.logging.ToolsLevel;
 import gov.nasa.pds.harvest.search.logging.ToolsLogRecord;
 import gov.nasa.pds.harvest.search.stats.HarvestSolrStats;
-import gov.nasa.pds.registry.client.SecurityContext;
-import gov.nasa.pds.registry.model.naming.DefaultIdentifierGenerator;
+import gov.nasa.pds.harvest.search.util.TransactionManager;
+
 
 /**
  * Class that supports ingestion of PDS4 product labels as a blob into the PDS
@@ -66,51 +66,15 @@ import gov.nasa.pds.registry.model.naming.DefaultIdentifierGenerator;
 public class SearchIngester implements Ingester {
 	private static Logger log = Logger.getLogger(SearchIngester.class.getName());
 
-	/** Password of the authorized user. */
-	private String password;
-
-	/** Username of the authorized user. */
-	private String user;
-
-	/** The registry package guid. */
-	private String registryPackageGuid;
-
-	/** The security context. */
-	private SecurityContext securityContext;
-
-	/** Solr Client object. */
 	private SolrClient client;
 
-	/** UUID generator. */
-	private DefaultIdentifierGenerator idGenerator;
 
 	/**
 	 * Default constructor.
-	 *
-	 * @param packageGuid The GUID of the registry package to associate to the
-	 *                    products being registered.
-	 *
 	 */
-	public SearchIngester(String packageGuid) {
-		this(packageGuid, null, null, null);
+	public SearchIngester() {
 	}
 
-	/**
-	 * Constructor.
-	 *
-	 * @param packageGuid     The GUID of the registry package to associate to the
-	 *                        products being registered.
-	 * @param securityContext An object containing keystore information.
-	 * @param user            An authorized user.
-	 * @param password        The password associated with the user.
-	 */
-	public SearchIngester(String packageGuid, SecurityContext securityContext, String user, String password) {
-		this.password = password;
-		this.user = user;
-		this.securityContext = securityContext;
-		this.registryPackageGuid = packageGuid;
-		idGenerator = new DefaultIdentifierGenerator();
-	}
 
 	private SolrClient getClient(URL url) throws SolrServerException, IOException {
 		if (client == null) {
@@ -238,6 +202,7 @@ public class SearchIngester implements Ingester {
 				doc.addField("name", prodFile.getName());
 				doc.addField("md5", strMd5);
 				doc.addField("content", strFileContent);
+				doc.addField("transaction_id", TransactionManager.getInstance().getTransactionId());
 				
 				// Save the document
 				SolrClient client = getClient(searchUrl);
@@ -287,22 +252,28 @@ public class SearchIngester implements Ingester {
 		String endPoint = "/xpath/update/json/docs";
 		ContentStreamUpdateRequest up = new ContentStreamUpdateRequest(endPoint);
 		BufferedReader br = null;
-		FileReader fr = null;
+
 		try {
-			fr = new FileReader(prodFile);
-			br = new BufferedReader(fr);
+			br = new BufferedReader(new FileReader(prodFile));
+			
+			// Convert XML to JSON
 			JSONObject json = XML.toJSONObject(br);
+			
+			// Add extra fields
 			String lidvid = met.getMetadata(Constants.LOGICAL_ID) + "::" + met.getMetadata(Constants.PRODUCT_VERSION);
 			json.append("id", lidvid);
+			json.append("transaction_id", TransactionManager.getInstance().getTransactionId());
+			
+			// Store JSON in Solr
 			StringStream stringStream = new StringStream(json.toString(2), MediaType.APPLICATION_JSON);
 			up.addContentStream(stringStream);
 			up.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
 			NamedList<Object> list = getClient(searchUrl).request(up);
+			
 			log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
 					"Successfully posted document of XPaths of entire label to the xpath Solr collection", prodFile));
 		} finally {
 			IOUtils.closeQuietly(br);
-			IOUtils.closeQuietly(fr);
 		}
 	}
 
