@@ -24,7 +24,7 @@
   </skin>
   <bannerLeft>
     <src>images/pds4_logo.png</src>
-    <href>https://pds-cm.jpl.nasa.gov/pds4/</href>
+    <href>https://pds-engineering.jpl.nasa.gov/development/pds4/</href>
   </bannerLeft>
 
   <bannerRight>
@@ -46,8 +46,8 @@
     </menu>
 
     <menu name="Download">
-      <item name="Binary Package (tar.gz)" href="https://pds.nasa.gov/software/pds4/ingest/${project.artifactId}-${project.version}-bin.tar.gz"/>
-      <item name="Binary Package (zip)" href="https://pds.nasa.gov/software/pds4/ingest/${project.artifactId}-${project.version}-bin.zip"/>
+      <item name="Binary Package (tar.gz)" href="https://pds.nasa.gov/software/pds4/${project.artifactId}-${project.version}-bin.tar.gz"/>
+      <item name="Binary Package (zip)" href="https://pds.nasa.gov/software/pds4/${project.artifactId}-${project.version}-bin.zip"/>
     </menu>
 
     <menu ref="reports"/>
