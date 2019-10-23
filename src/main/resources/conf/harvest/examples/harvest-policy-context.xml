@@ -9,7 +9,11 @@
   $Id$
 -->
 
-<policy>
+<policy xmlns="https://pds.nasa.gov/software/pds4/harvest/v1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:harvest="https://pds.nasa.gov/software/pds4/harvest/v1"
+  xsi:schemaLocation="https://pds.nasa.gov/software/pds4/harvest/v1 https://pds.nasa.gov/software/pds4/harvest/v1/harvest-policy.xsd">
+
   <collections>
     <file>$HOME/context_bundle/context_agency/collection_context_agency_1.0.xml</file>
     <file>$HOME/context_bundle/context_dataset/collection_context_dataset_1.0.xml</file>
@@ -33,14 +37,14 @@
     </fileFilter>
   </directories>
 
-  <accessUrls registerFileUrls="false">
+  <accessUrls harvest:registerFileUrls="false">
     <accessUrl>
       <baseUrl>http://pds.nasa.gov/pds4</baseUrl>
       <offset>$HOME</offset>
     </accessUrl>
   </accessUrls>
 
-  <checksums generate="true"/>
+  <checksums harvest:generate="true"/>
 
   <candidates>
     <!-- All context product metadata definitions are captured in the global policy -->
