@@ -15,1770 +15,1774 @@
   $Id$
 -->
 
-<policy>
-  <candidates>
-    <namespace prefix="pds" uri="http://pds.nasa.gov/pds4/pds/v1" default="true"/>
+<policy xmlns="https://pds.nasa.gov/software/pds4/harvest/v1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:harvest="https://pds.nasa.gov/software/pds4/harvest/v1"
+  xsi:schemaLocation="https://pds.nasa.gov/software/pds4/harvest/v1 https://pds.nasa.gov/software/pds4/harvest/v1/harvest-policy.xsd">
 
-    <productMetadata objectType="Product_Attribute_Definition">
+  <candidates>
+    <namespace harvest:prefix="pds" harvest:uri="http://pds.nasa.gov/pds4/pds/v1" harvest:default="true"/>
+
+    <productMetadata harvest:objectType="Product_Attribute_Definition">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-      <xPath slotName="citation_doi">
+      <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>      
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>                    
       <!-- DD_Attribute_Full -->
-      <xPath slotName="attribute_name">
+      <xPath harvest:slotName="attribute_name">
         //DD_Attribute_Full/name
       </xPath>
-      <xPath slotName="attribute_version_id">
+      <xPath harvest:slotName="attribute_version_id">
         //DD_Attribute_Full/version_id
       </xPath>
-      <xPath slotName="attribute_class_name">
+      <xPath harvest:slotName="attribute_class_name">
         //DD_Attribute_Full/class_name
       </xPath>
-      <xPath slotName="attribute_local_identifier">
+      <xPath harvest:slotName="attribute_local_identifier">
         //DD_Attribute_Full/local_identifier
         </xPath>
-      <xPath slotName="attribute_steward_id">
+      <xPath harvest:slotName="attribute_steward_id">
         //DD_Attribute_Full/steward_id
       </xPath>
-      <xPath slotName="attribute_type">
+      <xPath harvest:slotName="attribute_type">
         //DD_Attribute_Full/type
       </xPath>
-      <xPath slotName="attribute_namespace_id">
+      <xPath harvest:slotName="attribute_namespace_id">
         //DD_Attribute_Full/namespace_id
       </xPath>
-      <xPath slotName="attribute_nillable_flag">
+      <xPath harvest:slotName="attribute_nillable_flag">
         //DD_Attribute_Full/nillable_flag
       </xPath>
-      <xPath slotName="attribute_submitter_name">
+      <xPath harvest:slotName="attribute_submitter_name">
         //DD_Attribute_Full/submitter_name
       </xPath>
-      <xPath slotName="attribute_definition">
+      <xPath harvest:slotName="attribute_definition">
         //DD_Attribute_Full/definition
       </xPath>
-      <xPath slotName="attribute_comment">
+      <xPath harvest:slotName="attribute_comment">
         //DD_Attribute_Full/comment
       </xPath>
-      <xPath slotName="attribute_registered_by">
+      <xPath harvest:slotName="attribute_registered_by">
         //DD_Attribute_Full/registered_by
       </xPath>
-      <xPath slotName="attribute_registration_authority_id">
+      <xPath harvest:slotName="attribute_registration_authority_id">
         //DD_Attribute_Full/registration_authority_id
       </xPath>
-      <xPath slotName="attribute_concept">
+      <xPath harvest:slotName="attribute_concept">
         //DD_Attribute_Full/attribute_concept
       </xPath>
       <!-- DD_Attribute_Full/Terminological_Entry -->
-      <xPath slotName="attribute_term_entry_name">
+      <xPath harvest:slotName="attribute_term_entry_name">
         //DD_Attribute_Full/Terminological_Entry/name
       </xPath>
-      <xPath slotName="attribute_term_entry_definition">
+      <xPath harvest:slotName="attribute_term_entry_definition">
         //DD_Attribute_Full/Terminological_Entry/definition
       </xPath>
-      <xPath slotName="attribute_term_entry_language">
+      <xPath harvest:slotName="attribute_term_entry_language">
         //DD_Attribute_Full/Terminological_Entry/language
       </xPath>
-      <xPath slotName="attribute_term_entry_preferred_flag">
+      <xPath harvest:slotName="attribute_term_entry_preferred_flag">
         //DD_Attribute_Full/Terminological_Entry/preferred_flag
       </xPath>
       <!-- DD_Attribute_Full/DD_Value_Domain_Full -->
-      <xPath slotName="attribute_value_domain_enumeration_flag">
+      <xPath harvest:slotName="attribute_value_domain_enumeration_flag">
         //DD_Attribute_Full/DD_Value_Domain_Full/enumeration_flag
       </xPath>
-      <xPath slotName="attribute_value_domain_value_data_type">
+      <xPath harvest:slotName="attribute_value_domain_value_data_type">
         //DD_Attribute_Full/DD_Value_Domain_Full/value_data_type
       </xPath>
-      <xPath slotName="attribute_value_domain_formation_rule">
+      <xPath harvest:slotName="attribute_value_domain_formation_rule">
         //DD_Attribute_Full/DD_Value_Domain_Full/formation_rule
       </xPath>
-      <xPath slotName="attribute_value_domain_minimum_characters">
+      <xPath harvest:slotName="attribute_value_domain_minimum_characters">
         //DD_Attribute_Full/DD_Value_Domain_Full/minimum_characters
       </xPath>
-      <xPath slotName="attribute_value_domain_maximum_characters">
+      <xPath harvest:slotName="attribute_value_domain_maximum_characters">
         //DD_Attribute_Full/DD_Value_Domain_Full/maximum_characters
       </xPath>
-      <xPath slotName="attribute_value_domain_minimum_value">
+      <xPath harvest:slotName="attribute_value_domain_minimum_value">
         //DD_Attribute_Full/DD_Value_Domain_Full/minimum_value
       </xPath>
-      <xPath slotName="attribute_value_domain_maximum_value">
+      <xPath harvest:slotName="attribute_value_domain_maximum_value">
         //DD_Attribute_Full/DD_Value_Domain_Full/maximum_value
       </xPath>
-      <xPath slotName="attribute_value_domain_pattern">
+      <xPath harvest:slotName="attribute_value_domain_pattern">
         //DD_Attribute_Full/DD_Value_Domain_Full/pattern
       </xPath>
-      <xPath slotName="attribute_value_domain_unit_of_measure_type">
+      <xPath harvest:slotName="attribute_value_domain_unit_of_measure_type">
         //DD_Attribute_Full/DD_Value_Domain_Full/unit_of_measure_type
       </xPath>
-      <xPath slotName="attribute_value_domain_conceptual_domain">
+      <xPath harvest:slotName="attribute_value_domain_conceptual_domain">
         //DD_Attribute_Full/DD_Value_Domain_Full/conceptual_domain
       </xPath>
-      <xPath slotName="attribute_value_domain_specified_unit_id">
+      <xPath harvest:slotName="attribute_value_domain_specified_unit_id">
         //DD_Attribute_Full/DD_Value_Domain_Full/specified_unit_id
       </xPath>
       <!-- DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value -->
-      <xPath slotName="attribute_value_domain_value">
+      <xPath harvest:slotName="attribute_value_domain_value">
         //DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value_Full/value
       </xPath>
-      <xPath slotName="attribute_value_domain_value_meaning">
+      <xPath harvest:slotName="attribute_value_domain_value_meaning">
         //DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value_Full/value_meaning
       </xPath>
-      <xPath slotName="attribute_value_domain_value_begin_date">
+      <xPath harvest:slotName="attribute_value_domain_value_begin_date">
         //DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value_Full/value_begin_date
       </xPath>
-      <xPath slotName="attribute_value_domain_value_end_date">
+      <xPath harvest:slotName="attribute_value_domain_value_end_date">
         //DD_Attribute_Full/DD_Value_Domain_Full/DD_Permissible_Value_Full/value_end_date
       </xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_Bundle">
+    <productMetadata harvest:objectType="Product_Bundle">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-       <xPath slotName="citation_doi">
+       <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>
-      <xPath slotName="instrument_host_name">
+      <xPath harvest:slotName="instrument_host_name">
         //Context_Area/Observing_System/Observing_System_Component[type='Spacecraft']/name
       </xPath>       
-      <xPath slotName="instrument_name">
+      <xPath harvest:slotName="instrument_name">
         //Context_Area/Observing_System/Observing_System_Component[type='Instrument']/name
       </xPath>  
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Context_Area -->
-      <xPath slotName="observation_comment">
+      <xPath harvest:slotName="observation_comment">
         //Context_Area/comment
       </xPath>
-      <xPath slotName="observation_start_date_time">
+      <xPath harvest:slotName="observation_start_date_time">
         //Context_Area/Time_Coordinates/start_date_time
       </xPath>
-      <xPath slotName="observation_stop_date_time">
+      <xPath harvest:slotName="observation_stop_date_time">
         //Context_Area/Time_Coordinates/stop_date_time
       </xPath>
-      <xPath slotName="observation_local_mean_solar_time">
+      <xPath harvest:slotName="observation_local_mean_solar_time">
         //Context_Area/Time_Coordinates/local_mean_solar_time
       </xPath>
-      <xPath slotName="observation_local_true_solar_time">
+      <xPath harvest:slotName="observation_local_true_solar_time">
         //Context_Area/Time_Coordinates/local_true_solar_time
       </xPath>
-      <xPath slotName="observation_solar_longitute">
+      <xPath harvest:slotName="observation_solar_longitute">
         //Context_Area/Time_Coordinates/solar_longitude
       </xPath>
-      <xPath slotName="primary_result_purpose">
+      <xPath harvest:slotName="primary_result_purpose">
         //Context_Area/Primary_Result_Summary/purpose
       </xPath>
-      <xPath slotName="primary_result_processing_level">
+      <xPath harvest:slotName="primary_result_processing_level">
         //Context_Area/Primary_Result_Summary/processing_level
       </xPath>
-      <xPath slotName="primary_result_description">
+      <xPath harvest:slotName="primary_result_description">
         //Context_Area/Primary_Result_Summary/description
       </xPath>
-      <xPath slotName="primary_result_wavelength_range">
+      <xPath harvest:slotName="primary_result_wavelength_range">
         //Context_Area/Primary_Result_Summary/Science_Facets/wavelength_range
       </xPath>
-      <xPath slotName="primary_result_domain">
+      <xPath harvest:slotName="primary_result_domain">
         //Context_Area/Primary_Result_Summary/Science_Facets/domain
       </xPath>
-      <xPath slotName="primary_result_discipline_name">
+      <xPath harvest:slotName="primary_result_discipline_name">
         //Context_Area/Primary_Result_Summary/Science_Facets/discipline_name
       </xPath>
-      <xPath slotName="primary_result_facet1">
+      <xPath harvest:slotName="primary_result_facet1">
         //Context_Area/Primary_Result_Summary/Science_Facets/facet1
       </xPath>
-      <xPath slotName="primary_result_subfacet1">
+      <xPath harvest:slotName="primary_result_subfacet1">
         //Context_Area/Primary_Result_Summary/Science_Facets/subfacet1
       </xPath>
-      <xPath slotName="primary_result_facet2">
+      <xPath harvest:slotName="primary_result_facet2">
         //Context_Area/Primary_Result_Summary/Science_Facets/facet2
       </xPath>
-      <xPath slotName="primary_result_subfacet2">
+      <xPath harvest:slotName="primary_result_subfacet2">
         //Context_Area/Primary_Result_Summary/Science_Facets/subfacet2
       </xPath>
-      <xPath slotName="instrument_name">
+      <xPath harvest:slotName="instrument_name">
         //Context_Area/Observing_System/Observing_System_Component[type='Instrument']/name
       </xPath>
-      <xPath slotName="investigation_name">
+      <xPath harvest:slotName="investigation_name">
         //Context_Area/Investigation_Area/name
       </xPath>
-      <xPath slotName="investigation_type">
+      <xPath harvest:slotName="investigation_type">
         //Context_Area/Investigation_Area/type
       </xPath>
-      <xPath slotName="observing_system_name">
+      <xPath harvest:slotName="observing_system_name">
         //Context_Area/Observing_System/name
       </xPath>
-      <xPath slotName="observing_system_description">
+      <xPath harvest:slotName="observing_system_description">
         //Context_Area/Observing_System/description
       </xPath>
-      <xPath slotName="observing_system_component_name">
+      <xPath harvest:slotName="observing_system_component_name">
         //Context_Area/Observing_System/Observing_System_Component/name
       </xPath>
-      <xPath slotName="observing_system_component_type">
+      <xPath harvest:slotName="observing_system_component_type">
         //Context_Area/Observing_System/Observing_System_Component/type
       </xPath>
-      <xPath slotName="observing_system_component_description">
+      <xPath harvest:slotName="observing_system_component_description">
         //Context_Area/Observing_System/Observing_System_Component/description
       </xPath>
-      <xPath slotName="target_name">
+      <xPath harvest:slotName="target_name">
         //Context_Area/Target_Identification/name
       </xPath>
-      <xPath slotName="target_alternate_designation">
+      <xPath harvest:slotName="target_alternate_designation">
         //Context_Area/Target_Identification/alternate_designation
       </xPath>
-      <xPath slotName="target_type">
+      <xPath harvest:slotName="target_type">
         //Context_Area/Target_Identification/type
       </xPath>
-      <xPath slotName="target_description">
+      <xPath harvest:slotName="target_description">
         //Context_Area/Target_Identification/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Bundle -->
-      <xPath slotName="bundle_type">
+      <xPath harvest:slotName="bundle_type">
         //Bundle/bundle_type
       </xPath>
-      <xPath slotName="bundle_description">
+      <xPath harvest:slotName="bundle_description">
         //Bundle/description
       </xPath>
       <!-- File_Area_Text -->
       <!-- Bundle_Member_Entry -->
     </productMetadata>
 
-    <productMetadata objectType="Product_Class_Definition">
+    <productMetadata harvest:objectType="Product_Class_Definition">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-       <xPath slotName="citation_doi">
+       <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>        
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- DD_Class_Full -->
-      <xPath slotName="class_name">
+      <xPath harvest:slotName="class_name">
         //DD_Class_Full/name
       </xPath>
-      <xPath slotName="class_version_id">
+      <xPath harvest:slotName="class_version_id">
         //DD_Class_Full/version_id
       </xPath>
-      <xPath slotName="class_local_identifier">
+      <xPath harvest:slotName="class_local_identifier">
         //DD_Class_Full/local_identifier
         </xPath>
-      <xPath slotName="class_steward_id">
+      <xPath harvest:slotName="class_steward_id">
         //DD_Class_Full/steward_id
       </xPath>
-      <xPath slotName="class_type">
+      <xPath harvest:slotName="class_type">
         //DD_Class_Full/type
       </xPath>
-      <xPath slotName="class_namespace_id">
+      <xPath harvest:slotName="class_namespace_id">
         //DD_Class_Full/namespace_id
       </xPath>
-      <xPath slotName="class_submitter_name">
+      <xPath harvest:slotName="class_submitter_name">
         //DD_Class_Full/submitter_name
       </xPath>
-      <xPath slotName="class_definition">
+      <xPath harvest:slotName="class_definition">
         //DD_Class_Full/definition
       </xPath>
-      <xPath slotName="class_comment">
+      <xPath harvest:slotName="class_comment">
         //DD_Class_Full/comment
       </xPath>
-      <xPath slotName="class_registered_by">
+      <xPath harvest:slotName="class_registered_by">
         //DD_Class_Full/registered_by
       </xPath>
-      <xPath slotName="class_registration_authority_id">
+      <xPath harvest:slotName="class_registration_authority_id">
         //DD_Class_Full/registration_authority_id
       </xPath>
-      <xPath slotName="class_abstract_flag">
+      <xPath harvest:slotName="class_abstract_flag">
         //DD_Class_Full/abstract_flag
       </xPath>
-      <xPath slotName="class_element_flag">
+      <xPath harvest:slotName="class_element_flag">
         //DD_Class_Full/element_flag
       </xPath>
-      <xPath slotName="class_association_local_identifier">
+      <xPath harvest:slotName="class_association_local_identifier">
         //DD_Class_Full/DD_Association/local_identifier
       </xPath>
-      <xPath slotName="class_association_reference_type">
+      <xPath harvest:slotName="class_association_reference_type">
         //DD_Class_Full/DD_Association/reference_type
       </xPath>
-      <xPath slotName="class_association_minimum_occurrences">
+      <xPath harvest:slotName="class_association_minimum_occurrences">
         //DD_Class_Full/DD_Association/minimum_occurrences
       </xPath>
-      <xPath slotName="class_association_maximum_occurrences">
+      <xPath harvest:slotName="class_association_maximum_occurrences">
         //DD_Class_Full/DD_Association/maximum_occurrences
       </xPath>
-      <xPath slotName="class_association_constant_value">
+      <xPath harvest:slotName="class_association_constant_value">
         //DD_Class_Full/DD_Association/constant_value
       </xPath>
-      <xPath slotName="class_term_entry_name">
+      <xPath harvest:slotName="class_term_entry_name">
         //DD_Class_Full/Terminological_Entry/name
       </xPath>
-      <xPath slotName="class_term_entry_definition">
+      <xPath harvest:slotName="class_term_entry_definition">
         //DD_Class_Full/Terminological_Entry/definition
       </xPath>
-      <xPath slotName="class_term_entry_language">
+      <xPath harvest:slotName="class_term_entry_language">
         //DD_Class_Full/Terminological_Entry/language
       </xPath>
-      <xPath slotName="class_term_entry_preferred_flag">
+      <xPath harvest:slotName="class_term_entry_preferred_flag">
         //DD_Class_Full/Terminological_Entry/preferred_flag
       </xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_Collection">
+    <productMetadata harvest:objectType="Product_Collection">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-      <xPath slotName="citation_doi">
+      <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>
-      <xPath slotName="instrument_host_name">
+      <xPath harvest:slotName="instrument_host_name">
         //Context_Area/Observing_System/Observing_System_Component[type='Spacecraft']/name
       </xPath>  
-      <xPath slotName="instrument_name">
+      <xPath harvest:slotName="instrument_name">
         //Context_Area/Observing_System/Observing_System_Component[type='Instrument']/name
       </xPath>      
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Context_Area -->
-      <xPath slotName="observation_comment">
+      <xPath harvest:slotName="observation_comment">
         //Context_Area/comment
       </xPath>
-      <xPath slotName="observation_start_date_time">
+      <xPath harvest:slotName="observation_start_date_time">
         //Context_Area/Time_Coordinates/start_date_time
       </xPath>
-      <xPath slotName="observation_stop_date_time">
+      <xPath harvest:slotName="observation_stop_date_time">
         //Context_Area/Time_Coordinates/stop_date_time
       </xPath>
-      <xPath slotName="observation_local_mean_solar_time">
+      <xPath harvest:slotName="observation_local_mean_solar_time">
         //Context_Area/Time_Coordinates/local_mean_solar_time
       </xPath>
-      <xPath slotName="observation_local_true_solar_time">
+      <xPath harvest:slotName="observation_local_true_solar_time">
         //Context_Area/Time_Coordinates/local_true_solar_time
       </xPath>
-      <xPath slotName="observation_solar_longitute">
+      <xPath harvest:slotName="observation_solar_longitute">
         //Context_Area/Time_Coordinates/solar_longitude
       </xPath>
-      <xPath slotName="primary_result_purpose">
+      <xPath harvest:slotName="primary_result_purpose">
         //Context_Area/Primary_Result_Summary/purpose
       </xPath>
-      <xPath slotName="primary_result_processing_level">
+      <xPath harvest:slotName="primary_result_processing_level">
         //Context_Area/Primary_Result_Summary/processing_level
       </xPath>
-      <xPath slotName="primary_result_description">
+      <xPath harvest:slotName="primary_result_description">
         //Context_Area/Primary_Result_Summary/description
       </xPath>
-      <xPath slotName="primary_result_wavelength_range">
+      <xPath harvest:slotName="primary_result_wavelength_range">
         //Context_Area/Primary_Result_Summary/Science_Facets/wavelength_range
       </xPath>
-      <xPath slotName="primary_result_domain">
+      <xPath harvest:slotName="primary_result_domain">
         //Context_Area/Primary_Result_Summary/Science_Facets/domain
       </xPath>
-      <xPath slotName="primary_result_discipline_name">
+      <xPath harvest:slotName="primary_result_discipline_name">
         //Context_Area/Primary_Result_Summary/Science_Facets/discipline_name
       </xPath>
-      <xPath slotName="primary_result_facet1">
+      <xPath harvest:slotName="primary_result_facet1">
         //Context_Area/Primary_Result_Summary/Science_Facets/facet1
       </xPath>
-      <xPath slotName="primary_result_subfacet1">
+      <xPath harvest:slotName="primary_result_subfacet1">
         //Context_Area/Primary_Result_Summary/Science_Facets/subfacet1
       </xPath>
-      <xPath slotName="primary_result_facet2">
+      <xPath harvest:slotName="primary_result_facet2">
         //Context_Area/Primary_Result_Summary/Science_Facets/facet2
       </xPath>
-      <xPath slotName="primary_result_subfacet2">
+      <xPath harvest:slotName="primary_result_subfacet2">
         //Context_Area/Primary_Result_Summary/Science_Facets/subfacet2
       </xPath>
-      <xPath slotName="investigation_name">
+      <xPath harvest:slotName="investigation_name">
         //Context_Area/Investigation_Area/name
       </xPath>
-      <xPath slotName="investigation_type">
+      <xPath harvest:slotName="investigation_type">
         //Context_Area/Investigation_Area/type
       </xPath>
-      <xPath slotName="observing_system_name">
+      <xPath harvest:slotName="observing_system_name">
         //Context_Area/Observing_System/name
       </xPath>
-      <xPath slotName="observing_system_description">
+      <xPath harvest:slotName="observing_system_description">
         //Context_Area/Observing_System/description
       </xPath>
-      <xPath slotName="observing_system_component_name">
+      <xPath harvest:slotName="observing_system_component_name">
         //Context_Area/Observing_System/Observing_System_Component/name
       </xPath>
-      <xPath slotName="observing_system_component_type">
+      <xPath harvest:slotName="observing_system_component_type">
         //Context_Area/Observing_System/Observing_System_Component/type
       </xPath>
-      <xPath slotName="observing_system_component_description">
+      <xPath harvest:slotName="observing_system_component_description">
         //Context_Area/Observing_System/Observing_System_Component/description
       </xPath>
-      <xPath slotName="target_name">
+      <xPath harvest:slotName="target_name">
         //Context_Area/Target_Identification/name
       </xPath>
-      <xPath slotName="target_alternate_designation">
+      <xPath harvest:slotName="target_alternate_designation">
         //Context_Area/Target_Identification/alternate_designation
       </xPath>
-      <xPath slotName="target_type">
+      <xPath harvest:slotName="target_type">
         //Context_Area/Target_Identification/type
       </xPath>
-      <xPath slotName="target_description">
+      <xPath harvest:slotName="target_description">
         //Context_Area/Target_Identification/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Collection -->
-      <xPath slotName="collection_type">
+      <xPath harvest:slotName="collection_type">
         //Collection/collection_type
       </xPath>
-      <xPath slotName="collection_description">
+      <xPath harvest:slotName="collection_description">
         //Collection/description
       </xPath>
       <!-- File_Area_Inventory -->
-      <xPath slotName="file_name">
+      <xPath harvest:slotName="file_name">
         //File_Area_Inventory/File/file_name
       </xPath>
-      <xPath slotName="member_count">
+      <xPath harvest:slotName="member_count">
         //File_Area_Inventory/Inventory/records
       </xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_Context">
+    <productMetadata harvest:objectType="Product_Context">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-       <xPath slotName="citation_doi">
+       <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>        
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Discipline_Area -->
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Agency -->
-      <xPath slotName="agency_name">//Agency/name</xPath>
-      <xPath slotName="agency_description">//Agency/description</xPath>
+      <xPath harvest:slotName="agency_name">//Agency/name</xPath>
+      <xPath harvest:slotName="agency_description">//Agency/description</xPath>
       <!-- Airborne -->
-      <xPath slotName="airborne_name">//Airborne/name</xPath>
-      <xPath slotName="airborne_type">//Airborne/type</xPath>
-      <xPath slotName="airborne_description">//Airborne/description</xPath>      
+      <xPath harvest:slotName="airborne_name">//Airborne/name</xPath>
+      <xPath harvest:slotName="airborne_type">//Airborne/type</xPath>
+      <xPath harvest:slotName="airborne_description">//Airborne/description</xPath>      
       <!-- Facility -->
-      <xPath slotName="facility_name">//Facility/name</xPath>
-      <xPath slotName="facility_type">//Facility/type</xPath>
-      <xPath slotName="facility_address">//Facility/address</xPath>
-      <xPath slotName="facility_country">//Facility/country</xPath>
-      <xPath slotName="facility_description">//Facility/description</xPath>
+      <xPath harvest:slotName="facility_name">//Facility/name</xPath>
+      <xPath harvest:slotName="facility_type">//Facility/type</xPath>
+      <xPath harvest:slotName="facility_address">//Facility/address</xPath>
+      <xPath harvest:slotName="facility_country">//Facility/country</xPath>
+      <xPath harvest:slotName="facility_description">//Facility/description</xPath>
       <!-- Instrument -->
-      <xPath slotName="instrument_name">//Instrument/name</xPath>
-      <xPath slotName="instrument_type">//Instrument/type</xPath>
-      <xPath slotName="instrument_description">//Instrument/description</xPath>
-      <xPath slotName="instrument_model_id">//Instrument/model_id</xPath>
-      <xPath slotName="instrument_naif_id">//Instrument/naif_instrument_id</xPath>
-      <xPath slotName="instrument_serial_number">//Instrument/serial_number</xPath>
+      <xPath harvest:slotName="instrument_name">//Instrument/name</xPath>
+      <xPath harvest:slotName="instrument_type">//Instrument/type</xPath>
+      <xPath harvest:slotName="instrument_description">//Instrument/description</xPath>
+      <xPath harvest:slotName="instrument_model_id">//Instrument/model_id</xPath>
+      <xPath harvest:slotName="instrument_naif_id">//Instrument/naif_instrument_id</xPath>
+      <xPath harvest:slotName="instrument_serial_number">//Instrument/serial_number</xPath>
       <!-- Instrument_Host -->
-      <xPath slotName="instrument_host_name">//Instrument_Host/name</xPath>
+      <xPath harvest:slotName="instrument_host_name">//Instrument_Host/name</xPath>
       <!-- Version 1.1.0.1 or earlier for version identifier -->
-      <xPath slotName="instrument_host_version_id">//Instrument_Host/version_id</xPath>
+      <xPath harvest:slotName="instrument_host_version_id">//Instrument_Host/version_id</xPath>
       <!-- Version 1.2.0.0 or later for version identifier -->
-      <xPath slotName="instrument_host_version_id">//Instrument_Host/instrument_host_version_id</xPath>
-      <xPath slotName="instrument_host_type">//Instrument_Host/type</xPath>
-      <xPath slotName="instrument_host_description">//Instrument_Host/description</xPath>
-      <xPath slotName="instrument_host_naif_id">//Instrument_Host/naif_host_id</xPath>
-      <xPath slotName="instrument_host_serial_number">//Instrument_Host/serial_number</xPath>
+      <xPath harvest:slotName="instrument_host_version_id">//Instrument_Host/instrument_host_version_id</xPath>
+      <xPath harvest:slotName="instrument_host_type">//Instrument_Host/type</xPath>
+      <xPath harvest:slotName="instrument_host_description">//Instrument_Host/description</xPath>
+      <xPath harvest:slotName="instrument_host_naif_id">//Instrument_Host/naif_host_id</xPath>
+      <xPath harvest:slotName="instrument_host_serial_number">//Instrument_Host/serial_number</xPath>
       <!-- Investigation -->
-      <xPath slotName="investigation_name">//Investigation/name</xPath>
-      <xPath slotName="investigation_type">//Investigation/type</xPath>
-      <xPath slotName="investigation_description">//Investigation/description</xPath>
-      <xPath slotName="investigation_start_date">//Investigation/start_date</xPath>
-      <xPath slotName="investigation_stop_date">//Investigation/stop_date</xPath>
+      <xPath harvest:slotName="investigation_name">//Investigation/name</xPath>
+      <xPath harvest:slotName="investigation_type">//Investigation/type</xPath>
+      <xPath harvest:slotName="investigation_description">//Investigation/description</xPath>
+      <xPath harvest:slotName="investigation_start_date">//Investigation/start_date</xPath>
+      <xPath harvest:slotName="investigation_stop_date">//Investigation/stop_date</xPath>
       <!-- Node -->
-      <xPath slotName="node_name">//Node/name</xPath>
-      <xPath slotName="node_description">//Node/description</xPath>
-      <xPath slotName="node_institution_name">//Node/institution_name</xPath>
+      <xPath harvest:slotName="node_name">//Node/name</xPath>
+      <xPath harvest:slotName="node_description">//Node/description</xPath>
+      <xPath harvest:slotName="node_institution_name">//Node/institution_name</xPath>
       <!-- Other -->
-      <xPath slotName="other_description">//Other/description</xPath>
+      <xPath harvest:slotName="other_description">//Other/description</xPath>
       <!-- PDS_Affiliate -->
-      <xPath slotName="person_name">//PDS_Affiliate/name</xPath>
-      <xPath slotName="person_registration_date">//PDS_Affiliate/registration_date</xPath>
-      <xPath slotName="person_electronic_mail_address">//PDS_Affiliate/electronic_mail_address</xPath>
-      <xPath slotName="person_sort_name">//PDS_Affiliate/sort_name</xPath>
-      <xPath slotName="person_description">//PDS_Affiliate/description</xPath>
-      <xPath slotName="person_affiliation_type">//PDS_Affiliate/affiliation_type</xPath>
-      <xPath slotName="person_alternate_telephone_number">//PDS_Affiliate/alternate_telephone_number</xPath>
-      <xPath slotName="person_institution_name">//PDS_Affiliate/institution_name</xPath>
-      <xPath slotName="person_phone_book_flag">//PDS_Affiliate/phone_book_flag</xPath>
-      <xPath slotName="person_postal_address_text">//PDS_Affiliate/postal_address_text</xPath>
-      <xPath slotName="person_team_name">//PDS_Affiliate/team_name</xPath>
-      <xPath slotName="person_telephone_number">//PDS_Affiliate/telephone_number</xPath>
+      <xPath harvest:slotName="person_name">//PDS_Affiliate/name</xPath>
+      <xPath harvest:slotName="person_registration_date">//PDS_Affiliate/registration_date</xPath>
+      <xPath harvest:slotName="person_electronic_mail_address">//PDS_Affiliate/electronic_mail_address</xPath>
+      <xPath harvest:slotName="person_sort_name">//PDS_Affiliate/sort_name</xPath>
+      <xPath harvest:slotName="person_description">//PDS_Affiliate/description</xPath>
+      <xPath harvest:slotName="person_affiliation_type">//PDS_Affiliate/affiliation_type</xPath>
+      <xPath harvest:slotName="person_alternate_telephone_number">//PDS_Affiliate/alternate_telephone_number</xPath>
+      <xPath harvest:slotName="person_institution_name">//PDS_Affiliate/institution_name</xPath>
+      <xPath harvest:slotName="person_phone_book_flag">//PDS_Affiliate/phone_book_flag</xPath>
+      <xPath harvest:slotName="person_postal_address_text">//PDS_Affiliate/postal_address_text</xPath>
+      <xPath harvest:slotName="person_team_name">//PDS_Affiliate/team_name</xPath>
+      <xPath harvest:slotName="person_telephone_number">//PDS_Affiliate/telephone_number</xPath>
       <!-- PDS_Guest -->
-      <xPath slotName="person_name">//PDS_Guest/name</xPath>
-      <xPath slotName="person_registration_date">//PDS_Guest/registration_date</xPath>
-      <xPath slotName="person_electronic_mail_address">//PDS_Guest/electronic_mail_address</xPath>
-      <xPath slotName="person_sort_name">//PDS_Guest/sort_name</xPath>
-      <xPath slotName="person_description">//PDS_Guest/description</xPath>
+      <xPath harvest:slotName="person_name">//PDS_Guest/name</xPath>
+      <xPath harvest:slotName="person_registration_date">//PDS_Guest/registration_date</xPath>
+      <xPath harvest:slotName="person_electronic_mail_address">//PDS_Guest/electronic_mail_address</xPath>
+      <xPath harvest:slotName="person_sort_name">//PDS_Guest/sort_name</xPath>
+      <xPath harvest:slotName="person_description">//PDS_Guest/description</xPath>
       <!-- Resource -->
-      <xPath slotName="resource_name">//Resource/name</xPath>
-      <xPath slotName="resource_type">//Resource/type</xPath>
-      <xPath slotName="resource_description">//Resource/description</xPath>
-      <xPath slotName="resource_url">//Resource/url</xPath>
+      <xPath harvest:slotName="resource_name">//Resource/name</xPath>
+      <xPath harvest:slotName="resource_type">//Resource/type</xPath>
+      <xPath harvest:slotName="resource_description">//Resource/description</xPath>
+      <xPath harvest:slotName="resource_url">//Resource/url</xPath>
       <!-- Target -->
-      <xPath slotName="target_name">//Target/name</xPath>
-      <xPath slotName="target_type">//Target/type</xPath>
-      <xPath slotName="target_description">//Target/description</xPath>
+      <xPath harvest:slotName="target_name">//Target/name</xPath>
+      <xPath harvest:slotName="target_type">//Target/type</xPath>
+      <xPath harvest:slotName="target_description">//Target/description</xPath>
       <!-- Telescope -->
-      <xPath slotName="telescope_aperture">//Telescope/aperture</xPath>
-      <xPath slotName="telescope_longitude">//Telescope/telescope_longitude</xPath>
-      <xPath slotName="telescope_latitude">//Telescope/telescope_latitude</xPath>
-      <xPath slotName="telescope_altitude">//Telescope/altitude</xPath>
-      <xPath slotName="telescope_coordinate_source">//Telescope/coordinate_source</xPath>
-      <xPath slotName="telescope_description">//Telescope/description</xPath>
+      <xPath harvest:slotName="telescope_aperture">//Telescope/aperture</xPath>
+      <xPath harvest:slotName="telescope_longitude">//Telescope/telescope_longitude</xPath>
+      <xPath harvest:slotName="telescope_latitude">//Telescope/telescope_latitude</xPath>
+      <xPath harvest:slotName="telescope_altitude">//Telescope/altitude</xPath>
+      <xPath harvest:slotName="telescope_coordinate_source">//Telescope/coordinate_source</xPath>
+      <xPath harvest:slotName="telescope_description">//Telescope/description</xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_Data_Set_PDS3">
+    <productMetadata harvest:objectType="Product_Data_Set_PDS3">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-       <xPath slotName="citation_doi">
+       <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>        
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Data_Set_PDS3 -->
-      <xPath slotName="data_set_id">//Data_Set_PDS3/data_set_id</xPath>
-      <xPath slotName="data_set_name">//Data_Set_PDS3/data_set_name</xPath>
-      <xPath slotName="data_set_release_date">//Data_Set_PDS3/data_set_release_date</xPath>
+      <xPath harvest:slotName="data_set_id">//Data_Set_PDS3/data_set_id</xPath>
+      <xPath harvest:slotName="data_set_name">//Data_Set_PDS3/data_set_name</xPath>
+      <xPath harvest:slotName="data_set_release_date">//Data_Set_PDS3/data_set_release_date</xPath>
       <!-- Version 1.1.0.1 or earlier for start and stop time -->
-      <xPath slotName="data_set_start_date_time">//Data_Set_PDS3/start_date_time</xPath>
-      <xPath slotName="data_set_stop_date_time">//Data_Set_PDS3/stop_date_time</xPath>
+      <xPath harvest:slotName="data_set_start_date_time">//Data_Set_PDS3/start_date_time</xPath>
+      <xPath harvest:slotName="data_set_stop_date_time">//Data_Set_PDS3/stop_date_time</xPath>
       <!-- Version 1.2.0.0 or later for start and stop time -->
-      <xPath slotName="data_set_start_date_time">//Data_Set_PDS3/start_time</xPath>
-      <xPath slotName="data_set_stop_date_time">//Data_Set_PDS3/stop_time</xPath>
-      <xPath slotName="data_set_producer_full_name">//Data_Set_PDS3/producer_full_name</xPath>
-      <xPath slotName="data_set_citation_text">//Data_Set_PDS3/citation_text</xPath>
-      <xPath slotName="data_set_terse_description">//Data_Set_PDS3/data_set_terse_desc</xPath>
-      <xPath slotName="data_set_abstract_description">//Data_Set_PDS3/abstract_desc</xPath>
-      <xPath slotName="data_set_description">//Data_Set_PDS3/data_set_desc</xPath>
-      <xPath slotName="data_set_confidence_level_note">//Data_Set_PDS3/confidence_level_note</xPath>
-      <xPath slotName="data_set_archive_status">//Data_Set_PDS3/archive_status</xPath>
-      <xPath slotName="data_set_nssdc_medium_type">//Data_Set_PDS3/NSSDC/medium_type</xPath>
-      <xPath slotName="data_set_nssdc_collection_id">//Data_Set_PDS3/NSSDC/nssdc_collection_id</xPath>
+      <xPath harvest:slotName="data_set_start_date_time">//Data_Set_PDS3/start_time</xPath>
+      <xPath harvest:slotName="data_set_stop_date_time">//Data_Set_PDS3/stop_time</xPath>
+      <xPath harvest:slotName="data_set_producer_full_name">//Data_Set_PDS3/producer_full_name</xPath>
+      <xPath harvest:slotName="data_set_citation_text">//Data_Set_PDS3/citation_text</xPath>
+      <xPath harvest:slotName="data_set_terse_description">//Data_Set_PDS3/data_set_terse_desc</xPath>
+      <xPath harvest:slotName="data_set_abstract_description">//Data_Set_PDS3/abstract_desc</xPath>
+      <xPath harvest:slotName="data_set_description">//Data_Set_PDS3/data_set_desc</xPath>
+      <xPath harvest:slotName="data_set_confidence_level_note">//Data_Set_PDS3/confidence_level_note</xPath>
+      <xPath harvest:slotName="data_set_archive_status">//Data_Set_PDS3/archive_status</xPath>
+      <xPath harvest:slotName="data_set_nssdc_medium_type">//Data_Set_PDS3/NSSDC/medium_type</xPath>
+      <xPath harvest:slotName="data_set_nssdc_collection_id">//Data_Set_PDS3/NSSDC/nssdc_collection_id</xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_DIP">
+    <productMetadata harvest:objectType="Product_DIP">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-       <xPath slotName="citation_doi">
+       <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>        
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Information_Package_Component -->
-      <xPath slotName="checksum_manifest_checksum">
+      <xPath harvest:slotName="checksum_manifest_checksum">
         //Information_Package_Component/checksum_manifest_checksum
       </xPath>
-      <xPath slotName="checksum_type">
+      <xPath harvest:slotName="checksum_type">
         //Information_Package_Component/checksum_type
       </xPath>
-      <xPath slotName="transfer_manifest_checksum">
+      <xPath harvest:slotName="transfer_manifest_checksum">
         //Information_Package_Component/transfer_manifest_checksum
       </xPath>
-      <xPath slotName="file_name">
+      <xPath harvest:slotName="file_name">
         //Information_Package_Component/File_Area_Checksum_Manifest/File/file_name
       </xPath>
-      <xPath slotName="file_name">
+      <xPath harvest:slotName="file_name">
         //Information_Package_Component/File_Area_Transfer_Manifest/File/file_name
       </xPath>
       <!-- Dissemination_Information_Package -->
-      <xPath slotName="dip_description">
+      <xPath harvest:slotName="dip_description">
         //Dissemination_Information_Package/description
       </xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_DIP_Deep_Archive">
+    <productMetadata harvest:objectType="Product_DIP_Deep_Archive">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-       <xPath slotName="citation_doi">
+       <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>        
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Information_Package_Component -->
-      <xPath slotName="checksum_manifest_checksum">
+      <xPath harvest:slotName="checksum_manifest_checksum">
         //Information_Package_Component/checksum_manifest_checksum
       </xPath>
-      <xPath slotName="checksum_type">
+      <xPath harvest:slotName="checksum_type">
         //Information_Package_Component/checksum_type
       </xPath>
-      <xPath slotName="transfer_manifest_checksum">
+      <xPath harvest:slotName="transfer_manifest_checksum">
         //Information_Package_Component/transfer_manifest_checksum
       </xPath>
-      <xPath slotName="file_name">
+      <xPath harvest:slotName="file_name">
         //Information_Package_Component/File_Area_Checksum_Manifest/File/file_name
       </xPath>
-      <xPath slotName="file_name">
+      <xPath harvest:slotName="file_name">
         //Information_Package_Component/File_Area_Transfer_Manifest/File/file_name
       </xPath>
       <!-- DIP_Deep_Archive -->
-      <xPath slotName="dip_description">
+      <xPath harvest:slotName="dip_description">
         //DIP_Deep_Archive/description
       </xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_Instrument_Host_PDS3">
+    <productMetadata harvest:objectType="Product_Instrument_Host_PDS3">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-       <xPath slotName="citation_doi">
+       <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>        
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Instrument_Host_PDS3 -->
-      <xPath slotName="instrument_host_name">//Instrument_Host_PDS3/instrument_host_name</xPath>
-      <xPath slotName="instrument_host_description">//Instrument_Host_PDS3/instrument_host_desc</xPath>
-      <xPath slotName="instrument_host_id">//Instrument_Host_PDS3/instrument_host_id</xPath>
-      <xPath slotName="instrument_host_type">//Instrument_Host_PDS3/instrument_host_type</xPath>
+      <xPath harvest:slotName="instrument_host_name">//Instrument_Host_PDS3/instrument_host_name</xPath>
+      <xPath harvest:slotName="instrument_host_description">//Instrument_Host_PDS3/instrument_host_desc</xPath>
+      <xPath harvest:slotName="instrument_host_id">//Instrument_Host_PDS3/instrument_host_id</xPath>
+      <xPath harvest:slotName="instrument_host_type">//Instrument_Host_PDS3/instrument_host_type</xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_Instrument_PDS3">
+    <productMetadata harvest:objectType="Product_Instrument_PDS3">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-       <xPath slotName="citation_doi">
+       <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>        
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Instrument_PDS3 -->
-      <xPath slotName="instrument_name">//Instrument_PDS3/instrument_name</xPath>
-      <xPath slotName="instrument_description">//Instrument_PDS3/instrument_desc</xPath>
-      <xPath slotName="instrument_id">//Instrument_PDS3/instrument_id</xPath>
-      <xPath slotName="instrument_serial_number">//Instrument_PDS3/instrument_serial_number</xPath>
-      <xPath slotName="instrument_type">//Instrument_PDS3/instrument_type</xPath>
-      <xPath slotName="instrument_version_id">//Instrument_PDS3/instrument_version_id</xPath>
+      <xPath harvest:slotName="instrument_name">//Instrument_PDS3/instrument_name</xPath>
+      <xPath harvest:slotName="instrument_description">//Instrument_PDS3/instrument_desc</xPath>
+      <xPath harvest:slotName="instrument_id">//Instrument_PDS3/instrument_id</xPath>
+      <xPath harvest:slotName="instrument_serial_number">//Instrument_PDS3/instrument_serial_number</xPath>
+      <xPath harvest:slotName="instrument_type">//Instrument_PDS3/instrument_type</xPath>
+      <xPath harvest:slotName="instrument_version_id">//Instrument_PDS3/instrument_version_id</xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_Mission_PDS3">
+    <productMetadata harvest:objectType="Product_Mission_PDS3">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-       <xPath slotName="citation_doi">
+       <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>        
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Mission_PDS3 -->
-      <xPath slotName="mission_name">//Mission_PDS3/mission_name</xPath>
-      <xPath slotName="mission_description">//Mission_PDS3/mission_desc</xPath>
-      <xPath slotName="mission_objectives_summary">//Mission_PDS3/mission_objectives_summary</xPath>
-      <xPath slotName="mission_start_date">//Mission_PDS3/mission_start_date</xPath>
-      <xPath slotName="mission_stop_date">//Mission_PDS3/mission_stop_date</xPath>
+      <xPath harvest:slotName="mission_name">//Mission_PDS3/mission_name</xPath>
+      <xPath harvest:slotName="mission_description">//Mission_PDS3/mission_desc</xPath>
+      <xPath harvest:slotName="mission_objectives_summary">//Mission_PDS3/mission_objectives_summary</xPath>
+      <xPath harvest:slotName="mission_start_date">//Mission_PDS3/mission_start_date</xPath>
+      <xPath harvest:slotName="mission_stop_date">//Mission_PDS3/mission_stop_date</xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_SIP">
+    <productMetadata harvest:objectType="Product_SIP">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-       <xPath slotName="citation_doi">
+       <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>        
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Information_Package_Component -->
-      <xPath slotName="checksum_manifest_checksum">
+      <xPath harvest:slotName="checksum_manifest_checksum">
         //Information_Package_Component/checksum_manifest_checksum
       </xPath>
-      <xPath slotName="checksum_type">
+      <xPath harvest:slotName="checksum_type">
         //Information_Package_Component/checksum_type
       </xPath>
-      <xPath slotName="transfer_manifest_checksum">
+      <xPath harvest:slotName="transfer_manifest_checksum">
         //Information_Package_Component/transfer_manifest_checksum
       </xPath>
-      <xPath slotName="file_name">
+      <xPath harvest:slotName="file_name">
         //Information_Package_Component/File_Area_Checksum_Manifest/File/file_name
       </xPath>
-      <xPath slotName="file_name">
+      <xPath harvest:slotName="file_name">
         //Information_Package_Component/File_Area_Transfer_Manifest/File/file_name
       </xPath>
       <!-- Submission_Information_Package -->
-      <xPath slotName="sip_description">
+      <xPath harvest:slotName="sip_description">
         //Submission_Information_Package/description
       </xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_SIP_Deep_Archive">
+    <productMetadata harvest:objectType="Product_SIP_Deep_Archive">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-      <xPath slotName="citation_doi">
+      <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>        
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Information_Package_Component_Deep_Archive -->
-      <xPath slotName="manifest_checksum">
+      <xPath harvest:slotName="manifest_checksum">
         //Information_Package_Component_Deep_Archive/manifest_checksum
       </xPath>
-      <xPath slotName="checksum_type">
+      <xPath harvest:slotName="checksum_type">
         //Information_Package_Component_Deep_Archive/checksum_type
       </xPath>
-      <xPath slotName="manifest_url">
+      <xPath harvest:slotName="manifest_url">
         //Information_Package_Component_Deep_Archive/manifest_url
       </xPath>
-      <xPath slotName="file_name">
+      <xPath harvest:slotName="file_name">
         //Information_Package_Component_Deep_Archive/File_Area_SIP_Deep_Archive/File/file_name
       </xPath>
       <!-- SIP_Deep_Archive -->
-      <xPath slotName="sip_description">
+      <xPath harvest:slotName="sip_description">
         //SIP_Deep_Archive/description
       </xPath>
-      <xPath slotName="sip_provider_site_id">
+      <xPath harvest:slotName="sip_provider_site_id">
         //SIP_Deep_Archive/provider_site_id
       </xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_Subscription_PDS3">
+    <productMetadata harvest:objectType="Product_Subscription_PDS3">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-      <xPath slotName="citation_doi">
+      <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>        
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Subscriber_PDS3 -->
-      <xPath slotName="subscriber_full_name">//Subscriber_PDS3/full_name</xPath>
-      <xPath slotName="subscriber_local_identifier">//Subscriber_PDS3/local_identifier</xPath>
-      <xPath slotName="subscriber_subscription_id">//Subscriber_PDS3/subscription_id</xPath>
+      <xPath harvest:slotName="subscriber_full_name">//Subscriber_PDS3/full_name</xPath>
+      <xPath harvest:slotName="subscriber_local_identifier">//Subscriber_PDS3/local_identifier</xPath>
+      <xPath harvest:slotName="subscriber_subscription_id">//Subscriber_PDS3/subscription_id</xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_Target_PDS3">
+    <productMetadata harvest:objectType="Product_Target_PDS3">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-      <xPath slotName="citation_doi">
+      <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>        
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Target_PDS3 -->
-      <xPath slotName="target_name">//Target_PDS3/target_name</xPath>
-      <xPath slotName="target_primary_body_name">//Target_PDS3/primary_body_name</xPath>
-      <xPath slotName="target_description">//Target_PDS3/target_desc</xPath>
-      <xPath slotName="target_type">//Target_PDS3/target_type</xPath>
+      <xPath harvest:slotName="target_name">//Target_PDS3/target_name</xPath>
+      <xPath harvest:slotName="target_primary_body_name">//Target_PDS3/primary_body_name</xPath>
+      <xPath harvest:slotName="target_description">//Target_PDS3/target_desc</xPath>
+      <xPath harvest:slotName="target_type">//Target_PDS3/target_type</xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_Volume_PDS3">
+    <productMetadata harvest:objectType="Product_Volume_PDS3">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-      <xPath slotName="citation_doi">
+      <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>       
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Volume_PDS3 -->
-      <xPath slotName="volume_archive_status">//Volume_PDS3/archive_status</xPath>
-      <xPath slotName="volume_description">//Volume_PDS3/description</xPath>
-      <xPath slotName="volume_archive_status_note">//Volume_PDS3/archive_status_note</xPath>
-      <xPath slotName="volume_curating_node_id">//Volume_PDS3/curating_node_id</xPath>
-      <xPath slotName="volume_medium_type">//Volume_PDS3/medium_type</xPath>
-      <xPath slotName="volume_publication_date">//Volume_PDS3/publication_date</xPath>
-      <xPath slotName="volume_de_fullname">//Volume_PDS3/volume_de_fullname</xPath>
-      <xPath slotName="volume_format">//Volume_PDS3/volume_format</xPath>
-      <xPath slotName="volume_id">//Volume_PDS3/volume_id</xPath>
-      <xPath slotName="volume_name">//Volume_PDS3/volume_name</xPath>
-      <xPath slotName="volume_set_id">//Volume_PDS3/volume_set_id</xPath>
-      <xPath slotName="volume_size">//Volume_PDS3/volume_size</xPath>
-      <xPath slotName="volume_version_id">//Volume_PDS3/volume_version_id</xPath>
+      <xPath harvest:slotName="volume_archive_status">//Volume_PDS3/archive_status</xPath>
+      <xPath harvest:slotName="volume_description">//Volume_PDS3/description</xPath>
+      <xPath harvest:slotName="volume_archive_status_note">//Volume_PDS3/archive_status_note</xPath>
+      <xPath harvest:slotName="volume_curating_node_id">//Volume_PDS3/curating_node_id</xPath>
+      <xPath harvest:slotName="volume_medium_type">//Volume_PDS3/medium_type</xPath>
+      <xPath harvest:slotName="volume_publication_date">//Volume_PDS3/publication_date</xPath>
+      <xPath harvest:slotName="volume_de_fullname">//Volume_PDS3/volume_de_fullname</xPath>
+      <xPath harvest:slotName="volume_format">//Volume_PDS3/volume_format</xPath>
+      <xPath harvest:slotName="volume_id">//Volume_PDS3/volume_id</xPath>
+      <xPath harvest:slotName="volume_name">//Volume_PDS3/volume_name</xPath>
+      <xPath harvest:slotName="volume_set_id">//Volume_PDS3/volume_set_id</xPath>
+      <xPath harvest:slotName="volume_size">//Volume_PDS3/volume_size</xPath>
+      <xPath harvest:slotName="volume_version_id">//Volume_PDS3/volume_version_id</xPath>
     </productMetadata>
 
-    <productMetadata objectType="Product_Volume_Set_PDS3">
+    <productMetadata harvest:objectType="Product_Volume_Set_PDS3">
       <!-- Identification_Area -->
-      <xPath slotName="information_model_version">
+      <xPath harvest:slotName="information_model_version">
         //Identification_Area/information_model_version
       </xPath>
-      <xPath slotName="product_class">
+      <xPath harvest:slotName="product_class">
         //Identification_Area/product_class
       </xPath>
-      <xPath slotName="alternate_id">
+      <xPath harvest:slotName="alternate_id">
         //Identification_Area/Alias_List/Alias/alternate_id
       </xPath>
-      <xPath slotName="alternate_title">
+      <xPath harvest:slotName="alternate_title">
         //Identification_Area/Alias_List/Alias/alternate_title
       </xPath>
-      <xPath slotName="citation_author_list">
+      <xPath harvest:slotName="citation_author_list">
         //Identification_Area/Citation_Information/author_list
       </xPath>
-      <xPath slotName="citation_editor_list">
+      <xPath harvest:slotName="citation_editor_list">
         //Identification_Area/Citation_Information/editor_list
       </xPath>
-      <xPath slotName="citation_publication_year">
+      <xPath harvest:slotName="citation_publication_year">
         //Identification_Area/Citation_Information/publication_year
       </xPath>
-      <xPath slotName="citation_keyword">
+      <xPath harvest:slotName="citation_keyword">
         //Identification_Area/Citation_Information/keyword
       </xPath>
-      <xPath slotName="citation_description">
+      <xPath harvest:slotName="citation_description">
         //Identification_Area/Citation_Information/description
       </xPath>
-      <xPath slotName="citation_doi">
+      <xPath harvest:slotName="citation_doi">
         //Identification_Area/Citation_Information/doi
       </xPath>       
-      <xPath slotName="modification_date">
+      <xPath harvest:slotName="modification_date">
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       </xPath>
-      <xPath slotName="modification_version_id">
+      <xPath harvest:slotName="modification_version_id">
         //Identification_Area/Modification_History/Modification_Detail/version_id
       </xPath>
-      <xPath slotName="modification_description">
+      <xPath harvest:slotName="modification_description">
         //Identification_Area/Modification_History/Modification_Detail/description
       </xPath>
       <!-- Reference_List -->
-      <xPath slotName="external_reference_doi">
+      <xPath harvest:slotName="external_reference_doi">
         //Reference_List/External_Reference/doi
       </xPath>
-      <xPath slotName="external_reference_text">
+      <xPath harvest:slotName="external_reference_text">
         //Reference_List/External_Reference/reference_text
       </xPath>
-      <xPath slotName="external_reference_description">
+      <xPath harvest:slotName="external_reference_description">
         //Reference_List/External_Reference/description
       </xPath>
-      <xPath slotName="source_product_curating_facility">
+      <xPath harvest:slotName="source_product_curating_facility">
         //Reference_List/Source_Product_External/curating_facility
       </xPath>
-      <xPath slotName="source_product_description">
+      <xPath harvest:slotName="source_product_description">
         //Reference_List/Source_Product_External/description
       </xPath>
-      <xPath slotName="source_product_doi">
+      <xPath harvest:slotName="source_product_doi">
         //Reference_List/Source_Product_External/doi
       </xPath>
-      <xPath slotName="source_product_identifier">
+      <xPath harvest:slotName="source_product_identifier">
         //Reference_List/Source_Product_External/external_source_product_identifier
       </xPath>
-      <xPath slotName="source_product_reference_type">
+      <xPath harvest:slotName="source_product_reference_type">
         //Reference_List/Source_Product_External/reference_type
       </xPath>      
       <!-- Volume_Set_PDS3 -->
-      <xPath slotName="volume_set_description">//Volume_Set_PDS3/description</xPath>
-      <xPath slotName="volume_set_series_name">//Volume_Set_PDS3/volume_series_name</xPath>
-      <xPath slotName="volume_set_id">//Volume_Set_PDS3/volume_set_id</xPath>
-      <xPath slotName="volume_set_name">//Volume_Set_PDS3/volume_set_name</xPath>
-      <xPath slotName="volume_set_volumes">//Volume_Set_PDS3/volumes</xPath>
+      <xPath harvest:slotName="volume_set_description">//Volume_Set_PDS3/description</xPath>
+      <xPath harvest:slotName="volume_set_series_name">//Volume_Set_PDS3/volume_series_name</xPath>
+      <xPath harvest:slotName="volume_set_id">//Volume_Set_PDS3/volume_set_id</xPath>
+      <xPath harvest:slotName="volume_set_name">//Volume_Set_PDS3/volume_set_name</xPath>
+      <xPath harvest:slotName="volume_set_volumes">//Volume_Set_PDS3/volumes</xPath>
     </productMetadata>
   </candidates>
 
   <references>
-     <referenceTypeMap value="agency_ref">
+     <referenceTypeMap harvest:value="agency_ref">
        <modelValue>
          node_to_agency
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="airborne_ref">
+     <referenceTypeMap harvest:value="airborne_ref">
        <modelValue>
          is_airborne
        </modelValue>
@@ -1786,17 +1790,17 @@
          telescope_to_airborne
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="archival_ref">
+     <referenceTypeMap harvest:value="archival_ref">
        <modelValue>
          native_to_archival
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="archivist_ref">
+     <referenceTypeMap harvest:value="archivist_ref">
        <modelValue>
          node_to_data_archivist
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="associate_ref">
+     <referenceTypeMap harvest:value="associate_ref">
        <modelValue>
          bundle_to_associate
        </modelValue>
@@ -1816,7 +1820,7 @@
          has_association
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="browse_ref">
+     <referenceTypeMap harvest:value="browse_ref">
        <modelValue>
          browse_to_browse
        </modelValue>     
@@ -1827,7 +1831,7 @@
          data_to_browse
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="bundle_ref">
+     <referenceTypeMap harvest:value="bundle_ref">
        <modelValue>
          collection_to_bundle
        </modelValue>
@@ -1835,7 +1839,7 @@
          package_has_bundle
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="calibration_ref">
+     <referenceTypeMap harvest:value="calibration_ref">
        <modelValue>
          data_to_calibrated_product
        </modelValue>
@@ -1849,7 +1853,7 @@
          has_calibration
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="collection_ref">
+     <referenceTypeMap harvest:value="collection_ref">
        <modelValue>
          bundle_has_browse_collection
        </modelValue>
@@ -1914,12 +1918,12 @@
          has_spice_kernels_collection
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="context_ref">
+     <referenceTypeMap harvest:value="context_ref">
        <modelValue>
          collection_to_context
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="data_ref">
+     <referenceTypeMap harvest:value="data_ref">
        <modelValue>
          browse_to_data
        </modelValue>
@@ -1927,12 +1931,12 @@
          collection_to_data
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="data_set_ref">
+     <referenceTypeMap harvest:value="data_set_ref">
        <modelValue>
          has_data_set
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="document_ref">
+     <referenceTypeMap harvest:value="document_ref">
        <modelValue>
          browse_to_document
        </modelValue>     
@@ -1973,7 +1977,7 @@
          has_publication
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="errata_ref">
+     <referenceTypeMap harvest:value="errata_ref">
        <modelValue>
          bundle_to_errata
        </modelValue>
@@ -1981,7 +1985,7 @@
          collection_to_errata
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="facility_ref">
+     <referenceTypeMap harvest:value="facility_ref">
        <modelValue>
          instrument_to_facility
        </modelValue>
@@ -1995,7 +1999,7 @@
          telescope_to_facility
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="geometry_ref">
+     <referenceTypeMap harvest:value="geometry_ref">
        <modelValue>
          data_to_geometry
        </modelValue>
@@ -2006,7 +2010,7 @@
          has_geometry
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="instrument_host_ref">
+     <referenceTypeMap harvest:value="instrument_host_ref">
        <modelValue>
          bundle_to_instrument_host
        </modelValue>
@@ -2035,7 +2039,7 @@
          has_instrument_host
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="instrument_ref">
+     <referenceTypeMap harvest:value="instrument_ref">
        <modelValue>
          bundle_to_instrument
        </modelValue>
@@ -2070,7 +2074,7 @@
          has_instrument
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="investigation_ref">
+     <referenceTypeMap harvest:value="investigation_ref">
        <modelValue>
          bundle_to_investigation
        </modelValue>
@@ -2102,17 +2106,17 @@
          has_mission
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="manager_ref">
+     <referenceTypeMap harvest:value="manager_ref">
        <modelValue>
          node_to_manager
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="member_ref">
+     <referenceTypeMap harvest:value="member_ref">
        <modelValue>
          inventory_has_member_product
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="node_ref">
+     <referenceTypeMap harvest:value="node_ref">
        <modelValue>
          bundle_curated_by_node
        </modelValue>
@@ -2126,7 +2130,7 @@
          has_node
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="observatory_ref">
+     <referenceTypeMap harvest:value="observatory_ref">
        <modelValue>
          instrument_to_observatory
        </modelValue>
@@ -2134,17 +2138,17 @@
          telescope_to_observatory
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="operator_ref">
+     <referenceTypeMap harvest:value="operator_ref">
        <modelValue>
          node_to_operator
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="other_ref">
+     <referenceTypeMap harvest:value="other_ref">
        <modelValue>
          is_other
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="package_ref">
+     <referenceTypeMap harvest:value="package_ref">
        <modelValue>
          package_compiled_from_package
        </modelValue>
@@ -2152,7 +2156,7 @@
          zip_to_package
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="personnel_ref">
+     <referenceTypeMap harvest:value="personnel_ref">
        <modelValue>
          collection_to_personnel
        </modelValue>
@@ -2163,17 +2167,17 @@
          has_personnel
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="product_ref">
+     <referenceTypeMap harvest:value="product_ref">
        <modelValue>
          package_has_product
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="raw_ref">
+     <referenceTypeMap harvest:value="raw_ref">
        <modelValue>
          data_to_raw_product
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="resource_ref">
+     <referenceTypeMap harvest:value="resource_ref">
        <modelValue>
          bundle_to_resource
        </modelValue>
@@ -2187,12 +2191,12 @@
          has_resource
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="schema_ref">
+     <referenceTypeMap harvest:value="schema_ref">
        <modelValue>
          collection_to_schema
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="source_product_ref">
+     <referenceTypeMap harvest:value="source_product_ref">
        <modelValue>
          data_to_calibrated_source_product
        </modelValue>
@@ -2209,7 +2213,7 @@
          data_to_telemetry_source_product
        </modelValue>                     
      </referenceTypeMap>
-     <referenceTypeMap value="spice_ref">
+     <referenceTypeMap harvest:value="spice_ref">
        <modelValue>
          collection_to_spice_kernel
        </modelValue>
@@ -2220,7 +2224,7 @@
          has_spice
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="target_ref">
+     <referenceTypeMap harvest:value="target_ref">
        <modelValue>
          bundle_to_target
        </modelValue>
@@ -2246,7 +2250,7 @@
          has_target
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="telescope_ref">
+     <referenceTypeMap harvest:value="telescope_ref">
        <modelValue>
          facility_to_telescope
        </modelValue>     
@@ -2257,7 +2261,7 @@
          is_telescope
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="thumbnail_ref">
+     <referenceTypeMap harvest:value="thumbnail_ref">
        <modelValue>
          browse_to_thumbnail
        </modelValue>
@@ -2268,7 +2272,7 @@
          has_thumbnail
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="update_ref">
+     <referenceTypeMap harvest:value="update_ref">
        <modelValue>
          bundle_to_update
        </modelValue>
@@ -2282,7 +2286,7 @@
          has_update
        </modelValue>
      </referenceTypeMap>
-     <referenceTypeMap value="volume_ref">
+     <referenceTypeMap harvest:value="volume_ref">
        <modelValue>
          has_volume
        </modelValue>
@@ -2290,7 +2294,7 @@
   </references>
 
   <fileTypes>
-    <fileTypeMap value="Document">
+    <fileTypeMap harvest:value="Document">
       <modelValue>
         Document_Edition
       </modelValue>
@@ -2298,77 +2302,77 @@
         Document_Format_Set
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Ancillary">
+    <fileTypeMap harvest:value="Ancillary">
       <modelValue>
         File_Area_Ancillary
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Binary">
+    <fileTypeMap harvest:value="Binary">
       <modelValue>
         File_Area_Binary
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Browse">
+    <fileTypeMap harvest:value="Browse">
       <modelValue>
         File_Area_Browse
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Checksum">
+    <fileTypeMap harvest:value="Checksum">
       <modelValue>
         File_Area_Checksum_Manifest
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Thumbnail">
+    <fileTypeMap harvest:value="Thumbnail">
       <modelValue>
         File_Area_Encoded_Image
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Inventory">
+    <fileTypeMap harvest:value="Inventory">
       <modelValue>
         File_Area_Inventory
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Native">
+    <fileTypeMap harvest:value="Native">
       <modelValue>
         File_Area_Native
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Observation">
+    <fileTypeMap harvest:value="Observation">
       <modelValue>
         File_Area_Observational
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Supplement">
+    <fileTypeMap harvest:value="Supplement">
       <modelValue>
         File_Area_Observational_Supplemental
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="SIP">
+    <fileTypeMap harvest:value="SIP">
       <modelValue>
         File_Area_SIP_Deep_Archive
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Spice">
+    <fileTypeMap harvest:value="Spice">
       <modelValue>
         File_Area_SPICE_Kernel
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Service">
+    <fileTypeMap harvest:value="Service">
       <modelValue>
         File_Area_Service_Description
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Text">
+    <fileTypeMap harvest:value="Text">
       <modelValue>
         File_Area_Text
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Transfer">
+    <fileTypeMap harvest:value="Transfer">
       <modelValue>
         File_Area_Transfer_Manifest
       </modelValue>
     </fileTypeMap>
-    <fileTypeMap value="Schema">
+    <fileTypeMap harvest:value="Schema">
       <modelValue>
         File_Area_XML_Schema
       </modelValue>
