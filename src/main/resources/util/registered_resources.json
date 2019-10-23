@@ -1,7 +1,27 @@
 {
+  "urn:nasa:pds:context:resource:resource.a15hfe_calibrated_arcsav_online": {
+    "resource_name": "Apollo 15 ALSEP ARCSAV Heat Flow Experiment Calibrated Gradient Bridge Temperatures Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a15hfe_calibrated_arcsav/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.a15hfe_raw_arcsav_online": {
+    "resource_name": "Apollo 15 ALSEP ARCSAV Heat Flow Experiment Raw Cleaned ASCII Data Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a15hfe_raw_arcsav/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.a15oms_online": {
+    "resource_name": "Apollo 15 Orbital Mass Spectrometer Data Output Scans Archive Online", 
+    "resource_url": "https://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a15oms/"
+  }, 
   "urn:nasa:pds:context:resource:resource.a15photosupportdata_online": {
     "resource_name": "Apollo 15 Photographic Ephemeris Support Data Bundle Archive Online", 
     "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a15photosupportdata/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.a16lsm_raw_arcsav_online": {
+    "resource_name": "Apollo 16 ALSEP ARCSAV Lunar Surface Magnetometer Raw Cleaned ASCII Data Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a16lsm_raw_arcsav/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.a16oms_online": {
+    "resource_name": "Apollo 16 Orbital Mass Spectrometer Data Output Scans Archive Online", 
+    "resource_url": "https://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a16oms/"
   }, 
   "urn:nasa:pds:context:resource:resource.a16photosupportdata_online": {
     "resource_name": "Apollo 16 Photographic Ephemeris Support Data Bundle Archive Online", 
@@ -10,6 +30,22 @@
   "urn:nasa:pds:context:resource:resource.a17fuvs_online": {
     "resource_name": "Apollo 17 Far-Ultraviolet Spectrometer (FUVS) Data Graphs Bundle Archive Online", 
     "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a17fuvs/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.a17hfe_calibrated_arcsav_online": {
+    "resource_name": "Apollo 17 ALSEP ARCSAV Heat Flow Experiment Calibrated Gradient Bridge Temperatures Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a17hfe_calibrated_arcsav/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.a17hfe_raw_arcsav_online": {
+    "resource_name": "Apollo 17 ALSEP ARCSAV Heat Flow Experiment Raw Cleaned ASCII Data Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a17hfe_raw_arcsav/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.a17lsg_raw_arcsav_online": {
+    "resource_name": "Apollo 17 ALSEP ARCSAV Lunar Surface Gravimeter Raw Cleaned ASCII Data Data Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a17lsg_raw_arcsav/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.a17photosupportdata_online": {
+    "resource_name": "Apollo 17 Photographic Ephemeris Support Data Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a17photosupportdata/"
   }, 
   "urn:nasa:pds:context:resource:resource.apollodoc_online": {
     "resource_name": "Apollo Documents Bundle Archive Online", 
@@ -47,21 +83,93 @@
     "resource_name": "CASSINI HIGH RATE DETECTOR Archive Online", 
     "resource_url": "https://sbn.psi.edu/pds/resource/cohrd.html"
   }, 
+  "urn:nasa:pds:context:resource:resource.compil-comet": {
+    "resource_name": "Comet Data Compilations from Published Sources Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a17lsg_raw_arcsav/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.corsstpp_online": {
+    "resource_name": "CORSS TPP Archive Online", 
+    "resource_url": "https://atmos.nmsu.edu/PDS/data/PDS4/titan_profiles_bundle/"
+  }, 
   "urn:nasa:pds:context:resource:resource.duxbury_pdart14_mariner69_online": {
     "resource_name": "Duxbury PDART 2014 Mariner 1969 Bundle Archive Online", 
     "resource_url": "http://pds-geosciences.wustl.edu/mariner/mariner69/urn-nasa-pds-duxbury_pdart14_mariner69/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.epoxi_mri": {
+    "resource_name": "EPOXI MRI Observations Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a17lsg_raw_arcsav/"
   }, 
   "urn:nasa:pds:context:resource:resource.eros_msi_images_with_geometry_backplanes": {
     "resource_name": "EROS MSI IMAGES WITH GEOMETRY BACKPLANES Archive", 
     "resource_url": "https://sbn.psi.edu/pds/resource/erosbackplane.html"
   }, 
+  "urn:nasa:pds:context:resource:resource.gbo-irtf": {
+    "resource_name": "Groundbased Observations at the NASA Infrared Telescope Facility (IRTF) Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a17lsg_raw_arcsav/"
+  }, 
   "urn:nasa:pds:context:resource:resource.gbo-kpno_online": {
     "resource_name": "Groundbased Observations at Kitt Peak National Observatory (KPNO) Bundle Online Archive", 
     "resource_url": "http://pdssbn.astro.umd.edu/holdings/pds4-gbo-kpno-v1.0/SUPPORT/dataset.html"
   }, 
+  "urn:nasa:pds:context:resource:resource.gbo-mcdonald": {
+    "resource_name": "Groundbased Observations at McDonald Observatory Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a17lsg_raw_arcsav/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.insight-ifg-cruise_online": {
+    "resource_name": "InSight IFG Cruise Archive Online", 
+    "resource_url": "https://pds-ppi.igpp.ucla.edu/search/view/?f=yes&id=pds://PPI/insight-ifg-cruise"
+  }, 
+  "urn:nasa:pds:context:resource:resource.insight-ifg-mars_online": {
+    "resource_name": "InSight IFG Mars Archive Online", 
+    "resource_url": "https://pds-ppi.igpp.ucla.edu/search/view/?f=yes&id=pds://PPI/insight-ifg-mars"
+  }, 
+  "urn:nasa:pds:context:resource:resource.insight.spice_online": {
+    "resource_name": "InSight Mars Lander Mission SPICE Kernel Archive Online", 
+    "resource_url": "https://naif.jpl.nasa.gov/pub/naif/pds/pds4/insight/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.insight_cameras_online": {
+    "resource_name": "InSight Cameras Archive Online", 
+    "resource_url": "https://pds-imaging.jpl.nasa.gov/volumes/insight.html"
+  }, 
+  "urn:nasa:pds:context:resource:resource.insight_documents_online": {
+    "resource_name": "Mars InSight Lander Document Archive Online", 
+    "resource_url": "https://pds-geosciences.wustl.edu/missions/insight/#Insight_Document_Bundle"
+  }, 
+  "urn:nasa:pds:context:resource:resource.insight_ida_online": {
+    "resource_name": "InSight IDA Data Archive Online", 
+    "resource_url": "https://pds-geosciences.wustl.edu/missions/insight/ida.htm"
+  }, 
+  "urn:nasa:pds:context:resource:resource.insight_ps_online": {
+    "resource_name": "APSS PS Data Archive Online", 
+    "resource_url": "https://atmos.nmsu.edu/PDS/data/PDS4/InSight/ps_bundle/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.insight_rad_online": {
+    "resource_name": "Mars InSight Lander Radiometer Data Archive Online", 
+    "resource_url": "https://pds-geosciences.wustl.edu/missions/insight/hp3rad.htm"
+  }, 
+  "urn:nasa:pds:context:resource:resource.insight_rise_raw_online": {
+    "resource_name": "Mars InSight Lander RISE Raw Data Archive Online", 
+    "resource_url": "https://pds-geosciences.wustl.edu/missions/insight/rise.htm"
+  }, 
+  "urn:nasa:pds:context:resource:resource.insight_seis_online": {
+    "resource_name": "InSight SEIS Data Archive Online", 
+    "resource_url": "https://pds-geosciences.wustl.edu/missions/insight/seis.htm"
+  }, 
+  "urn:nasa:pds:context:resource:resource.insight_twins_online": {
+    "resource_name": "APSS TWINS Data Archive Online", 
+    "resource_url": "https://atmos.nmsu.edu/PDS/data/PDS4/InSight/twins_bundle/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.irtf_io_photometry_online": {
+    "resource_name": "InfraRed Telescope Facility Io Photometry Archive Online", 
+    "resource_url": "https://atmos.nmsu.edu/PDS/data/PDS4/irtf_io_photometry/"
+  }, 
   "urn:nasa:pds:context:resource:resource.izenberg_pdart14_meap_online": {
     "resource_name": "Izenberg PDART 2014 MESSENGER Advanced Products Bundle Archive Online", 
     "resource_url": "http://pds-geosciences.wustl.edu/messenger/urn-nasa-pds-izenberg_pdart14_meap/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.lab_shocked_feldspars_online": {
+    "resource_name": "Laboratory Shocked Feldspars Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/missions/labdata/shocked_feldspars.htm"
   }, 
   "urn:nasa:pds:context:resource:resource.ladee_archive_information": {
     "resource_name": "Lunar Atmosphere and Dust Environment Explorer (LADEE) Archive Information", 
@@ -86,6 +194,30 @@
   "urn:nasa:pds:context:resource:resource.mars_global_cave_candidate_catalog": {
     "resource_name": "Mars Global Cave Candidate Catalog Archive", 
     "resource_url": "ftp://ftpext.usgs.gov/pub/wr/az/flagstaff/gcushing/Cushing_MGC3_bundle/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.maven.iuvs.calibrated_online": {
+    "resource_name": "Mars Atmosphere and Volatile Evolution (MAVEN) Imaging Ultraviolet Spectrograph (IUVS) Calibrated-level Data Archive Online", 
+    "resource_url": "https://atmos.nmsu.edu/PDS/data/PDS4/MAVEN/iuvs_calibrated_bundle/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.maven.iuvs.derived_online": {
+    "resource_name": "Mars Atmosphere and Volatile Evolution (MAVEN) Imaging Ultraviolet Spectrograph (IUVS) Derived-level Data Archive Online", 
+    "resource_url": "https://atmos.nmsu.edu/PDS/data/PDS4/MAVEN/iuvs_derived_bundle/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.maven.iuvs.kp_online": {
+    "resource_name": "Mars Atmosphere and Volatile Evolution (MAVEN) Imaging Ultraviolet Spectrograph (IUVS) Key Parameter Data Archive Online", 
+    "resource_url": "https://atmos.nmsu.edu/PDS/data/PDS4/MAVEN/iuvs-kp_bundle/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.maven.iuvs.processed_online": {
+    "resource_name": "Mars Atmosphere and Volatile Evolution (MAVEN) Imaging Ultraviolet Spectrograph (IUVS) Processed-level Data Archive Online", 
+    "resource_url": "https://atmos.nmsu.edu/PDS/data/PDS4/MAVEN/iuvs_processed_bundle/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.maven.iuvs.raw_online": {
+    "resource_name": "Mars Atmosphere and Volatile Evolution (MAVEN) Imaging Ultraviolet Spectrograph (IUVS) Raw-level Data Archive Online", 
+    "resource_url": "https://atmos.nmsu.edu/PDS/data/PDS4/MAVEN/iuvs_raw_bundle/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.maven.spice_online": {
+    "resource_name": "MAVEN SPICE Kernel Archive Online", 
+    "resource_url": "https://naif.jpl.nasa.gov/pub/naif/pds/pds4/maven/"
   }, 
   "urn:nasa:pds:context:resource:resource.maven_accel_online": {
     "resource_name": "MAVEN ACC Bundle Online Archive", 
@@ -231,6 +363,10 @@
     "resource_name": "IMP Opacities Bundle Archive Online", 
     "resource_url": "http://atmos.nmsu.edu/PDS/data/PDS4/mpf_mpim_bundle/"
   }, 
+  "urn:nasa:pds:context:resource:resource.msledl_online": {
+    "resource_name": "MSLEDL Archive Online", 
+    "resource_url": "https://atmos.nmsu.edu/PDS/data/PDS4/msledl_bundle/"
+  }, 
   "urn:nasa:pds:context:resource:resource.neowise_diameters_albedos_online": {
     "resource_name": "NEOWISE DIAMETERS AND ALBEDOS Archive Online", 
     "resource_url": "https://sbn.psi.edu/pds/resource/neowisediam.html"
@@ -243,9 +379,17 @@
     "resource_name": "Origins, Spectral Interpretation, Resource Identification, Security, Regolith Explorer (OSIRIS-REx): OSIRIS-REx Camera Suite (OCAMS) Archive Online", 
     "resource_url": "https://sbn.psi.edu/pds/resource/orex/ocams.html"
   }, 
+  "urn:nasa:pds:context:resource:resource.orex.otes_online": {
+    "resource_name": "Origins, Spectral Interpretation, Resource Identification, Security, Regolith Explorer (OSIRIS-REx): Thermal Emission Spectrometer (OTES) Archive Online", 
+    "resource_url": "https://sbn.psi.edu/pds/resource/orex/otes.html"
+  }, 
   "urn:nasa:pds:context:resource:resource.orex.ovirs_online": {
     "resource_name": "Origins, Spectral Interpretation, Resource Identification, Security, Regolith Explorer (OSIRIS-REx): Visible and InfraRed Spectrometer (OVIRS) Archive Online", 
     "resource_url": "https://sbn.psi.edu/pds/resource/orex/ovirs.html"
+  }, 
+  "urn:nasa:pds:context:resource:resource.orex.spice_online": {
+    "resource_name": "OSIRIS-REx SPICE Kernel Archive Online", 
+    "resource_url": "https://naif.jpl.nasa.gov/pub/naif/pds/pds4/orex/"
   }, 
   "urn:nasa:pds:context:resource:resource.orex.tagcams_online": {
     "resource_name": "Origins, Spectral Interpretation, Resource Identification, Security, Regolith Explorer (OSIRIS-REx): Touch-and-Go Camera Suite (TAGCAMS) Archive Online", 
@@ -270,6 +414,10 @@
   "urn:nasa:pds:context:resource:resource.phx_ra_online": {
     "resource_name": "Phoenix Robotic Arm Data Set Archive Online", 
     "resource_url": "http://pds-geosciences.wustl.edu/phx/urn-nasa-pds-phx_ra/"
+  }, 
+  "urn:nasa:pds:context:resource:resource.phx_tega_derived_online": {
+    "resource_name": "Phoenix Thermal Evolved Gas Analyzer Derived Scanning Calorimetry Dataset Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/missions/phoenix/sutter.htm"
   }, 
   "urn:nasa:pds:context:resource:resource.phx_tt_bundle_online": {
     "resource_name": "Phoenix TELLTALE Bundle Archive Online", 
@@ -299,9 +447,17 @@
     "resource_name": "Small Bodies Occultations Archive Online", 
     "resource_url": "https://sbn.psi.edu/pds/resource/occ.html"
   }, 
+  "urn:nasa:pds:context:resource:resource.soho": {
+    "resource_name": "Comet Data from the Solar and Heliospheric Observatory (SOHO) Archive Online", 
+    "resource_url": "http://pds-geosciences.wustl.edu/lunar/urn-nasa-pds-a17lsg_raw_arcsav/"
+  }, 
   "urn:nasa:pds:context:resource:resource.tno-centaur_diam-albedo-density_online": {
     "resource_name": "TNO AND CENTAUR DIAMETERS, ALBEDOS, AND DENSITIES Archive Online", 
     "resource_url": "https://sbn.psi.edu/pds/resource/tnocenalb.html"
+  }, 
+  "urn:nasa:pds:context:resource:resource.trang2017_mercury_space_weathering_online": {
+    "resource_name": "Mercury Space Weathering Maps Archive Online", 
+    "resource_url": "https://pds-geosciences.wustl.edu/messenger/urn-nasa-pds-trang2017_mercury_space_weathering/"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.1001_gaussia__browsert_asteroids": {
     "resource_name": "Solar System Exploration: Asteroids", 
@@ -14921,7 +15077,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mer1-mer2-m-imu-5-edl-derived-v1.0__browserp_mer1-mer2-m-imu-5-edl-derived-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://atmos.pds.nasa.gov/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mer1-mer2-m-mb-5-fe-abundance-v1.0__browserp_geo_mer1-mer2-m-mb-5-fe-abundance-v1.0": {
     "resource_name": "Geosciences Online Services", 
@@ -16293,7 +16449,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mex-e-m-spice-6-v1.0__browser_psa_mex-e-m-spice-6-v1.0": {
     "resource_name": "PSA Online Archives", 
-    "resource_url": "ftp://psa.esac.esa.int/pub/mirror/MARS-EXPRESS_SPICE/MEX-E-M-SPICE-6-V1.0"
+    "resource_url": "ftp://psa.esac.esa.int/pub/mirror/MARS-EXPRESS/SPICE/MEX-E-M-SPICE-6-V1.0"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mex-e-m-spice-6-v1.0__browser_wgc_mex-e-m-spice-6-v1.0": {
     "resource_name": "NAIF WebGeocalc", 
@@ -17089,7 +17245,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mgs-m-rss-5-tps-v1.0__browserp_mgs-m-rss-5-tps-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mgs-m-rss-5-tps-v1.0__dvo_atm_mgs-m-rss-5-tps-v1.0": {
     "resource_name": "MGS RSS Derived Volume MORS_1101", 
@@ -17353,15 +17509,15 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mro-m-accel-2-acceldata-v1.0__browserp_mro-m-accel-2-acceldata-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mro-m-accel-5-altitude-v1.0__browserp_mro-m-accel-5-altitude-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mro-m-accel-5-profile-v1.0__browserp_mro-m-accel-5-profile-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mro-m-crism-2-edr-v1.0__browser_geo_mars_orbital_data_explorer": {
     "resource_name": "Mars Orbital Data Explorer", 
@@ -17525,15 +17681,15 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mro-m-mcs-2-edr-v1.0__browserp_mro-m-mcs-2-edr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mro-m-mcs-4-rdr-v1.0__browserp_mro-m-mcs-4-rdr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mro-m-mcs-5-ddr-v1.0__browserp_mro-m-mcs-5-ddr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.mro-m-rss-1-magr-v1.0__browser_geo_mars_orbital_data_explorer": {
     "resource_name": "Mars Orbital Data Explorer", 
@@ -18005,7 +18161,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.msl-m-rems-2-edr-v1.0__browserp_msl-m-rems-2-edr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.msl-m-rems-2-edr-v1.0__dvo_atmos_msl-m-rems-2-edr-v1.0": {
     "resource_name": "Atmospheres Online Data Volumes", 
@@ -18017,7 +18173,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.msl-m-rems-3-telrdr-v1.0__browserp_msl-m-rems-3-telrdr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.msl-m-rems-3-telrdr-v1.0__dvo_atmos_msl-m-rems-3-telrdr-v1.0": {
     "resource_name": "Atmospheres Online Data Volumes", 
@@ -18029,7 +18185,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.msl-m-rems-4-envrdr-v1.0__browserp_msl-m-rems-4-envrdr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.msl-m-rems-4-envrdr-v1.0__dvo_atmos_msl-m-rems-4-envrdr-v1.0": {
     "resource_name": "Atmospheres Online Data Volumes", 
@@ -18041,7 +18197,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.msl-m-rems-5-modrdr-v1.0__browserp_msl-m-rems-5-modrdr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.msl-m-rems-5-modrdr-v1.0__dvo_atmos_msl-m-rems-5-modrdr-v1.0": {
     "resource_name": "Atmospheres Online Data Volumes", 
@@ -18053,7 +18209,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.msl-m-rems-6-adr-v1.0__browserp_msl-m-rems-6-adr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.msl-m-rems-6-adr-v1.0__dvo_atmos_msl-m-rems-6-adr-v1.0": {
     "resource_name": "Atmospheres Online Data Volumes", 
@@ -19469,7 +19625,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-ase-2-edl-v1.0__browserp_phx-m-ase-2-edl-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-ase-2-edl-v1.0__dvo_atm_phx-m-ase-2-edl-v1.0": {
     "resource_name": "PHX ASE EDR Volume PHXASE_0XXX", 
@@ -19477,7 +19633,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-ase-5-edl-rdr-v1.0__browserp_phx-m-ase-5-edl-rdr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-ase-5-edl-rdr-v1.0__dvo_atm_phx-m-ase-5-edl-rdr-v1.0": {
     "resource_name": "PHX ASE RDR Volume PHXASE_1XXX", 
@@ -19513,7 +19669,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-met-2-l-edr-v1.0__browserp_phx-m-met-2-l-edr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-met-2-l-edr-v1.0__dvo_atm_phx-m-met-2-l-edr-v1.0": {
     "resource_name": "PHX LIDAR EDR Volume PHLD_0XXX", 
@@ -19525,7 +19681,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-met-2-pt-edr-v1.0__browserp_phx-m-met-2-pt-edr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-met-2-pt-edr-v1.0__dvo_atm_phx-m-met-2-pt-edr-v1.0": {
     "resource_name": "PHX MET EDR Volume PHMT_0XXX", 
@@ -19537,7 +19693,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-met-3-l-rdr-v1.0__browserp_phx-m-met-3-l-rdr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-met-3-l-rdr-v1.0__dvo_atm_phx-m-met-3-l-rdr-v1.0": {
     "resource_name": "PHX LIDAR RDR Volume PHLD_1XXX", 
@@ -19549,7 +19705,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-met-3-pt-rdr-v1.0__browserp_phx-m-met-3-pt-rdr-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-met-3-pt-rdr-v1.0__dvo_atm_phx-m-met-3-pt-rdr-v1.0": {
     "resource_name": "PHX MET RDR Volume PHMT_1XXX", 
@@ -19769,7 +19925,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-ssi-5-atmos-opacity-v1.0__browserp_phx-m-ssi-5-atmos-opacity-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-ssi-5-atmos-opacity-v1.0__dvo_atm_phx-m-ssi-5-atmos-opacity-v1.0": {
     "resource_name": "PHX Atmospheric Opacity Volume PHXAO_1XXX", 
@@ -19981,7 +20137,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-tt-5-wind-vel-dir-v1.0__browserp_phx-m-tt-5-wind-vel-dir-v1.0": {
     "resource_name": "Atmospheres Mars Archive", 
-    "resource_url": "http://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/Mars/Mars.html"
+    "resource_url": "https://pds-atmospheres.nmsu.edu/data_and_services/atmospheres_data/MARS/data_archive.html"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.phx-m-tt-5-wind-vel-dir-v1.0__dvo_atm_phx-m-tt-5-wind-vel-dir-v1.0": {
     "resource_name": "PHX Telltale Volume PHXWND_1XXX", 
@@ -21589,7 +21745,7 @@
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.vex-e-v-spice-6-v1.0__browser_psa_vex-e-v-spice-6-v1.0": {
     "resource_name": "PSA Online Archives", 
-    "resource_url": "ftp://psa.esac.esa.int/pub/mirror/VENUS-EXPRESS_SPICE/VEX-E-V-SPICE-6-V1.0"
+    "resource_url": "ftp://psa.esac.esa.int/pub/mirror/VENUS-EXPRESS/SPICE/VEX-E-V-SPICE-6-V1.0"
   }, 
   "urn:nasa:pds:context_pds3:resource:resource.vex-e-v-spice-6-v1.0__browser_vex-e-v-spice-6-v1.0": {
     "resource_name": "NAIF Data Set Subsetter", 
