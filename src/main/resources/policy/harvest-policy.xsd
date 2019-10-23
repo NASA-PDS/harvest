@@ -16,8 +16,13 @@
 -->
 
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
-            jxb:version="2.0">
+   xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+   jxb:version="2.0"
+   xmlns="https://pds.nasa.gov/software/pds4/harvest/v1"
+   targetNamespace="https://pds.nasa.gov/software/pds4/harvest/v1"
+   elementFormDefault="qualified"
+   attributeFormDefault="unqualified"
+   version="1.0">
 
 <xsd:element name="path" type="xsd:string"/>
 <xsd:element name="file" type="xsd:string"/>
