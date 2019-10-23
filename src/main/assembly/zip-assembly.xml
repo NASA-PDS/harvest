@@ -60,6 +60,15 @@
       <lineEnding>keep</lineEnding>
     </fileSet>
     <fileSet>
+      <directory>src/main/resources/policy</directory>
+      <outputDirectory>conf</outputDirectory>
+      <includes>
+        <include>global-policy.xml</include>
+      </includes>
+      <fileMode>644</fileMode>
+      <lineEnding>keep</lineEnding>
+    </fileSet>
+    <fileSet>
       <directory>src/main/resources/util</directory>
       <outputDirectory>resources</outputDirectory>
       <includes>

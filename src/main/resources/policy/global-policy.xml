@@ -15,6 +15,15 @@
   $Id$
 -->
 
+<!--
+	*********************** WARNING **********************************
+	MODIFY BELOW THIS LINE AT YOUR OWN RISK. PLEASE DO NOT REMOVE
+	ANY SLOTS FROM THE CONFIGURATION, ONLY ADD. PLEASE CONTACT
+	PDS_OPERATOR@JPL.NASA.GOV FOR MORE HELP ON UPDATING
+	******************************************************************
+-->
+
+
 <policy xmlns="https://pds.nasa.gov/software/pds4/harvest/v1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:harvest="https://pds.nasa.gov/software/pds4/harvest/v1"
