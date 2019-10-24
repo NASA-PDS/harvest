@@ -44,19 +44,19 @@
         <include>harvest-ctrl.bat</include>
 	<include>search-post</include>
       </includes>
-      <fileMode>755</fileMode>
+      <fileMode>775</fileMode>
       <lineEnding>keep</lineEnding>
     </fileSet>
     <fileSet>
       <directory>target/site</directory>
       <outputDirectory>doc</outputDirectory>
-      <fileMode>644</fileMode>
+      <fileMode>664</fileMode>
       <lineEnding>keep</lineEnding>
     </fileSet>
     <fileSet>
       <directory>src/main/resources/conf</directory>
       <outputDirectory>conf</outputDirectory>
-      <fileMode>644</fileMode>
+      <fileMode>664</fileMode>
       <lineEnding>keep</lineEnding>
     </fileSet>
     <fileSet>
@@ -65,7 +65,7 @@
       <includes>
         <include>global-policy.xml</include>
       </includes>
-      <fileMode>644</fileMode>
+      <fileMode>664</fileMode>
       <lineEnding>keep</lineEnding>
     </fileSet>
     <fileSet>
@@ -74,7 +74,7 @@
       <includes>
         <include>registered_resources.json</include>
       </includes>
-      <fileMode>644</fileMode>
+      <fileMode>664</fileMode>
       <lineEnding>keep</lineEnding>
     </fileSet>
   </fileSets>
@@ -83,14 +83,14 @@
     <file>
       <source>LICENSE.txt</source>
       <outputDirectory>/</outputDirectory>
-      <fileMode>644</fileMode>
+      <fileMode>664</fileMode>
       <lineEnding>crlf</lineEnding>
     </file>
     <file>
       <source>README-PACKAGE.txt</source>
       <outputDirectory>/</outputDirectory>
       <destName>README.txt</destName>
-      <fileMode>644</fileMode>
+      <fileMode>664</fileMode>
       <lineEnding>crlf</lineEnding>
       <filtered>true</filtered>
     </file>
