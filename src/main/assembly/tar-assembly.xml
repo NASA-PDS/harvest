@@ -42,7 +42,7 @@
         <include>harvest.bat</include>
         <include>harvest-ctrl</include>
         <include>harvest-ctrl.bat</include>
-        <include>search-post</include>
+        <include>registry-mgr</include>
       </includes>
       <fileMode>775</fileMode>
       <lineEnding>keep</lineEnding>
@@ -61,7 +61,7 @@
     </fileSet>
     <fileSet>
       <directory>src/main/resources/policy</directory>
-      <outputDirectory>conf</outputDirectory>
+      <outputDirectory>conf/harvest/</outputDirectory>
       <includes>
         <include>global-policy.xml</include>
       </includes>

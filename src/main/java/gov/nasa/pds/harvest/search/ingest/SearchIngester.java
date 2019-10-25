@@ -202,7 +202,7 @@ public class SearchIngester implements Ingester {
 				doc.addField("name", prodFile.getName());
 				doc.addField("md5", strMd5);
 				doc.addField("content", strFileContent);
-				doc.addField("transaction_id", TransactionManager.getInstance().getTransactionId());
+				doc.addField("package_id", TransactionManager.getInstance().getTransactionId());
 				
 				// Save the document
 				SolrClient client = getClient(searchUrl);
@@ -262,7 +262,7 @@ public class SearchIngester implements Ingester {
 			// Add extra fields
 			String lidvid = met.getMetadata(Constants.LOGICAL_ID) + "::" + met.getMetadata(Constants.PRODUCT_VERSION);
 			json.append("id", lidvid);
-			json.append("transaction_id", TransactionManager.getInstance().getTransactionId());
+			json.append("package_id", TransactionManager.getInstance().getTransactionId());
 			
 			// Store JSON in Solr
 			StringStream stringStream = new StringStream(json.toString(2), MediaType.APPLICATION_JSON);

@@ -247,12 +247,15 @@ public class HarvestSearchLauncher {
 			if (dataPath != null) {
 				outputDir = new File(dataPath);
 			} else {
+				throw new Exception("Missing '-o' flag option. Output directory for Solr Data Collection Docs must be specified. " +
+									"If possible, please choose parent directory of the Registry installation to avoid confusion when finding this data " +
+									"in the future.");
 				// !!! Replaced current directory with "/tmp/harvest".
 				// There is a bug (feature?) somewhere which deletes all files recursively from
 				// this folder!!!
 				// If you run this project in Eclipse and don't provide output directory, all
 				// project files are removed.
-				outputDir = new File("/tmp/harvest").getAbsoluteFile();
+//				outputDir = new File("/tmp/harvest").getAbsoluteFile();
 			}
 		}
 

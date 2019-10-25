@@ -162,6 +162,7 @@ public class HarvestFormatter extends Formatter {
           + HarvestSolrStats.numManifestChecksumsNotCheckedInLabel
           + " value(s) not checked." + lineFeed);
     }
+
   }
 
   public String getTail(Handler handler) {
@@ -171,6 +172,7 @@ public class HarvestFormatter extends Formatter {
 
     report.append(lineFeed);
     report.append(summary);
+    report.append(doubleLineFeed + "Registry Package Id: " + HarvestSolrStats.packageId);
     report.append(doubleLineFeed + "End of Log" + doubleLineFeed);
 
     return report.toString();

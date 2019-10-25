@@ -30,10 +30,12 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-COLLECTION="pds"
+DATA_COLLECTION="data"
+ALL_COLLECTIONS="registry xpath data"
 PROPS=("-Dauto=yes")
 RECURSIVE=""
 FILES=()
+DELETE=
 
 SCRIPT_DIR=$(cd "$( dirname $0 )" && pwd)
 PARENT_DIR=$(cd ${SCRIPT_DIR}/.. && pwd)
@@ -45,9 +47,11 @@ function print_usage() {
   echo "Usage: $0 [OPTIONS] [SOLR-DOCS]"
   echo ""
   echo "Options:"
-  echo "  -h            Print Help"
-  echo "  -host <host>  Solr server host (default: localhost)"
-  echo "  -port <port>  Solr server port (default: 8983)"
+  echo "  -h                              Print Help"
+  echo "  -host <host>                    Solr server host (default: localhost)"
+  echo "  -port <port>                    Solr server port (default: 8983)"
+  echo "  -delete-pkg <package_id>        Delete a specific Harvest ingestion package"
+  echo "  -delete-all                     Delete all data from all Registry collections"
   echo ""
   echo "Optional Parameters:"
   echo "  SOLR-DOCS     solr-docs directory or an xml file"
@@ -70,6 +74,14 @@ while [ $# -gt 0 ]; do
     elif [[ "$1" == "-host" ]]; then
       shift
       PROPS+=("-Dhost=$1")
+    elif [[ "$1" == "-delete" ]]; then
+      shift
+      DELETE="<delete><query>package_id:$1</query></delete>"
+      break
+    elif [[ "$1" == "-delete-all" ]]; then
+      shift
+      DELETE="<delete><query>*:*</query></delete>"
+      break
     elif [[ "$1" == "-h" ]]; then
       print_usage
       exit
@@ -80,6 +92,29 @@ while [ $# -gt 0 ]; do
   fi
   shift
 done
+
+# Setup Java
+if [ -n "$JAVA_HOME" ]; then
+  JAVA="$JAVA_HOME/bin/java"
+else
+  JAVA=java
+fi
+
+# Test that Java exists and is executable
+"$JAVA" -version >/dev/null 2>&1 || { echo >&2 "Java is required to run this tool! Please install Java 8 or greater before running this script."; exit 1; }
+
+# If delete request, let's delete and exit
+if [ ! -z "$DELETE" ]; then
+  for collection in $ALL_COLLECTIONS; do
+  	#PROPS=("-Dc=$collection" "-Ddata=files")
+  	PROPS=("-Dc=$collection" "-Ddata=args")
+    echo "$JAVA" -classpath "${TOOL_JAR[0]}" "${PROPS[@]}" org.apache.solr.util.SimplePostTool ${DELETE}
+    "$JAVA" -classpath "${TOOL_JAR[0]}" "${PROPS[@]}" org.apache.solr.util.SimplePostTool ${DELETE}
+  done
+  
+  rm -f $DELETE_FILE
+  exit 0
+fi
 
 # No file / directory parameter
 if [[ "${#FILES[@]}" -eq 0 ]]; then
@@ -107,18 +142,8 @@ if [[ "${#FILES[@]}" -eq 0 ]]; then
   echo "INFO:  Found Solr documents in ${REGISTRY_DATA}"
 fi
 
-# Setup Java
-if [ -n "$JAVA_HOME" ]; then
-  JAVA="$JAVA_HOME/bin/java"
-else
-  JAVA=java
-fi
-
-# Test that Java exists and is executable
-"$JAVA" -version >/dev/null 2>&1 || { echo >&2 "Java is required to run this tool! Please install Java 8 or greater before running this script."; exit 1; }
-
 # Parameters for Solr post tool
-PROPS+=("-Dc=$COLLECTION" "-Ddata=files")
+PROPS+=("-Dc=$DATA_COLLECTION" "-Ddata=files")
 if [[ -n "$RECURSIVE" ]]; then
   PROPS+=("-Drecursive=yes")
 fi
@@ -126,3 +151,5 @@ fi
 # Call Solr post tool
 echo "$JAVA" -classpath "${TOOL_JAR[0]}" "${PROPS[@]}" org.apache.solr.util.SimplePostTool "${FILES[@]}"
 "$JAVA" -classpath "${TOOL_JAR[0]}" "${PROPS[@]}" org.apache.solr.util.SimplePostTool "${FILES[@]}"
+
+exit 0

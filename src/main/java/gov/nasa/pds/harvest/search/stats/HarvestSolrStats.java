@@ -50,7 +50,8 @@ public class HarvestSolrStats {
   public static int numManifestChecksumsDiffInLabel = 0;
 
   public static int numManifestChecksumsNotCheckedInLabel = 0;
-
+  
+  public static String packageId = "N/A";
 
   public static HashMap<String, BigInteger> registeredProductTypes = new HashMap<String, BigInteger>();
 

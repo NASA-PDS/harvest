@@ -143,9 +143,10 @@ public class SearchDocGenerator {
 			Map<String, List<String>> fieldMap = new HashMap<String, List<String>>();
 			fieldMap.putAll(setFieldValues(extendedExtrinsic, config, metadata));
 			
-			// Add transaction ID
-			typeMap.put("transaction_id", "string");
-			fieldMap.put("transaction_id", Arrays.asList(TransactionManager.getInstance().getTransactionId()));
+			// Add package ID
+			HarvestSolrStats.packageId = TransactionManager.getInstance().getTransactionId();
+			typeMap.put("package_id", "string");
+			fieldMap.put("package_id", Arrays.asList(TransactionManager.getInstance().getTransactionId()));
 
 			// Increment our product counter
 			obj.incrementCounter();

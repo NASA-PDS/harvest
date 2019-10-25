@@ -20,16 +20,29 @@
 
 @echo off
 
+:: ############################################################################
+:: Update Environment Variables as needed
+
+set SOLR_URL=http://localhost:8983/solr
+set SCRIPT_DIR=%~dps0
+set PARENT_DIR=%SCRIPT_DIR%..
+set LIB_DIR=%PARENT_DIR%\lib
+set SEARCH_CONF=%PARENT_DIR%\conf\search\defaults
+
+:: JAVA_HOME=
+
+:: #############################################################################
+
+:: #############################################################################
+:: WARNING: Should not need to update below. Proceed with caution.
+:: #############################################################################
+
 :: Check if the JAVA_HOME environment variable is set.
 if not defined JAVA_HOME (
 echo The JAVA_HOME environment variable is not set.
 goto END
 )
 
-:: Setup environment variables.
-set SCRIPT_DIR=%~dps0
-set PARENT_DIR=%SCRIPT_DIR%..
-set LIB_DIR=%PARENT_DIR%\lib
 set KEYSTORE=%PARENT_DIR%\keystore\tomcat_self_sign_keystore
 
 :: Check for dependencies.
@@ -43,11 +56,9 @@ goto END
 :: Finds the jar file in LIB_DIR and sets it to HARVEST_JAR.
 for %%i in ("%LIB_DIR%"\harvest-*.jar) do set HARVEST_JAR=%%i
 
-set SEARCH_CONF=%PARENT_DIR%\conf\search\defaults
-
 :: Executes Harvest via the executable jar file
 :: The special variable '%*' allows the arguments
 :: to be passed into the executable.
-"%JAVA_HOME%"\bin\java -Xms256m -Xmx1024m -Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true -Dpds.search="http://localhost:8983/solr" -Dpds.harvest.search.conf="%SEARCH_CONF%" -Dresources.home="%PARENT_DIR%\resources" -jar "%HARVEST_JAR%" %*
+"%JAVA_HOME%"\bin\java -Xms256m -Xmx1024m -Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true -Dpds.search="%SOLR_URL%" -Dpds.harvest.search.conf="%SEARCH_CONF%" -Dresources.home="%PARENT_DIR%\resources" -jar "%HARVEST_JAR%" %*
 
 :END

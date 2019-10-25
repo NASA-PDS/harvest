@@ -23,6 +23,45 @@
   </properties>
 
   <body>
+    <release version="2.5.0" date="2019-10-24" description="This release of the Harvest Tool is a component of the integrated release 10.0.0 of the PDS4 System. This is an operational release of the system components to date.">
+      <action dev="jpadams" type="update" issue="harvest#8">
+        Update Harvest to use online namespace for easier configuration and validation
+      </action>
+      <action dev="jpadams" type="update" issue="harvest#11">
+        Upgrade to Solr 8.2.0
+      </action>
+      <action dev="karpenko" type="add" issue="harvest#13">
+        Create new report-mgr tool to accomplish all functionality that Solr Post Tool does
+      </action>
+      <action dev="karpenko" type="update" issue="PDS-953">
+        Allow search config lookup by data_class
+      </action>
+      <action dev="karpenko" type="update" issue="PDS-952">
+        Store document blobs in new registry collection instead of .system
+      </action>
+      <action dev="mcayanan" type="update" issue="PDS-922">
+        Implement configuration updates and cleanup per trade study versus developing tool to integrate config
+      </action>
+      <action dev="mcayanan" type="update" issue="PDS-719">
+        Enhance Search and Harvest to ingest full label XML blob
+      </action>      
+    </release>
+
+    <release version="2.0.0" date="2019-03-29" description="This release of the Harvest Tool is a component of the integrated release 9.1.0 of the PDS4 System. This is an operational release of the system components to date.">
+      <action dev="mcayanan" type="update" issue="PDS-750">
+        Renamed from harvest-search to harvest.
+      </action>
+      <action dev="mcayanan" type="update" issue="PDS-795">
+        Updated to populate resource_ref.* fields from a lookup table.
+      </action>
+      <action dev="mcayanan" type="update" issue="PDS-822">
+        Updated to register Solr documents containing XPaths of the entire label.
+      </action>
+      <action dev="mcayanan" type="update" issue="PDS-831">
+        Updated how the tool versions products.
+      </action>      
+    </release>
+
     <release version="2.0.0" date="2019-03-29" description="This release of the Harvest Tool is a component of the integrated release 9.1.0 of the PDS4 System. This is an operational release of the system components to date.">
       <action dev="mcayanan" type="update" issue="PDS-750">
         Renamed from harvest-search to harvest.

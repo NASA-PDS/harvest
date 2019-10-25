@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Copyright 2010-2014, by the California Institute of Technology.
-  ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
-  Any commercial use must be negotiated with the Office of Technology Transfer
-  at the California Institute of Technology.
-
-  This software is subject to U. S. export control laws and regulations
-  (22 C.F.R. 120-130 and 15 C.F.R. 730-774). To the extent that the software
-  is subject to U.S. export control laws and regulations, the recipient has
-  the responsibility to obtain export licenses or other export authority as
-  may be required before exporting such information to foreign countries or
-  providing access to foreign nationals.
-
-  $Id$
+  Copyright 2019, California Institute of Technology ("Caltech").
+  U.S. Government sponsorship acknowledged.
+  
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+  
+  * Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+  * Redistributions must reproduce the above copyright notice, this list of
+  conditions and the following disclaimer in the documentation and/or other
+  materials provided with the distribution.
+  * Neither the name of Caltech nor its operating division, the Jet Propulsion
+  Laboratory, nor the names of its contributors may be used to endorse or
+  promote products derived from this software without specific prior written
+  permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
 -->
 
 <document>
   <properties>
     <title>Operation (PDS4)</title>
-    <author email="Galen.Hollins@jpl.nasa.gov">Galen Hollins</author>
     <author email="Jordan.h.Padams@jpl.nasa.gov">Jordan Padams</author>
   </properties>
 
@@ -29,7 +44,14 @@
       </p>
 
       <ul>
-        <li><a href="#Quick_Start">Quick Start</a></li>
+        <li><a href="#Overview">Overview</a></li>
+        <li><a href="#Quick_Start">Configuration Quick Start</a></li>
+        <ul>
+          <li><a href="#Setup">Setup and Overview of Policy Files</a></li>
+          <li><a href="#Walk-Through">Walking Through the Policy Config</a></li>
+          <li><a href="#Minimal_Config">Minimal Config</a></li>
+          <li><a href="#Running_The_Tool">Running The Tool</a></li>
+        </ul>
         <li><a href="#Command-Line Options">Command-Line Options</a></li>
         <li><a href="#Advanced_Usage">Advanced Usage</a></li>
         <li><a href="#Harvest_Policy_File">Harvest Policy File</a></li>
@@ -38,18 +60,62 @@
         <li><a href="#Common_Errors">Common Errors</a></li>
       </ul>
 
-      <p>Note: The command-line examples in this section have been broken into multiple lines for readability. The commands should be reassembled into a single line prior to execution.
-      </p>
     </section>
 
+    <hr />
+    <section name="Overview">
+      <p>
+        Harvest Tool is a highly configurable flexible tool for ingesting metadata from PDS4 labels and products. However, due to it's highly configurable nature
+      it is also very complex and has a fairly significant learning curve. This section will provide an overview of what is needed in order to get started.
+      </p>
+      
+      <subsection name="Tutorial">
+        <p>The PDS Engineering Node website has a procedure for <a href="https://pds-engineering.jpl.nasa.gov/content/pds4_data_release_discipline_nodes">Data Releases at Discipline Nodes</a>, 
+          which contains an example set for walking through the ingestion of some data into the Registry get a sense of how it works. If you would like to dive right in, continue on through the more detailed 
+          configuration and execution of the tool.
+        </p>
+      </subsection>
+      
+      <subsection name="Quick Start">
+        <p>Move onto the <a href="#Quick_Start">Quick Start Guide</a> for a background on configuring the policy files and executing Harvest.
+        </p>
+      </subsection>
+      
+      <subsection name="Add New Search Fields to 'data' collection">
+        <p>Harvest and the Registry can be configured to add additional fields to the searchable "data" collection. The process can be cumbersome, 
+          so feel free to reach out to Engineering Node for assistance:
+        </p>
+        
+        <ul>
+          <li><a href="#Candidate_Products">Add a new slot to the applicable policy candidate</a></li>
+          <li><a href="#Search_API_Config_Files">Add a new field to the applicable Search API Config File</a></li>
+          <li>Add a new field to the data schema throug the <a href="https://lucene.apache.org/solr/guide/8_2/schema-api.html">Solr Schema API</a> or </li>
+        </ul>
+      </subsection>
+    </section>
+
+    <hr />
     <section name="Quick Start">
       <p>This section is intended to give a quick and easy way to set up the Harvest policy configuration file and run the tool. For a more detailed explanation on other ways to set up the policy configuration file as well as other ways of running the tool, go to the <a href="#Harvest_Policy_File">Harvest Policy File</a> and <a href="#Advanced_Usage">Advanced Usage</a> sections.
       </p>
 
-      <subsection name="Setup">
-        <p>Included in the Harvest package is an example policy configuration file for PDS4 product registration. Go to the <i>examples/</i> folder, make a copy of the <i>harvest-policy-example.xml</i> file and modify it as necessary. The following breaks down the policy file example and indicates what modifications are to be performed.
-        </p>
+      <ul>
+        <li><a href="#Setup">Initial Policy Setup</a></li>
+        <li><a href="#Walk-Through">Walking Through the Policy Config</a></li>
+        <li><a href="#Minimal_Config">Minimal Config</a></li>
+      </ul>
 
+      <hr />
+      <subsection name="Setup">
+        <p>Included in the Harvest package is a master policy example configuration file for PDS4 product registration. 
+          Go to the <i>examples/</i> folder, make a copy of the <i>harvest-policy-master.xml</i> file and modify it as necessary.
+        </p>
+        <p>Next, you can continue on to the <a href="#Walk-Through">Walk-Through</a> to learn about the various sections of the config and how to modify them.<br />
+          Or you can head to the <a href="#Minimal_Config">Minimal Config</a> section to make some minor mods to the config to get started testing.</p>
+      </subsection>
+
+      <hr />
+      <subsection name="Walk-Through">
         <h5>Collections</h5>
 
         <source>
@@ -261,67 +327,121 @@
         <p>Note that the XPaths are utilizing the <i>prefix</i> values from the namespaces defined in the policy.
         </p>
       </subsection>
+      
+      <hr />
+      <subsection name="Minimal Config">
+        <p>To get data ingested into the Registry as soon as possible to start testing out the system, the only portion of your custom <i>harvest-policy-master.xml</i>
+        file mentioned in the <a href="#Setup">Setup</a> section is the <i>directories</i> section. Modify that to point at a bundle/collection and you can test ingestion:
+          <source>
+&lt;directories&gt;
+  &lt;path>$HOME/dph_example_archive_VG2PLS&lt;/path&gt;
+  &lt;fileFilter&gt;
+    &lt;include&gt;*.xml&lt;/include&gt;
+  &lt;/fileFilter&gt;
+&lt;/directories&gt;
+          </source>
+        </p>
+      </subsection>
 
+      <hr />
       <subsection name="Running The Tool">
         <p>The following command demonstrates the recommended way to run Harvest:
-        </p>
 
         <source>
-%> ./harvest -c ../conf/harvest/harvest-policy-example.xml
+%> ./harvest -c ../conf/harvest/harvest-policy-master.xml -o $REGISTRY_HOME/../registry-data/solr-docs
         </source>
 
-        <p>In the example above, the <i>-c</i> flag option specifies the example harvest policy configuration file while the <i>-C</i> flag option specifies location for the default search policy configuration files. The following command is a MAVEN-specific example:
-        </p>
-
-        <p>The above command will register the full product label into a Solr Collection index named <i>.system</i>, where it can be looked up using its Logical Identifier, but with period <i>.</i> characters instead of colon <i>:</i> characters due to limitations with Solr. Additionally, Harvest will write out the search index files for the target bundle into a <i>solr-docs</i> directory at the current working directory. In an environment where multiple bundles will be indexed, that directory should be renamed and then reside in a location that can be retrieved at a later point in the event that the Search Service will need to be re-indexed.
-        </p>
+        In the example above, the <i>-c</i> flag option specifies the recommended master harvest policy configuration file to start configuration from,
+        while the <i>-o</i> flag option specifies the output directory for the Solr Docs. Modify the paths as needed for your installation.
+       </p>
         
-        <p>Once the Harvest run is complete, use the Solr Post Tool to ingest the Search documents. Depending on the deployment set up of the Search Service, run the appropriate command below:
-        </p>
-        
-        <h5>For Non-Dockerized Registry Instances</h5>
-                
+        <p><b>Example summary output:</b>
         <source>
-# Linux / Mac Users
-%> search-post standalone
+Summary:
 
-# Windows Users
-%> C:\path\to\solr\bin\post -c pds -params tr="add-hierarchy.xsl" C:\path\to\registry\solr-docs
+15 of 15 file(s) processed, 3 other file(s) skipped
+0 error(s), 0 warning(s)
+
+Product Labels:
+15         Successfully registered
+0          Failed to register
+
+Search Service Solr Documents:
+15         Successfully created
+0          Failed to get created
+
+XPath Solr Documents (Quick Look Only, Ignore Failed Ingestions):
+15         Successfully registered
+0          Failed to register
+
+Product Types Handled:
+1 Product_Observational
+5 Product_Collection
+2 Product_Document
+1 Product_Browse
+3 Product_File_Text
+2 Product_Context
+1 Product_Bundle
+
+
+Registry Package Id: a942ad0d-ad42-4007-9733-d12c3e53049f
+
+End of Log
         </source>
-        
-        <h5>For Dockerized Registry Instances</h5>
-                
-        <source>
-%> search-post docker
-        </source>
-        
-        <p>The above command assumes that the <i>/data/solr-docs</i> directory was bind-mounted to the <i>solr-docs</i> directory. So this path should always get passed in for each Docker Post command.  
+        </p>
+
+
+        <p><b>What Just Happened?</b><br />The above command will register the full product label and some associated archival metadata into the <i>registry</i> collection, and   
+          all the XPaths of the label in the <i>xpath</i> collection.
         </p>
         
-        <p>In both scenarios above, the Search documents will get ingested into a Solr collection named <i>pds</i>.
+        <p><b>What Next?</b><br />
+        Next, ingest the metadata in the search-friendly, <i>data</i> collection using the <a href="https://nasa-pds-incubator.github.io/registry/operate/index.html#Registry_Manager_Tool">Report Manager Tool</a> <i>(report-mgr)</i>.
         </p>
-             
+        
+        <p>For more information on the Registry and it's metadata stores (or collections), see the <a href="https://nasa-pds-incubator.github.io/registry/operate/">Registry Documentation</a>.
+        </p>
       </subsection>
     </section>
 
+    <hr />
     <section name="Command-Line Options">
       <p>The following table describes the command-line options available:
       </p>
-
-        <table>
-          <tr><th>Command-Line Option</th><th>Description</th></tr>
-          <tr><td>-c, --conf/harvestig &lt;file&gt;</td><td>Specify a harvest policy configuration file to set the tool behavior. (This flag is required)</td></tr>
-          <tr><td>-C, --doc-config &lt;dir&gt;</td><td>Specify the directory location where the document generation configuration files reside. The default is to look in the 'conf/search' directory that resides in the tool package.</td></tr>
-          <tr><td>-D, --ignore-dir</td><td>Specify patterns to look for when traversing a target directory for sub-directories to ignore. Each pattern must be surrounded by quotes (i.e. -D "CATALOG").</td></tr>
-          <tr><td>-e, --regexp</td><td>Specify file patterns to look for when registering and indexing products from a target directory. Each pattern must be surrounded by quotes (i.e. -e "*.xml").</td></tr>
-          <tr><td>-h, --help</td><td>Display <i>harvest</i> usage.</td></tr>
-          <tr><td>-l, --log-file</td><td>Specify a log file name. Default is standard out.</td></tr>
-          <tr><td>-o, --output-dir</td><td>Specify a directory location to tell the tool where to output the Solr documents. The default is to write to the current working directory.</td></tr>
-          <tr><td>-P, --port</td><td>Specify a port number to use if running the tool in persistence mode.</td></tr>
-          <tr><td>-v, --verbose</td><td>Specify the message severity level and above to include in the log (0=Debug, 1=Info, 2=Warning, 3=Error). Default is Info and above (level 1).</td></tr>
-          <tr><td>-V, --version</td><td>Display the release number and copyright information.</td></tr>
-          <tr><td>-w, --wait</td><td>Specify the time, in seconds, to wait in between the crawls if running the tool in persistence mode.</td></tr>
-        </table>
+      <source>
+./harvest --help
+usage: harvest &lt;options&gt;
+ -c,--harvest-config &lt;file&gt;   Specify the harvest policy configuration file to
+                              set the tool behavior. (This flag is required)
+ -C,--doc-config &lt;dir&gt;        Specify the directory location where the document
+                              generation configuration files reside. The default
+                              is to look in the 'search-conf' directory that
+                              resides in the tool package
+ -D,--ignore-dir &lt;patterns&gt;   Specify patterns to look for when crawling a
+                              target directory for sub-directories to ignore.
+                              Each pattern should be surrounded by quotes. (i.e.
+                              -i "CATALOG")
+ -e,--regexp &lt;patterns&gt;       Specify file patterns to look for when crawling a
+                              target directory. Each pattern should be
+                              surrounded by quotes. (i.e. -e "*.xml")
+ -h,--help                    Display usage.
+ -l,--log-file &lt;file name&gt;    Specify a log file name. Default is standard out.
+ -o,--output-dir &lt;dir&gt;        Specify a directory location to tell the tool
+                              where to output the Solr documents. The default is
+                              to write to the current working directory.
+ -P,--port &lt;number&gt;           Specify a port number to use if running the tool
+                              in persistance mode.
+ -pds3,--is-pds3-dir          Specify this flag to indicate that the target
+                              passed into the command-line is a PDS3 directory.
+                              The default assumes that any targets passed into
+                              the command line are PDS4 directories.
+ -v,--verbose &lt;level&gt;         Specify the severity level and above to include in
+                              the log: (0=Debug, 1=Info, 2=Warning, 3=Error).
+                              Default is Info and above (level 1).
+ -V,--version                 Display application version.
+ -w,--wait &lt;seconds&gt;          Specify the wait time in seconds in between crawls
+                              if running in persistance mode
+      </source>
     </section>
 
     <section name="Advanced Usage">
@@ -349,7 +469,7 @@
         </p>
 
         <source>
-% harvest $HOME/directory -e "*.xml" -c ../conf/harvest/harvest-policy-example.xml -C ../conf/search/defaults -l harvest.log
+% harvest $HOME/directory -e "*.xml" -c ../conf/harvest/harvest-policy-master.xml -C ../conf/search/defaults -l harvest.log
         </source>
 
         <p>The Harvest Tool package provides examples of how other document generation configuration files were set up to ingest bundles from various missions. They can be found in the <i>conf/search</i> directory. The following command demonstrates registering and indexing the MAVEN NGIMS bundle:
