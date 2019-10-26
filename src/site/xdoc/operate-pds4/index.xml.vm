@@ -148,7 +148,7 @@
         <h5>Access URLs</h5>
 
         <source>
-&lt;accessUrls registerFileUrls="false"&gt;
+&lt;accessUrls harvest:registerFileUrls="false"&gt;
   &lt;accessUrl&gt;
     &lt;baseUrl&gt;http://starbase.jpl.nasa.gov&lt;/baseUrl&gt;
     &lt;offset&gt;$HOME&lt;/offset&gt;
@@ -171,8 +171,8 @@
         <h5>Checksums</h5>
 
         <source>
-&lt;checksums generate="true"&gt;
-  &lt;manifest basePath="$HOME/dph_example_archive_VG2PLS"&gt;
+&lt;checksums harvest:generate="true"&gt;
+  &lt;manifest harvest:basePath="$HOME/dph_example_archive_VG2PLS"&gt;
     $HOME/dph_example_archive_VG2PLS/bundle_checksums.txt
   &lt;/manifest&gt;
 &lt;/checksums&gt;
@@ -191,8 +191,8 @@
 
 ...
 
-  &lt;productMetadata objectType="Product_Browse"&gt;
-    &lt;xPath slotName="information_model_version"&gt;
+  &lt;productMetadata harvest:objectType="Product_Browse"&gt;
+    &lt;xPath harvest:slotName="information_model_version"&gt;
       //Identification_Area/information_model_version
     &lt;/xPath&gt;
 
@@ -235,21 +235,21 @@
         </p>
 
         <source>
-&lt;productMetadata objectType="Product_Observational"&gt;
+&lt;productMetadata harvest:objectType="Product_Observational"&gt;
   &lt;!-- Identification_Area --&gt;
-  &lt;xPath slotName="information_model_version"&gt;
+  &lt;xPath harvest:slotName="information_model_version"&gt;
     //Identification_Area/information_model_version
   &lt;/xPath&gt;
-  &lt;xPath slotName="product_class"&gt;
+  &lt;xPath harvest:slotName="product_class"&gt;
     //Identification_Area/product_class
   &lt;/xPath&gt;
-  &lt;xPath slotName="alternate_id"&gt;
+  &lt;xPath harvest:slotName="alternate_id"&gt;
     //Identification_Area/Alias_List/Alias/alternate_id
   &lt;/xPath&gt;
-  &lt;xPath slotName="alternate_title"&gt;
+  &lt;xPath harvest:slotName="alternate_title"&gt;
     //Identification_Area/Alias_List/Alias/alternate_title
   &lt;/xPath&gt;
-  &lt;xPath slotName="citation_author_list"&gt;
+  &lt;xPath harvest:slotName="citation_author_list"&gt;
     //Identification_Area/Citation_Information/author_list
   &lt;/xPath&gt;
 ...
@@ -276,11 +276,11 @@
 
         <source>
 &lt;candidates&gt;
-  &lt;namespace prefix="disp" uri="http://pds.nasa.gov/pds4/disp/v1"/&gt;
-  &lt;namespace prefix="sp" uri="http://pds.nasa.gov/pds4/sp/v1"/&gt;
-  &lt;namespace prefix="geom" uri="http://pds.nasa.gov/pds4/geom/v0"/&gt;
-  &lt;namespace prefix="sbn" uri="http://pds.nasa.gov/pds4/sbn/v0"/&gt;
-  &lt;namespace prefix="epoxi" uri="http://pds.nasa.gov/pds4/mission/epoxi/v0"/&gt;
+  &lt;namespace harvest:prefix="disp" harvest:uri="http://pds.nasa.gov/pds4/disp/v1"/&gt;
+  &lt;namespace harvest:prefix="sp" harvest:uri="http://pds.nasa.gov/pds4/sp/v1"/&gt;
+  &lt;namespace harvest:prefix="geom" harvest:uri="http://pds.nasa.gov/pds4/geom/v0"/&gt;
+  &lt;namespace harvest:prefix="sbn" harvest:uri="http://pds.nasa.gov/pds4/sbn/v0"/&gt;
+  &lt;namespace harvest:prefix="epoxi" harvest:uri="http://pds.nasa.gov/pds4/mission/epoxi/v0"/&gt;
 
 ...
 
@@ -291,32 +291,32 @@
         </p>
 
         <source>
-  &lt;productMetadata objectType="Product_Observational"&gt;
+  &lt;productMetadata harvest:objectType="Product_Observational"&gt;
 
 ...
 
     &lt;!-- Mission_Area metadata --&gt;
-    &lt;xPath slotName="spacecraft_clock_start_count"&gt;
+    &lt;xPath harvest:slotName="spacecraft_clock_start_count"&gt;
       //Mission_Area/epoxi:EPOXI_Attributes/epoxi:Observation_Parameters/epoxi:spacecraft_clock_start_count
     &lt;/xPath&gt;
-    &lt;xPath slotName="spacecraft_clock_stop_count"&gt;
+    &lt;xPath harvest:slotName="spacecraft_clock_stop_count"&gt;
       //Mission_Area/epoxi:EPOXI_Attributes/epoxi:Observation_Parameters/epoxi:spacecraft_clock_stop_count
     &lt;/xPath&gt;
-    &lt;xPath slotName="total_integration_time"&gt;
+    &lt;xPath harvest:slotName="total_integration_time"&gt;
       //Mission_Area/epoxi:EPOXI_Attributes/epoxi:Observation_Parameters/epoxi:total_integration_time
     &lt;/xPath&gt;
 
     &lt;!-- Discipline_Area metadata --&gt;
-    &lt;xPath slotName="start_julian_date"&gt;
+    &lt;xPath harvest:slotName="start_julian_date"&gt;
       //Discipline_Area/sbn:Times/sbn:start_Julian_date
     &lt;/xPath&gt;
-    &lt;xPath slotName="display_settings_local_reference_type"&gt;
+    &lt;xPath harvest:slotName="display_settings_local_reference_type"&gt;
       //Discipline_Area/disp:Display_Settings/disp:Local_Internal_Reference/disp:local_reference_type
     &lt;/xPath&gt;
-    &lt;xPath slotName="special_characteristics_local_identifier_reference"&gt;
+    &lt;xPath harvest:slotName="special_characteristics_local_identifier_reference"&gt;
       //Discipline_Area/sp:Spectral_Characteristics/sp:local_identifier_reference
     &lt;/xPath&gt;
-    &lt;xPath slotName="geometry_vertical_display_direction"&gt;
+    &lt;xPath harvest:slotName="geometry_vertical_display_direction"&gt;
       //Discipline_Area/geom:Geometry/geom:Image_Display_Geometry/geom:Display_Direction/disp:vertical_display_direction
     &lt;/xPath&gt;
   &lt;/productMetadata&gt;
@@ -469,24 +469,17 @@ usage: harvest &lt;options&gt;
         </p>
 
         <source>
-% harvest $HOME/directory -e "*.xml" -c ../conf/harvest/harvest-policy-master.xml -C ../conf/search/defaults -l harvest.log
+% harvest $HOME/directory -e "*.xml" -c ../conf/harvest/harvest-policy-master.xml -l harvest.log
         </source>
 
-        <p>The Harvest Tool package provides examples of how other document generation configuration files were set up to ingest bundles from various missions. They can be found in the <i>conf/search</i> directory. The following command demonstrates registering and indexing the MAVEN NGIMS bundle:
+        <p>The Harvest Tool package provides examples of how other document generation configuration files were set up to ingest bundles from various missions. They can be found in the <i>conf/search</i> directory. The following command demonstrates registering and indexing the MAVEN NGIMS bundle and post to the data collection:
         </p>
         
         <source>
 % ./harvest -c ../conf/harvest/harvest-policy-maven-ngims.xml -C ../conf/search/maven-ngims \
--o ../ -l ../harvest-maven-ngims.log
-        </source>
+-o $REGISTRY_HOME/../registry-data -l ../harvest-maven-ngims.log
 
-        <p>The above command will write out the search index files for the MAVEN NGIMS bundle into a <i>solr-docs</i> directory one directory up from the <i>bin</i> directory. In an environment where multiple bundles will be indexed, that directory should be renamed and then copied to the local Search Service installation where the <i>search-core</i> index and post commands can be executed to make that content available from the Search Service.
-        </p>
-
-        <source>
-% mv ../solr-docs ../solr-docs-maven-ngims
-% cp -r ../solr-docs-maven-ngims /usr/local/search-service/pds/solr-docs
-% search-post [docker or standalone]
+% registry-mgr $REGISTRY_HOME/../registry-data
         </source>
         
         <p>For more details on document generation configuration files, see the <a href="Search_API_Config_Files">Search API Config Files Section</a>.
@@ -622,14 +615,14 @@ usage: harvest &lt;options&gt;
     &lt;/directoryFilter&gt;
   &lt;/directories&gt;
 
-  &lt;accessUrls registerFileUrls="true"&gt;
+  &lt;accessUrls harvest:registerFileUrls="true"&gt;
     &lt;accessUrl&gt;
       &lt;baseUrl&gt;http://pds.nasa.gov/pds4&lt;/baseUrl&gt;
       &lt;offset&gt;$HOME&lt;/offset&gt;
     &lt;/accessUrl&gt;
   &lt;/accessUrls&gt;
 
-  &lt;checksums generate="true"&gt;
+  &lt;checksums harvest:generate="true"&gt;
     &lt;manifest&gt;$HOME/VG2PLS_archive/vg2pls_archive.md5&lt;/manifest&gt;
   &lt;/checksums&gt;
 
@@ -638,188 +631,188 @@ usage: harvest &lt;options&gt;
   &lt;/storageIngestion&gt;
 
   &lt;candidates&gt;
-    &lt;namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01"/&gt;
+    &lt;namespace harvest:prefix="dph" harvest:uri="http://pds.nasa.gov/schema/pds4/dph/v01"/&gt;
 
     &lt;productMetadata objectType="Product_Document"&gt;
-      &lt;xPath slotName="information_model_version"&gt;
+      &lt;xPath sharvest:lotName="information_model_version"&gt;
         //Identification_Area/information_model_version
       &lt;/xPath&gt;
-      &lt;xPath slotName="product_class"&gt;
+      &lt;xPath harvest:slotName="product_class"&gt;
         //Identification_Area/product_class
       &lt;/xPath&gt;
-      &lt;xPath slotName="alternate_id"&gt;
+      &lt;xPath harvest:slotName="alternate_id"&gt;
         //Identification_Area/Alias_List/Alias/alternate_id
       &lt;/xPath&gt;
-      &lt;xPath slotName="alternate_title"&gt;
+      &lt;xPath harvest:slotName="alternate_title"&gt;
         //Identification_Area/Alias_List/Alias/alternate_title
       &lt;/xPath&gt;
-      &lt;xPath slotName="citation_author_list"&gt;
+      &lt;xPath harvest:slotName="citation_author_list"&gt;
         //Identification_Area/Citation_Information/author_list
       &lt;/xPath&gt;
-      &lt;xPath slotName="citation_editor_list"&gt;
+      &lt;xPath harvest:slotName="citation_editor_list"&gt;
         //Identification_Area/Citation_Information/editor_list
       &lt;/xPath&gt;
-      &lt;xPath slotName="citation_publication_year"&gt;
+      &lt;xPath harvest:slotName="citation_publication_year"&gt;
         //Identification_Area/Citation_Information/publication_year
       &lt;/xPath&gt;
-      &lt;xPath slotName="citation_keywords"&gt;
+      &lt;xPath harvest:slotName="citation_keywords"&gt;
         //Identification_Area/Citation_Information/keywords
       &lt;/xPath&gt;
-      &lt;xPath slotName="citation_description"&gt;
+      &lt;xPath harvest:slotName="citation_description"&gt;
         //Identification_Area/Citation_Information/description
       &lt;/xPath&gt;
-      &lt;xPath slotName="modification_date"&gt;
+      &lt;xPath harvest:slotName="modification_date"&gt;
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       &lt;/xPath&gt;
-      &lt;xPath slotName="modification_version_id"&gt;
+      &lt;xPath harvest:slotName="modification_version_id"&gt;
         //Identification_Area/Modification_History/Modification_Detail/version_id
       &lt;/xPath&gt;
-      &lt;xPath slotName="modification_description"&gt;
+      &lt;xPath harvest:slotName="modification_description"&gt;
         //Identification_Area/Modification_History/Modification_Detail/description
       &lt;/xPath&gt;
-      &lt;xPath slotName="external_reference_description"&gt;
+      &lt;xPath harvest:slotName="external_reference_description"&gt;
         //Reference_List/External_Reference/description
       &lt;/xPath&gt;
-      &lt;xPath slotName="document_revision_id"&gt;
+      &lt;xPath harvest:slotName="document_revision_id"&gt;
         //Document_Description/revision_id
       &lt;/xPath&gt;
-      &lt;xPath slotName="document_name"&gt;
+      &lt;xPath harvest:slotName="document_name"&gt;
         //Document_Description/document_name
       &lt;/xPath&gt;
-      &lt;xPath slotName="document_doi"&gt;
+      &lt;xPath harvest:slotName="document_doi"&gt;
         //Document_Description/doi
       &lt;/xPath&gt;
-      &lt;xPath slotName="document_author_list"&gt;
+      &lt;xPath harvest:slotName="document_author_list"&gt;
         //Document_Description/author_list
       &lt;/xPath&gt;
-      &lt;xPath slotName="document_editor_list"&gt;
+      &lt;xPath sharvest:lotName="document_editor_list"&gt;
         //Document_Description/editor_list
       &lt;/xPath&gt;
-      &lt;xPath slotName="document_acknowledgement_text"&gt;
+      &lt;xPath harvest:slotName="document_acknowledgement_text"&gt;
         //Document_Description/acknowledgement_text
       &lt;/xPath&gt;
-      &lt;xPath slotName="document_copyright"&gt;
+      &lt;xPath harvest:slotName="document_copyright"&gt;
         //Document_Description/copyright
       &lt;/xPath&gt;
-      &lt;xPath slotName="document_description"&gt;
+      &lt;xPath harvest:slotName="document_description"&gt;
         //Document_Description/description
       &lt;/xPath&gt;
-      &lt;xPath slotName="document_publication_date"&gt;
+      &lt;xPath harvest:slotName="document_publication_date"&gt;
         //Document_Description/publication_date
       &lt;/xPath&gt;
     &lt;/productMetadata&gt;
 
     &lt;productMetadata objectType="Product_Observational"&gt;
-      &lt;xPath slotName="information_model_version"&gt;
+      &lt;xPath harvest:slotName="information_model_version"&gt;
         //Identification_Area/information_model_version
       &lt;/xPath&gt;
-      &lt;xPath slotName="product_class"&gt;
+      &lt;xPath harvest:slotName="product_class"&gt;
         //Identification_Area/product_class
       &lt;/xPath&gt;
-      &lt;xPath slotName="alternate_id"&gt;
+      &lt;xPath harvest:slotName="alternate_id"&gt;
         //Identification_Area/Alias_List/Alias/alternate_id
       &lt;/xPath&gt;
-      &lt;xPath slotName="alternate_title"&gt;
+      &lt;xPath harvest:slotName="alternate_title"&gt;
         //Identification_Area/Alias_List/Alias/alternate_title
       &lt;/xPath&gt;
-      &lt;xPath slotName="citation_author_list"&gt;
+      &lt;xPath harvest:slotName="citation_author_list"&gt;
         //Identification_Area/Citation_Information/author_list
       &lt;/xPath&gt;
-      &lt;xPath slotName="citation_editor_list"&gt;
+      &lt;xPath harvest:slotName="citation_editor_list"&gt;
         //Identification_Area/Citation_Information/editor_list
       &lt;/xPath&gt;
-      &lt;xPath slotName="citation_publication_year"&gt;
+      &lt;xPath harvest:slotName="citation_publication_year"&gt;
         //Identification_Area/Citation_Information/publication_year
       &lt;/xPath&gt;
-      &lt;xPath slotName="citation_keywords"&gt;
+      &lt;xPath harvest:slotName="citation_keywords"&gt;
         //Identification_Area/Citation_Information/keywords
       &lt;/xPath&gt;
-      &lt;xPath slotName="citation_description"&gt;
+      &lt;xPath harvest:slotName="citation_description"&gt;
         //Identification_Area/Citation_Information/description
       &lt;/xPath&gt;
-      &lt;xPath slotName="modification_date"&gt;
+      &lt;xPath harvest:slotName="modification_date"&gt;
         //Identification_Area/Modification_History/Modification_Detail/modification_date
       &lt;/xPath&gt;
       &lt;xPath slotName="modification_version_id"&gt;
         //Identification_Area/Modification_History/Modification_Detail/version_id
       &lt;/xPath&gt;
-      &lt;xPath slotName="modification_description"&gt;
+      &lt;xPath harvest:slotName="modification_description"&gt;
         //Identification_Area/Modification_History/Modification_Detail/description
       &lt;/xPath&gt;
-      &lt;xPath slotName="observation_comment"&gt;
+      &lt;xPath harvest:slotName="observation_comment"&gt;
         //Observation_Area/comment
       &lt;/xPath&gt;
-      &lt;xPath slotName="observation_start_date_time"&gt;
+      &lt;xPath harvest:slotName="observation_start_date_time"&gt;
         //Observation_Area/Time_Coordinates/start_date_time
       &lt;/xPath&gt;
-      &lt;xPath slotName="observation_stop_date_time"&gt;
+      &lt;xPath harvest:slotName="observation_stop_date_time"&gt;
         //Observation_Area/Time_Coordinates/stop_date_time
       &lt;/xPath&gt;
-      &lt;xPath slotName="observation_local_mean_solar_time"&gt;
+      &lt;xPath harvest:slotName="observation_local_mean_solar_time"&gt;
         //Observation_Area/Time_Coordinates/local_mean_solar_time
       &lt;/xPath&gt;
-      &lt;xPath slotName="observation_local_true_solar_time"&gt;
+      &lt;xPath harvest:slotName="observation_local_true_solar_time"&gt;
         //Observation_Area/Time_Coordinates/local_true_solar_time
       &lt;/xPath&gt;
-      &lt;xPath slotName="observation_solar_longitute"&gt;
+      &lt;xPath harvest:slotName="observation_solar_longitute"&gt;
         //Observation_Area/Time_Coordinates/solar_longitude
       &lt;/xPath&gt;
-      &lt;xPath slotName="primary_result_type"&gt;
+      &lt;xPath harvest:slotName="primary_result_type"&gt;
         //Observation_Area/Primary_Result_Description/type
       &lt;/xPath&gt;
-      &lt;xPath slotName="primary_result_purpose"&gt;
+      &lt;xPath harvest:slotName="primary_result_purpose"&gt;
         //Observation_Area/Primary_Result_Description/purpose
       &lt;/xPath&gt;
-      &lt;xPath slotName="primary_result_data_regime"&gt;
+      &lt;xPath harvest:slotName="primary_result_data_regime"&gt;
         //Observation_Area/Primary_Result_Description/data_regime
       &lt;/xPath&gt;
-      &lt;xPath slotName="primary_result_reduction_level"&gt;
+      &lt;xPath harvest:slotName="primary_result_reduction_level"&gt;
         //Observation_Area/Primary_Result_Description/reduction_level
       &lt;/xPath&gt;
-      &lt;xPath slotName="primary_result_description"&gt;
+      &lt;xPath harvest:slotName="primary_result_description"&gt;
         //Observation_Area/Primary_Result_Description/description
       &lt;/xPath&gt;
-      &lt;xPath slotName="investigation_name"&gt;
+      &lt;xPath harvest:slotName="investigation_name"&gt;
         //Observation_Area/Investigation_Area/name
       &lt;/xPath&gt;
-      &lt;xPath slotName="investigation_type"&gt;
+      &lt;xPath harvest:slotName="investigation_type"&gt;
         //Observation_Area/Investigation_Area/type
       &lt;/xPath&gt;
-      &lt;xPath slotName="observing_system_name"&gt;
+      &lt;xPath harvest:slotName="observing_system_name"&gt;
         //Observation_Area/Observing_System/name
       &lt;/xPath&gt;
-      &lt;xPath slotName="observing_system_description"&gt;
+      &lt;xPath harvest:slotName="observing_system_description"&gt;
         //Observation_Area/Observing_System/description
       &lt;/xPath&gt;
-      &lt;xPath slotName="observing_system_component_name"&gt;
+      &lt;xPath harvest:slotName="observing_system_component_name"&gt;
         //Observation_Area/Observing_System/Observing_System_Component/name
       &lt;/xPath&gt;
-      &lt;xPath slotName="observing_system_component_description"&gt;
+      &lt;xPath harvest:slotName="observing_system_component_description"&gt;
         //Observation_Area/Observing_System/Observing_System_Component/description
       &lt;/xPath&gt;
-      &lt;xPath slotName="observing_system_component_type"&gt;
+      &lt;xPath harvest:slotName="observing_system_component_type"&gt;
         //Observation_Area/Observing_System/Observing_System_Component/\
         observing_system_component_type
       &lt;/xPath&gt;
-      &lt;xPath slotName="target_name"&gt;
+      &lt;xPath harvest:slotName="target_name"&gt;
         //Observation_Area/Target_Identification/name
       &lt;/xPath&gt;
-      &lt;xPath slotName="target_alternate_designation"&gt;
+      &lt;xPath harvest:slotName="target_alternate_designation"&gt;
         //Observation_Area/Target_Identification/alternate_designation
       &lt;/xPath&gt;
-      &lt;xPath slotName="target_type"&gt;
+      &lt;xPath harvest:slotName="target_type"&gt;
         //Observation_Area/Target_Identification/type
       &lt;/xPath&gt;
-      &lt;xPath slotName="target_description"&gt;
+      &lt;xPath harvest:slotName="target_description"&gt;
         //Observation_Area/Target_Identification/description
       &lt;/xPath&gt;
-      &lt;xPath slotName="spacecraft_clock_start_count"&gt;
+      &lt;xPath harvest:slotName="spacecraft_clock_start_count"&gt;
         //Observation_Area/Mission_Area/dph:spacecraft_clock_start_count
       &lt;/xPath&gt;
-      &lt;xPath slotName="spacecraft_clock_stop_count"&gt;
+      &lt;xPath harvest:slotName="spacecraft_clock_stop_count"&gt;
         //Observation_Area/Mission_Area/dph:spacecraft_clock_stop_count
       &lt;/xPath&gt;
-      &lt;xPath slotName="external_reference_description"&gt;
+      &lt;xPath harvest:slotName="external_reference_description"&gt;
         //Reference_List/External_Reference/description
       &lt;/xPath&gt;
     &lt;/productMetadata&gt;
@@ -967,7 +960,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
 
        <source>
 &lt;candidates&gt;
-  &lt;namespace prefix="dph" uri="http://pds.nasa.gov/schema/pds4/dph/v01" default="true"/&gt;
+  &lt;namespace harvest:prefix="dph" harvest:uri="http://pds.nasa.gov/schema/pds4/dph/v01" harvest:default="true"/&gt;
           ...
        </source>
 
@@ -1029,7 +1022,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
        </p>
 
        <source>
-&lt;xPath slotName="target_identification_name"&gt;//Target_Identification/name&lt;/xPath&gt;
+&lt;xPath harvest:slotName="target_identification_name"&gt;//Target_Identification/name&lt;/xPath&gt;
        </source>
      </subsection>
   </section>
@@ -1141,7 +1134,7 @@ http://pds.nasa.gov/pds4/VG2PLS_archive/browse/Collection_Browse.xml
      <source>
 PDS Harvest Tool Log
 
-Version                     Version 0.4.0-dev
+Version                     Version 0.4.0
 Time                        Thu, Feb 07 2019 at 10:27:08 AM
 Target(s)                   [/Users/mcayanan/pds4/V1900/dph_example_archive]
 File Inclusions             [*.xml]
@@ -1158,68 +1151,9 @@ INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_
  line 42: Mapping reference type 'collection_to_investigation' to 'investigation_ref'.
 INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
  line 52: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- line 60: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- line 69: Mapping reference type 'collection_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:ns.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_eetable:ele_evt_12hr_orbit_2011-2012::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_eetable:ele_evt_8hr_orbit_2012-2013::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_eetable:ele_evt_8hr_orbit_2014-2015::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Capturing file information for collection_eetable_inventory.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Capturing file object metadata for collection_eetable_inventory.csv
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- line 77: Setting file type for the file object 'collection_eetable_inventory.csv' to 'Inventory'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_eetable/collection_eetable_inventory.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_eetable/collection_eetable_inventory.csv
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_eetable/collection_eetable_inventory.xml
-INFO:   Creating the .system collection with 2 shards and 2 replicas
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:data_eetable::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.data_eetable
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/collection_eetable_inventory.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:data_eetable::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Mapping reference type 'inventory_has_member_product' to 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- line 47: Mapping reference type 'collection_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- line 57: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- line 65: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- line 74: Mapping reference type 'collection_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:mascs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_wavelengths::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h01np::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h02ne::1.0', under slot name 'member_ref'.
+.
+.
+.
 INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
  Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h02nw::1.0', under slot name 'member_ref'.
 INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
@@ -1228,693 +1162,24 @@ INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collectio
  Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h02sw::1.0', under slot name 'member_ref'.
 INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
  Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h03ne::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h03nw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h03se::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h03sw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h04ne::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h04nw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h04se::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h04sw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h05ne::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h05nw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h05se::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h05sw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h06ne::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h06nw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h06se::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h06sw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h07ne::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h07nw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h07se::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h07sw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h08ne::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h08nw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h08se::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h08sw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h09ne::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h09nw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h09se::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h09sw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h10ne::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h10nw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h10se::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h10sw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h11ne::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h11nw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h11se::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h11sw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h12ne::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h12nw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h12se::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h12sw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h13ne::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h13nw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h13se::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h13sw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h14ne::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h14nw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h14se::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h14sw::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h15sp::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Capturing file information for collection_imagecube_inventory.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Capturing file object metadata for collection_imagecube_inventory.csv
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- line 82: Setting file type for the file object 'collection_imagecube_inventory.csv' to 'Inventory'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_imagecube/collection_imagecube_inventory.csv
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:data_imagecube::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.data_imagecube
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/collection_imagecube_inventory.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:data_imagecube::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Mapping reference type 'inventory_has_member_product' to 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- line 42: Mapping reference type 'collection_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- line 52: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- line 60: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- line 69: Mapping reference type 'collection_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:grs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_tnmap:thermal_neutron_map::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Capturing file information for collection_tnmap_inventory.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Capturing file object metadata for collection_tnmap_inventory.csv
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- line 77: Setting file type for the file object 'collection_tnmap_inventory.csv' to 'Inventory'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_tnmap/collection_tnmap_inventory.csv
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:data_tnmap::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.data_tnmap
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/collection_tnmap_inventory.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:data_tnmap::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Mapping reference type 'inventory_has_member_product' to 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- line 31: Mapping reference type 'collection_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- line 41: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- line 49: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- line 57: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- line 65: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- line 74: Mapping reference type 'collection_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:mascs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:grs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:ns.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:document:grs_inst::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:document:instrument_host::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:document:mascs_inst::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:document:mission::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:document:ns_inst::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Setting LIDVID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:document:meap_spec::1.0', under slot name 'member_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Capturing file information for collection_document_inventory.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Capturing file object metadata for collection_document_inventory.csv
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- line 82: Setting file type for the file object 'collection_document_inventory.csv' to 'Inventory'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/collection_document_inventory.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/collection_document_inventory.csv
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/collection_document_inventory.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:document::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.document
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/collection_document_inventory.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:document::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Begin processing.
+
 INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
  line 40: Mapping reference type 'bundle_to_investigation' to 'investigation_ref'.
 INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
  line 50: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
 INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
  line 58: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- line 66: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- line 74: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- line 83: Mapping reference type 'data_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- line 94: Mapping reference type 'bundle_has_data_collection' to 'collection_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- line 99: Mapping reference type 'bundle_has_data_collection' to 'collection_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- line 104: Mapping reference type 'bundle_has_data_collection' to 'collection_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- line 116: Mapping reference type 'bundle_has_document_collection' to 'collection_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:mascs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:grs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:ns.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_imagecube', under slot name 'collection_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_eetable', under slot name 'collection_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:data_tnmap', under slot name 'collection_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:izenberg_pdart14_meap:document', under slot name 'collection_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Capturing file information for bundle_izenberg_pdart14_meap.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/bundle_izenberg_pdart14_meap.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/bundle_izenberg_pdart14_meap.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/bundle_izenberg_pdart14_meap.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- line 37: Mapping reference type 'data_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- line 47: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- line 55: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- line 64: Mapping reference type 'collection_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:ns.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- Capturing file information for ele_evt_8hr_orbit_2012-2013.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- Capturing file object metadata for ele_evt_8hr_orbit_2012-2013.tab
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- line 77: Setting file type for the file object 'ele_evt_8hr_orbit_2012-2013.tab' to 'Observation'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.tab
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:data_eetable:ele_evt_8hr_orbit_2012-2013::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.data_eetable.ele_evt_8hr_orbit_2012-2013
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2012-2013.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:data_eetable:ele_evt_8hr_orbit_2012-2013::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- line 37: Mapping reference type 'data_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- line 47: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- line 55: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- line 64: Mapping reference type 'collection_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:ns.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- Capturing file information for ele_evt_8hr_orbit_2014-2015.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- Capturing file object metadata for ele_evt_8hr_orbit_2014-2015.tab
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- line 77: Setting file type for the file object 'ele_evt_8hr_orbit_2014-2015.tab' to 'Observation'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.tab
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:data_eetable:ele_evt_8hr_orbit_2014-2015::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.data_eetable.ele_evt_8hr_orbit_2014-2015
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_8hr_orbit_2014-2015.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:data_eetable:ele_evt_8hr_orbit_2014-2015::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- line 37: Mapping reference type 'data_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- line 47: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- line 55: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- line 64: Mapping reference type 'collection_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:ns.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- Capturing file information for ele_evt_12hr_orbit_2011-2012.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- Capturing file object metadata for ele_evt_12hr_orbit_2011-2012.tab
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- line 77: Setting file type for the file object 'ele_evt_12hr_orbit_2011-2012.tab' to 'Observation'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.tab
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:data_eetable:ele_evt_12hr_orbit_2011-2012::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.data_eetable.ele_evt_12hr_orbit_2011-2012
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_eetable/ele_evt_12hr_orbit_2011-2012.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:data_eetable:ele_evt_12hr_orbit_2011-2012::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- line 49: Mapping reference type 'data_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- line 59: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- line 67: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- line 76: Mapping reference type 'collection_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:grs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Capturing file information for thermal_neutron_map.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Capturing file object metadata for thermal_neutron_map.img
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- line 151: Setting file type for the file object 'thermal_neutron_map.img' to 'Observation'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Capturing file object metadata for thermal_neutron_map.jp2
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- line 194: Setting file type for the file object 'thermal_neutron_map.jp2' to 'Supplement'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_tnmap/thermal_neutron_map.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_tnmap/thermal_neutron_map.img
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_tnmap/thermal_neutron_map.jp2
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_tnmap/thermal_neutron_map.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:data_tnmap:thermal_neutron_map::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.data_tnmap.thermal_neutron_map
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_tnmap/thermal_neutron_map.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:data_tnmap:thermal_neutron_map::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- line 31: Mapping reference type 'document_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- line 41: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- line 49: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- line 57: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- line 65: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- line 74: Mapping reference type 'document_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:mascs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:grs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:ns.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Capturing file information for mission.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Capturing file object metadata for mission.pdf
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- line 85: Setting file type for the file object 'mission.pdf' to 'Document'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/mission.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/mission.pdf
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/mission.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:document:mission::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.document.mission
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mission.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:document:mission::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- line 31: Mapping reference type 'document_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- line 41: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- line 49: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- line 58: Mapping reference type 'document_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:mascs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- Capturing file information for mascs_inst.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- Capturing file object metadata for mascs_inst.pdf
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- line 69: Setting file type for the file object 'mascs_inst.pdf' to 'Document'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/mascs_inst.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/mascs_inst.pdf
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/mascs_inst.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:document:mascs_inst::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.document.mascs_inst
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/mascs_inst.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:document:mascs_inst::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- line 31: Mapping reference type 'document_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- line 41: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- line 49: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- line 57: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- line 65: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- line 74: Mapping reference type 'document_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:mascs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:grs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:ns.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
+.
+.
+. 
  Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
 INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
  Capturing file information for meap_spec.xml
 INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
  Capturing file object metadata for meap_spec.pdf
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- line 85: Setting file type for the file object 'meap_spec.pdf' to 'Document'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/meap_spec.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/meap_spec.pdf
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/meap_spec.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:document:meap_spec::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.document.meap_spec
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/meap_spec.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:document:meap_spec::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- line 31: Mapping reference type 'document_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- line 41: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- line 49: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- line 58: Mapping reference type 'document_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:ns.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- Capturing file information for ns_inst.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- Capturing file object metadata for ns_inst.pdf
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- line 69: Setting file type for the file object 'ns_inst.pdf' to 'Document'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/ns_inst.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/ns_inst.pdf
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/ns_inst.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:document:ns_inst::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.document.ns_inst
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/ns_inst.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:document:ns_inst::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- line 31: Mapping reference type 'document_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- line 41: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- line 49: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- line 57: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- line 65: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- line 74: Mapping reference type 'document_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:mascs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:grs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:ns.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Capturing file information for instrument_host.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Capturing file object metadata for instrument_host.pdf
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- line 85: Setting file type for the file object 'instrument_host.pdf' to 'Document'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/instrument_host.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/instrument_host.pdf
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/instrument_host.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:document:instrument_host::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.document.instrument_host
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/instrument_host.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:document:instrument_host::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- line 31: Mapping reference type 'document_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- line 41: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- line 49: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- line 58: Mapping reference type 'document_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:grs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- Capturing file information for grs_inst.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- Capturing file object metadata for grs_inst.pdf
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- line 69: Setting file type for the file object 'grs_inst.pdf' to 'Document'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/grs_inst.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/grs_inst.pdf
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/document/grs_inst.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:document:grs_inst::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.document.grs_inst
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/document/grs_inst.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:document:grs_inst::1.0.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/virs_wavelengths.xml] \ 
- Begin processing.
-SKIP:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/virs_wavelengths.xml] \ 
- 'Product_Ancillary' is not an object type found in the policy file.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Begin processing.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- line 37: Mapping reference type 'data_to_investigation' to 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- line 47: Mapping reference type 'is_instrument_host' to 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- line 55: Mapping reference type 'is_instrument' to 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- line 64: Mapping reference type 'data_to_target' to 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:investigation:mission.messenger', under slot name 'investigation_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument_host:spacecraft.mess', under slot name 'instrument_host_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:instrument:mascs.mess', under slot name 'instrument_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Setting LID-based association, 'urn:nasa:pds:context:target:planet.mercury', under slot name 'target_ref'.
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Capturing file information for virs_cube_64ppd_h01np.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Capturing file object metadata for virs_cube_64ppd_h01np.img
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- line 155: Setting file type for the file object 'virs_cube_64ppd_h01np.img' to 'Observation'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Capturing file object metadata for virs_cube_64ppd_h01np.hdr
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- line 412: Setting file type for the file object 'virs_cube_64ppd_h01np.hdr' to 'Supplement'
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.img
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.hdr
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Created access url: http://starbase.jpl.nasa.gov/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml
-SUCCESS:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Successfully registered product: urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h01np::1.0. \
- Label file blob can be found here: http://localhost:8983/solr/.system/blob/urn.nasa.pds.izenberg_pdart14_meap.data_imagecube.virs_cube_64ppd_h01np
-INFO:   [/Users/mcayanan/pds4/V1900/dph_example_archive/data_imagecube/virs/H01/virs_cube_64ppd_h01np.xml] \ 
- Successfully generated document file for urn:nasa:pds:izenberg_pdart14_meap:data_imagecube:virs_cube_64ppd_h01np::1.0.
+.
+.
+.
 
 Summary:
 
@@ -1935,6 +1200,7 @@ Product Types Handled:
 6 Product_Document
 1 Product_Bundle
 
+Registry Package Id: e297e819-1fb9-4e96-96d3-ce0c6bce3565
 
 End of Log
 

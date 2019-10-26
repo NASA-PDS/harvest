@@ -67,7 +67,7 @@
         <p><b><i>Access URLs</i></b></p>
 
         <source>
-&lt;accessUrls registerFileUrls="false"&gt;
+&lt;accessUrls harvest:registerFileUrls="false"&gt;
   &lt;accessUrl&gt;
     &lt;baseUrl&gt;http://starbase.jpl.nasa.gov&lt;/baseUrl&gt;
     &lt;offset&gt;$HOME&lt;/offset&gt;
@@ -81,8 +81,8 @@
         <p><b><i>Checksums</i></b></p>
 
         <source>
-&lt;checksums generate="true"&gt;
-  &lt;manifest basePath="$HOME/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/"&gt;
+&lt;checksums harvest:generate="true"&gt;
+  &lt;manifest harvest:basePath="$HOME/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/"&gt;
     $HOME/VG2-J-PLS-5-SUMM-ELE-MOM-96.0SEC-V1.0/CHECKSUMS.TXT
   &lt;/manifest&gt;
 &lt;/checksums&gt;
@@ -97,7 +97,7 @@
         <p><b><i>LID Contents</i></b></p>
 
         <source>
-&lt;lidContents prefix="urn:nasa:pds" appendFilename="true"&gt;
+&lt;lidContents harvest:prefix="urn:nasa:pds" harvest:appendFilename="true"&gt;
   &lt;elementName&gt;DATA_SET_ID&lt;/elementName&gt;
 &lt;/lidContents&gt;
         </source>
@@ -108,7 +108,7 @@
         <p><b><i>Title Contents</i></b></p>
 
         <source>
-&lt;titleContents appendFilename="true"&gt;
+&lt;titleContents harvest:appendFilename="true"&gt;
   &lt;elementName&gt;DATA_SET_ID&lt;/elementName&gt;
 &lt;/titleContents&gt;
         </source>
@@ -120,25 +120,25 @@
 
         <source>
 &lt;staticMetadata&gt;
-  &lt;slot name="information_model_version"&gt;
+  &lt;slot harvest:name="information_model_version"&gt;
     &lt;value&gt;1.2.0.1&lt;/value&gt;
   &lt;/slot&gt;
-  &lt;slot name="product_class"&gt;
+  &lt;slot harvest:name="product_class"&gt;
     &lt;value&gt;Product_Proxy_PDS3&lt;/value&gt;
   &lt;/slot&gt;
-  &lt;slot name="data_set_ref"&gt;
+  &lt;slot harvest:name="data_set_ref"&gt;
     &lt;value&gt;urn:nasa:pds:context_pds3:data_set:data_set.vg2-j-pls-5-summ-ele-mom-96.0sec-v1.0&lt;/value&gt;
   &lt;/slot&gt;
-  &lt;slot name="investigation_ref"&gt;
+  &lt;slot harvest:name="investigation_ref"&gt;
     &lt;value&gt;urn:nasa:pds:context_pds3:investigation:mission.voyager&lt;/value&gt;
   &lt;/slot&gt;
-  &lt;slot name="instrument_host_ref"&gt;
+  &lt;slot harvest:name="instrument_host_ref"&gt;
     &lt;value&gt;urn:nasa:pds:context_pds3:instrument_host:instrument_host.vg2&lt;/value&gt;
   &lt;/slot&gt;
-  &lt;slot name="instrument_ref"&gt;
+  &lt;slot harvest:name="instrument_ref"&gt;
     &lt;value&gt;urn:nasa:pds:context_pds3:instrument:instrument.pls_vg2&lt;/value&gt;
   &lt;/slot&gt;
-  &lt;slot name="target_ref"&gt;
+  &lt;slot harvest:name="target_ref"&gt;
     &lt;value&gt;urn:nasa:pds:context_pds3:target:target.planet.jupiter&lt;/value&gt;
   &lt;/slot&gt;
 &lt;/staticMetadata&gt;
@@ -151,19 +151,19 @@
 
         <source>
 &lt;ancillaryMetadata&gt;
-  &lt;elementName slotName="observation_start_date_time"&gt;
+  &lt;elementName harvest:slotName="observation_start_date_time"&gt;
     START_TIME
   &lt;/elementName&gt;
-  &lt;elementName slotName="observation_stop_date_time"&gt;
+  &lt;elementName harvest:slotName="observation_stop_date_time"&gt;
     STOP_TIME
   &lt;/elementName&gt;
-  &lt;elementName slotName="product_type"&gt;
+  &lt;elementName harvest:slotName="product_type"&gt;
     PRODUCT_TYPE
   &lt;/elementName&gt;
-  &lt;elementName slotName="creation_date_time"&gt;
+  &lt;elementName harvest:slotName="creation_date_time"&gt;
     PRODUCT_CREATION_TIME
   &lt;/elementName&gt;
-  &lt;elementName slotName="encoding_type"&gt;
+  &lt;elementName harvest:slotName="encoding_type"&gt;
     INTERCHANGE_FORMAT
   &lt;/elementName&gt;
 &lt;/ancillaryMetadata&gt;
@@ -377,7 +377,7 @@
     --&gt;
     &lt;pds3ProductMetadata&gt;
       &lt;!-- Tells Harvest what element values to use to create the LID. --&gt;
-      &lt;lidContents prefix="urn:nasa:pds"&gt;
+      &lt;lidContents harvest:prefix="urn:nasa:pds"&gt;
         &lt;elementName&gt;DATA_SET_ID&lt;/elementName&gt;
         &lt;elementName&gt;INSTRUMENT_ID&lt;/elementName&gt;
         &lt;elementName&gt;PRODUCT_ID&lt;/elementName&gt;
@@ -387,13 +387,13 @@
         &lt;elementName&gt;PRODUCT_ID&lt;/elementName&gt;
       &lt;/titleContents&gt;
       &lt;staticMetadata&gt;
-        &lt;slot name="information_model_version"&gt;
+        &lt;slot harvest:name="information_model_version"&gt;
           &lt;value&gt;0.8.0.0.k&lt;/value&gt;
         &lt;/slot&gt;
-        &lt;slot name="target_ref"&gt;
+        &lt;slot harvest:name="target_ref"&gt;
           &lt;value&gt;urn:nasa:pds:target:MARS::1.0&lt;/value&gt;
         &lt;/slot&gt;
-        &lt;slot name="mission_ref"&gt;
+        &lt;slot harvest:name="mission_ref"&gt;
           &lt;value&gt;urn:nasa:pds:mission.MER&lt;/value&gt;
         &lt;/slot&gt;
       &lt;/staticMetadata&gt;
