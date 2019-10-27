@@ -74,7 +74,7 @@ while [ $# -gt 0 ]; do
     elif [[ "$1" == "-host" ]]; then
       shift
       PROPS+=("-Dhost=$1")
-    elif [[ "$1" == "-delete" ]]; then
+    elif [[ "$1" == "-delete-pkg" ]]; then
       shift
       DELETE="<delete><query>package_id:$1</query></delete>"
       break
