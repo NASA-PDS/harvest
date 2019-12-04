@@ -6,7 +6,6 @@
   This policy file corresponds with the context collections migrated
   from the PDS central catalog database.
 
-  $Id$
 -->
 
 <policy xmlns="https://pds.nasa.gov/software/pds4/harvest/v1"

@@ -8,7 +8,6 @@
   the directory structure recursively looking for files with an extension
   of "LBL".
 
-  $Id$
 -->
 
 <policy xmlns="https://pds.nasa.gov/software/pds4/harvest/v1"

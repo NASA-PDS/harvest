@@ -8,8 +8,6 @@
   Harvest crawls the directory structure recursively looking for files
   without an extension of "LBL". Additionally, the THUMBNAIL sub-directory
   will be ignored.
-
-  $Id$
 -->
 
 <policy>
