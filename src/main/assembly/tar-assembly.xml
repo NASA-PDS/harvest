@@ -108,9 +108,7 @@
       <lineEnding>unix</lineEnding>
     </file>
     <file>
-      <source>README-PACKAGE.txt</source>
-      <outputDirectory>/</outputDirectory>
-      <destName>README.txt</destName>
+      <source>README.md</source>
       <fileMode>664</fileMode>
       <lineEnding>unix</lineEnding>
       <filtered>true</filtered>
