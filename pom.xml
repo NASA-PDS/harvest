@@ -37,6 +37,13 @@ POSSIBILITY OF SUCH DAMAGE.
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <!-- Inherit release profile, reporting, SNAPSHOT repo, etc. from parent repo -->
+  <parent>
+    <groupId>gov.nasa</groupId>
+    <artifactId>pds</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+
   <groupId>gov.nasa.pds</groupId>
   <artifactId>harvest</artifactId>
   <version>2.6.0-SNAPSHOT</version>
@@ -46,7 +53,7 @@ POSSIBILITY OF SUCH DAMAGE.
   <description>
     The Harvest Tool provides functionality for capturing and indexing product metadata. The tool will run locally at the Discipline Node to crawl the local data repository in order to discover products and index associated metadata with the Search Service.
   </description>
-  <url>https://pds-cm.jpl.nasa.gov/pds4/ingest/harvest/</url>
+  <url>https://nasa-pds-incubator.github.io/harvest/</url>
 
   <licenses>
     <license>
@@ -56,7 +63,6 @@ POSSIBILITY OF SUCH DAMAGE.
   </licenses>
   
   <properties>
-    <registry-version>1.16.0</registry-version>
     <oodt-version>0.12</oodt-version>
     <search-version>2.0.0</search-version>
     <product-tools-version>4.0.1</product-tools-version>
@@ -183,28 +189,6 @@ POSSIBILITY OF SUCH DAMAGE.
           <doUpdate>false</doUpdate>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.8.2</version>
-      </plugin>
-
-      <!-- Skip deployment for now -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 
@@ -215,83 +199,14 @@ POSSIBILITY OF SUCH DAMAGE.
   </scm>
 
   <profiles>
-    <profile> 
-      <id>release</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <phase>prepare-package</phase>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                  <goal>test-jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <source>1.8</source>
-              <failOnError>false</failOnError>
-            </configuration>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
+  	<!-- Inherit from parent -->
   </profiles>
 
   <repositories>
-    <!-- Hosts the PDS and OODT artifacts. -->
-    <repository>
-      <id>pds-repo</id>
-      <name>PDS Maven Repository</name>
-      <url>https://pds-cm.jpl.nasa.gov/maven2</url>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-        <checksumPolicy>warn</checksumPolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <!-- Hosts the Hibernate artifacts. -->
-    <repository>
-      <id>jboss-repo</id>
-      <name>JBoss.org Maven Repository</name>
-      <url>https://repository.jboss.org/nexus/content/repositories/releases</url>
-    </repository>
-    <!-- Hosts the Jersey artifacts. -->
-    <repository>
-      <id>java.net-repo</id>
-      <name>Java.net Maven Repository</name>
-      <url>http://download.java.net/maven/2</url>
-    </repository>
-    <!-- Hosts the Apache OODT artifacts. -->
-    <repository>
-      <id>apache-repo</id>
-      <name>Apache Repository</name>
-      <url>https://repository.apache.org/content/repositories/releases</url>
-    </repository>
-    <!-- Hosts the JPL OODT artifacts. -->
-    <repository>
-      <id>oodt-repo</id>
-      <name>OODT Private Maven Repository</name>
-      <url>https://osr.jpl.nasa.gov/download/private</url>
+      <repository>
+      <id>project.local</id>
+      <name>project</name>
+      <url>file:${project.basedir}/maven</url>
     </repository>
   </repositories>
 
@@ -349,26 +264,6 @@ POSSIBILITY OF SUCH DAMAGE.
       <artifactId>jsr311-api</artifactId>
       <version>1.1.1</version>
       <scope>compile</scope>
-    </dependency>
-    <!--
-      Exclude xerces dependency which is picked up by Jersey artifacts
-      due to conflict with preparation/core xerces dependency.
-    -->
-    <dependency>
-      <groupId>gov.nasa.pds.2010.registry</groupId>
-      <artifactId>registry-core</artifactId>
-      <version>${registry-version}</version>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>xerces</groupId>
-          <artifactId>xercesImpl</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-jdk14</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <!--
       Exclude xerces dependency which is picked up by OODT artifacts
@@ -452,7 +347,7 @@ POSSIBILITY OF SUCH DAMAGE.
           <artifactId>solr-core</artifactId>
         </exclusion>        
       </exclusions>
-    </dependency> 
+    </dependency>
     <dependency>
       <artifactId>solr-core</artifactId>
       <groupId>org.apache.solr</groupId>
@@ -489,44 +384,12 @@ POSSIBILITY OF SUCH DAMAGE.
 	  <version>20180813</version>
 	</dependency>	
   </dependencies>
+  
+  <distributionManagement>
+  	<!-- Inherit from parent -->
+  </distributionManagement>
 
   <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>dependencies</report>
-              <report>issue-management</report>
-              <report>licenses</report>
-              <report>mailing-lists</report>
-              <report>team</report>
-              <report>summary</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changes-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>changes-report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <source>1.8</source>
-          <failOnError>false</failOnError>
-        </configuration>
-      </plugin>
-    </plugins>
+  	<!-- Inherit from parent -->
   </reporting>
 </project>

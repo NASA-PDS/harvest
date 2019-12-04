@@ -439,9 +439,6 @@ public class HarvestSearchLauncher {
 	 *
 	 * @throws ParserConfigurationException If an error occurred during metadata
 	 *                                      extraction.
-	 * @throws RegistryClientException      If an error occurred while setting up
-	 *                                      the Harvester with the PDS Security
-	 *                                      Service.
 	 * @throws ConnectionException
 	 * @throws IOException
 	 * @throws SearchCoreFatalException

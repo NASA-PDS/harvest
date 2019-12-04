@@ -48,7 +48,6 @@ import gov.nasa.pds.harvest.search.doc.SearchDocState;
 import gov.nasa.pds.harvest.search.file.ChecksumManifest;
 import gov.nasa.pds.harvest.search.ingest.SearchIngester;
 import gov.nasa.pds.harvest.search.policy.Policy;
-import gov.nasa.pds.registry.exception.RegistryClientException;
 import gov.nasa.pds.search.core.exception.SearchCoreException;
 import gov.nasa.pds.search.core.exception.SearchCoreFatalException;
 
@@ -142,7 +141,6 @@ public class HarvesterSearch {
 	 * @throws MalformedURLException
 	 * @throws SearchCoreFatalException
 	 * @throws SearchCoreException
-	 * @throws RegistryClientException
 	 */
 	private List<CrawlerAction> getDefaultCrawlerActions(Policy policy, PDSProductCrawler crawler)
 			throws MalformedURLException, ConnectionException, SearchCoreException, SearchCoreFatalException {
