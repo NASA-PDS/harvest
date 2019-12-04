@@ -89,7 +89,8 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.101-b13, mixed mode)
 
     <hr />
     <section name="Unpacking the Package">
-      <p>Download the <i>${project.artifactId}</i> package from the <a href="https://pds.nasa.gov/software/pds4/${project.artifactId}-${project.version}-bin.tar.gz" target="_blank">PDS web site</a>. 
+      <p>Download the <i>${project.artifactId}</i> package from Github (<a href="https://github.com/NASA-PDS-Incubator/validate/releases/download/v${project.version}/validate-${project.version}-bin.tar.gz" target="_blank">TAR</a> 
+        <a href="https://github.com/NASA-PDS-Incubator/validate/releases/download/v${project.version}/validate-${project.version}-bin.zip" target="_blank">ZIP</a>). 
         The binary distribution is available in identical zip or tar/gzip packages. The installation directory may vary from environment to environment but in UNIX-based environments it is 
         typical to install software packages in the <i>/usr/local</i> directory and in Windows-based environments it is typical to install software packages in the <i>C:\Program Files</i> directory. 
       </p>
