@@ -1,0 +1,15 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Tue Dec 03 16:48:55 PST 2019
+file\:/Users/jpadams/Documents/proj/pds/pdsen/workspace/harvest/maven/.lastUpdated=1575420534350
+http\://download.java.net/maven/2/.lastUpdated=1571436550443
+https\://repository.jboss.org/nexus/content/repositories/releases/.lastUpdated=1575420534987
+https\://pds-cm.jpl.nasa.gov/maven2/.error=
+https\://repository.apache.org/content/repositories/releases/.lastUpdated=1571436550776
+http\://download.java.net/maven/2/.error=
+https\://repository.jboss.org/nexus/content/repositories/releases/.error=
+https\://osr.jpl.nasa.gov/download/private/.lastUpdated=1571436550963
+https\://repository.apache.org/content/repositories/releases/.error=
+https\://repo.maven.apache.org/maven2/.lastUpdated=1575420535202
+https\://repo.maven.apache.org/maven2/.error=
+file\:/Users/jpadams/Documents/proj/pds/pdsen/workspace/harvest/maven/.error=
+https\://pds-cm.jpl.nasa.gov/maven2/.lastUpdated=1571436548922

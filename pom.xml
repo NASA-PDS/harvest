@@ -55,6 +55,12 @@ POSSIBILITY OF SUCH DAMAGE.
   </description>
   <url>https://nasa-pds-incubator.github.io/harvest/</url>
 
+  <inceptionYear>2010</inceptionYear>
+
+  <organization>
+    <name>California Institute of Technology</name>
+  </organization>
+
   <licenses>
     <license>
       <name>The Apache License, Version 2.0</name>
@@ -68,45 +74,6 @@ POSSIBILITY OF SUCH DAMAGE.
     <product-tools-version>4.0.1</product-tools-version>
     <solr.version>8.2.0</solr.version>
   </properties>
-
-  <developers>
-    <developer>
-      <name>Jordan Padams</name>
-      <id>jpadams</id>
-      <email>Jordan.H.Padams@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>PDS Engineering Node Manager</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Galen Hollins</name>
-      <id>ghollins</id>
-      <email>Galen.Hollins@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>PDS Engineering Node Development Lead</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Sean Hardman</name>
-      <id>shardman</id>
-      <email>Sean.Hardman@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>Development Lead</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Michael Cayanan</name>
-      <id>mcayanan</id>
-      <email>Michael.Cayanan@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-  </developers>
 
   <build>
     <resources>
@@ -198,15 +165,11 @@ POSSIBILITY OF SUCH DAMAGE.
     <developerConnection>scm:git:ssh://github.com:NASA-PDS-Incubator/harvest.git</developerConnection>
   </scm>
 
-  <profiles>
-  	<!-- Inherit from parent -->
-  </profiles>
-
   <repositories>
       <repository>
       <id>project.local</id>
       <name>project</name>
-      <url>file:${project.basedir}/repo</url>
+      <url>file:${project.basedir}/build/repo</url>
     </repository>
   </repositories>
 
@@ -385,11 +348,9 @@ POSSIBILITY OF SUCH DAMAGE.
 	</dependency>	
   </dependencies>
   
-  <distributionManagement>
-  	<!-- Inherit from parent -->
-  </distributionManagement>
-
-  <reporting>
-  	<!-- Inherit from parent -->
-  </reporting>
+  <!-- Inherit from parent -->
+  <developers />
+  <profiles />
+  <distributionManagement />
+  <reporting />
 </project>
