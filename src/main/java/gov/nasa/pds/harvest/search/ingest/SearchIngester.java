@@ -30,35 +30,11 @@
 
 package gov.nasa.pds.harvest.search.ingest;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.security.MessageDigest;
-import java.util.Base64;
 import java.util.List;
 
 import java.util.logging.Logger;
-
-import javax.ws.rs.core.MediaType;
-
-import org.apache.pdfbox.io.IOUtils;
-import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.apache.solr.client.solrj.request.AbstractUpdateRequest;
-import org.apache.solr.client.solrj.request.CollectionAdminRequest;
-import org.apache.solr.client.solrj.request.ContentStreamUpdateRequest;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.common.SolrInputDocument;
-import org.apache.solr.common.util.ContentStreamBase.StringStream;
-import org.apache.solr.common.util.NamedList;
-import org.json.JSONObject;
-import org.json.XML;
 
 import gov.nasa.jpl.oodt.cas.filemgr.ingest.Ingester;
 import gov.nasa.jpl.oodt.cas.filemgr.structs.exceptions.CatalogException;
@@ -69,8 +45,12 @@ import gov.nasa.pds.harvest.search.constants.Constants;
 
 import gov.nasa.pds.harvest.search.logging.ToolsLevel;
 import gov.nasa.pds.harvest.search.logging.ToolsLogRecord;
+import gov.nasa.pds.harvest.search.registry.FileData;
+import gov.nasa.pds.harvest.search.registry.FileDataLoader;
+import gov.nasa.pds.harvest.search.registry.MetadataExtractor;
+import gov.nasa.pds.harvest.search.registry.RegistryDAO;
+import gov.nasa.pds.harvest.search.registry.RegistryMetadata;
 import gov.nasa.pds.harvest.search.stats.HarvestSolrStats;
-import gov.nasa.pds.harvest.search.util.TransactionManager;
 
 
 /**
@@ -80,50 +60,22 @@ import gov.nasa.pds.harvest.search.util.TransactionManager;
  * @author mcayanan
  *
  */
-public class SearchIngester implements Ingester {
+public class SearchIngester implements Ingester 
+{
 	private static Logger log = Logger.getLogger(SearchIngester.class.getName());
 
-	private SolrClient client;
-
+	private MetadataExtractor metaExtractor;
+	private RegistryDAO registryDAO;
 
 	/**
 	 * Default constructor.
 	 */
-	public SearchIngester() {
-	}
-
-
-	private SolrClient getClient(URL url) throws SolrServerException, IOException {
-		if (client == null) {
-			client = new HttpSolrClient.Builder(url.toString()).build();
-			try {
-				createCollections(client);
-			} catch (SolrServerException se) {
-				throw new SolrServerException("Error creating .system and/or xpath collection: " + se.getMessage());
-			}
-		}
-		return client;
-	}
-
-	/**
-	 * Creates the .system and xpath collections if it does not exist.
-	 * 
-	 * @param client The SolrClient.
-	 * 
-	 * @throws SolrServerException If an error occurred talking to the Solr Server.
-	 * @throws IOException         If an IO error occurred.
-	 */
-	private void createCollections(SolrClient client) throws SolrServerException, IOException 
+	public SearchIngester() throws Exception
 	{
-		List<String> collections = CollectionAdminRequest.listCollections(client);
-
-		if (!collections.contains("xpath")) 
-		{
-			log.log(new ToolsLogRecord(ToolsLevel.INFO, "Creating the xpath collection with 1 shards and 1 replicas"));
-			CollectionAdminRequest.Create req = CollectionAdminRequest.createCollection("xpath", 1, 1);
-			req.process(client);
-		}
+	    metaExtractor = new MetadataExtractor();
+	    registryDAO = new RegistryDAO();
 	}
+
 
 	/**
 	 * Method not used at this time.
@@ -163,26 +115,19 @@ public class SearchIngester implements Ingester {
 	 */
 	public boolean hasProduct(URL registry, String lid, String vid) throws CatalogException 
 	{
-		SolrClient client = null;
-		String lidvid = lid + "::" + vid;
-
-		try 
-		{
-			client = getClient(registry);
-
-			SolrQuery query = new SolrQuery("lidvid:\"" + lidvid + "\"");
-			QueryResponse response = client.query("registry", query);
-			
-			SolrDocumentList documents = response.getResults();
-			return (documents.getNumFound() != 0); 
-		}
-		catch (Exception e)
-		{
-			throw new CatalogException("Error while trying to find blob " + lidvid 
-					+ ": " + e.getMessage());
-		}
+	    String lidvid = lid + "::" + vid;
+	    
+	    try
+	    {
+    		return registryDAO.hasProduct(lid, vid);
+	    }
+	    catch(Exception ex)
+	    {
+            throw new CatalogException("Error while trying to find blob " + lidvid + ": " + ex.getMessage());
+	    }
 	}
 
+	
 	/**
 	 * Ingests the product into the registry.
 	 *
@@ -198,40 +143,26 @@ public class SearchIngester implements Ingester {
 		String lid = met.getMetadata(Constants.LOGICAL_ID);
 		String vid = met.getMetadata(Constants.PRODUCT_VERSION);
 		String lidvid = lid + "::" + vid;
-
+				
 		try 
 		{
 			if(!hasProduct(searchUrl, lid, vid)) 
 			{
-				// Read the file content in memory
-				byte[] fileContent = Files.readAllBytes(prodFile.toPath());				
-				// Calculate MD5 hash
-				byte[] md5hash = MessageDigest.getInstance("MD5").digest(fileContent);
-				String strMd5 = Base64.getEncoder().encodeToString(md5hash);				
-				// Base64 encode file content to store in Solr binary field
-				String strFileContent = Base64.getEncoder().encodeToString(fileContent);
-				
-				// Create Solr document
-				final SolrInputDocument doc = new SolrInputDocument();
-				doc.addField("lid", lid);
-				doc.addField("vid", vid);		
-				doc.addField("lidvid", lidvid);
-				doc.addField("name", prodFile.getName());
-				doc.addField("md5", strMd5);
-				doc.addField("content", strFileContent);
-				doc.addField("package_id", TransactionManager.getInstance().getTransactionId());
-				
-				// Save the document
-				SolrClient client = getClient(searchUrl);
-				client.add("registry", doc);
-				client.commit("registry");
-				
+			    RegistryMetadata registryMeta = metaExtractor.extract(prodFile.getAbsolutePath());
+			    
+			    // Save product file
+			    registryDAO.saveProduct(registryMeta, prodFile);
+			    
 				log.log(new ToolsLogRecord(ToolsLevel.SUCCESS, "Successfully registered product: " + lidvid, prodFile));
 				++HarvestSolrStats.numProductsRegistered;
 		
-				try 
+				// Save XPaths
+				/*
+				try
 				{
-					postXPaths(searchUrl, prodFile, met);
+					XPathDAO.postXPaths(prodFile, lid, vid);
+		            log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
+		                    "Successfully posted document of XPaths of entire label to the xpath Solr collection", prodFile));
 					++HarvestSolrStats.numXPathDocsRegistered;
 				} 
 				catch (Exception e) 
@@ -240,6 +171,7 @@ public class SearchIngester implements Ingester {
 							"Error posting to xpath Solr Collection endpoint: " + e.getMessage()));
 					++HarvestSolrStats.numXPathDocsNotRegistered;
 				}
+				*/
 				
 				return lidvid;
 			} 
@@ -248,52 +180,26 @@ public class SearchIngester implements Ingester {
 				++HarvestSolrStats.numProductsNotRegistered;
 				String message = "Product already exists: " + lidvid;
 				log.log(new ToolsLogRecord(ToolsLevel.WARNING, message, prodFile));
-				throw new IngestException(message);
+				return null;
 			}
 		} 
 		catch(CatalogException c)
 		{
 			++HarvestSolrStats.numProductsNotRegistered;
 			log.log(new ToolsLogRecord(ToolsLevel.SEVERE, "Error while " 
-			+ "checking for the existence of a registered product: " + c.getMessage(), prodFile));
+			        + "checking for the existence of a registered product: " + c.getMessage(), prodFile));
 			throw new IngestException(c.getMessage());
 		} 
 		catch(Exception ex)
 		{
-			throw new IngestException(ex);
+		    ++HarvestSolrStats.numProductsNotRegistered;
+		    log.log(new ToolsLogRecord(ToolsLevel.SEVERE, ex.getMessage(), prodFile));
+		    throw new IngestException(ex);
 		} 
 	}
 
 	
-	private void postXPaths(URL searchUrl, File prodFile, Metadata met) throws IOException, SolrServerException {
-		String endPoint = "/xpath/update/json/docs";
-		ContentStreamUpdateRequest up = new ContentStreamUpdateRequest(endPoint);
-		BufferedReader br = null;
-
-		try {
-			br = new BufferedReader(new FileReader(prodFile));
-			
-			// Convert XML to JSON
-			JSONObject json = XML.toJSONObject(br);
-			
-			// Add extra fields
-			String lidvid = met.getMetadata(Constants.LOGICAL_ID) + "::" + met.getMetadata(Constants.PRODUCT_VERSION);
-			json.append("id", lidvid);
-			json.append("package_id", TransactionManager.getInstance().getTransactionId());
-			
-			// Store JSON in Solr
-			StringStream stringStream = new StringStream(json.toString(2), MediaType.APPLICATION_JSON);
-			up.addContentStream(stringStream);
-			up.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
-			NamedList<Object> list = getClient(searchUrl).request(up);
-			
-			log.log(new ToolsLogRecord(ToolsLevel.SUCCESS,
-					"Successfully posted document of XPaths of entire label to the xpath Solr collection", prodFile));
-		} finally {
-			IOUtils.closeQuietly(br);
-		}
-	}
-
+	
 	/**
 	 * Method not implemented at this time.
 	 *

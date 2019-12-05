@@ -103,7 +103,8 @@ public class HarvesterSearch {
 	 *
 	 *
 	 */
-	public HarvesterSearch(String searchUrl, File configDir, File outputDir, File resources) {
+	public HarvesterSearch(String searchUrl, File configDir, File outputDir, File resources) throws Exception 
+	{
 		this.daemonPort = -1;
 		this.waitInterval = -1;
 		this.fileObjectRegistrationAction = new FileObjectRegistrationAction();

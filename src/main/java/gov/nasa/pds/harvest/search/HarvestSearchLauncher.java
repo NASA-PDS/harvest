@@ -48,6 +48,7 @@ import gov.nasa.pds.harvest.search.policy.Policy;
 import gov.nasa.pds.harvest.search.policy.PolicyReader;
 import gov.nasa.pds.harvest.search.target.TargetType;
 import gov.nasa.pds.harvest.search.util.PDSNamespaceContext;
+import gov.nasa.pds.harvest.search.util.SolrManager;
 import gov.nasa.pds.harvest.search.util.ToolInfo;
 import gov.nasa.pds.harvest.search.util.TransactionManager;
 import gov.nasa.pds.harvest.search.util.Utility;
@@ -444,14 +445,15 @@ public class HarvestSearchLauncher {
 	 * @throws SearchCoreFatalException
 	 * @throws SearchCoreException
 	 */
-	private void doHarvesting(final Policy policy) throws ParserConfigurationException, IOException,
-			ConnectionException, SearchCoreException, SearchCoreFatalException {
+	private void doHarvesting(final Policy policy) throws Exception
+	{
 		HarvesterSearch harvester = new HarvesterSearch(this.searchUrl, this.configDir, this.outputDir,
 				this.registeredResources);
 		if (daemonPort != -1 && waitInterval != -1) {
 			harvester.setDaemonPort(daemonPort);
 			harvester.setWaitInterval(waitInterval);
 		}
+	
 		Directory directories = new Directory();
 		Pds3Directory pds3Dir = new Pds3Directory();
 		FileFilter fileFilter = new FileFilter();
@@ -590,20 +592,27 @@ public class HarvestSearchLauncher {
 	 *
 	 * @param args Command-line arguments.
 	 */
-	private void processMain(String[] args) {
+	private void processMain(String[] args) 
+	{
 		// This removes the log4j warnings
 		ConsoleAppender ca = new ConsoleAppender(new PatternLayout("%-5p %m%n"));
 		ca.setThreshold(Priority.FATAL);
 
 		BasicConfigurator.configure(ca);
-		if (args.length == 0) {
+		if (args.length == 0) 
+		{
 			System.out.println("\nType 'harvest -h' for usage");
 			System.exit(0);
 		}
 
-		try {
+		try 
+		{
 			CommandLine commandline = parse(args);
 			query(commandline);
+			
+			// Init resources
+			SolrManager.init(searchUrl);
+			
 			Policy policy = PolicyReader.unmarshall(this.policy);
 			Policy globalPolicy = PolicyReader.unmarshall(this.globalPolicy);
 			policy.getCandidates().getNamespace().addAll(globalPolicy.getCandidates().getNamespace());
@@ -613,15 +622,25 @@ public class HarvestSearchLauncher {
 			setupExtractor(policy.getCandidates().getNamespace());
 			backupOutputDirectory(outputDir);
 			doHarvesting(policy);
-		} catch (JAXBException je) {
+		} 
+		catch (JAXBException je) 
+		{
 			// Don't do anything
-		} catch (ParseException pEx) {
+		} 
+		catch (ParseException pEx) 
+		{
 			System.err.println("Command-line parse failure: " + pEx.getMessage());
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-		} finally {
+		} 
+		finally 
+		{
+		    // Cleanup
 			closeHandlers();
+			SolrManager.destroy();
 		}
 	}
 
