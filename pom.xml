@@ -72,7 +72,7 @@ POSSIBILITY OF SUCH DAMAGE.
     <oodt-version>0.12</oodt-version>
     <search-version>2.0.0</search-version>
     <product-tools-version>4.0.1</product-tools-version>
-    <solr.version>8.2.0</solr.version>
+    <solr.version>8.4.1</solr.version>
   </properties>
 
   <build>
