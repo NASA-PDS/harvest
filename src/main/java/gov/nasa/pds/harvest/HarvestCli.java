@@ -71,14 +71,18 @@ public class HarvestCli
     {
         Option.Builder bld;
         
-        bld = Option.builder("c").hasArg().argName("file").desc("Harvest policy configuration.").required();
+        bld = Option.builder("c").hasArg().argName("file").desc("Harvest policy configuration file.").required();
         options.addOption(bld.build());
         
         bld = Option.builder("o").hasArg().argName("dir")
                 .desc("Output directory for Solr documents. Default is /tmp/harvest/solr");
         options.addOption(bld.build());
         
-        bld = Option.builder("l").hasArg().argName("file").desc("Log file. Default is standard out.");
+        bld = Option.builder("l").hasArg().argName("file").desc("Log file. Default is /tmp/harvest/harvest.log.");
+        options.addOption(bld.build());
+
+        bld = Option.builder("v").hasArg().argName("level").
+                desc("Logger verbosity: 0=Debug, 1=Info (default), 2=Warning, 3=Error.");
         options.addOption(bld.build());
     }
 
