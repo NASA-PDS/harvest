@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 public class XmlDomUtils
 {
@@ -24,4 +25,12 @@ public class XmlDomUtils
         return readXml(dbf, file);
     }
 
+    
+    public static String getAttribute(Node node, String attributeName)
+    {
+        if(node == null || node.getAttributes() == null) return null;
+        
+        Node att = node.getAttributes().getNamedItem(attributeName);
+        return att == null ? null : att.getNodeValue();
+    }
 }

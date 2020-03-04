@@ -1,5 +1,8 @@
 package gov.nasa.pds.harvest.util;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -26,6 +29,13 @@ public class XPathUtils
         return (res == null) ? null : res.toString();
     }
 
+    
+    public static List<String> getStringList(Document doc, XPathExpression expr) throws Exception
+    {
+        String[] values = getStringArray(doc, expr);
+        return values == null ? null : Arrays.asList(values);
+    }
+    
     
     public static String[] getStringArray(Document doc, XPathExpression expr) throws Exception
     {

@@ -24,7 +24,6 @@ import org.apache.commons.io.filefilter.AbstractFileFilter;
 public class WildcardOSFilter extends AbstractFileFilter
 {
 
-    /** Holds the list of filters. */
     private List<String> wildcards;
 
     /**
@@ -44,16 +43,6 @@ public class WildcardOSFilter extends AbstractFileFilter
     }
 
     /**
-     * Returns list of filters that were set.
-     * 
-     * @return a list of filters
-     */
-    public List<String> getWildcards()
-    {
-        return wildcards;
-    }
-
-    /**
      * Constructor for a list of wildcards.
      *
      * @param wc a list of filters to set
@@ -69,6 +58,18 @@ public class WildcardOSFilter extends AbstractFileFilter
         this.wildcards = new ArrayList<String>();
         this.wildcards.addAll(wc);
     }
+
+    
+    /**
+     * Returns list of filters that were set.
+     * 
+     * @return a list of filters
+     */
+    public List<String> getWildcards()
+    {
+        return wildcards;
+    }
+
 
     /**
      * Checks to see if the filename matches one of the wildcards. Matching is
@@ -100,6 +101,7 @@ public class WildcardOSFilter extends AbstractFileFilter
         return false;
     }
 
+    
     /**
      * Checks to see if the filename matches one of the wildcards. Matching is
      * case-insensitive for Windows and case-sensitive for Unix.

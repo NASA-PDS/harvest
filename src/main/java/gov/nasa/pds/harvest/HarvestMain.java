@@ -28,31 +28,41 @@ public class HarvestMain
         }
         
         initLogger(cli);
-        runCrawler(cli);
+        if(!loadConfiguration(cli)) return;
+        
+        runCrawler(cli, null);
     }
 
 
     private static void initLogger(HarvestCli cli)
     {
         String verbosity = cli.getOptionValue("v", "1");
-        String logFile = cli.getOptionValue("l", "/tmp/harvest/harvest.log");
+        String logFile = cli.getOptionValue("l");
         
         LogUtils.setupLogger(verbosity, logFile);
     }
  
     
-    private static void runCrawler(HarvestCli cli)
+    private static boolean loadConfiguration(HarvestCli cli)
     {
         String configFile = cli.getOptionValue("c");
-        String outDir = cli.getOptionValue("o", "/tmp/harvest/solr");
+        PolicyReader rd = new PolicyReader();
+        //Policy policy = rd.read(new File(configFile));
+
+        
+        return true;
+    }
+    
+    
+    private static void runCrawler(HarvestCli cli, Policy policy)
+    {
 
         try
         {
+            String outDir = cli.getOptionValue("o", "/tmp/harvest/solr");
             File dir = new File(outDir);
             dir.mkdirs();
             
-            PolicyReader rd = new PolicyReader();
-            Policy policy = rd.read(new File(configFile));
             
             FileProcessor cb = new FileProcessor(dir);
             

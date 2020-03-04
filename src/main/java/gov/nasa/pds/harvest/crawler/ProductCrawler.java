@@ -11,9 +11,7 @@ import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.NotFileFilter;
 
-import gov.nasa.pds.harvest.cfg.policy.model.Directory;
-import gov.nasa.pds.harvest.cfg.policy.model.DirectoryFilter;
-import gov.nasa.pds.harvest.cfg.policy.model.FileFilter;
+import gov.nasa.pds.harvest.cfg.policy.model.Directories;
 
 
 public class ProductCrawler
@@ -31,12 +29,12 @@ public class ProductCrawler
     }
     
     
-    public ProductCrawler(Directory dir, Callback cb)
+    public ProductCrawler(Directories dir, Callback cb)
     {
         if(dir == null) throw new IllegalArgumentException("Directory is null");
-        paths = dir.getPath();
-        setFileFilter(dir.getFileFilter());
-        setDirectoryFilter(dir.getDirectoryFilter());
+        paths = dir.paths;
+        setFileFilter(dir.fileFilterIncludes, dir.fileFilterExcludes);
+        setDirectoryFilter(dir.dirFilterExcludes);
 
         if(cb == null) throw new IllegalArgumentException("Callback is null");
         this.callback = cb;
@@ -55,37 +53,34 @@ public class ProductCrawler
     }
     
     
-    private void setFileFilter(FileFilter filter)
+    private void setFileFilter(List<String> includes, List<String> excludes)
     {
         List<IOFileFilter> filters = new ArrayList<IOFileFilter>();        
         filters.add(FileFilterUtils.fileFileFilter());
         
-        if(filter != null)
+        // Include
+        if(includes != null && !includes.isEmpty())
         {
-            // Include
-            if(filter.getInclude() != null && !filter.getInclude().isEmpty())
-            {
-                filters.add(new WildcardOSFilter(filter.getInclude()));
-            }
+            filters.add(new WildcardOSFilter(includes));
+        }
 
-            // Exclude
-            if(filter.getExclude() != null && !filter.getExclude().isEmpty())
-            {
-                filters.add(new NotFileFilter(new WildcardOSFilter(filter.getExclude())));
-            }
+        // Exclude
+        if(excludes != null && !excludes.isEmpty())
+        {
+            filters.add(new NotFileFilter(new WildcardOSFilter(excludes)));
         }
         
         this.fileFilter = new AndFileFilter(filters);
     }
 
 
-    private void setDirectoryFilter(DirectoryFilter filter)
+    private void setDirectoryFilter(List<String> excludes)
     {
-        if(filter == null || filter.getExclude() == null || filter.getExclude().isEmpty()) return;
+        if(excludes == null || excludes.isEmpty()) return;
 
         List<IOFileFilter> dirFilters = new ArrayList<IOFileFilter>();
         dirFilters.add(FileFilterUtils.directoryFileFilter());
-        dirFilters.add(new NotFileFilter(new WildcardOSFilter(filter.getExclude())));
+        dirFilters.add(new NotFileFilter(new WildcardOSFilter(excludes)));
     
         this.dirFilter = new AndFileFilter(dirFilters);
     }

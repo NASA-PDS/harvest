@@ -1,5 +1,6 @@
 package gov.nasa.pds.harvest.log;
 
+import java.io.File;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -10,6 +11,13 @@ public class LogUtils
 {
     public static void setupLogger(String verbosity, String filePath)
     {
+        if(filePath == null)
+        {
+            File dir = new File("/tmp/harvest");
+            dir.mkdirs();
+            filePath = "/tmp/harvest/harvest.log";
+        }
+        
         Logger log = Logger.getLogger("");
         
         // Remove default handlers

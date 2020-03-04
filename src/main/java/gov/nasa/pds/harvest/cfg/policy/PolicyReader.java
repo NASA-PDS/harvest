@@ -1,75 +1,101 @@
 package gov.nasa.pds.harvest.cfg.policy;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.basic.IntConverter;
-import com.thoughtworks.xstream.converters.basic.NullConverter;
-import com.thoughtworks.xstream.converters.basic.StringConverter;
-import com.thoughtworks.xstream.converters.collections.CollectionConverter;
-import com.thoughtworks.xstream.converters.reflection.ReflectionConverter;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
 
-import gov.nasa.pds.harvest.cfg.policy.model.AccessUrl;
-import gov.nasa.pds.harvest.cfg.policy.model.AccessUrls;
-import gov.nasa.pds.harvest.cfg.policy.model.Directory;
-import gov.nasa.pds.harvest.cfg.policy.model.DirectoryFilter;
-import gov.nasa.pds.harvest.cfg.policy.model.FileFilter;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+
+import gov.nasa.pds.harvest.cfg.policy.model.AccessUrlRule;
+import gov.nasa.pds.harvest.cfg.policy.model.Directories;
 import gov.nasa.pds.harvest.cfg.policy.model.Policy;
 import gov.nasa.pds.harvest.cfg.policy.model.XPathMap;
-import gov.nasa.pds.harvest.cfg.policy.model.XPathMaps;
+import gov.nasa.pds.harvest.util.XPathUtils;
+import gov.nasa.pds.harvest.util.XmlDomUtils;
 
 
 public class PolicyReader
 {
-    private XStream xstream;
+    XPathFactory xpf = XPathFactory.newInstance();
     
     public PolicyReader()
     {
-        xstream = new XStream(new StaxDriver())
-        {
-            @Override
-            protected void setupConverters()
-            {
-                registerConverter(new NullConverter(), PRIORITY_VERY_HIGH);
-                registerConverter(new StringConverter(), PRIORITY_NORMAL);
-                registerConverter(new IntConverter(), PRIORITY_NORMAL);
-                registerConverter(new CollectionConverter(getMapper()), PRIORITY_NORMAL);
-                registerConverter(new ReflectionConverter(getMapper(), getReflectionProvider()), PRIORITY_VERY_LOW);
-            }
-        };
-        
-        xstream.allowTypesByWildcard(new String[]
-        {
-                "gov.nasa.pds.harvest.**"
-        });
-        
-        xstream.ignoreUnknownElements();
-        
-        // Root element
-        xstream.alias("policy", Policy.class);
-
-        // <directories>
-        xstream.addImplicitCollection(Directory.class, "path", String.class);        
-        xstream.addImplicitCollection(FileFilter.class, "include", String.class);
-        xstream.addImplicitCollection(FileFilter.class, "exclude", String.class);        
-        xstream.addImplicitCollection(DirectoryFilter.class, "exclude", String.class);
-        
-        // <accessUrls>
-        xstream.addImplicitCollection(AccessUrls.class, "accessUrl", AccessUrl.class);
-        xstream.addImplicitCollection(AccessUrl.class, "offset", String.class);
-        
-        // <xpathMaps>
-        xstream.addImplicitCollection(XPathMaps.class, "xpathMaps", XPathMap.class);
-        xstream.alias("xpathMap", XPathMap.class);
-        xstream.useAttributeFor(XPathMap.class, "objectType");
-        xstream.useAttributeFor(XPathMap.class, "filePath");
     }
     
     
-    public Policy read(File file)
+    public Policy read(File file) throws Exception
     {
-        Policy policy = (Policy)xstream.fromXML(file);
+        Document doc = XmlDomUtils.readXml(file);
+        
+        Policy policy = new Policy();
+        policy.directories = parseDirectories(doc);
+        policy.accessUrlRules = parseAccessUrlRules(doc);
+        policy.xpathMaps = parseXPathMaps(doc);
+
         return policy;
+    }
+
+
+    private Directories parseDirectories(Document doc) throws Exception
+    {
+        Directories dirs = new Directories();
+
+        XPathExpression expr = XPathUtils.compileXPath(xpf, "/policy/directories/path");
+        dirs.paths = XPathUtils.getStringList(doc, expr);
+        
+        expr = XPathUtils.compileXPath(xpf, "/policy/directories/fileFilter/include");
+        dirs.fileFilterIncludes = XPathUtils.getStringList(doc, expr);
+        
+        expr = XPathUtils.compileXPath(xpf, "/policy/directories/fileFilter/exclude");
+        dirs.fileFilterExcludes = XPathUtils.getStringList(doc, expr);
+
+        expr = XPathUtils.compileXPath(xpf, "/policy/directories/directoryFilter/exclude");
+        dirs.dirFilterExcludes = XPathUtils.getStringList(doc, expr);
+
+        return dirs;
+    }
+
+    
+    private List<AccessUrlRule> parseAccessUrlRules(Document doc) throws Exception
+    {
+        XPathExpression xpe = XPathUtils.compileXPath(xpf, "/policy/accessUrl/replace");
+        NodeList nodes = XPathUtils.getNodeList(doc, xpe);        
+        if(nodes == null || nodes.getLength() == 0) return null;
+        
+        List<AccessUrlRule> list = new ArrayList<>();
+        
+        for(int i = 0; i < nodes.getLength(); i++)
+        {
+            AccessUrlRule rule = new AccessUrlRule();
+            rule.prefix = XmlDomUtils.getAttribute(nodes.item(i), "filePathPrefix");
+            rule.baseUrl = XmlDomUtils.getAttribute(nodes.item(i), "withBaseUrl");
+            list.add(rule);
+        }
+
+        return list;        
+    }
+
+    
+    private List<XPathMap> parseXPathMaps(Document doc) throws Exception
+    {
+        XPathExpression xpe = XPathUtils.compileXPath(xpf, "/policy/xpathMaps/xpathMap");
+        NodeList nodes = XPathUtils.getNodeList(doc, xpe);        
+        if(nodes == null || nodes.getLength() == 0) return null;
+        
+        List<XPathMap> list = new ArrayList<>();
+        
+        for(int i = 0; i < nodes.getLength(); i++)
+        {
+            XPathMap xpm = new XPathMap();
+            xpm.filePath = XmlDomUtils.getAttribute(nodes.item(i), "filePath");
+            xpm.objectType = XmlDomUtils.getAttribute(nodes.item(i), "objectType");
+            list.add(xpm);
+        }
+
+        return list;        
     }
 }
