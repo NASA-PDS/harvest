@@ -2,11 +2,11 @@ package gov.nasa.pds.harvest;
 
 import java.io.File;
 
+import gov.nasa.pds.harvest.cfg.policy.PolicyReader;
+import gov.nasa.pds.harvest.cfg.policy.model.Policy;
 import gov.nasa.pds.harvest.crawler.FileProcessor;
 import gov.nasa.pds.harvest.crawler.ProductCrawler;
 import gov.nasa.pds.harvest.log.LogUtils;
-import gov.nasa.pds.harvest.policy.PolicyReader;
-import gov.nasa.pds.harvest.policy.model.Policy;
 
 
 public class HarvestMain
@@ -56,7 +56,7 @@ public class HarvestMain
             
             FileProcessor cb = new FileProcessor(dir);
             
-            ProductCrawler crawler = new ProductCrawler(policy.getDirectories(), cb);
+            ProductCrawler crawler = new ProductCrawler(policy.directories, cb);
             crawler.crawl();
             
             cb.close();

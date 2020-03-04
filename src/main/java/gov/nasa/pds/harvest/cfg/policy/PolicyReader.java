@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.policy;
+package gov.nasa.pds.harvest.cfg.policy;
 
 import java.io.File;
 
@@ -10,12 +10,14 @@ import com.thoughtworks.xstream.converters.collections.CollectionConverter;
 import com.thoughtworks.xstream.converters.reflection.ReflectionConverter;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
-import gov.nasa.pds.harvest.policy.model.AccessUrl;
-import gov.nasa.pds.harvest.policy.model.AccessUrls;
-import gov.nasa.pds.harvest.policy.model.Directory;
-import gov.nasa.pds.harvest.policy.model.DirectoryFilter;
-import gov.nasa.pds.harvest.policy.model.FileFilter;
-import gov.nasa.pds.harvest.policy.model.Policy;
+import gov.nasa.pds.harvest.cfg.policy.model.AccessUrl;
+import gov.nasa.pds.harvest.cfg.policy.model.AccessUrls;
+import gov.nasa.pds.harvest.cfg.policy.model.Directory;
+import gov.nasa.pds.harvest.cfg.policy.model.DirectoryFilter;
+import gov.nasa.pds.harvest.cfg.policy.model.FileFilter;
+import gov.nasa.pds.harvest.cfg.policy.model.Policy;
+import gov.nasa.pds.harvest.cfg.policy.model.XPathMap;
+import gov.nasa.pds.harvest.cfg.policy.model.XPathMaps;
 
 
 public class PolicyReader
@@ -39,7 +41,7 @@ public class PolicyReader
         
         xstream.allowTypesByWildcard(new String[]
         {
-                "gov.nasa.pds.rh.policy.**"
+                "gov.nasa.pds.harvest.**"
         });
         
         xstream.ignoreUnknownElements();
@@ -55,7 +57,13 @@ public class PolicyReader
         
         // <accessUrls>
         xstream.addImplicitCollection(AccessUrls.class, "accessUrl", AccessUrl.class);
-        xstream.addImplicitCollection(AccessUrl.class, "offset", String.class);        
+        xstream.addImplicitCollection(AccessUrl.class, "offset", String.class);
+        
+        // <xpathMaps>
+        xstream.addImplicitCollection(XPathMaps.class, "xpathMaps", XPathMap.class);
+        xstream.alias("xpathMap", XPathMap.class);
+        xstream.useAttributeFor(XPathMap.class, "objectType");
+        xstream.useAttributeFor(XPathMap.class, "filePath");
     }
     
     

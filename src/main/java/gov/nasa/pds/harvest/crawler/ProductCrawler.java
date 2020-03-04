@@ -11,9 +11,9 @@ import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.NotFileFilter;
 
-import gov.nasa.pds.harvest.policy.model.Directory;
-import gov.nasa.pds.harvest.policy.model.DirectoryFilter;
-import gov.nasa.pds.harvest.policy.model.FileFilter;
+import gov.nasa.pds.harvest.cfg.policy.model.Directory;
+import gov.nasa.pds.harvest.cfg.policy.model.DirectoryFilter;
+import gov.nasa.pds.harvest.cfg.policy.model.FileFilter;
 
 
 public class ProductCrawler
