@@ -12,6 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import gov.nasa.pds.harvest.cfg.policy.model.ReplaceRule;
+import gov.nasa.pds.harvest.cfg.policy.model.AccessUrl;
 import gov.nasa.pds.harvest.cfg.policy.model.Directories;
 import gov.nasa.pds.harvest.cfg.policy.model.Policy;
 import gov.nasa.pds.harvest.cfg.policy.model.XPathMap;
@@ -35,7 +36,7 @@ public class PolicyReader
         
         Policy policy = new Policy();
         policy.directories = parseDirectories(doc);
-        policy.accessUrlRules = parseAccessUrlRules(doc);
+        policy.accessUrl = parseAccessUrl(doc);
         policy.xpathMaps = parseXPathMaps(doc);
 
         return policy;
@@ -62,11 +63,20 @@ public class PolicyReader
     }
 
     
-    private List<ReplaceRule> parseAccessUrlRules(Document doc) throws Exception
+    private AccessUrl parseAccessUrl(Document doc) throws Exception
     {
-        XPathExpression xpe = XPathUtils.compileXPath(xpf, "/policy/accessUrl/replaceFilePath");
+        // <accessUrl> (root) node
+        XPathExpression xpe = XPathUtils.compileXPath(xpf, "/policy/accessUrl");
         NodeList nodes = XPathUtils.getNodeList(doc, xpe);        
         if(nodes == null || nodes.getLength() == 0) return null;
+        Node rootNode = nodes.item(0);
+        
+        AccessUrl accessUrl = new AccessUrl();
+
+        // items
+        xpe = XPathUtils.compileXPath(xpf, "//replaceFilePath");
+        nodes = XPathUtils.getNodeList(rootNode, xpe);
+        if(nodes == null || nodes.getLength() == 0) return accessUrl;
         
         List<ReplaceRule> list = new ArrayList<>();
         
@@ -78,12 +88,15 @@ public class PolicyReader
             list.add(rule);
         }
 
-        return list;        
+        accessUrl.rules = list;
+        
+        return accessUrl;
     }
 
     
     private XPathMaps parseXPathMaps(Document doc) throws Exception
     {
+        // <xpathMaps> (root) node
         XPathExpression xpe = XPathUtils.compileXPath(xpf, "/policy/xpathMaps");
         NodeList nodes = XPathUtils.getNodeList(doc, xpe);
         if(nodes == null || nodes.getLength() == 0) return null;
