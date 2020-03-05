@@ -5,6 +5,6 @@ import java.util.List;
 public class Policy
 {
     public Directories directories;
-    public List<AccessUrlRule> accessUrlRules;
-    public List<XPathMap> xpathMaps;
+    public List<ReplaceRule> accessUrlRules;
+    public XPathMaps xpathMaps;
 }

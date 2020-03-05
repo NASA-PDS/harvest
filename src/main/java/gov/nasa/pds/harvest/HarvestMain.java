@@ -1,11 +1,6 @@
 package gov.nasa.pds.harvest;
 
-import java.io.File;
-
-import gov.nasa.pds.harvest.cfg.policy.PolicyReader;
-import gov.nasa.pds.harvest.cfg.policy.model.Policy;
-import gov.nasa.pds.harvest.crawler.FileProcessor;
-import gov.nasa.pds.harvest.crawler.ProductCrawler;
+import gov.nasa.pds.harvest.crawler.CrawlerCommand;
 import gov.nasa.pds.harvest.log.LogUtils;
 
 
@@ -28,9 +23,10 @@ public class HarvestMain
         }
         
         initLogger(cli);
-        if(!loadConfiguration(cli)) return;
-        
-        runCrawler(cli, null);
+
+        CrawlerCommand cmd = new CrawlerCommand(cli);
+        int status = cmd.run();
+        System.exit(status);
     }
 
 
@@ -41,41 +37,5 @@ public class HarvestMain
         
         LogUtils.setupLogger(verbosity, logFile);
     }
- 
-    
-    private static boolean loadConfiguration(HarvestCli cli)
-    {
-        String configFile = cli.getOptionValue("c");
-        PolicyReader rd = new PolicyReader();
-        //Policy policy = rd.read(new File(configFile));
 
-        
-        return true;
-    }
-    
-    
-    private static void runCrawler(HarvestCli cli, Policy policy)
-    {
-
-        try
-        {
-            String outDir = cli.getOptionValue("o", "/tmp/harvest/solr");
-            File dir = new File(outDir);
-            dir.mkdirs();
-            
-            
-            FileProcessor cb = new FileProcessor(dir);
-            
-            ProductCrawler crawler = new ProductCrawler(policy.directories, cb);
-            crawler.crawl();
-            
-            cb.close();
-        }
-        catch(Exception ex)
-        {
-            System.out.println("ERROR: " + ex.getMessage());
-            System.exit(1);
-        }
-    }
-    
 }

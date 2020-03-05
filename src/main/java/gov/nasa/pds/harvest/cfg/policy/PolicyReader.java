@@ -8,12 +8,14 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import gov.nasa.pds.harvest.cfg.policy.model.AccessUrlRule;
+import gov.nasa.pds.harvest.cfg.policy.model.ReplaceRule;
 import gov.nasa.pds.harvest.cfg.policy.model.Directories;
 import gov.nasa.pds.harvest.cfg.policy.model.Policy;
 import gov.nasa.pds.harvest.cfg.policy.model.XPathMap;
+import gov.nasa.pds.harvest.cfg.policy.model.XPathMaps;
 import gov.nasa.pds.harvest.util.XPathUtils;
 import gov.nasa.pds.harvest.util.XmlDomUtils;
 
@@ -60,19 +62,19 @@ public class PolicyReader
     }
 
     
-    private List<AccessUrlRule> parseAccessUrlRules(Document doc) throws Exception
+    private List<ReplaceRule> parseAccessUrlRules(Document doc) throws Exception
     {
-        XPathExpression xpe = XPathUtils.compileXPath(xpf, "/policy/accessUrl/replace");
+        XPathExpression xpe = XPathUtils.compileXPath(xpf, "/policy/accessUrl/replaceFilePath");
         NodeList nodes = XPathUtils.getNodeList(doc, xpe);        
         if(nodes == null || nodes.getLength() == 0) return null;
         
-        List<AccessUrlRule> list = new ArrayList<>();
+        List<ReplaceRule> list = new ArrayList<>();
         
         for(int i = 0; i < nodes.getLength(); i++)
         {
-            AccessUrlRule rule = new AccessUrlRule();
-            rule.prefix = XmlDomUtils.getAttribute(nodes.item(i), "filePathPrefix");
-            rule.baseUrl = XmlDomUtils.getAttribute(nodes.item(i), "withBaseUrl");
+            ReplaceRule rule = new ReplaceRule();
+            rule.prefix = XmlDomUtils.getAttribute(nodes.item(i), "prefix");
+            rule.replacement = XmlDomUtils.getAttribute(nodes.item(i), "replacement");
             list.add(rule);
         }
 
@@ -80,11 +82,20 @@ public class PolicyReader
     }
 
     
-    private List<XPathMap> parseXPathMaps(Document doc) throws Exception
+    private XPathMaps parseXPathMaps(Document doc) throws Exception
     {
-        XPathExpression xpe = XPathUtils.compileXPath(xpf, "/policy/xpathMaps/xpathMap");
-        NodeList nodes = XPathUtils.getNodeList(doc, xpe);        
+        XPathExpression xpe = XPathUtils.compileXPath(xpf, "/policy/xpathMaps");
+        NodeList nodes = XPathUtils.getNodeList(doc, xpe);
         if(nodes == null || nodes.getLength() == 0) return null;
+
+        XPathMaps maps = new XPathMaps();
+        Node rootNode = nodes.item(0);
+        maps.baseDir = XmlDomUtils.getAttribute(rootNode, "baseDir");
+
+        // <xpathMap> items
+        xpe = XPathUtils.compileXPath(xpf, "//xpathMap");
+        nodes = XPathUtils.getNodeList(rootNode, xpe);
+        if(nodes == null || nodes.getLength() == 0) return maps;
         
         List<XPathMap> list = new ArrayList<>();
         
@@ -96,6 +107,7 @@ public class PolicyReader
             list.add(xpm);
         }
 
-        return list;        
+        maps.items = list;
+        return maps;
     }
 }

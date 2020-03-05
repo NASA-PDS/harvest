@@ -31,6 +31,9 @@ public class LogUtils
         // Add custom handlers
         addConsoleHandler(log, level);
         addFileHandler(log, level, filePath);
+        
+        File file = new File(filePath);
+        log.info("Logging to " + file.getAbsolutePath());
     }
 
 

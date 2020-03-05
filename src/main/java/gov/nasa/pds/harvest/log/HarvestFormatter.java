@@ -9,7 +9,7 @@ import java.util.logging.LogRecord;
 public class HarvestFormatter extends Formatter
 {
     private Date date = new Date();
-    private String format = "%1$tF %1$tT %2$s %3$s %4$s %n";;
+    private String format = "%1$tF %1$tT [%2$s] %3$s %4$s %n";;
 
     
     public HarvestFormatter()

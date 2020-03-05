@@ -1,8 +1,8 @@
 package gov.nasa.pds.harvest.cfg.policy.model;
 
 
-public class AccessUrlRule
+public class ReplaceRule
 {
     public String prefix;
-    public String baseUrl;
+    public String replacement;
 }

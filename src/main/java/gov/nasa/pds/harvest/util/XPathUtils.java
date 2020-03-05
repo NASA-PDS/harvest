@@ -53,9 +53,9 @@ public class XPathUtils
     }
 
     
-    public static NodeList getNodeList(Document doc, XPathExpression expr) throws Exception
+    public static NodeList getNodeList(Object item, XPathExpression expr) throws Exception
     {
-        NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+        NodeList nodes = (NodeList)expr.evaluate(item, XPathConstants.NODESET);
         return nodes;
     }
 }
