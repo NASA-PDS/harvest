@@ -1,6 +1,7 @@
 package gov.nasa.pds.harvest.crawler;
 
 import java.io.File;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import gov.nasa.pds.harvest.HarvestCli;
@@ -16,7 +17,8 @@ public class CrawlerCommand
     private String pConfigFile;
     private String pOutDir;
     private Policy policy;
-    
+    private boolean storeBlob = false;
+
     
     public CrawlerCommand(HarvestCli cli)
     {
@@ -29,29 +31,13 @@ public class CrawlerCommand
     {
         LOG.info("Starting product crawler...");
     
-        //setHomeDir();
-        
         if(!loadConfiguration()) return 1;
+        runCrawler();
         
         return 0;
     }
     
 
-    private void setHomeDir()
-    {
-        String home = System.getenv("HARVEST_HOME");
-        if(home == null)
-        {
-            home = System.getProperty("user.dir");
-            LOG.warning("HARVEST_HOME environment variable is not set. Will use " + home);
-        }
-        else
-        {
-            LOG.info("HARVEST_HOME = " + home);
-        }
-    }
-    
-    
     private boolean loadConfiguration()
     {
         File cfgFile = new File(pConfigFile);
@@ -69,7 +55,7 @@ public class CrawlerCommand
         }
         catch(Exception ex)
         {
-            LOG.severe(ex.getMessage());
+            LOG.log(Level.SEVERE, "", ex);
             return false;
         }
         
@@ -77,21 +63,21 @@ public class CrawlerCommand
     }
     
     
-    private void runCrawler(HarvestCli cli, Policy policy)
+    private void runCrawler()
     {
-
         try
         {
+            LOG.info("Will write Solr docs to " + pOutDir);
             File dir = new File(pOutDir);
             dir.mkdirs();
             
-            
-            FileProcessor cb = new FileProcessor(dir);
-            
+            FileProcessor cb = new FileProcessor(dir, storeBlob);
             ProductCrawler crawler = new ProductCrawler(policy.directories, cb);
             crawler.crawl();
-            
             cb.close();
+            
+            LOG.info("Total file count: " + cb.getTotalFileCount());
+            LOG.info("Processed file count: " + cb.getProcessedFileCount());
         }
         catch(Exception ex)
         {

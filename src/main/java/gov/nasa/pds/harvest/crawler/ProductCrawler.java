@@ -76,11 +76,13 @@ public class ProductCrawler
 
     private void setDirectoryFilter(List<String> excludes)
     {
-        if(excludes == null || excludes.isEmpty()) return;
-
         List<IOFileFilter> dirFilters = new ArrayList<IOFileFilter>();
         dirFilters.add(FileFilterUtils.directoryFileFilter());
-        dirFilters.add(new NotFileFilter(new WildcardOSFilter(excludes)));
+
+        if(excludes != null && !excludes.isEmpty())
+        {
+            dirFilters.add(new NotFileFilter(new WildcardOSFilter(excludes)));
+        }
     
         this.dirFilter = new AndFileFilter(dirFilters);
     }

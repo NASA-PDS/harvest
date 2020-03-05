@@ -11,8 +11,14 @@ public class XPathCache
 {
     private static class Item
     {
-        public XPathExpression xpe;
         public String fieldName;
+        public XPathExpression xpe;
+        
+        public Item(String fieldName, XPathExpression xpe)
+        {
+            this.fieldName = fieldName;
+            this.xpe = xpe;
+        }
     }
 
 ///////////////////////////////////////////////////////
@@ -27,8 +33,14 @@ public class XPathCache
     }
 
     
-    public void add(String fieldName, String xpath)
+    public void add(String fieldName, XPathExpression xpe)
     {
-        
+        items.add(new Item(fieldName, xpe));
+    }
+    
+    
+    public List<Item> getItems()
+    {
+        return items;
     }
 }

@@ -20,12 +20,30 @@ public class FileProcessor implements ProductCrawler.Callback
     private SolrDocWriter writer;
     private MetadataExtractor metaExtractor;
 
+    private boolean storeBlob = false;
     
-    public FileProcessor(File outDir) throws Exception
+    private int totalFileCount;
+    private int processedFileCount;
+    
+    
+    public FileProcessor(File outDir, boolean storeContent) throws Exception
     {
+        this.storeBlob = storeContent;
         tika = new Tika();
         writer = new SolrDocWriter(outDir);
         metaExtractor = new MetadataExtractor();
+    }
+    
+    
+    public int getTotalFileCount()
+    {
+        return totalFileCount;
+    }
+    
+    
+    public int getProcessedFileCount()
+    {
+        return processedFileCount;
     }
     
     
@@ -35,6 +53,7 @@ public class FileProcessor implements ProductCrawler.Callback
         try
         {
             processFile(file);
+            totalFileCount++;
         }
         catch(Exception ex)
         {
@@ -79,8 +98,12 @@ public class FileProcessor implements ProductCrawler.Callback
             RegistryMetadata meta = metaExtractor.extract(file);
             if(!validateAndContinue(meta, file)) return;
             
-            FileDataUtils.setFileContent(fd, file);
+            if(storeBlob)
+            {
+                FileDataUtils.setFileContent(fd, file);
+            }
             writer.write(fd, meta);
+            processedFileCount++;
         }
     }
 

@@ -31,12 +31,20 @@ public class XPathCacheManager
     
     public XPathCache getCacheByObjectType(String type)
     {
-        return cacheMap.get(type);
+        return (type == null) ? commonCache : cacheMap.get(type);
     }
 
     
     XPathCache getOrCreate(String type)
     {
+        // Common cache
+        if(type == null)
+        {
+            if(commonCache == null) commonCache = new XPathCache();
+            return commonCache;
+        }
+        
+        // Cache by object type
         XPathCache cache = cacheMap.get(type);
         if(cache == null)
         {
