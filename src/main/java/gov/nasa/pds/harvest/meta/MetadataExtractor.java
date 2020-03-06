@@ -9,6 +9,7 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 
+import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.XPathUtils;
 import gov.nasa.pds.harvest.util.XmlDomUtils;
 
@@ -52,8 +53,32 @@ public class MetadataExtractor
         // References
         md.intRefs = refExtractor.extract(doc);
         
+        // Custom fields
+        FieldMap customFields = new FieldMap();
+        
+        // Common fields
+        XPathCache cache = XPathCacheManager.getInstance().getCommonCache();
+        addCustomFields(doc, cache, customFields);
+        
+        // Object type fields
+        cache = XPathCacheManager.getInstance().getCacheByObjectType(md.rootElement);
+        addCustomFields(doc, cache, customFields);
+        
+        if(!customFields.isEmpty()) md.customFields = customFields; 
+        
         return md;
     }
+
     
-    
+    private void addCustomFields(Document doc, XPathCache cache, FieldMap fieldMap) throws Exception
+    {
+        if(cache == null || cache.isEmpty()) return;
+        
+        for(XPathCache.Item item: cache.getItems())
+        {
+            String[] values = XPathUtils.getStringArray(doc, item.xpe);
+            fieldMap.addValues(item.fieldName, values);
+        }
+    }
+
 }

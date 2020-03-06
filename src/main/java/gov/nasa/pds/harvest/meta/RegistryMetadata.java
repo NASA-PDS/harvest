@@ -11,9 +11,10 @@ public class RegistryMetadata
     public String title;
     
     public FieldMap intRefs;
+    public FieldMap customFields;
 
+    
     public RegistryMetadata()
     {
     }
-
 }

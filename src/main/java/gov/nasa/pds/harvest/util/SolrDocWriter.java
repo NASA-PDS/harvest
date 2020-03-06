@@ -40,34 +40,41 @@ public class SolrDocWriter
         SolrDocUtils.writeField(writer, "title", meta.title);
         
         // File Info
-        SolrDocUtils.writeField(writer, "file_name", fileData.name);
-        SolrDocUtils.writeField(writer, "file_type", fileData.mimeType);
-        SolrDocUtils.writeField(writer, "file_size", fileData.size);
+        SolrDocUtils.writeField(writer, "label_file_name", fileData.name);
+        SolrDocUtils.writeField(writer, "label_file_type", fileData.mimeType);
+        SolrDocUtils.writeField(writer, "label_file_size", fileData.size);
 
         // File content
-        SolrDocUtils.writeField(writer, "file_content", fileData.contentBase64);
-        SolrDocUtils.writeField(writer, "file_md5", fileData.md5Base64);
+        SolrDocUtils.writeField(writer, "label_file_content", fileData.contentBase64);
+        SolrDocUtils.writeField(writer, "label_file_md5", fileData.md5Base64);
 
         // Transaction ID
-        SolrDocUtils.writeField(writer, "package_id", PackageIdGenerator.getInstance().getPackageId());
+        SolrDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());
 
         // XML info
         SolrDocUtils.writeField(writer, "xml_root_element", meta.rootElement);
         
         // References
-        if(meta.intRefs != null && meta.intRefs.size() > 0)
-        {
-            for(String key: meta.intRefs.getNames())
-            {
-                Set<String> values = meta.intRefs.getValues(key);
-                for(String value: values)
-                {
-                    SolrDocUtils.writeField(writer, key, value);
-                }
-            }
-        }
-
+        write(meta.intRefs);
+        
+        // CustomFields
+        write(meta.customFields);
+        
         writer.append("</doc>\n");
     }
+ 
     
+    private void write(FieldMap fmap) throws Exception
+    {
+        if(fmap == null || fmap.isEmpty()) return;
+        
+        for(String key: fmap.getNames())
+        {
+            Set<String> values = fmap.getValues(key);
+            for(String value: values)
+            {
+                SolrDocUtils.writeField(writer, key, value);
+            }
+        }
+    }
 }

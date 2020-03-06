@@ -1,5 +1,6 @@
 package gov.nasa.pds.harvest.util;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -22,22 +23,45 @@ public class FieldMap
     }
     
     
-    public void addValue(String fieldName, String value)
+    public boolean isEmpty()
+    {
+        return fields.size() == 0;
+    }
+    
+    
+    private Set<String> getOrCreateValues(String fieldName)
     {
         if(fieldName == null) throw new IllegalArgumentException("Field name is null");
-        if(value == null) return;
-        
+
         Set<String> values = fields.get(fieldName);
         if(values == null) 
         {
             values = new TreeSet<>();
             fields.put(fieldName, values);
         }
-        
-        values.add(value);
+
+        return values;
     }
     
     
+    public void addValue(String fieldName, String value)
+    {
+        if(value == null) return;
+        
+        Set<String> values = getOrCreateValues(fieldName);        
+        values.add(value);
+    }
+    
+
+    public void addValues(String fieldName, String[] values)
+    {
+        if(values == null || values.length == 0) return;
+        
+        Set<String> set = getOrCreateValues(fieldName);        
+        Collections.addAll(set, values);
+    }
+
+
     public String getFirstValue(String fieldName)
     {
         Set<String> values = getValues(fieldName);
@@ -55,4 +79,5 @@ public class FieldMap
     {
         return fields.keySet();
     }
+    
 }

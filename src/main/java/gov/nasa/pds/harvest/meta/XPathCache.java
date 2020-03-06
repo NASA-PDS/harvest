@@ -9,7 +9,7 @@ import javax.xml.xpath.XPathExpression;
 
 public class XPathCache
 {
-    private static class Item
+    public static class Item
     {
         public String fieldName;
         public XPathExpression xpe;
@@ -32,6 +32,14 @@ public class XPathCache
         items = new ArrayList<>();
     }
 
+    
+    public boolean isEmpty()
+    {
+        if(items == null || items.size() == 0) return true;
+        
+        return false;
+    }
+    
     
     public void add(String fieldName, XPathExpression xpe)
     {
