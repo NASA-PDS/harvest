@@ -27,16 +27,17 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Inherit release profile, reporting, SNAPSHOT repo, etc. from parent 
-        repo -->
+    <!-- Inherit release profile, reporting, SNAPSHOT repo, etc. from parent repo -->
+    <!--
     <parent>
         <groupId>gov.nasa</groupId>
         <artifactId>pds</artifactId>
         <version>1.0.0</version>
     </parent>
+    -->
 
     <groupId>gov.nasa.pds</groupId>
-    <artifactId>harvest-cli</artifactId>
+    <artifactId>harvest</artifactId>
     <version>3.0.0</version>
     <packaging>jar</packaging>
 

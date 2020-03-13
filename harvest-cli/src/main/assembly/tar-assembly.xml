@@ -48,7 +48,7 @@
 
     <fileSet>
       <directory>target</directory>
-      <outputDirectory>lib</outputDirectory>
+      <outputDirectory>dist</outputDirectory>
       <includes>
         <include>*.jar</include>
       </includes>
@@ -63,10 +63,9 @@
       <outputDirectory>bin</outputDirectory>
       <includes>
         <include>harvest</include>
-        <include>registry-mgr</include>
       </includes>
       <fileMode>775</fileMode>
-      <lineEnding>keep</lineEnding>
+      <lineEnding>unix</lineEnding>
     </fileSet>
 
     <fileSet>

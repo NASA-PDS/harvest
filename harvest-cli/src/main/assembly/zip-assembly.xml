@@ -48,7 +48,7 @@
 
     <fileSet>
       <directory>target</directory>
-      <outputDirectory>bin</outputDirectory>
+      <outputDirectory>dist</outputDirectory>
       <includes>
         <include>*.jar</include>
       </includes>
@@ -62,12 +62,20 @@
       <directory>src/main/resources/bin</directory>
       <outputDirectory>bin</outputDirectory>
       <includes>
-        <include>harvest</include>
         <include>harvest.bat</include>
-        <include>registry-mgr</include>
       </includes>
       <fileMode>775</fileMode>
-      <lineEnding>keep</lineEnding>
+      <lineEnding>dos</lineEnding>
+    </fileSet>
+
+    <fileSet>
+      <directory>src/main/resources/bin</directory>
+      <outputDirectory>bin</outputDirectory>
+      <includes>
+        <include>harvest</include>
+      </includes>
+      <fileMode>775</fileMode>
+      <lineEnding>unix</lineEnding>
     </fileSet>
 
     <fileSet>
