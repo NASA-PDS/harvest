@@ -9,6 +9,8 @@ public class RegistryMetadata
     public String lid;
     public String vid;
     public String title;
+
+    public String fileRef;    
     
     public FieldMap intRefs;
     public FieldMap customFields;

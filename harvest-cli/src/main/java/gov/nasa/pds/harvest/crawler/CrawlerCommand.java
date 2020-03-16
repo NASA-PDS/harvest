@@ -8,6 +8,7 @@ import gov.nasa.pds.harvest.HarvestCli;
 import gov.nasa.pds.harvest.cfg.policy.PolicyReader;
 import gov.nasa.pds.harvest.cfg.policy.model.Policy;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
+import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
 public class CrawlerCommand
@@ -17,7 +18,6 @@ public class CrawlerCommand
     private String pConfigFile;
     private String pOutDir;
     private Policy policy;
-    private boolean storeBlob = false;
 
     
     public CrawlerCommand(HarvestCli cli)
@@ -68,16 +68,20 @@ public class CrawlerCommand
         try
         {
             LOG.info("Will write Solr docs to " + pOutDir);
-            File dir = new File(pOutDir);
-            dir.mkdirs();
+            File outDir = new File(pOutDir);
+            outDir.mkdirs();
             
-            FileProcessor cb = new FileProcessor(dir, storeBlob);
+            FileProcessor cb = new FileProcessor(outDir, policy);
             ProductCrawler crawler = new ProductCrawler(policy.directories, cb);
             crawler.crawl();
             cb.close();
             
             LOG.info("Total file count: " + cb.getTotalFileCount());
             LOG.info("Processed file count: " + cb.getProcessedFileCount());
+            if(cb.getProcessedFileCount() > 0)
+            {
+                LOG.info("Package ID: " + PackageIdGenerator.getInstance().getPackageId());
+            }
         }
         catch(Exception ex)
         {

@@ -28,8 +28,8 @@ public class TestPolicyReader
         System.out.println(policy.directories.fileFilterExcludes);
         System.out.println(policy.directories.dirFilterExcludes);
         
-        System.out.println("\nAccesUrl\n===============");
-        for(ReplaceRule rule: policy.accessUrl.rules)
+        System.out.println("\nFileRef\n===============");
+        for(ReplaceRule rule: policy.fileRef.rules)
         {
             System.out.println(rule.prefix + " --> " + rule.replacement);
         }
@@ -41,6 +41,10 @@ public class TestPolicyReader
         {
             System.out.println(map.objectType + " --> " + map.filePath);
         }
+        
+        System.out.println("\nBlobStorage\n===============");
+        System.out.println("type = " + ((policy.blobStorage == null) ? 0 : policy.blobStorage.storageType));
+        
     }
 
     

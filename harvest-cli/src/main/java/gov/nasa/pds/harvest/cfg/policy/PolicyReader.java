@@ -3,8 +3,8 @@ package gov.nasa.pds.harvest.cfg.policy;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
-import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
@@ -12,7 +12,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import gov.nasa.pds.harvest.cfg.policy.model.ReplaceRule;
-import gov.nasa.pds.harvest.cfg.policy.model.AccessUrl;
+import gov.nasa.pds.harvest.cfg.policy.model.FileRef;
+import gov.nasa.pds.harvest.cfg.policy.model.BlobStorage;
 import gov.nasa.pds.harvest.cfg.policy.model.Directories;
 import gov.nasa.pds.harvest.cfg.policy.model.Policy;
 import gov.nasa.pds.harvest.cfg.policy.model.XPathMap;
@@ -23,6 +24,8 @@ import gov.nasa.pds.harvest.util.XmlDomUtils;
 
 public class PolicyReader
 {
+    private static final Logger LOG = Logger.getLogger(PolicyReader.class.getName());
+    
     XPathFactory xpf = XPathFactory.newInstance();
     
     public PolicyReader()
@@ -36,8 +39,9 @@ public class PolicyReader
         
         Policy policy = new Policy();
         policy.directories = parseDirectories(doc);
-        policy.accessUrl = parseAccessUrl(doc);
+        policy.fileRef = parseFileRef(doc);
         policy.xpathMaps = parseXPathMaps(doc);
+        policy.blobStorage = parseBlobStorage(doc);
 
         return policy;
     }
@@ -45,41 +49,56 @@ public class PolicyReader
 
     private Directories parseDirectories(Document doc) throws Exception
     {
-        Directories dirs = new Directories();
+        XPathUtils xpu = new XPathUtils();
 
-        XPathExpression expr = XPathUtils.compileXPath(xpf, "/policy/directories/path");
-        dirs.paths = XPathUtils.getStringList(doc, expr);
-        
-        expr = XPathUtils.compileXPath(xpf, "/policy/directories/fileFilter/include");
-        dirs.fileFilterIncludes = XPathUtils.getStringList(doc, expr);
-        
-        expr = XPathUtils.compileXPath(xpf, "/policy/directories/fileFilter/exclude");
-        dirs.fileFilterExcludes = XPathUtils.getStringList(doc, expr);
-
-        expr = XPathUtils.compileXPath(xpf, "/policy/directories/directoryFilter/exclude");
-        dirs.dirFilterExcludes = XPathUtils.getStringList(doc, expr);
+        Directories dirs = new Directories();                
+        dirs.paths = xpu.getStringList(doc, "/policy/directories/path");
+        dirs.fileFilterIncludes = xpu.getStringList(doc, "/policy/directories/fileFilter/include");
+        dirs.fileFilterExcludes = xpu.getStringList(doc, "/policy/directories/fileFilter/exclude");
+        dirs.dirFilterExcludes = xpu.getStringList(doc, "/policy/directories/directoryFilter/exclude");
 
         return dirs;
     }
 
     
-    private AccessUrl parseAccessUrl(Document doc) throws Exception
+    private BlobStorage parseBlobStorage(Document doc) throws Exception
     {
-        // <accessUrl> (root) node
-        XPathExpression xpe = XPathUtils.compileXPath(xpf, "/policy/accessUrl");
-        NodeList nodes = XPathUtils.getNodeList(doc, xpe);        
-        if(nodes == null || nodes.getLength() == 0) return null;
-        Node rootNode = nodes.item(0);
+        XPathUtils xpu = new XPathUtils();
+        Node rootNode = xpu.getFirstNode(doc, "/policy/blobStorage");
+        if(rootNode == null) return null;
         
-        AccessUrl accessUrl = new AccessUrl();
+        BlobStorage bs = new BlobStorage();
+        String storageType = XmlDomUtils.getAttribute(rootNode, "type");
+        
+        if(storageType == null || storageType.equalsIgnoreCase("none"))
+        {
+            bs.storageType = BlobStorage.NONE;
+        }
+        else if(storageType.equalsIgnoreCase("embedded"))
+        {
+            bs.storageType = BlobStorage.EMBEDDED;
+        }
+        else
+        {
+            LOG.warning("Unknown blob storage type " + storageType);
+        }
+        
+        return bs;
+    }
+    
+    
+    private FileRef parseFileRef(Document doc) throws Exception
+    {
+        XPathUtils xpu = new XPathUtils();
+        
+        Node rootNode = xpu.getFirstNode(doc, "/policy/fileRef");
+        if(rootNode == null) return null;
 
-        // items
-        xpe = XPathUtils.compileXPath(xpf, "//replaceFilePath");
-        nodes = XPathUtils.getNodeList(rootNode, xpe);
-        if(nodes == null || nodes.getLength() == 0) return accessUrl;
+        FileRef fileRef = new FileRef();
+        NodeList nodes = xpu.getNodeList(rootNode, "//replace");
+        if(nodes == null || nodes.getLength() == 0) return fileRef;
         
         List<ReplaceRule> list = new ArrayList<>();
-        
         for(int i = 0; i < nodes.getLength(); i++)
         {
             ReplaceRule rule = new ReplaceRule();
@@ -88,30 +107,26 @@ public class PolicyReader
             list.add(rule);
         }
 
-        accessUrl.rules = list;
+        fileRef.rules = list;
         
-        return accessUrl;
+        return fileRef;
     }
 
     
     private XPathMaps parseXPathMaps(Document doc) throws Exception
     {
-        // <xpathMaps> (root) node
-        XPathExpression xpe = XPathUtils.compileXPath(xpf, "/policy/xpathMaps");
-        NodeList nodes = XPathUtils.getNodeList(doc, xpe);
-        if(nodes == null || nodes.getLength() == 0) return null;
+        XPathUtils xpu = new XPathUtils();
+        
+        Node rootNode = xpu.getFirstNode(doc, "/policy/xpathMaps");
+        if(rootNode == null) return null;
 
         XPathMaps maps = new XPathMaps();
-        Node rootNode = nodes.item(0);
         maps.baseDir = XmlDomUtils.getAttribute(rootNode, "baseDir");
 
-        // <xpathMap> items
-        xpe = XPathUtils.compileXPath(xpf, "//xpathMap");
-        nodes = XPathUtils.getNodeList(rootNode, xpe);
+        NodeList nodes = xpu.getNodeList(rootNode, "//xpathMap");
         if(nodes == null || nodes.getLength() == 0) return maps;
         
         List<XPathMap> list = new ArrayList<>();
-        
         for(int i = 0; i < nodes.getLength(); i++)
         {
             XPathMap xpm = new XPathMap();

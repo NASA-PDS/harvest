@@ -2,36 +2,26 @@ package gov.nasa.pds.harvest.crawler;
 
 import java.io.File;
 import java.util.logging.Logger;
-
 import org.apache.tika.Tika;
-
-import gov.nasa.pds.harvest.meta.MetadataExtractor;
-import gov.nasa.pds.harvest.meta.RegistryMetadata;
-import gov.nasa.pds.harvest.util.FileData;
-import gov.nasa.pds.harvest.util.FileDataUtils;
-import gov.nasa.pds.harvest.util.SolrDocWriter;
+import gov.nasa.pds.harvest.cfg.policy.model.Policy;
 
 
 public class FileProcessor implements ProductCrawler.Callback
 {
     private static final Logger LOG = Logger.getLogger(FileProcessor.class.getName());
+
+    private MetadataProcessor metaProcessor;
     
     private Tika tika;
-    private SolrDocWriter writer;
-    private MetadataExtractor metaExtractor;
-
-    private boolean storeBlob = false;
     
     private int totalFileCount;
     private int processedFileCount;
     
-    
-    public FileProcessor(File outDir, boolean storeContent) throws Exception
+
+    public FileProcessor(File outDir, Policy policy) throws Exception
     {
-        this.storeBlob = storeContent;
         tika = new Tika();
-        writer = new SolrDocWriter(outDir);
-        metaExtractor = new MetadataExtractor();
+        metaProcessor = new MetadataProcessor(outDir, policy);
     }
     
     
@@ -62,9 +52,9 @@ public class FileProcessor implements ProductCrawler.Callback
     }
 
     
-    public void close()
+    public void close() throws Exception
     {
-        try { writer.close(); } catch(Exception ex) {}
+        metaProcessor.close();
     }
 
     
@@ -86,44 +76,17 @@ public class FileProcessor implements ProductCrawler.Callback
 
     private void processXmlFile(File file) throws Exception
     {
-        FileData fd = new FileData(file, "application/xml");
-
         // More than 1 megabyte. Too big for a label.
-        if(fd.size > 1000000)
+        if(file.length() > 1000000)
         {
             LOG.warning("File is too big to parse: " + file.toURI().getPath());
         }
         else
         {
-            RegistryMetadata meta = metaExtractor.extract(file);
-            if(!validateAndContinue(meta, file)) return;
-            
-            if(storeBlob)
-            {
-                FileDataUtils.setFileContent(fd, file);
-            }
-            writer.write(fd, meta);
+            metaProcessor.process(file);
             processedFileCount++;
         }
     }
 
     
-    private boolean validateAndContinue(RegistryMetadata meta, File file)
-    {
-        if(meta.lid == null)
-        {
-            LOG.severe("Missing logical identifier: " + file.toURI().getPath());
-            return false;
-        }
-
-        if(meta.vid == null)
-        {
-            LOG.severe("Missing version id: " + file.toURI().getPath());
-            return false;
-        }
-        
-        return true;
-    }
-    
-
 }

@@ -9,12 +9,20 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
 public class XPathUtils
 {
-
+    private XPathFactory xpf;
+    
+    public XPathUtils()
+    {
+        xpf = XPathFactory.newInstance();
+    }
+    
+    
     public static XPathExpression compileXPath(XPathFactory xpf, String str) throws Exception
     {
         XPath xpath = xpf.newXPath();
@@ -35,7 +43,14 @@ public class XPathUtils
         String[] values = getStringArray(doc, expr);
         return values == null ? null : Arrays.asList(values);
     }
+
     
+    public List<String> getStringList(Document doc, String xpath) throws Exception
+    {
+        XPathExpression expr = compileXPath(xpf, xpath);
+        return getStringList(doc, expr);
+    }
+
     
     public static String[] getStringArray(Document doc, XPathExpression expr) throws Exception
     {
@@ -55,7 +70,37 @@ public class XPathUtils
     
     public static NodeList getNodeList(Object item, XPathExpression expr) throws Exception
     {
+        if(item == null) return null;
+        
         NodeList nodes = (NodeList)expr.evaluate(item, XPathConstants.NODESET);
         return nodes;
     }
+    
+    
+    public NodeList getNodeList(Object item, String xpath) throws Exception
+    {
+        if(item == null) return null;
+        XPathExpression xpe = compileXPath(xpf, xpath);
+
+        return getNodeList(item, xpe);
+    }
+
+    
+    public Node getFirstNode(Object item, String xpath) throws Exception
+    {
+        if(item == null) return null;
+        
+        XPathExpression xpe = XPathUtils.compileXPath(xpf, xpath);
+        NodeList nodes = XPathUtils.getNodeList(item, xpe);
+        
+        if(nodes == null || nodes.getLength() == 0) 
+        {
+            return null;
+        }
+        else
+        {
+            return nodes.item(0);
+        }
+    }
+    
 }
