@@ -3,6 +3,8 @@ package gov.nasa.pds.harvest.meta;
 import java.util.HashMap;
 import java.util.Map;
 
+import gov.nasa.pds.harvest.util.xml.XPathCache;
+
 public class XPathCacheManager
 {
     private static XPathCacheManager instance = new XPathCacheManager();

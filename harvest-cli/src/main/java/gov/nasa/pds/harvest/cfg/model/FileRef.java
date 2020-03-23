@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.cfg.policy.model;
+package gov.nasa.pds.harvest.cfg.model;
 
 import java.util.List;
 

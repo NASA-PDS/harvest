@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.meta;
+package gov.nasa.pds.harvest.util.xml;
 
 
 import java.util.ArrayList;

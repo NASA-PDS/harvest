@@ -71,7 +71,7 @@ public class HarvestCli
     {
         Option.Builder bld;
         
-        bld = Option.builder("c").hasArg().argName("file").desc("Harvest policy configuration file.").required();
+        bld = Option.builder("c").hasArg().argName("file").desc("Harvest configuration file.").required();
         options.addOption(bld.build());
         
         bld = Option.builder("o").hasArg().argName("dir")

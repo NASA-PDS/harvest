@@ -5,9 +5,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import gov.nasa.pds.harvest.HarvestCli;
-import gov.nasa.pds.harvest.cfg.policy.PolicyReader;
-import gov.nasa.pds.harvest.cfg.policy.model.Policy;
+import gov.nasa.pds.harvest.cfg.ConfigReader;
+import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
+import gov.nasa.pds.harvest.util.Counter;
+import gov.nasa.pds.harvest.util.ExceptionUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
@@ -17,7 +19,7 @@ public class CrawlerCommand
     
     private String pConfigFile;
     private String pOutDir;
-    private Policy policy;
+    private Configuration policy;
 
     
     public CrawlerCommand(HarvestCli cli)
@@ -46,7 +48,7 @@ public class CrawlerCommand
         try
         {
             // Read config file
-            PolicyReader rd = new PolicyReader();
+            ConfigReader rd = new ConfigReader();
             policy = rd.read(cfgFile);
             
             // Load xpath maps from files
@@ -55,7 +57,7 @@ public class CrawlerCommand
         }
         catch(Exception ex)
         {
-            LOG.log(Level.SEVERE, "", ex);
+            LOG.severe(ExceptionUtils.getMessage(ex));
             return false;
         }
         
@@ -76,10 +78,20 @@ public class CrawlerCommand
             crawler.crawl();
             cb.close();
             
-            LOG.info("Total file count: " + cb.getTotalFileCount());
-            LOG.info("Processed file count: " + cb.getProcessedFileCount());
-            if(cb.getProcessedFileCount() > 0)
+            LOG.info("Summary:");
+            int processedCount = cb.getCounter().getTotal();
+            
+            LOG.info("Skipped files: " + (cb.getTotalFileCount() - processedCount));
+            LOG.info("Processed files: " + processedCount);
+            
+            if(processedCount > 0)
             {
+                LOG.info("File counts by type:");
+                for(Counter.Item item: cb.getCounter().getCounts())
+                {
+                    LOG.info("  " + item.name + ": " + item.count);
+                }
+                
                 LOG.info("Package ID: " + PackageIdGenerator.getInstance().getPackageId());
             }
         }

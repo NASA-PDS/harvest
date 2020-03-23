@@ -8,7 +8,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import gov.nasa.pds.harvest.util.FieldMap;
-import gov.nasa.pds.harvest.util.XPathUtils;
+import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
 
 public class InternalReferenceExtractor

@@ -10,10 +10,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import gov.nasa.pds.harvest.cfg.policy.model.XPathMap;
-import gov.nasa.pds.harvest.cfg.policy.model.XPathMaps;
-import gov.nasa.pds.harvest.util.XPathUtils;
-import gov.nasa.pds.harvest.util.XmlDomUtils;
+import gov.nasa.pds.harvest.cfg.model.XPathMap;
+import gov.nasa.pds.harvest.cfg.model.XPathMaps;
+import gov.nasa.pds.harvest.util.xml.XPathCache;
+import gov.nasa.pds.harvest.util.xml.XPathUtils;
+import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
 public class XPathCacheLoader
@@ -41,7 +42,7 @@ public class XPathCacheLoader
                 throw new Exception("File " + file.getAbsolutePath() + " does not exist.");
             }
             
-            loadFile(file, xpm.objectType);
+            loadFile(file, xpm.rootElement);
         }
     }
     

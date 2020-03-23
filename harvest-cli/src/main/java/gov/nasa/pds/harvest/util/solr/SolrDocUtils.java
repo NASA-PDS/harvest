@@ -1,9 +1,11 @@
-package gov.nasa.pds.harvest.util;
+package gov.nasa.pds.harvest.util.solr;
 
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Set;
 import org.apache.commons.lang.StringEscapeUtils;
+
+import gov.nasa.pds.harvest.util.FieldMap;
 
 
 public class SolrDocUtils

@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.util;
+package gov.nasa.pds.harvest.util.solr;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,6 +6,9 @@ import java.io.Writer;
 import java.util.Set;
 
 import gov.nasa.pds.harvest.meta.RegistryMetadata;
+import gov.nasa.pds.harvest.util.FieldMap;
+import gov.nasa.pds.harvest.util.FileData;
+import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
 public class SolrDocWriter
@@ -38,6 +41,7 @@ public class SolrDocWriter
         SolrDocUtils.writeField(writer, "vid", meta.vid);
         SolrDocUtils.writeField(writer, "lidvid", lidvid);
         SolrDocUtils.writeField(writer, "title", meta.title);
+        SolrDocUtils.writeField(writer, "product_class", meta.prodClass);
         
         // File Info
         SolrDocUtils.writeField(writer, "_file_ref", meta.fileRef);
@@ -49,11 +53,11 @@ public class SolrDocWriter
         SolrDocUtils.writeField(writer, "_file_blob", fileData.blobBase64);
         SolrDocUtils.writeField(writer, "_file_md5", fileData.md5Base64);
 
+        // XML info
+        SolrDocUtils.writeField(writer, "_xml_root_element", meta.rootElement);
+
         // Transaction ID
         SolrDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());
-
-        // XML info
-        SolrDocUtils.writeField(writer, "xml_root_element", meta.rootElement);
         
         // References
         write(meta.intRefs);

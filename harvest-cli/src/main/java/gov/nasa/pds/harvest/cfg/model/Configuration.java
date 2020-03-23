@@ -1,7 +1,7 @@
-package gov.nasa.pds.harvest.cfg.policy.model;
+package gov.nasa.pds.harvest.cfg.model;
 
 
-public class Policy
+public class Configuration
 {
     public Directories directories;
     public FileRef fileRef;

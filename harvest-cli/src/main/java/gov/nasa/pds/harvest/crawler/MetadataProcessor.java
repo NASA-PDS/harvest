@@ -3,14 +3,15 @@ package gov.nasa.pds.harvest.crawler;
 import java.io.File;
 import java.util.logging.Logger;
 
-import gov.nasa.pds.harvest.cfg.policy.model.BlobStorage;
-import gov.nasa.pds.harvest.cfg.policy.model.Policy;
-import gov.nasa.pds.harvest.cfg.policy.model.ReplaceRule;
+import gov.nasa.pds.harvest.cfg.model.BlobStorage;
+import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.cfg.model.ReplaceRule;
 import gov.nasa.pds.harvest.meta.MetadataExtractor;
 import gov.nasa.pds.harvest.meta.RegistryMetadata;
+import gov.nasa.pds.harvest.util.Counter;
 import gov.nasa.pds.harvest.util.FileData;
 import gov.nasa.pds.harvest.util.FileDataBuilder;
-import gov.nasa.pds.harvest.util.SolrDocWriter;
+import gov.nasa.pds.harvest.util.solr.SolrDocWriter;
 
 
 public class MetadataProcessor
@@ -22,11 +23,11 @@ public class MetadataProcessor
 
     private FileDataBuilder fdBuilder;
     
-    private Policy policy;
+    private Configuration policy;
     private boolean storeBlob;
     
     
-    public MetadataProcessor(File outDir, Policy policy) throws Exception
+    public MetadataProcessor(File outDir, Configuration policy) throws Exception
     {
         writer = new SolrDocWriter(outDir);
         
@@ -39,7 +40,7 @@ public class MetadataProcessor
     }
 
     
-    public void process(File file) throws Exception
+    public void process(File file, Counter counter) throws Exception
     {
         RegistryMetadata meta = metaExtractor.extract(file);
         if(!validateAndContinue(meta, file)) return;
@@ -48,6 +49,8 @@ public class MetadataProcessor
         
         FileData fd = fdBuilder.build(file, "application/xml", storeBlob);
         writer.write(fd, meta);
+        
+        counter.inc(meta.rootElement);
     }
     
     

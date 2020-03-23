@@ -10,8 +10,9 @@ import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.util.FieldMap;
-import gov.nasa.pds.harvest.util.XPathUtils;
-import gov.nasa.pds.harvest.util.XmlDomUtils;
+import gov.nasa.pds.harvest.util.xml.XPathCache;
+import gov.nasa.pds.harvest.util.xml.XPathUtils;
+import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
 public class MetadataExtractor
@@ -21,6 +22,7 @@ public class MetadataExtractor
     private XPathExpression xLid;
     private XPathExpression xVid;
     private XPathExpression xTitle;
+    private XPathExpression xProdClass;
     
     private InternalReferenceExtractor refExtractor;
     
@@ -33,6 +35,7 @@ public class MetadataExtractor
         xLid = XPathUtils.compileXPath(xpf, "//Identification_Area/logical_identifier");
         xVid = XPathUtils.compileXPath(xpf, "//Identification_Area/version_id");
         xTitle = XPathUtils.compileXPath(xpf, "//Identification_Area/title");
+        xProdClass = XPathUtils.compileXPath(xpf, "//Identification_Area/product_class");
     
         refExtractor = new InternalReferenceExtractor();
     }
@@ -49,7 +52,8 @@ public class MetadataExtractor
         md.lid = XPathUtils.getStringValue(doc, xLid);
         md.vid = XPathUtils.getStringValue(doc, xVid);
         md.title = StringUtils.normalizeSpace(XPathUtils.getStringValue(doc, xTitle));
-        
+        md.prodClass = XPathUtils.getStringValue(doc, xProdClass);
+
         // References
         md.intRefs = refExtractor.extract(doc);
         

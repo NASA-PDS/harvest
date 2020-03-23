@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.util;
+package gov.nasa.pds.harvest.util.xml;
 
 import java.io.File;
 
@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public class XmlDomUtils
@@ -33,4 +34,12 @@ public class XmlDomUtils
         Node att = node.getAttributes().getNamedItem(attributeName);
         return att == null ? null : att.getNodeValue();
     }
+
+
+    public static NamedNodeMap getAttributes(Node node)
+    {
+        if(node == null || node.getAttributes() == null) return null;
+        return node.getAttributes();
+    }
+
 }
