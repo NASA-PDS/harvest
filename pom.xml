@@ -46,7 +46,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
   <groupId>gov.nasa.pds</groupId>
   <artifactId>harvest</artifactId>
-  <version>2.6.0</version>
+  <version>3.0.0</version>
   <packaging>jar</packaging>
 
   <name>Harvest Tool</name>
