@@ -14,7 +14,6 @@ In order to create a complete distribution package, execute the
 following commands: 
 
 ```
-% mvn site
 % mvn package
 ```
 

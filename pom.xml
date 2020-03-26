@@ -1,356 +1,149 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<!--
-Copyright 2019, California Institute of Technology ("Caltech").
-U.S. Government sponsorship acknowledged.
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-- Redistributions of source code must retain the above copyright notice,
-  this list of conditions and the following disclaimer.
-- Redistributions must reproduce the above copyright notice, this list of
-  conditions and the following disclaimer in the documentation and/or other
-  materials provided with the distribution.
-- Neither the name of Caltech nor its operating division, the Jet Propulsion
-  Laboratory, nor the names of its contributors may be used to endorse or
-  promote products derived from this software without specific prior written
-  permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
-LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
--->
+<!-- Copyright 2019, California Institute of Technology ("Caltech"). U.S. 
+    Government sponsorship acknowledged. All rights reserved. Redistribution 
+    and use in source and binary forms, with or without modification, are permitted 
+    provided that the following conditions are met: - Redistributions of source 
+    code must retain the above copyright notice, this list of conditions and 
+    the following disclaimer. - Redistributions must reproduce the above copyright 
+    notice, this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution. - Neither the name 
+    of Caltech nor its operating division, the Jet Propulsion Laboratory, nor 
+    the names of its contributors may be used to endorse or promote products 
+    derived from this software without specific prior written permission. THIS 
+    SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+    ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+    IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+    INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+    BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF 
+    USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+    THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
+    EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <!-- Inherit release profile, reporting, SNAPSHOT repo, etc. from parent repo -->
-  <parent>
-    <groupId>gov.nasa</groupId>
-    <artifactId>pds</artifactId>
-    <version>1.0.0</version>
-  </parent>
-
-  <groupId>gov.nasa.pds</groupId>
-  <artifactId>harvest</artifactId>
-  <version>2.6.0</version>
-  <packaging>jar</packaging>
-
-  <name>Harvest Tool</name>
-  <description>
-    The Harvest Tool provides functionality for capturing and indexing product metadata. The tool will run locally at the Discipline Node to crawl the local data repository in order to discover products and index associated metadata with the Search Service.
-  </description>
-  <url>https://nasa-pds-incubator.github.io/harvest/</url>
-
-  <inceptionYear>2010</inceptionYear>
-
-  <organization>
-    <name>California Institute of Technology</name>
-  </organization>
-
-  <licenses>
-    <license>
-      <name>The Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
-  
-  <properties>
-    <oodt-version>0.12</oodt-version>
-    <search-version>2.0.0</search-version>
-    <product-tools-version>4.0.1</product-tools-version>
-    <solr.version>8.4.1</solr.version>
-  </properties>
-
-  <build>
-    <resources>
-      <resource>
-        <filtering>true</filtering>
-        <targetPath>gov/nasa/pds/harvest/search/util</targetPath>
-        <directory>src/main/resources/policy</directory>
-        <includes>
-          <include>harvest-search.properties</include>
-        </includes>
-      </resource>
-      <resource>
-        <filtering>true</filtering>
-        <targetPath>gov/nasa/pds/harvest/search/policy</targetPath>
-        <directory>src/main/resources/policy</directory>
-        <includes>
-          <include>harvest-policy.xsd</include>
-        </includes>
-      </resource>
-      <resource>
-        <filtering>true</filtering>
-        <targetPath>gov/nasa/pds/harvest/search</targetPath>
-        <directory>src/main/resources/policy</directory>
-        <includes>
-          <include>global-policy.xml</include>
-        </includes>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>gov.nasa.pds.harvest.search.HarvestSearchLauncher</mainClass>
-              <addClasspath>true</addClasspath>
-              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>bin-release</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <descriptors>
-                <descriptor>src/main/assembly/tar-assembly.xml</descriptor>
-                <descriptor>src/main/assembly/zip-assembly.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>buildnumber-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>create</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <revisionOnScmFailure>unknownbuild</revisionOnScmFailure>
-          <format>{0,date,yyyy-MM-dd HH:mm:ss}</format>
-          <items>
-            <item>timestamp</item>
-          </items>
-          <doCheck>false</doCheck>
-          <doUpdate>false</doUpdate>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
-  <scm>
-    <url>https://github.com/NASA-PDS-Incubator/harvest/tree/master</url>
-    <connection>scm:git:git://github.com/NASA-PDS-Incubator/harvest.git</connection>
-    <developerConnection>scm:git:ssh://github.com:NASA-PDS-Incubator/harvest.git</developerConnection>
-  </scm>
-
-  <repositories>
-      <repository>
-      <id>project.local</id>
-      <name>project</name>
-      <url>file:${project.basedir}/build/repo</url>
-    </repository>
-  </repositories>
-
-  <dependencies>
-    <dependency>
-      <groupId>commons-cli</groupId>
-      <artifactId>commons-cli</artifactId>
-      <version>1.2</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>1.4</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.4</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.xml.bind</groupId>
-      <artifactId>jaxb-api</artifactId>
-      <version>2.2</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.xml.stream</groupId>
-      <artifactId>stax-api</artifactId>
-      <version>1.0-2</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>2.2</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-xjc</artifactId>
-      <version>2.2</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.activation</groupId>
-      <artifactId>activation</artifactId>
-      <version>1.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>jsr311-api</artifactId>
-      <version>1.1.1</version>
-      <scope>compile</scope>
-    </dependency>
+    <!-- Inherit release profile, reporting, SNAPSHOT repo, etc. from parent repo -->
     <!--
-      Exclude xerces dependency which is picked up by OODT artifacts
-      due to conflict with preparation/core xerces dependency. Also
-      exclude lucene dependency which creates a duplicate JAR situation
-      with the org.apache.lucene version that is picked up by cas-filemgr.
+    <parent>
+        <groupId>gov.nasa</groupId>
+        <artifactId>pds</artifactId>
+        <version>1.0.0</version>
+    </parent>
     -->
-    <dependency>
-      <groupId>gov.nasa.jpl.oodt</groupId>
-      <artifactId>cas-crawler</artifactId>
-      <version>2.4.1</version>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>xerces</groupId>
-          <artifactId>xercesImpl</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>lucene</groupId>
-          <artifactId>lucene-core</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>apache</groupId>
-          <artifactId>tika</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>net.sf.saxon</groupId>
-      <artifactId>Saxon-HE</artifactId>
-      <version>9.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate.java-persistence</groupId>
-      <artifactId>jpa-api</artifactId>
-      <version>2.0-cr-1</version>
-    </dependency>
-    <dependency>
-      <groupId>gov.nasa.pds</groupId>
-      <artifactId>pds3-product-tools</artifactId>
-      <version>${product-tools-version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.oodt</groupId>
-      <artifactId>cas-filemgr</artifactId>
-      <version>${oodt-version}</version>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.apache.tika</groupId>
-          <artifactId>tika-core</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.apache.solr</groupId>
-          <artifactId>solr-core</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>gov.nasa.pds.2010.search</groupId>
-      <artifactId>search-core</artifactId>
-      <version>${search-version}</version>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>net.sf.saxon</groupId>
-          <artifactId>saxon</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>net.sf.saxon</groupId>
-          <artifactId>saxon-dom</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.apache.solr</groupId>
-          <artifactId>solr-core</artifactId>
-        </exclusion>        
-      </exclusions>
-    </dependency>
-    <dependency>
-      <artifactId>solr-core</artifactId>
-      <groupId>org.apache.solr</groupId>
-      <version>${solr.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.apache.logging.log4j</groupId>
-          <artifactId>log4j-slf4j-impl</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <artifactId>solr-solrj</artifactId>
-      <groupId>org.apache.solr</groupId>
-      <version>${solr.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-  	<dependency>
-  	    <groupId>org.slf4j</groupId>
-  	    <artifactId>slf4j-jdk14</artifactId>
-  	    <version>1.7.25</version>
-  	</dependency>
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.3.1</version>
-    </dependency>
-  	<dependency>
-  	  <groupId>org.json</groupId>
-  	  <artifactId>json</artifactId>
-  	  <version>20180813</version>
-  	</dependency>
-    <dependency>
-      <groupId>org.apache.tika</groupId>
-      <artifactId>tika-core</artifactId>
-      <version>1.22</version>
-    </dependency>
-  </dependencies>
-  
-  <!-- Inherit from parent -->
-  <developers />
-  <profiles />
-  <distributionManagement />
-  <reporting />
+
+    <groupId>gov.nasa.pds</groupId>
+    <artifactId>harvest</artifactId>
+    <version>3.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>Harvest Tool</name>
+    <description>
+    The Harvest Tool provides functionality for capturing and indexing product metadata. 
+    The tool will run locally at the Discipline Node to crawl the local data repository in order to 
+    discover products and index associated metadata with the Registry Service.
+  </description>
+    <url>https://nasa-pds-incubator.github.io/harvest/</url>
+
+    <inceptionYear>2010</inceptionYear>
+
+    <organization>
+        <name>California Institute of Technology</name>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <properties>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- Command line interface / parameters -->
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!-- File utils (Crawler) -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <!-- XML escaping, String utils -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <!-- File type detection -->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>1.23</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>        
+            <!-- SpringBoot single JAR executable. -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.2.5.RELEASE</version>
+                <configuration>
+                    <mainClass>gov.nasa.pds.harvest.HarvestMain</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>exec-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>            
+            <!-- Binary release (ZIP and tar.gz). -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>bin-release</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/tar-assembly.xml</descriptor>
+                                <descriptor>src/main/assembly/zip-assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Disable Site for now -->
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                    <skipDeploy>true</skipDeploy>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

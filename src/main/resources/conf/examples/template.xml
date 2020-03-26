@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<harvest>
+
+  <directories>
+    <!-- Path to one or more folders with some PDS4 product labels -->
+    <path>/home/pds/LADEE/ldex_20161118/data_derived</path>
+    <!-- Only process XML files -->
+    <fileFilter>
+      <include>*.xml</include>
+    </fileFilter>
+    <!-- Only process documents -->
+    <!--
+    <productFilter>
+      <include>Product_Document</include>
+    </productFilter>
+    -->
+  </directories>
+
+  <!-- Save file reference / access URL -->
+  <!--
+  <fileRef>
+    <replace prefix="/home/pds/LADEE/" replacement="https://pds.nasa.gov/data/pds4/" />
+  </fileRef>
+  -->
+
+  <!-- Save PDS4 labels as BLOBs -->  
+  <!--
+  <blobStorage type="embedded" />
+  -->
+
+  <!-- Define extra metadata to export -->
+  <!--
+  <xpathMaps baseDir="/home/pds/harvest/conf/fields">
+    <xpathMap rootElement="Product_Observational" filePath="observational.xml" />
+  </xpathMaps>
+  -->
+
+</harvest>

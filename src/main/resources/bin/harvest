@@ -1,5 +1,4 @@
-#!/bin/sh
-#
+#!/usr/bin/env bash
 
 # Copyright 2019, California Institute of Technology ("Caltech").
 # U.S. Government sponsorship acknowledged.
@@ -31,54 +30,30 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-# Bourne Shell script that allows easy execution of the Harvest Tool
-# without the need to set the CLASSPATH or having to type in that long java
-# command (java gov.nasa.pds.harvest.HarvestLauncher ...)
 
-# Expects the Harvest jar file to be in the ../lib directory.
-
-################################################################################
-# UPDATE VARIABLES AS NEEDED
-
-SOLR_URL=http://localhost:8983/solr
-SCRIPT_DIR=`cd "$( dirname $0 )" && pwd`
-PARENT_DIR=`cd ${SCRIPT_DIR}/.. && pwd`
-SEARCH_CONF=${PARENT_DIR}/conf/search/defaults
-# JAVA_HOME=
-
-################################################################################
-
-################################################################################
-# WARNING: Should not need to update below. Proceed with caution.
-################################################################################
-
-# Check if the JAVA_HOME environment variable is set.
-if [ -z "${JAVA_HOME}" ]; then
-   JAVA_CMD=`which java`
-   if [ $? -ne 0 ]; then
-     echo "JAVA_HOME is not set as an environment variable"
-     exit 1
-   fi
+# Check Java
+if [ -n "$JAVA_HOME" ]; then
+    JAVA="$JAVA_HOME/bin/java"
+    if [ ! -f "$JAVA" ]; then
+        echo "Could not find java in JAVA_HOME=$JAVA_HOME"
+        exit 1
+    fi
 else
-   JAVA_CMD="${JAVA_HOME}"/bin/java
+    $(java -version > /dev/nul 2>&1)
+    if [[ $? -ne 0 ]] ; then
+        echo "Java 1.8 or later is required to run Registry Manager."
+        exit 1
+    fi
+    JAVA=java
 fi
 
+# Home
+SCRIPT_DIR=$(cd "$( dirname $0 )" && pwd)
+HARVEST_HOME=$(cd ${SCRIPT_DIR}/.. && pwd)
 
-LIB_DIR=${PARENT_DIR}/lib
-KEYSTORE=${PARENT_DIR}/keystore/tomcat_self_sign_keystore
+# Executable Jar
+TOOL_JARS=(${HARVEST_HOME}/dist/harvest-*.jar)
+TOOL_JAR=${TOOL_JARS[0]}
 
-# Check for dependencies.
-if [ ! -f ${LIB_DIR}/harvest-*.jar ]; then
-    echo
-    echo "ERROR: Cannot find Harvest jar file in ${LIB_DIR}" 1>&2
-    echo
-    exit 1
-fi
-
-# Finds the jar file in LIB_DIR and sets it to HARVEST_JAR.
-HARVEST_JAR=`ls ${LIB_DIR}/harvest-*.jar`
-
-# Executes Harvest via the executable jar file
-# Arguments are passed in to the tool via '$@'
-${JAVA_CMD} -Xms256m -Xmx1024m -Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true -Dpds.search=${SOLR_URL} -Dpds.harvest.search.conf=${SEARCH_CONF} -Dresources.home=${PARENT_DIR}/resources -jar ${HARVEST_JAR} "$@"
-
+# Run Harvest
+"$JAVA" -jar "$TOOL_JAR" $@
