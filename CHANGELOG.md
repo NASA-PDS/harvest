@@ -1,5 +1,15 @@
 # Change Log
 
+## [v3.2.0](https://github.com/NASA-PDS-Incubator/harvest/tree/v3.2.0) (2020-03-26)
+[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v3.1.0...v3.2.0)
+
+**Implemented enhancements:**
+
+- Update Harvest documentation per new scripts and upgrades [\#17](https://github.com/NASA-PDS-Incubator/harvest/issues/17)
+
+## [v3.1.0](https://github.com/NASA-PDS-Incubator/harvest/tree/v3.1.0) (2020-03-26)
+[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v3.0.0...v3.1.0)
+
 ## [v3.0.0](https://github.com/NASA-PDS-Incubator/harvest/tree/v3.0.0) (2020-03-26)
 [Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v2.6.0...v3.0.0)
 
