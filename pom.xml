@@ -44,13 +44,14 @@
     The Harvest Tool provides functionality for capturing and indexing product metadata. 
     The tool will run locally at the Discipline Node to crawl the local data repository in order to 
     discover products and index associated metadata with the Registry Service.
-  </description>
+    </description>
+
     <url>https://nasa-pds-incubator.github.io/harvest/</url>
 
     <inceptionYear>2010</inceptionYear>
 
     <organization>
-        <name>California Institute of Technology</name>
+        <name>Jet Propulsion Laboratory, California Institute of Technology</name>
     </organization>
 
     <licenses>
@@ -59,6 +60,12 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
+    
+    <scm>
+        <url>https://github.com/NASA-PDS-Incubator/harvest/tree/master</url>
+        <connection>scm:git:git://github.com/NASA-PDS-Incubator/harvest.git</connection>
+        <developerConnection>scm:git:ssh://github.com:NASA-PDS-Incubator/harvest.git</developerConnection>
+    </scm>
 
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
