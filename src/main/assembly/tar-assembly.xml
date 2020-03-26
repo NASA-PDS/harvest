@@ -66,30 +66,29 @@
       </includes>
       <fileMode>775</fileMode>
       <lineEnding>unix</lineEnding>
-    </fileSet>
-
-    <fileSet>
-      <directory>target/site</directory>
-      <outputDirectory>doc</outputDirectory>
-      <fileMode>664</fileMode>
-      <lineEnding>keep</lineEnding>
+      <excludes>
+        <exclude>*.formatted</exclude>
+      </excludes>
     </fileSet>
 
     <fileSet>
       <directory>src/main/resources/conf</directory>
       <outputDirectory>conf</outputDirectory>
       <fileMode>664</fileMode>
-      <lineEnding>keep</lineEnding>
+      <lineEnding>unix</lineEnding>
+      <excludes>
+        <exclude>*.formatted</exclude>
+      </excludes>
     </fileSet>
 
     <fileSet>
-      <directory>src/main/resources/policy</directory>
-      <outputDirectory>conf/harvest/</outputDirectory>
-      <includes>
-        <include>global-policy.xml</include>
-      </includes>
+      <directory>src/main/resources/xsd</directory>
+      <outputDirectory>xsd</outputDirectory>
       <fileMode>664</fileMode>
-      <lineEnding>keep</lineEnding>
+      <lineEnding>dos</lineEnding>
+      <excludes>
+        <exclude>*.formatted</exclude>
+      </excludes>
     </fileSet>
 
   </fileSets>
@@ -99,12 +98,12 @@
       <source>LICENSE.txt</source>
       <outputDirectory>/</outputDirectory>
       <fileMode>664</fileMode>
-      <lineEnding>unix</lineEnding>
+      <lineEnding>keep</lineEnding>
     </file>
     <file>
       <source>README.md</source>
       <fileMode>664</fileMode>
-      <lineEnding>unix</lineEnding>
+      <lineEnding>keep</lineEnding>
       <filtered>true</filtered>
     </file>
   </files>

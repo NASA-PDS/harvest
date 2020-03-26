@@ -37,14 +37,19 @@ public class ConfigReader
     public Configuration read(File file) throws Exception
     {
         Document doc = XmlDomUtils.readXml(file);
+        String rootElement = doc.getDocumentElement().getNodeName();
+        if(!"harvest".equals(rootElement))
+        {
+            throw new Exception("Invalid root element '" + rootElement + "'. Expecting 'harvest'.");
+        }
         
-        Configuration policy = new Configuration();
-        policy.directories = parseDirectories(doc);
-        policy.fileRef = parseFileRef(doc);
-        policy.xpathMaps = parseXPathMaps(doc);
-        policy.blobStorage = parseBlobStorage(doc);
+        Configuration cfg = new Configuration();
+        cfg.directories = parseDirectories(doc);
+        cfg.fileRef = parseFileRef(doc);
+        cfg.xpathMaps = parseXPathMaps(doc);
+        cfg.blobStorage = parseBlobStorage(doc);
 
-        return policy;
+        return cfg;
     }
 
 
@@ -52,8 +57,13 @@ public class ConfigReader
     {
         XPathUtils xpu = new XPathUtils();
 
+        int count = xpu.getNodeCount(doc, "/harvest/directories");
+        if(count == 0) throw new Exception("Missing required element '/harvest/directories'.");
+        if(count > 1) throw new Exception("Could not have more than one '/harvest/directories' element.");
+        
         Directories dirs = new Directories();                
         dirs.paths = xpu.getStringList(doc, "/harvest/directories/path");
+        if(dirs.paths == null) throw new Exception("Provide at least one '/harvest/directories/path' element.");
         
         // File filter
         dirs.fileFilterIncludes = xpu.getStringList(doc, "/harvest/directories/fileFilter/include");
@@ -75,7 +85,7 @@ public class ConfigReader
         if(dirs.prodFilterIncludes != null && dirs.prodFilterIncludes.size() > 0 
                 && dirs.prodFilterExcludes != null && dirs.prodFilterExcludes.size() > 0)
         {
-            throw new Exception("<productFilter> could not have both <include> and <exclude> at the same time");
+            throw new Exception("<productFilter> could not have both <include> and <exclude> at the same time.");
         }
         
         return dirs;
@@ -85,10 +95,13 @@ public class ConfigReader
     private BlobStorage parseBlobStorage(Document doc) throws Exception
     {
         XPathUtils xpu = new XPathUtils();
-        Node rootNode = xpu.getFirstNode(doc, "/harvest/blobStorage");
-        if(rootNode == null) return null;
         
+        int count = xpu.getNodeCount(doc, "/harvest/blobStorage");
+        if(count == 0) return null;
+        if(count > 1) throw new Exception("Could not have more than one '/harvest/blobStorage' element.");
+
         BlobStorage bs = new BlobStorage();
+        Node rootNode = xpu.getFirstNode(doc, "/harvest/blobStorage");
         String storageType = XmlDomUtils.getAttribute(rootNode, "type");
         
         if(storageType == null || storageType.equalsIgnoreCase("none"))
@@ -101,6 +114,7 @@ public class ConfigReader
         }
         else
         {
+            bs.storageType = BlobStorage.NONE;
             LOG.warning("Unknown blob storage type " + storageType);
         }
         
@@ -112,11 +126,12 @@ public class ConfigReader
     {
         XPathUtils xpu = new XPathUtils();
         
-        Node rootNode = xpu.getFirstNode(doc, "/harvest/fileRef");
-        if(rootNode == null) return null;
+        int count = xpu.getNodeCount(doc, "/harvest/fileRef");
+        if(count == 0) return null;
+        if(count > 1) throw new Exception("Could not have more than one '/harvest/fileRef' element.");
 
         FileRef fileRef = new FileRef();
-        NodeList nodes = xpu.getNodeList(rootNode, "//replace");
+        NodeList nodes = xpu.getNodeList(doc, "/harvest/fileRef/replace");
         if(nodes == null || nodes.getLength() == 0) return fileRef;
         
         List<ReplaceRule> list = new ArrayList<>();
@@ -138,10 +153,12 @@ public class ConfigReader
     {
         XPathUtils xpu = new XPathUtils();
         
-        Node rootNode = xpu.getFirstNode(doc, "/harvest/xpathMaps");
-        if(rootNode == null) return null;
-
+        int count = xpu.getNodeCount(doc, "/harvest/xpathMaps");
+        if(count == 0) return null;
+        if(count > 1) throw new Exception("Could not have more than one '/harvest/xpathMaps' element.");
+        
         XPathMaps maps = new XPathMaps();
+        Node rootNode = xpu.getFirstNode(doc, "/harvest/xpathMaps");
         maps.baseDir = XmlDomUtils.getAttribute(rootNode, "baseDir");
 
         NodeList nodes = xpu.getNodeList(rootNode, "//xpathMap");
@@ -166,7 +183,7 @@ public class ConfigReader
     private void validateXPathMap(Node node) throws Exception
     {
         String filePath = XmlDomUtils.getAttribute(node, "filePath");
-        if(filePath == null) throw new Exception("<xpathMap> element is missing filePath attribute");        
+        if(filePath == null) throw new Exception("<xpathMap> element is missing 'filePath' attribute");        
         
         NamedNodeMap atts = XmlDomUtils.getAttributes(node);
         for(int i = 0; i < atts.getLength(); i++)

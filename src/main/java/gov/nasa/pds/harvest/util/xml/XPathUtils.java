@@ -101,6 +101,16 @@ public class XPathUtils
     }
 
     
+    public int getNodeCount(Object item, String xpath) throws Exception
+    {
+        if(item == null) return 0;
+        XPathExpression xpe = compileXPath(xpf, xpath);
+
+        NodeList nodes = getNodeList(item, xpe);
+        return nodes == null ? 0 : nodes.getLength();
+    }
+    
+    
     public Node getFirstNode(Object item, String xpath) throws Exception
     {
         if(item == null) return null;

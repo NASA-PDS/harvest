@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<harvest>
+  <directories>
+    <!-- Path to a folder with some PDS4 product labels -->
+    <path>/tmp/data</path>
+    <!-- Only process XML files -->
+    <fileFilter>
+      <include>*.xml</include>
+    </fileFilter>
+  </directories>
+</harvest>
