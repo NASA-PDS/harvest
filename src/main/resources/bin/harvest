@@ -39,7 +39,7 @@ if [ -n "$JAVA_HOME" ]; then
         exit 1
     fi
 else
-    $(java -version > /dev/nul 2>&1)
+    $(java -version > /dev/null 2>&1)
     if [[ $? -ne 0 ]] ; then
         echo "Java 1.8 or later is required to run Registry Manager."
         exit 1
