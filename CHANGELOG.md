@@ -1,5 +1,16 @@
 # Change Log
 
+## [v3.2.1](https://github.com/NASA-PDS-Incubator/harvest/tree/v3.2.1) (2020-03-27)
+[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v3.2.0...v3.2.1)
+
+**Fixed bugs:**
+
+- Bash script does not launch on macos, likely not on linux  [\#20](https://github.com/NASA-PDS-Incubator/harvest/issues/20)
+
+**Merged pull requests:**
+
+- \#20 Bash script doesn't work on Mac.  [\#21](https://github.com/NASA-PDS-Incubator/harvest/pull/21) ([tdddblog](https://github.com/tdddblog))
+
 ## [v3.2.0](https://github.com/NASA-PDS-Incubator/harvest/tree/v3.2.0) (2020-03-26)
 [Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v3.1.0...v3.2.0)
 
