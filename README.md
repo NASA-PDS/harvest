@@ -1,5 +1,7 @@
 # Harvest Tool
-The Harvest Tool provides functionality for capturing and indexing product metadata. The tool will run locally at the Discipline Node to crawl the local data repository in order to discover products and index associated metadata with the Search Service. The Tool additionally stores the entire product label contents into another index within the Search Service.
+The Harvest Tool provides functionality for capturing and indexing product metadata. The tool will run locally at the Discipline Node to crawl the local data repository in order to discover products and index associated metadata into the Registry Service.
+
+A sub-component of the PDS Registry App (https://github.com/NASA-PDS-Incubator/pds-app-registry).
 
 # Documentation
 The documentation for the latest release of the Validate Tool, including release notes, installation and operation of the software are online at https://nasa-pds-incubator.github.io/harvest/.
