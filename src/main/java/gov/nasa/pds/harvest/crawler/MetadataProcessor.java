@@ -1,14 +1,15 @@
 package gov.nasa.pds.harvest.crawler;
 
 import java.io.File;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cfg.model.BlobStorage;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.cfg.model.ReplaceRule;
 import gov.nasa.pds.harvest.meta.MetadataExtractor;
 import gov.nasa.pds.harvest.meta.RegistryMetadata;
-import gov.nasa.pds.harvest.util.Counter;
 import gov.nasa.pds.harvest.util.FileData;
 import gov.nasa.pds.harvest.util.FileDataBuilder;
 import gov.nasa.pds.harvest.util.solr.SolrDocWriter;
@@ -16,7 +17,7 @@ import gov.nasa.pds.harvest.util.solr.SolrDocWriter;
 
 public class MetadataProcessor
 {
-    private static final Logger LOG = Logger.getLogger(MetadataProcessor.class.getName());
+    private Logger LOG;
     
     private SolrDocWriter writer;
     private MetadataExtractor metaExtractor;
@@ -29,6 +30,8 @@ public class MetadataProcessor
     
     public MetadataProcessor(File outDir, Configuration policy) throws Exception
     {
+        LOG = LogManager.getLogger(getClass());
+        
         writer = new SolrDocWriter(outDir);
         
         metaExtractor = new MetadataExtractor();
@@ -42,15 +45,17 @@ public class MetadataProcessor
     
     public void process(File file, Counter counter) throws Exception
     {
+        LOG.info("Processing file " + file.toURI().getPath());
+
         RegistryMetadata meta = metaExtractor.extract(file);
-        if(!validateAndContinue(meta, file)) return;
+        validate(meta, file); 
 
         setFileRef(meta, file);
-        
+
         FileData fd = fdBuilder.build(file, "application/xml", storeBlob);
         writer.write(fd, meta);
         
-        counter.inc(meta.rootElement);
+        counter.prodCounters.inc(meta.rootElement);
     }
     
     
@@ -60,21 +65,17 @@ public class MetadataProcessor
     }
     
     
-    private boolean validateAndContinue(RegistryMetadata meta, File file)
+    private void validate(RegistryMetadata meta, File file) throws Exception
     {
-        if(meta.lid == null)
+        if(meta.lid == null || meta.lid.isEmpty())
         {
-            LOG.severe("Missing logical identifier: " + file.toURI().getPath());
-            return false;
+            throw new Exception("Missing logical identifier: " + file.toURI().getPath());
         }
 
-        if(meta.vid == null)
+        if(meta.vid == null || meta.vid.isEmpty())
         {
-            LOG.severe("Missing version id: " + file.toURI().getPath());
-            return false;
+            throw new Exception("Missing version id: " + file.toURI().getPath());
         }
-        
-        return true;
     }
 
     

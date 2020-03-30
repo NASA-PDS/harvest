@@ -1,11 +1,12 @@
 package gov.nasa.pds.harvest.meta;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -19,12 +20,14 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 public class XPathCacheLoader
 {
-    private static final Logger LOG = Logger.getLogger(XPathCacheLoader.class.getName());
+    private Logger LOG;
+    private XPathFactory xpf;
     
-    XPathFactory xpf = XPathFactory.newInstance();
     
     public XPathCacheLoader()
     {
+        LOG = LogManager.getLogger(getClass());
+        xpf = XPathFactory.newInstance();
     }
     
     

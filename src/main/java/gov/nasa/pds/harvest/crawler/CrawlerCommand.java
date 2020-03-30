@@ -1,104 +1,90 @@
 package gov.nasa.pds.harvest.crawler;
 
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import gov.nasa.pds.harvest.HarvestCli;
+import org.apache.commons.cli.CommandLine;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import gov.nasa.pds.harvest.cfg.ConfigReader;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
-import gov.nasa.pds.harvest.util.Counter;
-import gov.nasa.pds.harvest.util.ExceptionUtils;
+import gov.nasa.pds.harvest.util.CounterMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
 public class CrawlerCommand
 {
-    private static final Logger LOG = Logger.getLogger(CrawlerCommand.class.getName());
-    
-    private String pConfigFile;
-    private String pOutDir;
     private Configuration policy;
-
+    private Logger minLogger; 
     
-    public CrawlerCommand(HarvestCli cli)
+    
+    public CrawlerCommand()
     {
-        pConfigFile = cli.getOptionValue("c");
-        pOutDir = cli.getOptionValue("o", "/tmp/harvest/solr");
+        minLogger = LogManager.getLogger("harvest-min-info");
     }
 
     
-    public int run()
+    public void run(CommandLine cmdLine) throws Exception
     {
-        LOG.info("Starting product crawler...");
-    
-        if(!loadConfiguration()) return 1;
-        runCrawler();
+        loadConfiguration(cmdLine.getOptionValue("c"));
         
-        return 0;
+        String outDir = cmdLine.getOptionValue("o", "/tmp/harvest/solr");
+        boolean stopOnError = cmdLine.hasOption("stopOnError");
+        runCrawler(outDir, stopOnError);
     }
     
 
-    private boolean loadConfiguration()
+    private void loadConfiguration(String pConfigFile) throws Exception
     {
         File cfgFile = new File(pConfigFile);
-        LOG.info("Reading configuration from " + pConfigFile);
+        minLogger.info("Reading configuration from " + pConfigFile);
         
-        try
-        {
-            // Read config file
-            ConfigReader rd = new ConfigReader();
-            policy = rd.read(cfgFile);
-            
-            // Load xpath maps from files
-            XPathCacheLoader xpcLoader = new XPathCacheLoader();
-            xpcLoader.load(policy.xpathMaps);
-        }
-        catch(Exception ex)
-        {
-            LOG.severe(ExceptionUtils.getMessage(ex));
-            return false;
-        }
+        // Read config file
+        ConfigReader rd = new ConfigReader();
+        policy = rd.read(cfgFile);
         
-        return true;
+        // Load xpath maps from files
+        XPathCacheLoader xpcLoader = new XPathCacheLoader();
+        xpcLoader.load(policy.xpathMaps);
     }
     
     
-    private void runCrawler()
+    private void runCrawler(String pOutDir, boolean stopOnError) throws Exception
     {
-        try
+        minLogger.info("Will write Solr docs to " + pOutDir);
+        File outDir = new File(pOutDir);
+        outDir.mkdirs();
+        
+        FileProcessor fileProcessor = new FileProcessor(outDir, policy, stopOnError);
+        ProductCrawler crawler = new ProductCrawler(policy.directories, fileProcessor);
+        crawler.crawl();
+        fileProcessor.close();
+
+        if(!fileProcessor.stoppedOnError())
         {
-            LOG.info("Will write Solr docs to " + pOutDir);
-            File outDir = new File(pOutDir);
-            outDir.mkdirs();
-            
-            FileProcessor cb = new FileProcessor(outDir, policy);
-            ProductCrawler crawler = new ProductCrawler(policy.directories, cb);
-            crawler.crawl();
-            cb.close();
-            
-            LOG.info("Summary:");
-            int processedCount = cb.getCounter().getTotal();
-            
-            LOG.info("Skipped files: " + (cb.getTotalFileCount() - processedCount));
-            LOG.info("Processed files: " + processedCount);
-            
-            if(processedCount > 0)
-            {
-                LOG.info("File counts by type:");
-                for(Counter.Item item: cb.getCounter().getCounts())
-                {
-                    LOG.info("  " + item.name + ": " + item.count);
-                }
-                
-                LOG.info("Package ID: " + PackageIdGenerator.getInstance().getPackageId());
-            }
+            printSummary(fileProcessor);
         }
-        catch(Exception ex)
+    }
+    
+    
+    private void printSummary(FileProcessor cb)
+    {
+        minLogger.info("Summary:");
+        int processedCount = cb.getProdTypeCounter().getTotal();
+        
+        minLogger.info("Skipped files: " + cb.getSkippedFileCount());
+        minLogger.info("Processed files: " + processedCount);
+        
+        if(processedCount > 0)
         {
-            System.out.println("ERROR: " + ex.getMessage());
-            System.exit(1);
+            minLogger.info("File counts by type:");
+            for(CounterMap.Item item: cb.getProdTypeCounter().getCounts())
+            {
+                minLogger.info("  " + item.name + ": " + item.count);
+            }
+            
+            minLogger.info("Package ID: " + PackageIdGenerator.getInstance().getPackageId());
         }
     }
 

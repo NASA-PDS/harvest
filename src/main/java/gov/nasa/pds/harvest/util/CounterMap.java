@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 
-public class Counter
+public class CounterMap
 {
     public static class Item
     {
@@ -27,7 +27,7 @@ public class Counter
     private int total;
     
     
-    public Counter()
+    public CounterMap()
     {
         map = new TreeMap<>();
     }

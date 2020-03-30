@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.util.FieldMap;
+import gov.nasa.pds.harvest.util.PdsStringUtils;
 import gov.nasa.pds.harvest.util.xml.XPathCache;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
@@ -49,10 +50,10 @@ public class MetadataExtractor
         md.rootElement = doc.getDocumentElement().getNodeName();
         
         // Basic info
-        md.lid = XPathUtils.getStringValue(doc, xLid);
-        md.vid = XPathUtils.getStringValue(doc, xVid);
+        md.lid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xLid));
+        md.vid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xVid));
         md.title = StringUtils.normalizeSpace(XPathUtils.getStringValue(doc, xTitle));
-        md.prodClass = XPathUtils.getStringValue(doc, xProdClass);
+        md.prodClass = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xProdClass));
 
         // References
         md.intRefs = refExtractor.extract(doc);
@@ -84,5 +85,5 @@ public class MetadataExtractor
             fieldMap.addValues(item.fieldName, values);
         }
     }
-
+    
 }

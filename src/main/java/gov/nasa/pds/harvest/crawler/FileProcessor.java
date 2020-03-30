@@ -1,19 +1,24 @@
 package gov.nasa.pds.harvest.crawler;
 
 import java.io.File;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.tika.Tika;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.util.Counter;
+import gov.nasa.pds.harvest.util.CounterMap;
 import gov.nasa.pds.harvest.util.ExceptionUtils;
 import gov.nasa.pds.harvest.util.xml.XmlStreamUtils;
 
 
 public class FileProcessor implements ProductCrawler.Callback
 {
-    private static final Logger LOG = Logger.getLogger(FileProcessor.class.getName());
+    private Logger LOG;
 
+    // Will skip files longer than 10MB
+    private static final long MAX_XML_FILE_LENGTH = 10_000_000;
+    
     private Configuration cfg;
     private MetadataProcessor metaProcessor;
     private XmlStreamUtils xmlUtils;
@@ -21,43 +26,66 @@ public class FileProcessor implements ProductCrawler.Callback
     private Tika tika;
     
     private Counter counter;
-    private int totalFileCount;
     
+    // Should I stop on error?
+    private boolean stopOnError;
+    // I did stop on error
+    private boolean stoppedOnError = false;
 
-    public FileProcessor(File outDir, Configuration cfg) throws Exception
+    
+    public FileProcessor(File outDir, Configuration cfg, boolean stopOnError) throws Exception
     {
+        LOG = LogManager.getLogger(getClass());
+        
         this.cfg = cfg;
+        this.stopOnError = stopOnError;
+        
         xmlUtils = new XmlStreamUtils();
         counter = new Counter();
         tika = new Tika();
+        
         metaProcessor = new MetadataProcessor(outDir, cfg);
     }
     
     
-    public int getTotalFileCount()
+    public boolean stoppedOnError()
     {
-        return totalFileCount;
+        return stoppedOnError;
     }
     
     
-    public Counter getCounter()
+    public int getSkippedFileCount()
     {
-        return counter;
+        return counter.skippedFileCount;
+    }
+    
+    
+    public CounterMap getProdTypeCounter()
+    {
+        return counter.prodCounters;
     }
     
     
     @Override
-    public void onFile(File file)
+    public boolean onFile(File file)
     {
         try
         {
             processFile(file);
-            totalFileCount++;
         }
         catch(Exception ex)
         {
-            LOG.severe(ExceptionUtils.getMessage(ex));
+            LOG.error(ExceptionUtils.getMessage(ex));
+            counter.skippedFileCount++;
+
+            if(stopOnError) 
+            {
+                stoppedOnError = true;
+                return false;
+            }
         }
+
+        return true;
     }
 
     
@@ -69,8 +97,6 @@ public class FileProcessor implements ProductCrawler.Callback
     
     private void processFile(File file) throws Exception
     {
-        LOG.info("Processing file " + file.toURI().getPath());
-        
         String mimeType = tika.detect(file);
         if("application/xml".equals(mimeType))
         {
@@ -78,7 +104,8 @@ public class FileProcessor implements ProductCrawler.Callback
         }
         else
         {
-            LOG.warning("Unsupported MIME type: " + mimeType + " (" + file.toURI().getPath() + ")");
+            LOG.warn("Unsupported MIME type: " + mimeType + " (" + file.toURI().getPath() + ")");
+            counter.skippedFileCount++;
         }
     }
     
@@ -86,9 +113,10 @@ public class FileProcessor implements ProductCrawler.Callback
     private void processXmlFile(File file) throws Exception
     {
         // More than 1 megabyte. Too big for a label.
-        if(file.length() > 1000000)
+        if(file.length() > MAX_XML_FILE_LENGTH)
         {
-            LOG.warning("File is too big to parse: " + file.toURI().getPath());
+            LOG.warn("File is too big to parse: " + file.toURI().getPath());
+            counter.skippedFileCount++;
             return;
         }
 
@@ -108,9 +136,11 @@ public class FileProcessor implements ProductCrawler.Callback
             String rootElement = xmlUtils.getRootElement(file);
             if(rootElement == null) 
             {
-                LOG.warning("Invalid XML file: " + file.getAbsolutePath());
+                LOG.warn("Invalid XML file: " + file.getAbsolutePath());
+                counter.skippedFileCount++;
                 return false;
             }
+            
             return cfg.directories.prodFilterIncludes.contains(rootElement);
         }
         else if(cfg.directories.prodFilterExcludes != null)
@@ -118,9 +148,11 @@ public class FileProcessor implements ProductCrawler.Callback
             String rootElement = xmlUtils.getRootElement(file);
             if(rootElement == null) 
             {
-                LOG.warning("Invalid XML file: " + file.getAbsolutePath());
+                LOG.warn("Invalid XML file: " + file.getAbsolutePath());
+                counter.skippedFileCount++;
                 return false;
             }
+
             return !cfg.directories.prodFilterExcludes.contains(rootElement);
         }
         else

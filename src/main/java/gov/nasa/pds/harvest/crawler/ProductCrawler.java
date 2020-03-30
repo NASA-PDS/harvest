@@ -10,12 +10,17 @@ import org.apache.commons.io.filefilter.AndFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.NotFileFilter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cfg.model.Directories;
+import gov.nasa.pds.harvest.util.ExceptionUtils;
 
 
 public class ProductCrawler
 {
+    private Logger LOG; 
+    
     private List<String> paths;
     private IOFileFilter dirFilter;
     private IOFileFilter fileFilter;
@@ -25,12 +30,14 @@ public class ProductCrawler
     
     public static interface Callback
     {
-        public void onFile(File file);
+        public boolean onFile(File file);
     }
     
     
     public ProductCrawler(Directories dir, Callback cb)
     {
+        LOG = LogManager.getLogger(getClass());
+        
         if(dir == null) throw new IllegalArgumentException("Directory is null");
         paths = dir.paths;
         setFileFilter(dir.fileFilterIncludes, dir.fileFilterExcludes);
@@ -48,7 +55,10 @@ public class ProductCrawler
         for(String path: paths)
         {
             File file = new File(path);
-            crawl(file);
+            if(!crawl(file))
+            {
+                break;
+            }
         }
     }
     
@@ -88,7 +98,7 @@ public class ProductCrawler
     }
     
     
-    private void crawl(File directory)
+    private boolean crawl(File directory)
     {
         Collection<File> files = FileUtils.listFiles(directory, fileFilter, dirFilter);
         
@@ -96,12 +106,18 @@ public class ProductCrawler
         {
             try
             {
-                callback.onFile(file);
+                if(!callback.onFile(file))
+                {
+                    return false;
+                }
             }
             catch(Exception ex)
             {
-                ex.printStackTrace();
+                LOG.error(ExceptionUtils.getMessage(ex));
+                return false;
             }
         }
+        
+        return true;
     }
 }

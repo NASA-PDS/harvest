@@ -7,12 +7,17 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import gov.nasa.pds.harvest.crawler.CrawlerCommand;
+import gov.nasa.pds.harvest.log.Log4jConfigurator;
+import gov.nasa.pds.harvest.util.ExceptionUtils;
 
 
 public class HarvestCli
 {
     private Options options;
-    private String error;
     private CommandLine cmdLine;
     
     
@@ -23,6 +28,47 @@ public class HarvestCli
     }
     
 
+    public void run(String[] args)
+    {
+        if(args.length == 0)
+        {
+            printHelp();
+            System.exit(1);
+        }
+
+        if(!parse(args))
+        {
+            System.out.println();
+            printHelp();
+            System.exit(1);
+        }
+
+        initLogger();
+        
+        if(!runCommand())
+        {
+            System.exit(1);
+        }        
+    }
+    
+
+    private boolean runCommand()
+    {
+        try
+        {
+            CrawlerCommand cmd = new CrawlerCommand();
+            cmd.run(cmdLine);
+            return true;
+        }
+        catch(Exception ex)
+        {
+            Logger log = LogManager.getLogger("harvest-min-logger");
+            log.error(ExceptionUtils.getMessage(ex));
+            return false;
+        }
+    }
+
+    
     public void printHelp()
     {
         HelpFormatter formatter = new HelpFormatter();
@@ -41,29 +87,18 @@ public class HarvestCli
         }
         catch(ParseException ex)
         {
-            this.error = ex.getMessage();
+            System.out.println("ERROR: " + ex.getMessage());
             return false;
         }
     }
     
     
-    public String getError()
+    private void initLogger()
     {
-        return error;
-    }
-    
-    
-    public String getOptionValue(String name)
-    {
-        if(cmdLine == null) return null;
-        return cmdLine.getOptionValue(name);
-    }
-    
+        String verbosity = cmdLine.getOptionValue("v", "1");
+        String logFile = cmdLine.getOptionValue("l");
 
-    public String getOptionValue(String name, String defaultValue)
-    {
-        if(cmdLine == null) return null;
-        return cmdLine.getOptionValue(name, defaultValue);
+        Log4jConfigurator.configure(verbosity, logFile);
     }
 
     
@@ -83,6 +118,9 @@ public class HarvestCli
 
         bld = Option.builder("v").hasArg().argName("level").
                 desc("Logger verbosity: 0=Debug, 1=Info (default), 2=Warning, 3=Error.");
+        options.addOption(bld.build());
+
+        bld = Option.builder("stopOnError").desc("Without this flag erroneous files are skipped.");
         options.addOption(bld.build());
     }
 
