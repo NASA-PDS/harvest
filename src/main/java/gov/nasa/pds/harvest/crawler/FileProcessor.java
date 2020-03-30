@@ -27,18 +27,15 @@ public class FileProcessor implements ProductCrawler.Callback
     
     private Counter counter;
     
-    // Should I stop on error?
-    private boolean stopOnError;
-    // I did stop on error
+    // Stopped on error
     private boolean stoppedOnError = false;
 
     
-    public FileProcessor(File outDir, Configuration cfg, boolean stopOnError) throws Exception
+    public FileProcessor(File outDir, Configuration cfg) throws Exception
     {
         LOG = LogManager.getLogger(getClass());
         
         this.cfg = cfg;
-        this.stopOnError = stopOnError;
         
         xmlUtils = new XmlStreamUtils();
         counter = new Counter();
@@ -72,20 +69,16 @@ public class FileProcessor implements ProductCrawler.Callback
         try
         {
             processFile(file);
+            return true;
         }
         catch(Exception ex)
         {
             LOG.error(ExceptionUtils.getMessage(ex));
             counter.skippedFileCount++;
 
-            if(stopOnError) 
-            {
-                stoppedOnError = true;
-                return false;
-            }
+            stoppedOnError = true;
+            return false;
         }
-
-        return true;
     }
 
     

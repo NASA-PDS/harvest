@@ -119,9 +119,6 @@ public class HarvestCli
         bld = Option.builder("v").hasArg().argName("level").
                 desc("Logger verbosity: 0=Debug, 1=Info (default), 2=Warning, 3=Error.");
         options.addOption(bld.build());
-
-        bld = Option.builder("stopOnError").desc("Without this flag erroneous files are skipped.");
-        options.addOption(bld.build());
     }
 
 }

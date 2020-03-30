@@ -30,8 +30,7 @@ public class CrawlerCommand
         loadConfiguration(cmdLine.getOptionValue("c"));
         
         String outDir = cmdLine.getOptionValue("o", "/tmp/harvest/solr");
-        boolean stopOnError = cmdLine.hasOption("stopOnError");
-        runCrawler(outDir, stopOnError);
+        runCrawler(outDir);
     }
     
 
@@ -50,13 +49,13 @@ public class CrawlerCommand
     }
     
     
-    private void runCrawler(String pOutDir, boolean stopOnError) throws Exception
+    private void runCrawler(String pOutDir) throws Exception
     {
         minLogger.info("Will write Solr docs to " + pOutDir);
         File outDir = new File(pOutDir);
         outDir.mkdirs();
         
-        FileProcessor fileProcessor = new FileProcessor(outDir, policy, stopOnError);
+        FileProcessor fileProcessor = new FileProcessor(outDir, policy);
         ProductCrawler crawler = new ProductCrawler(policy.directories, fileProcessor);
         crawler.crawl();
         fileProcessor.close();
