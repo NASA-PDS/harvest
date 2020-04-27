@@ -127,7 +127,9 @@ public class TestConfigReader
         
         System.out.println("\nBlobStorage\n===============");
         System.out.println("type = " + ((config.blobStorage == null) ? 0 : config.blobStorage.storageType));
-        
+                
+        System.out.println("\nAutogen Fields\n===============");
+        System.out.println(config.autoGenFields);
     }
 
     

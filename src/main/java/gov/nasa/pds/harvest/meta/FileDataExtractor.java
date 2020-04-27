@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.util;
+package gov.nasa.pds.harvest.meta;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -7,21 +7,23 @@ import java.security.MessageDigest;
 import java.util.Base64;
 import java.util.zip.DeflaterOutputStream;
 
+import gov.nasa.pds.harvest.util.CloseUtils;
 
-public class FileDataBuilder
+
+public class FileDataExtractor
 {
     private MessageDigest md5Digest;
     private byte[] buf;
     
     
-    public FileDataBuilder() throws Exception
+    public FileDataExtractor() throws Exception
     {
         md5Digest = MessageDigest.getInstance("MD5");
         buf = new byte[1024 * 2];
     }
     
     
-    public FileData build(File file, String mimeType, boolean setBlob) throws Exception
+    public FileData extract(File file, String mimeType, boolean setBlob) throws Exception
     {
         if(file == null) return null;
         

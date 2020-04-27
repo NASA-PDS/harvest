@@ -28,7 +28,7 @@ public class ConfigReader
 {
     private Logger LOG;
     
-    XPathFactory xpf = XPathFactory.newInstance();
+    private XPathFactory xpf = XPathFactory.newInstance();
     
     public ConfigReader()
     {
@@ -50,6 +50,7 @@ public class ConfigReader
         cfg.fileRef = parseFileRef(doc);
         cfg.xpathMaps = parseXPathMaps(doc);
         cfg.blobStorage = parseBlobStorage(doc);
+        cfg.autoGenFields = parseAutoGenFields(doc);
 
         return cfg;
     }
@@ -150,6 +151,18 @@ public class ConfigReader
         return fileRef;
     }
 
+
+    private boolean parseAutoGenFields(Document doc) throws Exception
+    {
+        XPathUtils xpu = new XPathUtils();
+        
+        int count = xpu.getNodeCount(doc, "/harvest/autogenFields");
+        if(count == 0) return false;
+        if(count > 1) throw new Exception("Could not have more than one '/harvest/autogenFields' element.");
+
+        return true;
+    }
+    
     
     private XPathMaps parseXPathMaps(Document doc) throws Exception
     {
@@ -163,7 +176,7 @@ public class ConfigReader
         Node rootNode = xpu.getFirstNode(doc, "/harvest/xpathMaps");
         maps.baseDir = XmlDomUtils.getAttribute(rootNode, "baseDir");
 
-        NodeList nodes = xpu.getNodeList(rootNode, "//xpathMap");
+        NodeList nodes = xpu.getNodeList(doc, "/harvest/xpathMaps/xpathMap");
         if(nodes == null || nodes.getLength() == 0) return maps;
         
         List<XPathMap> list = new ArrayList<>();

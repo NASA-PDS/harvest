@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.util;
+package gov.nasa.pds.harvest.meta;
 
 
 public class FileData

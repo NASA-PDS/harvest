@@ -3,7 +3,7 @@ package gov.nasa.pds.harvest.meta;
 import gov.nasa.pds.harvest.util.FieldMap;
 
 
-public class RegistryMetadata
+public class Metadata
 {
     public String lid;
     public String vid;
@@ -11,13 +11,14 @@ public class RegistryMetadata
     public String rootElement;
     public String prodClass;
     
-    public String fileRef;    
+    public String fileRef;        
     
     public FieldMap intRefs;
-    public FieldMap customFields;
+    public FieldMap fields;
 
     
-    public RegistryMetadata()
+    public Metadata()
     {
+        fields = new FieldMap();
     }
 }

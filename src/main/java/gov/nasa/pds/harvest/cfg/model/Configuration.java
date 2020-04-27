@@ -7,4 +7,6 @@ public class Configuration
     public FileRef fileRef;
     public BlobStorage blobStorage;
     public XPathMaps xpathMaps;
+    
+    public boolean autoGenFields;
 }

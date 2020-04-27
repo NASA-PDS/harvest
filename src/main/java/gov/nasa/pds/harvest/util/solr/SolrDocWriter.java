@@ -5,9 +5,9 @@ import java.io.FileWriter;
 import java.io.Writer;
 import java.util.Set;
 
-import gov.nasa.pds.harvest.meta.RegistryMetadata;
+import gov.nasa.pds.harvest.meta.FileData;
+import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.FieldMap;
-import gov.nasa.pds.harvest.util.FileData;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
@@ -31,7 +31,7 @@ public class SolrDocWriter
     }
 
     
-    public void write(FileData fileData, RegistryMetadata meta) throws Exception
+    public void write(FileData fileData, Metadata meta) throws Exception
     {
         writer.append("<doc>\n");
 
@@ -62,8 +62,8 @@ public class SolrDocWriter
         // References
         write(meta.intRefs);
         
-        // CustomFields
-        write(meta.customFields);
+        // Other Fields
+        write(meta.fields);
         
         writer.append("</doc>\n");
     }
