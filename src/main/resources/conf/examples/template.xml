@@ -24,9 +24,14 @@
   </fileRef>
   -->
 
-  <!-- Save PDS4 labels as BLOBs -->  
+  <!-- 
+    Generate file info (name, type, size, MD5).
+    Optionally Save PDS4 labels as BLOBs. Blob storage types: "embedded" or "none".
+  -->  
   <!--
-  <blobStorage type="embedded" />
+  <fileInfo>
+    <blobStorage type="embedded" />
+  </fileInfo>
   -->
 
   <!-- Define extra metadata to export -->
