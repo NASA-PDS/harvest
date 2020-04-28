@@ -36,7 +36,6 @@ public class BasicMetadataExtractor
     public Metadata extract(Document doc) throws Exception
     {
         Metadata md = new Metadata();        
-        md.rootElement = doc.getDocumentElement().getNodeName();
         
         // Basic info
         md.lid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xLid));

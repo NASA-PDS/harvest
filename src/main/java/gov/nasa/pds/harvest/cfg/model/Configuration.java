@@ -5,7 +5,7 @@ public class Configuration
 {
     public Directories directories;
     public FileRef fileRef;
-    public BlobStorage blobStorage;
+    public FileInfo fileInfo;
     public XPathMaps xpathMaps;
     
     public boolean autoGenFields;

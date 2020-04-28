@@ -125,8 +125,9 @@ public class TestConfigReader
             }
         }
         
-        System.out.println("\nBlobStorage\n===============");
-        System.out.println("type = " + ((config.blobStorage == null) ? 0 : config.blobStorage.storageType));
+        System.out.println("\nFileInfo\n===============");
+        System.out.println("  Generate = " + (config.fileInfo != null));
+        System.out.println("  Blob storage = " + ((config.fileInfo == null) ? 0 : config.fileInfo.blobStorageType));
                 
         System.out.println("\nAutogen Fields\n===============");
         System.out.println(config.autoGenFields);

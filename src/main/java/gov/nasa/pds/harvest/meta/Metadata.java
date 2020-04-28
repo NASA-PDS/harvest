@@ -8,7 +8,6 @@ public class Metadata
     public String lid;
     public String vid;
     public String title;
-    public String rootElement;
     public String prodClass;
     
     public String fileRef;        

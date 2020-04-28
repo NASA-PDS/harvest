@@ -4,16 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.xpath.XPathFactory;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import gov.nasa.pds.harvest.cfg.model.BlobStorage;
+import gov.nasa.pds.harvest.cfg.model.FileInfo;
 import gov.nasa.pds.harvest.cfg.model.Directories;
 import gov.nasa.pds.harvest.cfg.model.FileRef;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
@@ -26,13 +22,8 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 public class ConfigReader
 {
-    private Logger LOG;
-    
-    private XPathFactory xpf = XPathFactory.newInstance();
-    
     public ConfigReader()
     {
-        LOG = LogManager.getLogger(getClass());
     }
     
     
@@ -49,7 +40,7 @@ public class ConfigReader
         cfg.directories = parseDirectories(doc);
         cfg.fileRef = parseFileRef(doc);
         cfg.xpathMaps = parseXPathMaps(doc);
-        cfg.blobStorage = parseBlobStorage(doc);
+        cfg.fileInfo = parseFileInfo(doc);
         cfg.autoGenFields = parseAutoGenFields(doc);
 
         return cfg;
@@ -95,33 +86,21 @@ public class ConfigReader
     }
 
     
-    private BlobStorage parseBlobStorage(Document doc) throws Exception
+    private FileInfo parseFileInfo(Document doc) throws Exception
     {
         XPathUtils xpu = new XPathUtils();
         
-        int count = xpu.getNodeCount(doc, "/harvest/blobStorage");
+        int count = xpu.getNodeCount(doc, "/harvest/fileInfo");
         if(count == 0) return null;
-        if(count > 1) throw new Exception("Could not have more than one '/harvest/blobStorage' element.");
+        if(count > 1) throw new Exception("Could not have more than one '/harvest/fileInfo' element.");
 
-        BlobStorage bs = new BlobStorage();
-        Node rootNode = xpu.getFirstNode(doc, "/harvest/blobStorage");
-        String storageType = XmlDomUtils.getAttribute(rootNode, "type");
+        FileInfo fileInfo = new FileInfo();
         
-        if(storageType == null || storageType.equalsIgnoreCase("none"))
-        {
-            bs.storageType = BlobStorage.NONE;
-        }
-        else if(storageType.equalsIgnoreCase("embedded"))
-        {
-            bs.storageType = BlobStorage.EMBEDDED;
-        }
-        else
-        {
-            bs.storageType = BlobStorage.NONE;
-            LOG.warn("Unknown blob storage type " + storageType);
-        }
+        Node bsNode = xpu.getFirstNode(doc, "/harvest/fileInfo/blobStorage");
+        String storageType = (bsNode == null) ? null : XmlDomUtils.getAttribute(bsNode, "type");
+        fileInfo.setBlobStorageType(storageType);
         
-        return bs;
+        return fileInfo;
     }
     
     

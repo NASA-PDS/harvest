@@ -57,6 +57,7 @@ public class MetadataProcessor
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(false);
         Document doc = XmlDomUtils.readXml(dbf, file);
+        String rootElement = doc.getDocumentElement().getNodeName();
         
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(doc);
@@ -79,7 +80,7 @@ public class MetadataProcessor
         
         writer.write(fd, meta);
         
-        counter.prodCounters.inc(meta.rootElement);
+        counter.prodCounters.inc(rootElement);
     }
     
     

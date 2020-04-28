@@ -45,16 +45,17 @@ public class SolrDocWriter
         
         // File Info
         SolrDocUtils.writeField(writer, "_file_ref", meta.fileRef);
-        SolrDocUtils.writeField(writer, "_file_name", fileData.name);
-        SolrDocUtils.writeField(writer, "_file_type", fileData.mimeType);
-        SolrDocUtils.writeField(writer, "_file_size", fileData.size);
 
-        // File content
-        SolrDocUtils.writeField(writer, "_file_blob", fileData.blobBase64);
-        SolrDocUtils.writeField(writer, "_file_md5", fileData.md5Base64);
+        if(fileData != null)
+        {
+            SolrDocUtils.writeField(writer, "_file_name", fileData.name);
+            SolrDocUtils.writeField(writer, "_file_type", fileData.mimeType);
+            SolrDocUtils.writeField(writer, "_file_size", fileData.size);
 
-        // XML info
-        SolrDocUtils.writeField(writer, "_xml_root_element", meta.rootElement);
+            // File BLOB
+            SolrDocUtils.writeField(writer, "_file_blob", fileData.blobBase64);
+            SolrDocUtils.writeField(writer, "_file_md5", fileData.md5Base64);
+        }
 
         // Transaction ID
         SolrDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());

@@ -7,7 +7,7 @@ import java.security.MessageDigest;
 import java.util.Base64;
 import java.util.zip.DeflaterOutputStream;
 
-import gov.nasa.pds.harvest.cfg.model.BlobStorage;
+import gov.nasa.pds.harvest.cfg.model.FileInfo;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.util.CloseUtils;
 
@@ -17,16 +17,25 @@ public class FileDataExtractor
     private MessageDigest md5Digest;
     private byte[] buf;
 
+    private boolean extractFileInfo;
     private boolean storeBlob;
     
     
     public FileDataExtractor(Configuration config) throws Exception
     {
-        int blobStorageType = (config.blobStorage == null) ? BlobStorage.NONE : config.blobStorage.storageType;
-        this.storeBlob = (blobStorageType == BlobStorage.EMBEDDED);
-        
-        md5Digest = MessageDigest.getInstance("MD5");
-        buf = new byte[1024 * 2];
+        if(config.fileInfo == null)
+        {
+            this.extractFileInfo = false;
+            this.storeBlob = false;
+        }
+        else
+        {
+            this.extractFileInfo = true;
+            this.storeBlob = (config.fileInfo.blobStorageType == FileInfo.BLOB_EMBEDDED);
+            
+            md5Digest = MessageDigest.getInstance("MD5");
+            buf = new byte[1024 * 2];
+        }
     }
     
     
@@ -38,7 +47,7 @@ public class FileDataExtractor
     
     public FileData extract(File file, String mimeType) throws Exception
     {
-        if(file == null) return null;
+        if(!extractFileInfo) return null;
         
         FileData data = new FileData();
         
