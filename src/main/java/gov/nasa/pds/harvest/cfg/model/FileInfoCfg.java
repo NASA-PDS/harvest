@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class FileInfo
+public class FileInfoCfg
 {
     public static final int BLOB_NONE = 0;
     public static final int BLOB_EMBEDDED = 1;
@@ -14,7 +14,7 @@ public class FileInfo
     private Logger LOG;
     
     
-    public FileInfo()
+    public FileInfoCfg()
     {
         LOG = LogManager.getLogger(getClass());
         blobStorageType = BLOB_NONE;
@@ -25,15 +25,15 @@ public class FileInfo
     {
         if(type == null || type.equalsIgnoreCase("none"))
         {
-            blobStorageType = FileInfo.BLOB_NONE;
+            blobStorageType = FileInfoCfg.BLOB_NONE;
         }
         else if(type.equalsIgnoreCase("embedded"))
         {
-            blobStorageType = FileInfo.BLOB_EMBEDDED;
+            blobStorageType = FileInfoCfg.BLOB_EMBEDDED;
         }
         else
         {
-            blobStorageType = FileInfo.BLOB_NONE;
+            blobStorageType = FileInfoCfg.BLOB_NONE;
             LOG.warn("Unknown blob storage type " + type);
         }
         

@@ -9,13 +9,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import gov.nasa.pds.harvest.cfg.model.XPathMap;
-import gov.nasa.pds.harvest.cfg.model.XPathMaps;
+import gov.nasa.pds.harvest.cfg.model.XPathMapsCfg;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 public class Rxpath
 {
-    public static XPathMaps parseXPathMaps(Document doc) throws Exception
+    public static XPathMapsCfg parseXPathMaps(Document doc) throws Exception
     {
         XPathUtils xpu = new XPathUtils();
         
@@ -23,7 +23,7 @@ public class Rxpath
         if(count == 0) return null;
         if(count > 1) throw new Exception("Could not have more than one '/harvest/xpathMaps' element.");
         
-        XPathMaps maps = new XPathMaps();
+        XPathMapsCfg maps = new XPathMapsCfg();
         Node rootNode = xpu.getFirstNode(doc, "/harvest/xpathMaps");
         maps.baseDir = XmlDomUtils.getAttribute(rootNode, "baseDir");
 

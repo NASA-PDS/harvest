@@ -13,7 +13,7 @@ import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import gov.nasa.pds.harvest.cfg.model.Directories;
+import gov.nasa.pds.harvest.cfg.model.DirectoriesCfg;
 import gov.nasa.pds.harvest.util.ExceptionUtils;
 
 
@@ -34,7 +34,7 @@ public class ProductCrawler
     }
     
     
-    public ProductCrawler(Directories dir, Callback cb)
+    public ProductCrawler(DirectoriesCfg dir, Callback cb)
     {
         LOG = LogManager.getLogger(getClass());
         

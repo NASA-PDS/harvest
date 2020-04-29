@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import gov.nasa.pds.harvest.cfg.model.XPathMap;
-import gov.nasa.pds.harvest.cfg.model.XPathMaps;
+import gov.nasa.pds.harvest.cfg.model.XPathMapsCfg;
 import gov.nasa.pds.harvest.util.xml.XPathCache;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
@@ -31,7 +31,7 @@ public class XPathCacheLoader
     }
     
     
-    public void load(XPathMaps maps) throws Exception
+    public void load(XPathMapsCfg maps) throws Exception
     {
         if(maps == null || maps.items == null || maps.items.isEmpty()) return;
         

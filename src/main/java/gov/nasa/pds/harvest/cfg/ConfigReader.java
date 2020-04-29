@@ -8,8 +8,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import gov.nasa.pds.harvest.cfg.model.FileInfo;
-import gov.nasa.pds.harvest.cfg.model.FileRef;
+import gov.nasa.pds.harvest.cfg.model.FileInfoCfg;
+import gov.nasa.pds.harvest.cfg.model.FileRefCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.cfg.model.ReplaceRule;
 import gov.nasa.pds.harvest.cfg.rd.Rdirs;
@@ -47,7 +47,7 @@ public class ConfigReader
     }
 
     
-    private FileInfo parseFileInfo(Document doc) throws Exception
+    private FileInfoCfg parseFileInfo(Document doc) throws Exception
     {
         XPathUtils xpu = new XPathUtils();
         
@@ -55,7 +55,7 @@ public class ConfigReader
         if(count == 0) return null;
         if(count > 1) throw new Exception("Could not have more than one '/harvest/fileInfo' element.");
 
-        FileInfo fileInfo = new FileInfo();
+        FileInfoCfg fileInfo = new FileInfoCfg();
         
         Node bsNode = xpu.getFirstNode(doc, "/harvest/fileInfo/blobStorage");
         String storageType = (bsNode == null) ? null : XmlDomUtils.getAttribute(bsNode, "type");
@@ -65,7 +65,7 @@ public class ConfigReader
     }
     
     
-    private FileRef parseFileRef(Document doc) throws Exception
+    private FileRefCfg parseFileRef(Document doc) throws Exception
     {
         XPathUtils xpu = new XPathUtils();
         
@@ -73,7 +73,7 @@ public class ConfigReader
         if(count == 0) return null;
         if(count > 1) throw new Exception("Could not have more than one '/harvest/fileRef' element.");
 
-        FileRef fileRef = new FileRef();
+        FileRefCfg fileRef = new FileRefCfg();
         NodeList nodes = xpu.getNodeList(doc, "/harvest/fileRef/replace");
         if(nodes == null || nodes.getLength() == 0) return fileRef;
         

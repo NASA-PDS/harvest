@@ -14,6 +14,7 @@ import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
 import gov.nasa.pds.harvest.meta.FileData;
 import gov.nasa.pds.harvest.meta.FileDataExtractor;
+import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.solr.SolrDocWriter;
@@ -23,15 +24,14 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 public class MetadataProcessor
 {
     private Logger LOG;
-    
+
+    private Configuration config;
     private SolrDocWriter writer;
     
     private BasicMetadataExtractor basicExtractor;
+    private InternalReferenceExtractor refExtractor;
     private AutogenExtractor autogenExtractor;
-
     private FileDataExtractor fileDataExtractor;
-    
-    private Configuration config;
     
     
     public MetadataProcessor(File outDir, Configuration config) throws Exception
@@ -41,6 +41,7 @@ public class MetadataProcessor
         writer = new SolrDocWriter(outDir);
         
         basicExtractor = new BasicMetadataExtractor();
+        refExtractor = new InternalReferenceExtractor(config.internalRefs);
         autogenExtractor = new AutogenExtractor();
         fileDataExtractor = new FileDataExtractor(config);
         
@@ -61,7 +62,10 @@ public class MetadataProcessor
         
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(doc);
-        validate(meta, file); 
+        validate(meta, file);
+        
+        // Internal references
+        meta.intRefs = refExtractor.extract(doc);
         
         // Extract fields by XPath
         XPathExtractor.extract(doc, meta.fields);

@@ -7,6 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import gov.nasa.pds.harvest.cfg.model.InternalRefCfg;
 import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
@@ -18,22 +19,19 @@ public class InternalReferenceExtractor
     private static class LidRef
     {
         public String lid;
+        public String lidvid;
         public String type;
-        
-        public LidRef(String lid, String type)
-        {
-            this.lid = lid;
-            this.type = type;
-        }
     }
     
 //////////////////////////////////////////////////////////
-    
-    private XPathExpression xIntRef;
 
+    private InternalRefCfg cfg;    
+    private XPathExpression xIntRef;
     
-    public InternalReferenceExtractor() throws Exception
+    
+    public InternalReferenceExtractor(InternalRefCfg cfg) throws Exception
     {
+        this.cfg = cfg;
         XPathFactory xpf = XPathFactory.newInstance();
         xIntRef = XPathUtils.compileXPath(xpf, "//Internal_Reference");
     }
@@ -41,6 +39,8 @@ public class InternalReferenceExtractor
     
     public FieldMap extract(Document doc) throws Exception
     {
+        if(cfg == null) return null;
+        
         NodeList nodes = XPathUtils.getNodeList(doc, xIntRef);        
         if(nodes == null || nodes.getLength() == 0) return null;
 
@@ -61,6 +61,8 @@ public class InternalReferenceExtractor
     
     private void addRef(FieldMap fmap, LidRef ref)
     {
+        if(ref.type == null) return;
+        
         String[] tokens = ref.type.split("_");
         
         String name = tokens[tokens.length-1];
@@ -77,15 +79,23 @@ public class InternalReferenceExtractor
             }            
         }
         
-        String key = name + "_ref";
-        fmap.addValue(key, ref.lid);
+        if(ref.lid != null)
+        {
+            String key = cfg.prefix + "lid_" + name;
+            fmap.addValue(key, ref.lid);
+        }
+
+        if(ref.lidvid != null)
+        {
+            String key = cfg.prefix + "lidvid_" + name;
+            fmap.addValue(key, ref.lidvid);
+        }
     }
     
     
     private LidRef createLidRef(Node root)
     {
-        String lid = null;
-        String type = null;
+        LidRef ref = new LidRef();
     
         NodeList nodes = root.getChildNodes();
         
@@ -96,28 +106,32 @@ public class InternalReferenceExtractor
             
             if(nodeName.equals("lid_reference"))
             {
-                lid = node.getTextContent().trim();
+                ref.lid = node.getTextContent().trim();
             }
             else if(nodeName.equals("reference_type"))
             {
-                type = node.getTextContent().trim(); 
+                ref.type = node.getTextContent().trim(); 
             }
             else if(nodeName.equals("lidvid_reference"))
             {
-                String str = node.getTextContent().trim();
-                int idx = str.indexOf("::");
-                if(idx > 0)
-                {
-                    lid = str.substring(0, idx);
-                }
+                ref.lidvid = node.getTextContent().trim();
             }
         }
-
-        if(lid == null || type == null)
+        
+        if(cfg.lidvidConvert && ref.lidvid != null && ref.lid == null)
         {
-            return null;
+            int idx = ref.lidvid.indexOf("::");
+            if(idx > 0)
+            {
+                ref.lid = ref.lidvid.substring(0, idx);
+            }
         }
         
-        return new LidRef(lid, type);
+        if(!cfg.lidvidKeep) 
+        {
+            ref.lidvid = null;
+        }
+        
+        return ref;
     }
 }

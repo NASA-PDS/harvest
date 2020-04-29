@@ -17,9 +17,7 @@ public class BasicMetadataExtractor
     private XPathExpression xTitle;
     private XPathExpression xProdClass;
     
-    private InternalReferenceExtractor refExtractor;
-    
-    
+
     public BasicMetadataExtractor() throws Exception
     {
         XPathFactory xpf = XPathFactory.newInstance();
@@ -28,8 +26,6 @@ public class BasicMetadataExtractor
         xVid = XPathUtils.compileXPath(xpf, "//Identification_Area/version_id");
         xTitle = XPathUtils.compileXPath(xpf, "//Identification_Area/title");
         xProdClass = XPathUtils.compileXPath(xpf, "//Identification_Area/product_class");
-    
-        refExtractor = new InternalReferenceExtractor();
     }
 
     
@@ -43,9 +39,6 @@ public class BasicMetadataExtractor
         md.title = StringUtils.normalizeSpace(XPathUtils.getStringValue(doc, xTitle));
         md.prodClass = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xProdClass));
 
-        // References
-        md.intRefs = refExtractor.extract(doc);
-        
         return md;
     }
     

@@ -2,12 +2,12 @@ package gov.nasa.pds.harvest.cfg.rd;
 
 import org.w3c.dom.Document;
 
-import gov.nasa.pds.harvest.cfg.model.Directories;
+import gov.nasa.pds.harvest.cfg.model.DirectoriesCfg;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
 public class Rdirs
 {
-    public static Directories parseDirectories(Document doc) throws Exception
+    public static DirectoriesCfg parseDirectories(Document doc) throws Exception
     {
         XPathUtils xpu = new XPathUtils();
 
@@ -15,7 +15,7 @@ public class Rdirs
         if(count == 0) throw new Exception("Missing required element '/harvest/directories'.");
         if(count > 1) throw new Exception("Could not have more than one '/harvest/directories' element.");
         
-        Directories dirs = new Directories();                
+        DirectoriesCfg dirs = new DirectoriesCfg();                
         dirs.paths = xpu.getStringList(doc, "/harvest/directories/path");
         if(dirs.paths == null) throw new Exception("Provide at least one '/harvest/directories/path' element.");
         
