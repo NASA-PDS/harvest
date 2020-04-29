@@ -62,8 +62,25 @@ public class InternalReferenceExtractor
     private void addRef(FieldMap fmap, LidRef ref)
     {
         if(ref.type == null) return;
+        String type = getShortRefType(ref.type);
         
-        String[] tokens = ref.type.split("_");
+        if(ref.lid != null)
+        {
+            String key = cfg.prefix + "lid_" + type;
+            fmap.addValue(key, ref.lid);
+        }
+
+        if(ref.lidvid != null)
+        {
+            String key = cfg.prefix + "lidvid_" + type;
+            fmap.addValue(key, ref.lidvid);
+        }
+    }
+    
+    
+    private String getShortRefType(String refType)
+    {
+        String[] tokens = refType.split("_");
         
         String name = tokens[tokens.length-1];
         
@@ -79,17 +96,7 @@ public class InternalReferenceExtractor
             }            
         }
         
-        if(ref.lid != null)
-        {
-            String key = cfg.prefix + "lid_" + name;
-            fmap.addValue(key, ref.lid);
-        }
-
-        if(ref.lidvid != null)
-        {
-            String key = cfg.prefix + "lidvid_" + name;
-            fmap.addValue(key, ref.lidvid);
-        }
+        return name;
     }
     
     
