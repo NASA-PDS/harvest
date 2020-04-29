@@ -9,4 +9,9 @@
       <include>*.xml</include>
     </fileFilter>
   </directories>
+
+  <!-- Include file info (name, type, size, md5). Do not store blobs. -->
+  <fileInfo>
+    <blobStorage type="none" />
+  </fileInfo>
 </harvest>

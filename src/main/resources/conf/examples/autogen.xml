@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<harvest>
+
+  <directories>
+    <!-- Path to one or more folders with some PDS4 product labels -->
+    <path>/home/pds/LADEE/ldex_20161118/data_derived</path>
+    <!-- Only process XML files -->
+    <fileFilter>
+      <include>*.xml</include>
+    </fileFilter>
+  </directories>
+
+  <autogenFields>
+  </autogenFields>
+
+</harvest>

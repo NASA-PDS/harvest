@@ -7,6 +7,7 @@ public class Configuration
     public FileRef fileRef;
     public FileInfo fileInfo;
     public XPathMaps xpathMaps;
+    public InternalRefs internalRefs;
     
     public boolean autoGenFields;
 }
