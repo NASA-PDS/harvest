@@ -14,4 +14,10 @@
   <fileInfo>
     <blobStorage type="none" />
   </fileInfo>
+
+  <!-- Include internal references. Convert lidvids to lids. Do not keep lidvids. -->
+  <internalRefs prefix="ref_">
+    <lidvid convertToLid="true" keep="false" />
+  </internalRefs>
+
 </harvest>

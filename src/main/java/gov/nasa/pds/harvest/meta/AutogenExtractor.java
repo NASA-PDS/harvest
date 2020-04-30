@@ -9,6 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -18,15 +19,16 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 public class AutogenExtractor
 {
-    private Map<String, String> nsMap;
+    private Map<String, String> globalNsMap;
     
+    private Map<String, String> localNsMap;
     private FieldMap fields;
 
     
     public AutogenExtractor()
     {
-        nsMap = new HashMap<>();
-        nsMap.put("http://pds.nasa.gov/pds4/pds/v1", "pds");
+        globalNsMap = new HashMap<>();
+        globalNsMap.put("http://pds.nasa.gov/pds4/pds/v1", "pds");
     }
 
     
@@ -41,6 +43,7 @@ public class AutogenExtractor
     
     public void extract(Document doc, FieldMap fields) throws Exception
     {
+        this.localNsMap = getDocNamespaces(doc);
         this.fields = fields;
         
         Element root = doc.getDocumentElement();
@@ -48,6 +51,7 @@ public class AutogenExtractor
         
         // Release reference
         this.fields = null;
+        this.localNsMap = null;
     }
 
 
@@ -70,16 +74,9 @@ public class AutogenExtractor
         // This is a leaf node. Get value.
         if(isLeaf)
         {
-            // PDS data dictionary class
-            Node parent = el.getParentNode();
-            String nsPrefix = getNsPrefix(parent);
-            String className = nsPrefix + "." + parent.getNodeName();
-
-            // PDS data dictionary attribute
-            nsPrefix = getNsPrefix(el);
-            String attrName = nsPrefix + "." + el.getNodeName();
-            
-            // Field name
+            // Data dictionary class and attribute
+            String className = getNsName(el.getParentNode());
+            String attrName = getNsName(el);
             String fieldName = className + "." + attrName;
             
             // Field value
@@ -90,16 +87,52 @@ public class AutogenExtractor
     }
 
     
+    private String getNsName(Node node) throws Exception
+    {
+        String nsPrefix = getNsPrefix(node);
+        String nsName = nsPrefix + "." + node.getLocalName();
+        
+        return nsName;
+    }
+    
+    
     private String getNsPrefix(Node node) throws Exception
     {
         String nsUri = node.getNamespaceURI();
-        String nsPrefix = nsMap.get(nsUri);
-        if(nsPrefix == null)
+        
+        // Search gloabl map first
+        String nsPrefix = globalNsMap.get(nsUri);
+        if(nsPrefix != null) return nsPrefix;
+        
+        // Then local
+        nsPrefix = localNsMap.get(nsUri);
+        if(nsPrefix != null) return nsPrefix;
+        
+        throw new Exception("Unknown namespace: " + nsUri 
+                + ". Please declare this namespace in Harvest configuration file.");
+    }
+    
+    
+    private static Map<String, String> getDocNamespaces(Document doc)
+    {
+        Element root = doc.getDocumentElement();
+        NamedNodeMap attrs = root.getAttributes();
+
+        Map<String, String> map = new HashMap<>();
+        
+        for(int i = 0; i < attrs.getLength(); i++)
         {
-            throw new Exception("Unknown namespace: " + nsUri 
-                    + ". Please declare this namespace in Harvest configuration file.");
+            Node attr = attrs.item(i);
+            String name = attr.getNodeName();
+            if(name.startsWith("xmlns:"))
+            {
+                name = name.substring(6);
+                String uri = attr.getNodeValue();
+                map.put(uri, name);
+            }
         }
 
-        return nsPrefix;
+        return map;
     }
+
 }

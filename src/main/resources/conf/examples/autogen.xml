@@ -12,6 +12,9 @@
   </directories>
 
   <autogenFields>
+    <classFilter>
+      <exclude>pds.Internal_Reference</exclude>
+    </classFilter>
   </autogenFields>
 
 </harvest>
