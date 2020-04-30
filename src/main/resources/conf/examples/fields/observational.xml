@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xpaths>
-  <xpath fieldName="start_date_time">/Product_Observational/Observation_Area/Time_Coordinates/start_date_time</xpath>
-  <xpath fieldName="stop_date_time">/Product_Observational/Observation_Area/Time_Coordinates/stop_date_time</xpath>
+  <xpath fieldName="start_date_time" dataType="date">/Product_Observational/Observation_Area/Time_Coordinates/start_date_time</xpath>
+  <xpath fieldName="stop_date_time" dataType="date">/Product_Observational/Observation_Area/Time_Coordinates/stop_date_time</xpath>
 </xpaths>
-

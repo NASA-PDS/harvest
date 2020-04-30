@@ -11,13 +11,30 @@ public class XPathCache
 {
     public static class Item
     {
+        public static final int TYPE_STRING = 0;
+        public static final int TYPE_DATE = 1;
+        
         public String fieldName;
+        public int dataType;
         public XPathExpression xpe;
         
         public Item(String fieldName, XPathExpression xpe)
         {
+            this.dataType = TYPE_STRING;
             this.fieldName = fieldName;
             this.xpe = xpe;
+        }
+        
+        public void setDataType(String str)
+        {
+            if("date".equalsIgnoreCase(str))
+            {
+                dataType = TYPE_DATE;
+            }
+            else
+            {
+                dataType = TYPE_STRING;
+            }
         }
     }
 
@@ -41,9 +58,11 @@ public class XPathCache
     }
     
     
-    public void add(String fieldName, XPathExpression xpe)
+    public void add(String fieldName, String dataType, XPathExpression xpe)
     {
-        items.add(new Item(fieldName, xpe));
+        Item item = new Item(fieldName, xpe);
+        item.setDataType(dataType);
+        items.add(item);
     }
     
     

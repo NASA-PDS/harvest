@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.cfg.model.ReplaceRule;
+import gov.nasa.pds.harvest.cfg.model.FileRefCfg;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
 import gov.nasa.pds.harvest.meta.FileData;
@@ -115,7 +115,7 @@ public class MetadataProcessor
         
         if(config.fileRef.rules != null)
         {
-            for(ReplaceRule rule: config.fileRef.rules)
+            for(FileRefCfg.ReplaceRule rule: config.fileRef.rules)
             {
                 if(rule.prefix == null || rule.replacement == null) continue;
                 
