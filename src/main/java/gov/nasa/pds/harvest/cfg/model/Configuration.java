@@ -8,6 +8,5 @@ public class Configuration
     public FileInfoCfg fileInfo;
     public XPathMapCfg xpathMaps;
     public InternalRefCfg internalRefs;
-    
-    public boolean autoGenFields;
+    public AutogenCfg autogen;
 }

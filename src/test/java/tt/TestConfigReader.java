@@ -126,7 +126,7 @@ public class TestConfigReader
         }
 
         System.out.println("\nAutogen Fields\n===============");
-        System.out.println("  Generate = " + config.autoGenFields);
+        System.out.println("  Generate = " + (config.autogen != null));
         
         System.out.println("\nFileInfo\n===============");
         System.out.println("  Generate = " + (config.fileInfo != null));

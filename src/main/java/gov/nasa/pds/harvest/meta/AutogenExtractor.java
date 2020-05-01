@@ -13,20 +13,23 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import gov.nasa.pds.harvest.cfg.model.AutogenCfg;
 import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
 public class AutogenExtractor
 {
-    private Map<String, String> globalNsMap;
+    private AutogenCfg cfg;
     
+    private Map<String, String> globalNsMap;    
     private Map<String, String> localNsMap;
     private FieldMap fields;
 
     
-    public AutogenExtractor()
+    public AutogenExtractor(AutogenCfg cfg)
     {
+        this.cfg = cfg;
         globalNsMap = new HashMap<>();
         globalNsMap.put("http://pds.nasa.gov/pds4/pds/v1", "pds");
     }
@@ -55,11 +58,11 @@ public class AutogenExtractor
     }
 
 
-    private void processNode(Node el) throws Exception
+    private void processNode(Node node) throws Exception
     {
         boolean isLeaf = true;
         
-        NodeList nl = el.getChildNodes();
+        NodeList nl = node.getChildNodes();
         for(int i = 0; i < nl.getLength(); i++)
         {
             Node cn = nl.item(i);
@@ -74,18 +77,35 @@ public class AutogenExtractor
         // This is a leaf node. Get value.
         if(isLeaf)
         {
-            // Data dictionary class and attribute
-            String className = getNsName(el.getParentNode());
-            String attrName = getNsName(el);
-            String fieldName = className + "." + attrName;
-            
-            // Field value
-            String fieldValue = StringUtils.normalizeSpace(el.getTextContent());
-            
-            fields.addValue(fieldName, fieldValue);
+            processLeafNode(node);
         }
     }
 
+    
+    private void processLeafNode(Node node) throws Exception
+    {
+        // Data dictionary class and attribute
+        String className = getNsName(node.getParentNode());
+        
+        // Apply class filters
+        if(cfg.classFilterIncludes != null && cfg.classFilterIncludes.size() > 0)
+        {
+            if(!cfg.classFilterIncludes.contains(className)) return;
+        }
+        if(cfg.classFilterExcludes != null && cfg.classFilterExcludes.size() > 0)
+        {
+            if(cfg.classFilterExcludes.contains(className)) return;
+        }
+        
+        String attrName = getNsName(node);
+        String fieldName = className + "." + attrName;
+        
+        // Field value
+        String fieldValue = StringUtils.normalizeSpace(node.getTextContent());
+        
+        fields.addValue(fieldName, fieldValue);
+    }
+    
     
     private String getNsName(Node node) throws Exception
     {
