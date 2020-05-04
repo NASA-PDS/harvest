@@ -103,6 +103,13 @@ public class AutogenExtractor
         // Field value
         String fieldValue = StringUtils.normalizeSpace(node.getTextContent());
         
+        // Convert dates to Solr format
+        String nodeName = node.getLocalName();
+        if(nodeName.contains("date"))
+        {
+            
+        }
+        
         fields.addValue(fieldName, fieldValue);
     }
     
