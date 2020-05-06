@@ -1,10 +1,10 @@
 package tt;
 
-import gov.nasa.pds.harvest.util.date.PDSDateConverter;
+import gov.nasa.pds.harvest.util.date.PdsDateConverter;
 
 public class TestDateFormats
 {
-    static PDSDateConverter conv = new PDSDateConverter();
+    static PdsDateConverter conv = new PdsDateConverter(false);
     
     public static void main(String[] args) throws Exception
     {        
@@ -12,7 +12,7 @@ public class TestDateFormats
     }
 
     
-    private static void testPdsDates()
+    private static void testPdsDates() throws Exception
     {
         testPdsDate("2013-10-24T00:00:00Z");
         testPdsDate("2013-10-24T00:49:37.457Z");
@@ -29,7 +29,7 @@ public class TestDateFormats
     }
 
     
-    private static void testPdsDate(String value)
+    private static void testPdsDate(String value) throws Exception
     {
         String solrValue = conv.toSolrDateString("", value);
         System.out.format("%30s  -->  %s\n", value, solrValue);

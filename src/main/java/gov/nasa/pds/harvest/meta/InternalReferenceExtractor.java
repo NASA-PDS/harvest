@@ -8,7 +8,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import gov.nasa.pds.harvest.cfg.model.InternalRefCfg;
-import gov.nasa.pds.harvest.util.FieldMap;
+import gov.nasa.pds.harvest.util.FieldMapSet;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
 
@@ -37,14 +37,14 @@ public class InternalReferenceExtractor
     }
     
     
-    public FieldMap extract(Document doc) throws Exception
+    public FieldMapSet extract(Document doc) throws Exception
     {
         if(cfg == null) return null;
         
         NodeList nodes = XPathUtils.getNodeList(doc, xIntRef);        
         if(nodes == null || nodes.getLength() == 0) return null;
 
-        FieldMap fmap = new FieldMap();
+        FieldMapSet fmap = new FieldMapSet();
         
         for(int i = 0; i < nodes.getLength(); i++)
         {
@@ -59,7 +59,7 @@ public class InternalReferenceExtractor
     }
 
     
-    private void addRef(FieldMap fmap, LidRef ref)
+    private void addRef(FieldMapSet fmap, LidRef ref)
     {
         if(ref.type == null) return;
         String type = getShortRefType(ref.type);

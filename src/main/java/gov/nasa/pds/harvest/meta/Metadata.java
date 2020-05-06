@@ -1,6 +1,6 @@
 package gov.nasa.pds.harvest.meta;
 
-import gov.nasa.pds.harvest.util.FieldMap;
+import gov.nasa.pds.harvest.util.FieldMapSet;
 
 
 public class Metadata
@@ -12,12 +12,12 @@ public class Metadata
     
     public String fileRef;        
     
-    public FieldMap intRefs;
-    public FieldMap fields;
+    public FieldMapSet intRefs;
+    public FieldMapSet fields;
 
     
     public Metadata()
     {
-        fields = new FieldMap();
+        fields = new FieldMapSet();
     }
 }

@@ -7,21 +7,24 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class PDSDateConverter
+public class PdsDateConverter
 {
     public static final String DEFAULT_STARTTIME = "1965-01-01T00:00:00.000Z";
     public static final String DEFAULT_STOPTIME = "3000-01-01T00:00:00.000Z";
 
-    private static final Logger LOG = LogManager.getLogger(PDSDateConverter.class);
+    private static final Logger LOG = LogManager.getLogger(PdsDateConverter.class);
        
     private CompactDateTimeConverter compactDateTimeConverter;
     private DoyDateTimeConverter doyDateTimeConverter;
     private IsoDateTimeConverter isoDateTimeConverter;
     private LocalDateConverter localDateConverter;
 
+    private boolean strict;
     
-    public PDSDateConverter()
+    
+    public PdsDateConverter(boolean strict)
     {
+        this.strict = strict;
         compactDateTimeConverter = new CompactDateTimeConverter();
         doyDateTimeConverter = new DoyDateTimeConverter();
         isoDateTimeConverter = new IsoDateTimeConverter();
@@ -29,7 +32,7 @@ public class PDSDateConverter
     }
 
 
-    public String toSolrDateString(String fieldName, String value)
+    public String toSolrDateString(String fieldName, String value) throws Exception
     {
         if(value == null) return null;
         
@@ -53,8 +56,8 @@ public class PDSDateConverter
 
             newValue = convertDoyTime(value);
             if(newValue != null) return newValue;
-            
-            LOG.warn("Could not convert date " + value);
+
+            handleInvalidDate(value);
         }
         // Date only
         else
@@ -62,12 +65,27 @@ public class PDSDateConverter
             String newValue = convertDate(value);
             if(newValue != null) return newValue;
             
-            LOG.warn("Could not convert date " + value);
+            handleInvalidDate(value);
         }
         
-        return null;
+        return value;
     }
 
+    
+    private void handleInvalidDate(String value) throws Exception
+    {
+        String msg = "Could not convert date " + value;
+        
+        if(strict)
+        {
+            throw new Exception(msg);
+        }
+        else
+        {
+            LOG.warn(msg);
+        }
+    }
+    
 
     private String convertIsoDateTime(String value)
     {

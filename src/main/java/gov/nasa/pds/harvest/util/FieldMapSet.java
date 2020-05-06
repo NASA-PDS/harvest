@@ -6,12 +6,12 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class FieldMap
+public class FieldMapSet
 {
     private Map<String, Set<String>> fields;
     
     
-    public FieldMap()
+    public FieldMapSet()
     {
         fields = new TreeMap<>();
     }

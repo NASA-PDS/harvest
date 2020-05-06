@@ -13,7 +13,7 @@ import org.w3c.dom.Node;
 
 import gov.nasa.pds.harvest.cfg.model.AutogenCfg;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
-import gov.nasa.pds.harvest.util.FieldMap;
+import gov.nasa.pds.harvest.util.FieldMapSet;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
@@ -70,7 +70,7 @@ public class TestAutogenExtractor
         AutogenCfg cfg = new AutogenCfg();
         AutogenExtractor ext = new AutogenExtractor(cfg);
         
-        FieldMap fields = new FieldMap();
+        FieldMapSet fields = new FieldMapSet();
         ext.extract(file, fields);
         
         for(String name: fields.getNames())

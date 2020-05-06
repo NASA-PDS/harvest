@@ -7,7 +7,7 @@ import java.util.Set;
 
 import gov.nasa.pds.harvest.meta.FileData;
 import gov.nasa.pds.harvest.meta.Metadata;
-import gov.nasa.pds.harvest.util.FieldMap;
+import gov.nasa.pds.harvest.util.FieldMapSet;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
@@ -70,7 +70,7 @@ public class SolrDocWriter
     }
  
     
-    private void write(FieldMap fmap) throws Exception
+    private void write(FieldMapSet fmap) throws Exception
     {
         if(fmap == null || fmap.isEmpty()) return;
         
