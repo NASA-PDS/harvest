@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.util;
+package gov.nasa.pds.harvest.meta;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -7,23 +7,47 @@ import java.security.MessageDigest;
 import java.util.Base64;
 import java.util.zip.DeflaterOutputStream;
 
+import gov.nasa.pds.harvest.cfg.model.FileInfoCfg;
+import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.util.CloseUtils;
 
-public class FileDataBuilder
+
+public class FileDataExtractor
 {
     private MessageDigest md5Digest;
     private byte[] buf;
+
+    private boolean extractFileInfo;
+    private boolean storeBlob;
     
     
-    public FileDataBuilder() throws Exception
+    public FileDataExtractor(Configuration config) throws Exception
     {
-        md5Digest = MessageDigest.getInstance("MD5");
-        buf = new byte[1024 * 2];
+        if(config.fileInfo == null)
+        {
+            this.extractFileInfo = false;
+            this.storeBlob = false;
+        }
+        else
+        {
+            this.extractFileInfo = true;
+            this.storeBlob = (config.fileInfo.blobStorageType == FileInfoCfg.BLOB_EMBEDDED);
+            
+            md5Digest = MessageDigest.getInstance("MD5");
+            buf = new byte[1024 * 2];
+        }
     }
     
     
-    public FileData build(File file, String mimeType, boolean setBlob) throws Exception
+    public FileData extract(File file) throws Exception
     {
-        if(file == null) return null;
+        return extract(file, "application/xml");
+    }
+    
+    
+    public FileData extract(File file, String mimeType) throws Exception
+    {
+        if(!extractFileInfo) return null;
         
         FileData data = new FileData();
         
@@ -32,7 +56,7 @@ public class FileDataBuilder
         data.mimeType = mimeType;
 
         data.md5Base64 = getMd5(file);
-        if(setBlob)
+        if(storeBlob)
         {
             data.blobBase64 = getBlob(file);
         }

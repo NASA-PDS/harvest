@@ -9,8 +9,8 @@ import org.xml.sax.SAXParseException;
 
 import gov.nasa.pds.harvest.cfg.ConfigReader;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.cfg.model.ReplaceRule;
-import gov.nasa.pds.harvest.cfg.model.XPathMap;
+import gov.nasa.pds.harvest.cfg.model.FileRefCfg;
+import gov.nasa.pds.harvest.cfg.model.XPathMapCfg;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 import gov.nasa.pds.harvest.util.xml.XmlStreamUtils;
 
@@ -93,7 +93,7 @@ public class TestConfigReader
     public static void testRead1() throws Exception
     {
         ConfigReader rd = new ConfigReader();
-        Configuration config = rd.read(new File("/ws2/harvest/conf/t3.xml"));
+        Configuration config = rd.read(new File("/ws2/harvest/conf/t5.xml"));
         
         System.out.println("\nDirectories\n===============");
         System.out.println(config.directories.paths);
@@ -108,7 +108,7 @@ public class TestConfigReader
         System.out.println("\nFileRef\n===============");
         if(config.fileRef != null && config.fileRef.rules != null)
         {
-            for(ReplaceRule rule: config.fileRef.rules)
+            for(FileRefCfg.ReplaceRule rule: config.fileRef.rules)
             {
                 System.out.println(rule.prefix + " --> " + rule.replacement);
             }
@@ -119,16 +119,29 @@ public class TestConfigReader
         {
             System.out.println("baseDir = " + config.xpathMaps.baseDir);
             
-            for(XPathMap map: config.xpathMaps.items)
+            for(XPathMapCfg.Item map: config.xpathMaps.items)
             {
                 System.out.println(map.rootElement + " --> " + map.filePath);
             }
         }
+
+        System.out.println("\nAutogen Fields\n===============");
+        System.out.println("  Generate = " + (config.autogen != null));
         
-        System.out.println("\nBlobStorage\n===============");
-        System.out.println("type = " + ((config.blobStorage == null) ? 0 : config.blobStorage.storageType));
+        System.out.println("\nFileInfo\n===============");
+        System.out.println("  Generate = " + (config.fileInfo != null));
+        System.out.println("  Blob storage = " + ((config.fileInfo == null) ? 0 : config.fileInfo.blobStorageType));
+
+        
+        System.out.println("\nInternal Refs\n===============");
+        System.out.println("  Generate = " + (config.internalRefs != null));
+        if(config.internalRefs != null)
+        {
+            System.out.println("  Prefix = " + config.internalRefs.prefix);
+            System.out.println("  Keep lidvid = " + config.internalRefs.lidvidKeep);
+            System.out.println("  Convert lidvid = " + config.internalRefs.lidvidConvert);
+        }
         
     }
 
-    
 }

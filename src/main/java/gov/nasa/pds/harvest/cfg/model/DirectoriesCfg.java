@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class Directories
+public class DirectoriesCfg
 {
     public List<String> paths;
     
@@ -19,7 +19,7 @@ public class Directories
     public Set<String> prodFilterIncludes;
     public Set<String> prodFilterExcludes;
     
-    public Directories()
+    public DirectoriesCfg()
     {        
     }
     

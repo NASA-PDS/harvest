@@ -11,8 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import gov.nasa.pds.harvest.cfg.model.XPathMap;
-import gov.nasa.pds.harvest.cfg.model.XPathMaps;
+import gov.nasa.pds.harvest.cfg.model.XPathMapCfg;
 import gov.nasa.pds.harvest.util.xml.XPathCache;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
@@ -31,11 +30,11 @@ public class XPathCacheLoader
     }
     
     
-    public void load(XPathMaps maps) throws Exception
+    public void load(XPathMapCfg maps) throws Exception
     {
         if(maps == null || maps.items == null || maps.items.isEmpty()) return;
         
-        for(XPathMap xpm: maps.items)
+        for(XPathMapCfg.Item xpm: maps.items)
         {
             File file = (maps.baseDir != null) ? new File(maps.baseDir, xpm.filePath) : new File(xpm.filePath); 
             LOG.info("Loading xpath-to-field-name map from " + file.getAbsolutePath());
@@ -64,12 +63,13 @@ public class XPathCacheLoader
         {
             Node node = nodes.item(i);
             String fieldName = XmlDomUtils.getAttribute(node, "fieldName");
+            String dataType = XmlDomUtils.getAttribute(node, "dataType");
             String xpath = trim(node.getTextContent());
             
             if(fieldName == null || xpath == null || xpath.isEmpty()) continue;
             
             xpe = XPathUtils.compileXPath(xpf, xpath);
-            cache.add(fieldName, xpe);
+            cache.add(fieldName, dataType, xpe);
         }
     }
     

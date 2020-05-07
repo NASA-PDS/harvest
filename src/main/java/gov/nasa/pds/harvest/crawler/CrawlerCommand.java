@@ -3,13 +3,13 @@ package gov.nasa.pds.harvest.crawler;
 import java.io.File;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cfg.ConfigReader;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
+import gov.nasa.pds.harvest.util.HarvestLogManager;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
@@ -21,7 +21,7 @@ public class CrawlerCommand
     
     public CrawlerCommand()
     {
-        minLogger = LogManager.getLogger("harvest-min-info");
+        minLogger = HarvestLogManager.getMinInfoLogger();
     }
 
     

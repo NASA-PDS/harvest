@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<harvest>
+
+  <directories>
+    <!-- Path to one or more folders with some PDS4 product labels -->
+    <path>/home/pds/LADEE/ldex_20161118/data_derived</path>
+    <!-- Only process XML files -->
+    <fileFilter>
+      <include>*.xml</include>
+    </fileFilter>
+  </directories>
+
+  <!-- 
+      NOTE: By default only lid, vid, lidvid, title and product class are exported. 
+      If you want more metadata to be exported, provide additional configuration
+      elements, such as xpathMaps, internalRefs, autogenFields, fileInfo, fileRef.
+  -->
+
+  <!-- Include xpath-to-field-name mappings to export more data. -->
+  <xpathMaps baseDir="/home/pds/harvest/conf/fields">
+    <!-- Apply xpaths from <baseDir>/common.xml to all PDS4 XML labels -->
+    <xpathMap filePath="common.xml" />
+    <!-- Only apply xpaths from <baseDir>/observational.xml, if XML file's root element is 'Product_Observational' -->
+    <xpathMap rootElement="Product_Observational" filePath="observational.xml" />
+  </xpathMaps>
+
+  <!-- Extract internal references. 
+       Generated field names: <prefix>{lid|lidvid}_<reference_type> (e.g., ref_lid_target) -->
+  <internalRefs prefix="ref_">
+    <!-- Convert lidvids to lids. Keep lidvids. -->
+    <lidvid convertToLid="true" keep="true" />
+  </internalRefs>
+
+</harvest>
