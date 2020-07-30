@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.util.solr;
+package gov.nasa.pds.harvest.util.out;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -7,11 +7,12 @@ import java.util.Set;
 
 import gov.nasa.pds.harvest.meta.FileData;
 import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.harvest.util.DocWriter;
 import gov.nasa.pds.harvest.util.FieldMapSet;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
-public class SolrDocWriter
+public class SolrDocWriter implements DocWriter
 {
     private Writer writer;
     

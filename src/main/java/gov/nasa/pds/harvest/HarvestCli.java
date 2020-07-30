@@ -111,7 +111,11 @@ public class HarvestCli
         options.addOption(bld.build());
         
         bld = Option.builder("o").hasArg().argName("dir")
-                .desc("Output directory for Solr documents. Default is /tmp/harvest/solr");
+                .desc("Output directory for Solr or Elasticsearch documents. Default is /tmp/harvest/out");
+        options.addOption(bld.build());
+
+        bld = Option.builder("f").hasArg().argName("format")
+                .desc("Output format: 'solr' or 'es'. Default is 'solr'");
         options.addOption(bld.build());
         
         bld = Option.builder("l").hasArg().argName("file").desc("Log file. Default is /tmp/harvest/harvest.log.");

@@ -9,13 +9,15 @@ import gov.nasa.pds.harvest.cfg.ConfigReader;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
+import gov.nasa.pds.harvest.util.DocWriter;
 import gov.nasa.pds.harvest.util.HarvestLogManager;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
+import gov.nasa.pds.harvest.util.out.EsDocWriter;
+import gov.nasa.pds.harvest.util.out.SolrDocWriter;
 
 
 public class CrawlerCommand
 {
-    private Configuration policy;
     private Logger minLogger; 
     
     
@@ -27,36 +29,59 @@ public class CrawlerCommand
     
     public void run(CommandLine cmdLine) throws Exception
     {
-        loadConfiguration(cmdLine.getOptionValue("c"));
+        // Output directory
+        String outDir = cmdLine.getOptionValue("o", "/tmp/harvest/out");
+        minLogger.info("Output directory: " + outDir);
+        File fOutDir = new File(outDir);
+        fOutDir.mkdirs();
+
+        // Output format
+        String outFormat = cmdLine.getOptionValue("f", "solr").toLowerCase();
+        minLogger.info("Output format: " + outFormat);
+
+        DocWriter writer = null;
         
-        String outDir = cmdLine.getOptionValue("o", "/tmp/harvest/solr");
-        runCrawler(outDir);
+        switch(outFormat)
+        {
+        case "solr":
+            writer = new SolrDocWriter(fOutDir);
+            break;
+        case "es":
+            writer = new EsDocWriter(fOutDir);
+            break;
+        default:
+            throw new Exception("Invalid output format " + outFormat);                
+        }
+        
+        // Configuration file
+        Configuration cfg = loadConfiguration(cmdLine.getOptionValue("c"));
+        
+        // Run crawler
+        runCrawler(cfg, writer);
     }
     
 
-    private void loadConfiguration(String pConfigFile) throws Exception
+    private Configuration loadConfiguration(String pConfigFile) throws Exception
     {
         File cfgFile = new File(pConfigFile);
         minLogger.info("Reading configuration from " + pConfigFile);
         
         // Read config file
         ConfigReader rd = new ConfigReader();
-        policy = rd.read(cfgFile);
+        Configuration cfg = rd.read(cfgFile);
         
         // Load xpath maps from files
         XPathCacheLoader xpcLoader = new XPathCacheLoader();
-        xpcLoader.load(policy.xpathMaps);
+        xpcLoader.load(cfg.xpathMaps);
+        
+        return cfg;
     }
     
     
-    private void runCrawler(String pOutDir) throws Exception
+    private void runCrawler(Configuration cfg, DocWriter writer) throws Exception
     {
-        minLogger.info("Will write Solr docs to " + pOutDir);
-        File outDir = new File(pOutDir);
-        outDir.mkdirs();
-        
-        FileProcessor fileProcessor = new FileProcessor(outDir, policy);
-        ProductCrawler crawler = new ProductCrawler(policy.directories, fileProcessor);
+        FileProcessor fileProcessor = new FileProcessor(cfg, writer);
+        ProductCrawler crawler = new ProductCrawler(cfg.directories, fileProcessor);
         crawler.crawl();
         fileProcessor.close();
 

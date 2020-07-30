@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.util.solr;
+package gov.nasa.pds.harvest.util.out;
 
 import java.io.Writer;
 import java.text.SimpleDateFormat;
