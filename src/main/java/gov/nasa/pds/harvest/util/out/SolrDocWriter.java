@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.util.solr;
+package gov.nasa.pds.harvest.util.out;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -7,14 +7,26 @@ import java.util.Set;
 
 import gov.nasa.pds.harvest.meta.FileData;
 import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.harvest.util.DocWriter;
 import gov.nasa.pds.harvest.util.FieldMapSet;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
-public class SolrDocWriter
+/**
+ * Solr document writer. 
+ * Writes documents in XML format which can be loaded into Solr by Solr post tool. 
+ *  
+ * @author karpenko
+ */
+public class SolrDocWriter implements DocWriter
 {
     private Writer writer;
     
+    /**
+     * Constructor
+     * @param outDir output directory
+     * @throws Exception
+     */
     public SolrDocWriter(File outDir) throws Exception
     {
         File file = new File(outDir, "solr-docs.xml");        
@@ -24,6 +36,7 @@ public class SolrDocWriter
     }
 
     
+    @Override
     public void close() throws Exception
     {
         writer.append("</add>\n");
@@ -31,6 +44,7 @@ public class SolrDocWriter
     }
 
     
+    @Override
     public void write(FileData fileData, Metadata meta) throws Exception
     {
         writer.append("<doc>\n");
