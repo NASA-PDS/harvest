@@ -12,10 +12,21 @@ import gov.nasa.pds.harvest.util.FieldMapSet;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
+/**
+ * Solr document writer. 
+ * Writes documents in XML format which can be loaded into Solr by Solr post tool. 
+ *  
+ * @author karpenko
+ */
 public class SolrDocWriter implements DocWriter
 {
     private Writer writer;
     
+    /**
+     * Constructor
+     * @param outDir output directory
+     * @throws Exception
+     */
     public SolrDocWriter(File outDir) throws Exception
     {
         File file = new File(outDir, "solr-docs.xml");        
@@ -25,6 +36,7 @@ public class SolrDocWriter implements DocWriter
     }
 
     
+    @Override
     public void close() throws Exception
     {
         writer.append("</add>\n");
@@ -32,6 +44,7 @@ public class SolrDocWriter implements DocWriter
     }
 
     
+    @Override
     public void write(FileData fileData, Metadata meta) throws Exception
     {
         writer.append("<doc>\n");

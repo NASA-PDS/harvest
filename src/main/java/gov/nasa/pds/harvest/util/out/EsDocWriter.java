@@ -13,11 +13,31 @@ import gov.nasa.pds.harvest.util.DocWriter;
 import gov.nasa.pds.harvest.util.FieldMapSet;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
-
+/**
+ * <p>
+ * Elasticsearch document writer.
+ * Writes documents in "new-line-delimited JSON" format. (Content-Type: application/x-ndjson).
+ * </p>
+ * <p>
+ * Generated file can be loaded into Elasticsearch by "_bulk" web service API: 
+ * </p>
+ * <pre>
+ * curl -H "Content-Type: application/x-ndjson" \
+ *      -XPOST "http://localhost:9200/accounts/_bulk?pretty" \
+ *      --data-binary @es-docs.json
+ * </pre>
+ * 
+ * @author karpenko
+ */
 public class EsDocWriter implements DocWriter
 {
     private FileWriter writer;
     
+    /**
+     * Constructor
+     * @param outDir output directory
+     * @throws Exception
+     */
     public EsDocWriter(File outDir) throws Exception
     {
         File file = new File(outDir, "es-docs.json");        

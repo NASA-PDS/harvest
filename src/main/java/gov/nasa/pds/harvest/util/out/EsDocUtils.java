@@ -24,13 +24,20 @@ public class EsDocUtils
         if(values == null || values.isEmpty()) return;
         
         jw.name(key);
-        
-        jw.beginArray();
-        for(String value: values)
+
+        if(values.size() == 1)
         {
-            jw.value(value);
+            jw.value(values.iterator().next());
         }
-        jw.endArray();
+        else
+        {
+            jw.beginArray();
+            for(String value: values)
+            {
+                jw.value(value);
+            }
+            jw.endArray();
+        }
     }
 
 }
