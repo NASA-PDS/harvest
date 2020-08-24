@@ -36,7 +36,7 @@ public class CrawlerCommand
         fOutDir.mkdirs();
 
         // Output format
-        String outFormat = cmdLine.getOptionValue("f", "solr").toLowerCase();
+        String outFormat = cmdLine.getOptionValue("f", "es").toLowerCase();
         minLogger.info("Output format: " + outFormat);
 
         DocWriter writer = null;

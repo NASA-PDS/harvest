@@ -88,7 +88,7 @@ public class HarvestCli
         }
         catch(ParseException ex)
         {
-            System.out.println("ERROR: " + ex.getMessage());
+            System.out.println("[ERROR] " + ex.getMessage());
             return false;
         }
     }
@@ -115,7 +115,7 @@ public class HarvestCli
         options.addOption(bld.build());
 
         bld = Option.builder("f").hasArg().argName("format")
-                .desc("Output format: 'solr' or 'es'. Default is 'solr'");
+                .desc("Output format: 'es' (Elasticsearch JSON) or 'solr' (XML). Default is 'es'");
         options.addOption(bld.build());
         
         bld = Option.builder("l").hasArg().argName("file").desc("Log file. Default is /tmp/harvest/harvest.log.");
