@@ -36,17 +36,17 @@ public class CrawlerCommand
         fOutDir.mkdirs();
 
         // Output format
-        String outFormat = cmdLine.getOptionValue("f", "solr").toLowerCase();
+        String outFormat = cmdLine.getOptionValue("f", "json").toLowerCase();
         minLogger.info("Output format: " + outFormat);
 
         DocWriter writer = null;
         
         switch(outFormat)
         {
-        case "solr":
+        case "xml":
             writer = new SolrDocWriter(fOutDir);
             break;
-        case "es":
+        case "json":
             writer = new EsDocWriter(fOutDir);
             break;
         default:
