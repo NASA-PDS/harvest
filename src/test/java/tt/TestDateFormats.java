@@ -22,6 +22,8 @@ public class TestDateFormats
         
         testPdsDate("20130302010203.123");
         
+        
+        testPdsDate("2016-09-08Z");
         testPdsDate("2013-03-02");
         testPdsDate("2013-12");
         testPdsDate("2013");
