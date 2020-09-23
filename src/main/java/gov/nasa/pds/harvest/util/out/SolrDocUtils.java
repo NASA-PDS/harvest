@@ -2,11 +2,9 @@ package gov.nasa.pds.harvest.util.out;
 
 import java.io.Writer;
 import java.text.SimpleDateFormat;
-import java.util.Set;
+import java.util.Collection;
 import java.util.TimeZone;
-
 import org.apache.commons.lang.StringEscapeUtils;
-
 import gov.nasa.pds.harvest.util.FieldMapSet;
 
 
@@ -61,7 +59,7 @@ public class SolrDocUtils
         
         for(String fieldName: fields.getNames())
         {
-            Set<String> values = fields.getValues(fieldName);
+            Collection<String> values = fields.getValues(fieldName);
             if(values != null && values.size() > 0)
             {
                 for(String value: values)
