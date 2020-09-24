@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased](https://github.com/NASA-PDS/harvest/tree/HEAD)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/3.3.0-SNAPSHOT...HEAD)
+
+**Defects:**
+
+- For multivalued fields only unique values are stored [\#30](https://github.com/NASA-PDS/harvest/issues/30)
+- Could not parse date in yyyy-MM-ddZ format [\#29](https://github.com/NASA-PDS/harvest/issues/29)
+
 ## [3.3.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/3.3.0-SNAPSHOT) (2020-06-26)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.2.2...3.3.0-SNAPSHOT)
