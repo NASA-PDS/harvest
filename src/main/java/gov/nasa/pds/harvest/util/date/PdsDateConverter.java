@@ -18,6 +18,7 @@ public class PdsDateConverter
     private DoyDateTimeConverter doyDateTimeConverter;
     private IsoDateTimeConverter isoDateTimeConverter;
     private LocalDateConverter localDateConverter;
+    
 
     private boolean strict;
     
@@ -48,7 +49,18 @@ public class PdsDateConverter
         // DateTime
         if(value.length() > 10)
         {
-            String newValue = convertIsoDateTime(value);
+            String newValue = null;
+            
+            if(value.length() == 11 && value.endsWith("Z"))
+            {
+                newValue = convertDate(value.substring(0, 10));
+                if(newValue != null) return newValue;
+                
+                handleInvalidDate(value);
+                return value;
+            }
+            
+            newValue = convertIsoDateTime(value);
             if(newValue != null) return newValue;
 
             newValue = convertCompactDateTime(value);
@@ -56,7 +68,7 @@ public class PdsDateConverter
 
             newValue = convertDoyTime(value);
             if(newValue != null) return newValue;
-
+            
             handleInvalidDate(value);
         }
         // Date only

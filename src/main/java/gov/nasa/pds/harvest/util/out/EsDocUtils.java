@@ -13,14 +13,14 @@ public class EsDocUtils
     {
         if(value == null) return;
         
-        key = key.replaceAll("\\.", REPLACE_DOT_WITH);
+        key = toEsFieldName(key);
         jw.name(key).value(value);
     }
 
 
     public static void writeField(JsonWriter jw, String key, long value) throws Exception
     {
-        key = key.replaceAll("\\.", REPLACE_DOT_WITH);
+        key = toEsFieldName(key);
         jw.name(key).value(value);
     }
 
@@ -29,7 +29,7 @@ public class EsDocUtils
     {
         if(values == null || values.isEmpty()) return;
 
-        key = key.replaceAll("\\.", REPLACE_DOT_WITH);
+        key = toEsFieldName(key);
         jw.name(key);
 
         if(values.size() == 1)
@@ -47,4 +47,9 @@ public class EsDocUtils
         }
     }
 
+    
+    public static String toEsFieldName(String fieldName)
+    {
+        return fieldName.replaceAll("\\.", REPLACE_DOT_WITH);
+    }
 }

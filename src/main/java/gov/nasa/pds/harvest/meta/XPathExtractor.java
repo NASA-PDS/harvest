@@ -2,7 +2,7 @@ package gov.nasa.pds.harvest.meta;
 
 import org.w3c.dom.Document;
 
-import gov.nasa.pds.harvest.util.FieldMapSet;
+import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.date.PdsDateConverter;
 import gov.nasa.pds.harvest.util.xml.XPathCache;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
@@ -18,7 +18,7 @@ public class XPathExtractor
     }
 
     
-    public void extract(Document doc, FieldMapSet fields) throws Exception
+    public void extract(Document doc, FieldMap fields) throws Exception
     {
         String rootElement = doc.getDocumentElement().getNodeName();
         
@@ -32,7 +32,7 @@ public class XPathExtractor
     }
     
     
-    private void addFields(Document doc, XPathCache cache, FieldMapSet fieldMap) throws Exception
+    private void addFields(Document doc, XPathCache cache, FieldMap fieldMap) throws Exception
     {
         if(cache == null || cache.isEmpty()) return;
         
@@ -52,7 +52,7 @@ public class XPathExtractor
     }
 
     
-    private void addDates(String fieldName, String[] values, FieldMapSet fieldMap) throws Exception
+    private void addDates(String fieldName, String[] values, FieldMap fieldMap) throws Exception
     {
         if(values == null || values.length == 0) return;
         

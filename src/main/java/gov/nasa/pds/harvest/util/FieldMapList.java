@@ -1,19 +1,20 @@
 package gov.nasa.pds.harvest.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 
-public class FieldMapSet implements FieldMap
+public class FieldMapList implements FieldMap
 {
-    private Map<String, Set<String>> fields;
+    private Map<String, List<String>> fields;
     
     
-    public FieldMapSet()
+    public FieldMapList()
     {
         fields = new TreeMap<>();
     }
@@ -31,14 +32,14 @@ public class FieldMapSet implements FieldMap
     }
     
     
-    private Set<String> getOrCreateValues(String fieldName)
+    private List<String> getOrCreateValues(String fieldName)
     {
         if(fieldName == null) throw new IllegalArgumentException("Field name is null");
 
-        Set<String> values = fields.get(fieldName);
+        List<String> values = fields.get(fieldName);
         if(values == null) 
         {
-            values = new TreeSet<>();
+            values = new ArrayList<>();
             fields.put(fieldName, values);
         }
 
@@ -50,7 +51,7 @@ public class FieldMapSet implements FieldMap
     {
         if(value == null) return;
         
-        Set<String> values = getOrCreateValues(fieldName);        
+        List<String> values = getOrCreateValues(fieldName);        
         values.add(value);
     }
     
@@ -59,7 +60,7 @@ public class FieldMapSet implements FieldMap
     {
         if(values == null || values.length == 0) return;
         
-        Set<String> set = getOrCreateValues(fieldName);        
+        List<String> set = getOrCreateValues(fieldName);        
         Collections.addAll(set, values);
     }
 
