@@ -50,12 +50,7 @@ jobs:
       run: |
          pip install pds-github-util
          maven-snapshot-release --token ${{ secrets.GITHUB_TOKEN }}
-    # the changelog will be available on https://nasa-pds.github.io/<your repo>/CHANGELOG
-    - uses: actions/checkout@v2
-      with:
-        ref: gh-pages
-    - name: Create changelog & requirements
-      run: |
+
     - name: Create requirements report
       run: echo ::set-env name=REQUIREMENT_FILE::$(requirement-report --organization NASA-PDS --repository harvest --token ${{ secrets.GITHUB_TOKEN }} --output docs/requirements --dev)
 
