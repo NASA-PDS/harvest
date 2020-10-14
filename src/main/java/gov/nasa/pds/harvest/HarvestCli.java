@@ -3,7 +3,6 @@ package gov.nasa.pds.harvest;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -72,9 +71,15 @@ public class HarvestCli
     
     public void printHelp()
     {
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.setWidth(100);
-        formatter.printHelp("harvest <options>", options);
+        System.out.println("Usage: harvest <options>");
+        System.out.println();
+        System.out.println("Required parameters:");
+        System.out.println("  -c <file>     Harvest configuration file");
+        System.out.println("Optional parameters:");
+        System.out.println("  -f <format>   Output format ('json' or 'xml'). Default is 'json'");
+        System.out.println("  -o <dir>      Output directory. Default is /tmp/harvest/out");
+        System.out.println("  -l <file>     Log file. Default is /tmp/harvest/harvest.log");
+        System.out.println("  -v <level>    Logger verbosity: 0=Debug, 1=Info (default), 2=Warning, 3=Error");
     }
 
     
@@ -88,7 +93,7 @@ public class HarvestCli
         }
         catch(ParseException ex)
         {
-            System.out.println("ERROR: " + ex.getMessage());
+            System.out.println("[ERROR] " + ex.getMessage());
             return false;
         }
     }
@@ -107,18 +112,19 @@ public class HarvestCli
     {
         Option.Builder bld;
         
-        bld = Option.builder("c").hasArg().argName("file").desc("Harvest configuration file.").required();
+        bld = Option.builder("c").hasArg().argName("file").required();
         options.addOption(bld.build());
         
-        bld = Option.builder("o").hasArg().argName("dir")
-                .desc("Output directory for Solr documents. Default is /tmp/harvest/solr");
-        options.addOption(bld.build());
-        
-        bld = Option.builder("l").hasArg().argName("file").desc("Log file. Default is /tmp/harvest/harvest.log.");
+        bld = Option.builder("o").hasArg().argName("dir");
         options.addOption(bld.build());
 
-        bld = Option.builder("v").hasArg().argName("level").
-                desc("Logger verbosity: 0=Debug, 1=Info (default), 2=Warning, 3=Error.");
+        bld = Option.builder("f").hasArg().argName("format");
+        options.addOption(bld.build());
+        
+        bld = Option.builder("l").hasArg().argName("file");
+        options.addOption(bld.build());
+
+        bld = Option.builder("v").hasArg().argName("level");
         options.addOption(bld.build());
     }
 

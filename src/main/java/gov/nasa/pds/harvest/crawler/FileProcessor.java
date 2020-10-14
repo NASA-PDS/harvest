@@ -8,6 +8,7 @@ import org.apache.tika.Tika;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.util.CounterMap;
+import gov.nasa.pds.harvest.util.DocWriter;
 import gov.nasa.pds.harvest.util.ExceptionUtils;
 import gov.nasa.pds.harvest.util.xml.XmlStreamUtils;
 
@@ -31,7 +32,7 @@ public class FileProcessor implements ProductCrawler.Callback
     private boolean stoppedOnError = false;
 
     
-    public FileProcessor(File outDir, Configuration cfg) throws Exception
+    public FileProcessor(Configuration cfg, DocWriter writer) throws Exception
     {
         LOG = LogManager.getLogger(getClass());
         
@@ -41,7 +42,7 @@ public class FileProcessor implements ProductCrawler.Callback
         counter = new Counter();
         tika = new Tika();
         
-        metaProcessor = new MetadataProcessor(outDir, cfg);
+        metaProcessor = new MetadataProcessor(writer, cfg);
     }
     
     

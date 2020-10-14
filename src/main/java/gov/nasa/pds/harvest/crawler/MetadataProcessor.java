@@ -17,7 +17,7 @@ import gov.nasa.pds.harvest.meta.FileDataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
-import gov.nasa.pds.harvest.util.solr.SolrDocWriter;
+import gov.nasa.pds.harvest.util.DocWriter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
@@ -26,7 +26,7 @@ public class MetadataProcessor
     private Logger LOG;
 
     private Configuration config;
-    private SolrDocWriter writer;
+    private DocWriter writer;
     
     private BasicMetadataExtractor basicExtractor;
     private InternalReferenceExtractor refExtractor;
@@ -35,11 +35,11 @@ public class MetadataProcessor
     private XPathExtractor xpathExtractor;
     
     
-    public MetadataProcessor(File outDir, Configuration config) throws Exception
+    public MetadataProcessor(DocWriter writer, Configuration config) throws Exception
     {
         LOG = LogManager.getLogger(getClass());
         
-        writer = new SolrDocWriter(outDir);
+        this.writer = writer;
         
         basicExtractor = new BasicMetadataExtractor();
         refExtractor = new InternalReferenceExtractor(config.internalRefs);

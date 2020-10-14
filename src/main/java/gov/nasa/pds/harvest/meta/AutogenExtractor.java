@@ -14,7 +14,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import gov.nasa.pds.harvest.cfg.model.AutogenCfg;
-import gov.nasa.pds.harvest.util.FieldMapSet;
+import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.date.PdsDateConverter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
@@ -25,7 +25,7 @@ public class AutogenExtractor
     
     private Map<String, String> globalNsMap;    
     private Map<String, String> localNsMap;
-    private FieldMapSet fields;
+    private FieldMap fields;
     private PdsDateConverter dateConverter;
     
     
@@ -39,7 +39,7 @@ public class AutogenExtractor
     }
 
     
-    public void extract(File file, FieldMapSet fields) throws Exception
+    public void extract(File file, FieldMap fields) throws Exception
     {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
@@ -48,7 +48,7 @@ public class AutogenExtractor
     }
     
     
-    public void extract(Document doc, FieldMapSet fields) throws Exception
+    public void extract(Document doc, FieldMap fields) throws Exception
     {
         this.localNsMap = getDocNamespaces(doc);
         this.fields = fields;
