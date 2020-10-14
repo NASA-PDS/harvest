@@ -1,74 +1,93 @@
-# Change Log
+# Changelog
 
-## [v3.2.2](https://github.com/NASA-PDS-Incubator/harvest/tree/v3.2.2) (2020-03-27)
-[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v3.2.1...v3.2.2)
+## [3.3.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/3.3.0-SNAPSHOT) (2020-10-14)
 
-**Fixed bugs:**
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.2.2...3.3.0-SNAPSHOT)
 
-- Bash script does not launch on macos, likely not on linux  [\#20](https://github.com/NASA-PDS-Incubator/harvest/issues/20)
+**Defects:**
 
-## [v3.2.1](https://github.com/NASA-PDS-Incubator/harvest/tree/v3.2.1) (2020-03-27)
-[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v3.2.0...v3.2.1)
+- For multivalued fields only unique values are stored [\#30](https://github.com/NASA-PDS/harvest/issues/30)
+- Could not parse date in yyyy-MM-ddZ format [\#29](https://github.com/NASA-PDS/harvest/issues/29)
+- Lid & vid validation, logging enhancement, fix skipped file counter [\#22](https://github.com/NASA-PDS/harvest/issues/22)
+- Fix bug where ingested product start\_date\_time is off by 12 hours [\#4](https://github.com/NASA-PDS/harvest/issues/4) [[medium](https://github.com/NASA-PDS/harvest/labels/medium)]
 
-**Merged pull requests:**
+**Other closed issues:**
 
-- \#20 Bash script doesn't work on Mac.  [\#21](https://github.com/NASA-PDS-Incubator/harvest/pull/21) ([tdddblog](https://github.com/tdddblog))
+- Implement date conversion from PDS4 date/time strings to Solr format [\#24](https://github.com/NASA-PDS/harvest/issues/24)
+- Update Harvest and Registry documentation to be more concise and streamlined [\#14](https://github.com/NASA-PDS/harvest/issues/14) [[high](https://github.com/NASA-PDS/harvest/labels/high)]
 
-## [v3.2.0](https://github.com/NASA-PDS-Incubator/harvest/tree/v3.2.0) (2020-03-26)
-[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v3.1.0...v3.2.0)
+## [v3.2.2](https://github.com/NASA-PDS/harvest/tree/v3.2.2) (2020-03-28)
 
-**Implemented enhancements:**
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.2.1...v3.2.2)
 
-- Update Harvest documentation per new scripts and upgrades [\#17](https://github.com/NASA-PDS-Incubator/harvest/issues/17)
+**Defects:**
 
-## [v3.1.0](https://github.com/NASA-PDS-Incubator/harvest/tree/v3.1.0) (2020-03-26)
-[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v3.0.0...v3.1.0)
+- Bash script does not launch on macos, likely not on linux  [\#20](https://github.com/NASA-PDS/harvest/issues/20) [[high](https://github.com/NASA-PDS/harvest/labels/high)]
 
-## [v3.0.0](https://github.com/NASA-PDS-Incubator/harvest/tree/v3.0.0) (2020-03-26)
-[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v2.6.0...v3.0.0)
+## [v3.2.1](https://github.com/NASA-PDS/harvest/tree/v3.2.1) (2020-03-27)
 
-**Implemented enhancements:**
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.2.0...v3.2.1)
 
-- Improve and simplify Harvest execution and configuration to only manage Registry collection [\#16](https://github.com/NASA-PDS-Incubator/harvest/issues/16)
-- Create new Harvest / Registry package to help streamline the documentation and deployment [\#15](https://github.com/NASA-PDS-Incubator/harvest/issues/15)
+## [v3.2.0](https://github.com/NASA-PDS/harvest/tree/v3.2.0) (2020-03-26)
 
-**Fixed bugs:**
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.1.0...v3.2.0)
 
-- Update Harvest to work with upgraded Solr package [\#13](https://github.com/NASA-PDS-Incubator/harvest/issues/13)
+**Other closed issues:**
 
-**Merged pull requests:**
+- Update Harvest documentation per new scripts and upgrades [\#17](https://github.com/NASA-PDS/harvest/issues/17) [[high](https://github.com/NASA-PDS/harvest/labels/high)]
 
-- Refactor Harvest to work with new streamlined registry packaging [\#19](https://github.com/NASA-PDS-Incubator/harvest/pull/19) ([jordanpadams](https://github.com/jordanpadams))
-- Bump solr.version from 8.2.0 to 8.4.1 [\#12](https://github.com/NASA-PDS-Incubator/harvest/pull/12) ([dependabot[bot]](https://github.com/apps/dependabot))
+## [v3.1.0](https://github.com/NASA-PDS/harvest/tree/v3.1.0) (2020-03-26)
 
-## [v2.6.0](https://github.com/NASA-PDS-Incubator/harvest/tree/v2.6.0) (2020-01-30)
-[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v2.5.2...v2.6.0)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.0.0...v3.1.0)
 
-**Closed issues:**
+## [v3.0.0](https://github.com/NASA-PDS/harvest/tree/v3.0.0) (2020-03-26)
 
-- Open Source Harvest Tool [\#1](https://github.com/NASA-PDS-Incubator/harvest/issues/1)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v2.6.0...v3.0.0)
 
-**Merged pull requests:**
+**Improvements:**
 
-- Add additional metadata fields to registry collection [\#8](https://github.com/NASA-PDS-Incubator/harvest/pull/8) ([jordanpadams](https://github.com/jordanpadams))
-- Update README for open source release [\#3](https://github.com/NASA-PDS-Incubator/harvest/pull/3) ([jordanpadams](https://github.com/jordanpadams))
+- Improve and simplify Harvest execution and configuration to only manage Registry collection [\#16](https://github.com/NASA-PDS/harvest/issues/16) [[high](https://github.com/NASA-PDS/harvest/labels/high)]
 
-## [v2.5.2](https://github.com/NASA-PDS-Incubator/harvest/tree/v2.5.2) (2019-10-29)
-[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v2.5.1...v2.5.2)
+**Defects:**
 
-## [v2.5.1](https://github.com/NASA-PDS-Incubator/harvest/tree/v2.5.1) (2019-10-27)
-[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v2.5.0...v2.5.1)
+- Update Harvest to work with upgraded Solr package [\#13](https://github.com/NASA-PDS/harvest/issues/13) [[low](https://github.com/NASA-PDS/harvest/labels/low)]
 
-## [v2.5.0](https://github.com/NASA-PDS-Incubator/harvest/tree/v2.5.0) (2019-10-25)
-[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v2.4.0...v2.5.0)
+**Other closed issues:**
 
-## [v2.4.0](https://github.com/NASA-PDS-Incubator/harvest/tree/v2.4.0) (2019-10-18)
-[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v2.3.0...v2.4.0)
+- Create new Harvest / Registry package to help streamline the documentation and deployment [\#15](https://github.com/NASA-PDS/harvest/issues/15) [[high](https://github.com/NASA-PDS/harvest/labels/high)]
 
-## [v2.3.0](https://github.com/NASA-PDS-Incubator/harvest/tree/v2.3.0) (2019-10-18)
-[Full Changelog](https://github.com/NASA-PDS-Incubator/harvest/compare/v2.2.0...v2.3.0)
+## [v2.6.0](https://github.com/NASA-PDS/harvest/tree/v2.6.0) (2020-01-30)
 
-## [v2.2.0](https://github.com/NASA-PDS-Incubator/harvest/tree/v2.2.0) (2019-10-15)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v2.5.2...v2.6.0)
+
+**Other closed issues:**
+
+- Open Source Harvest Tool [\#1](https://github.com/NASA-PDS/harvest/issues/1)
+
+## [v2.5.2](https://github.com/NASA-PDS/harvest/tree/v2.5.2) (2019-10-29)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v2.5.1...v2.5.2)
+
+## [v2.5.1](https://github.com/NASA-PDS/harvest/tree/v2.5.1) (2019-10-27)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v2.5.0...v2.5.1)
+
+## [v2.5.0](https://github.com/NASA-PDS/harvest/tree/v2.5.0) (2019-10-25)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v2.4.0...v2.5.0)
+
+## [v2.4.0](https://github.com/NASA-PDS/harvest/tree/v2.4.0) (2019-10-18)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v2.3.0...v2.4.0)
+
+## [v2.3.0](https://github.com/NASA-PDS/harvest/tree/v2.3.0) (2019-10-18)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v2.2.0...v2.3.0)
+
+## [v2.2.0](https://github.com/NASA-PDS/harvest/tree/v2.2.0) (2019-10-15)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/1f0366f2e342eeef510c2a20a9d7959880203400...v2.2.0)
 
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+
+\* *This Changelog was automatically generated       by [github_changelog_generator]      (https://github.com/github-changelog-generator/github-changelog-generator)*
