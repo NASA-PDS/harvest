@@ -37,6 +37,11 @@ jobs:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
 
+    - name: Clean previous dev/snapsoht tags
+      run: |
+        git fetch --prune --unshallow --tags
+        git tag -l | grep 'SNAPSHOT' | xargs -t -I arg sh -c 'git tag -d arg;git push --delete origin arg;'
+
     - name: Adding dependencies
       run: |
          sudo apt-get update && sudo apt-get install -y libxml2-dev libxslt1-dev python-libxml2
@@ -51,21 +56,34 @@ jobs:
         ref: gh-pages
     - name: Create changelog & requirements
       run: |
-        sudo gem install github_changelog_generator
-        echo ::set-env name=REQUIREMENT_FILE::$(requirement-report --organization NASA-PDS --repository harvest  --output pdsen-corral --token ${{ secrets.GITHUB_TOKEN }} --dev)
-        github_changelog_generator --user NASA-PDS --project harvest  --output pdsen-corral/CHANGELOG.md --token ${{ secrets.GITHUB_TOKEN }} --configure-sections '{"improvements":{"prefix":"**Improvements:**","labels":["enhancement"]},"defects":{"prefix":"**Defects:**","labels":["bug"]},"deprecations":{"prefix":"**Deprecations:**","labels":["deprecation"]}}' --no-pull-requests
-    - name: Commit CHANGELOG.md and requirement files
+    - name: Create requirements report
+      run: echo ::set-env name=REQUIREMENT_FILE::$(requirement-report --organization NASA-PDS --repository harvest --token ${{ secrets.GITHUB_TOKEN }} --output docs/requirements --dev)
+
+    - name: create changelog
+      run: |
+        # deploy from source, does no work yet, nice to have for a feature to have issues' labels in changelog
+        git clone https://github.com/github-changelog-generator/github-changelog-generator.git
+        cd github-changelog-generator
+        git checkout 322e30a78115ab948e358cd916a9f78e55fe21c1
+        gem build github_changelog_generator.gemspec
+        sudo gem install github_changelog_generator-1.15.2.gem  --source http://rubygems.org
+        cd ..
+        github_changelog_generator --user NASA-PDS --project harvest --output CHANGELOG.md --token ${{ secrets.ADMIN_GITHUB_TOKEN }} --configure-sections '{"improvements":{"prefix":"**Improvements:**","labels":["Epic"]},"defects":{"prefix":"**Defects:**","labels":["bug"]},"deprecations":{"prefix":"**Deprecations:**","labels":["deprecation"]}}' --no-pull-requests  --issues-label '**Other closed issues:**' --issue-line-labels high,low,medium
+
+   - name: Commit CHANGELOG.md and requirement files
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         echo "commit pdsen-corral/CHANGELOG.md and ${{ env.REQUIREMENT_FILE }}on gh-pages branch"
-        git add pdsen-corral/CHANGELOG.md ${{ env.REQUIREMENT_FILE }}
+        git add CHANGELOG.md ${{ env.REQUIREMENT_FILE }}
         git commit -m "update changelog and requirements" --allow-empty
+
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: gh-pages
+        branch: master
+
     - name: Ping pdsen-corral
       run: git-ping --repo nasa-pds/pdsen-corral --token ${{ secrets.ADMIN_GITHUB_TOKEN }} --branch master --message 'harvest has been updated'
          
