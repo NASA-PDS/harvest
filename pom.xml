@@ -46,7 +46,7 @@
     discover products and index associated metadata with the Registry Service.
     </description>
 
-    <url>https://nasa-pds-incubator.github.io/harvest/</url>
+    <url>https://nasa-pds.github.io/harvest/</url>
 
     <inceptionYear>2010</inceptionYear>
 
@@ -62,9 +62,9 @@
     </licenses>
     
     <scm>
-        <url>https://github.com/NASA-PDS-Incubator/harvest/tree/master</url>
-        <connection>scm:git:git://github.com/NASA-PDS-Incubator/harvest.git</connection>
-        <developerConnection>scm:git:ssh://github.com:NASA-PDS-Incubator/harvest.git</developerConnection>
+        <url>https://github.com/NASA-PDS/harvest/tree/master</url>
+        <connection>scm:git:git://github.com/NASA-PDS/harvest.git</connection>
+        <developerConnection>scm:git:ssh://github.com:NASA-PDS/harvest.git</developerConnection>
     </scm>
 
     <properties>
