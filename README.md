@@ -1,10 +1,10 @@
 # Harvest Tool
 The Harvest Tool provides functionality for capturing and indexing product metadata. The tool will run locally at the Discipline Node to crawl the local data repository in order to discover products and index associated metadata into the Registry Service.
 
-A sub-component of the PDS Registry App (https://github.com/NASA-PDS-Incubator/pds-app-registry).
+A sub-component of the PDS Registry App (https://github.com/NASA-PDS/pds-app-registry).
 
 # Documentation
-The documentation for the latest release of the Validate Tool, including release notes, installation and operation of the software are online at https://nasa-pds-incubator.github.io/harvest/.
+The documentation for the latest release of the Validate Tool, including release notes, installation and operation of the software are online at https://nasa-pds.github.io/harvest/.
 
 If you would like to get the latest documentation, including any updates since the last release, you can execute the "mvn site:run" command and view the documentation locally at http://localhost:8080.
 
@@ -25,7 +25,7 @@ A release candidate should be created after the community has determined that a 
 
 ## Clone fresh repo
 ```
-git clone git@github.com:NASA-PDS-Incubator/harvest.git
+git clone git@github.com:NASA-PDS/harvest.git
 ```
 
 ## Update Version Numbers
@@ -144,7 +144,7 @@ git push -u origin master
 ```
 
 ## Complete Release in Github
-Currently the process to create more formal release notes and attach Assets is done manually through the [Github UI](https://github.com/NASA-PDS-Incubator/harvest/releases/new) but should eventually be automated via script.
+Currently the process to create more formal release notes and attach Assets is done manually through the [Github UI](https://github.com/NASA-PDS/harvest/releases/new) but should eventually be automated via script.
 
 *NOTE: Be sure to add the `tar.gz` and `zip` from the `target/` directory to the release assets, and use the CHANGELOG generated above to create the RELEASE NOTES.*
 
