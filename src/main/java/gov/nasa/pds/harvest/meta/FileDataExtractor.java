@@ -7,6 +7,8 @@ import java.security.MessageDigest;
 import java.util.Base64;
 import java.util.zip.DeflaterOutputStream;
 
+import org.apache.commons.codec.binary.Hex;
+
 import gov.nasa.pds.harvest.cfg.model.FileInfoCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.util.CloseUtils;
@@ -81,7 +83,7 @@ public class FileDataExtractor
             }
             
             byte[] hash = md5Digest.digest();
-            return Base64.getEncoder().encodeToString(hash);
+            return Hex.encodeHexString(hash);
         }
         finally
         {
