@@ -20,7 +20,7 @@ public class ConfigReader
     }
     
     
-    public Configuration read(File file) throws Exception
+    public static Configuration read(File file) throws Exception
     {
         Document doc = XmlDomUtils.readXml(file);
         String rootElement = doc.getDocumentElement().getNodeName();
@@ -31,7 +31,6 @@ public class ConfigReader
         
         Configuration cfg = new Configuration();
         cfg.directories = Rdirs.parseDirectories(doc);
-        cfg.fileRef = Rfile.parseFileRef(doc);
         cfg.xpathMaps = Rxpath.parseXPathMaps(doc);
         cfg.fileInfo = Rfile.parseFileInfo(doc);
         cfg.autogen = Rautogen.parseAutogenFields(doc);

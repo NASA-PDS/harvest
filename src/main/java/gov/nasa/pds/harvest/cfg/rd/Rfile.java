@@ -8,7 +8,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import gov.nasa.pds.harvest.cfg.model.FileInfoCfg;
-import gov.nasa.pds.harvest.cfg.model.FileRefCfg;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
@@ -29,34 +28,33 @@ public class Rfile
         String storageType = (bsNode == null) ? null : XmlDomUtils.getAttribute(bsNode, "type");
         fileInfo.setBlobStorageType(storageType);
         
+        fileInfo.fileRef = parseFileRef(doc);
+        
         return fileInfo;
     }
     
     
-    public static FileRefCfg parseFileRef(Document doc) throws Exception
+    public static List<FileInfoCfg.FileRefCfg> parseFileRef(Document doc) throws Exception
     {
         XPathUtils xpu = new XPathUtils();
         
-        int count = xpu.getNodeCount(doc, "/harvest/fileRef");
-        if(count == 0) return null;
-        if(count > 1) throw new Exception("Could not have more than one '/harvest/fileRef' element.");
-
-        FileRefCfg fileRef = new FileRefCfg();
-        NodeList nodes = xpu.getNodeList(doc, "/harvest/fileRef/replace");
-        if(nodes == null || nodes.getLength() == 0) return fileRef;
+        NodeList nodes = xpu.getNodeList(doc, "/harvest/fileInfo/fileRef");
+        if(nodes == null || nodes.getLength() == 0) return null;
         
-        List<FileRefCfg.ReplaceRule> list = new ArrayList<>();
+        List<FileInfoCfg.FileRefCfg> list = new ArrayList<>();
         for(int i = 0; i < nodes.getLength(); i++)
         {
-            FileRefCfg.ReplaceRule rule = new FileRefCfg.ReplaceRule();
-            rule.prefix = XmlDomUtils.getAttribute(nodes.item(i), "prefix");
-            rule.replacement = XmlDomUtils.getAttribute(nodes.item(i), "replacement");
+            FileInfoCfg.FileRefCfg rule = new FileInfoCfg.FileRefCfg();
+            rule.prefix = XmlDomUtils.getAttribute(nodes.item(i), "replacePrefix");
+            rule.replacement = XmlDomUtils.getAttribute(nodes.item(i), "with");
+            
+            if(rule.prefix == null) throw new Exception("'/harvest/fileInfo/fileRef' missing 'replacePrefix' attribute");
+            if(rule.replacement == null) throw new Exception("'/harvest/fileInfo/fileRef' missing 'with' attribute");
+            
             list.add(rule);
         }
 
-        fileRef.rules = list;
-        
-        return fileRef;
+        return list;
     }
 
 }

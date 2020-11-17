@@ -3,6 +3,8 @@ package gov.nasa.pds.harvest.meta;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
 import java.util.Base64;
 import java.util.zip.DeflaterOutputStream;
@@ -14,56 +16,45 @@ import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.util.CloseUtils;
 
 
-public class FileDataExtractor
+public class FileMetadataExtractor
 {
+    private FileInfoCfg fileInfoCfg;
+    
     private MessageDigest md5Digest;
     private byte[] buf;
 
-    private boolean extractFileInfo;
     private boolean storeBlob;
     
     
-    public FileDataExtractor(Configuration config) throws Exception
+    public FileMetadataExtractor(Configuration config) throws Exception
     {
-        if(config.fileInfo == null)
+        this.fileInfoCfg = config.fileInfo;
+        if(fileInfoCfg != null)
         {
-            this.extractFileInfo = false;
-            this.storeBlob = false;
-        }
-        else
-        {
-            this.extractFileInfo = true;
             this.storeBlob = (config.fileInfo.blobStorageType == FileInfoCfg.BLOB_EMBEDDED);
             
             md5Digest = MessageDigest.getInstance("MD5");
-            buf = new byte[1024 * 2];
+            buf = new byte[1024 * 16];
         }
     }
     
     
-    public FileData extract(File file) throws Exception
+    public void extract(File file, Metadata meta) throws Exception
     {
-        return extract(file, "application/xml");
-    }
-    
-    
-    public FileData extract(File file, String mimeType) throws Exception
-    {
-        if(!extractFileInfo) return null;
-        
-        FileData data = new FileData();
-        
-        data.name = file.getName();
-        data.size = file.length();
-        data.mimeType = mimeType;
+        if(fileInfoCfg == null) return;
 
-        data.md5Base64 = getMd5(file);
+        BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+
+        meta.fields.addValue("ops/Label_File_Info/ops/file_name", file.getName());
+        meta.fields.addValue("ops/Label_File_Info/ops/creation_date_time", attr.creationTime().toInstant().toString());
+        meta.fields.addValue("ops/Label_File_Info/ops/file_size", String.valueOf(file.length()));
+        meta.fields.addValue("ops/Label_File_Info/ops/md5_checksum", getMd5(file));
+        meta.fields.addValue("ops/Label_File_Info/ops/file_ref", getFileRef(file));
+        
         if(storeBlob)
         {
-            data.blobBase64 = getBlob(file);
+            meta.fields.addValue("ops/Label_File_Info/ops/blob", getBlob(file));
         }
-        
-        return data;
     }
     
 
@@ -116,6 +107,26 @@ public class FileDataExtractor
         {
             CloseUtils.close(source);
         }
+    }
+
+
+    private String getFileRef(File file)
+    {
+        String filePath = file.toURI().getPath();
+        
+        if(fileInfoCfg.fileRef != null)
+        {
+            for(FileInfoCfg.FileRefCfg rule: fileInfoCfg.fileRef)
+            {
+                if(filePath.startsWith(rule.prefix))
+                {
+                    filePath = rule.replacement + filePath.substring(rule.prefix.length());
+                    break;
+                }
+            }
+        }
+        
+        return filePath;
     }
 
 }

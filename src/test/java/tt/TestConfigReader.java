@@ -9,7 +9,6 @@ import org.xml.sax.SAXParseException;
 
 import gov.nasa.pds.harvest.cfg.ConfigReader;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.cfg.model.FileRefCfg;
 import gov.nasa.pds.harvest.cfg.model.XPathMapCfg;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 import gov.nasa.pds.harvest.util.xml.XmlStreamUtils;
@@ -104,15 +103,6 @@ public class TestConfigReader
         System.out.println("\nProduct Filter\n===============");
         System.out.println(config.directories.prodFilterIncludes);
         System.out.println(config.directories.prodFilterExcludes);
-        
-        System.out.println("\nFileRef\n===============");
-        if(config.fileRef != null && config.fileRef.rules != null)
-        {
-            for(FileRefCfg.ReplaceRule rule: config.fileRef.rules)
-            {
-                System.out.println(rule.prefix + " --> " + rule.replacement);
-            }
-        }
         
         System.out.println("\nXPathMaps\n===============");
         if(config.xpathMaps != null)
