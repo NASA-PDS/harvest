@@ -102,7 +102,7 @@ public class AutogenExtractor
         }
         
         String attrName = getNsName(node);
-        String fieldName = className + "." + attrName;
+        String fieldName = className + "/" + attrName;
         
         // Field value
         String fieldValue = StringUtils.normalizeSpace(node.getTextContent());
@@ -121,7 +121,7 @@ public class AutogenExtractor
     private String getNsName(Node node) throws Exception
     {
         String nsPrefix = getNsPrefix(node);
-        String nsName = nsPrefix + "." + node.getLocalName();
+        String nsName = nsPrefix + "/" + node.getLocalName();
         
         return nsName;
     }

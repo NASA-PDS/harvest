@@ -47,7 +47,7 @@ public class SolrDocUtils
             strValue = value.toString();
         }
         
-        writer.write(StringEscapeUtils.escapeXml(strValue));
+        StringEscapeUtils.escapeXml(writer, strValue);
         
         writer.write("</field>\n");
     }

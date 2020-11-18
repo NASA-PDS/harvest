@@ -23,11 +23,18 @@ public class Rfile
         if(count > 1) throw new Exception("Could not have more than one '/harvest/fileInfo' element.");
 
         FileInfoCfg fileInfo = new FileInfoCfg();
+
+        // <fileInfo> node
+        Node node = xpu.getFirstNode(doc, "/harvest/fileInfo");
+        String str = XmlDomUtils.getAttribute(node, "processDataFiles");
+        fileInfo.processDataFiles = (str == null || "true".equalsIgnoreCase(str) || "yes".equalsIgnoreCase(str));
         
+        // <blodStorage> node
         Node bsNode = xpu.getFirstNode(doc, "/harvest/fileInfo/blobStorage");
         String storageType = (bsNode == null) ? null : XmlDomUtils.getAttribute(bsNode, "type");
         fileInfo.setBlobStorageType(storageType);
         
+        // <fileRef> nodes
         fileInfo.fileRef = parseFileRef(doc);
         
         return fileInfo;

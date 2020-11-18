@@ -44,7 +44,6 @@ public class FileMetadataExtractor
         if(fileInfoCfg == null) return;
 
         BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-
         meta.fields.addValue("ops/Label_File_Info/ops/file_name", file.getName());
         meta.fields.addValue("ops/Label_File_Info/ops/creation_date_time", attr.creationTime().toInstant().toString());
         meta.fields.addValue("ops/Label_File_Info/ops/file_size", String.valueOf(file.length()));
@@ -55,9 +54,35 @@ public class FileMetadataExtractor
         {
             meta.fields.addValue("ops/Label_File_Info/ops/blob", getBlob(file));
         }
+        
+        // Process data files
+        if(fileInfoCfg.processDataFiles)
+        {
+            processDataFiles(file.getParentFile(), meta);
+        }
     }
     
-
+    
+    private void processDataFiles(File baseDir, Metadata meta) throws Exception
+    {
+        for(String fileName: meta.dataFiles)
+        {
+            File file = new File(baseDir, fileName);
+            if(!file.exists())
+            {
+                throw new Exception("Data file " + file.getAbsolutePath() + " doesn't exist");
+            }
+            
+            BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+            meta.fields.addValue("ops/Data_File_Info/ops/file_name", file.getName());
+            meta.fields.addValue("ops/Data_File_Info/ops/creation_date_time", attr.creationTime().toInstant().toString());
+            meta.fields.addValue("ops/Data_File_Info/ops/file_size", String.valueOf(file.length()));
+            meta.fields.addValue("ops/Data_File_Info/ops/md5_checksum", getMd5(file));
+            meta.fields.addValue("ops/Data_File_Info/ops/file_ref", getFileRef(file));
+        }
+    }
+    
+    
     private String getMd5(File file) throws Exception
     {
         md5Digest.reset();
