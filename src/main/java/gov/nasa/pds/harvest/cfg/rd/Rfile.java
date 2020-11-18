@@ -2,8 +2,11 @@ package gov.nasa.pds.harvest.cfg.rd;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -14,6 +17,14 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 public class Rfile
 {
+    private static Set<String> FILE_INFO_ATTRS = new TreeSet<>();
+    static
+    {
+        FILE_INFO_ATTRS.add("processDataFiles");
+        FILE_INFO_ATTRS.add("storeLabels");
+    }
+
+    
     public static FileInfoCfg parseFileInfo(Document doc) throws Exception
     {
         XPathUtils xpu = new XPathUtils();
@@ -26,13 +37,13 @@ public class Rfile
 
         // <fileInfo> node
         Node node = xpu.getFirstNode(doc, "/harvest/fileInfo");
+        validateAttributes(node, FILE_INFO_ATTRS);
+        
         String str = XmlDomUtils.getAttribute(node, "processDataFiles");
         fileInfo.processDataFiles = (str == null || "true".equalsIgnoreCase(str) || "yes".equalsIgnoreCase(str));
         
-        // <blodStorage> node
-        Node bsNode = xpu.getFirstNode(doc, "/harvest/fileInfo/blobStorage");
-        String storageType = (bsNode == null) ? null : XmlDomUtils.getAttribute(bsNode, "type");
-        fileInfo.setBlobStorageType(storageType);
+        str = XmlDomUtils.getAttribute(node, "storeLabels");
+        fileInfo.storeLabels = ("true".equalsIgnoreCase(str) || "yes".equalsIgnoreCase(str));        
         
         // <fileRef> nodes
         fileInfo.fileRef = parseFileRef(doc);
@@ -62,6 +73,20 @@ public class Rfile
         }
 
         return list;
+    }
+
+    
+    private static void validateAttributes(Node node, Set<String> values) throws Exception
+    {
+        NamedNodeMap atts = XmlDomUtils.getAttributes(node);
+        for(int i = 0; i < atts.getLength(); i++)
+        {
+            String attName = atts.item(i).getNodeName();
+            if(!values.contains(attName))
+            {
+                throw new Exception("<" + node.getNodeName() + "> element has invalid attribute '" + attName + "'");
+            }
+        }
     }
 
 }

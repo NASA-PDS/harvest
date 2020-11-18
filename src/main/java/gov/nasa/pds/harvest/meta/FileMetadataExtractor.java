@@ -3,6 +3,7 @@ package gov.nasa.pds.harvest.meta;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
@@ -10,6 +11,7 @@ import java.util.Base64;
 import java.util.zip.DeflaterOutputStream;
 
 import org.apache.commons.codec.binary.Hex;
+import org.apache.tika.Tika;
 
 import gov.nasa.pds.harvest.cfg.model.FileInfoCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
@@ -22,19 +24,18 @@ public class FileMetadataExtractor
     
     private MessageDigest md5Digest;
     private byte[] buf;
+    private Tika tika;
 
-    private boolean storeBlob;
-    
     
     public FileMetadataExtractor(Configuration config) throws Exception
     {
         this.fileInfoCfg = config.fileInfo;
-        if(fileInfoCfg != null)
+
+        if(this.fileInfoCfg != null)
         {
-            this.storeBlob = (config.fileInfo.blobStorageType == FileInfoCfg.BLOB_EMBEDDED);
-            
             md5Digest = MessageDigest.getInstance("MD5");
             buf = new byte[1024 * 16];
+            tika = new Tika();
         }
     }
     
@@ -44,13 +45,14 @@ public class FileMetadataExtractor
         if(fileInfoCfg == null) return;
 
         BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-        meta.fields.addValue("ops/Label_File_Info/ops/file_name", file.getName());
         meta.fields.addValue("ops/Label_File_Info/ops/creation_date_time", attr.creationTime().toInstant().toString());
+        
+        meta.fields.addValue("ops/Label_File_Info/ops/file_name", file.getName());
         meta.fields.addValue("ops/Label_File_Info/ops/file_size", String.valueOf(file.length()));
         meta.fields.addValue("ops/Label_File_Info/ops/md5_checksum", getMd5(file));
         meta.fields.addValue("ops/Label_File_Info/ops/file_ref", getFileRef(file));
         
-        if(storeBlob)
+        if(fileInfoCfg.storeLabels)
         {
             meta.fields.addValue("ops/Label_File_Info/ops/blob", getBlob(file));
         }
@@ -74,11 +76,13 @@ public class FileMetadataExtractor
             }
             
             BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-            meta.fields.addValue("ops/Data_File_Info/ops/file_name", file.getName());
             meta.fields.addValue("ops/Data_File_Info/ops/creation_date_time", attr.creationTime().toInstant().toString());
+            
+            meta.fields.addValue("ops/Data_File_Info/ops/file_name", file.getName());            
             meta.fields.addValue("ops/Data_File_Info/ops/file_size", String.valueOf(file.length()));
             meta.fields.addValue("ops/Data_File_Info/ops/md5_checksum", getMd5(file));
             meta.fields.addValue("ops/Data_File_Info/ops/file_ref", getFileRef(file));
+            meta.fields.addValue("ops/Data_File_Info/ops/mime_type", getMimeType(file));
         }
     }
     
@@ -154,4 +158,19 @@ public class FileMetadataExtractor
         return filePath;
     }
 
+    
+    private String getMimeType(File file) throws Exception
+    {
+        InputStream is = null;
+        
+        try
+        {
+            is = new FileInputStream(file);
+            return tika.detect(is);
+        }
+        finally
+        {
+            CloseUtils.close(is);
+        }
+    }
 }
