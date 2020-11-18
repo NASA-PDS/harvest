@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
+import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.zip.DeflaterOutputStream;
 
@@ -45,7 +46,8 @@ public class FileMetadataExtractor
         if(fileInfoCfg == null) return;
 
         BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-        meta.fields.addValue("ops/Label_File_Info/ops/creation_date_time", attr.creationTime().toInstant().toString());
+        String dt = attr.creationTime().toInstant().truncatedTo(ChronoUnit.SECONDS).toString();
+        meta.fields.addValue("ops/Label_File_Info/ops/creation_date_time", dt);
         
         meta.fields.addValue("ops/Label_File_Info/ops/file_name", file.getName());
         meta.fields.addValue("ops/Label_File_Info/ops/file_size", String.valueOf(file.length()));
@@ -76,7 +78,8 @@ public class FileMetadataExtractor
             }
             
             BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-            meta.fields.addValue("ops/Data_File_Info/ops/creation_date_time", attr.creationTime().toInstant().toString());
+            String dt = attr.creationTime().toInstant().truncatedTo(ChronoUnit.SECONDS).toString();
+            meta.fields.addValue("ops/Data_File_Info/ops/creation_date_time", dt);
             
             meta.fields.addValue("ops/Data_File_Info/ops/file_name", file.getName());            
             meta.fields.addValue("ops/Data_File_Info/ops/file_size", String.valueOf(file.length()));
