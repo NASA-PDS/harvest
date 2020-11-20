@@ -9,7 +9,6 @@ import java.util.TreeSet;
 
 import com.google.gson.stream.JsonWriter;
 
-import gov.nasa.pds.harvest.meta.FileData;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.DocWriter;
 import gov.nasa.pds.harvest.util.FieldMap;
@@ -62,7 +61,7 @@ public class EsDocWriter implements DocWriter
     
     
     @Override
-    public void write(FileData fileData, Metadata meta) throws Exception
+    public void write(Metadata meta) throws Exception
     {
         // First line: primary key 
         String lidvid = meta.lid + "::" + meta.vid;
@@ -82,20 +81,6 @@ public class EsDocWriter implements DocWriter
         EsDocUtils.writeField(jw, "lidvid", lidvid);
         EsDocUtils.writeField(jw, "title", meta.title);
         EsDocUtils.writeField(jw, "product_class", meta.prodClass);
-        
-        // File Info
-        EsDocUtils.writeField(jw, "_file_ref", meta.fileRef);
-
-        if(fileData != null)
-        {
-            EsDocUtils.writeField(jw, "_file_name", fileData.name);
-            EsDocUtils.writeField(jw, "_file_type", fileData.mimeType);
-            EsDocUtils.writeField(jw, "_file_size", fileData.size);
-
-            // File BLOB
-            EsDocUtils.writeField(jw, "_file_blob", fileData.blobBase64);
-            EsDocUtils.writeField(jw, "_file_md5", fileData.md5Base64);
-        }
 
         // Transaction ID
         EsDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());

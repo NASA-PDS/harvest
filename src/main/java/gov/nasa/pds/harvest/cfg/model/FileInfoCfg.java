@@ -1,41 +1,23 @@
 package gov.nasa.pds.harvest.cfg.model;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.List;
 
 
 public class FileInfoCfg
 {
-    public static final int BLOB_NONE = 0;
-    public static final int BLOB_EMBEDDED = 1;
-    
-    public int blobStorageType;
+    public static class FileRefCfg
+    {
+        public String prefix;
+        public String replacement;
+    }
 
-    private Logger LOG;
+    public List<FileRefCfg> fileRef;
     
+    public boolean processDataFiles = true;
+    public boolean storeLabels = false;    
+
     
     public FileInfoCfg()
     {
-        LOG = LogManager.getLogger(getClass());
-        blobStorageType = BLOB_NONE;
-    }
-    
-    
-    public void setBlobStorageType(String type)
-    {
-        if(type == null || type.equalsIgnoreCase("none"))
-        {
-            blobStorageType = FileInfoCfg.BLOB_NONE;
-        }
-        else if(type.equalsIgnoreCase("embedded"))
-        {
-            blobStorageType = FileInfoCfg.BLOB_EMBEDDED;
-        }
-        else
-        {
-            blobStorageType = FileInfoCfg.BLOB_NONE;
-            LOG.warn("Unknown blob storage type " + type);
-        }
-        
     }
 }

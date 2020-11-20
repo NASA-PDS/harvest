@@ -15,7 +15,9 @@ public class BasicMetadataExtractor
     private XPathExpression xLid;
     private XPathExpression xVid;
     private XPathExpression xTitle;
-    private XPathExpression xProdClass;
+
+    private XPathExpression xFileName;
+    private XPathExpression xDocFileName;
     
 
     public BasicMetadataExtractor() throws Exception
@@ -25,7 +27,9 @@ public class BasicMetadataExtractor
         xLid = XPathUtils.compileXPath(xpf, "//Identification_Area/logical_identifier");
         xVid = XPathUtils.compileXPath(xpf, "//Identification_Area/version_id");
         xTitle = XPathUtils.compileXPath(xpf, "//Identification_Area/title");
-        xProdClass = XPathUtils.compileXPath(xpf, "//Identification_Area/product_class");
+        
+        xFileName = XPathUtils.compileXPath(xpf, "//File/file_name");
+        xDocFileName = XPathUtils.compileXPath(xpf, "//Document_File/file_name");
     }
 
     
@@ -37,8 +41,18 @@ public class BasicMetadataExtractor
         md.lid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xLid));
         md.vid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xVid));
         md.title = StringUtils.normalizeSpace(XPathUtils.getStringValue(doc, xTitle));
-        md.prodClass = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xProdClass));
-
+        md.prodClass = doc.getDocumentElement().getNodeName();
+        
+        // Files
+        if(md.prodClass.equals("Product_Document"))
+        {
+            md.dataFiles = XPathUtils.getStringSet(doc, xDocFileName);
+        }
+        else
+        {
+            md.dataFiles = XPathUtils.getStringSet(doc, xFileName);
+        }
+        
         return md;
     }
     

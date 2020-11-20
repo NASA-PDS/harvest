@@ -9,11 +9,9 @@ import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.cfg.model.FileRefCfg;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
-import gov.nasa.pds.harvest.meta.FileData;
-import gov.nasa.pds.harvest.meta.FileDataExtractor;
+import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
@@ -31,7 +29,7 @@ public class MetadataProcessor
     private BasicMetadataExtractor basicExtractor;
     private InternalReferenceExtractor refExtractor;
     private AutogenExtractor autogenExtractor;
-    private FileDataExtractor fileDataExtractor;
+    private FileMetadataExtractor fileDataExtractor;
     private XPathExtractor xpathExtractor;
     
     
@@ -44,7 +42,7 @@ public class MetadataProcessor
         basicExtractor = new BasicMetadataExtractor();
         refExtractor = new InternalReferenceExtractor(config.internalRefs);
         autogenExtractor = new AutogenExtractor(config.autogen);
-        fileDataExtractor = new FileDataExtractor(config);
+        fileDataExtractor = new FileMetadataExtractor(config);
         xpathExtractor = new XPathExtractor();
         
         this.config = config;
@@ -78,13 +76,10 @@ public class MetadataProcessor
             autogenExtractor.extract(file, meta.fields);
         }
 
-        // Set file reference
-        setFileRef(meta, file);
-
         // Extract file data
-        FileData fd = fileDataExtractor.extract(file);
+        fileDataExtractor.extract(file, meta);
         
-        writer.write(fd, meta);
+        writer.write(meta);
         
         counter.prodCounters.inc(rootElement);
     }
@@ -108,28 +103,4 @@ public class MetadataProcessor
             throw new Exception("Missing version id: " + file.toURI().getPath());
         }
     }
-
-    
-    private void setFileRef(Metadata meta, File file)
-    {
-        if(config.fileRef == null) return;
-        String filePath = file.toURI().getPath();
-        
-        if(config.fileRef.rules != null)
-        {
-            for(FileRefCfg.ReplaceRule rule: config.fileRef.rules)
-            {
-                if(rule.prefix == null || rule.replacement == null) continue;
-                
-                if(filePath.startsWith(rule.prefix))
-                {
-                    filePath = rule.replacement + filePath.substring(rule.prefix.length());
-                    break;
-                }
-            }
-        }
-        
-        meta.fileRef = filePath;
-    }
-    
 }

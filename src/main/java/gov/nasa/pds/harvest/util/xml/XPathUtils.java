@@ -1,9 +1,11 @@
 package gov.nasa.pds.harvest.util.xml;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -46,6 +48,17 @@ public class XPathUtils
         return values == null ? null : Arrays.asList(values);
     }
 
+    
+    public static Set<String> getStringSet(Document doc, XPathExpression expr) throws Exception
+    {
+        String[] values = getStringArray(doc, expr);
+        if(values == null || values.length == 0) return null;
+
+        Set<String> set = new TreeSet<>();
+        Collections.addAll(set, values);
+        return set;
+    }
+    
     
     public List<String> getStringList(Document doc, String xpath) throws Exception
     {

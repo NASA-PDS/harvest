@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-import gov.nasa.pds.harvest.meta.FileData;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.DocWriter;
 import gov.nasa.pds.harvest.util.FieldMap;
@@ -97,7 +96,7 @@ public class SolrDocWriter implements DocWriter
 
     
     @Override
-    public void write(FileData fileData, Metadata meta) throws Exception
+    public void write(Metadata meta) throws Exception
     {
         writer.append("<doc>\n");
 
@@ -109,20 +108,6 @@ public class SolrDocWriter implements DocWriter
         SolrDocUtils.writeField(writer, "title", meta.title);
         SolrDocUtils.writeField(writer, "product_class", meta.prodClass);
         
-        // File Info
-        SolrDocUtils.writeField(writer, "_file_ref", meta.fileRef);
-
-        if(fileData != null)
-        {
-            SolrDocUtils.writeField(writer, "_file_name", fileData.name);
-            SolrDocUtils.writeField(writer, "_file_type", fileData.mimeType);
-            SolrDocUtils.writeField(writer, "_file_size", fileData.size);
-
-            // File BLOB
-            SolrDocUtils.writeField(writer, "_file_blob", fileData.blobBase64);
-            SolrDocUtils.writeField(writer, "_file_md5", fileData.md5Base64);
-        }
-
         // Transaction ID
         SolrDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());
         
