@@ -73,6 +73,19 @@
     </fileSet>
 
     <fileSet>
+      <directory>src/main/resources/bin</directory>
+      <outputDirectory>bin</outputDirectory>
+      <includes>
+        <include>harvest.bat</include>
+      </includes>
+      <fileMode>775</fileMode>
+      <lineEnding>dos</lineEnding>
+      <excludes>
+        <exclude>*.formatted</exclude>
+      </excludes>
+    </fileSet>
+    
+    <fileSet>
       <directory>src/main/resources/conf</directory>
       <outputDirectory>conf</outputDirectory>
       <fileMode>664</fileMode>
