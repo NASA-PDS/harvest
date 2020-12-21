@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!--########################################################################################################-->
+<!-- harvest configuration see https://nasa-pds.github.io/pds-registry-app/operate/harvest.html for details -->
+<!--########################################################################################################-->
 <harvest>
   <directories>
     <!-- Path to a folder with some PDS4 product labels -->
-    <path>/tmp/data</path>
+    <path>/path/to/pds4/archive/</path>
+
     <!-- Only process XML files -->
     <fileFilter>
       <include>*.xml</include>
     </fileFilter>
+
     <!-- Only include collections and context products. -->
     <!--
     <productFilter>
@@ -23,15 +27,37 @@
       elements, such as xpathMaps, internalRefs, autogenFields, fileInfo, fileRef.
   -->
 
+
   <!-- Include file info (name, type, size, md5). -->
-  <fileInfo processDataFiles="true" storeLabels="false">
-    <fileRef replacePrefix="/C:/tmp/" with="/"/>
+  <fileInfo processDataFiles="false" storeLabels="false"/>
+
+  <!--
+  <fileInfo processDataFiles="true" storeLabels="true">
+    <fileRef replacePrefix="/Users/loubrieu/Documents/pds/registry/pds-smallbodies.astro.umd.edu/" 
+             with="https://pds-smallbodies.astro.umd.edu/" />
   </fileInfo>
+  -->
 
   <!-- Include internal references. -->
+  <!-- Convert lidvids to lids. Do not keep lidvids. -->
+  <!--
   <internalRefs prefix="ref_">
-    <!-- Convert lidvids to lids. Do not keep lidvids. -->
-    <lidvid convertToLid="true" keep="false" />
+    <lidvid convertToLid="false" keep="false" />
   </internalRefs>
+  -->
+
+  <!-- auto generate all fields from the pds4 labels -->
+  <!--
+  <autogenFields/>  
+  --> 
+
+  <!-- auto generate fields related to specific xpath base -->
+  <!--
+  <autogenFields>
+    <classFilter>
+      <include>pds.Mission_Area</include>
+    </classFilter>
+  </autogenFields>
+  -->
 
 </harvest>
