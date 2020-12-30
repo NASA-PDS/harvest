@@ -67,8 +67,7 @@ public class CrawlerCommand
         minLogger.info("Reading configuration from " + pConfigFile);
         
         // Read config file
-        ConfigReader rd = new ConfigReader();
-        Configuration cfg = rd.read(cfgFile);
+        Configuration cfg = ConfigReader.read(cfgFile);
         
         // Load xpath maps from files
         XPathCacheLoader xpcLoader = new XPathCacheLoader();
