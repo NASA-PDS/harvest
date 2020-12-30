@@ -69,6 +69,8 @@ public class FileMetadataExtractor
     
     private void processDataFiles(File baseDir, Metadata meta) throws Exception
     {
+        if(meta == null || meta.dataFiles == null) return;
+        
         for(String fileName: meta.dataFiles)
         {
             File file = new File(baseDir, fileName);
