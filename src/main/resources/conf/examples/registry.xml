@@ -5,14 +5,17 @@
 <harvest>
   <directories>
     <!-- Path to a folder with some PDS4 product labels -->
-    <path>/path/to/pds4/archive/</path>
+    <!-- UPDATE HERE -->
+    <path>/path/to/archive</path>
 
     <!-- Only process XML files -->
+    <!-- DO NOT UPDATE FOR OPERATIONAL REGISTRY -->
     <fileFilter>
       <include>*.xml</include>
     </fileFilter>
 
     <!-- Only include collections and context products. -->
+    <!-- DO NOT COMMENT OUT FOR OPERATIONAL REGISTRY-->
     <!--
     <productFilter>
       <include>Product_Collection</include>
@@ -21,22 +24,20 @@
     -->
   </directories>
 
-  <!-- 
+
+   <fileInfo processDataFiles="true" storeLabels="true">
+     <!-- UPDATE HERE with you own local path and base url where pds4 archive are published -->
+     <fileRef replacePrefix="/path/to/archive" 
+             with="https://url/to/archive/" />
+  </fileInfo>
+
+
+ <!-- 
       NOTE: By default only lid, vid, lidvid, title and product class are exported. 
       If you want more metadata to be exported, provide additional configuration
       elements, such as xpathMaps, internalRefs, autogenFields, fileInfo, fileRef.
   -->
-
-
-  <!-- Include file info (name, type, size, md5). -->
-  <fileInfo processDataFiles="false" storeLabels="false"/>
-
-  <!--
-  <fileInfo processDataFiles="true" storeLabels="true">
-    <fileRef replacePrefix="/Users/loubrieu/Documents/pds/registry/pds-smallbodies.astro.umd.edu/" 
-             with="https://pds-smallbodies.astro.umd.edu/" />
-  </fileInfo>
-  -->
+  
 
   <!-- Include internal references. -->
   <!-- Convert lidvids to lids. Do not keep lidvids. -->
