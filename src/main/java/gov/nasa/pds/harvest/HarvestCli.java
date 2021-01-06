@@ -6,16 +6,18 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.crawler.CrawlerCommand;
 import gov.nasa.pds.harvest.log.Log4jConfigurator;
 import gov.nasa.pds.harvest.util.ExceptionUtils;
-import gov.nasa.pds.harvest.util.HarvestLogManager;
 
 
 public class HarvestCli
 {
+    private Logger log;
+    
     private Options options;
     private CommandLine cmdLine;
     
@@ -43,6 +45,7 @@ public class HarvestCli
         }
 
         initLogger();
+        log = LogManager.getLogger(this.getClass());
         
         if(!runCommand())
         {
@@ -61,7 +64,6 @@ public class HarvestCli
         }
         catch(Exception ex)
         {
-            Logger log = HarvestLogManager.getMinInfoLogger();
             String msg = ExceptionUtils.getMessage(ex); 
             log.error(msg);
             return false;

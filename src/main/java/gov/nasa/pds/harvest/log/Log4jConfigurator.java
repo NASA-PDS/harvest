@@ -36,10 +36,6 @@ public class Log4jConfigurator
         LoggerComponentBuilder defLog = cfg.newLogger("gov.nasa.pds.harvest", level);
         cfg.add(defLog);
         
-        // Minimal logger
-        LoggerComponentBuilder minLog = cfg.newLogger("harvest-min-info", Level.INFO);
-        cfg.add(minLog);
-        
         // Init Log4j
         Configurator.initialize(cfg.build());
     }

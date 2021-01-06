@@ -3,6 +3,7 @@ package gov.nasa.pds.harvest.crawler;
 import java.io.File;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cfg.ConfigReader;
@@ -10,7 +11,7 @@ import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
 import gov.nasa.pds.harvest.util.DocWriter;
-import gov.nasa.pds.harvest.util.HarvestLogManager;
+import gov.nasa.pds.harvest.util.LogUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 import gov.nasa.pds.harvest.util.out.EsDocWriter;
 import gov.nasa.pds.harvest.util.out.SolrDocWriter;
@@ -18,26 +19,26 @@ import gov.nasa.pds.harvest.util.out.SolrDocWriter;
 
 public class CrawlerCommand
 {
-    private Logger minLogger; 
+    private Logger log;
     
     
     public CrawlerCommand()
     {
-        minLogger = HarvestLogManager.getMinInfoLogger();
+        log = LogManager.getLogger(this.getClass());
     }
 
-    
+
     public void run(CommandLine cmdLine) throws Exception
     {
         // Output directory
         String outDir = cmdLine.getOptionValue("o", "/tmp/harvest/out");
-        minLogger.info("Output directory: " + outDir);
+        log.log(LogUtils.LEVEL_SUMMARY, "Output directory: " + outDir);
         File fOutDir = new File(outDir);
         fOutDir.mkdirs();
 
         // Output format
         String outFormat = cmdLine.getOptionValue("f", "json").toLowerCase();
-        minLogger.info("Output format: " + outFormat);
+        log.log(LogUtils.LEVEL_SUMMARY, "Output format: " + outFormat);
 
         DocWriter writer = null;
         
@@ -64,7 +65,7 @@ public class CrawlerCommand
     private Configuration loadConfiguration(String pConfigFile) throws Exception
     {
         File cfgFile = new File(pConfigFile);
-        minLogger.info("Reading configuration from " + pConfigFile);
+        log.log(LogUtils.LEVEL_SUMMARY, "Reading configuration from " + pConfigFile);
         
         // Read config file
         Configuration cfg = ConfigReader.read(cfgFile);
@@ -93,21 +94,21 @@ public class CrawlerCommand
     
     private void printSummary(FileProcessor cb)
     {
-        minLogger.info("Summary:");
+        log.log(LogUtils.LEVEL_SUMMARY, "Summary:");
         int processedCount = cb.getProdTypeCounter().getTotal();
         
-        minLogger.info("Skipped files: " + cb.getSkippedFileCount());
-        minLogger.info("Processed files: " + processedCount);
+        log.log(LogUtils.LEVEL_SUMMARY, "Skipped files: " + cb.getSkippedFileCount());
+        log.log(LogUtils.LEVEL_SUMMARY, "Processed files: " + processedCount);
         
         if(processedCount > 0)
         {
-            minLogger.info("File counts by type:");
+            log.log(LogUtils.LEVEL_SUMMARY, "File counts by type:");
             for(CounterMap.Item item: cb.getProdTypeCounter().getCounts())
             {
-                minLogger.info("  " + item.name + ": " + item.count);
+                log.log(LogUtils.LEVEL_SUMMARY, "  " + item.name + ": " + item.count);
             }
             
-            minLogger.info("Package ID: " + PackageIdGenerator.getInstance().getPackageId());
+            log.log(LogUtils.LEVEL_SUMMARY, "Package ID: " + PackageIdGenerator.getInstance().getPackageId());
         }
     }
 
