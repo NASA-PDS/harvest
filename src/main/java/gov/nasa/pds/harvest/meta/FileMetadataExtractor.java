@@ -15,8 +15,10 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.tika.Tika;
 
 import gov.nasa.pds.harvest.cfg.model.FileInfoCfg;
+import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.util.CloseUtils;
+import gov.nasa.pds.harvest.util.out.FieldNameUtils;
 
 
 public class FileMetadataExtractor
@@ -47,16 +49,16 @@ public class FileMetadataExtractor
 
         BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
         String dt = attr.creationTime().toInstant().truncatedTo(ChronoUnit.SECONDS).toString();
-        meta.fields.addValue("ops/Label_File_Info/ops/creation_date_time", dt);
+        meta.fields.addValue(createLabelFileFieldName("creation_date_time"), dt);
         
-        meta.fields.addValue("ops/Label_File_Info/ops/file_name", file.getName());
-        meta.fields.addValue("ops/Label_File_Info/ops/file_size", String.valueOf(file.length()));
-        meta.fields.addValue("ops/Label_File_Info/ops/md5_checksum", getMd5(file));
-        meta.fields.addValue("ops/Label_File_Info/ops/file_ref", getFileRef(file));
+        meta.fields.addValue(createLabelFileFieldName("file_name"), file.getName());
+        meta.fields.addValue(createLabelFileFieldName("file_size"), String.valueOf(file.length()));
+        meta.fields.addValue(createLabelFileFieldName("md5_checksum"), getMd5(file));
+        meta.fields.addValue(createLabelFileFieldName("file_ref"), getFileRef(file));
         
         if(fileInfoCfg.storeLabels)
         {
-            meta.fields.addValue("ops/Label_File_Info/ops/blob", getBlob(file));
+            meta.fields.addValue(createLabelFileFieldName("blob"), getBlob(file));
         }
         
         // Process data files
@@ -66,6 +68,18 @@ public class FileMetadataExtractor
         }
     }
     
+    
+    private static String createLabelFileFieldName(String attr)
+    {
+        return FieldNameUtils.createFieldName(Constants.REGISTRY_NS, "Label_File_Info", attr);
+    }
+
+    
+    private static String createDataFileFieldName(String attr)
+    {
+        return FieldNameUtils.createFieldName(Constants.REGISTRY_NS, "Data_File_Info", attr);
+    }
+
     
     private void processDataFiles(File baseDir, Metadata meta) throws Exception
     {
@@ -81,13 +95,13 @@ public class FileMetadataExtractor
             
             BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
             String dt = attr.creationTime().toInstant().truncatedTo(ChronoUnit.SECONDS).toString();
-            meta.fields.addValue("ops/Data_File_Info/ops/creation_date_time", dt);
+            meta.fields.addValue(createDataFileFieldName("creation_date_time"), dt);
             
-            meta.fields.addValue("ops/Data_File_Info/ops/file_name", file.getName());            
-            meta.fields.addValue("ops/Data_File_Info/ops/file_size", String.valueOf(file.length()));
-            meta.fields.addValue("ops/Data_File_Info/ops/md5_checksum", getMd5(file));
-            meta.fields.addValue("ops/Data_File_Info/ops/file_ref", getFileRef(file));
-            meta.fields.addValue("ops/Data_File_Info/ops/mime_type", getMimeType(file));
+            meta.fields.addValue(createDataFileFieldName("file_name"), file.getName());            
+            meta.fields.addValue(createDataFileFieldName("file_size"), String.valueOf(file.length()));
+            meta.fields.addValue(createDataFileFieldName("md5_checksum"), getMd5(file));
+            meta.fields.addValue(createDataFileFieldName("file_ref"), getFileRef(file));
+            meta.fields.addValue(createDataFileFieldName("mime_type"), getMimeType(file));
         }
     }
     

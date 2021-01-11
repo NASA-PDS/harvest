@@ -13,6 +13,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.AutogenCfg;
 import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.date.PdsDateConverter;
@@ -102,7 +103,7 @@ public class AutogenExtractor
         }
         
         String attrName = getNsName(node);
-        String fieldName = className + "/" + attrName;
+        String fieldName = className + Constants.ATTR_SEPARATOR + attrName;
         
         // Field value
         String fieldValue = StringUtils.normalizeSpace(node.getTextContent());
@@ -121,7 +122,7 @@ public class AutogenExtractor
     private String getNsName(Node node) throws Exception
     {
         String nsPrefix = getNsPrefix(node);
-        String nsName = nsPrefix + "/" + node.getLocalName();
+        String nsName = nsPrefix + Constants.NS_SEPARATOR + node.getLocalName();
         
         return nsName;
     }
