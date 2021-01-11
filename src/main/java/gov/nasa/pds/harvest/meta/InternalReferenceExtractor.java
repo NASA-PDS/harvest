@@ -37,15 +37,13 @@ public class InternalReferenceExtractor
     }
     
     
-    public FieldMapSet extract(Document doc) throws Exception
+    public void addRefs(FieldMapSet fmap, Document doc) throws Exception
     {
-        if(cfg == null) return null;
+        if(cfg == null) return;
         
         NodeList nodes = XPathUtils.getNodeList(doc, xIntRef);        
-        if(nodes == null || nodes.getLength() == 0) return null;
+        if(nodes == null || nodes.getLength() == 0) return;
 
-        FieldMapSet fmap = new FieldMapSet();
-        
         for(int i = 0; i < nodes.getLength(); i++)
         {
             LidRef ref = createLidRef(nodes.item(i));
@@ -54,8 +52,6 @@ public class InternalReferenceExtractor
                 addRef(fmap, ref);
             }
         }
-
-        return fmap;
     }
 
     

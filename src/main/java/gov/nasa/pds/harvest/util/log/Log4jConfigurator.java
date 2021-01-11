@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.log;
+package gov.nasa.pds.harvest.util.log;
 
 import java.io.File;
 

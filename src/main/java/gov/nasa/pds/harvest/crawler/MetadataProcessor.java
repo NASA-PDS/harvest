@@ -15,7 +15,7 @@ import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
-import gov.nasa.pds.harvest.util.DocWriter;
+import gov.nasa.pds.harvest.util.out.DocWriter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
@@ -62,10 +62,9 @@ public class MetadataProcessor
         
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(doc);
-        validate(meta, file);
         
         // Internal references
-        meta.intRefs = refExtractor.extract(doc);
+        refExtractor.addRefs(meta.intRefs, doc);
         
         // Extract fields by XPath
         xpathExtractor.extract(doc, meta.fields);
@@ -91,16 +90,4 @@ public class MetadataProcessor
     }
     
     
-    private void validate(Metadata meta, File file) throws Exception
-    {
-        if(meta.lid == null || meta.lid.isEmpty())
-        {
-            throw new Exception("Missing logical identifier: " + file.toURI().getPath());
-        }
-
-        if(meta.vid == null || meta.vid.isEmpty())
-        {
-            throw new Exception("Missing version id: " + file.toURI().getPath());
-        }
-    }
 }

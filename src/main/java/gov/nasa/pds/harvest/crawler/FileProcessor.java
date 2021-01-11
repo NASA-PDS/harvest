@@ -8,8 +8,8 @@ import org.apache.tika.Tika;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.util.CounterMap;
-import gov.nasa.pds.harvest.util.DocWriter;
 import gov.nasa.pds.harvest.util.ExceptionUtils;
+import gov.nasa.pds.harvest.util.out.DocWriter;
 import gov.nasa.pds.harvest.util.xml.XmlStreamUtils;
 
 

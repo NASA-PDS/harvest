@@ -8,11 +8,12 @@ import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cfg.ConfigReader;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.meta.LidVidMap;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
-import gov.nasa.pds.harvest.util.DocWriter;
-import gov.nasa.pds.harvest.util.LogUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
+import gov.nasa.pds.harvest.util.log.LogUtils;
+import gov.nasa.pds.harvest.util.out.DocWriter;
 import gov.nasa.pds.harvest.util.out.EsDocWriter;
 import gov.nasa.pds.harvest.util.out.SolrDocWriter;
 
@@ -20,6 +21,11 @@ import gov.nasa.pds.harvest.util.out.SolrDocWriter;
 public class CrawlerCommand
 {
     private Logger log;
+    private Configuration cfg;
+    private DocWriter writer;
+    
+    private BundleProcessor bundleProc;
+    private CollectionProcessor colProc;
     
     
     public CrawlerCommand()
@@ -29,6 +35,26 @@ public class CrawlerCommand
 
 
     public void run(CommandLine cmdLine) throws Exception
+    {
+        configure(cmdLine);
+
+        for(String path: cfg.directories.paths)
+        {
+            File rootDir = new File(path);
+            if(!rootDir.exists()) 
+            {
+                log.warn("Invalid bundle directory: " + rootDir.getAbsolutePath());
+                continue;
+            }
+            
+            processBundleDir(rootDir);
+        }
+        
+        writer.close();
+    }
+    
+    
+    private void configure(CommandLine cmdLine) throws Exception
     {
         // Output directory
         String outDir = cmdLine.getOptionValue("o", "/tmp/harvest/out");
@@ -40,8 +66,6 @@ public class CrawlerCommand
         String outFormat = cmdLine.getOptionValue("f", "json").toLowerCase();
         log.log(LogUtils.LEVEL_SUMMARY, "Output format: " + outFormat);
 
-        DocWriter writer = null;
-        
         switch(outFormat)
         {
         case "xml":
@@ -55,30 +79,32 @@ public class CrawlerCommand
         }
         
         // Configuration file
-        Configuration cfg = loadConfiguration(cmdLine.getOptionValue("c"));
-        
-        // Run crawler
-        runCrawler(cfg, writer);
-    }
-    
+        File cfgFile = new File(cmdLine.getOptionValue("c"));
+        log.log(LogUtils.LEVEL_SUMMARY, "Reading configuration from " + cfgFile.getAbsolutePath());
+        cfg = ConfigReader.read(cfgFile);
 
-    private Configuration loadConfiguration(String pConfigFile) throws Exception
-    {
-        File cfgFile = new File(pConfigFile);
-        log.log(LogUtils.LEVEL_SUMMARY, "Reading configuration from " + pConfigFile);
-        
-        // Read config file
-        Configuration cfg = ConfigReader.read(cfgFile);
-        
-        // Load xpath maps from files
+        // Xpath maps
         XPathCacheLoader xpcLoader = new XPathCacheLoader();
         xpcLoader.load(cfg.xpathMaps);
         
-        return cfg;
+        // Processors
+        bundleProc = new BundleProcessor(cfg, writer);
+        colProc = new CollectionProcessor(cfg, writer);
+    }
+
+
+    private void processBundleDir(File rootDir) throws Exception
+    {
+        log.info("Processing bundle directory " + rootDir.getAbsolutePath());
+        
+        bundleProc.process(rootDir);
+        LidVidMap colToBundleMap = bundleProc.getCollectionToBundleMap();
+        
+        colProc.process(rootDir, colToBundleMap);
     }
     
     
-    private void runCrawler(Configuration cfg, DocWriter writer) throws Exception
+    private void runProductCrawler(File rootDir) throws Exception
     {
         FileProcessor fileProcessor = new FileProcessor(cfg, writer);
         ProductCrawler crawler = new ProductCrawler(cfg.directories, fileProcessor);

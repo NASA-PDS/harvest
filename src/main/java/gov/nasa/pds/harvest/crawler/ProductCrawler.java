@@ -39,7 +39,7 @@ public class ProductCrawler
         LOG = LogManager.getLogger(getClass());
         
         if(dir == null) throw new IllegalArgumentException("Directory is null");
-        paths = dir.paths;
+        //paths = dir.paths;
         setFileFilter(dir.fileFilterIncludes, dir.fileFilterExcludes);
         setDirectoryFilter(dir.dirFilterExcludes);
 

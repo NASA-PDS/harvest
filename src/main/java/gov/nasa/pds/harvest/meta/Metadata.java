@@ -10,6 +10,7 @@ public class Metadata
 {
     public String lid;
     public String vid;
+    public String lidvid;
     public String title;
     public String prodClass;
     
@@ -21,6 +22,7 @@ public class Metadata
     
     public Metadata()
     {
+        intRefs = new FieldMapSet();
         fields = new FieldMapList();
     }
 }

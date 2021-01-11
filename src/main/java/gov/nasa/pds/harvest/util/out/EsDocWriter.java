@@ -10,7 +10,6 @@ import java.util.TreeSet;
 import com.google.gson.stream.JsonWriter;
 
 import gov.nasa.pds.harvest.meta.Metadata;
-import gov.nasa.pds.harvest.util.DocWriter;
 import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 

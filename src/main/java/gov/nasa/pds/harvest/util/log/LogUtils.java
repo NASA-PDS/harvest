@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.util;
+package gov.nasa.pds.harvest.util.log;
 
 import org.apache.logging.log4j.Level;
 

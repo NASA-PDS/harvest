@@ -16,8 +16,8 @@ public class Rdirs
         if(count > 1) throw new Exception("Could not have more than one '/harvest/directories' element.");
         
         DirectoriesCfg dirs = new DirectoriesCfg();                
-        dirs.paths = xpu.getStringList(doc, "/harvest/directories/path");
-        if(dirs.paths == null) throw new Exception("Provide at least one '/harvest/directories/path' element.");
+        dirs.paths = xpu.getStringList(doc, "/harvest/directories/bundle");
+        if(dirs.paths == null) throw new Exception("Provide at least one '/harvest/directories/bundle' element.");
         
         // File filter
         dirs.fileFilterIncludes = xpu.getStringList(doc, "/harvest/directories/fileFilter/include");
