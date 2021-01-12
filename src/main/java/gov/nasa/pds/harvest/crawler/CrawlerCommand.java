@@ -24,8 +24,10 @@ public class CrawlerCommand
     private Configuration cfg;
     private DocWriter writer;
     
+    private Counter counter;
     private BundleProcessor bundleProc;
     private CollectionProcessor colProc;
+    private ProductProcessor prodProc;
     
     
     public CrawlerCommand()
@@ -51,6 +53,8 @@ public class CrawlerCommand
         }
         
         writer.close();
+        
+        printSummary();
     }
     
     
@@ -88,8 +92,10 @@ public class CrawlerCommand
         xpcLoader.load(cfg.xpathMaps);
         
         // Processors
+        counter = new Counter();
         bundleProc = new BundleProcessor(cfg, writer);
         colProc = new CollectionProcessor(cfg, writer);
+        prodProc = new ProductProcessor(cfg, writer, counter);
     }
 
 
@@ -97,39 +103,30 @@ public class CrawlerCommand
     {
         log.info("Processing bundle directory " + rootDir.getAbsolutePath());
         
+        // Process bundles
         bundleProc.process(rootDir);
         LidVidMap colToBundleMap = bundleProc.getCollectionToBundleMap();
         
+        // Process collections
         colProc.process(rootDir, colToBundleMap);
+        
+        // Process products
+        prodProc.process(rootDir);
     }
     
     
-    private void runProductCrawler(File rootDir) throws Exception
-    {
-        FileProcessor fileProcessor = new FileProcessor(cfg, writer);
-        ProductCrawler crawler = new ProductCrawler(cfg.directories, fileProcessor);
-        crawler.crawl();
-        fileProcessor.close();
-
-        if(!fileProcessor.stoppedOnError())
-        {
-            printSummary(fileProcessor);
-        }
-    }
-    
-    
-    private void printSummary(FileProcessor cb)
+    private void printSummary()
     {
         log.log(LogUtils.LEVEL_SUMMARY, "Summary:");
-        int processedCount = cb.getProdTypeCounter().getTotal();
+        int processedCount = counter.prodCounters.getTotal();
         
-        log.log(LogUtils.LEVEL_SUMMARY, "Skipped files: " + cb.getSkippedFileCount());
+        log.log(LogUtils.LEVEL_SUMMARY, "Skipped files: " + counter.skippedFileCount);
         log.log(LogUtils.LEVEL_SUMMARY, "Processed files: " + processedCount);
         
         if(processedCount > 0)
         {
             log.log(LogUtils.LEVEL_SUMMARY, "File counts by type:");
-            for(CounterMap.Item item: cb.getProdTypeCounter().getCounts())
+            for(CounterMap.Item item: counter.prodCounters.getCounts())
             {
                 log.log(LogUtils.LEVEL_SUMMARY, "  " + item.name + ": " + item.count);
             }

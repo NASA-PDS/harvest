@@ -19,25 +19,35 @@ import gov.nasa.pds.harvest.util.out.DocWriter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
-public class MetadataProcessor
+public class ProductProcessor implements ProductCrawler.Callback
 {
-    private Logger LOG;
+    private Logger log;
+
+    // Skip files bigger than 10MB
+    private static final long MAX_XML_FILE_LENGTH = 10_000_000;
 
     private Configuration config;
     private DocWriter writer;
     
+    private DocumentBuilderFactory dbf;
     private BasicMetadataExtractor basicExtractor;
     private InternalReferenceExtractor refExtractor;
     private AutogenExtractor autogenExtractor;
     private FileMetadataExtractor fileDataExtractor;
     private XPathExtractor xpathExtractor;
     
+    private ProductCrawler crawler;
+    private Counter counter;
     
-    public MetadataProcessor(DocWriter writer, Configuration config) throws Exception
+    
+    public ProductProcessor(Configuration config, DocWriter writer, Counter counter) throws Exception
     {
-        LOG = LogManager.getLogger(getClass());
-        
+        log = LogManager.getLogger(getClass());
         this.writer = writer;
+        this.counter = counter;
+
+        dbf = DocumentBuilderFactory.newInstance();
+        dbf.setNamespaceAware(false);
         
         basicExtractor = new BasicMetadataExtractor();
         refExtractor = new InternalReferenceExtractor(config.internalRefs);
@@ -46,20 +56,50 @@ public class MetadataProcessor
         xpathExtractor = new XPathExtractor();
         
         this.config = config;
+        
+        crawler = new ProductCrawler(config.directories);
     }
 
     
-    public void process(File file, Counter counter) throws Exception
+    public void process(File bundleDir) throws Exception
     {
-        LOG.info("Processing file " + file.toURI().getPath());
+        log.info("Processing products...");
+        crawler.crawl(bundleDir, this);
+    }
+    
+    
+    public void onFile(File file) throws Exception
+    {
+        // Skip very large files
+        if(file.length() > MAX_XML_FILE_LENGTH)
+        {
+            log.warn("File is too big to parse: " + file.getAbsolutePath());
+            return;
+        }
 
-        // Parse XML, ignore namespaces. 
-        // Basic and XPath extractor are much easier to use without namespaces.
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(false);
         Document doc = XmlDomUtils.readXml(dbf, file);
         String rootElement = doc.getDocumentElement().getNodeName();
         
+        // Ignore collections and bundles
+        if("Product_Bundle".equals(rootElement) || "Product_Collection".equals(rootElement)) return;
+
+        // Apply product filter
+        if(config.directories.prodFilterIncludes != null)
+        {
+            if(!config.directories.prodFilterIncludes.contains(rootElement)) return;
+        }
+        else if(config.directories.prodFilterExcludes != null)
+        {
+            if(config.directories.prodFilterExcludes.contains(rootElement)) return;
+        }
+
+        log.info("Processing product " + file.getAbsolutePath());
+        processMetadata(file, doc);
+    }
+    
+    
+    public void processMetadata(File file, Document doc) throws Exception
+    {
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(doc);
         
@@ -80,13 +120,7 @@ public class MetadataProcessor
         
         writer.write(meta);
         
-        counter.prodCounters.inc(rootElement);
-    }
-    
-    
-    public void close() throws Exception
-    {
-        writer.close();
+        counter.prodCounters.inc(meta.prodClass);
     }
     
     

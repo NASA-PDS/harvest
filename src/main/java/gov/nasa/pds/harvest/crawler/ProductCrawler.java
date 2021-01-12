@@ -14,27 +14,23 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cfg.model.DirectoriesCfg;
-import gov.nasa.pds.harvest.util.ExceptionUtils;
 
 
 public class ProductCrawler
 {
     private Logger LOG; 
     
-    private List<String> paths;
     private IOFileFilter dirFilter;
     private IOFileFilter fileFilter;
-    
-    private Callback callback;
     
     
     public static interface Callback
     {
-        public boolean onFile(File file);
+        public void onFile(File file) throws Exception;
     }
     
     
-    public ProductCrawler(DirectoriesCfg dir, Callback cb)
+    public ProductCrawler(DirectoriesCfg dir)
     {
         LOG = LogManager.getLogger(getClass());
         
@@ -42,24 +38,6 @@ public class ProductCrawler
         //paths = dir.paths;
         setFileFilter(dir.fileFilterIncludes, dir.fileFilterExcludes);
         setDirectoryFilter(dir.dirFilterExcludes);
-
-        if(cb == null) throw new IllegalArgumentException("Callback is null");
-        this.callback = cb;
-    }
-    
-    
-    public void crawl()
-    {
-        if(paths == null) return;
-        
-        for(String path: paths)
-        {
-            File file = new File(path);
-            if(!crawl(file))
-            {
-                break;
-            }
-        }
     }
     
     
@@ -69,15 +47,20 @@ public class ProductCrawler
         filters.add(FileFilterUtils.fileFileFilter());
         
         // Include
-        if(includes != null && !includes.isEmpty())
+        if(includes != null)
         {
             filters.add(new WildcardOSFilter(includes));
         }
 
         // Exclude
-        if(excludes != null && !excludes.isEmpty())
+        if(excludes != null)
         {
             filters.add(new NotFileFilter(new WildcardOSFilter(excludes)));
+        }
+        
+        if(includes == null && excludes == null)
+        {
+            filters.add(new WildcardOSFilter("*.xml"));
         }
         
         this.fileFilter = new AndFileFilter(filters);
@@ -98,26 +81,13 @@ public class ProductCrawler
     }
     
     
-    private boolean crawl(File directory)
+    public void crawl(File directory, Callback cb) throws Exception
     {
         Collection<File> files = FileUtils.listFiles(directory, fileFilter, dirFilter);
         
         for(File file: files)
         {
-            try
-            {
-                if(!callback.onFile(file))
-                {
-                    return false;
-                }
-            }
-            catch(Exception ex)
-            {
-                LOG.error(ExceptionUtils.getMessage(ex));
-                return false;
-            }
+            cb.onFile(file);
         }
-        
-        return true;
     }
 }
