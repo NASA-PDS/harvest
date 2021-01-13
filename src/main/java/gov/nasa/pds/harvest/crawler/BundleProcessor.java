@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
+import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
@@ -46,14 +47,17 @@ public class BundleProcessor
     private FileMetadataExtractor fileDataExtractor;
     
     private int bundleCount;
+    private Counter counter;
 
     private LidVidMap colToBundleMap;
+    private BundleCfg bundleCfg;
     
     
-    public BundleProcessor(Configuration config, DocWriter writer) throws Exception
+    public BundleProcessor(Configuration config, DocWriter writer, Counter counter) throws Exception
     {
         this.config = config;
         this.writer = writer;
+        this.counter = counter;
         
         log = LogManager.getLogger(this.getClass());
         
@@ -88,12 +92,12 @@ public class BundleProcessor
     }
 
     
-    public void process(File bundleDir) throws Exception
+    public void process(BundleCfg bCfg) throws Exception
     {
-        log.info("Processing bundles...");
-        
+        this.bundleCfg = bCfg;
         colToBundleMap.clear();
         
+        File bundleDir = new File(bCfg.dir);
         Iterator<Path> it = Files.find(bundleDir.toPath(), 1, new BundleMatcher()).iterator();
         while(it.hasNext())
         {
@@ -122,9 +126,6 @@ public class BundleProcessor
         // Ignore non-bundle XMLs
         if(!"Product_Bundle".equals(rootElement)) return;
         
-        log.info("Processing bundle " + file.getAbsolutePath());
-        bundleCount++;
-        
         processMetadata(file, doc);
     }
     
@@ -132,6 +133,10 @@ public class BundleProcessor
     private void processMetadata(File file, Document doc) throws Exception
     {
         Metadata meta = basicExtractor.extract(doc);
+        if(bundleCfg.versions != null && !bundleCfg.versions.contains(meta.vid)) return;
+
+        log.info("Processing bundle " + file.getAbsolutePath());
+
         refExtractor.addRefs(meta.intRefs, doc);
         addCollectionRefs(meta, doc);
         xpathExtractor.extract(doc, meta.fields);
@@ -144,6 +149,9 @@ public class BundleProcessor
         fileDataExtractor.extract(file, meta);
         
         writer.write(meta);
+        
+        bundleCount++;
+        counter.prodCounters.inc(meta.prodClass);
     }
 
     
@@ -171,6 +179,20 @@ public class BundleProcessor
                 meta.intRefs.addValue(key, bme.lid);
 
                 colToBundleMap.mapLids(bme.lid, meta.lid);
+            }
+            
+            // Convert lidvid to lid
+            if(bme.lidvid != null && bme.lid == null)
+            {
+                int idx = bme.lidvid.indexOf("::");
+                if(idx > 0)
+                {
+                    String lid = bme.lidvid.substring(0, idx);
+                    String key = "ref_lid_" + shortRefType;
+                    meta.intRefs.addValue(key, lid);
+                    
+                    // !!! NOTE: Don't add this converted lid to colToBundleMap !!!
+                }
             }
         }
     }

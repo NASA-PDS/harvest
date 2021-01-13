@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.cfg.rd.Rautogen;
+import gov.nasa.pds.harvest.cfg.rd.Rbundles;
 import gov.nasa.pds.harvest.cfg.rd.Rdirs;
 import gov.nasa.pds.harvest.cfg.rd.Rfile;
 import gov.nasa.pds.harvest.cfg.rd.Rrefs;
@@ -30,7 +31,8 @@ public class ConfigReader
         }
         
         Configuration cfg = new Configuration();
-        cfg.directories = Rdirs.parseDirectories(doc);
+        cfg.bundles = Rbundles.parseBundles(doc);
+        cfg.filters = Rdirs.parseFilters(doc);
         cfg.xpathMaps = Rxpath.parseXPathMaps(doc);
         cfg.fileInfo = Rfile.parseFileInfo(doc);
         cfg.autogen = Rautogen.parseAutogenFields(doc);

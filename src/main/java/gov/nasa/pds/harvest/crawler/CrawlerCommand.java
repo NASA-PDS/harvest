@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cfg.ConfigReader;
+import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.LidVidMap;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
@@ -40,16 +41,9 @@ public class CrawlerCommand
     {
         configure(cmdLine);
 
-        for(String path: cfg.directories.paths)
+        for(BundleCfg bCfg: cfg.bundles)
         {
-            File rootDir = new File(path);
-            if(!rootDir.exists()) 
-            {
-                log.warn("Invalid bundle directory: " + rootDir.getAbsolutePath());
-                continue;
-            }
-            
-            processBundleDir(rootDir);
+            processBundle(bCfg);
         }
         
         writer.close();
@@ -93,18 +87,25 @@ public class CrawlerCommand
         
         // Processors
         counter = new Counter();
-        bundleProc = new BundleProcessor(cfg, writer);
-        colProc = new CollectionProcessor(cfg, writer);
+        bundleProc = new BundleProcessor(cfg, writer, counter);
+        colProc = new CollectionProcessor(cfg, writer, counter);
         prodProc = new ProductProcessor(cfg, writer, counter);
     }
 
 
-    private void processBundleDir(File rootDir) throws Exception
+    private void processBundle(BundleCfg bCfg) throws Exception
     {
+        File rootDir = new File(bCfg.dir);
+        if(!rootDir.exists()) 
+        {
+            log.warn("Invalid bundle directory: " + rootDir.getAbsolutePath());
+            return;
+        }
+        
         log.info("Processing bundle directory " + rootDir.getAbsolutePath());
         
         // Process bundles
-        bundleProc.process(rootDir);
+        bundleProc.process(bCfg);
         LidVidMap colToBundleMap = bundleProc.getCollectionToBundleMap();
         
         // Process collections

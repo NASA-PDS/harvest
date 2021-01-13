@@ -1,9 +1,13 @@
 package gov.nasa.pds.harvest.cfg.model;
 
+import java.util.List;
 
 public class Configuration
 {
-    public DirectoriesCfg directories;
+    public List<BundleCfg> bundles;
+    
+    public FiltersCfg filters;
+    
     public FileInfoCfg fileInfo;
     public XPathMapCfg xpathMaps;
     public InternalRefCfg internalRefs;

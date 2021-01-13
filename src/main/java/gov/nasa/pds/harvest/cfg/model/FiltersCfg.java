@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.Set;
 
 
-public class DirectoriesCfg
+public class FiltersCfg
 {
-    public List<String> paths;
+    public List<String> bundleDirs;
+    
+    public Set<String> bundleVerFilter;
+    public Set<String> collectionVerFilter;
     
     // File filter
     public List<String> fileFilterIncludes;
@@ -16,10 +19,11 @@ public class DirectoriesCfg
     public List<String> dirFilterExcludes;
 
     // Product filter
-    public Set<String> prodFilterIncludes;
-    public Set<String> prodFilterExcludes;
+    public Set<String> prodClassInclude;
+    public Set<String> prodClassExclude;
     
-    public DirectoriesCfg()
+    
+    public FiltersCfg()
     {        
     }
     

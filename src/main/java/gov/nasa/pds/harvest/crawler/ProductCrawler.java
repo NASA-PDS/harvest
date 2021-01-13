@@ -10,16 +10,12 @@ import org.apache.commons.io.filefilter.AndFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.NotFileFilter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import gov.nasa.pds.harvest.cfg.model.DirectoriesCfg;
+import gov.nasa.pds.harvest.cfg.model.FiltersCfg;
 
 
 public class ProductCrawler
 {
-    private Logger LOG; 
-    
     private IOFileFilter dirFilter;
     private IOFileFilter fileFilter;
     
@@ -30,10 +26,8 @@ public class ProductCrawler
     }
     
     
-    public ProductCrawler(DirectoriesCfg dir)
+    public ProductCrawler(FiltersCfg dir)
     {
-        LOG = LogManager.getLogger(getClass());
-        
         if(dir == null) throw new IllegalArgumentException("Directory is null");
         //paths = dir.paths;
         setFileFilter(dir.fileFilterIncludes, dir.fileFilterExcludes);

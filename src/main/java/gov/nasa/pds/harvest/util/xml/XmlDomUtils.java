@@ -48,7 +48,7 @@ public class XmlDomUtils
         if(node == null || node.getAttributes() == null) return null;
         
         Node att = node.getAttributes().getNamedItem(attributeName);
-        return att == null ? null : att.getNodeValue();
+        return att == null ? null : att.getNodeValue().trim();
     }
 
 

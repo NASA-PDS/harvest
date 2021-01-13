@@ -81,15 +81,6 @@ public class BundleMetadataExtractor
             }
         }
 
-        if(bme.lidvid != null && bme.lid == null)
-        {
-            int idx = bme.lidvid.indexOf("::");
-            if(idx > 0)
-            {
-                bme.lid = bme.lidvid.substring(0, idx);
-            }
-        }
-
         return bme;
     }
 

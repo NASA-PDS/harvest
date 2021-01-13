@@ -3,12 +3,8 @@
 <harvest>
 
   <directories>
-    <!-- Path to one or more folders with some PDS4 product labels -->
-    <path>/home/pds/LADEE/ldex_20161118/data_derived</path>
-    <!-- Only process XML files -->
-    <fileFilter>
-      <include>*.xml</include>
-    </fileFilter>
+    <!-- Path to one or more PDS4 bundle folders -->
+    <bundle>/home/pds/LADEE/ldex_20161118</bundle>
   </directories>
 
   <!-- 

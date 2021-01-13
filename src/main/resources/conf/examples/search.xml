@@ -2,14 +2,16 @@
 
 <harvest>
 
-  <directories>
-    <!-- Path to one or more folders with some PDS4 product labels -->
-    <path>/home/pds/LADEE/ldex_20161118/data_derived</path>
-    <!-- Only process XML files -->
-    <fileFilter>
-      <include>*.xml</include>
-    </fileFilter>
-  </directories>
+  <!-- 
+    List of one or more PDS4 bundle folders. The "versions" attribute is optional.
+    * No versions attribute or versions="all" - process all bundles.
+    * versions="7.0;8.0" - process versions 7.0 and 8.0. 
+    * You can use the following version delimiters: space, comma, semicolon, tab [ ,;\r]
+  -->
+  <bundles>
+    <!-- Path to one or more PDS4 bundle folders -->
+    <bundle dir="/home/pds/LADEE/ldex_20161118" versions="all" />
+  </bundles>
 
   <!-- 
       NOTE: By default only lid, vid, lidvid, title and product class are exported. 

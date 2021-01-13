@@ -57,7 +57,7 @@ public class ProductProcessor implements ProductCrawler.Callback
         
         this.config = config;
         
-        crawler = new ProductCrawler(config.directories);
+        crawler = new ProductCrawler(config.filters);
     }
 
     
@@ -84,13 +84,13 @@ public class ProductProcessor implements ProductCrawler.Callback
         if("Product_Bundle".equals(rootElement) || "Product_Collection".equals(rootElement)) return;
 
         // Apply product filter
-        if(config.directories.prodFilterIncludes != null)
+        if(config.filters.prodClassInclude != null)
         {
-            if(!config.directories.prodFilterIncludes.contains(rootElement)) return;
+            if(!config.filters.prodClassInclude.contains(rootElement)) return;
         }
-        else if(config.directories.prodFilterExcludes != null)
+        else if(config.filters.prodClassExclude != null)
         {
-            if(config.directories.prodFilterExcludes.contains(rootElement)) return;
+            if(config.filters.prodClassExclude.contains(rootElement)) return;
         }
 
         log.info("Processing product " + file.getAbsolutePath());
@@ -98,7 +98,7 @@ public class ProductProcessor implements ProductCrawler.Callback
     }
     
     
-    public void processMetadata(File file, Document doc) throws Exception
+    private void processMetadata(File file, Document doc) throws Exception
     {
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(doc);
@@ -122,6 +122,5 @@ public class ProductProcessor implements ProductCrawler.Callback
         
         counter.prodCounters.inc(meta.prodClass);
     }
-    
-    
+
 }

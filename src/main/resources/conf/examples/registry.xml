@@ -3,47 +3,47 @@
 <!-- harvest configuration see https://nasa-pds.github.io/pds-registry-app/operate/harvest.html for details -->
 <!--########################################################################################################-->
 <harvest>
-  <directories>
-    <!-- Path to a folder with some PDS4 product labels -->
+
+  <!-- 
+    List of one or more PDS4 bundle folders. The "versions" attribute is optional.
+    * No versions attribute or versions="all" - process all bundles.
+    * versions="7.0;8.0" - process versions 7.0 and 8.0. 
+    * You can use the following version delimiters: space, comma, semicolon, tab [ ,;\r]
+  -->
+  <bundles>
     <!-- UPDATE HERE -->
-    <path>/path/to/archive</path>
-
-    <!-- Only process XML files -->
-    <!-- DO NOT UPDATE FOR OPERATIONAL REGISTRY -->
-    <fileFilter>
-      <include>*.xml</include>
-    </fileFilter>
-
-    <!-- Only include collections and context products. -->
-    <!-- DO NOT COMMENT OUT FOR OPERATIONAL REGISTRY-->
-    <!--
-    <productFilter>
-      <include>Product_Collection</include>
-      <include>Product_Context</include>
-    </productFilter>
-    -->
-  </directories>
+    <bundle dir="/path/to/bundle" versions="all" />
+  </bundles>
 
 
-   <fileInfo processDataFiles="true" storeLabels="true">
-     <!-- UPDATE HERE with you own local path and base url where pds4 archive are published -->
-     <fileRef replacePrefix="/path/to/archive" 
-             with="https://url/to/archive/" />
+  <!-- Only include context and document products. -->
+  <!-- DO NOT COMMENT OUT FOR OPERATIONAL REGISTRY-->
+  <!--
+  <productFilter>
+    <include>Product_Context</include>
+    <include>Product_Document</include>
+  </productFilter>
+  -->
+
+
+  <fileInfo processDataFiles="true" storeLabels="true">
+    <!-- UPDATE HERE with you own local path and base url where pds4 archive are published -->
+    <fileRef replacePrefix="/path/to/archive" with="https://url/to/archive/" />
   </fileInfo>
 
 
- <!-- 
-      NOTE: By default only lid, vid, lidvid, title and product class are exported. 
-      If you want more metadata to be exported, provide additional configuration
-      elements, such as xpathMaps, internalRefs, autogenFields, fileInfo, fileRef.
-  -->
+<!-- 
+    NOTE: By default only lid, vid, lidvid, title and product class are exported. 
+    If you want more metadata to be exported, provide additional configuration
+    elements, such as xpathMaps, internalRefs, autogenFields, fileInfo, fileRef.
+ -->
   
 
   <!-- Include internal references. -->
-  <!-- Convert lidvids to lids. Do not keep lidvids. -->
+  <!-- Convert lidvids to lids. Keep lidvids. -->
   <!--
   <internalRefs prefix="ref_">
-    <lidvid convertToLid="false" keep="false" />
+    <lidvid convertToLid="true" keep="true" />
   </internalRefs>
   -->
 

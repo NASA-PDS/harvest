@@ -42,13 +42,14 @@ public class CollectionProcessor
     private XPathExtractor xpathExtractor;
     private FileMetadataExtractor fileDataExtractor;
     
-    private int collectionCount;
+    private Counter counter;
 
     
-    public CollectionProcessor(Configuration config, DocWriter writer) throws Exception
+    public CollectionProcessor(Configuration config, DocWriter writer, Counter counter) throws Exception
     {
         this.config = config;
         this.writer = writer;
+        this.counter = counter;
         
         log = LogManager.getLogger(this.getClass());
         
@@ -102,9 +103,6 @@ public class CollectionProcessor
         // Ignore non-collection XMLs
         if(!"Product_Collection".equals(rootElement)) return;
         
-        log.info("Processing collection " + file.getAbsolutePath());
-        collectionCount++;
-        
         processMetadata(file, doc, colToBundleMap);
     }
     
@@ -112,6 +110,15 @@ public class CollectionProcessor
     private void processMetadata(File file, Document doc, LidVidMap colToBundleMap) throws Exception
     {
         Metadata meta = basicExtractor.extract(doc);
+
+        // Bundles don't have any references to this collection
+        if(colToBundleMap.getLidVid(meta.lidvid) == null && colToBundleMap.getLid(meta.lid) == null)
+        {
+            return;
+        }
+        
+        log.info("Processing collection " + file.getAbsolutePath());
+        
         refExtractor.addRefs(meta.intRefs, doc);
         addBundleRefs(meta, colToBundleMap);
         xpathExtractor.extract(doc, meta.fields);
@@ -124,23 +131,37 @@ public class CollectionProcessor
         fileDataExtractor.extract(file, meta);
         
         writer.write(meta);
+        
+        counter.prodCounters.inc(meta.prodClass);
     }
     
     
     private void addBundleRefs(Metadata meta, LidVidMap colToBundleMap)
     {
-        String val = colToBundleMap.getLidVid(meta.lidvid);
-        if(val != null)
+        String bundleLidVid = colToBundleMap.getLidVid(meta.lidvid);
+        if(bundleLidVid != null)
         {
             String key = "ref_lidvid_bundle";
-            meta.intRefs.addValue(key, val);
+            meta.intRefs.addValue(key, bundleLidVid);
         }
 
-        val = colToBundleMap.getLid(meta.lid);
-        if(val != null)
+        String bundleLid = colToBundleMap.getLid(meta.lid);
+        if(bundleLid != null)
         {
             String key = "ref_lid_bundle";
-            meta.intRefs.addValue(key, val);
+            meta.intRefs.addValue(key, bundleLid);
+        }
+        
+        // Convert lidvid to lid
+        if(bundleLidVid != null && bundleLid == null)
+        {
+            int idx = bundleLidVid.indexOf("::");
+            if(idx > 0)
+            {
+                String lid = bundleLidVid.substring(0, idx);
+                String key = "ref_lid_bundle";
+                meta.intRefs.addValue(key, lid);
+            }
         }
     }
 }
