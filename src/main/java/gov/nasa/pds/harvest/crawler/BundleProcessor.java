@@ -24,7 +24,7 @@ import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.LidVidMap;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
-import gov.nasa.pds.harvest.util.out.DocWriter;
+import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
@@ -36,7 +36,7 @@ public class BundleProcessor
     private static final long MAX_XML_FILE_LENGTH = 10_000_000;
 
     private Configuration config;
-    private DocWriter writer;
+    private RegistryDocWriter writer;
     
     private DocumentBuilderFactory dbf;
     private BasicMetadataExtractor basicExtractor;
@@ -53,7 +53,7 @@ public class BundleProcessor
     private BundleCfg bundleCfg;
     
     
-    public BundleProcessor(Configuration config, DocWriter writer, Counter counter) throws Exception
+    public BundleProcessor(Configuration config, RegistryDocWriter writer, Counter counter) throws Exception
     {
         this.config = config;
         this.writer = writer;

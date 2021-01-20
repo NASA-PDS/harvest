@@ -14,16 +14,20 @@ import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 import gov.nasa.pds.harvest.util.log.LogUtils;
-import gov.nasa.pds.harvest.util.out.DocWriter;
-import gov.nasa.pds.harvest.util.out.EsDocWriter;
-import gov.nasa.pds.harvest.util.out.SolrDocWriter;
+import gov.nasa.pds.harvest.util.out.RefsDocWriter;
+import gov.nasa.pds.harvest.util.out.RefsDocWriterJson;
+import gov.nasa.pds.harvest.util.out.RefsDocWriterXml;
+import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
+import gov.nasa.pds.harvest.util.out.RegistryDocWriterJson;
+import gov.nasa.pds.harvest.util.out.RegistryDocWriterXml;
 
 
 public class CrawlerCommand
 {
     private Logger log;
     private Configuration cfg;
-    private DocWriter writer;
+    private RegistryDocWriter regWriter;
+    private RefsDocWriter refsWriter;
     
     private Counter counter;
     private BundleProcessor bundleProc;
@@ -46,7 +50,8 @@ public class CrawlerCommand
             processBundle(bCfg);
         }
         
-        writer.close();
+        regWriter.close();
+        refsWriter.close();
         
         printSummary();
     }
@@ -67,10 +72,12 @@ public class CrawlerCommand
         switch(outFormat)
         {
         case "xml":
-            writer = new SolrDocWriter(fOutDir);
+            regWriter = new RegistryDocWriterXml(fOutDir);
+            refsWriter = new RefsDocWriterXml(fOutDir);
             break;
         case "json":
-            writer = new EsDocWriter(fOutDir);
+            regWriter = new RegistryDocWriterJson(fOutDir);
+            refsWriter = new RefsDocWriterJson(fOutDir);
             break;
         default:
             throw new Exception("Invalid output format " + outFormat);                
@@ -87,9 +94,9 @@ public class CrawlerCommand
         
         // Processors
         counter = new Counter();
-        bundleProc = new BundleProcessor(cfg, writer, counter);
-        colProc = new CollectionProcessor(cfg, writer, counter);
-        prodProc = new ProductProcessor(cfg, writer, counter);
+        bundleProc = new BundleProcessor(cfg, regWriter, counter);
+        colProc = new CollectionProcessor(cfg, regWriter, refsWriter, counter);
+        prodProc = new ProductProcessor(cfg, regWriter, counter);
     }
 
 

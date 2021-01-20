@@ -1,13 +1,35 @@
 package gov.nasa.pds.harvest.util.out;
 
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Collection;
 import com.google.gson.stream.JsonWriter;
 
 
-public class EsDocUtils
+public class NDJsonDocUtils
 {
     private static final String REPLACE_DOT_WITH = "/";
-    
+
+
+    public static void writePK(Writer writer, String id) throws Exception
+    {
+        StringWriter sw = new StringWriter();
+        JsonWriter jw = new JsonWriter(sw);
+        
+        jw.beginObject();
+        
+        jw.name("index");
+        jw.beginObject();
+        jw.name("_id").value(id);
+        jw.endObject();
+        
+        jw.endObject();
+        
+        jw.close();
+        
+        writer.write(sw.getBuffer().toString());
+    }
+
     
     public static void writeField(JsonWriter jw, String key, String value) throws Exception
     {

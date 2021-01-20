@@ -15,7 +15,7 @@ import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
-import gov.nasa.pds.harvest.util.out.DocWriter;
+import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
@@ -27,7 +27,7 @@ public class ProductProcessor implements ProductCrawler.Callback
     private static final long MAX_XML_FILE_LENGTH = 10_000_000;
 
     private Configuration config;
-    private DocWriter writer;
+    private RegistryDocWriter writer;
     
     private DocumentBuilderFactory dbf;
     private BasicMetadataExtractor basicExtractor;
@@ -40,7 +40,7 @@ public class ProductProcessor implements ProductCrawler.Callback
     private Counter counter;
     
     
-    public ProductProcessor(Configuration config, DocWriter writer, Counter counter) throws Exception
+    public ProductProcessor(Configuration config, RegistryDocWriter writer, Counter counter) throws Exception
     {
         log = LogManager.getLogger(getClass());
         this.writer = writer;
