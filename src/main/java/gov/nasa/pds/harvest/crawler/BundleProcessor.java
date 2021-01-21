@@ -66,7 +66,7 @@ public class BundleProcessor
         
         basicExtractor = new BasicMetadataExtractor();
         bundleExtractor = new BundleMetadataExtractor();
-        refExtractor = new InternalReferenceExtractor(config.internalRefs);
+        refExtractor = new InternalReferenceExtractor();
         xpathExtractor = new XPathExtractor();
         autogenExtractor = new AutogenExtractor(config.autogen);
         fileDataExtractor = new FileMetadataExtractor(config);

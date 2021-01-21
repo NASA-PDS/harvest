@@ -10,6 +10,5 @@ public class Configuration
     
     public FileInfoCfg fileInfo;
     public XPathMapCfg xpathMaps;
-    public InternalRefCfg internalRefs;
     public AutogenCfg autogen;
 }

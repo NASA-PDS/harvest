@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.cfg.rd;
+package gov.nasa.pds.harvest.cfg.parser;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.cfg.rd;
+package gov.nasa.pds.harvest.cfg.parser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,38 +6,33 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
-import gov.nasa.pds.harvest.util.xml.XPathUtils;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
-public class Rbundles
+public class BundleConfigParser
 {
-    public static List<BundleCfg> parseBundles(Document doc) throws Exception
+    public static List<BundleCfg> parseBundles(Node root) throws Exception
     {
-        XPathUtils xpu = new XPathUtils();
-
-        int count = xpu.getNodeCount(doc, "/harvest/bundles");
+        int count = XmlDomUtils.countChildNodes(root, "bundles");
         if(count == 0) throw new Exception("Missing required element '/harvest/bundles'");
         if(count > 1) throw new Exception("Could not have more than one '/harvest/bundles' element");
 
-        NodeList nodes = xpu.getNodeList(doc, "/harvest/bundles/bundle");
-        if(nodes == null || nodes.getLength() == 0) 
+        Node bundlesNode = XmlDomUtils.getFirstChild(root, "bundles");
+        List<Node> bundleNodeList = XmlDomUtils.getChildNodes(bundlesNode, "bundle");
+        if(bundleNodeList.size() == 0) 
         {
             throw new Exception("Provide at least one '/harvest/bundles/bundle' element");
         }
 
         List<BundleCfg> list = new ArrayList<>();
         
-        for(int i = 0; i < nodes.getLength(); i++)
+        for(Node bundleNode: bundleNodeList)
         {
-            Node node = nodes.item(i);
-            BundleCfg cfg = parseBundle(node);
+            BundleCfg cfg = parseBundle(bundleNode);
             
             if(cfg.dir == null || cfg.dir.isEmpty())
             {
@@ -51,11 +46,19 @@ public class Rbundles
     }
 
     
-    private static BundleCfg parseBundle(Node bundle) throws Exception
+    private static BundleCfg parseBundle(Node bundleNode) throws Exception
     {
         BundleCfg cfg = new BundleCfg();
         
-        NamedNodeMap atts = XmlDomUtils.getAttributes(bundle);
+        parseBundleAttributes(bundleNode, cfg);
+
+        return cfg;
+    }
+    
+    
+    private static void parseBundleAttributes(Node bundleNode, BundleCfg cfg) throws Exception
+    {
+        NamedNodeMap atts = XmlDomUtils.getAttributes(bundleNode);
         for(int i = 0; i < atts.getLength(); i++)
         {
             Node attr = atts.item(i);
@@ -88,7 +91,5 @@ public class Rbundles
                         + "' in '/harvest/bundles/bundle' element");
             }
         }
-
-        return cfg;
     }
 }

@@ -65,7 +65,7 @@ public class CollectionProcessor
         
         basicExtractor = new BasicMetadataExtractor();
         collectionExtractor = new CollectionMetadataExtractor();
-        refExtractor = new InternalReferenceExtractor(config.internalRefs);
+        refExtractor = new InternalReferenceExtractor();
         xpathExtractor = new XPathExtractor();
         autogenExtractor = new AutogenExtractor(config.autogen);
         fileDataExtractor = new FileMetadataExtractor(config);

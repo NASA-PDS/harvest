@@ -7,7 +7,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import gov.nasa.pds.harvest.cfg.model.InternalRefCfg;
 import gov.nasa.pds.harvest.util.FieldMapSet;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
@@ -25,13 +24,11 @@ public class InternalReferenceExtractor
     
 //////////////////////////////////////////////////////////
 
-    private InternalRefCfg cfg;    
     private XPathExpression xIntRef;
     
     
-    public InternalReferenceExtractor(InternalRefCfg cfg) throws Exception
+    public InternalReferenceExtractor() throws Exception
     {
-        this.cfg = cfg;
         XPathFactory xpf = XPathFactory.newInstance();
         xIntRef = XPathUtils.compileXPath(xpf, "//Internal_Reference");
     }
@@ -39,8 +36,6 @@ public class InternalReferenceExtractor
     
     public void addRefs(FieldMapSet fmap, Document doc) throws Exception
     {
-        if(cfg == null) return;
-        
         NodeList nodes = XPathUtils.getNodeList(doc, xIntRef);        
         if(nodes == null || nodes.getLength() == 0) return;
 
@@ -62,13 +57,13 @@ public class InternalReferenceExtractor
         
         if(ref.lid != null)
         {
-            String key = cfg.prefix + "lid_" + type;
+            String key = "ref_lid_" + type;
             fmap.addValue(key, ref.lid);
         }
 
         if(ref.lidvid != null)
         {
-            String key = cfg.prefix + "lidvid_" + type;
+            String key = "ref_lidvid_" + type;
             fmap.addValue(key, ref.lidvid);
         }
     }
@@ -120,19 +115,15 @@ public class InternalReferenceExtractor
                 ref.lidvid = node.getTextContent().trim();
             }
         }
-        
-        if(cfg.lidvidConvert && ref.lidvid != null && ref.lid == null)
+
+        // Convert lidvid to lid
+        if(ref.lidvid != null && ref.lid == null)
         {
             int idx = ref.lidvid.indexOf("::");
             if(idx > 0)
             {
                 ref.lid = ref.lidvid.substring(0, idx);
             }
-        }
-        
-        if(!cfg.lidvidKeep) 
-        {
-            ref.lidvid = null;
         }
         
         return ref;

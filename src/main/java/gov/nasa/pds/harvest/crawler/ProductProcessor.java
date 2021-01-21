@@ -50,7 +50,7 @@ public class ProductProcessor implements ProductCrawler.Callback
         dbf.setNamespaceAware(false);
         
         basicExtractor = new BasicMetadataExtractor();
-        refExtractor = new InternalReferenceExtractor(config.internalRefs);
+        refExtractor = new InternalReferenceExtractor();
         autogenExtractor = new AutogenExtractor(config.autogen);
         fileDataExtractor = new FileMetadataExtractor(config);
         xpathExtractor = new XPathExtractor();
