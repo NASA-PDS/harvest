@@ -8,6 +8,7 @@ import java.io.StringWriter;
 
 import com.google.gson.stream.JsonWriter;
 import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
 public class RefsDocWriterJson extends BaseRefsDocWriter
@@ -48,6 +49,8 @@ public class RefsDocWriterJson extends BaseRefsDocWriter
             NDJsonDocUtils.writeField(jw, "collection_lid", meta.lid);            
             NDJsonDocUtils.writeField(jw, "product_lidvid", lidvidList);
             NDJsonDocUtils.writeField(jw, "product_lid", lidList);
+            // Transaction ID
+            NDJsonDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());
             jw.endObject();
             
             jw.close();

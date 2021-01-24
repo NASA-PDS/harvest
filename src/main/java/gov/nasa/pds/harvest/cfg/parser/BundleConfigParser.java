@@ -49,9 +49,44 @@ public class BundleConfigParser
     private static BundleCfg parseBundle(Node bundleNode) throws Exception
     {
         BundleCfg cfg = new BundleCfg();
-        
         parseBundleAttributes(bundleNode, cfg);
 
+        // Collection lids
+        List<Node> collectionNodeList = XmlDomUtils.getChildNodes(bundleNode, "collection");
+        if(!collectionNodeList.isEmpty())
+        {
+            Set<String> lids = new TreeSet<>();
+
+            for(Node node: collectionNodeList)
+            {
+                String lid = XmlDomUtils.getAttribute(node, "lid");
+                if(lid != null) lids.add(lid);
+            }
+            
+            if(!lids.isEmpty())
+            {
+                cfg.collectionLids = lids;
+            }
+        }
+        
+        // Product dirs
+        List<Node> productNodeList = XmlDomUtils.getChildNodes(bundleNode, "product");
+        if(!productNodeList.isEmpty())
+        {
+            Set<String> dirs = new TreeSet<>();
+            
+            for(Node node: productNodeList)
+            {
+                String dir = XmlDomUtils.getAttribute(node, "dir");
+                if(dir != null) dirs.add(dir);
+            }
+
+            if(!dirs.isEmpty())
+            {
+                cfg.productDirs = dirs;
+            }
+        }
+        
         return cfg;
     }
     

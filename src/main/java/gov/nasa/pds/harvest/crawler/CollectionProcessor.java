@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
+import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
@@ -83,7 +84,7 @@ public class CollectionProcessor
     }
 
     
-    public void process(File bundleDir, LidVidMap colToBundleMap) throws Exception
+    public void process(File bundleDir, BundleCfg bCfg, LidVidMap colToBundleMap) throws Exception
     {
         log.info("Processing collections...");
         
@@ -91,12 +92,12 @@ public class CollectionProcessor
         
         while(it.hasNext())
         {
-            onCollection(it.next().toFile(), colToBundleMap);
+            onCollection(it.next().toFile(), bCfg, colToBundleMap);
         }
     }
 
 
-    private void onCollection(File file, LidVidMap colToBundleMap) throws Exception
+    private void onCollection(File file, BundleCfg bCfg, LidVidMap colToBundleMap) throws Exception
     {
         // Skip very large files
         if(file.length() > MAX_XML_FILE_LENGTH)
@@ -111,14 +112,18 @@ public class CollectionProcessor
         // Ignore non-collection XMLs
         if(!"Product_Collection".equals(rootElement)) return;
         
-        processMetadata(file, doc, colToBundleMap);
+        processMetadata(file, doc, bCfg, colToBundleMap);
     }
     
     
-    private void processMetadata(File file, Document doc, LidVidMap colToBundleMap) throws Exception
+    private void processMetadata(File file, Document doc, 
+            BundleCfg bCfg, LidVidMap colToBundleMap) throws Exception
     {
         Metadata meta = basicExtractor.extract(doc);
 
+        // Collection filter
+        if(bCfg.collectionLids != null && !bCfg.collectionLids.contains(meta.lid)) return;
+        
         // Bundles don't have any references to this collection
         if(colToBundleMap.getLidVid(meta.lidvid) == null && colToBundleMap.getLid(meta.lid) == null)
         {
@@ -128,7 +133,6 @@ public class CollectionProcessor
         log.info("Processing collection " + file.getAbsolutePath());
         
         refExtractor.addRefs(meta.intRefs, doc);
-        addBundleRefs(meta, colToBundleMap);
         xpathExtractor.extract(doc, meta.fields);
         
         if(config.autogen != null)
@@ -157,33 +161,4 @@ public class CollectionProcessor
         }
     }
 
-    
-    private void addBundleRefs(Metadata meta, LidVidMap colToBundleMap)
-    {
-        String bundleLidVid = colToBundleMap.getLidVid(meta.lidvid);
-        if(bundleLidVid != null)
-        {
-            String key = "ref_lidvid_bundle";
-            meta.intRefs.addValue(key, bundleLidVid);
-        }
-
-        String bundleLid = colToBundleMap.getLid(meta.lid);
-        if(bundleLid != null)
-        {
-            String key = "ref_lid_bundle";
-            meta.intRefs.addValue(key, bundleLid);
-        }
-        
-        // Convert lidvid to lid
-        if(bundleLidVid != null && bundleLid == null)
-        {
-            int idx = bundleLidVid.indexOf("::");
-            if(idx > 0)
-            {
-                String lid = bundleLidVid.substring(0, idx);
-                String key = "ref_lid_bundle";
-                meta.intRefs.addValue(key, lid);
-            }
-        }
-    }
 }

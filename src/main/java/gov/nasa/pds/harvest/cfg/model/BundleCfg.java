@@ -6,4 +6,7 @@ public class BundleCfg
 {
     public String dir;
     public Set<String> versions;
+    
+    public Set<String> collectionLids;
+    public Set<String> productDirs;
 }

@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
 public class RefsDocWriterXml extends BaseRefsDocWriter
@@ -40,9 +41,11 @@ public class RefsDocWriterXml extends BaseRefsDocWriter
             writer.append("<doc>\n");
             XmlDocUtils.writeField(writer, "_id", id);
             XmlDocUtils.writeField(writer, "collection_lidvid", meta.lidvid);
-            XmlDocUtils.writeField(writer, "collection_vid", meta.lid);
+            XmlDocUtils.writeField(writer, "collection_lid", meta.lid);
             XmlDocUtils.writeField(writer, "product_lidvid", lidvidList);
-            XmlDocUtils.writeField(writer, "product_vid", lidList);
+            XmlDocUtils.writeField(writer, "product_lid", lidList);
+            // Transaction ID
+            XmlDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());
             writer.append("</doc>\n");
 
             if(count < BATCH_SIZE) break;
