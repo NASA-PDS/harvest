@@ -116,10 +116,10 @@ public class CrawlerCommand
         LidVidMap colToBundleMap = bundleProc.getCollectionToBundleMap();
         
         // Process collections
-        colProc.process(rootDir, bCfg, colToBundleMap);
+        colProc.process(bCfg, colToBundleMap);
         
         // Process products
-        prodProc.process(rootDir);
+        prodProc.process(bCfg);
     }
     
     

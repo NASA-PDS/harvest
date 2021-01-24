@@ -84,10 +84,11 @@ public class CollectionProcessor
     }
 
     
-    public void process(File bundleDir, BundleCfg bCfg, LidVidMap colToBundleMap) throws Exception
+    public void process(BundleCfg bCfg, LidVidMap colToBundleMap) throws Exception
     {
         log.info("Processing collections...");
         
+        File bundleDir = new File(bCfg.dir);
         Iterator<Path> it = Files.find(bundleDir.toPath(), 2, new CollectionMatcher()).iterator();
         
         while(it.hasNext())

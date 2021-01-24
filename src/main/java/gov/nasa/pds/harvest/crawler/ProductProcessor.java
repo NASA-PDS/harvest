@@ -1,6 +1,12 @@
 package gov.nasa.pds.harvest.crawler;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.function.BiPredicate;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -8,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
+import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
@@ -19,7 +26,7 @@ import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
-public class ProductProcessor implements ProductCrawler.Callback
+public class ProductProcessor
 {
     private Logger log;
 
@@ -36,7 +43,6 @@ public class ProductProcessor implements ProductCrawler.Callback
     private FileMetadataExtractor fileDataExtractor;
     private XPathExtractor xpathExtractor;
     
-    private ProductCrawler crawler;
     private Counter counter;
     
     
@@ -56,15 +62,59 @@ public class ProductProcessor implements ProductCrawler.Callback
         xpathExtractor = new XPathExtractor();
         
         this.config = config;
-        
-        crawler = new ProductCrawler(config.filters);
     }
 
     
-    public void process(File bundleDir) throws Exception
+    private static class FileMatcher implements BiPredicate<Path, BasicFileAttributes>
+    {
+        private Set<String> includeDirs;
+        private int startIndex;
+        
+        
+        public FileMatcher(BundleCfg bCfg)
+        {
+            this.includeDirs = bCfg.productDirs;
+        
+            File rootDir = new File(bCfg.dir);
+            String rootPath = rootDir.toPath().toUri().toString();
+            startIndex = rootPath.length();
+        }
+
+        
+        @Override
+        public boolean test(Path path, BasicFileAttributes attrs)
+        {
+            String fileName = path.getFileName().toString().toLowerCase();
+            if(!fileName.endsWith(".xml")) return false;
+
+            if(includeDirs == null) return true;
+            String fileDir = path.getParent().toUri().toString().toLowerCase();
+            
+            for(String dir: includeDirs)
+            {
+                // Search the relative path only
+                if(fileDir.indexOf(dir, startIndex) >= 0) return true;
+            }
+            
+            return false;
+        }
+    }
+
+    
+    public void process(BundleCfg bCfg) throws Exception
     {
         log.info("Processing products...");
-        crawler.crawl(bundleDir, this);
+
+        FileMatcher matcher = new FileMatcher(bCfg);
+        
+        File bundleDir = new File(bCfg.dir);
+        Iterator<Path> it = Files.find(bundleDir.toPath(), 20, matcher).iterator();
+        
+        while(it.hasNext())
+        {
+            onFile(it.next().toFile());
+        }
+
     }
     
     
