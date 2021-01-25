@@ -38,7 +38,7 @@ public class CollectionProcessor
 
     private Configuration config;
     private RegistryDocWriter writer;
-    private RefsDocWriter refsWriter;
+    private CollectionInventoryProcessor invProc;
     
     private DocumentBuilderFactory dbf;
     private BasicMetadataExtractor basicExtractor;
@@ -56,7 +56,7 @@ public class CollectionProcessor
     {
         this.config = config;
         this.writer = writer;
-        this.refsWriter = refsWriter;
+        this.invProc = new CollectionInventoryProcessor(refsWriter);
         this.counter = counter;
         
         log = LogManager.getLogger(this.getClass());
@@ -158,7 +158,7 @@ public class CollectionProcessor
         for(String fileName: fileNames)
         {
             File invFile = new File(collectionFile.getParentFile(), fileName);
-            refsWriter.writeCollectionInventory(meta, invFile);
+            invProc.writeCollectionInventory(meta, invFile);
         }
     }
 

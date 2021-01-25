@@ -1,18 +1,22 @@
 package gov.nasa.pds.harvest.util.out;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.StringWriter;
+import java.io.Writer;
+import java.util.List;
 
 import com.google.gson.stream.JsonWriter;
 import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.harvest.util.LidVidUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
-public class RefsDocWriterJson extends BaseRefsDocWriter
+public class RefsDocWriterJson implements RefsDocWriter
 {
+    private Writer writer;
+
+    
     public RefsDocWriterJson(File outDir) throws Exception
     {
 
@@ -22,46 +26,43 @@ public class RefsDocWriterJson extends BaseRefsDocWriter
     
     
     @Override
-    public void writeCollectionInventory(Metadata meta, File inventoryFile) throws Exception
+    public void writeBatch(Metadata meta, RefsBatch batch) throws Exception
     {
-        BufferedReader rd = new BufferedReader(new FileReader(inventoryFile));
-
-        int batchNum = 0;
+        String id = meta.lidvid + "::" + batch.batchNum;
         
-        while(true)
+        // First line: primary key 
+        NDJsonDocUtils.writePK(writer, id);
+        writer.write("\n");
+
+        // Second line: main document
+        StringWriter sw = new StringWriter();
+        JsonWriter jw = new JsonWriter(sw);
+        
+        jw.beginObject();
+        // Collection ids
+        NDJsonDocUtils.writeField(jw, "collection_lidvid", meta.lidvid);
+        NDJsonDocUtils.writeField(jw, "collection_lid", meta.lid);            
+        
+        // LidVid refs
+        NDJsonDocUtils.writeField(jw, "product_lidvid", batch.lidvidList);
+        // Convert lidvids to lids
+        if(batch.lidvidList != null)
         {
-            int count = getNextBatch(rd);
-            if(count == 0) break;
-            
-            batchNum++;
-            String id = meta.lidvid + "::" + batchNum;
-            
-            // First line: primary key 
-            NDJsonDocUtils.writePK(writer, id);
-            writer.write("\n");
-
-            // Second line: main document
-            StringWriter sw = new StringWriter();
-            JsonWriter jw = new JsonWriter(sw);
-            
-            jw.beginObject();
-            NDJsonDocUtils.writeField(jw, "collection_lidvid", meta.lidvid);
-            NDJsonDocUtils.writeField(jw, "collection_lid", meta.lid);            
-            NDJsonDocUtils.writeField(jw, "product_lidvid", lidvidList);
-            NDJsonDocUtils.writeField(jw, "product_lid", lidList);
-            // Transaction ID
-            NDJsonDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());
-            jw.endObject();
-            
-            jw.close();
-            
-            writer.write(sw.getBuffer().toString());
-            writer.write("\n");
-
-            if(count < BATCH_SIZE) break;
+            List<String> lids = LidVidUtils.lidvidToLid(batch.lidvidList);
+            NDJsonDocUtils.writeField(jw, "product_lid", lids);
         }
         
-        rd.close();
+        // Lid refs
+        NDJsonDocUtils.writeField(jw, "product_lid", batch.lidList);
+        
+        // Transaction ID
+        NDJsonDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());
+        jw.endObject();
+        
+        jw.close();
+        
+        writer.write(sw.getBuffer().toString());
+        writer.write("\n");
     }
     
     

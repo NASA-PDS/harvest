@@ -1,17 +1,20 @@
 package gov.nasa.pds.harvest.util.out;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.Writer;
+import java.util.List;
 
 import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.harvest.util.LidVidUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
-public class RefsDocWriterXml extends BaseRefsDocWriter
+public class RefsDocWriterXml implements RefsDocWriter
 {
+    private Writer writer;
 
+    
     public RefsDocWriterXml(File outDir) throws Exception
     {
         super();
@@ -24,34 +27,33 @@ public class RefsDocWriterXml extends BaseRefsDocWriter
 
 
     @Override
-    public void writeCollectionInventory(Metadata meta, File inventoryFile) throws Exception
+    public void writeBatch(Metadata meta, RefsBatch batch) throws Exception
     {
-        BufferedReader rd = new BufferedReader(new FileReader(inventoryFile));
+        String id = meta.lidvid + "::" + batch.batchNum;
         
-        int batchNum = 0;
+        writer.append("<doc>\n");
         
-        while(true)
+        // Collection ids
+        XmlDocUtils.writeField(writer, "_id", id);
+        XmlDocUtils.writeField(writer, "collection_lidvid", meta.lidvid);
+        XmlDocUtils.writeField(writer, "collection_lid", meta.lid);
+        
+        // LidVid refs
+        XmlDocUtils.writeField(writer, "product_lidvid", batch.lidvidList);
+        // Convert lidvids to lids
+        if(batch.lidvidList != null)
         {
-            int count = getNextBatch(rd);
-            if(count == 0) break;
-            
-            batchNum++;
-            String id = meta.lidvid + "::" + batchNum;
-            
-            writer.append("<doc>\n");
-            XmlDocUtils.writeField(writer, "_id", id);
-            XmlDocUtils.writeField(writer, "collection_lidvid", meta.lidvid);
-            XmlDocUtils.writeField(writer, "collection_lid", meta.lid);
-            XmlDocUtils.writeField(writer, "product_lidvid", lidvidList);
-            XmlDocUtils.writeField(writer, "product_lid", lidList);
-            // Transaction ID
-            XmlDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());
-            writer.append("</doc>\n");
-
-            if(count < BATCH_SIZE) break;
+            List<String> lids = LidVidUtils.lidvidToLid(batch.lidvidList);
+            XmlDocUtils.writeField(writer, "product_lid", lids);
         }
         
-        rd.close();
+        // Lid refs
+        XmlDocUtils.writeField(writer, "product_lid", batch.lidList);
+        
+        // Transaction ID
+        XmlDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());
+        
+        writer.append("</doc>\n");
     }
 
 
@@ -61,5 +63,4 @@ public class RefsDocWriterXml extends BaseRefsDocWriter
         writer.append("</add>\n");
         writer.close();
     }
-
 }
