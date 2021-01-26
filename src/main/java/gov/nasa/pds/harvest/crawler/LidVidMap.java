@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.meta;
+package gov.nasa.pds.harvest.crawler;
 
 import java.util.Map;
 import java.util.TreeMap;

@@ -1,11 +1,12 @@
 package gov.nasa.pds.harvest.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class LidVidUtils
 {
-    public static List<String> lidvidToLid(List<String> lidvids)
+    public static List<String> lidvidToLid(Collection<String> lidvids)
     {
         List<String> lids = new ArrayList<>();
         

@@ -7,6 +7,8 @@ import java.io.Writer;
 import java.util.List;
 
 import com.google.gson.stream.JsonWriter;
+
+import gov.nasa.pds.harvest.crawler.ProdRefsBatch;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.LidVidUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
@@ -26,7 +28,7 @@ public class RefsDocWriterJson implements RefsDocWriter
     
     
     @Override
-    public void writeBatch(Metadata meta, RefsBatch batch) throws Exception
+    public void writeBatch(Metadata meta, ProdRefsBatch batch) throws Exception
     {
         String id = meta.lidvid + "::" + batch.batchNum;
         
@@ -44,16 +46,13 @@ public class RefsDocWriterJson implements RefsDocWriter
         NDJsonDocUtils.writeField(jw, "collection_lid", meta.lid);            
         
         // LidVid refs
-        NDJsonDocUtils.writeField(jw, "product_lidvid", batch.lidvidList);
+        NDJsonDocUtils.writeField(jw, "product_lidvid", batch.getLidVids());
         // Convert lidvids to lids
-        if(batch.lidvidList != null)
-        {
-            List<String> lids = LidVidUtils.lidvidToLid(batch.lidvidList);
-            NDJsonDocUtils.writeField(jw, "product_lid", lids);
-        }
+        List<String> lids = LidVidUtils.lidvidToLid(batch.getLidVids());
+        NDJsonDocUtils.writeField(jw, "product_lid", lids);
         
         // Lid refs
-        NDJsonDocUtils.writeField(jw, "product_lid", batch.lidList);
+        NDJsonDocUtils.writeField(jw, "product_lid", batch.getLids());
         
         // Transaction ID
         NDJsonDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());

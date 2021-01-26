@@ -143,7 +143,6 @@ public class ProductProcessor
             if(config.filters.prodClassExclude.contains(rootElement)) return;
         }
 
-        log.info("Processing product " + file.getAbsolutePath());
         processMetadata(file, doc);
     }
     
@@ -152,7 +151,13 @@ public class ProductProcessor
     {
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(doc);
+
+        // Only process primary products from collection inventory
+        ProdRefsCache cache = ProdRefsCache.getInstance();
+        if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) return;
         
+        log.info("Processing product " + file.getAbsolutePath());
+
         // Internal references
         refExtractor.addRefs(meta.intRefs, doc);
         
