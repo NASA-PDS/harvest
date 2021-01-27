@@ -12,7 +12,7 @@ public class CollectionInventoryProcessor
 {
     protected Logger log;
     
-    private int BATCH_SIZE = 1000;
+    private int BATCH_SIZE = 500;
     private ProdRefsBatch batch = new ProdRefsBatch();
     
     private RefsDocWriter writer;
@@ -36,7 +36,7 @@ public class CollectionInventoryProcessor
             if(count == 0) break;
             
             // Update cache. Only products in cache will be processed.
-            ProdRefsCache cache = ProdRefsCache.getInstance();
+            LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
             cache.addLidVids(batch.getLidVids());
             cache.addLids(batch.getLids());
             

@@ -109,14 +109,15 @@ public class CrawlerCommand
         }
         
         log.info("Processing bundle directory " + rootDir.getAbsolutePath());
+
+        // Clear reference cache
+        RefsCache.getInstance().getCollectionRefsCache().clear();
+        RefsCache.getInstance().getProdRefsCache().clear();
         
         // Process bundles
         bundleProc.process(bCfg);
-        LidVidMap colToBundleMap = bundleProc.getCollectionToBundleMap();
-        
         // Process collections
-        colProc.process(bCfg, colToBundleMap);
-        
+        colProc.process(bCfg);
         // Process products
         prodProc.process(bCfg);
     }

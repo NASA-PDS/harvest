@@ -83,7 +83,7 @@ public class CollectionProcessor
     }
 
     
-    public void process(BundleCfg bCfg, LidVidMap colToBundleMap) throws Exception
+    public void process(BundleCfg bCfg) throws Exception
     {
         log.info("Processing collections...");
         
@@ -92,12 +92,12 @@ public class CollectionProcessor
         
         while(it.hasNext())
         {
-            onCollection(it.next().toFile(), bCfg, colToBundleMap);
+            onCollection(it.next().toFile(), bCfg);
         }
     }
 
 
-    private void onCollection(File file, BundleCfg bCfg, LidVidMap colToBundleMap) throws Exception
+    private void onCollection(File file, BundleCfg bCfg) throws Exception
     {
         // Skip very large files
         if(file.length() > MAX_XML_FILE_LENGTH)
@@ -112,23 +112,21 @@ public class CollectionProcessor
         // Ignore non-collection XMLs
         if(!"Product_Collection".equals(rootElement)) return;
         
-        processMetadata(file, doc, bCfg, colToBundleMap);
+        processMetadata(file, doc, bCfg);
     }
     
     
-    private void processMetadata(File file, Document doc, 
-            BundleCfg bCfg, LidVidMap colToBundleMap) throws Exception
+    private void processMetadata(File file, Document doc, BundleCfg bCfg) throws Exception
     {
         Metadata meta = basicExtractor.extract(doc);
 
         // Collection filter
         if(bCfg.collectionLids != null && !bCfg.collectionLids.contains(meta.lid)) return;
-        
-        // Bundles don't have any references to this collection
-        if(colToBundleMap.getLidVid(meta.lidvid) == null && colToBundleMap.getLid(meta.lid) == null)
-        {
-            return;
-        }
+        if(bCfg.collectionLidVids != null && !bCfg.collectionLidVids.contains(meta.lidvid)) return;
+
+        // Ignore collections not listed in bundles
+        LidVidCache cache = RefsCache.getInstance().getCollectionRefsCache();
+        if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) return;
         
         log.info("Processing collection " + file.getAbsolutePath());
         

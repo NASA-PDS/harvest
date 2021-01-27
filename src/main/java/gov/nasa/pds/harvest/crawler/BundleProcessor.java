@@ -48,7 +48,6 @@ public class BundleProcessor
     private int bundleCount;
     private Counter counter;
 
-    private LidVidMap colToBundleMap;
     private BundleCfg bundleCfg;
     
     
@@ -69,16 +68,8 @@ public class BundleProcessor
         xpathExtractor = new XPathExtractor();
         autogenExtractor = new AutogenExtractor(config.autogen);
         fileDataExtractor = new FileMetadataExtractor(config);
-        
-        colToBundleMap = new LidVidMap();
     }
     
-    
-    public LidVidMap getCollectionToBundleMap()
-    {
-        return colToBundleMap;
-    }
-
     
     private static class BundleMatcher implements BiPredicate<Path, BasicFileAttributes>
     {
@@ -94,7 +85,6 @@ public class BundleProcessor
     public void process(BundleCfg bCfg) throws Exception
     {
         this.bundleCfg = bCfg;
-        colToBundleMap.clear();
         
         File bundleDir = new File(bCfg.dir);
         Iterator<Path> it = Files.find(bundleDir.toPath(), 1, new BundleMatcher()).iterator();
@@ -161,6 +151,8 @@ public class BundleProcessor
         for(BundleMetadataExtractor.BundleMemberEntry bme: bmes)
         {
             if(!bme.isPrimary) continue;
+
+            LidVidCache cache = RefsCache.getInstance().getCollectionRefsCache();
             
             String shortRefType = getShortRefType(bme.type);
             
@@ -168,16 +160,14 @@ public class BundleProcessor
             {
                 String key = "ref_lidvid_" + shortRefType;
                 meta.intRefs.addValue(key, bme.lidvid);
-
-                colToBundleMap.mapLidVids(bme.lidvid, meta.lidvid);
+                cache.addLidVid(bme.lidvid);
             }
             
             if(bme.lid != null)
             {
                 String key = "ref_lid_" + shortRefType;
                 meta.intRefs.addValue(key, bme.lid);
-
-                colToBundleMap.mapLids(bme.lid, meta.lid);
+                cache.addLid(bme.lid);
             }
             
             // Convert lidvid to lid
@@ -189,8 +179,6 @@ public class BundleProcessor
                     String lid = bme.lidvid.substring(0, idx);
                     String key = "ref_lid_" + shortRefType;
                     meta.intRefs.addValue(key, lid);
-                    
-                    // !!! NOTE: Don't add this converted lid to colToBundleMap !!!
                 }
             }
         }

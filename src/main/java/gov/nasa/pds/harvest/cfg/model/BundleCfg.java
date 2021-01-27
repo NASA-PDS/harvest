@@ -8,5 +8,7 @@ public class BundleCfg
     public Set<String> versions;
     
     public Set<String> collectionLids;
+    public Set<String> collectionLidVids;
+    
     public Set<String> productDirs;
 }

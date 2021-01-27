@@ -56,16 +56,25 @@ public class BundleConfigParser
         if(!collectionNodeList.isEmpty())
         {
             Set<String> lids = new TreeSet<>();
+            Set<String> lidvids = new TreeSet<>();
 
             for(Node node: collectionNodeList)
             {
                 String lid = XmlDomUtils.getAttribute(node, "lid");
                 if(lid != null) lids.add(lid);
+
+                String lidvid = XmlDomUtils.getAttribute(node, "lidvid");
+                if(lidvid != null) lidvids.add(lidvid);
             }
             
             if(!lids.isEmpty())
             {
                 cfg.collectionLids = lids;
+            }
+
+            if(!lidvids.isEmpty())
+            {
+                cfg.collectionLidVids = lidvids;
             }
         }
         

@@ -114,7 +114,6 @@ public class ProductProcessor
         {
             onFile(it.next().toFile());
         }
-
     }
     
     
@@ -153,7 +152,7 @@ public class ProductProcessor
         Metadata meta = basicExtractor.extract(doc);
 
         // Only process primary products from collection inventory
-        ProdRefsCache cache = ProdRefsCache.getInstance();
+        LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) return;
         
         log.info("Processing product " + file.getAbsolutePath());

@@ -4,27 +4,18 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-
-public class ProdRefsCache
+public class LidVidCache
 {
-    private static ProdRefsCache instance = new ProdRefsCache();
-    
     private Set<String> lidvids;
     private Set<String> lids;
-    
-    
-    private ProdRefsCache()
+
+
+    public LidVidCache()
     {
         lidvids = new TreeSet<>();
         lids = new TreeSet<>();
     }
 
-    
-    public static ProdRefsCache getInstance()
-    {
-        return instance;
-    }
-    
     
     public void clear()
     {
