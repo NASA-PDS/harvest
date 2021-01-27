@@ -64,6 +64,7 @@
       <outputDirectory>bin</outputDirectory>
       <includes>
         <include>harvest.bat</include>
+        <include>harvest</include>
       </includes>
       <fileMode>775</fileMode>
       <lineEnding>dos</lineEnding>
