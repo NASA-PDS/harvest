@@ -10,8 +10,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.crawler.CrawlerCommand;
-import gov.nasa.pds.harvest.log.Log4jConfigurator;
 import gov.nasa.pds.harvest.util.ExceptionUtils;
+import gov.nasa.pds.harvest.util.log.Log4jConfigurator;
 
 
 public class HarvestCli

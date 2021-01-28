@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.cfg.rd;
+package gov.nasa.pds.harvest.cfg.parser;
 
 import org.w3c.dom.Document;
 

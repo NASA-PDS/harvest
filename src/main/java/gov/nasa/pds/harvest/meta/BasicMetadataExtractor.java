@@ -36,13 +36,26 @@ public class BasicMetadataExtractor
     public Metadata extract(Document doc) throws Exception
     {
         Metadata md = new Metadata();        
-        
-        // Basic info
-        md.lid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xLid));
-        md.vid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xVid));
-        md.title = StringUtils.normalizeSpace(XPathUtils.getStringValue(doc, xTitle));
         md.prodClass = doc.getDocumentElement().getNodeName();
         
+        // LID/VID
+        md.lid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xLid));
+        if(md.lid == null || md.lid.isEmpty())
+        {
+            throw new Exception("Missing logical identifier");
+        }
+
+        md.vid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xVid));
+        if(md.vid == null || md.vid.isEmpty())
+        {
+            throw new Exception("Missing version id");
+        }
+
+        md.lidvid = md.lid + "::" + md.vid;
+        
+        // Title
+        md.title = StringUtils.normalizeSpace(XPathUtils.getStringValue(doc, xTitle));
+
         // Files
         if(md.prodClass.equals("Product_Document"))
         {

@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import gov.nasa.pds.harvest.meta.Metadata;
-import gov.nasa.pds.harvest.util.DocWriter;
 import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
@@ -19,7 +18,7 @@ import gov.nasa.pds.harvest.util.PackageIdGenerator;
  *  
  * @author karpenko
  */
-public class SolrDocWriter implements DocWriter
+public class RegistryDocWriterXml implements RegistryDocWriter
 {
     private Writer writer;
     
@@ -34,11 +33,11 @@ public class SolrDocWriter implements DocWriter
      * @param outDir output directory
      * @throws Exception
      */
-    public SolrDocWriter(File outDir) throws Exception
+    public RegistryDocWriterXml(File outDir) throws Exception
     {
         this.outDir = outDir;
         
-        File file = new File(outDir, "solr-docs.xml");        
+        File file = new File(outDir, "registry-docs.xml");        
         writer = new FileWriter(file);
         
         writer.append("<add>\n");
@@ -101,15 +100,15 @@ public class SolrDocWriter implements DocWriter
         writer.append("<doc>\n");
 
         // Basic info
-        String lidvid = meta.lid + "::" + meta.vid;        
-        SolrDocUtils.writeField(writer, "lid", meta.lid);
-        SolrDocUtils.writeField(writer, "vid", meta.vid);
-        SolrDocUtils.writeField(writer, "lidvid", lidvid);
-        SolrDocUtils.writeField(writer, "title", meta.title);
-        SolrDocUtils.writeField(writer, "product_class", meta.prodClass);
+        String lidvid = meta.lid + "::" + meta.vid;
+        XmlDocUtils.writeField(writer, "lid", meta.lid);
+        XmlDocUtils.writeField(writer, "vid", meta.vid);
+        XmlDocUtils.writeField(writer, "lidvid", lidvid);
+        XmlDocUtils.writeField(writer, "title", meta.title);
+        XmlDocUtils.writeField(writer, "product_class", meta.prodClass);
         
         // Transaction ID
-        SolrDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());
+        XmlDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());
         
         // References
         write(meta.intRefs);
@@ -136,7 +135,7 @@ public class SolrDocWriter implements DocWriter
             Collection<String> values = fmap.getValues(key);
             for(String value: values)
             {
-                SolrDocUtils.writeField(writer, key, value);
+                XmlDocUtils.writeField(writer, key, value);
             }
         }
     }

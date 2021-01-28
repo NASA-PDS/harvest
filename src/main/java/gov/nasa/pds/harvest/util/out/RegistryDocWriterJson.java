@@ -10,7 +10,6 @@ import java.util.TreeSet;
 import com.google.gson.stream.JsonWriter;
 
 import gov.nasa.pds.harvest.meta.Metadata;
-import gov.nasa.pds.harvest.util.DocWriter;
 import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
@@ -31,7 +30,7 @@ import gov.nasa.pds.harvest.util.PackageIdGenerator;
  * 
  * @author karpenko
  */
-public class EsDocWriter implements DocWriter
+public class RegistryDocWriterJson implements RegistryDocWriter
 {
     private FileWriter writer;    
     
@@ -45,11 +44,11 @@ public class EsDocWriter implements DocWriter
      * @param outDir output directory
      * @throws Exception
      */
-    public EsDocWriter(File outDir) throws Exception
+    public RegistryDocWriterJson(File outDir) throws Exception
     {
         this.outDir = outDir;
         
-        File file = new File(outDir, "es-docs.json");        
+        File file = new File(outDir, "registry-docs.json");        
         writer = new FileWriter(file);
     }
 
@@ -65,8 +64,8 @@ public class EsDocWriter implements DocWriter
     {
         // First line: primary key 
         String lidvid = meta.lid + "::" + meta.vid;
-        writePK(lidvid);
-        newLine();
+        NDJsonDocUtils.writePK(writer, lidvid);
+        writer.write("\n");
         
         // Second line: main document
 
@@ -76,14 +75,14 @@ public class EsDocWriter implements DocWriter
         jw.beginObject();
 
         // Basic info
-        EsDocUtils.writeField(jw, "lid", meta.lid);
-        EsDocUtils.writeField(jw, "vid", meta.vid);
-        EsDocUtils.writeField(jw, "lidvid", lidvid);
-        EsDocUtils.writeField(jw, "title", meta.title);
-        EsDocUtils.writeField(jw, "product_class", meta.prodClass);
+        NDJsonDocUtils.writeField(jw, "lid", meta.lid);
+        NDJsonDocUtils.writeField(jw, "vid", meta.vid);
+        NDJsonDocUtils.writeField(jw, "lidvid", lidvid);
+        NDJsonDocUtils.writeField(jw, "title", meta.title);
+        NDJsonDocUtils.writeField(jw, "product_class", meta.prodClass);
 
         // Transaction ID
-        EsDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());
+        NDJsonDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());
         
         // References
         write(jw, meta.intRefs);
@@ -96,7 +95,7 @@ public class EsDocWriter implements DocWriter
         jw.close();
         
         writer.write(sw.getBuffer().toString());
-        newLine();
+        writer.write("\n");
         
         // Build a list of all fields in all documents
         if(writeFields)
@@ -141,38 +140,12 @@ public class EsDocWriter implements DocWriter
         
         for(String field: allFields)
         {
-            field = EsDocUtils.toEsFieldName(field);
+            field = NDJsonDocUtils.toEsFieldName(field);
             wr.write(field);
             wr.write("\n");
         }
         
         wr.close();        
-    }
-    
-    
-    private void newLine() throws Exception
-    {
-        writer.write("\n");
-    }
-
-    
-    private void writePK(String id) throws Exception
-    {
-        StringWriter sw = new StringWriter();
-        JsonWriter jw = new JsonWriter(sw);
-        
-        jw.beginObject();
-        
-        jw.name("index");
-        jw.beginObject();
-        jw.name("_id").value(id);
-        jw.endObject();
-        
-        jw.endObject();
-        
-        jw.close();
-        
-        writer.write(sw.getBuffer().toString());
     }
     
     
@@ -183,7 +156,7 @@ public class EsDocWriter implements DocWriter
         for(String key: fmap.getNames())
         {
             Collection<String> values = fmap.getValues(key);
-            EsDocUtils.writeField(jw, key, values);
+            NDJsonDocUtils.writeField(jw, key, values);
         }
     }
 

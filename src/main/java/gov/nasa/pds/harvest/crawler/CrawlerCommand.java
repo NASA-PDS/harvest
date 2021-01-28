@@ -7,19 +7,31 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cfg.ConfigReader;
+import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
-import gov.nasa.pds.harvest.util.DocWriter;
-import gov.nasa.pds.harvest.util.LogUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
-import gov.nasa.pds.harvest.util.out.EsDocWriter;
-import gov.nasa.pds.harvest.util.out.SolrDocWriter;
+import gov.nasa.pds.harvest.util.log.LogUtils;
+import gov.nasa.pds.harvest.util.out.RefsDocWriter;
+import gov.nasa.pds.harvest.util.out.RefsDocWriterJson;
+import gov.nasa.pds.harvest.util.out.RefsDocWriterXml;
+import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
+import gov.nasa.pds.harvest.util.out.RegistryDocWriterJson;
+import gov.nasa.pds.harvest.util.out.RegistryDocWriterXml;
 
 
 public class CrawlerCommand
 {
     private Logger log;
+    private Configuration cfg;
+    private RegistryDocWriter regWriter;
+    private RefsDocWriter refsWriter;
+    
+    private Counter counter;
+    private BundleProcessor bundleProc;
+    private CollectionProcessor colProc;
+    private ProductProcessor prodProc;
     
     
     public CrawlerCommand()
@@ -29,6 +41,22 @@ public class CrawlerCommand
 
 
     public void run(CommandLine cmdLine) throws Exception
+    {
+        configure(cmdLine);
+
+        for(BundleCfg bCfg: cfg.bundles)
+        {
+            processBundle(bCfg);
+        }
+        
+        regWriter.close();
+        refsWriter.close();
+        
+        printSummary();
+    }
+    
+    
+    private void configure(CommandLine cmdLine) throws Exception
     {
         // Output directory
         String outDir = cmdLine.getOptionValue("o", "/tmp/harvest/out");
@@ -40,70 +68,73 @@ public class CrawlerCommand
         String outFormat = cmdLine.getOptionValue("f", "json").toLowerCase();
         log.log(LogUtils.LEVEL_SUMMARY, "Output format: " + outFormat);
 
-        DocWriter writer = null;
-        
         switch(outFormat)
         {
         case "xml":
-            writer = new SolrDocWriter(fOutDir);
+            regWriter = new RegistryDocWriterXml(fOutDir);
+            refsWriter = new RefsDocWriterXml(fOutDir);
             break;
         case "json":
-            writer = new EsDocWriter(fOutDir);
+            regWriter = new RegistryDocWriterJson(fOutDir);
+            refsWriter = new RefsDocWriterJson(fOutDir);
             break;
         default:
             throw new Exception("Invalid output format " + outFormat);                
         }
         
         // Configuration file
-        Configuration cfg = loadConfiguration(cmdLine.getOptionValue("c"));
-        
-        // Run crawler
-        runCrawler(cfg, writer);
-    }
-    
+        File cfgFile = new File(cmdLine.getOptionValue("c"));
+        log.log(LogUtils.LEVEL_SUMMARY, "Reading configuration from " + cfgFile.getAbsolutePath());
+        cfg = ConfigReader.read(cfgFile);
 
-    private Configuration loadConfiguration(String pConfigFile) throws Exception
-    {
-        File cfgFile = new File(pConfigFile);
-        log.log(LogUtils.LEVEL_SUMMARY, "Reading configuration from " + pConfigFile);
-        
-        // Read config file
-        Configuration cfg = ConfigReader.read(cfgFile);
-        
-        // Load xpath maps from files
+        // Xpath maps
         XPathCacheLoader xpcLoader = new XPathCacheLoader();
         xpcLoader.load(cfg.xpathMaps);
         
-        return cfg;
+        // Processors
+        counter = new Counter();
+        bundleProc = new BundleProcessor(cfg, regWriter, counter);
+        colProc = new CollectionProcessor(cfg, regWriter, refsWriter, counter);
+        prodProc = new ProductProcessor(cfg, regWriter, counter);
     }
-    
-    
-    private void runCrawler(Configuration cfg, DocWriter writer) throws Exception
-    {
-        FileProcessor fileProcessor = new FileProcessor(cfg, writer);
-        ProductCrawler crawler = new ProductCrawler(cfg.directories, fileProcessor);
-        crawler.crawl();
-        fileProcessor.close();
 
-        if(!fileProcessor.stoppedOnError())
+
+    private void processBundle(BundleCfg bCfg) throws Exception
+    {
+        File rootDir = new File(bCfg.dir);
+        if(!rootDir.exists()) 
         {
-            printSummary(fileProcessor);
+            log.warn("Invalid bundle directory: " + rootDir.getAbsolutePath());
+            return;
         }
+        
+        log.info("Processing bundle directory " + rootDir.getAbsolutePath());
+
+        // Clear reference cache
+        RefsCache.getInstance().getCollectionRefsCache().clear();
+        RefsCache.getInstance().getProdRefsCache().clear();
+        
+        // Process bundles
+        bundleProc.process(bCfg);
+        // Process collections
+        colProc.process(bCfg);
+        // Process products
+        prodProc.process(bCfg);
     }
     
     
-    private void printSummary(FileProcessor cb)
+    private void printSummary()
     {
         log.log(LogUtils.LEVEL_SUMMARY, "Summary:");
-        int processedCount = cb.getProdTypeCounter().getTotal();
+        int processedCount = counter.prodCounters.getTotal();
         
-        log.log(LogUtils.LEVEL_SUMMARY, "Skipped files: " + cb.getSkippedFileCount());
+        log.log(LogUtils.LEVEL_SUMMARY, "Skipped files: " + counter.skippedFileCount);
         log.log(LogUtils.LEVEL_SUMMARY, "Processed files: " + processedCount);
         
         if(processedCount > 0)
         {
             log.log(LogUtils.LEVEL_SUMMARY, "File counts by type:");
-            for(CounterMap.Item item: cb.getProdTypeCounter().getCounts())
+            for(CounterMap.Item item: counter.prodCounters.getCounts())
             {
                 log.log(LogUtils.LEVEL_SUMMARY, "  " + item.name + ": " + item.count);
             }
