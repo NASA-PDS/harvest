@@ -11,4 +11,6 @@ public class Configuration
     public FileInfoCfg fileInfo;
     public XPathMapCfg xpathMaps;
     public AutogenCfg autogen;
+    
+    public RegistryCfg registryCfg;
 }
