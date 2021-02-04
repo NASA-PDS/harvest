@@ -3,10 +3,9 @@ package tt.es;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.elasticsearch.client.RestClient;
-
+import gov.nasa.pds.harvest.cfg.model.RegistryCfg;
 import gov.nasa.pds.harvest.dao.RegistryDAO;
-import gov.nasa.pds.registry.common.es.client.EsClientFactory;
+import gov.nasa.pds.harvest.dao.RegistryManager;
 
 
 public class TestRegistryDAO
@@ -14,14 +13,29 @@ public class TestRegistryDAO
 
     public static void main(String[] args) throws Exception
     {
-        RestClient esClient = EsClientFactory.createRestClient("http://localhost:9200", null);
-        RegistryDAO dao = new RegistryDAO(esClient, "registry", true);
+        RegistryCfg cfg = new RegistryCfg();
+        cfg.url = "http://localhost:9200";
         
-        Set<String> ids = new TreeSet<>();
-        ids.add("urn:nasa:pds:orex.spice:document::6.0");
-        ids.add("test1234");
-
-        dao.removeExistingIds(ids, 100);
+        RegistryManager.init(cfg);
+        
+        try
+        {
+            RegistryDAO dao = RegistryManager.getInstance().getRegistryDAO();
+            
+            Set<String> ids = new TreeSet<>();
+            ids.add("urn:nasa:pds:orex.spice:document::6.0");
+            ids.add("test1234");
+    
+            Set<String> retIds = dao.searchIds(ids, 100);
+            for(String retId: retIds)
+            {
+                System.out.println(retId);
+            }
+        }
+        finally
+        {
+            RegistryManager.destroy();
+        }
     }
 
 }

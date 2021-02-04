@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import gov.nasa.pds.harvest.cfg.ConfigReader;
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
@@ -44,6 +45,8 @@ public class CrawlerCommand
     {
         configure(cmdLine);
 
+        RegistryManager.init(cfg.registryCfg);
+
         for(BundleCfg bCfg: cfg.bundles)
         {
             processBundle(bCfg);
@@ -51,6 +54,7 @@ public class CrawlerCommand
         
         regWriter.close();
         refsWriter.close();
+        RegistryManager.destroy();
         
         printSummary();
     }
@@ -87,6 +91,11 @@ public class CrawlerCommand
         log.log(LogUtils.LEVEL_SUMMARY, "Reading configuration from " + cfgFile.getAbsolutePath());
         cfg = ConfigReader.read(cfgFile);
 
+        if(cfg.registryCfg == null)
+        {
+            log.warn("Registry is not configured");
+        }
+
         // Xpath maps
         XPathCacheLoader xpcLoader = new XPathCacheLoader();
         xpcLoader.load(cfg.xpathMaps);
@@ -98,7 +107,7 @@ public class CrawlerCommand
         prodProc = new ProductProcessor(cfg, regWriter, counter);
     }
 
-
+    
     private void processBundle(BundleCfg bCfg) throws Exception
     {
         File rootDir = new File(bCfg.dir);

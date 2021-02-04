@@ -2,6 +2,7 @@ package gov.nasa.pds.harvest.dao;
 
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Collection;
 import java.util.Set;
 
 import com.google.gson.stream.JsonWriter;
@@ -36,7 +37,7 @@ public class EsRequestBuilder
     }
 
     
-    public String createSearchIdsRequest(Set<String> ids, int pageSize) throws Exception
+    public String createSearchIdsRequest(Collection<String> ids, int pageSize) throws Exception
     {
         if(ids == null || ids.isEmpty()) throw new Exception("Missing ids");
             

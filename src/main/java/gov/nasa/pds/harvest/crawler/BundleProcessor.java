@@ -16,6 +16,8 @@ import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.dao.RegistryManager;
+import gov.nasa.pds.harvest.dao.RegistryDAO;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
 import gov.nasa.pds.harvest.meta.BundleMetadataExtractor;
@@ -115,6 +117,7 @@ public class BundleProcessor
         // Ignore non-bundle XMLs
         if(!"Product_Bundle".equals(rootElement)) return;
         
+        bundleCount++;
         processMetadata(file, doc);
     }
     
@@ -125,7 +128,19 @@ public class BundleProcessor
         if(bundleCfg.versions != null && !bundleCfg.versions.contains(meta.vid)) return;
 
         log.info("Processing bundle " + file.getAbsolutePath());
+        
+        RegistryDAO dao = (RegistryManager.getInstance() == null) ? null 
+                : RegistryManager.getInstance().getRegistryDAO(); 
 
+        // Bundle already registered in the Registry (Elasticsearch)
+        if(dao != null && dao.idExists(meta.lidvid))
+        {
+            log.warn("Bundle " + meta.lidvid + " already registered");
+            addCollectionRefs(meta, doc);
+            counter.skippedFileCount++;
+            return;
+        }
+        
         refExtractor.addRefs(meta.intRefs, doc);
         addCollectionRefs(meta, doc);
         xpathExtractor.extract(doc, meta.fields);
@@ -139,7 +154,6 @@ public class BundleProcessor
         
         writer.write(meta);
         
-        bundleCount++;
         counter.prodCounters.inc(meta.prodClass);
     }
 
