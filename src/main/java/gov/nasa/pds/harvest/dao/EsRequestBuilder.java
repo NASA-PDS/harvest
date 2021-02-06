@@ -3,7 +3,6 @@ package gov.nasa.pds.harvest.dao;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collection;
-import java.util.Set;
 
 import com.google.gson.stream.JsonWriter;
 

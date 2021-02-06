@@ -28,7 +28,7 @@ public class RefsDocWriterJson implements RefsDocWriter
     
     
     @Override
-    public void writeBatch(Metadata meta, ProdRefsBatch batch) throws Exception
+    public void writeBatch(Metadata meta, ProdRefsBatch.WriterBatch batch) throws Exception
     {
         String id = meta.lidvid + "::" + batch.batchNum;
         
@@ -46,13 +46,13 @@ public class RefsDocWriterJson implements RefsDocWriter
         NDJsonDocUtils.writeField(jw, "collection_lid", meta.lid);            
         
         // LidVid refs
-        NDJsonDocUtils.writeField(jw, "product_lidvid", batch.getLidVids());
+        NDJsonDocUtils.writeField(jw, "product_lidvid", batch.lidvids);
         // Convert lidvids to lids
-        List<String> lids = LidVidUtils.lidvidToLid(batch.getLidVids());
+        List<String> lids = LidVidUtils.lidvidToLid(batch.lidvids);
         NDJsonDocUtils.writeField(jw, "product_lid", lids);
         
         // Lid refs
-        NDJsonDocUtils.writeField(jw, "product_lid", batch.getLids());
+        NDJsonDocUtils.writeField(jw, "product_lid", batch.lids);
         
         // Transaction ID
         NDJsonDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());

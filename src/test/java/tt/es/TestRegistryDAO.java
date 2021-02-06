@@ -1,5 +1,6 @@
 package tt.es;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -26,7 +27,7 @@ public class TestRegistryDAO
             ids.add("urn:nasa:pds:orex.spice:document::6.0");
             ids.add("test1234");
     
-            Set<String> retIds = dao.searchIds(ids, 100);
+            List<String> retIds = dao.getNonExistingIds(ids, 100);
             for(String retId: retIds)
             {
                 System.out.println(retId);

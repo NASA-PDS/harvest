@@ -1,9 +1,14 @@
 package gov.nasa.pds.harvest.crawler;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import gov.nasa.pds.harvest.dao.RegistryDAO;
+import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.out.RefsDocWriter;
 
@@ -12,84 +17,74 @@ public class CollectionInventoryProcessor
 {
     protected Logger log;
     
-    private int BATCH_SIZE = 500;
-    private ProdRefsBatch batch = new ProdRefsBatch();
+    private int WRITE_BATCH_SIZE = 500;
+    private int ELASTIC_BATCH_SIZE = 50;
+    
+    private ProdRefsBatch.WriterBatch writerBatch = new ProdRefsBatch.WriterBatch();
+    private ProdRefsBatch.ElasticSearchBatch esBatch = new ProdRefsBatch.ElasticSearchBatch();
     
     private RefsDocWriter writer;
     
     
     public CollectionInventoryProcessor(RefsDocWriter writer)
     {
+        log = LogManager.getLogger(this.getClass());
         this.writer = writer;
     }
     
     
     public void writeCollectionInventory(Metadata meta, File inventoryFile) throws Exception
     {
-        batch.batchNum = 0;
+        writerBatch.batchNum = 0;
+        LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         
-        BufferedReader rd = new BufferedReader(new FileReader(inventoryFile));
+        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile));
         
         while(true)
         {
-            int count = getNextBatch(rd);
+            int count = rd.readNextBatch(WRITE_BATCH_SIZE, writerBatch);
             if(count == 0) break;
             
             // Update cache. Only products in cache will be processed.
-            LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
-            cache.addLidVids(batch.getLidVids());
-            cache.addLids(batch.getLids());
+            cache.addLidVids(writerBatch.lidvids);
+            cache.addLids(writerBatch.lids);
             
             // Write batch
-            writer.writeBatch(meta, batch);
+            writer.writeBatch(meta, writerBatch);
             
-            if(count < BATCH_SIZE) break;
+            if(count < WRITE_BATCH_SIZE) break;
         }
         
         rd.close();
     }
     
     
-    protected int getNextBatch(BufferedReader rd) throws Exception
+    public void cacheNonRegisteredCollectionInventory(Metadata meta, File inventoryFile) throws Exception
     {
-        batch.clear();
-        batch.batchNum++;
-        
-        String line;
-        int count = 0;
-        
-        while((line = rd.readLine()) != null)
-        {
-            if(line.isBlank()) continue;
-            String[] tokens = line.split(",");
-            if(tokens.length != 2)
-            {
-                log.warn("Invalid collection inventory record: " + line);
-                continue;
-            }
-            
-            if("P".equalsIgnoreCase(tokens[0].trim()))
-            {
-                count++;
-                String ref = tokens[1].trim();
-                int idx = ref.indexOf("::");
-                
-                // This is a lidvid reference
-                if(idx > 0)
-                {
-                    batch.addLidVid(ref);
-                }
-                // lid reference
-                else
-                {
-                    batch.addLid(ref);
-                }
-                
-                if(count >= BATCH_SIZE) return count;
-            }
-        }
+        if(RegistryManager.getInstance() == null) throw new Exception("Registry is not configured");
 
-        return count;
+        LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
+        RegistryDAO dao = RegistryManager.getInstance().getRegistryDAO(); 
+
+        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile));
+        
+        while(true)
+        {
+            int count = rd.readNextBatch(ELASTIC_BATCH_SIZE, esBatch);
+            if(count == 0) break;
+
+            List<String> nonRegisteredIds = dao.getNonExistingIds(esBatch.lidvids, ELASTIC_BATCH_SIZE);
+            
+            // Update cache. Only products in cache will be processed.
+            cache.addLidVids(nonRegisteredIds);
+            cache.addLids(esBatch.lids);
+            
+            if(count < WRITE_BATCH_SIZE) break;
+        }
+        
+        rd.close();        
     }
+    
+    
 
 }

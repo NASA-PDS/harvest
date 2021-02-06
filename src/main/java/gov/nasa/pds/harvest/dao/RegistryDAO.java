@@ -44,12 +44,26 @@ public class RegistryDAO
         List<String> ids = new ArrayList<>(1);
         ids.add(id);
         
-        Set<String> retIds = searchIds(ids, 1);
-        return retIds.size() == 1;
+        Response resp = searchIds(ids, 1);
+        IdsResponse idsResp = new IdsResponse();
+        parser.parseResponse(resp, idsResp);
+
+        return idsResp.getIds().size() == 1;
     }
     
     
-    public Set<String> searchIds(Collection<String> ids, int pageSize) throws Exception
+    public List<String> getNonExistingIds(Set<String> ids, int pageSize) throws Exception
+    {
+        Response resp = searchIds(ids, pageSize);
+
+        IdsResponse idsResp = new IdsResponse();
+        parser.parseResponse(resp, idsResp);
+
+        return idsResp.getIds();
+    }
+    
+    
+    private Response searchIds(Collection<String> ids, int pageSize) throws Exception
     {
         if(pageSize < ids.size()) throw new IllegalArgumentException("Page size is less than ids size");
 
@@ -62,11 +76,7 @@ public class RegistryDAO
         req.setJsonEntity(json);
         Response resp = client.performRequest(req);
 
-        IdsResponse idsResp = new IdsResponse();
-        parser.parseResponse(resp, idsResp);
-
-        return idsResp.getIds();
+        return resp;
     }
-    
     
 }

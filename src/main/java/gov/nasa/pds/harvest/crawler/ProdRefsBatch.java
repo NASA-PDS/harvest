@@ -1,50 +1,108 @@
 package gov.nasa.pds.harvest.crawler;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 
-public class ProdRefsBatch
+public interface ProdRefsBatch
 {
-    public int batchNum;
-    private List<String> lidvids = new ArrayList<>();
-    private List<String> lids = new ArrayList<>();
+    public void clear();
+    
+    public void incBatchNum();    
+    public int getBatchNum();
+    
+    public void addLidVid(String value);
+    public void addLid(String value);
     
     
-    public ProdRefsBatch()
+    public static class WriterBatch implements ProdRefsBatch
     {
-    }
-    
-    
-    public void clear()
-    {
-        lidvids.clear();
-        lids.clear();
-    }
-    
-    
-    public Collection<String> getLidVids()
-    {
-        return lidvids;
+        public int batchNum;
+        public List<String> lidvids = new ArrayList<>();
+        public List<String> lids = new ArrayList<>();
+
+        
+        public WriterBatch()
+        {
+        }
+
+        
+        @Override
+        public void clear()
+        {
+            lidvids.clear();
+            lids.clear();
+        }
+
+        @Override
+        public void incBatchNum()
+        {
+            batchNum++;
+        }
+
+        @Override
+        public int getBatchNum()
+        {
+            return batchNum;
+        }
+
+        @Override
+        public void addLidVid(String value)
+        {
+            lidvids.add(value);
+        }
+
+        @Override
+        public void addLid(String value)
+        {
+            lids.add(value);
+        }
     }
 
-    
-    public Collection<String> getLids()
-    {
-        return lids;
-    }
 
-    
-    public void addLid(String value)
+    public static class ElasticSearchBatch implements ProdRefsBatch
     {
-        lids.add(value);
-    }
+        public Set<String> lidvids = new TreeSet<>();
+        public List<String> lids = new ArrayList<>();
 
+        
+        public ElasticSearchBatch()
+        {
+        }
 
-    public void addLidVid(String value)
-    {
-        lidvids.add(value);
+        
+        @Override
+        public void clear()
+        {
+            lidvids.clear();
+            lids.clear();
+        }
+
+        @Override
+        public void incBatchNum()
+        {
+        }
+
+        @Override
+        public int getBatchNum()
+        {
+            return 0;
+        }
+
+        @Override
+        public void addLidVid(String value)
+        {
+            lidvids.add(value);
+        }
+
+        @Override
+        public void addLid(String value)
+        {
+            lids.add(value);
+        }
+        
     }
 
 }

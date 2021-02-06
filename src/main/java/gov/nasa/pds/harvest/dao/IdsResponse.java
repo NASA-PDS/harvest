@@ -1,5 +1,7 @@
 package gov.nasa.pds.harvest.dao;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -8,14 +10,14 @@ import gov.nasa.pds.registry.common.es.client.SearchResponseParser;
 
 public class IdsResponse implements SearchResponseParser.Callback
 {
-    private Set<String> ids;
+    private List<String> ids;
     
     public IdsResponse()
     {
-        ids = new TreeSet<>();
+        ids = new ArrayList<>();
     }
     
-    public Set<String> getIds()
+    public List<String> getIds()
     {
         return ids;
     }
