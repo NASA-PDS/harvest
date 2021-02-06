@@ -31,7 +31,7 @@ public class InventoryBatchReader
     public int readNextBatch(int batchSize, ProdRefsBatch batch) throws Exception
     {
         batch.clear();
-        batch.incBatchNum();
+        batch.batchNum++;
         
         String line;
         int count = 0;

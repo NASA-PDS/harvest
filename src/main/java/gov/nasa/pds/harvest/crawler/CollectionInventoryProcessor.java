@@ -2,7 +2,7 @@ package gov.nasa.pds.harvest.crawler;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.List;
+import java.util.Collection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,8 +20,7 @@ public class CollectionInventoryProcessor
     private int WRITE_BATCH_SIZE = 500;
     private int ELASTIC_BATCH_SIZE = 50;
     
-    private ProdRefsBatch.WriterBatch writerBatch = new ProdRefsBatch.WriterBatch();
-    private ProdRefsBatch.ElasticSearchBatch esBatch = new ProdRefsBatch.ElasticSearchBatch();
+    private ProdRefsBatch batch = new ProdRefsBatch();
     
     private RefsDocWriter writer;
     
@@ -35,22 +34,22 @@ public class CollectionInventoryProcessor
     
     public void writeCollectionInventory(Metadata meta, File inventoryFile) throws Exception
     {
-        writerBatch.batchNum = 0;
+        batch.batchNum = 0;
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         
         InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile));
         
         while(true)
         {
-            int count = rd.readNextBatch(WRITE_BATCH_SIZE, writerBatch);
+            int count = rd.readNextBatch(WRITE_BATCH_SIZE, batch);
             if(count == 0) break;
             
             // Update cache. Only products in cache will be processed.
-            cache.addLidVids(writerBatch.lidvids);
-            cache.addLids(writerBatch.lids);
+            cache.addLidVids(batch.lidvids);
+            cache.addLids(batch.lids);
             
             // Write batch
-            writer.writeBatch(meta, writerBatch);
+            writer.writeBatch(meta, batch);
             
             if(count < WRITE_BATCH_SIZE) break;
         }
@@ -63,6 +62,7 @@ public class CollectionInventoryProcessor
     {
         if(RegistryManager.getInstance() == null) throw new Exception("Registry is not configured");
 
+        batch.batchNum = 0;
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         RegistryDAO dao = RegistryManager.getInstance().getRegistryDAO(); 
 
@@ -70,14 +70,14 @@ public class CollectionInventoryProcessor
         
         while(true)
         {
-            int count = rd.readNextBatch(ELASTIC_BATCH_SIZE, esBatch);
+            int count = rd.readNextBatch(ELASTIC_BATCH_SIZE, batch);
             if(count == 0) break;
 
-            List<String> nonRegisteredIds = dao.getNonExistingIds(esBatch.lidvids, ELASTIC_BATCH_SIZE);
+            Collection<String> nonRegisteredIds = dao.getNonExistingIds(batch.lidvids, ELASTIC_BATCH_SIZE);
             
             // Update cache. Only products in cache will be processed.
             cache.addLidVids(nonRegisteredIds);
-            cache.addLids(esBatch.lids);
+            cache.addLids(batch.lids);
             
             if(count < WRITE_BATCH_SIZE) break;
         }

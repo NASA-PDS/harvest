@@ -3,7 +3,6 @@ package gov.nasa.pds.harvest.dao;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
@@ -44,19 +43,16 @@ public class RegistryDAO
         List<String> ids = new ArrayList<>(1);
         ids.add(id);
         
-        Response resp = searchIds(ids, 1);
-        IdsResponse idsResp = new IdsResponse();
-        parser.parseResponse(resp, idsResp);
-
-        return idsResp.getIds().size() == 1;
+        Collection<String> retIds = getNonExistingIds(ids, 1);
+        return retIds.isEmpty();
     }
     
     
-    public List<String> getNonExistingIds(Set<String> ids, int pageSize) throws Exception
+    public Collection<String> getNonExistingIds(Collection<String> ids, int pageSize) throws Exception
     {
         Response resp = searchIds(ids, pageSize);
 
-        IdsResponse idsResp = new IdsResponse();
+        NonExistingIdsResponse idsResp = new NonExistingIdsResponse(ids);
         parser.parseResponse(resp, idsResp);
 
         return idsResp.getIds();

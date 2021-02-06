@@ -28,7 +28,7 @@ public class RefsDocWriterJson implements RefsDocWriter
     
     
     @Override
-    public void writeBatch(Metadata meta, ProdRefsBatch.WriterBatch batch) throws Exception
+    public void writeBatch(Metadata meta, ProdRefsBatch batch) throws Exception
     {
         String id = meta.lidvid + "::" + batch.batchNum;
         

@@ -153,7 +153,11 @@ public class ProductProcessor
 
         // Only process primary products from collection inventory
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
-        if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) return;
+        if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) 
+        {
+            counter.skippedFileCount++;
+            return;
+        }
         
         log.info("Processing product " + file.getAbsolutePath());
 

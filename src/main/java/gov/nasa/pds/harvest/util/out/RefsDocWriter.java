@@ -6,6 +6,6 @@ import gov.nasa.pds.harvest.meta.Metadata;
 
 public interface RefsDocWriter
 {
-    public void writeBatch(Metadata meta, ProdRefsBatch.WriterBatch batch) throws Exception;
+    public void writeBatch(Metadata meta, ProdRefsBatch batch) throws Exception;
     public void close() throws Exception;
 }

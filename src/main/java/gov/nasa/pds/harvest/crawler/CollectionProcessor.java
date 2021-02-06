@@ -87,8 +87,6 @@ public class CollectionProcessor
     
     public void process(BundleCfg bCfg) throws Exception
     {
-        log.info("Processing collections...");
-        
         File bundleDir = new File(bCfg.dir);
         Iterator<Path> it = Files.find(bundleDir.toPath(), 2, new CollectionMatcher()).iterator();
         
