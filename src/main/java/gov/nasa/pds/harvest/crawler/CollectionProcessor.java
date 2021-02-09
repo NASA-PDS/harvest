@@ -118,7 +118,7 @@ public class CollectionProcessor
     
     private void processMetadata(File file, Document doc, BundleCfg bCfg) throws Exception
     {
-        Metadata meta = basicExtractor.extract(doc);
+        Metadata meta = basicExtractor.extract(file, doc);
 
         // Collection filter
         if(bCfg.collectionLids != null && !bCfg.collectionLids.contains(meta.lid)) return;

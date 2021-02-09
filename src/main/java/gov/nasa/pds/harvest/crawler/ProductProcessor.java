@@ -149,7 +149,7 @@ public class ProductProcessor
     private void processMetadata(File file, Document doc) throws Exception
     {
         // Extract basic metadata
-        Metadata meta = basicExtractor.extract(doc);
+        Metadata meta = basicExtractor.extract(file, doc);
 
         // Only process primary products from collection inventory
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();

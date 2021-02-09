@@ -84,8 +84,9 @@ public class BundleProcessor
     }
 
     
-    public void process(BundleCfg bCfg) throws Exception
+    public int process(BundleCfg bCfg) throws Exception
     {
+        bundleCount = 0;
         this.bundleCfg = bCfg;
         
         File bundleDir = new File(bCfg.dir);
@@ -94,11 +95,8 @@ public class BundleProcessor
         {
             onBundle(it.next().toFile());
         }
-        
-        if(bundleCount == 0)
-        {
-            log.warn("There are no bundles in " + bundleDir.getAbsolutePath());
-        }
+
+        return bundleCount;
     }
 
 
@@ -124,7 +122,7 @@ public class BundleProcessor
     
     private void processMetadata(File file, Document doc) throws Exception
     {
-        Metadata meta = basicExtractor.extract(doc);
+        Metadata meta = basicExtractor.extract(file, doc);
         if(bundleCfg.versions != null && !bundleCfg.versions.contains(meta.vid)) return;
 
         log.info("Processing bundle " + file.getAbsolutePath());

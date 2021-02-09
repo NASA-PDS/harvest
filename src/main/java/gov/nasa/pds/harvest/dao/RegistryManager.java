@@ -39,6 +39,8 @@ public class RegistryManager
     
     public static void destroy()
     {
+        if(instance == null) return;
+        
         CloseUtils.close(instance.esClient);
         instance = null;
     }

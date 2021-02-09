@@ -34,6 +34,8 @@ public class CrawlerCommand
     private CollectionProcessor colProc;
     private ProductProcessor prodProc;
     
+    private int bundleCount;
+    
     
     public CrawlerCommand()
     {
@@ -124,9 +126,18 @@ public class CrawlerCommand
         RefsCache.getInstance().getProdRefsCache().clear();
         
         // Process bundles
-        bundleProc.process(bCfg);
+        int count = bundleProc.process(bCfg);
+        if(count == 0)
+        {
+            log.log(LogUtils.LEVEL_SUMMARY, "There are no bundles in " + rootDir.getAbsolutePath());
+            return;
+        }
+        
+        this.bundleCount += count;
+        
         // Process collections
         colProc.process(bCfg);
+        
         // Process products
         prodProc.process(bCfg);
     }
@@ -134,6 +145,8 @@ public class CrawlerCommand
     
     private void printSummary()
     {
+        if(this.bundleCount == 0) return;
+        
         log.log(LogUtils.LEVEL_SUMMARY, "Summary:");
         int processedCount = counter.prodCounters.getTotal();
         
