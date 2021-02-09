@@ -129,14 +129,19 @@ public class CrawlerCommand
         int count = bundleProc.process(bCfg);
         if(count == 0)
         {
-            log.log(LogUtils.LEVEL_SUMMARY, "There are no bundles in " + rootDir.getAbsolutePath());
+            log.warn("No bundles found in " + rootDir.getAbsolutePath());
             return;
         }
         
         this.bundleCount += count;
         
         // Process collections
-        colProc.process(bCfg);
+        count = colProc.process(bCfg);
+        if(count == 0)
+        {
+            log.warn("No collections found in " + rootDir.getAbsolutePath());
+            return;
+        }
         
         // Process products
         prodProc.process(bCfg);

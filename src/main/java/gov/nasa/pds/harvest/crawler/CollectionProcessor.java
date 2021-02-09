@@ -49,6 +49,7 @@ public class CollectionProcessor
     private XPathExtractor xpathExtractor;
     private FileMetadataExtractor fileDataExtractor;
     
+    private int collectionCount;
     private Counter counter;
 
     
@@ -85,8 +86,10 @@ public class CollectionProcessor
     }
 
     
-    public void process(BundleCfg bCfg) throws Exception
+    public int process(BundleCfg bCfg) throws Exception
     {
+        collectionCount = 0;
+        
         File bundleDir = new File(bCfg.dir);
         Iterator<Path> it = Files.find(bundleDir.toPath(), 2, new CollectionMatcher()).iterator();
         
@@ -94,6 +97,8 @@ public class CollectionProcessor
         {
             onCollection(it.next().toFile(), bCfg);
         }
+        
+        return collectionCount;
     }
 
 
@@ -129,6 +134,7 @@ public class CollectionProcessor
         if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) return;
         
         log.info("Processing collection " + file.getAbsolutePath());
+        collectionCount++;
         
         RegistryDAO dao = (RegistryManager.getInstance() == null) ? null 
                 : RegistryManager.getInstance().getRegistryDAO(); 

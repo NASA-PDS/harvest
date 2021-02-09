@@ -115,7 +115,6 @@ public class BundleProcessor
         // Ignore non-bundle XMLs
         if(!"Product_Bundle".equals(rootElement)) return;
         
-        bundleCount++;
         processMetadata(file, doc);
     }
     
@@ -126,6 +125,7 @@ public class BundleProcessor
         if(bundleCfg.versions != null && !bundleCfg.versions.contains(meta.vid)) return;
 
         log.info("Processing bundle " + file.getAbsolutePath());
+        bundleCount++;
         
         RegistryDAO dao = (RegistryManager.getInstance() == null) ? null 
                 : RegistryManager.getInstance().getRegistryDAO(); 
