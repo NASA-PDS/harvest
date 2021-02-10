@@ -57,6 +57,7 @@ jobs:
                 name: 🤠 Roundup
                 uses: NASA-PDS/roundup-action@master
                 with:
+                    packages: openjdk11-jdk
                     assembly: stable
                 env:
                     ossrh_username: ${{secrets.OSSRH_USERNAME}}
