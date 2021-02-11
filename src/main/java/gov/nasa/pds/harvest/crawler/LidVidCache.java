@@ -38,24 +38,28 @@ public class LidVidCache
     
     public void addLid(String value)
     {
+        if(value == null || value.isEmpty()) return;
         lids.add(value);
     }
 
 
     public void addLidVid(String value)
     {
+        if(value == null || value.isEmpty()) return;
         lidvids.add(value);
     }
 
     
     public void addLids(Collection<String> values)
     {
+        if(values == null || values.isEmpty()) return;
         lids.addAll(values);
     }
 
 
     public void addLidVids(Collection<String> values)
     {
+        if(values == null || values.isEmpty()) return;
         lidvids.addAll(values);
     }
 

@@ -40,13 +40,13 @@ public class RefsDocWriterXml implements RefsDocWriter
         XmlDocUtils.writeField(writer, "collection_lid", meta.lid);
         
         // LidVid refs
-        XmlDocUtils.writeField(writer, "product_lidvid", batch.getLidVids());
+        XmlDocUtils.writeField(writer, "product_lidvid", batch.lidvids);
         // Convert lidvids to lids
-        List<String> lids = LidVidUtils.lidvidToLid(batch.getLidVids());
+        List<String> lids = LidVidUtils.lidvidToLid(batch.lidvids);
         XmlDocUtils.writeField(writer, "product_lid", lids);
         
         // Lid refs
-        XmlDocUtils.writeField(writer, "product_lid", batch.getLids());
+        XmlDocUtils.writeField(writer, "product_lid", batch.lids);
         
         // Transaction ID
         XmlDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());

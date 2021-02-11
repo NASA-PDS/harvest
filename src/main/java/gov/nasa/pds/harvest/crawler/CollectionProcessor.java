@@ -16,6 +16,8 @@ import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.dao.RegistryDAO;
+import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
 import gov.nasa.pds.harvest.meta.CollectionMetadataExtractor;
@@ -47,6 +49,7 @@ public class CollectionProcessor
     private XPathExtractor xpathExtractor;
     private FileMetadataExtractor fileDataExtractor;
     
+    private int collectionCount;
     private Counter counter;
 
     
@@ -83,9 +86,9 @@ public class CollectionProcessor
     }
 
     
-    public void process(BundleCfg bCfg) throws Exception
+    public int process(BundleCfg bCfg) throws Exception
     {
-        log.info("Processing collections...");
+        collectionCount = 0;
         
         File bundleDir = new File(bCfg.dir);
         Iterator<Path> it = Files.find(bundleDir.toPath(), 2, new CollectionMatcher()).iterator();
@@ -94,6 +97,8 @@ public class CollectionProcessor
         {
             onCollection(it.next().toFile(), bCfg);
         }
+        
+        return collectionCount;
     }
 
 
@@ -118,7 +123,7 @@ public class CollectionProcessor
     
     private void processMetadata(File file, Document doc, BundleCfg bCfg) throws Exception
     {
-        Metadata meta = basicExtractor.extract(doc);
+        Metadata meta = basicExtractor.extract(file, doc);
 
         // Collection filter
         if(bCfg.collectionLids != null && !bCfg.collectionLids.contains(meta.lid)) return;
@@ -129,6 +134,22 @@ public class CollectionProcessor
         if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) return;
         
         log.info("Processing collection " + file.getAbsolutePath());
+        collectionCount++;
+        
+        RegistryDAO dao = (RegistryManager.getInstance() == null) ? null 
+                : RegistryManager.getInstance().getRegistryDAO(); 
+
+        // Collection already registered in the Registry (Elasticsearch)
+        if(dao != null && dao.idExists(meta.lidvid))
+        {
+            log.warn("Collection " + meta.lidvid + " already registered");
+            
+            // Only cache but don't write product references
+            processInventoryFiles(file, doc, meta, false);
+            
+            counter.skippedFileCount++;
+            return;
+        }
         
         refExtractor.addRefs(meta.intRefs, doc);
         xpathExtractor.extract(doc, meta.fields);
@@ -141,13 +162,14 @@ public class CollectionProcessor
         fileDataExtractor.extract(file, meta);        
         writer.write(meta);
         
-        processInventoryFiles(file, doc, meta);
+        // Cache and write product references
+        processInventoryFiles(file, doc, meta, true);
         
         counter.prodCounters.inc(meta.prodClass);
     }
 
     
-    private void processInventoryFiles(File collectionFile, Document doc, Metadata meta) throws Exception
+    private void processInventoryFiles(File collectionFile, Document doc, Metadata meta, boolean write) throws Exception
     {
         Set<String> fileNames = collectionExtractor.extractInventoryFileNames(doc);
         if(fileNames == null) return;
@@ -155,7 +177,14 @@ public class CollectionProcessor
         for(String fileName: fileNames)
         {
             File invFile = new File(collectionFile.getParentFile(), fileName);
-            invProc.writeCollectionInventory(meta, invFile);
+            if(write)
+            {
+                invProc.writeCollectionInventory(meta, invFile);
+            }
+            else
+            {
+                invProc.cacheNonRegisteredCollectionInventory(meta, invFile);
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.cfg.parser.BundleConfigParser;
 import gov.nasa.pds.harvest.cfg.parser.Rautogen;
 import gov.nasa.pds.harvest.cfg.parser.Rdirs;
+import gov.nasa.pds.harvest.cfg.parser.RegistryConfigParser;
 import gov.nasa.pds.harvest.cfg.parser.Rfile;
 import gov.nasa.pds.harvest.cfg.parser.Rxpath;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
@@ -31,6 +32,7 @@ public class ConfigReader
         }
         
         Configuration cfg = new Configuration();
+        cfg.registryCfg = RegistryConfigParser.parseRegistry(root);
         cfg.bundles = BundleConfigParser.parseBundles(root);
         cfg.filters = Rdirs.parseFilters(doc);
         cfg.xpathMaps = Rxpath.parseXPathMaps(doc);
