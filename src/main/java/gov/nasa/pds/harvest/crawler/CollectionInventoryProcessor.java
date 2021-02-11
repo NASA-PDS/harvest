@@ -79,12 +79,11 @@ public class CollectionInventoryProcessor
             cache.addLidVids(nonRegisteredIds);
             cache.addLids(batch.lids);
             
-            if(count < WRITE_BATCH_SIZE) break;
+            if(count < ELASTIC_BATCH_SIZE) break;
         }
         
         rd.close();        
     }
-    
     
 
 }
