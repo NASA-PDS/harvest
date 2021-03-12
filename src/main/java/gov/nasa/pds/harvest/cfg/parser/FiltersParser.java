@@ -5,27 +5,12 @@ import org.w3c.dom.Document;
 import gov.nasa.pds.harvest.cfg.model.FiltersCfg;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
-public class Rdirs
+public class FiltersParser
 {
     public static FiltersCfg parseFilters(Document doc) throws Exception
     {
         FiltersCfg cfg = new FiltersCfg();
         parseProductFilter(doc, cfg);
-        
-        // File filter
-        /*
-        cfg.fileFilterIncludes = xpu.getStringList(doc, "/harvest/directories/fileFilter/include");
-        cfg.fileFilterExcludes = xpu.getStringList(doc, "/harvest/directories/fileFilter/exclude");
-
-        if(cfg.fileFilterIncludes != null && cfg.fileFilterIncludes.size() > 0 
-                && cfg.fileFilterExcludes != null && cfg.fileFilterExcludes.size() > 0)
-        {
-            throw new Exception("<fileFilter> could not have both <include> and <exclude> at the same time");
-        }
-         */
-        // Dir filter
-        //cfg.dirFilterExcludes = xpu.getStringList(doc, "/harvest/directories/directoryFilter/exclude");        
-        
         return cfg;
     }
 

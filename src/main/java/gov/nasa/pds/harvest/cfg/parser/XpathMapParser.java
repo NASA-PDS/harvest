@@ -13,7 +13,7 @@ import gov.nasa.pds.harvest.util.xml.XPathUtils;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
-public class Rxpath
+public class XpathMapParser
 {
     public static XPathMapCfg parseXPathMaps(Document doc) throws Exception
     {

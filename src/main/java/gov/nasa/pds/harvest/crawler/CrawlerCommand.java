@@ -91,7 +91,8 @@ public class CrawlerCommand
         // Configuration file
         File cfgFile = new File(cmdLine.getOptionValue("c"));
         log.log(LogUtils.LEVEL_SUMMARY, "Reading configuration from " + cfgFile.getAbsolutePath());
-        cfg = ConfigReader.read(cfgFile);
+        ConfigReader cfgReader = new ConfigReader();
+        cfg = cfgReader.read(cfgFile);
 
         if(cfg.registryCfg == null)
         {

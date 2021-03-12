@@ -5,6 +5,7 @@ import java.util.List;
 public class Configuration
 {
     public List<BundleCfg> bundles;
+    public List<String> dirs;
     
     public FiltersCfg filters;
     
