@@ -25,8 +25,9 @@ public class TestConfigReader
 
         for(BundleCfg bundle: cfg.bundles)
         {
-            System.out.println("Collections: " + bundle.collectionLids);
-            System.out.println("Prod dirs: " + bundle.productDirs);
+            System.out.println("Bundle dir: " + bundle.dir);
+            if(bundle.collectionLids != null) System.out.println("    Collections: " + bundle.collectionLids);
+            if(bundle.productDirs != null) System.out.println("    Prod dirs: " + bundle.productDirs);
             System.out.println();
         }
     }

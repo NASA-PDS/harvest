@@ -9,6 +9,7 @@ import org.w3c.dom.NodeList;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.cfg.parser.BundleConfigParser;
+import gov.nasa.pds.harvest.cfg.parser.DirsParser;
 import gov.nasa.pds.harvest.cfg.parser.AutogenParser;
 import gov.nasa.pds.harvest.cfg.parser.FiltersParser;
 import gov.nasa.pds.harvest.cfg.parser.RegistryConfigParser;
@@ -47,6 +48,7 @@ public class ConfigReader
         cfg.registryCfg = RegistryConfigParser.parseRegistry(root);
         
         if(bundlesCount > 0) cfg.bundles = BundleConfigParser.parseBundles(root);
+        if(dirsCount > 0) cfg.dirs = DirsParser.parseDirectories(root);
         
         cfg.filters = FiltersParser.parseFilters(doc);
         cfg.xpathMaps = XpathMapParser.parseXPathMaps(doc);
