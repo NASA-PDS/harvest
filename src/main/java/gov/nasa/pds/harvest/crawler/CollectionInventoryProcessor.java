@@ -32,7 +32,7 @@ public class CollectionInventoryProcessor
     }
     
     
-    public void writeCollectionInventory(Metadata meta, File inventoryFile) throws Exception
+    public void writeCollectionInventory(Metadata meta, File inventoryFile, boolean cacheProductIds) throws Exception
     {
         batch.batchNum = 0;
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
@@ -45,8 +45,11 @@ public class CollectionInventoryProcessor
             if(count == 0) break;
             
             // Update cache. Only products in cache will be processed.
-            cache.addLidVids(batch.lidvids);
-            cache.addLids(batch.lids);
+            if(cacheProductIds)
+            {
+                cache.addLidVids(batch.lidvids);
+                cache.addLids(batch.lids);
+            }
             
             // Write batch
             writer.writeBatch(meta, batch);
@@ -58,7 +61,7 @@ public class CollectionInventoryProcessor
     }
     
     
-    public void cacheNonRegisteredCollectionInventory(Metadata meta, File inventoryFile) throws Exception
+    public void cacheNonRegisteredInventory(Metadata meta, File inventoryFile) throws Exception
     {
         if(RegistryManager.getInstance() == null) throw new Exception("Registry is not configured");
 

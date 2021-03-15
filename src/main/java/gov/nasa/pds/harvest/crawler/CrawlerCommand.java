@@ -29,7 +29,9 @@ public class CrawlerCommand
     private RegistryDocWriter regWriter;
     private RefsDocWriter refsWriter;
     
+    // Processors
     private Counter counter;
+    private DirsProcessor dirsProc;
     private BundleProcessor bundleProc;
     private CollectionProcessor colProc;
     private ProductProcessor prodProc;
@@ -49,16 +51,38 @@ public class CrawlerCommand
 
         RegistryManager.init(cfg.registryCfg);
 
-        for(BundleCfg bCfg: cfg.bundles)
+        if(cfg.dirs != null)
         {
-            processBundle(bCfg);
+            processDirs();
         }
-        
+        else if(cfg.bundles != null)
+        {
+            processBundles();
+        }
+                
         regWriter.close();
         refsWriter.close();
         RegistryManager.destroy();
         
         printSummary();
+    }
+    
+    
+    private void processBundles() throws Exception
+    {
+        for(BundleCfg bCfg: cfg.bundles)
+        {
+            processBundle(bCfg);
+        }
+    }
+    
+    
+    private void processDirs() throws Exception
+    {
+        for(String path: cfg.dirs)
+        {
+            processDirectory(path);
+        }
     }
     
     
@@ -105,11 +129,34 @@ public class CrawlerCommand
         
         // Processors
         counter = new Counter();
-        bundleProc = new BundleProcessor(cfg, regWriter, counter);
-        colProc = new CollectionProcessor(cfg, regWriter, refsWriter, counter);
-        prodProc = new ProductProcessor(cfg, regWriter, counter);
+
+        if(cfg.dirs != null)
+        {
+            dirsProc = new DirsProcessor(cfg, regWriter, refsWriter, counter);
+        }
+        else if(cfg.bundles != null)
+        {
+            bundleProc = new BundleProcessor(cfg, regWriter, counter);
+            colProc = new CollectionProcessor(cfg, regWriter, refsWriter, counter);
+            prodProc = new ProductProcessor(cfg, regWriter, counter);
+        }
     }
 
+    
+    private void processDirectory(String path) throws Exception
+    {
+        File rootDir = new File(path);
+        if(!rootDir.exists())
+        {
+            log.warn("Invalid path: " + rootDir.getAbsolutePath());
+            return;
+        }
+        
+        log.info("Processing directory: " + rootDir.getAbsolutePath());
+        
+        dirsProc.process(rootDir);
+    }
+    
     
     private void processBundle(BundleCfg bCfg) throws Exception
     {

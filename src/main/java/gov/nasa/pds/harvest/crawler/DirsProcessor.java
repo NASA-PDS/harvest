@@ -14,10 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
-import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.dao.RegistryDAO;
-import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
 import gov.nasa.pds.harvest.meta.CollectionMetadataExtractor;
@@ -30,15 +27,16 @@ import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
-public class CollectionProcessor
+public class DirsProcessor
 {
     private Logger log;
-
+    
     // Skip files bigger than 10MB
     private static final long MAX_XML_FILE_LENGTH = 10_000_000;
 
     private Configuration config;
     private RegistryDocWriter writer;
+    
     private CollectionInventoryProcessor invProc;
     
     private DocumentBuilderFactory dbf;
@@ -49,11 +47,10 @@ public class CollectionProcessor
     private XPathExtractor xpathExtractor;
     private FileMetadataExtractor fileDataExtractor;
     
-    private int collectionCount;
     private Counter counter;
-
     
-    public CollectionProcessor(Configuration config, RegistryDocWriter writer, 
+    
+    public DirsProcessor(Configuration config, RegistryDocWriter writer, 
             RefsDocWriter refsWriter, Counter counter) throws Exception
     {
         this.config = config;
@@ -67,42 +64,38 @@ public class CollectionProcessor
         dbf.setNamespaceAware(false);
         
         basicExtractor = new BasicMetadataExtractor();
-        collectionExtractor = new CollectionMetadataExtractor();
         refExtractor = new InternalReferenceExtractor();
-        xpathExtractor = new XPathExtractor();
         autogenExtractor = new AutogenExtractor(config.autogen);
         fileDataExtractor = new FileMetadataExtractor(config);
+        xpathExtractor = new XPathExtractor();
+        
+        collectionExtractor = new CollectionMetadataExtractor();
     }
     
-
-    private static class CollectionMatcher implements BiPredicate<Path, BasicFileAttributes>
+    
+    private static class FileMatcher implements BiPredicate<Path, BasicFileAttributes>
     {
         @Override
         public boolean test(Path path, BasicFileAttributes attrs)
         {
             String fileName = path.getFileName().toString().toLowerCase();
-            return (fileName.endsWith(".xml") && fileName.contains("collection"));
+            return (fileName.endsWith(".xml"));
         }
     }
-
     
-    public int process(BundleCfg bCfg) throws Exception
+    
+    public void process(File dir) throws Exception
     {
-        collectionCount = 0;
-        
-        File bundleDir = new File(bCfg.dir);
-        Iterator<Path> it = Files.find(bundleDir.toPath(), 2, new CollectionMatcher()).iterator();
+        Iterator<Path> it = Files.find(dir.toPath(), Integer.MAX_VALUE, new FileMatcher()).iterator();
         
         while(it.hasNext())
         {
-            onCollection(it.next().toFile(), bCfg);
+            onFile(it.next().toFile());
         }
-        
-        return collectionCount;
     }
-
-
-    private void onCollection(File file, BundleCfg bCfg) throws Exception
+    
+    
+    private void onFile(File file) throws Exception
     {
         // Skip very large files
         if(file.length() > MAX_XML_FILE_LENGTH)
@@ -112,64 +105,47 @@ public class CollectionProcessor
         }
 
         Document doc = XmlDomUtils.readXml(dbf, file);
-        String rootElement = doc.getDocumentElement().getNodeName();
-        
-        // Ignore non-collection XMLs
-        if(!"Product_Collection".equals(rootElement)) return;
-        
-        processMetadata(file, doc, bCfg);
+        processMetadata(file, doc);
     }
+
     
-    
-    private void processMetadata(File file, Document doc, BundleCfg bCfg) throws Exception
+    private void processMetadata(File file, Document doc) throws Exception
     {
+        String rootElement = doc.getDocumentElement().getNodeName();
+
+        // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
 
-        // Collection filter
-        if(bCfg.collectionLids != null && !bCfg.collectionLids.contains(meta.lid)) return;
-        if(bCfg.collectionLidVids != null && !bCfg.collectionLidVids.contains(meta.lidvid)) return;
+        log.info("Processing " + file.getAbsolutePath());
 
-        // Ignore collections not listed in bundles
-        LidVidCache cache = RefsCache.getInstance().getCollectionRefsCache();
-        if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) return;
         
-        log.info("Processing collection " + file.getAbsolutePath());
-        collectionCount++;
-        
-        RegistryDAO dao = (RegistryManager.getInstance() == null) ? null 
-                : RegistryManager.getInstance().getRegistryDAO(); 
-
-        // Collection already registered in the Registry (Elasticsearch)
-        if(dao != null && dao.idExists(meta.lidvid))
+        if("Product_Collection".equals(rootElement))
         {
-            log.warn("Collection " + meta.lidvid + " already registered");
-            
-            // Only cache but don't write product references
-            processInventoryFiles(file, doc, meta, false);
-            
-            counter.skippedFileCount++;
-            return;
+            processInventoryFiles(file, doc, meta);
         }
         
+        // Internal references
         refExtractor.addRefs(meta.intRefs, doc);
-        xpathExtractor.extract(doc, meta.fields);
         
+        // Extract fields by XPath
+        xpathExtractor.extract(doc, meta.fields);
+
+        // Extract fields autogenerated from data dictionary
         if(config.autogen != null)
         {
             autogenExtractor.extract(file, meta.fields);
         }
+
+        // Extract file data
+        fileDataExtractor.extract(file, meta);
         
-        fileDataExtractor.extract(file, meta);        
         writer.write(meta);
-        
-        // Cache and write product references
-        processInventoryFiles(file, doc, meta, true);
         
         counter.prodCounters.inc(meta.prodClass);
     }
 
     
-    private void processInventoryFiles(File collectionFile, Document doc, Metadata meta, boolean write) throws Exception
+    private void processInventoryFiles(File collectionFile, Document doc, Metadata meta) throws Exception
     {
         Set<String> fileNames = collectionExtractor.extractInventoryFileNames(doc);
         if(fileNames == null) return;
@@ -177,14 +153,7 @@ public class CollectionProcessor
         for(String fileName: fileNames)
         {
             File invFile = new File(collectionFile.getParentFile(), fileName);
-            if(write)
-            {
-                invProc.writeCollectionInventory(meta, invFile, true);
-            }
-            else
-            {
-                invProc.cacheNonRegisteredInventory(meta, invFile);
-            }
+            invProc.writeCollectionInventory(meta, invFile, false);
         }
     }
 
