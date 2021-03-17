@@ -198,8 +198,6 @@ public class CrawlerCommand
     
     private void printSummary()
     {
-        if(this.bundleCount == 0) return;
-        
         log.log(LogUtils.LEVEL_SUMMARY, "Summary:");
         int processedCount = counter.prodCounters.getTotal();
         
