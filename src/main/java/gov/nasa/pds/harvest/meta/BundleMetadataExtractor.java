@@ -34,6 +34,15 @@ public class BundleMetadataExtractor
     }
     
     
+    public String getShortRefType(String refType)
+    {
+        if(refType == null) return "collection";
+        
+        String[] tokens = refType.split("_");
+        return tokens[tokens.length-1];
+    }
+
+    
     public List<BundleMemberEntry> extractBundleMemberEntries(Document doc) throws Exception
     {
         List<BundleMemberEntry> list = new ArrayList<BundleMemberEntry>();

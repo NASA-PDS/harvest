@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.function.BiPredicate;
 
@@ -17,6 +18,7 @@ import org.w3c.dom.Document;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
+import gov.nasa.pds.harvest.meta.BundleMetadataExtractor;
 import gov.nasa.pds.harvest.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
@@ -36,12 +38,16 @@ public class DirsProcessor
 
     private Configuration config;
     private RegistryDocWriter writer;
-    
+
+    private DocumentBuilderFactory dbf;
+
+    // Bundle and Collection extractors & processors
+    private BundleMetadataExtractor bundleExtractor;
+    private CollectionMetadataExtractor collectionExtractor;
     private CollectionInventoryProcessor invProc;
     
-    private DocumentBuilderFactory dbf;
+    // Common extractors
     private BasicMetadataExtractor basicExtractor;
-    private CollectionMetadataExtractor collectionExtractor;
     private InternalReferenceExtractor refExtractor;
     private AutogenExtractor autogenExtractor;
     private XPathExtractor xpathExtractor;
@@ -69,6 +75,7 @@ public class DirsProcessor
         fileDataExtractor = new FileMetadataExtractor(config);
         xpathExtractor = new XPathExtractor();
         
+        bundleExtractor = new BundleMetadataExtractor();
         collectionExtractor = new CollectionMetadataExtractor();
     }
     
@@ -118,10 +125,15 @@ public class DirsProcessor
 
         log.info("Processing " + file.getAbsolutePath());
 
-        
+        // Process Collection specific data
         if("Product_Collection".equals(rootElement))
         {
             processInventoryFiles(file, doc, meta);
+        }
+        // Process Bundle specific data
+        if("Product_Bundle".equals(rootElement))
+        {
+            addCollectionRefs(meta, doc);
         }
         
         // Internal references
@@ -154,6 +166,43 @@ public class DirsProcessor
         {
             File invFile = new File(collectionFile.getParentFile(), fileName);
             invProc.writeCollectionInventory(meta, invFile, false);
+        }
+    }
+
+    
+    private void addCollectionRefs(Metadata meta, Document doc) throws Exception
+    {
+        List<BundleMetadataExtractor.BundleMemberEntry> bmes = bundleExtractor.extractBundleMemberEntries(doc);
+
+        for(BundleMetadataExtractor.BundleMemberEntry bme: bmes)
+        {
+            if(!bme.isPrimary) continue;
+
+            String shortRefType = bundleExtractor.getShortRefType(bme.type);
+            
+            if(bme.lidvid != null)
+            {
+                String key = "ref_lidvid_" + shortRefType;
+                meta.intRefs.addValue(key, bme.lidvid);
+            }
+            
+            if(bme.lid != null)
+            {
+                String key = "ref_lid_" + shortRefType;
+                meta.intRefs.addValue(key, bme.lid);
+            }
+            
+            // Convert lidvid to lid
+            if(bme.lidvid != null && bme.lid == null)
+            {
+                int idx = bme.lidvid.indexOf("::");
+                if(idx > 0)
+                {
+                    String lid = bme.lidvid.substring(0, idx);
+                    String key = "ref_lid_" + shortRefType;
+                    meta.intRefs.addValue(key, lid);
+                }
+            }
         }
     }
 

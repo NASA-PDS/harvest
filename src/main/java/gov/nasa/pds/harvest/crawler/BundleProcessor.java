@@ -166,7 +166,7 @@ public class BundleProcessor
 
             LidVidCache cache = RefsCache.getInstance().getCollectionRefsCache();
             
-            String shortRefType = getShortRefType(bme.type);
+            String shortRefType = bundleExtractor.getShortRefType(bme.type);
             
             if(bme.lidvid != null)
             {
@@ -197,11 +197,4 @@ public class BundleProcessor
     }
     
     
-    private String getShortRefType(String refType)
-    {
-        if(refType == null) return "collection";
-        
-        String[] tokens = refType.split("_");
-        return tokens[tokens.length-1];
-    }
 }
