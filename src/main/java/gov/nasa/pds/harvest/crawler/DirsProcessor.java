@@ -61,7 +61,7 @@ public class DirsProcessor
     {
         this.config = config;
         this.writer = writer;
-        this.invProc = new CollectionInventoryProcessor(refsWriter);
+        this.invProc = new CollectionInventoryProcessor(refsWriter, config.refsCfg.primaryOnly);
         this.counter = counter;
         
         log = LogManager.getLogger(this.getClass());
@@ -176,33 +176,7 @@ public class DirsProcessor
 
         for(BundleMetadataExtractor.BundleMemberEntry bme: bmes)
         {
-            if(!bme.isPrimary) continue;
-
-            String shortRefType = bundleExtractor.getShortRefType(bme.type);
-            
-            if(bme.lidvid != null)
-            {
-                String key = "ref_lidvid_" + shortRefType;
-                meta.intRefs.addValue(key, bme.lidvid);
-            }
-            
-            if(bme.lid != null)
-            {
-                String key = "ref_lid_" + shortRefType;
-                meta.intRefs.addValue(key, bme.lid);
-            }
-            
-            // Convert lidvid to lid
-            if(bme.lidvid != null && bme.lid == null)
-            {
-                int idx = bme.lidvid.indexOf("::");
-                if(idx > 0)
-                {
-                    String lid = bme.lidvid.substring(0, idx);
-                    String key = "ref_lid_" + shortRefType;
-                    meta.intRefs.addValue(key, lid);
-                }
-            }
+            bundleExtractor.addRefs(meta.intRefs, bme);
         }
     }
 

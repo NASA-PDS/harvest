@@ -58,7 +58,7 @@ public class CollectionProcessor
     {
         this.config = config;
         this.writer = writer;
-        this.invProc = new CollectionInventoryProcessor(refsWriter);
+        this.invProc = new CollectionInventoryProcessor(refsWriter, config.refsCfg.primaryOnly);
         this.counter = counter;
         
         log = LogManager.getLogger(this.getClass());

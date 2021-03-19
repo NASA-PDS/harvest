@@ -10,6 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
 
@@ -21,6 +22,7 @@ public class BundleMetadataExtractor
         public String lidvid;
         public boolean isPrimary = false;
         public String type;
+        public String shortType;
     }
     
     
@@ -33,15 +35,6 @@ public class BundleMetadataExtractor
         xBme = XPathUtils.compileXPath(xpf, "/Product_Bundle/Bundle_Member_Entry");
     }
     
-    
-    public String getShortRefType(String refType)
-    {
-        if(refType == null) return "collection";
-        
-        String[] tokens = refType.split("_");
-        return tokens[tokens.length-1];
-    }
-
     
     public List<BundleMemberEntry> extractBundleMemberEntries(Document doc) throws Exception
     {
@@ -57,6 +50,36 @@ public class BundleMetadataExtractor
         }
         
         return list;
+    }
+
+    
+    public void addRefs(FieldMap fmap, BundleMemberEntry bme)
+    {
+        if(!bme.isPrimary) return;
+        
+        if(bme.lidvid != null)
+        {
+            String key = "ref_lidvid_" + bme.shortType;
+            fmap.addValue(key, bme.lidvid);
+        }
+        
+        if(bme.lid != null)
+        {
+            String key = "ref_lid_" + bme.shortType;
+            fmap.addValue(key, bme.lid);
+        }
+        
+        // Convert lidvid to lid only if lid is not available
+        if(bme.lidvid != null && bme.lid == null)
+        {
+            int idx = bme.lidvid.indexOf("::");
+            if(idx > 0)
+            {
+                String lid = bme.lidvid.substring(0, idx);
+                String key = "ref_lid_" + bme.shortType;
+                fmap.addValue(key, lid);
+            }
+        }
     }
 
     
@@ -81,7 +104,9 @@ public class BundleMetadataExtractor
             }
             else if(nodeName.equals("reference_type"))
             {
-                bme.type = node.getTextContent().trim(); 
+                bme.type = node.getTextContent().trim();
+                String[] tokens = bme.type.split("_");
+                bme.shortType = tokens[tokens.length-1];
             }
             else if(nodeName.equals("member_status"))
             {
@@ -89,6 +114,8 @@ public class BundleMetadataExtractor
                 bme.isPrimary = "Primary".equalsIgnoreCase(status); 
             }
         }
+        
+        if(bme.shortType == null) bme.shortType = "collection"; 
 
         return bme;
     }

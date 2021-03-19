@@ -162,39 +162,21 @@ public class BundleProcessor
 
         for(BundleMetadataExtractor.BundleMemberEntry bme: bmes)
         {
-            if(!bme.isPrimary) continue;
-
-            LidVidCache cache = RefsCache.getInstance().getCollectionRefsCache();
-            
-            String shortRefType = bundleExtractor.getShortRefType(bme.type);
-            
-            if(bme.lidvid != null)
-            {
-                String key = "ref_lidvid_" + shortRefType;
-                meta.intRefs.addValue(key, bme.lidvid);
-                cache.addLidVid(bme.lidvid);
-            }
-            
-            if(bme.lid != null)
-            {
-                String key = "ref_lid_" + shortRefType;
-                meta.intRefs.addValue(key, bme.lid);
-                cache.addLid(bme.lid);
-            }
-            
-            // Convert lidvid to lid
-            if(bme.lidvid != null && bme.lid == null)
-            {
-                int idx = bme.lidvid.indexOf("::");
-                if(idx > 0)
-                {
-                    String lid = bme.lidvid.substring(0, idx);
-                    String key = "ref_lid_" + shortRefType;
-                    meta.intRefs.addValue(key, lid);
-                }
-            }
+            cacheRefs(bme);
+            bundleExtractor.addRefs(meta.intRefs, bme);
         }
     }
     
-    
+
+    private void cacheRefs(BundleMetadataExtractor.BundleMemberEntry bme)
+    {
+        // Only cache primary references
+        if(!bme.isPrimary) return;
+        
+        LidVidCache cache = RefsCache.getInstance().getCollectionRefsCache();
+
+        if(bme.lidvid != null) cache.addLidVid(bme.lidvid);
+        if(bme.lid != null) cache.addLid(bme.lid);
+    }
+
 }

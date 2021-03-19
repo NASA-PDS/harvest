@@ -13,12 +13,14 @@ public class InventoryBatchReader
 {
     private Logger log;
     private BufferedReader rd;
+    private boolean primaryOnly;
     
     
-    public InventoryBatchReader(Reader reader)
+    public InventoryBatchReader(Reader reader, boolean primaryOnly)
     {
         log = LogManager.getLogger(this.getClass());
         rd = new BufferedReader(reader);
+        this.primaryOnly = primaryOnly;
     }
     
     
@@ -46,7 +48,8 @@ public class InventoryBatchReader
                 continue;
             }
             
-            if("P".equalsIgnoreCase(tokens[0].trim()))
+            boolean isPrimary = "P".equalsIgnoreCase(tokens[0].trim());
+            if(isPrimary)
             {
                 count++;
                 String ref = tokens[1].trim();

@@ -36,8 +36,6 @@ public class CrawlerCommand
     private CollectionProcessor colProc;
     private ProductProcessor prodProc;
     
-    private int bundleCount;
-    
     
     public CrawlerCommand()
     {
@@ -180,8 +178,6 @@ public class CrawlerCommand
             log.warn("No bundles found in " + rootDir.getAbsolutePath());
             return;
         }
-        
-        this.bundleCount += count;
         
         // Process collections
         count = colProc.process(bCfg);

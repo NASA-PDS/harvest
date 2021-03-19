@@ -21,14 +21,15 @@ public class CollectionInventoryProcessor
     private int ELASTIC_BATCH_SIZE = 50;
     
     private ProdRefsBatch batch = new ProdRefsBatch();
-    
     private RefsDocWriter writer;
+    private boolean primaryOnly;
     
     
-    public CollectionInventoryProcessor(RefsDocWriter writer)
+    public CollectionInventoryProcessor(RefsDocWriter writer, boolean primaryOnly)
     {
         log = LogManager.getLogger(this.getClass());
         this.writer = writer;
+        this.primaryOnly = primaryOnly;
     }
     
     
@@ -37,7 +38,7 @@ public class CollectionInventoryProcessor
         batch.batchNum = 0;
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         
-        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile));
+        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile), primaryOnly);
         
         while(true)
         {
@@ -69,7 +70,7 @@ public class CollectionInventoryProcessor
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         RegistryDAO dao = RegistryManager.getInstance().getRegistryDAO(); 
 
-        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile));
+        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile), primaryOnly);
         
         while(true)
         {
