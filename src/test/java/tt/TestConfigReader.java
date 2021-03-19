@@ -16,6 +16,9 @@ public class TestConfigReader
 
         printBundles(cfg);
         printDirs(cfg);
+
+        System.out.println();
+        System.out.println("Refs: primary only: " + cfg.refsCfg.primaryOnly);
     }
     
     

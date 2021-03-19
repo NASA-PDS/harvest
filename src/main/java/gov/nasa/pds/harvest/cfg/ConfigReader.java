@@ -12,6 +12,7 @@ import gov.nasa.pds.harvest.cfg.parser.BundleConfigParser;
 import gov.nasa.pds.harvest.cfg.parser.DirsParser;
 import gov.nasa.pds.harvest.cfg.parser.AutogenParser;
 import gov.nasa.pds.harvest.cfg.parser.FiltersParser;
+import gov.nasa.pds.harvest.cfg.parser.RefsParser;
 import gov.nasa.pds.harvest.cfg.parser.RegistryConfigParser;
 import gov.nasa.pds.harvest.cfg.parser.FileInfoParser;
 import gov.nasa.pds.harvest.cfg.parser.XpathMapParser;
@@ -54,6 +55,7 @@ public class ConfigReader
         cfg.xpathMaps = XpathMapParser.parseXPathMaps(doc);
         cfg.fileInfo = FileInfoParser.parseFileInfo(doc);
         cfg.autogen = AutogenParser.parseAutogenFields(doc);
+        cfg.refsCfg = RefsParser.parseReferences(root);
 
         return cfg;
     }
@@ -92,6 +94,8 @@ public class ConfigReader
                 case "autogenFields":
                     break;
                 case "xpathMaps":
+                    break;
+                case "references":
                     break;
                 default:
                     throw new Exception(ERROR + "Invalid XML element '/harvest/" + name + "'");
