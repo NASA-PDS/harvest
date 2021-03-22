@@ -162,6 +162,8 @@ public class BundleProcessor
 
         for(BundleMetadataExtractor.BundleMemberEntry bme: bmes)
         {
+            if(!bme.isPrimary && config.refsCfg.primaryOnly) continue;
+            
             cacheRefs(bme);
             bundleExtractor.addRefs(meta.intRefs, bme);
         }

@@ -176,6 +176,8 @@ public class DirsProcessor
 
         for(BundleMetadataExtractor.BundleMemberEntry bme: bmes)
         {
+            if(!bme.isPrimary && config.refsCfg.primaryOnly) continue;
+            
             bundleExtractor.addRefs(meta.intRefs, bme);
         }
     }
