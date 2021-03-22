@@ -23,6 +23,18 @@ public class BundleMetadataExtractor
         public boolean isPrimary = false;
         public String type;
         public String shortType;
+        
+        public String getLidVidKey()
+        {
+            String key = "ref_lidvid_" + shortType;
+            return isPrimary ? key : key + "_secondary";
+        }
+        
+        public String getLidKey()
+        {
+            String key = "ref_lid_" + shortType;
+            return isPrimary ? key : key + "_secondary";
+        }
     }
     
     
@@ -55,18 +67,14 @@ public class BundleMetadataExtractor
     
     public void addRefs(FieldMap fmap, BundleMemberEntry bme)
     {
-        if(!bme.isPrimary) return;
-        
         if(bme.lidvid != null)
         {
-            String key = "ref_lidvid_" + bme.shortType;
-            fmap.addValue(key, bme.lidvid);
+            fmap.addValue(bme.getLidVidKey(), bme.lidvid);
         }
         
         if(bme.lid != null)
         {
-            String key = "ref_lid_" + bme.shortType;
-            fmap.addValue(key, bme.lid);
+            fmap.addValue(bme.getLidKey(), bme.lid);
         }
         
         // Convert lidvid to lid only if lid is not available
@@ -76,8 +84,7 @@ public class BundleMetadataExtractor
             if(idx > 0)
             {
                 String lid = bme.lidvid.substring(0, idx);
-                String key = "ref_lid_" + bme.shortType;
-                fmap.addValue(key, lid);
+                fmap.addValue(bme.getLidKey(), lid);
             }
         }
     }
