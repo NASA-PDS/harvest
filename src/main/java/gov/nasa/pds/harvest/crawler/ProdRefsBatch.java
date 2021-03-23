@@ -30,27 +30,29 @@ public class ProdRefsBatch
     }
 
     
-    public void addLidVid(String value)
+    public void addLidVid(String value, boolean isPrimary)
     {
-        lidvids.add(value);
+        if(isPrimary)
+        {
+            lidvids.add(value);
+        }
+        else
+        {
+            secLidvids.add(value);
+        }
     }
 
 
-    public void addSecondaryLidVid(String value)
+    public void addLid(String value, boolean isPrimary)
     {
-        secLidvids.add(value);
-    }
-
-    
-    public void addLid(String value)
-    {
-        lids.add(value);
-    }
-    
-
-    public void addSecondaryLid(String value)
-    {
-        secLids.add(value);
+        if(isPrimary)
+        {
+            lids.add(value);
+        }
+        else
+        {
+            secLids.add(value);
+        }
     }
 
 }

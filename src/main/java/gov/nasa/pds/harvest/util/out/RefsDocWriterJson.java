@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.List;
 
 import com.google.gson.stream.JsonWriter;
 
@@ -47,12 +46,15 @@ public class RefsDocWriterJson implements RefsDocWriter
         
         // LidVid refs
         NDJsonDocUtils.writeField(jw, "product_lidvid", batch.lidvids);
+        NDJsonDocUtils.writeField(jw, "secondary_product_lidvid", batch.secLidvids);
+        
         // Convert lidvids to lids
-        List<String> lids = LidVidUtils.lidvidToLid(batch.lidvids);
-        NDJsonDocUtils.writeField(jw, "product_lid", lids);
+        NDJsonDocUtils.writeField(jw, "product_lid", LidVidUtils.lidvidToLid(batch.lidvids));
+        NDJsonDocUtils.writeField(jw, "secondary_product_lid", LidVidUtils.lidvidToLid(batch.secLidvids));
         
         // Lid refs
         NDJsonDocUtils.writeField(jw, "product_lid", batch.lids);
+        NDJsonDocUtils.writeField(jw, "secondary_product_lid", batch.secLids);
         
         // Transaction ID
         NDJsonDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());

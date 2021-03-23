@@ -70,7 +70,7 @@ public class CollectionInventoryProcessor
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         RegistryDAO dao = RegistryManager.getInstance().getRegistryDAO(); 
 
-        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile), primaryOnly);
+        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile), true);
         
         while(true)
         {

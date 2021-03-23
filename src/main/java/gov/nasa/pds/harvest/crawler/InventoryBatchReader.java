@@ -49,25 +49,26 @@ public class InventoryBatchReader
             }
             
             boolean isPrimary = "P".equalsIgnoreCase(tokens[0].trim());
-            if(isPrimary)
+
+            if(!isPrimary && primaryOnly) continue;
+
+            count++;
+
+            String ref = tokens[1].trim();
+            int idx = ref.indexOf("::");
+            
+            // This is a lidvid reference
+            if(idx > 0)
             {
-                count++;
-                String ref = tokens[1].trim();
-                int idx = ref.indexOf("::");
-                
-                // This is a lidvid reference
-                if(idx > 0)
-                {
-                    batch.addLidVid(ref);
-                }
-                // lid reference
-                else
-                {
-                    batch.addLid(ref);
-                }
-                
-                if(count >= batchSize) return count;
+                batch.addLidVid(ref, isPrimary);
             }
+            // lid reference
+            else
+            {
+                batch.addLid(ref, isPrimary);
+            }
+            
+            if(count >= batchSize) return count;
         }
 
         return count;

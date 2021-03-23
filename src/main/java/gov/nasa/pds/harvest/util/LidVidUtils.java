@@ -8,6 +8,8 @@ public class LidVidUtils
 {
     public static List<String> lidvidToLid(Collection<String> lidvids)
     {
+        if(lidvids == null || lidvids.isEmpty()) return null;
+        
         List<String> lids = new ArrayList<>();
         
         for(String lidvid: lidvids)
