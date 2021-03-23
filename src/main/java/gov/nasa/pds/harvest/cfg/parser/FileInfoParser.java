@@ -15,7 +15,7 @@ import gov.nasa.pds.harvest.util.xml.XPathUtils;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
-public class Rfile
+public class FileInfoParser
 {
     private static Set<String> FILE_INFO_ATTRS = new TreeSet<>();
     static

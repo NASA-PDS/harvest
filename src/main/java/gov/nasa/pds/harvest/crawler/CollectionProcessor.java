@@ -58,7 +58,7 @@ public class CollectionProcessor
     {
         this.config = config;
         this.writer = writer;
-        this.invProc = new CollectionInventoryProcessor(refsWriter);
+        this.invProc = new CollectionInventoryProcessor(refsWriter, config.refsCfg.primaryOnly);
         this.counter = counter;
         
         log = LogManager.getLogger(this.getClass());
@@ -179,11 +179,11 @@ public class CollectionProcessor
             File invFile = new File(collectionFile.getParentFile(), fileName);
             if(write)
             {
-                invProc.writeCollectionInventory(meta, invFile);
+                invProc.writeCollectionInventory(meta, invFile, true);
             }
             else
             {
-                invProc.cacheNonRegisteredCollectionInventory(meta, invFile);
+                invProc.cacheNonRegisteredInventory(meta, invFile);
             }
         }
     }

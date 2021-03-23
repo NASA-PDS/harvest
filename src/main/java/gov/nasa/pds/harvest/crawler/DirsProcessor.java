@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BiPredicate;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,49 +15,53 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
-import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.dao.RegistryManager;
-import gov.nasa.pds.harvest.dao.RegistryDAO;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
 import gov.nasa.pds.harvest.meta.BundleMetadataExtractor;
+import gov.nasa.pds.harvest.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
+import gov.nasa.pds.harvest.util.out.RefsDocWriter;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
-public class BundleProcessor
+public class DirsProcessor
 {
     private Logger log;
-
+    
     // Skip files bigger than 10MB
     private static final long MAX_XML_FILE_LENGTH = 10_000_000;
 
     private Configuration config;
     private RegistryDocWriter writer;
-    
+
     private DocumentBuilderFactory dbf;
-    private BasicMetadataExtractor basicExtractor;
+
+    // Bundle and Collection extractors & processors
     private BundleMetadataExtractor bundleExtractor;
+    private CollectionMetadataExtractor collectionExtractor;
+    private CollectionInventoryProcessor invProc;
+    
+    // Common extractors
+    private BasicMetadataExtractor basicExtractor;
     private InternalReferenceExtractor refExtractor;
     private AutogenExtractor autogenExtractor;
     private XPathExtractor xpathExtractor;
     private FileMetadataExtractor fileDataExtractor;
     
-    private int bundleCount;
     private Counter counter;
-
-    private BundleCfg bundleCfg;
     
     
-    public BundleProcessor(Configuration config, RegistryDocWriter writer, Counter counter) throws Exception
+    public DirsProcessor(Configuration config, RegistryDocWriter writer, 
+            RefsDocWriter refsWriter, Counter counter) throws Exception
     {
         this.config = config;
         this.writer = writer;
+        this.invProc = new CollectionInventoryProcessor(refsWriter, config.refsCfg.primaryOnly);
         this.counter = counter;
         
         log = LogManager.getLogger(this.getClass());
@@ -65,42 +70,39 @@ public class BundleProcessor
         dbf.setNamespaceAware(false);
         
         basicExtractor = new BasicMetadataExtractor();
-        bundleExtractor = new BundleMetadataExtractor();
         refExtractor = new InternalReferenceExtractor();
-        xpathExtractor = new XPathExtractor();
         autogenExtractor = new AutogenExtractor(config.autogen);
         fileDataExtractor = new FileMetadataExtractor(config);
+        xpathExtractor = new XPathExtractor();
+        
+        bundleExtractor = new BundleMetadataExtractor();
+        collectionExtractor = new CollectionMetadataExtractor();
     }
     
     
-    private static class BundleMatcher implements BiPredicate<Path, BasicFileAttributes>
+    private static class FileMatcher implements BiPredicate<Path, BasicFileAttributes>
     {
         @Override
         public boolean test(Path path, BasicFileAttributes attrs)
         {
             String fileName = path.getFileName().toString().toLowerCase();
-            return (fileName.endsWith(".xml") && fileName.contains("bundle"));
+            return (fileName.endsWith(".xml"));
         }
     }
-
     
-    public int process(BundleCfg bCfg) throws Exception
+    
+    public void process(File dir) throws Exception
     {
-        bundleCount = 0;
-        this.bundleCfg = bCfg;
+        Iterator<Path> it = Files.find(dir.toPath(), Integer.MAX_VALUE, new FileMatcher()).iterator();
         
-        File bundleDir = new File(bCfg.dir);
-        Iterator<Path> it = Files.find(bundleDir.toPath(), 1, new BundleMatcher()).iterator();
         while(it.hasNext())
         {
-            onBundle(it.next().toFile());
+            onFile(it.next().toFile());
         }
-
-        return bundleCount;
     }
-
-
-    private void onBundle(File file) throws Exception
+    
+    
+    private void onFile(File file) throws Exception
     {
         // Skip very large files
         if(file.length() > MAX_XML_FILE_LENGTH)
@@ -110,49 +112,61 @@ public class BundleProcessor
         }
 
         Document doc = XmlDomUtils.readXml(dbf, file);
-        String rootElement = doc.getDocumentElement().getNodeName();
-        
-        // Ignore non-bundle XMLs
-        if(!"Product_Bundle".equals(rootElement)) return;
-        
         processMetadata(file, doc);
     }
-    
+
     
     private void processMetadata(File file, Document doc) throws Exception
     {
+        String rootElement = doc.getDocumentElement().getNodeName();
+
+        // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
-        if(bundleCfg.versions != null && !bundleCfg.versions.contains(meta.vid)) return;
 
-        log.info("Processing bundle " + file.getAbsolutePath());
-        bundleCount++;
-        
-        RegistryDAO dao = (RegistryManager.getInstance() == null) ? null 
-                : RegistryManager.getInstance().getRegistryDAO(); 
+        log.info("Processing " + file.getAbsolutePath());
 
-        // Bundle already registered in the Registry (Elasticsearch)
-        if(dao != null && dao.idExists(meta.lidvid))
+        // Process Collection specific data
+        if("Product_Collection".equals(rootElement))
         {
-            log.warn("Bundle " + meta.lidvid + " already registered");
+            processInventoryFiles(file, doc, meta);
+        }
+        // Process Bundle specific data
+        if("Product_Bundle".equals(rootElement))
+        {
             addCollectionRefs(meta, doc);
-            counter.skippedFileCount++;
-            return;
         }
         
+        // Internal references
         refExtractor.addRefs(meta.intRefs, doc);
-        addCollectionRefs(meta, doc);
-        xpathExtractor.extract(doc, meta.fields);
         
+        // Extract fields by XPath
+        xpathExtractor.extract(doc, meta.fields);
+
+        // Extract fields autogenerated from data dictionary
         if(config.autogen != null)
         {
             autogenExtractor.extract(file, meta.fields);
         }
-        
+
+        // Extract file data
         fileDataExtractor.extract(file, meta);
         
         writer.write(meta);
         
         counter.prodCounters.inc(meta.prodClass);
+    }
+
+    
+    private void processInventoryFiles(File collectionFile, Document doc, Metadata meta) throws Exception
+    {
+        Set<String> fileNames = collectionExtractor.extractInventoryFileNames(doc);
+        if(fileNames == null) return;
+        
+        for(String fileName: fileNames)
+        {
+            File invFile = new File(collectionFile.getParentFile(), fileName);
+            invProc.writeCollectionInventory(meta, invFile, false);
+        }
     }
 
     
@@ -164,21 +178,8 @@ public class BundleProcessor
         {
             if(!bme.isPrimary && config.refsCfg.primaryOnly) continue;
             
-            cacheRefs(bme);
             bundleExtractor.addRefs(meta.intRefs, bme);
         }
-    }
-    
-
-    private void cacheRefs(BundleMetadataExtractor.BundleMemberEntry bme)
-    {
-        // Only cache primary references
-        if(!bme.isPrimary) return;
-        
-        LidVidCache cache = RefsCache.getInstance().getCollectionRefsCache();
-
-        if(bme.lidvid != null) cache.addLidVid(bme.lidvid);
-        if(bme.lid != null) cache.addLid(bme.lid);
     }
 
 }

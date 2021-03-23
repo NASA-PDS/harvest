@@ -18,7 +18,7 @@ public class BundleConfigParser
     public static List<BundleCfg> parseBundles(Node root) throws Exception
     {
         int count = XmlDomUtils.countChildNodes(root, "bundles");
-        if(count == 0) throw new Exception("Missing required element '/harvest/bundles'");
+        if(count == 0) return null;
         if(count > 1) throw new Exception("Could not have more than one '/harvest/bundles' element");
 
         Node bundlesNode = XmlDomUtils.getFirstChild(root, "bundles");

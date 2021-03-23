@@ -21,23 +21,24 @@ public class CollectionInventoryProcessor
     private int ELASTIC_BATCH_SIZE = 50;
     
     private ProdRefsBatch batch = new ProdRefsBatch();
-    
     private RefsDocWriter writer;
+    private boolean primaryOnly;
     
     
-    public CollectionInventoryProcessor(RefsDocWriter writer)
+    public CollectionInventoryProcessor(RefsDocWriter writer, boolean primaryOnly)
     {
         log = LogManager.getLogger(this.getClass());
         this.writer = writer;
+        this.primaryOnly = primaryOnly;
     }
     
     
-    public void writeCollectionInventory(Metadata meta, File inventoryFile) throws Exception
+    public void writeCollectionInventory(Metadata meta, File inventoryFile, boolean cacheProductIds) throws Exception
     {
         batch.batchNum = 0;
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         
-        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile));
+        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile), primaryOnly);
         
         while(true)
         {
@@ -45,8 +46,11 @@ public class CollectionInventoryProcessor
             if(count == 0) break;
             
             // Update cache. Only products in cache will be processed.
-            cache.addLidVids(batch.lidvids);
-            cache.addLids(batch.lids);
+            if(cacheProductIds)
+            {
+                cache.addLidVids(batch.lidvids);
+                cache.addLids(batch.lids);
+            }
             
             // Write batch
             writer.writeBatch(meta, batch);
@@ -58,7 +62,7 @@ public class CollectionInventoryProcessor
     }
     
     
-    public void cacheNonRegisteredCollectionInventory(Metadata meta, File inventoryFile) throws Exception
+    public void cacheNonRegisteredInventory(Metadata meta, File inventoryFile) throws Exception
     {
         if(RegistryManager.getInstance() == null) throw new Exception("Registry is not configured");
 
@@ -66,7 +70,7 @@ public class CollectionInventoryProcessor
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         RegistryDAO dao = RegistryManager.getInstance().getRegistryDAO(); 
 
-        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile));
+        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile), primaryOnly);
         
         while(true)
         {

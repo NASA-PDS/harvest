@@ -6,7 +6,7 @@ import gov.nasa.pds.harvest.cfg.model.AutogenCfg;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
 
-public class Rautogen
+public class AutogenParser
 {
     public static AutogenCfg parseAutogenFields(Document doc) throws Exception
     {

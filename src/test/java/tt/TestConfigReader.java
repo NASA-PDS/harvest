@@ -11,14 +11,38 @@ public class TestConfigReader
 
     public static void main(String[] args) throws Exception
     {
-        Configuration cfg = ConfigReader.read(new File("/tmp/harvest.xml"));
-        
+        ConfigReader cfgReader = new ConfigReader();
+        Configuration cfg = cfgReader.read(new File("/tmp/harvest.xml"));
+
+        printBundles(cfg);
+        printDirs(cfg);
+
+        System.out.println();
+        System.out.println("Refs: primary only: " + cfg.refsCfg.primaryOnly);
+    }
+    
+    
+    private static void printBundles(Configuration cfg)
+    {
+        if(cfg.bundles == null) return;
+
         for(BundleCfg bundle: cfg.bundles)
         {
-            System.out.println("Collections: " + bundle.collectionLids);
-            System.out.println("Prod dirs: " + bundle.productDirs);
+            System.out.println("Bundle dir: " + bundle.dir);
+            if(bundle.collectionLids != null) System.out.println("    Collections: " + bundle.collectionLids);
+            if(bundle.productDirs != null) System.out.println("    Prod dirs: " + bundle.productDirs);
             System.out.println();
         }
     }
 
+    
+    private static void printDirs(Configuration cfg)
+    {
+        if(cfg.dirs == null) return;
+
+        for(String dir: cfg.dirs)
+        {
+            System.out.println("Directory: " + dir);
+        }
+    }
 }

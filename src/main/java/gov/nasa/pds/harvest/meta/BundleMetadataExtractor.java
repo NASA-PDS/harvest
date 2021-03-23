@@ -10,6 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
 
@@ -21,6 +22,19 @@ public class BundleMetadataExtractor
         public String lidvid;
         public boolean isPrimary = false;
         public String type;
+        public String shortType;
+        
+        public String getLidVidKey()
+        {
+            String key = "ref_lidvid_" + shortType;
+            return isPrimary ? key : key + "_secondary";
+        }
+        
+        public String getLidKey()
+        {
+            String key = "ref_lid_" + shortType;
+            return isPrimary ? key : key + "_secondary";
+        }
     }
     
     
@@ -51,6 +65,31 @@ public class BundleMetadataExtractor
     }
 
     
+    public void addRefs(FieldMap fmap, BundleMemberEntry bme)
+    {
+        if(bme.lidvid != null)
+        {
+            fmap.addValue(bme.getLidVidKey(), bme.lidvid);
+        }
+        
+        if(bme.lid != null)
+        {
+            fmap.addValue(bme.getLidKey(), bme.lid);
+        }
+        
+        // Convert lidvid to lid only if lid is not available
+        if(bme.lidvid != null && bme.lid == null)
+        {
+            int idx = bme.lidvid.indexOf("::");
+            if(idx > 0)
+            {
+                String lid = bme.lidvid.substring(0, idx);
+                fmap.addValue(bme.getLidKey(), lid);
+            }
+        }
+    }
+
+    
     private BundleMemberEntry createBme(Node root)
     {
         BundleMemberEntry bme = new BundleMemberEntry();
@@ -72,7 +111,9 @@ public class BundleMetadataExtractor
             }
             else if(nodeName.equals("reference_type"))
             {
-                bme.type = node.getTextContent().trim(); 
+                bme.type = node.getTextContent().trim();
+                String[] tokens = bme.type.split("_");
+                bme.shortType = tokens[tokens.length-1];
             }
             else if(nodeName.equals("member_status"))
             {
@@ -80,6 +121,8 @@ public class BundleMetadataExtractor
                 bme.isPrimary = "Primary".equalsIgnoreCase(status); 
             }
         }
+        
+        if(bme.shortType == null) bme.shortType = "collection"; 
 
         return bme;
     }

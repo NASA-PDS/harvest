@@ -12,7 +12,8 @@ public class TestFileMetadataExtractor
 
     public static void main(String[] args) throws Exception
     {
-        Configuration cfg = ConfigReader.read(new File("/tmp/harvest.xml"));
+        ConfigReader cfgReader = new ConfigReader();
+        Configuration cfg = cfgReader.read(new File("/tmp/harvest.xml"));
         FileMetadataExtractor extractor = new FileMetadataExtractor(cfg);
 
         File file = new File("/tmp/d1/atlas_document.xml");
