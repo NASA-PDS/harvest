@@ -112,6 +112,18 @@ public class DirsProcessor
         }
 
         Document doc = XmlDomUtils.readXml(dbf, file);
+        String rootElement = doc.getDocumentElement().getNodeName();
+        
+        // Apply product filter
+        if(config.filters.prodClassInclude != null)
+        {
+            if(!config.filters.prodClassInclude.contains(rootElement)) return;
+        }
+        else if(config.filters.prodClassExclude != null)
+        {
+            if(config.filters.prodClassExclude.contains(rootElement)) return;
+        }
+        
         processMetadata(file, doc);
     }
 
