@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.List;
 
 import com.google.gson.stream.JsonWriter;
 
@@ -30,8 +31,7 @@ public class RefsDocWriterJson implements RefsDocWriter
     @Override
     public void writeBatch(Metadata meta, ProdRefsBatch batch, RefType refType) throws Exception
     {
-        String typeString = (refType == RefType.PRIMARY) ? "P" : "S";
-        String id = meta.lidvid + "::" + typeString + batch.batchNum;
+        String id = meta.lidvid + "::" + refType.getId() + batch.batchNum;
         
         // First line: primary key 
         NDJsonDocUtils.writePK(writer, id);
@@ -42,17 +42,25 @@ public class RefsDocWriterJson implements RefsDocWriter
         JsonWriter jw = new JsonWriter(sw);
         
         jw.beginObject();
+        // Batch info
+        NDJsonDocUtils.writeField(jw, "batch_id", batch.batchNum);
+        NDJsonDocUtils.writeField(jw, "batch_size", batch.size);
+
         // Reference type
-        NDJsonDocUtils.writeField(jw, "reference_type", typeString);
+        NDJsonDocUtils.writeField(jw, "reference_type", refType.getLabel());
 
         // Collection ids
         NDJsonDocUtils.writeField(jw, "collection_lidvid", meta.lidvid);
-        NDJsonDocUtils.writeField(jw, "collection_lid", meta.lid);            
+        NDJsonDocUtils.writeField(jw, "collection_lid", meta.lid);
+        NDJsonDocUtils.writeField(jw, "collection_vid", meta.vid);
         
         // LidVid refs
         NDJsonDocUtils.writeField(jw, "product_lidvid", batch.lidvids);
+        
         // Convert lidvids to lids
-        NDJsonDocUtils.writeField(jw, "product_lid", LidVidUtils.lidvidToLid(batch.lidvids));
+        List<String> lids = LidVidUtils.lidvidToLid(batch.lidvids);        
+        NDJsonDocUtils.writeField(jw, "product_lid", lids);
+        
         // Lid refs
         NDJsonDocUtils.writeField(jw, "product_lid", batch.lids);
         

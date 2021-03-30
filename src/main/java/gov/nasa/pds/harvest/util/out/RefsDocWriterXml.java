@@ -30,20 +30,24 @@ public class RefsDocWriterXml implements RefsDocWriter
     @Override
     public void writeBatch(Metadata meta, ProdRefsBatch batch, RefType refType) throws Exception
     {
-        String typeString = (refType == RefType.PRIMARY) ? "P" : "S";
-        String id = meta.lidvid + "::" + typeString + batch.batchNum;
+        String id = meta.lidvid + "::" + refType.getId() + batch.batchNum;
         
         writer.append("<doc>\n");
         
         // Document id
         XmlDocUtils.writeField(writer, "_id", id);
         
+        // Batch info
+        XmlDocUtils.writeField(writer, "batch_id", String.valueOf(batch.batchNum));
+        XmlDocUtils.writeField(writer, "batch_size", String.valueOf(batch.size));
+        
         // Reference type
-        XmlDocUtils.writeField(writer, "reference_type", typeString);
+        XmlDocUtils.writeField(writer, "reference_type", refType.getLabel());
 
         // Collection ids
         XmlDocUtils.writeField(writer, "collection_lidvid", meta.lidvid);
         XmlDocUtils.writeField(writer, "collection_lid", meta.lid);
+        XmlDocUtils.writeField(writer, "collection_vid", meta.vid);
         
         // LidVid refs
         XmlDocUtils.writeField(writer, "product_lidvid", batch.lidvids);
