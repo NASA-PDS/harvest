@@ -11,9 +11,6 @@ public class ProdRefsBatch
     public List<String> lidvids = new ArrayList<>();
     public List<String> lids = new ArrayList<>();
 
-    public List<String> secLidvids = new ArrayList<>();
-    public List<String> secLids = new ArrayList<>();
-
     
     public ProdRefsBatch()
     {
@@ -24,35 +21,18 @@ public class ProdRefsBatch
     {
         lidvids.clear();
         lids.clear();
-
-        secLidvids.clear();
-        secLids.clear();
     }
 
     
-    public void addLidVid(String value, boolean isPrimary)
+    public void addLidVid(String value)
     {
-        if(isPrimary)
-        {
-            lidvids.add(value);
-        }
-        else
-        {
-            secLidvids.add(value);
-        }
+        lidvids.add(value);
     }
 
 
-    public void addLid(String value, boolean isPrimary)
+    public void addLid(String value)
     {
-        if(isPrimary)
-        {
-            lids.add(value);
-        }
-        else
-        {
-            secLids.add(value);
-        }
+        lids.add(value);
     }
 
 }

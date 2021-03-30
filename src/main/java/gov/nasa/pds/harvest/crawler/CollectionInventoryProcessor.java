@@ -35,10 +35,17 @@ public class CollectionInventoryProcessor
     
     public void writeCollectionInventory(Metadata meta, File inventoryFile, boolean cacheProductIds) throws Exception
     {
+        writePrimaryRefs(meta, inventoryFile, cacheProductIds);
+        if(!primaryOnly) writeSecondaryRefs(meta, inventoryFile);
+    }
+    
+    
+    private void writePrimaryRefs(Metadata meta, File inventoryFile, boolean cacheProductIds) throws Exception
+    {
         batch.batchNum = 0;
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         
-        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile), primaryOnly);
+        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile), RefType.PRIMARY);
         
         while(true)
         {
@@ -53,7 +60,28 @@ public class CollectionInventoryProcessor
             }
             
             // Write batch
-            writer.writeBatch(meta, batch);
+            writer.writeBatch(meta, batch, RefType.PRIMARY);
+            
+            if(count < WRITE_BATCH_SIZE) break;
+        }
+        
+        rd.close();
+    }
+
+    
+    private void writeSecondaryRefs(Metadata meta, File inventoryFile) throws Exception
+    {
+        batch.batchNum = 0;
+        
+        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile), RefType.SECONDARY);
+        
+        while(true)
+        {
+            int count = rd.readNextBatch(WRITE_BATCH_SIZE, batch);
+            if(count == 0) break;
+            
+            // Write batch
+            writer.writeBatch(meta, batch, RefType.SECONDARY);
             
             if(count < WRITE_BATCH_SIZE) break;
         }
@@ -70,7 +98,7 @@ public class CollectionInventoryProcessor
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         RegistryDAO dao = RegistryManager.getInstance().getRegistryDAO(); 
 
-        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile), true);
+        InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile), RefType.PRIMARY);
         
         while(true)
         {

@@ -8,6 +8,7 @@ import java.io.Writer;
 import com.google.gson.stream.JsonWriter;
 
 import gov.nasa.pds.harvest.crawler.ProdRefsBatch;
+import gov.nasa.pds.harvest.crawler.RefType;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.LidVidUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
@@ -27,9 +28,10 @@ public class RefsDocWriterJson implements RefsDocWriter
     
     
     @Override
-    public void writeBatch(Metadata meta, ProdRefsBatch batch) throws Exception
+    public void writeBatch(Metadata meta, ProdRefsBatch batch, RefType refType) throws Exception
     {
-        String id = meta.lidvid + "::" + batch.batchNum;
+        String typeString = (refType == RefType.PRIMARY) ? "P" : "S";
+        String id = meta.lidvid + "::" + typeString + batch.batchNum;
         
         // First line: primary key 
         NDJsonDocUtils.writePK(writer, id);
@@ -40,21 +42,19 @@ public class RefsDocWriterJson implements RefsDocWriter
         JsonWriter jw = new JsonWriter(sw);
         
         jw.beginObject();
+        // Reference type
+        NDJsonDocUtils.writeField(jw, "reference_type", typeString);
+
         // Collection ids
         NDJsonDocUtils.writeField(jw, "collection_lidvid", meta.lidvid);
         NDJsonDocUtils.writeField(jw, "collection_lid", meta.lid);            
         
         // LidVid refs
         NDJsonDocUtils.writeField(jw, "product_lidvid", batch.lidvids);
-        NDJsonDocUtils.writeField(jw, "secondary_product_lidvid", batch.secLidvids);
-        
         // Convert lidvids to lids
         NDJsonDocUtils.writeField(jw, "product_lid", LidVidUtils.lidvidToLid(batch.lidvids));
-        NDJsonDocUtils.writeField(jw, "secondary_product_lid", LidVidUtils.lidvidToLid(batch.secLidvids));
-        
         // Lid refs
         NDJsonDocUtils.writeField(jw, "product_lid", batch.lids);
-        NDJsonDocUtils.writeField(jw, "secondary_product_lid", batch.secLids);
         
         // Transaction ID
         NDJsonDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());

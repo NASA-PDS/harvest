@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.Writer;
 
 import gov.nasa.pds.harvest.crawler.ProdRefsBatch;
+import gov.nasa.pds.harvest.crawler.RefType;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.LidVidUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
@@ -27,28 +28,29 @@ public class RefsDocWriterXml implements RefsDocWriter
 
 
     @Override
-    public void writeBatch(Metadata meta, ProdRefsBatch batch) throws Exception
+    public void writeBatch(Metadata meta, ProdRefsBatch batch, RefType refType) throws Exception
     {
-        String id = meta.lidvid + "::" + batch.batchNum;
+        String typeString = (refType == RefType.PRIMARY) ? "P" : "S";
+        String id = meta.lidvid + "::" + typeString + batch.batchNum;
         
         writer.append("<doc>\n");
         
-        // Collection ids
+        // Document id
         XmlDocUtils.writeField(writer, "_id", id);
+        
+        // Reference type
+        XmlDocUtils.writeField(writer, "reference_type", typeString);
+
+        // Collection ids
         XmlDocUtils.writeField(writer, "collection_lidvid", meta.lidvid);
         XmlDocUtils.writeField(writer, "collection_lid", meta.lid);
         
         // LidVid refs
         XmlDocUtils.writeField(writer, "product_lidvid", batch.lidvids);
-        XmlDocUtils.writeField(writer, "secondary_product_lidvid", batch.secLidvids);
-        
         // Convert lidvids to lids
         XmlDocUtils.writeField(writer, "product_lid", LidVidUtils.lidvidToLid(batch.lidvids));
-        XmlDocUtils.writeField(writer, "secondary_product_lid", LidVidUtils.lidvidToLid(batch.secLidvids));
-        
         // Lid refs
         XmlDocUtils.writeField(writer, "product_lid", batch.lids);
-        XmlDocUtils.writeField(writer, "secondary_product_lid", batch.secLids);
         
         // Transaction ID
         XmlDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());

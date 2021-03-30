@@ -13,14 +13,14 @@ public class InventoryBatchReader
 {
     private Logger log;
     private BufferedReader rd;
-    private boolean primaryOnly;
+    private RefType readRefType;
+
     
-    
-    public InventoryBatchReader(Reader reader, boolean primaryOnly)
+    public InventoryBatchReader(Reader reader, RefType refType)
     {
         log = LogManager.getLogger(this.getClass());
         rd = new BufferedReader(reader);
-        this.primaryOnly = primaryOnly;
+        this.readRefType = refType;
     }
     
     
@@ -47,10 +47,9 @@ public class InventoryBatchReader
                 log.warn("Invalid collection inventory record: " + line);
                 continue;
             }
-            
-            boolean isPrimary = "P".equalsIgnoreCase(tokens[0].trim());
-
-            if(!isPrimary && primaryOnly) continue;
+                        
+            RefType refType = "P".equalsIgnoreCase(tokens[0].trim()) ? RefType.PRIMARY : RefType.SECONDARY; 
+            if(readRefType != refType) continue;
 
             count++;
 
@@ -60,12 +59,12 @@ public class InventoryBatchReader
             // This is a lidvid reference
             if(idx > 0)
             {
-                batch.addLidVid(ref, isPrimary);
+                batch.addLidVid(ref);
             }
             // lid reference
             else
             {
-                batch.addLid(ref, isPrimary);
+                batch.addLid(ref);
             }
             
             if(count >= batchSize) return count;
