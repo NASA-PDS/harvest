@@ -3,6 +3,7 @@ package gov.nasa.pds.harvest.util.out;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
+import java.util.Set;
 
 import gov.nasa.pds.harvest.crawler.ProdRefsBatch;
 import gov.nasa.pds.harvest.crawler.RefType;
@@ -49,12 +50,13 @@ public class RefsDocWriterXml implements RefsDocWriter
         XmlDocUtils.writeField(writer, "collection_lid", meta.lid);
         XmlDocUtils.writeField(writer, "collection_vid", meta.vid);
         
-        // LidVid refs
+        // Product refs
         XmlDocUtils.writeField(writer, "product_lidvid", batch.lidvids);
+        
         // Convert lidvids to lids
-        XmlDocUtils.writeField(writer, "product_lid", LidVidUtils.lidvidToLid(batch.lidvids));
-        // Lid refs
-        XmlDocUtils.writeField(writer, "product_lid", batch.lids);
+        Set<String> lids = LidVidUtils.lidvidToLid(batch.lidvids);
+        lids = LidVidUtils.add(lids, batch.lids);
+        XmlDocUtils.writeField(writer, "product_lid", lids);
         
         // Transaction ID
         XmlDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());

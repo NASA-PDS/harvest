@@ -54,19 +54,12 @@ public class NDJsonDocUtils
         key = toEsFieldName(key);
         jw.name(key);
 
-        if(values.size() == 1)
+        jw.beginArray();
+        for(String value: values)
         {
-            jw.value(values.iterator().next());
+            jw.value(value);
         }
-        else
-        {
-            jw.beginArray();
-            for(String value: values)
-            {
-                jw.value(value);
-            }
-            jw.endArray();
-        }
+        jw.endArray();
     }
 
     

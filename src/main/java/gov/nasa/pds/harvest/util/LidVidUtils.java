@@ -1,16 +1,17 @@
 package gov.nasa.pds.harvest.util;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 
 public class LidVidUtils
 {
-    public static List<String> lidvidToLid(Collection<String> lidvids)
+    public static Set<String> lidvidToLid(Collection<String> lidvids)
     {
-        if(lidvids == null || lidvids.isEmpty()) return null;
+        if(isEmpty(lidvids)) return null;
         
-        List<String> lids = new ArrayList<>();
+        Set<String> lids = new TreeSet<>();
         
         for(String lidvid: lidvids)
         {
@@ -28,4 +29,20 @@ public class LidVidUtils
         return lidvid.substring(0, idx);
     }
 
+    
+    public static Set<String> add(Set<String> set, Collection<String> col)
+    {
+        if(isEmpty(col)) return set;
+        
+        if(set == null) set = new TreeSet<>();
+        set.addAll(col);
+        
+        return set;
+    }
+    
+    
+    private static boolean isEmpty(Collection<String> col)
+    {
+        return col == null || col.isEmpty();
+    }
 }
