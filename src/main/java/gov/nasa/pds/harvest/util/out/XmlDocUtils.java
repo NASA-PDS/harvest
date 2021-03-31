@@ -19,6 +19,18 @@ public class XmlDocUtils
     }
     
     
+    public static void writeField(Writer writer, String key, float value) throws Exception
+    {
+        writeField(writer, key, String.valueOf(value));
+    }
+    
+
+    public static void writeField(Writer writer, String key, int value) throws Exception
+    {
+        writeField(writer, key, String.valueOf(value));
+    }
+
+    
     public static void writeField(Writer writer, String key, String value) throws Exception
     {
         if(value == null) return;

@@ -17,6 +17,7 @@ public class Log4jConfigurator
 {
     public static void configure(String verbosity, String filePath) 
     {
+        // Configure Log4j
         ConfigurationBuilder<BuiltConfiguration> cfg = ConfigurationBuilderFactory.newConfigurationBuilder();
         cfg.setStatusLevel(Level.ERROR);
         cfg.setConfigurationName("Harvest");

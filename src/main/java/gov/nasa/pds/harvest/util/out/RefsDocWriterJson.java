@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.List;
+import java.util.Set;
 
 import com.google.gson.stream.JsonWriter;
 
 import gov.nasa.pds.harvest.crawler.ProdRefsBatch;
+import gov.nasa.pds.harvest.crawler.RefType;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.LidVidUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
@@ -28,9 +29,9 @@ public class RefsDocWriterJson implements RefsDocWriter
     
     
     @Override
-    public void writeBatch(Metadata meta, ProdRefsBatch batch) throws Exception
+    public void writeBatch(Metadata meta, ProdRefsBatch batch, RefType refType) throws Exception
     {
-        String id = meta.lidvid + "::" + batch.batchNum;
+        String id = meta.lidvid + "::" + refType.getId() + batch.batchNum;
         
         // First line: primary key 
         NDJsonDocUtils.writePK(writer, id);
@@ -41,18 +42,25 @@ public class RefsDocWriterJson implements RefsDocWriter
         JsonWriter jw = new JsonWriter(sw);
         
         jw.beginObject();
+        // Batch info
+        NDJsonDocUtils.writeField(jw, "batch_id", batch.batchNum);
+        NDJsonDocUtils.writeField(jw, "batch_size", batch.size);
+
+        // Reference type
+        NDJsonDocUtils.writeField(jw, "reference_type", refType.getLabel());
+
         // Collection ids
         NDJsonDocUtils.writeField(jw, "collection_lidvid", meta.lidvid);
-        NDJsonDocUtils.writeField(jw, "collection_lid", meta.lid);            
+        NDJsonDocUtils.writeField(jw, "collection_lid", meta.lid);
+        NDJsonDocUtils.writeField(jw, "collection_vid", meta.vid);
         
-        // LidVid refs
+        // Product refs
         NDJsonDocUtils.writeField(jw, "product_lidvid", batch.lidvids);
-        // Convert lidvids to lids
-        List<String> lids = LidVidUtils.lidvidToLid(batch.lidvids);
-        NDJsonDocUtils.writeField(jw, "product_lid", lids);
         
-        // Lid refs
-        NDJsonDocUtils.writeField(jw, "product_lid", batch.lids);
+        // Convert lidvids to lids
+        Set<String> lids = LidVidUtils.lidvidToLid(batch.lidvids);
+        lids = LidVidUtils.add(lids, batch.lids);
+        NDJsonDocUtils.writeField(jw, "product_lid", lids);
         
         // Transaction ID
         NDJsonDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());

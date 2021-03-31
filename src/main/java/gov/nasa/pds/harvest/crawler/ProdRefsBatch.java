@@ -7,12 +7,10 @@ import java.util.List;
 public class ProdRefsBatch
 {
     public int batchNum;
+    public int size;
     
     public List<String> lidvids = new ArrayList<>();
     public List<String> lids = new ArrayList<>();
-
-    public List<String> secLidvids = new ArrayList<>();
-    public List<String> secLids = new ArrayList<>();
 
     
     public ProdRefsBatch()
@@ -24,33 +22,21 @@ public class ProdRefsBatch
     {
         lidvids.clear();
         lids.clear();
-
-        secLidvids.clear();
-        secLids.clear();
+        size = 0;
     }
 
     
     public void addLidVid(String value)
     {
         lidvids.add(value);
+        size++;
     }
 
 
-    public void addSecondaryLidVid(String value)
-    {
-        secLidvids.add(value);
-    }
-
-    
     public void addLid(String value)
     {
         lids.add(value);
-    }
-    
-
-    public void addSecondaryLid(String value)
-    {
-        secLids.add(value);
+        size++;
     }
 
 }

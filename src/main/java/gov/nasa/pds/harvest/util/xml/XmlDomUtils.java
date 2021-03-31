@@ -12,6 +12,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXParseException;
 
 
 public class XmlDomUtils
@@ -20,8 +21,23 @@ public class XmlDomUtils
     public static Document readXml(DocumentBuilderFactory dbf, File file) throws Exception
     {
         DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(file);
-        return doc;
+        // Don't print error messages to console.
+        db.setErrorHandler(null);
+        
+        try
+        {
+            Document doc = db.parse(file);
+            return doc;
+        }
+        catch(SAXParseException ex)
+        {
+            throw new Exception("Could not parse file " + file.getAbsolutePath() + ". " 
+                    + ex.getMessage() + " (line = " + ex.getLineNumber() + ", column = " + ex.getColumnNumber() + ").");
+        }
+        catch(Exception ex)
+        {
+            throw new Exception("Could not parse file " + file.getAbsolutePath() + ". " + ex.getMessage());
+        }
     }
 
     

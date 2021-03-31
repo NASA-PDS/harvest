@@ -47,6 +47,13 @@ public class NDJsonDocUtils
     }
 
     
+    public static void writeField(JsonWriter jw, String key, float value) throws Exception
+    {
+        key = toEsFieldName(key);
+        jw.name(key).value(value);
+    }
+
+    
     public static void writeField(JsonWriter jw, String key, Collection<String> values) throws Exception
     {
         if(values == null || values.isEmpty()) return;

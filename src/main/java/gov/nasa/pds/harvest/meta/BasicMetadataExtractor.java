@@ -51,13 +51,23 @@ public class BasicMetadataExtractor
             throw new Exception("Missing logical identifier: " + file);
         }
 
-        md.vid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xVid));
-        if(md.vid == null || md.vid.isEmpty())
+        String strVid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xVid));
+        if(strVid == null || strVid.isEmpty())
         {
-            throw new Exception("Missing version id");
+            throw new Exception("Missing '//Identification_Area/version_id'");
         }
 
-        md.lidvid = md.lid + "::" + md.vid;
+        try
+        {
+            md.vid = Float.parseFloat(strVid);
+        }
+        catch(Exception ex)
+        {
+            throw new Exception("Invalid '//Identification_Area/version_id': " +  strVid
+                    + ". Expecting M.m number, such as '1.0' or '2.5'.");
+        }
+        
+        md.lidvid = md.lid + "::" + strVid;
         
         // Title
         md.title = StringUtils.normalizeSpace(XPathUtils.getStringValue(doc, xTitle));
