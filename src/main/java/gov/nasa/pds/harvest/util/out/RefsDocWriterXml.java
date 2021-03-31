@@ -39,8 +39,8 @@ public class RefsDocWriterXml implements RefsDocWriter
         XmlDocUtils.writeField(writer, "_id", id);
         
         // Batch info
-        XmlDocUtils.writeField(writer, "batch_id", String.valueOf(batch.batchNum));
-        XmlDocUtils.writeField(writer, "batch_size", String.valueOf(batch.size));
+        XmlDocUtils.writeField(writer, "batch_id", batch.batchNum);
+        XmlDocUtils.writeField(writer, "batch_size", batch.size);
         
         // Reference type
         XmlDocUtils.writeField(writer, "reference_type", refType.getLabel());
