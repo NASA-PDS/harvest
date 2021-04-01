@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Configuration
 {
+    public String nodeName;
+    
     public List<BundleCfg> bundles;
     public List<String> dirs;
     

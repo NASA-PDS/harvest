@@ -12,6 +12,7 @@ import gov.nasa.pds.harvest.cfg.parser.BundleConfigParser;
 import gov.nasa.pds.harvest.cfg.parser.DirsParser;
 import gov.nasa.pds.harvest.cfg.parser.AutogenParser;
 import gov.nasa.pds.harvest.cfg.parser.FiltersParser;
+import gov.nasa.pds.harvest.cfg.parser.NodeNameValidator;
 import gov.nasa.pds.harvest.cfg.parser.RefsParser;
 import gov.nasa.pds.harvest.cfg.parser.RegistryConfigParser;
 import gov.nasa.pds.harvest.cfg.parser.FileInfoParser;
@@ -40,12 +41,16 @@ public class ConfigReader
         Element root = doc.getDocumentElement();
         if(!"harvest".equals(root.getNodeName()))
         {
-            throw new Exception("Invalid root element '" + root.getNodeName() + "'. Expected 'harvest'.");
+            throw new Exception(ERROR + "Invalid root element '" + root.getNodeName() + "'. Expected 'harvest'.");
         }
+
+        Configuration cfg = new Configuration();
+        cfg.nodeName = XmlDomUtils.getAttribute(root, "nodeName");
+        NodeNameValidator nnValidator = new NodeNameValidator();
+        nnValidator.validate(cfg.nodeName);
         
         validate(root);
         
-        Configuration cfg = new Configuration();
         cfg.registryCfg = RegistryConfigParser.parseRegistry(root);
         
         if(bundlesCount > 0) cfg.bundles = BundleConfigParser.parseBundles(root);
