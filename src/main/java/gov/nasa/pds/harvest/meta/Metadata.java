@@ -9,8 +9,10 @@ import gov.nasa.pds.harvest.util.FieldMapSet;
 public class Metadata
 {
     public String lid;
+    public String strVid;
     public float vid;
     public String lidvid;
+
     public String title;
     public String prodClass;
     

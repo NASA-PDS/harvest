@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
+import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryDAO;
@@ -124,6 +125,7 @@ public class CollectionProcessor
     private void processMetadata(File file, Document doc, BundleCfg bCfg) throws Exception
     {
         Metadata meta = basicExtractor.extract(file, doc);
+        meta.fields.addValue(Constants.FLD_NODE_NAME, config.nodeName);
 
         // Collection filter
         if(bCfg.collectionLids != null && !bCfg.collectionLids.contains(meta.lid)) return;

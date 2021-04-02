@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
+import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryManager;
@@ -122,7 +123,9 @@ public class BundleProcessor
     private void processMetadata(File file, Document doc) throws Exception
     {
         Metadata meta = basicExtractor.extract(file, doc);
-        if(bundleCfg.versions != null && !bundleCfg.versions.contains(meta.vid)) return;
+        meta.fields.addValue(Constants.FLD_NODE_NAME, config.nodeName);
+        
+        if(bundleCfg.versions != null && !bundleCfg.versions.contains(meta.strVid)) return;
 
         log.info("Processing bundle " + file.getAbsolutePath());
         bundleCount++;
