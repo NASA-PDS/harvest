@@ -25,6 +25,7 @@ public class NodeNameValidator
         map.put("PDS_SBN", "Planetary Data System: Small Bodies Node at University of Maryland");
         map.put("PSA",  "Planetary Science Archive");
         map.put("JAXA", "Japan Aerospace Exploration Agency");
+        map.put("ROSCOSMOS", "Russian State Corporation for Space Activities");
     }
     
     
@@ -39,7 +40,7 @@ public class NodeNameValidator
             buf.append("'/harvest@nodeName' attribute has invalid value: '" + id + "'.\n");
             buf.append("Please use one of the following values:\n");
             map.forEach((key, value) -> {
-                buf.append(String.format("    %-8s - %s\n", key, value));
+                buf.append(String.format("    %-9s - %s\n", key, value));
             });
             
             throw new Exception(buf.toString());
