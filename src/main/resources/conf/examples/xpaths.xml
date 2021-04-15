@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<harvest>
+<harvest nodeName="CHANGE_ME">
 
   <directories>
-    <!-- Path to one or more PDS4 bundle folders -->
-    <bundle>/home/pds/LADEE/ldex_20161118</bundle>
+    <!-- Path to one or more folders with PDS4 labels -->
+    <path>/home/pds/LADEE/ldex_20161118</path>
   </directories>
 
   <!-- 
@@ -21,11 +21,5 @@
     <xpathMap rootElement="Product_Observational" filePath="observational.xml" />
   </xpathMaps>
 
-  <!-- Extract internal references. 
-       Generated field names: <prefix>{lid|lidvid}_<reference_type> (e.g., ref_lid_target) -->
-  <internalRefs prefix="ref_">
-    <!-- Convert lidvids to lids. Keep lidvids. -->
-    <lidvid convertToLid="true" keep="true" />
-  </internalRefs>
 
 </harvest>
