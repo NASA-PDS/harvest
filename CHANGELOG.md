@@ -2,11 +2,11 @@
 
 ## [v3.4.0](https://github.com/NASA-PDS/harvest/tree/v3.4.0) (2021-04-15)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.4.0-SNAPSHOT...v3.4.0)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.0-SNAPSHOT...v3.4.0)
 
-## [v3.4.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.4.0-SNAPSHOT) (2021-04-15)
+## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-04-15)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.3.3...v3.4.0-SNAPSHOT)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.4.0-SNAPSHOT...v3.5.0-SNAPSHOT)
 
 **Defects:**
 
@@ -16,9 +16,16 @@
 
 - As a user, I want to be able to ingest a directory of data that is not part of a bundle [\#45](https://github.com/NASA-PDS/harvest/issues/45)
 - populate instrument / instrument host / mission / target names and types using context products [\#44](https://github.com/NASA-PDS/harvest/issues/44)
+- Rename scripts to use pds- prefix [\#32](https://github.com/NASA-PDS/harvest/issues/32)
+
+## [v3.4.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.4.0-SNAPSHOT) (2021-02-18)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.3.3...v3.4.0-SNAPSHOT)
+
+**Other closed issues:**
+
 - Update to use directory\_path\_name when trying to locate //Document\_File/file\_name [\#41](https://github.com/NASA-PDS/harvest/issues/41)
 - Add default configuration [\#37](https://github.com/NASA-PDS/harvest/issues/37)
-- Rename scripts to use pds- prefix [\#32](https://github.com/NASA-PDS/harvest/issues/32)
 
 ## [v3.3.3](https://github.com/NASA-PDS/harvest/tree/v3.3.3) (2021-01-02)
 
