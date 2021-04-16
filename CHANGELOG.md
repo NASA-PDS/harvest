@@ -1,5 +1,9 @@
 # Changelog
 
+## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-04-16)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.4.0...v3.5.0-SNAPSHOT)
+
 ## [v3.4.0](https://github.com/NASA-PDS/harvest/tree/v3.4.0) (2021-04-16)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.3.3...v3.4.0)
