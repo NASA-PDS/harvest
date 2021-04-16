@@ -39,6 +39,7 @@ mvn versions:set -DnewVersion=$VERSION
 git add pom.xml
 ```
 
+
 ## Update Changelog
 Update Changelog using [Github Changelog Generator](https://github.com/github-changelog-generator/github-changelog-generator). Note: Make sure you set `$CHANGELOG_GITHUB_TOKEN` in your `.bash_profile` or use the `--token` flag.
 ```
