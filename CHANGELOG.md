@@ -8,15 +8,9 @@
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.4.0-SNAPSHOT...v3.5.0-SNAPSHOT)
 
-**Defects:**
-
-- Investigate issues getting erroneous "Content is not allowed in prolog" errors [\#11](https://github.com/NASA-PDS/harvest/issues/11) [[s.low](https://github.com/NASA-PDS/harvest/labels/s.low)]
-
 **Other closed issues:**
 
 - As a user, I want to be able to ingest a directory of data that is not part of a bundle [\#45](https://github.com/NASA-PDS/harvest/issues/45)
-- populate instrument / instrument host / mission / target names and types using context products [\#44](https://github.com/NASA-PDS/harvest/issues/44)
-- Rename scripts to use pds- prefix [\#32](https://github.com/NASA-PDS/harvest/issues/32)
 
 ## [v3.4.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.4.0-SNAPSHOT) (2021-02-18)
 
