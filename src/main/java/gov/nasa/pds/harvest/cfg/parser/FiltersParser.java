@@ -5,6 +5,12 @@ import org.w3c.dom.Document;
 import gov.nasa.pds.harvest.cfg.model.FiltersCfg;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
+
+/**
+ * Harvest configuration file parser. Parses "/harvest/productFilter" section.
+ * 
+ * @author karpenko
+ */
 public class FiltersParser
 {
     public static FiltersCfg parseFilters(Document doc) throws Exception

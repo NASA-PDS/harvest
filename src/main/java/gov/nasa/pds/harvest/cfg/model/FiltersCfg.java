@@ -4,6 +4,11 @@ import java.util.List;
 import java.util.Set;
 
 
+/**
+ * Harvest configuration model.
+ * 
+ * @author karpenko
+ */
 public class FiltersCfg
 {
     public List<String> bundleDirs;

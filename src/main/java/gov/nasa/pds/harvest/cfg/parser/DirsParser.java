@@ -9,6 +9,11 @@ import org.w3c.dom.NodeList;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
+/**
+ * Harvest configuration file parser. Parses "/harvest/directories" section.
+ * 
+ * @author karpenko
+ */
 public class DirsParser
 {
     public static List<String> parseDirectories(Node root) throws Exception

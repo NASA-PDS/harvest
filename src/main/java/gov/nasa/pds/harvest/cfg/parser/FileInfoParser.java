@@ -15,6 +15,11 @@ import gov.nasa.pds.harvest.util.xml.XPathUtils;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
+/**
+ * Harvest configuration file parser. Parses "/harvest/fileInfo" section.
+ * 
+ * @author karpenko
+ */
 public class FileInfoParser
 {
     private static Set<String> FILE_INFO_ATTRS = new TreeSet<>();

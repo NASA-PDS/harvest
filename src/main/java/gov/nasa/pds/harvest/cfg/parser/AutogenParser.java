@@ -6,6 +6,11 @@ import gov.nasa.pds.harvest.cfg.model.AutogenCfg;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
 
+/**
+ * Harvest configuration file parser. Parses "/harvest/autogenFields" section.
+ *  
+ * @author karpenko
+ */
 public class AutogenParser
 {
     public static AutogenCfg parseAutogenFields(Document doc) throws Exception

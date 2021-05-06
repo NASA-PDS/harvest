@@ -7,6 +7,11 @@ import gov.nasa.pds.harvest.cfg.model.RegistryCfg;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
+/**
+ * Harvest configuration file parser. Parses "/harvest/registry" section.
+ * 
+ * @author karpenko
+ */
 public class RegistryConfigParser
 {
     public static RegistryCfg parseRegistry(Node root) throws Exception

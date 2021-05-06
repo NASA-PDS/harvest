@@ -19,7 +19,11 @@ import gov.nasa.pds.harvest.cfg.parser.FileInfoParser;
 import gov.nasa.pds.harvest.cfg.parser.XpathMapParser;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
-
+/**
+ * Harvest configuration file reader.
+ * 
+ * @author karpenko
+ */
 public class ConfigReader
 {
     private static final String ERROR = "Invalid Harvest configuration: ";
@@ -28,11 +32,20 @@ public class ConfigReader
     private int dirsCount = 0;
     
 
+    /**
+     * Constructor
+     */
     public ConfigReader()
     {
     }
     
     
+    /**
+     * Read Harvest configuration file.
+     * @param file
+     * @return
+     * @throws Exception
+     */
     public Configuration read(File file) throws Exception
     {
         resetCounters();

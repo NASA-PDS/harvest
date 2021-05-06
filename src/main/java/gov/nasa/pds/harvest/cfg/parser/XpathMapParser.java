@@ -13,6 +13,11 @@ import gov.nasa.pds.harvest.util.xml.XPathUtils;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
+/**
+ * Harvest configuration file parser. Parses "/harvest/xpathMaps" section.
+ * 
+ * @author karpenko
+ */
 public class XpathMapParser
 {
     public static XPathMapCfg parseXPathMaps(Document doc) throws Exception
