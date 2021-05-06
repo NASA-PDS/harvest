@@ -9,13 +9,22 @@ import org.apache.logging.log4j.Logger;
 import gov.nasa.pds.harvest.util.CloseUtils;
 
 
+/**
+ * A class to read records from collection inventory files in batches.
+ *  
+ * @author karpenko
+ */
 public class InventoryBatchReader
 {
     private Logger log;
     private BufferedReader rd;
     private RefType readRefType;
 
-    
+    /**
+     * Constructor
+     * @param reader Usually a file reader.
+     * @param refType Primary or secondary product reference
+     */
     public InventoryBatchReader(Reader reader, RefType refType)
     {
         log = LogManager.getLogger(this.getClass());
@@ -24,12 +33,22 @@ public class InventoryBatchReader
     }
     
     
+    /**
+     * Close the reader (input file).
+     */
     public void close()
     {
         CloseUtils.close(rd);
     }
     
     
+    /**
+     * Read next batch from a collection inventory file.
+     * @param batchSize Batch size
+     * @param batch Store lid and lidvid references in this object (This is the output parameter)
+     * @return number of records read.
+     * @throws Exception
+     */
     public int readNextBatch(int batchSize, ProdRefsBatch batch) throws Exception
     {
         batch.clear();

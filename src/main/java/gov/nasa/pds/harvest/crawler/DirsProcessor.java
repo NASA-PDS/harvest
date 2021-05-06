@@ -30,6 +30,21 @@ import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
+/**
+ * <p>Process PDS label files in a directory.</p>
+ * 
+ * <p> Processing steps:
+ * <ul>
+ * <li>Crawl file system</li>
+ * <li>Parse PDS4 labels (XML files)</li>
+ * <li>Extract product metadata</li>
+ * <li>Write extracted metadata into a JSON or XML file.</li> 
+ * <li>Generated JSON files can be imported into Elasticsearch by Registry manager tool.</li>
+ * </ul>
+ * </p> 
+ * 
+ * @author karpenko
+ */
 public class DirsProcessor
 {
     private Logger log;
@@ -57,6 +72,14 @@ public class DirsProcessor
     private Counter counter;
     
     
+    /**
+     * Constructor
+     * @param config Harvest configuration parameters (from a config file)
+     * @param writer Writer for main PDS label metadata
+     * @param refsWriter Writer for collection inventory references
+     * @param counter Counter of processed products by type
+     * @throws Exception
+     */
     public DirsProcessor(Configuration config, RegistryDocWriter writer, 
             RefsDocWriter refsWriter, Counter counter) throws Exception
     {
@@ -81,6 +104,10 @@ public class DirsProcessor
     }
     
     
+    /**
+     * Inner class used by File.find() to select XML PDS label files
+     * @author karpenko
+     */
     private static class FileMatcher implements BiPredicate<Path, BasicFileAttributes>
     {
         @Override
@@ -92,6 +119,11 @@ public class DirsProcessor
     }
     
     
+    /**
+     * Process a directory
+     * @param dir
+     * @throws Exception
+     */
     public void process(File dir) throws Exception
     {
         Iterator<Path> it = Files.find(dir.toPath(), Integer.MAX_VALUE, new FileMatcher()).iterator();
@@ -103,6 +135,11 @@ public class DirsProcessor
     }
     
     
+    /**
+     * Process one file
+     * @param file
+     * @throws Exception
+     */
     private void onFile(File file) throws Exception
     {
         // Skip very large files
@@ -129,6 +166,12 @@ public class DirsProcessor
     }
 
     
+    /**
+     * Extract metadata from a label file
+     * @param file PDS label file
+     * @param doc Parsed XML DOM model of the PDS label file  
+     * @throws Exception
+     */
     private void processMetadata(File file, Document doc) throws Exception
     {
         String rootElement = doc.getDocumentElement().getNodeName();
@@ -171,6 +214,13 @@ public class DirsProcessor
     }
 
     
+    /**
+     * Process collection inventory files
+     * @param collectionFile
+     * @param doc
+     * @param meta
+     * @throws Exception
+     */
     private void processInventoryFiles(File collectionFile, Document doc, Metadata meta) throws Exception
     {
         Set<String> fileNames = collectionExtractor.extractInventoryFileNames(doc);
