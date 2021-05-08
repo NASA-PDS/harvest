@@ -5,8 +5,18 @@ import java.util.Set;
 import java.util.TreeSet;
 
 
+/**
+ * Helper methods to work with product IDs (LIDs and LIDVIDs).
+ * 
+ * @author karpenko
+ */
 public class LidVidUtils
 {
+    /**
+     * Convert lidvids to lids. Discard vid (version) information.
+     * @param lidvids
+     * @return
+     */
     public static Set<String> lidvidToLid(Collection<String> lidvids)
     {
         if(isEmpty(lidvids)) return null;
@@ -23,6 +33,11 @@ public class LidVidUtils
     }
     
     
+    /**
+     * Convert lidvid to lid. Discard vid (version) information.
+     * @param lidvid
+     * @return
+     */
     public static String lidvidToLid(String lidvid)
     {
         int idx = lidvid.indexOf("::");
@@ -30,6 +45,12 @@ public class LidVidUtils
     }
 
     
+    /**
+     * Add all values from a collection to the set. 
+     * @param set
+     * @param col
+     * @return
+     */
     public static Set<String> add(Set<String> set, Collection<String> col)
     {
         if(isEmpty(col)) return set;

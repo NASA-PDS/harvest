@@ -5,8 +5,17 @@ import java.util.Map;
 import java.util.TreeMap;
 
 
+/**
+ * Product counters (by product type).
+ * 
+ * @author karpenko
+ */
 public class CounterMap
 {
+    /**
+     * Inner class to store counters by key.
+     * @author karpenko
+     */
     public static class Item
     {
         public String name;
@@ -26,13 +35,20 @@ public class CounterMap
     private Map<String, Item> map;
     private int total;
     
-    
+
+    /**
+     * Constructor
+     */
     public CounterMap()
     {
         map = new TreeMap<>();
     }
     
     
+    /**
+     * Increment counter for the given key (product type).
+     * @param name
+     */
     public void inc(String name)
     {
         Item item = getOrCreate(name);
@@ -42,12 +58,20 @@ public class CounterMap
     }
     
     
+    /**
+     * Get all counters grouped by key.
+     * @return
+     */
     public Collection<Item> getCounts()
     {
         return map.values();
     }
     
     
+    /**
+     * Get total count.
+     * @return
+     */
     public int getTotal()
     {
         return total;

@@ -7,17 +7,29 @@ import java.util.Collection;
 import com.google.gson.stream.JsonWriter;
 
 
+/**
+ * Elasticsearch request / query builder.
+ * 
+ * @author karpenko
+ */
 public class EsRequestBuilder
 {
     private boolean pretty;
 
     
+    /**
+     * Constructor.
+     * @param pretty Generate pretty-formatted JSON
+     */
     public EsRequestBuilder(boolean pretty)
     {
         this.pretty = pretty;
     }
 
     
+    /**
+     * Construcotr
+     */
     public EsRequestBuilder()
     {
         this(false);
@@ -36,6 +48,13 @@ public class EsRequestBuilder
     }
 
     
+    /**
+     * Create Elasticsearch query to search for product IDs (lidvids)
+     * @param ids Collection of product IDs (lidvids)
+     * @param pageSize Number of records to return. Usually pageSize = ids.size().
+     * @return
+     * @throws Exception
+     */
     public String createSearchIdsRequest(Collection<String> ids, int pageSize) throws Exception
     {
         if(ids == null || ids.isEmpty()) throw new Exception("Missing ids");

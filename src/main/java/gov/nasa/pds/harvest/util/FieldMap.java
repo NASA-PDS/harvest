@@ -3,6 +3,11 @@ package gov.nasa.pds.harvest.util;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * Interface for a map of multi-valued fields (metadata) extracted from PDS labels. 
+ *  
+ * @author karpenko
+ */
 public interface FieldMap
 {
     public void addValue(String fieldName, String value);
