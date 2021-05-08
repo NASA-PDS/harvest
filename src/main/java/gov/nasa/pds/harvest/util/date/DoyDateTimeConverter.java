@@ -10,10 +10,19 @@ import java.time.format.SignStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 
+/**
+ * Convert "day of year" dates to ISO instant format.
+ * 
+ * @author karpenko
+ *
+ */
 public class DoyDateTimeConverter
 {
     private DateTimeFormatter DATE_TIME; 
     
+    /**
+     * Constructor
+     */
     public DoyDateTimeConverter()
     {
         DateTimeFormatter LOCAL_DOY = new DateTimeFormatterBuilder()
@@ -38,6 +47,11 @@ public class DoyDateTimeConverter
     }
 
 
+    /**
+     * Convert "day of year" dates to ISO instant format.
+     * @param value
+     * @return
+     */
     public Instant toInstant(String value)
     {
         if(value == null) return null;

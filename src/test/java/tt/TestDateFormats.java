@@ -32,7 +32,7 @@ public class TestDateFormats
     
     private static void testPdsDate(String value) throws Exception
     {
-        String solrValue = conv.toSolrDateString("", value);
+        String solrValue = conv.toIsoInstantString("", value);
         System.out.format("%30s  -->  %s\n", value, solrValue);
     }
 }

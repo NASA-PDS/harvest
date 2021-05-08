@@ -60,7 +60,7 @@ public class XPathExtractor
         
         for(int i = 0; i < values.length; i++)
         {
-            newValues[i] = dateConverter.toSolrDateString(fieldName, values[i]);
+            newValues[i] = dateConverter.toIsoInstantString(fieldName, values[i]);
         }
         
         fieldMap.addValues(fieldName, newValues);

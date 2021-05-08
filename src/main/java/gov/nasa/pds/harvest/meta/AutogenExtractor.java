@@ -112,7 +112,7 @@ public class AutogenExtractor
         String nodeName = node.getLocalName();
         if(nodeName.contains("date"))
         {
-            fieldValue = dateConverter.toSolrDateString(nodeName, fieldValue);
+            fieldValue = dateConverter.toIsoInstantString(nodeName, fieldValue);
         }
         
         fields.addValue(fieldName, fieldValue);

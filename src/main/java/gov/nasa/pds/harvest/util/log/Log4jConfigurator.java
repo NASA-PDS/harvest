@@ -13,8 +13,18 @@ import org.apache.logging.log4j.core.config.builder.api.RootLoggerComponentBuild
 import org.apache.logging.log4j.core.config.builder.impl.BuiltConfiguration;
 
 
+/**
+ * Configure Log4j v2 logging library.
+ * 
+ * @author karpenko
+ */
 public class Log4jConfigurator
 {
+    /**
+     * Configure Log4j v2 logging library.
+     * @param verbosity
+     * @param filePath
+     */
     public static void configure(String verbosity, String filePath) 
     {
         // Configure Log4j
