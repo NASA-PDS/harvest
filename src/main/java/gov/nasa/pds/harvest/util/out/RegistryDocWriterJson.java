@@ -15,18 +15,8 @@ import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
 /**
- * <p>
- * Elasticsearch document writer.
- * Writes documents in "new-line-delimited JSON" format. (Content-Type: application/x-ndjson).
- * </p>
- * <p>
- * Generated file can be loaded into Elasticsearch by "_bulk" web service API: 
- * </p>
- * <pre>
- * curl -H "Content-Type: application/x-ndjson" \
- *      -XPOST "http://localhost:9200/accounts/_bulk?pretty" \
- *      --data-binary @es-docs.json
- * </pre>
+ * Write metadata extracted from PDS4 labels to an NJSON (new-line-delimited JSON)
+ * file. This file can be loaded into Elasticsearch with Registry Manager tool. 
  * 
  * @author karpenko
  */

@@ -13,8 +13,8 @@ import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
 /**
- * Solr document writer. 
- * Writes documents in XML format which can be loaded into Solr by Solr post tool. 
+ * Write metadata extracted from PDS4 labels to an XML file.
+ * This file can be loaded into Solr by Solr post tool. 
  *  
  * @author karpenko
  */

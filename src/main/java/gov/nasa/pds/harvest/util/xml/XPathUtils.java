@@ -17,16 +17,31 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
+/**
+ * Utility class to work with XPath API.
+ * 
+ * @author karpenko
+ */
 public class XPathUtils
 {
     private XPathFactory xpf;
     
+    /**
+     * Constructor.
+     */
     public XPathUtils()
     {
         xpf = XPathFactory.newInstance();
     }
     
     
+    /**
+     * Compile XPath
+     * @param xpf
+     * @param str
+     * @return
+     * @throws Exception
+     */
     public static XPathExpression compileXPath(XPathFactory xpf, String str) throws Exception
     {
         XPath xpath = xpf.newXPath();
@@ -35,6 +50,13 @@ public class XPathUtils
     }
 
     
+    /**
+     * Get string value by XPath.
+     * @param doc
+     * @param expr
+     * @return
+     * @throws Exception
+     */
     public static String getStringValue(Document doc, XPathExpression expr) throws Exception
     {
         Object res = expr.evaluate(doc, XPathConstants.STRING);
@@ -42,13 +64,27 @@ public class XPathUtils
     }
 
     
+    /**
+     * Get a list of string values by XPath.
+     * @param doc
+     * @param expr
+     * @return
+     * @throws Exception
+     */
     public static List<String> getStringList(Document doc, XPathExpression expr) throws Exception
     {
         String[] values = getStringArray(doc, expr);
         return values == null ? null : Arrays.asList(values);
     }
 
-    
+
+    /**
+     * Get a set of string values by XPath.
+     * @param doc
+     * @param expr
+     * @return
+     * @throws Exception
+     */
     public static Set<String> getStringSet(Document doc, XPathExpression expr) throws Exception
     {
         String[] values = getStringArray(doc, expr);
@@ -60,6 +96,13 @@ public class XPathUtils
     }
     
     
+    /**
+     * Get a list of string values by XPath.
+     * @param doc
+     * @param xpath
+     * @return
+     * @throws Exception
+     */
     public List<String> getStringList(Document doc, String xpath) throws Exception
     {
         XPathExpression expr = compileXPath(xpf, xpath);
@@ -67,6 +110,13 @@ public class XPathUtils
     }
 
     
+    /**
+     * Get a set of string values by XPath.
+     * @param doc
+     * @param xpath
+     * @return
+     * @throws Exception
+     */
     public Set<String> getStringSet(Document doc, String xpath) throws Exception
     {
         XPathExpression expr = compileXPath(xpf, xpath);
@@ -80,6 +130,13 @@ public class XPathUtils
     }
 
     
+    /**
+     * Get an array of string values by XPath.
+     * @param doc
+     * @param expr
+     * @return
+     * @throws Exception
+     */
     public static String[] getStringArray(Document doc, XPathExpression expr) throws Exception
     {
         NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
@@ -96,6 +153,13 @@ public class XPathUtils
     }
 
     
+    /**
+     * Get node list by XPath.
+     * @param item
+     * @param expr
+     * @return
+     * @throws Exception
+     */
     public static NodeList getNodeList(Object item, XPathExpression expr) throws Exception
     {
         if(item == null) return null;
@@ -105,6 +169,13 @@ public class XPathUtils
     }
     
     
+    /**
+     * Get node list by XPath.
+     * @param item
+     * @param xpath
+     * @return
+     * @throws Exception
+     */
     public NodeList getNodeList(Object item, String xpath) throws Exception
     {
         if(item == null) return null;
@@ -114,6 +185,13 @@ public class XPathUtils
     }
 
     
+    /**
+     * Get node count by XPath.
+     * @param item
+     * @param xpath
+     * @return
+     * @throws Exception
+     */
     public int getNodeCount(Object item, String xpath) throws Exception
     {
         if(item == null) return 0;
@@ -124,6 +202,13 @@ public class XPathUtils
     }
     
     
+    /**
+     * Get first node by XPath.
+     * @param item
+     * @param xpath
+     * @return
+     * @throws Exception
+     */
     public Node getFirstNode(Object item, String xpath) throws Exception
     {
         if(item == null) return null;

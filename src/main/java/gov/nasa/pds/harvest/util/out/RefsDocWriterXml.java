@@ -12,11 +12,22 @@ import gov.nasa.pds.harvest.util.LidVidUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
+/**
+ * Write product references extracted from PDS4 collection inventory files to 
+ * an XML file. This file can be loaded into Solr by Solr post tool.
+ * 
+ * @author karpenko
+ */
 public class RefsDocWriterXml implements RefsDocWriter
 {
     private Writer writer;
 
     
+    /**
+     * Constructor
+     * @param outDir
+     * @throws Exception
+     */
     public RefsDocWriterXml(File outDir) throws Exception
     {
         super();

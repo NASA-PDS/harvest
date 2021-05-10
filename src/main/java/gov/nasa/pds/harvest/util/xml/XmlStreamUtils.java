@@ -10,17 +10,31 @@ import javax.xml.stream.events.XMLEvent;
 import gov.nasa.pds.harvest.util.CloseUtils;
 
 
+/**
+ * Utility classes to work with streaming XML API.
+ *  
+ * @author karpenko
+ */
 public class XmlStreamUtils
 {
     private XMLInputFactory factory;
 
     
+    /**
+     * Constructor
+     */
     public XmlStreamUtils()
     {
         factory = XMLInputFactory.newFactory();
     }
     
     
+    /**
+     * Get XML's root element name.
+     * @param file
+     * @return
+     * @throws Exception
+     */
     public String getRootElement(File file) throws Exception
     {
         XMLEventReader reader = factory.createXMLEventReader(new FileReader(file));

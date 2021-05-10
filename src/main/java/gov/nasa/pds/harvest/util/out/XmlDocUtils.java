@@ -6,8 +6,20 @@ import org.apache.commons.lang.StringEscapeUtils;
 import gov.nasa.pds.harvest.util.FieldMapSet;
 
 
+/**
+ * Utility class to write XML documents in Solr format.
+ *  
+ * @author karpenko
+ */
 public class XmlDocUtils
 {
+    /**
+     * Write a field.
+     * @param writer
+     * @param key
+     * @param values
+     * @throws Exception
+     */
     public static void writeField(Writer writer, String key, Collection<String> values) throws Exception
     {
         if(values == null || values.size() == 0) return;
@@ -19,18 +31,39 @@ public class XmlDocUtils
     }
     
     
+    /**
+     * Write a field.
+     * @param writer
+     * @param key
+     * @param value
+     * @throws Exception
+     */
     public static void writeField(Writer writer, String key, float value) throws Exception
     {
         writeField(writer, key, String.valueOf(value));
     }
     
 
+    /**
+     * Write a field.
+     * @param writer
+     * @param key
+     * @param value
+     * @throws Exception
+     */
     public static void writeField(Writer writer, String key, int value) throws Exception
     {
         writeField(writer, key, String.valueOf(value));
     }
 
     
+    /**
+     * Write a field.
+     * @param writer
+     * @param key
+     * @param value
+     * @throws Exception
+     */
     public static void writeField(Writer writer, String key, String value) throws Exception
     {
         if(value == null) return;
@@ -45,6 +78,12 @@ public class XmlDocUtils
     }
 
     
+    /**
+     * Write a multivalued field.
+     * @param writer
+     * @param fields
+     * @throws Exception
+     */
     public static void writeFieldMap(Writer writer, FieldMapSet fields) throws Exception
     {
         writer.write("<doc>\n");

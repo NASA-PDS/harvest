@@ -15,9 +15,24 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;
 
 
+/**
+ * Utility class to work with XML DOM model.
+ * NOTE: Don't use XML DOM API for big files. 
+ * DOM API loads the whole XML file into memory. 
+ * 
+ * @author karpenko
+ *
+ */
 public class XmlDomUtils
 {
-    
+    /**
+     * Parse XML file and create a DOM model.
+     * This method reads the whole XML document into memory.
+     * @param dbf
+     * @param file
+     * @return
+     * @throws Exception
+     */
     public static Document readXml(DocumentBuilderFactory dbf, File file) throws Exception
     {
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -41,6 +56,13 @@ public class XmlDomUtils
     }
 
     
+    /**
+     * Parse XML file and create a DOM model.
+     * This method reads the whole XML document into memory.
+     * @param file
+     * @return
+     * @throws Exception
+     */
     public static Document readXml(File file) throws Exception
     {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -48,6 +70,15 @@ public class XmlDomUtils
     }
 
 
+    /**
+     * Parse XML file and create a DOM model.
+     * This method reads the whole XML document into memory.
+     * @param xmlFile
+     * @param xsdFile
+     * @param eh
+     * @return
+     * @throws Exception
+     */
     public static Document readXml(File xmlFile, File xsdFile, ErrorHandler eh) throws Exception
     {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -62,6 +93,12 @@ public class XmlDomUtils
     }
 
 
+    /**
+     * Get attribute of a node by name.
+     * @param node
+     * @param attributeName
+     * @return
+     */
     public static String getAttribute(Node node, String attributeName)
     {
         if(node == null || node.getAttributes() == null) return null;
@@ -71,6 +108,11 @@ public class XmlDomUtils
     }
 
 
+    /**
+     * Get all attributes of a node.
+     * @param node
+     * @return
+     */
     public static NamedNodeMap getAttributes(Node node)
     {
         if(node == null || node.getAttributes() == null) return null;
@@ -78,6 +120,12 @@ public class XmlDomUtils
     }
     
     
+    /**
+     * Count child nodes.
+     * @param node Parent node object
+     * @param name child node name
+     * @return
+     */
     public static int countChildNodes(Node node, String name)
     {
         int count = 0;
@@ -94,6 +142,12 @@ public class XmlDomUtils
     }
 
     
+    /**
+     * Get first child node.
+     * @param node
+     * @param name
+     * @return
+     */
     public static Node getFirstChild(Node node, String name)
     {
         NodeList nl = node.getChildNodes();
@@ -108,6 +162,12 @@ public class XmlDomUtils
     }
 
     
+    /**
+     * Get all child nodes.
+     * @param node parent node.
+     * @param name child node name.
+     * @return
+     */
     public static List<Node> getChildNodes(Node node, String name)
     {
         List<Node> list = new ArrayList<>();

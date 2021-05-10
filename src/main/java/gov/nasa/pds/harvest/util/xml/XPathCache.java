@@ -7,8 +7,19 @@ import java.util.List;
 import javax.xml.xpath.XPathExpression;
 
 
+/**
+ * XPath cache is used to map a field in a PDS4 label (by its XPath) 
+ * to a registry field name. 
+ * This is a legacy feature which might be removed in future releases.
+ * 
+ * @author karpenko
+ */
 public class XPathCache
 {
+    /**
+     * Inner class representing one cache record / item. 
+     * @author karpenko
+     */
     public static class Item
     {
         public static final int TYPE_STRING = 0;
@@ -18,6 +29,11 @@ public class XPathCache
         public int dataType;
         public XPathExpression xpe;
         
+        /**
+         * Constructor
+         * @param fieldName
+         * @param xpe
+         */
         public Item(String fieldName, XPathExpression xpe)
         {
             this.dataType = TYPE_STRING;
@@ -25,6 +41,10 @@ public class XPathCache
             this.xpe = xpe;
         }
         
+        /**
+         * Set item data type.
+         * @param str
+         */
         public void setDataType(String str)
         {
             if("date".equalsIgnoreCase(str))
@@ -44,12 +64,19 @@ public class XPathCache
     private List<Item> items;
     
     
+    /**
+     * Constructor.
+     */
     public XPathCache()
     {
         items = new ArrayList<>();
     }
 
     
+    /**
+     * Check if cache is empty.
+     * @return
+     */
     public boolean isEmpty()
     {
         if(items == null || items.size() == 0) return true;
@@ -58,6 +85,12 @@ public class XPathCache
     }
     
     
+    /**
+     * Get an item to the cache.
+     * @param fieldName
+     * @param dataType
+     * @param xpe
+     */
     public void add(String fieldName, String dataType, XPathExpression xpe)
     {
         Item item = new Item(fieldName, xpe);
@@ -66,6 +99,10 @@ public class XPathCache
     }
     
     
+    /**
+     * Get all cached items.
+     * @return
+     */
     public List<Item> getItems()
     {
         return items;
