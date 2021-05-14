@@ -50,7 +50,7 @@ public class PdsDateConverter
      * "start_date_time" and "stop_date_time").
      * @param value a date in one of PDS date formats
      * @return ISO instant string
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public String toIsoInstantString(String fieldName, String value) throws Exception
     {

@@ -17,7 +17,7 @@ public interface RefsDocWriter
      * @param meta product metadata extracted from PDS4 collection label.
      * @param batch A batch of product references extracted from PDS4 collection inventory files.
      * @param refType product reference type: primary or secondary.
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public void writeBatch(Metadata meta, ProdRefsBatch batch, RefType refType) throws Exception;
     

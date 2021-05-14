@@ -52,8 +52,8 @@ public class CompactDateTimeConverter
 
     /**
      * Convert yyyyMMddHHmmss.SSSSS dates to ISO instant
-     * @param value
-     * @return
+     * @param value a date
+     * @return ISO instant
      */
     public Instant toInstant(String value)
     {

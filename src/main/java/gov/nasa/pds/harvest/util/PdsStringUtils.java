@@ -9,8 +9,8 @@ public class PdsStringUtils
 {
     /**
      * Trim a string. Return null if the string is empty.
-     * @param str
-     * @return
+     * @param str a string
+     * @return trimmed string
      */
     public static String trim(String str)
     {

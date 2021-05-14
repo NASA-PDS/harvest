@@ -68,7 +68,7 @@ public class ProductProcessor
      * extracted from PDS4 labels. Generated JSON files can be imported 
      * into Elasticsearch by Registry manager tool.
      * @param counter document / product counter
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public ProductProcessor(Configuration config, RegistryDocWriter writer, Counter counter) throws Exception
     {
@@ -136,7 +136,7 @@ public class ProductProcessor
     /**
      * Process products of a bundle
      * @param bCfg Bundle configuration
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public void process(BundleCfg bCfg) throws Exception
     {
@@ -156,8 +156,8 @@ public class ProductProcessor
     
     /**
      * Process one file
-     * @param file
-     * @throws Exception
+     * @param file PDS label file
+     * @throws Exception Generic exception
      */
     public void onFile(File file) throws Exception
     {
@@ -190,9 +190,9 @@ public class ProductProcessor
     
     /**
      * Extract metadata from a label file.
-     * @param file
-     * @param doc
-     * @throws Exception
+     * @param file PDS label file
+     * @param doc XML DOM model of the PDS label file
+     * @throws Exception Generic exception
      */
     private void processMetadata(File file, Document doc) throws Exception
     {

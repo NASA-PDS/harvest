@@ -4,7 +4,7 @@ import gov.nasa.pds.harvest.meta.Metadata;
 
 
 /**
- * Interface to write metadata extracted from PDS4 labels.
+ * Interface to write metadata extracted from PDS4 label.
  *  
  * @author karpenko
  */
@@ -12,14 +12,14 @@ public interface RegistryDocWriter
 {
     /**
      * Write metadata extracted from PDS4 labels.
-     * @param meta
-     * @throws Exception
+     * @param meta metadata extracted from PDS4 label.
+     * @throws Exception Generic exception
      */
     public void write(Metadata meta) throws Exception;
     
     /**
      * Close resources / output file.
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public void close() throws Exception;
 }

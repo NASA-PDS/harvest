@@ -53,8 +53,8 @@ public class LocalDateConverter
     
     /**
      * Convert a local date to ISO instant
-     * @param value
-     * @return
+     * @param value local date
+     * @return ISO instant
      */
     public Instant toInstant(String value)
     {

@@ -37,8 +37,8 @@ public class IsoDateTimeConverter
 
     /**
      * Convert ISO dates to ISO instant format.
-     * @param value
-     * @return
+     * @param value ISO date
+     * @return ISO instant
      */
     public Instant toInstant(String value)
     {

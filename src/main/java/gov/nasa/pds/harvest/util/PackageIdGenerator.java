@@ -24,7 +24,7 @@ public class PackageIdGenerator
     
     /**
      * Get the singleton instance.
-     * @return
+     * @return Singleton instance
      */
     public static PackageIdGenerator getInstance()
     {

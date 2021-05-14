@@ -49,8 +49,8 @@ public class DoyDateTimeConverter
 
     /**
      * Convert "day of year" dates to ISO instant format.
-     * @param value
-     * @return
+     * @param value "day of year" date value
+     * @return ISO instant
      */
     public Instant toInstant(String value)
     {

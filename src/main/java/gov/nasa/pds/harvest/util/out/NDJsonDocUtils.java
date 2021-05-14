@@ -19,8 +19,8 @@ public class NDJsonDocUtils
 
     /**
      * Write primary key (first line in NJSON record)
-     * @param writer
-     * @param id
+     * @param writer Generic writer
+     * @param id primary key
      * @throws Exception Generic exception
      */
     public static void writePK(Writer writer, String id) throws Exception
@@ -45,9 +45,9 @@ public class NDJsonDocUtils
     
     /**
      * Write a field.
-     * @param jw
-     * @param key
-     * @param value
+     * @param jw JSON writer
+     * @param key a key / field name
+     * @param value a value
      * @throws Exception Generic exception
      */
     public static void writeField(JsonWriter jw, String key, String value) throws Exception
@@ -61,9 +61,9 @@ public class NDJsonDocUtils
 
     /**
      * Write a field.
-     * @param jw
-     * @param key
-     * @param value
+     * @param jw JSON writer
+     * @param key a key / field name
+     * @param value a value
      * @throws Exception Generic exception
      */
     public static void writeField(JsonWriter jw, String key, long value) throws Exception
@@ -75,9 +75,9 @@ public class NDJsonDocUtils
     
     /**
      * Write a field.
-     * @param jw
-     * @param key
-     * @param value
+     * @param jw JSON writer
+     * @param key a key / field name
+     * @param value a value
      * @throws Exception Generic exception
      */
     public static void writeField(JsonWriter jw, String key, float value) throws Exception
@@ -89,9 +89,9 @@ public class NDJsonDocUtils
     
     /**
      * Write a field.
-     * @param jw
-     * @param key
-     * @param values
+     * @param jw JSON writer
+     * @param key a key / field name
+     * @param values collection of values
      * @throws Exception Generic exception
      */
     public static void writeField(JsonWriter jw, String key, Collection<String> values) throws Exception

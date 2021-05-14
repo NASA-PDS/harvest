@@ -14,7 +14,7 @@ public class FieldNameUtils
      * @param ns namespace
      * @param claz class name
      * @param attr attribute name
-     * @return
+     * @return field name
      */
     public static String createFieldName(String ns, String claz, String attr)
     {
