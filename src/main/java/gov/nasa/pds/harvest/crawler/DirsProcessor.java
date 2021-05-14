@@ -31,7 +31,7 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
 /**
- * <p>Process PDS label files in a directory.</p>
+ * Process PDS label files in a directory.
  * 
  * <p> Processing steps:
  * <ul>
@@ -41,7 +41,6 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
  * <li>Write extracted metadata into a JSON or XML file.</li> 
  * <li>Generated JSON files can be imported into Elasticsearch by Registry manager tool.</li>
  * </ul>
- * </p> 
  * 
  * @author karpenko
  */
@@ -78,7 +77,7 @@ public class DirsProcessor
      * @param writer Writer for main PDS label metadata
      * @param refsWriter Writer for collection inventory references
      * @param counter Counter of processed products by type
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public DirsProcessor(Configuration config, RegistryDocWriter writer, 
             RefsDocWriter refsWriter, Counter counter) throws Exception
@@ -121,8 +120,8 @@ public class DirsProcessor
     
     /**
      * Process a directory
-     * @param dir
-     * @throws Exception
+     * @param dir Directory with PDS4 labels
+     * @throws Exception Generic exception
      */
     public void process(File dir) throws Exception
     {
@@ -137,8 +136,8 @@ public class DirsProcessor
     
     /**
      * Process one file
-     * @param file
-     * @throws Exception
+     * @param file PDS label XML file
+     * @throws Exception Generic exception
      */
     private void onFile(File file) throws Exception
     {
@@ -170,7 +169,7 @@ public class DirsProcessor
      * Extract metadata from a label file
      * @param file PDS label file
      * @param doc Parsed XML DOM model of the PDS label file  
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     private void processMetadata(File file, Document doc) throws Exception
     {
@@ -216,10 +215,10 @@ public class DirsProcessor
     
     /**
      * Process collection inventory files
-     * @param collectionFile
-     * @param doc
-     * @param meta
-     * @throws Exception
+     * @param collectionFile PDS4 collection label file
+     * @param doc Parsed PDS4 collection label file.
+     * @param meta Collection metadata extracted from PDS4 collection label file
+     * @throws Exception Generic exception
      */
     private void processInventoryFiles(File collectionFile, Document doc, Metadata meta) throws Exception
     {

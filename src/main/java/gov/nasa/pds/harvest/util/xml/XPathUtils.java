@@ -37,10 +37,10 @@ public class XPathUtils
     
     /**
      * Compile XPath
-     * @param xpf
-     * @param str
-     * @return
-     * @throws Exception
+     * @param xpf XPath factory
+     * @param str XPath string value
+     * @return Compiled XPath
+     * @throws Exception Generic exception
      */
     public static XPathExpression compileXPath(XPathFactory xpf, String str) throws Exception
     {
@@ -52,10 +52,10 @@ public class XPathUtils
     
     /**
      * Get string value by XPath.
-     * @param doc
-     * @param expr
-     * @return
-     * @throws Exception
+     * @param doc XML document
+     * @param expr an XPath
+     * @return a string value
+     * @throws Exception Generic exception
      */
     public static String getStringValue(Document doc, XPathExpression expr) throws Exception
     {
@@ -66,10 +66,10 @@ public class XPathUtils
     
     /**
      * Get a list of string values by XPath.
-     * @param doc
-     * @param expr
-     * @return
-     * @throws Exception
+     * @param doc XML document
+     * @param expr an XPath
+     * @return a list
+     * @throws Exception Generic exception
      */
     public static List<String> getStringList(Document doc, XPathExpression expr) throws Exception
     {
@@ -80,10 +80,10 @@ public class XPathUtils
 
     /**
      * Get a set of string values by XPath.
-     * @param doc
-     * @param expr
-     * @return
-     * @throws Exception
+     * @param doc XML document
+     * @param expr an XPath
+     * @return a set
+     * @throws Exception Generic exception
      */
     public static Set<String> getStringSet(Document doc, XPathExpression expr) throws Exception
     {
@@ -98,10 +98,10 @@ public class XPathUtils
     
     /**
      * Get a list of string values by XPath.
-     * @param doc
-     * @param xpath
-     * @return
-     * @throws Exception
+     * @param doc XML document
+     * @param xpath an XPath
+     * @return a list
+     * @throws Exception Generic exception
      */
     public List<String> getStringList(Document doc, String xpath) throws Exception
     {
@@ -112,10 +112,10 @@ public class XPathUtils
     
     /**
      * Get a set of string values by XPath.
-     * @param doc
-     * @param xpath
-     * @return
-     * @throws Exception
+     * @param doc XML document
+     * @param xpath an XPath
+     * @return a set
+     * @throws Exception Generic exception
      */
     public Set<String> getStringSet(Document doc, String xpath) throws Exception
     {
@@ -132,10 +132,10 @@ public class XPathUtils
     
     /**
      * Get an array of string values by XPath.
-     * @param doc
-     * @param expr
-     * @return
-     * @throws Exception
+     * @param doc XML document
+     * @param expr an XPath
+     * @return an array
+     * @throws Exception Generic exception
      */
     public static String[] getStringArray(Document doc, XPathExpression expr) throws Exception
     {
@@ -155,10 +155,10 @@ public class XPathUtils
     
     /**
      * Get node list by XPath.
-     * @param item
-     * @param expr
-     * @return
-     * @throws Exception
+     * @param item parent item
+     * @param expr an XPath
+     * @return Node list
+     * @throws Exception Generic exception
      */
     public static NodeList getNodeList(Object item, XPathExpression expr) throws Exception
     {
@@ -171,10 +171,10 @@ public class XPathUtils
     
     /**
      * Get node list by XPath.
-     * @param item
-     * @param xpath
-     * @return
-     * @throws Exception
+     * @param item parent item
+     * @param xpath an XPath
+     * @return Node list
+     * @throws Exception Generic exception
      */
     public NodeList getNodeList(Object item, String xpath) throws Exception
     {
@@ -187,10 +187,10 @@ public class XPathUtils
     
     /**
      * Get node count by XPath.
-     * @param item
-     * @param xpath
-     * @return
-     * @throws Exception
+     * @param item parent item
+     * @param xpath an XPath
+     * @return Node count
+     * @throws Exception Generic exception
      */
     public int getNodeCount(Object item, String xpath) throws Exception
     {
@@ -204,10 +204,10 @@ public class XPathUtils
     
     /**
      * Get first node by XPath.
-     * @param item
-     * @param xpath
-     * @return
-     * @throws Exception
+     * @param item Parent item
+     * @param xpath an XPath
+     * @return a Node
+     * @throws Exception Generic exception
      */
     public Node getFirstNode(Object item, String xpath) throws Exception
     {

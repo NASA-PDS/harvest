@@ -31,8 +31,8 @@ public class XPathCache
         
         /**
          * Constructor
-         * @param fieldName
-         * @param xpe
+         * @param fieldName Field name
+         * @param xpe an XPath
          */
         public Item(String fieldName, XPathExpression xpe)
         {
@@ -43,7 +43,7 @@ public class XPathCache
         
         /**
          * Set item data type.
-         * @param str
+         * @param str Data type: "date" or "string".
          */
         public void setDataType(String str)
         {
@@ -75,7 +75,7 @@ public class XPathCache
     
     /**
      * Check if cache is empty.
-     * @return
+     * @return check if cache is empty
      */
     public boolean isEmpty()
     {
@@ -87,9 +87,9 @@ public class XPathCache
     
     /**
      * Get an item to the cache.
-     * @param fieldName
-     * @param dataType
-     * @param xpe
+     * @param fieldName Field name
+     * @param dataType data type
+     * @param xpe an XPath
      */
     public void add(String fieldName, String dataType, XPathExpression xpe)
     {
@@ -101,7 +101,7 @@ public class XPathCache
     
     /**
      * Get all cached items.
-     * @return
+     * @return All cached items
      */
     public List<Item> getItems()
     {

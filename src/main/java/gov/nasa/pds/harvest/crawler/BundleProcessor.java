@@ -31,7 +31,7 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
 /**
- * <p>Process "Product_Bundle" products (PDS4 XML label files).</p>
+ * <p>Process "Product_Bundle" products (PDS4 XML label files).
  * 
  * <p> Processing steps:
  * <ul>
@@ -41,7 +41,6 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
  * <li>Write extracted metadata into a JSON or XML file.</li> 
  * <li>Generated JSON files can be imported into Elasticsearch by Registry manager tool.</li>
  * </ul>
- * </p> 
  * 
  * @author karpenko
  */
@@ -76,7 +75,7 @@ public class BundleProcessor
      * extracted from PDS4 labels. Generated JSON files can be imported 
      * into Elasticsearch by Registry manager tool. 
      * @param counter document / product counter
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public BundleProcessor(Configuration config, RegistryDocWriter writer, Counter counter) throws Exception
     {
@@ -116,8 +115,8 @@ public class BundleProcessor
     /**
      * Process one bundle configuration from Harvest configuration file.
      * @param bCfg Bundle configuration (directory, version, etc.)
-     * @return
-     * @throws Exception
+     * @return Number of bundles processed (O or more)
+     * @throws Exception Generic exception
      */
     public int process(BundleCfg bCfg) throws Exception
     {
@@ -137,8 +136,8 @@ public class BundleProcessor
     
     /**
      * Process one bundle label file.
-     * @param file
-     * @throws Exception
+     * @param file PDS XML Label file
+     * @throws Exception Generic exception
      */
     private void onBundle(File file) throws Exception
     {

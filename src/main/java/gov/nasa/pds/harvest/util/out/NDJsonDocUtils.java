@@ -21,7 +21,7 @@ public class NDJsonDocUtils
      * Write primary key (first line in NJSON record)
      * @param writer
      * @param id
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public static void writePK(Writer writer, String id) throws Exception
     {
@@ -48,7 +48,7 @@ public class NDJsonDocUtils
      * @param jw
      * @param key
      * @param value
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public static void writeField(JsonWriter jw, String key, String value) throws Exception
     {
@@ -64,7 +64,7 @@ public class NDJsonDocUtils
      * @param jw
      * @param key
      * @param value
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public static void writeField(JsonWriter jw, String key, long value) throws Exception
     {
@@ -78,7 +78,7 @@ public class NDJsonDocUtils
      * @param jw
      * @param key
      * @param value
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public static void writeField(JsonWriter jw, String key, float value) throws Exception
     {
@@ -92,7 +92,7 @@ public class NDJsonDocUtils
      * @param jw
      * @param key
      * @param values
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public static void writeField(JsonWriter jw, String key, Collection<String> values) throws Exception
     {
@@ -120,8 +120,8 @@ public class NDJsonDocUtils
     /**
      * Convert registry field name to the valid Elasticsearch field name. 
      * (Replace '.' with '/').
-     * @param fieldName
-     * @return
+     * @param fieldName a field name
+     * @return valid Elasticsearch field name
      */
     public static String toEsFieldName(String fieldName)
     {

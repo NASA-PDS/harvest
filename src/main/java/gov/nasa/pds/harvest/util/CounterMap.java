@@ -47,7 +47,7 @@ public class CounterMap
     
     /**
      * Increment counter for the given key (product type).
-     * @param name
+     * @param name key / product type
      */
     public void inc(String name)
     {
@@ -60,7 +60,7 @@ public class CounterMap
     
     /**
      * Get all counters grouped by key.
-     * @return
+     * @return All counters in this map
      */
     public Collection<Item> getCounts()
     {
@@ -70,7 +70,7 @@ public class CounterMap
     
     /**
      * Get total count.
-     * @return
+     * @return Total count
      */
     public int getTotal()
     {

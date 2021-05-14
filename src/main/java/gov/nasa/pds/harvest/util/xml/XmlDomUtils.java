@@ -28,10 +28,10 @@ public class XmlDomUtils
     /**
      * Parse XML file and create a DOM model.
      * This method reads the whole XML document into memory.
-     * @param dbf
-     * @param file
-     * @return
-     * @throws Exception
+     * @param dbf Document builder factory
+     * @param file XML file to parse
+     * @return XML DOM model
+     * @throws Exception Generic exception
      */
     public static Document readXml(DocumentBuilderFactory dbf, File file) throws Exception
     {
@@ -59,9 +59,9 @@ public class XmlDomUtils
     /**
      * Parse XML file and create a DOM model.
      * This method reads the whole XML document into memory.
-     * @param file
-     * @return
-     * @throws Exception
+     * @param file XML file to parse
+     * @return XML DOM model
+     * @throws Exception Generic exception
      */
     public static Document readXml(File file) throws Exception
     {
@@ -73,11 +73,11 @@ public class XmlDomUtils
     /**
      * Parse XML file and create a DOM model.
      * This method reads the whole XML document into memory.
-     * @param xmlFile
-     * @param xsdFile
-     * @param eh
-     * @return
-     * @throws Exception
+     * @param xmlFile XML file to parse
+     * @param xsdFile XSD schema file for XML validation
+     * @param eh custom error handler
+     * @return XML DOM model
+     * @throws Exception Generic exception
      */
     public static Document readXml(File xmlFile, File xsdFile, ErrorHandler eh) throws Exception
     {
@@ -95,9 +95,9 @@ public class XmlDomUtils
 
     /**
      * Get attribute of a node by name.
-     * @param node
-     * @param attributeName
-     * @return
+     * @param node DOM node
+     * @param attributeName attribute name
+     * @return attribute value
      */
     public static String getAttribute(Node node, String attributeName)
     {
@@ -110,8 +110,8 @@ public class XmlDomUtils
 
     /**
      * Get all attributes of a node.
-     * @param node
-     * @return
+     * @param node DOM node
+     * @return attribute map
      */
     public static NamedNodeMap getAttributes(Node node)
     {
@@ -124,7 +124,7 @@ public class XmlDomUtils
      * Count child nodes.
      * @param node Parent node object
      * @param name child node name
-     * @return
+     * @return node count
      */
     public static int countChildNodes(Node node, String name)
     {
@@ -144,9 +144,9 @@ public class XmlDomUtils
     
     /**
      * Get first child node.
-     * @param node
-     * @param name
-     * @return
+     * @param node parent node
+     * @param name child node name
+     * @return a child node
      */
     public static Node getFirstChild(Node node, String name)
     {
@@ -166,7 +166,7 @@ public class XmlDomUtils
      * Get all child nodes.
      * @param node parent node.
      * @param name child node name.
-     * @return
+     * @return a list of nodes
      */
     public static List<Node> getChildNodes(Node node, String name)
     {

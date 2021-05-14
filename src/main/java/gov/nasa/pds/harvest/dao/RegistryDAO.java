@@ -58,7 +58,7 @@ public class RegistryDAO
      * Check if product id (lidvid) exists in "registry" index in Elasticsearch.
      * @param id Product ID (lidvid)
      * @return true if product exists
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public boolean idExists(String id) throws Exception
     {
@@ -76,7 +76,7 @@ public class RegistryDAO
      * @param ids Search these IDs (lidvids) in Elasticsearch
      * @param pageSize max number of results to return. Usually pageSize = ids.size()
      * @return a list of product IDs (lidvids) that don't exist in Elasticsearch "registry" collection.
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public Collection<String> getNonExistingIds(Collection<String> ids, int pageSize) throws Exception
     {

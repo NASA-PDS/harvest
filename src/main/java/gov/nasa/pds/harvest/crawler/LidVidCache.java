@@ -37,8 +37,8 @@ public class LidVidCache
     
     /**
      * Check if the cache contains a lidvid
-     * @param value
-     * @return
+     * @param value LidVid
+     * @return true if cache contains the LidVid
      */
     public boolean containsLidVid(String value)
     {
@@ -47,8 +47,8 @@ public class LidVidCache
 
     /**
      * Check if the cache contains a lid
-     * @param value
-     * @return
+     * @param value Lid
+     * @return true if cache contains the lid
      */
     public boolean containsLid(String value)
     {
@@ -58,7 +58,7 @@ public class LidVidCache
     
     /**
      * Add a lid to the cache
-     * @param value
+     * @param value lid
      */
     public void addLid(String value)
     {
@@ -69,7 +69,7 @@ public class LidVidCache
 
     /**
      * Add a lidvid to the cache
-     * @param value
+     * @param value LidVid
      */
     public void addLidVid(String value)
     {
@@ -80,7 +80,7 @@ public class LidVidCache
     
     /**
      * Add multiple lids to the cache
-     * @param values
+     * @param values Lid collection
      */
     public void addLids(Collection<String> values)
     {
@@ -91,7 +91,7 @@ public class LidVidCache
     
     /**
      * Add multiple lidvids to the cache
-     * @param values
+     * @param values LidVid collection
      */
     public void addLidVids(Collection<String> values)
     {

@@ -42,9 +42,9 @@ public class ConfigReader
     
     /**
      * Read Harvest configuration file.
-     * @param file
-     * @return
-     * @throws Exception
+     * @param file Configuration file
+     * @return Configuration model object
+     * @throws Exception Generic exception
      */
     public Configuration read(File file) throws Exception
     {

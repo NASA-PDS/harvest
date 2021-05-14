@@ -28,7 +28,7 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
 /**
- * <p>Process products (PDS4 XML label files) excluding collections and bundles.</p>
+ * Process products (PDS4 XML label files) excluding collections and bundles.
  *
  * <p> Processing steps:
  * <ul>
@@ -38,7 +38,6 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
  * <li>Write extracted metadata into a JSON or XML file.</li> 
  * <li>Generated JSON files can be imported into Elasticsearch by Registry manager tool.</li>
  * </ul>
- * </p> 
  *  
  * @author karpenko
  */

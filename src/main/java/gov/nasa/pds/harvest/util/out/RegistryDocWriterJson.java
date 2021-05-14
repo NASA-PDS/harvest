@@ -32,7 +32,7 @@ public class RegistryDocWriterJson implements RegistryDocWriter
     /**
      * Constructor
      * @param outDir output directory
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public RegistryDocWriterJson(File outDir) throws Exception
     {

@@ -31,9 +31,9 @@ public class XmlStreamUtils
     
     /**
      * Get XML's root element name.
-     * @param file
-     * @return
-     * @throws Exception
+     * @param file XML file
+     * @return the XML root element
+     * @throws Exception Generic exception
      */
     public String getRootElement(File file) throws Exception
     {

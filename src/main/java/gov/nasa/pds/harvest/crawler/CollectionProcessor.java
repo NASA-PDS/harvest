@@ -42,7 +42,6 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
  * <li>Write extracted metadata into a JSON or XML file</li>
  * <li>Generated JSON files can be imported into Elasticsearch by Registry manager tool.</li>
  * </ul>
- * </p>
  *  
  * @author karpenko
  */
@@ -73,9 +72,9 @@ public class CollectionProcessor
      * Constructor.
      * @param config Harvest configuration parameters
      * @param writer Registry document writer (JSON or XML)
-     * @param refsWriter
-     * @param counter
-     * @throws Exception
+     * @param refsWriter References document writer (JSON or XML)
+     * @param counter Counter of processed products
+     * @throws Exception Generic exception
      */
     public CollectionProcessor(Configuration config, RegistryDocWriter writer, 
             RefsDocWriter refsWriter, Counter counter) throws Exception
@@ -118,8 +117,8 @@ public class CollectionProcessor
      * Process collections of a bundle.
      * Bundle configuration is provided in a Harvest configuration file.
      * @param bCfg Bundle configuration parameters
-     * @return
-     * @throws Exception
+     * @return number of processed collections (0 or more)
+     * @throws Exception Generic exception
      */
     public int process(BundleCfg bCfg) throws Exception
     {

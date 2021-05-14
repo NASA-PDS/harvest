@@ -38,8 +38,8 @@ public class NodeNameValidator
     
     /**
      * Validate node name
-     * @param id
-     * @throws Exception
+     * @param id Node name / id
+     * @throws Exception Generic exception
      */
     public void validate(String id) throws Exception
     {

@@ -31,7 +31,7 @@ public class RegistryDocWriterXml implements RegistryDocWriter
     /**
      * Constructor
      * @param outDir output directory
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public RegistryDocWriterXml(File outDir) throws Exception
     {

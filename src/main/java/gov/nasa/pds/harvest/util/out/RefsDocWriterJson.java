@@ -28,8 +28,8 @@ public class RefsDocWriterJson implements RefsDocWriter
 
     /**
      * Constructor
-     * @param outDir
-     * @throws Exception
+     * @param outDir output directory
+     * @throws Exception Generic exception
      */
     public RefsDocWriterJson(File outDir) throws Exception
     {

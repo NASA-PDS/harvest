@@ -23,7 +23,7 @@ public interface RefsDocWriter
     
     /**
      * Close resources / output file.
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public void close() throws Exception;
 }

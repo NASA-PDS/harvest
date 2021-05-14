@@ -25,8 +25,8 @@ public class RefsDocWriterXml implements RefsDocWriter
     
     /**
      * Constructor
-     * @param outDir
-     * @throws Exception
+     * @param outDir output directory
+     * @throws Exception Generic exception
      */
     public RefsDocWriterXml(File outDir) throws Exception
     {

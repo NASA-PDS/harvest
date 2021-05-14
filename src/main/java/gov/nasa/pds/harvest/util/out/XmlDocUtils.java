@@ -15,10 +15,10 @@ public class XmlDocUtils
 {
     /**
      * Write a field.
-     * @param writer
-     * @param key
-     * @param values
-     * @throws Exception
+     * @param writer Generic writer
+     * @param key a key
+     * @param values a collection of values
+     * @throws Exception Generic exception
      */
     public static void writeField(Writer writer, String key, Collection<String> values) throws Exception
     {
@@ -33,10 +33,10 @@ public class XmlDocUtils
     
     /**
      * Write a field.
-     * @param writer
-     * @param key
-     * @param value
-     * @throws Exception
+     * @param writer Generic writer
+     * @param key a key
+     * @param value a value
+     * @throws Exception Generic exception
      */
     public static void writeField(Writer writer, String key, float value) throws Exception
     {
@@ -46,10 +46,10 @@ public class XmlDocUtils
 
     /**
      * Write a field.
-     * @param writer
-     * @param key
-     * @param value
-     * @throws Exception
+     * @param writer Generic writer
+     * @param key a key
+     * @param value a value
+     * @throws Exception Generic exception
      */
     public static void writeField(Writer writer, String key, int value) throws Exception
     {
@@ -59,10 +59,10 @@ public class XmlDocUtils
     
     /**
      * Write a field.
-     * @param writer
-     * @param key
-     * @param value
-     * @throws Exception
+     * @param writer Generic writer
+     * @param key a key
+     * @param value a value
+     * @throws Exception Generic exception
      */
     public static void writeField(Writer writer, String key, String value) throws Exception
     {
@@ -80,9 +80,9 @@ public class XmlDocUtils
     
     /**
      * Write a multivalued field.
-     * @param writer
-     * @param fields
-     * @throws Exception
+     * @param writer Generic writer
+     * @param fields collection of fields
+     * @throws Exception Generic exception
      */
     public static void writeFieldMap(Writer writer, FieldMapSet fields) throws Exception
     {

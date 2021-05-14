@@ -47,7 +47,7 @@ public class InventoryBatchReader
      * @param batchSize Batch size
      * @param batch Store lid and lidvid references in this object (This is the output parameter)
      * @return number of records read.
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public int readNextBatch(int batchSize, ProdRefsBatch batch) throws Exception
     {

@@ -52,8 +52,8 @@ public class EsRequestBuilder
      * Create Elasticsearch query to search for product IDs (lidvids)
      * @param ids Collection of product IDs (lidvids)
      * @param pageSize Number of records to return. Usually pageSize = ids.size().
-     * @return
-     * @throws Exception
+     * @return JSON Elasticsearch request
+     * @throws Exception Generic exception
      */
     public String createSearchIdsRequest(Collection<String> ids, int pageSize) throws Exception
     {

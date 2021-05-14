@@ -25,7 +25,7 @@ public class RefsCache
     
     /**
      * Get singleton instance.
-     * @return
+     * @return Reference cache
      */
     public static RefsCache getInstance()
     {
@@ -35,7 +35,7 @@ public class RefsCache
     
     /**
      * Get product reference cache.
-     * @return
+     * @return LidVid cache
      */
     public LidVidCache getProdRefsCache()
     {
@@ -45,7 +45,7 @@ public class RefsCache
 
     /**
      * Get collection reference cache.
-     * @return
+     * @return LidVid cache
      */
     public LidVidCache getCollectionRefsCache()
     {

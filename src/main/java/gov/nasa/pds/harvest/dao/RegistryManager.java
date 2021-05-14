@@ -23,7 +23,7 @@ public class RegistryManager
     /**
      * Private constructor. Use getInstance() instead.
      * @param cfg Registry (Elasticsearch) configuration parameters.
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     private RegistryManager(RegistryCfg cfg) throws Exception
     {
@@ -41,7 +41,7 @@ public class RegistryManager
     /**
      * Initialize the singleton.
      * @param cfg Registry (Elasticsearch) configuration parameters.
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     public static void init(RegistryCfg cfg) throws Exception
     {
@@ -66,7 +66,7 @@ public class RegistryManager
     
     /**
      * Get the singleton instance.
-     * @return
+     * @return Registry manager singleton
      */
     public static RegistryManager getInstance()
     {
@@ -76,7 +76,7 @@ public class RegistryManager
     
     /**
      * Get registry DAO object.
-     * @return
+     * @return Registry DAO
      */
     public RegistryDAO getRegistryDAO()
     {

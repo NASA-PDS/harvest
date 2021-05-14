@@ -53,8 +53,9 @@ public class CrawlerCommand
 
     /**
      * Run this command.
-     * @param cmdLine
-     * @throws Exception
+     * @param cmdLine Apache Commons CLI library's class 
+     * containing parsed command line parameters.
+     * @throws Exception Generic exception
      */
     public void run(CommandLine cmdLine) throws Exception
     {
@@ -81,7 +82,7 @@ public class CrawlerCommand
     
     /**
      * Process bundles configured in Harvest configuration file. 
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     private void processBundles() throws Exception
     {
@@ -94,7 +95,7 @@ public class CrawlerCommand
 
     /**
      * Process directories configured in Harvest configuration file. 
-     * @throws Exception
+     * @throws Exception Generic exception
      */
     private void processDirs() throws Exception
     {
@@ -108,8 +109,9 @@ public class CrawlerCommand
     /**
      * Parse command-line parameters and configuration file to initialize
      * logger, data writers, data processors, etc.
-     * @param cmdLine
-     * @throws Exception
+     * @param Apache Commons CLI library's class 
+     * containing parsed command line parameters.
+     * @throws Exception Generic exception
      */
     private void configure(CommandLine cmdLine) throws Exception
     {
