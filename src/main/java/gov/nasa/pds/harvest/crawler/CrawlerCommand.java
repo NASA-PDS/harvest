@@ -22,6 +22,11 @@ import gov.nasa.pds.harvest.util.out.RegistryDocWriterJson;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriterXml;
 
 
+/**
+ * A CLI command to crawl files and process PDS4 labels.  
+ * 
+ * @author karpenko
+ */
 public class CrawlerCommand
 {
     private Logger log;
@@ -37,12 +42,21 @@ public class CrawlerCommand
     private ProductProcessor prodProc;
     
     
+    /**
+     * Constructor
+     */
     public CrawlerCommand()
     {
         log = LogManager.getLogger(this.getClass());
     }
 
 
+    /**
+     * Run this command.
+     * @param cmdLine Apache Commons CLI library's class 
+     * containing parsed command line parameters.
+     * @throws Exception Generic exception
+     */
     public void run(CommandLine cmdLine) throws Exception
     {
         configure(cmdLine);
@@ -66,6 +80,10 @@ public class CrawlerCommand
     }
     
     
+    /**
+     * Process bundles configured in Harvest configuration file. 
+     * @throws Exception Generic exception
+     */
     private void processBundles() throws Exception
     {
         for(BundleCfg bCfg: cfg.bundles)
@@ -74,7 +92,11 @@ public class CrawlerCommand
         }
     }
     
-    
+
+    /**
+     * Process directories configured in Harvest configuration file. 
+     * @throws Exception Generic exception
+     */
     private void processDirs() throws Exception
     {
         for(String path: cfg.dirs)
@@ -84,6 +106,13 @@ public class CrawlerCommand
     }
     
     
+    /**
+     * Parse command-line parameters and configuration file to initialize
+     * logger, data writers, data processors, etc.
+     * @param Apache Commons CLI library's class 
+     * containing parsed command line parameters.
+     * @throws Exception Generic exception
+     */
     private void configure(CommandLine cmdLine) throws Exception
     {
         // Output directory

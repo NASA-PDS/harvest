@@ -1,6 +1,9 @@
 package gov.nasa.pds.harvest.crawler;
 
-
+/**
+ * Product reference type. Primary or secondary.
+ * @author karpenko
+ */
 public enum RefType 
 { 
     PRIMARY("P", "primary"), 

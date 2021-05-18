@@ -11,13 +11,17 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 
 /**
- * Parses / converts "yyyyMMddHHmmss" dates with optional nano seconds and time zone. 
+ * Parses / converts "yyyyMMddHHmmss" dates with optional nano seconds and time zone.
+ * 
  * @author karpenko
  */
 public class CompactDateTimeConverter
 {
     private DateTimeFormatter DATE_TIME;
     
+    /**
+     * Constructor
+     */
     public CompactDateTimeConverter()
     {
         DATE_TIME = new DateTimeFormatterBuilder()
@@ -46,6 +50,11 @@ public class CompactDateTimeConverter
     }
 
 
+    /**
+     * Convert yyyyMMddHHmmss.SSSSS dates to ISO instant
+     * @param value a date
+     * @return ISO instant
+     */
     public Instant toInstant(String value)
     {
         if(value == null) return null;

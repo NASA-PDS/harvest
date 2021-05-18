@@ -6,6 +6,11 @@ import gov.nasa.pds.harvest.util.FieldMapList;
 import gov.nasa.pds.harvest.util.FieldMapSet;
 
 
+/**
+ * Metadata extracted from PDS label.
+ * 
+ * @author karpenko
+ */
 public class Metadata
 {
     public String lid;

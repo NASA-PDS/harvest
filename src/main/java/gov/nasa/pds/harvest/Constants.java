@@ -1,5 +1,10 @@
 package gov.nasa.pds.harvest;
 
+/**
+ * Some constants used by different classes.
+ * 
+ * @author karpenko
+ */
 public interface Constants
 {
     // Field names

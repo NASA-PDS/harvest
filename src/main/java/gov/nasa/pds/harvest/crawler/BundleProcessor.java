@@ -30,6 +30,20 @@ import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
+/**
+ * <p>Process "Product_Bundle" products (PDS4 XML label files).
+ * 
+ * <p> Processing steps:
+ * <ul>
+ * <li>Crawl file system</li>
+ * <li>Parse PDS4 labels (XML files)</li>
+ * <li>Extract product metadata</li>
+ * <li>Write extracted metadata into a JSON or XML file.</li> 
+ * <li>Generated JSON files can be imported into Elasticsearch by Registry manager tool.</li>
+ * </ul>
+ * 
+ * @author karpenko
+ */
 public class BundleProcessor
 {
     private Logger log;
@@ -54,6 +68,15 @@ public class BundleProcessor
     private BundleCfg bundleCfg;
     
     
+    /**
+     * Constructor
+     * @param config Harvest configuration parameters
+     * @param writer A writer to write JSON or XML data files with metadata
+     * extracted from PDS4 labels. Generated JSON files can be imported 
+     * into Elasticsearch by Registry manager tool. 
+     * @param counter document / product counter
+     * @throws Exception Generic exception
+     */
     public BundleProcessor(Configuration config, RegistryDocWriter writer, Counter counter) throws Exception
     {
         this.config = config;
@@ -74,6 +97,10 @@ public class BundleProcessor
     }
     
     
+    /**
+     * Inner class used by Files.find() to select bundle label files.
+     * @author karpenko
+     */
     private static class BundleMatcher implements BiPredicate<Path, BasicFileAttributes>
     {
         @Override
@@ -85,6 +112,12 @@ public class BundleProcessor
     }
 
     
+    /**
+     * Process one bundle configuration from Harvest configuration file.
+     * @param bCfg Bundle configuration (directory, version, etc.)
+     * @return Number of bundles processed (O or more)
+     * @throws Exception Generic exception
+     */
     public int process(BundleCfg bCfg) throws Exception
     {
         bundleCount = 0;
@@ -100,7 +133,12 @@ public class BundleProcessor
         return bundleCount;
     }
 
-
+    
+    /**
+     * Process one bundle label file.
+     * @param file PDS XML Label file
+     * @throws Exception Generic exception
+     */
     private void onBundle(File file) throws Exception
     {
         // Skip very large files

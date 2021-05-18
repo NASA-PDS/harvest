@@ -9,23 +9,38 @@ import java.util.Set;
 import java.util.TreeMap;
 
 
+/**
+ * Implementation of FieldMap interface which stores values in a list.
+ * It preserves order and number of values in PDS label XML.
+ * 
+ * @author karpenko
+ */
 public class FieldMapList implements FieldMap
 {
     private Map<String, List<String>> fields;
     
     
+    /**
+     * Constructor
+     */
     public FieldMapList()
     {
         fields = new TreeMap<>();
     }
     
     
+    /**
+     * Map size / number of fields.
+     */
     public int size()
     {
         return fields.size();
     }
     
     
+    /**
+     * Check if map is empty.
+     */
     public boolean isEmpty()
     {
         return fields.size() == 0;
@@ -47,6 +62,9 @@ public class FieldMapList implements FieldMap
     }
     
     
+    /**
+     * Add field's value
+     */
     public void addValue(String fieldName, String value)
     {
         if(value == null) return;
@@ -56,6 +74,9 @@ public class FieldMapList implements FieldMap
     }
     
 
+    /**
+     * Add multiple values
+     */
     public void addValues(String fieldName, String[] values)
     {
         if(values == null || values.length == 0) return;
@@ -65,6 +86,9 @@ public class FieldMapList implements FieldMap
     }
 
 
+    /**
+     * Get first value of a field.
+     */
     public String getFirstValue(String fieldName)
     {
         Collection<String> values = getValues(fieldName);
@@ -72,12 +96,18 @@ public class FieldMapList implements FieldMap
     }
 
 
+    /**
+     * Get all values of a field.
+     */
     public Collection<String> getValues(String fieldName)
     {
         return fields.get(fieldName);
     }
 
     
+    /**
+     * Get names of all fields in this map.
+     */
     public Set<String> getNames()
     {
         return fields.keySet();

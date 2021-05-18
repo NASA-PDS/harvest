@@ -4,6 +4,11 @@ import java.io.Closeable;
 
 import javax.xml.stream.XMLEventReader;
 
+/**
+ * Close resources without throwing exceptions.
+ * 
+ * @author karpenko
+ */
 public class CloseUtils
 {
     public static void close(Closeable cl)

@@ -13,6 +13,18 @@ import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.out.RefsDocWriter;
 
 
+/**
+ * <p>Process inventory files of "Product_Collection" products (PDS4 label files)
+ * 
+ * <p>Parse collection inventory file, e.g., "document_collection_inventory.csv",
+ * extract primary and secondary references (lidvids) and write extracted data
+ * into a JSON or XML file. JSON files can be imported into Elasticsearch by 
+ * Registry Manager tool.
+ * 
+ * <p>This class also uses "RefsCache" singleton to cache product ids (lidvids).
+ * 
+ * @author karpenko
+ */
 public class CollectionInventoryProcessor
 {
     protected Logger log;
@@ -25,6 +37,11 @@ public class CollectionInventoryProcessor
     private boolean primaryOnly;
     
     
+    /**
+     * Constructor
+     * @param writer JSON or XML document writer.
+     * @param primaryOnly if true, only process primary references
+     */
     public CollectionInventoryProcessor(RefsDocWriter writer, boolean primaryOnly)
     {
         log = LogManager.getLogger(this.getClass());
@@ -33,6 +50,17 @@ public class CollectionInventoryProcessor
     }
     
     
+    /**
+     * Parse collection inventory file, e.g., "document_collection_inventory.csv",
+     * extract primary and secondary references (lidvids) and write extracted data
+     * into a JSON or XML file. JSON files can be imported into Elasticsearch by 
+     * Registry Manager tool.
+     * 
+     * @param meta Collection metadata
+     * @param inventoryFile Collection inventory file, e.g., "document_collection_inventory.csv"
+     * @param cacheProductIds if true, cache product lidvids
+     * @throws Exception Generic exception
+     */
     public void writeCollectionInventory(Metadata meta, File inventoryFile, boolean cacheProductIds) throws Exception
     {
         writePrimaryRefs(meta, inventoryFile, cacheProductIds);
@@ -40,6 +68,13 @@ public class CollectionInventoryProcessor
     }
     
     
+    /**
+     * Write primary product references
+     * @param meta Collection metadata
+     * @param inventoryFile Collection inventory file, e.g., "document_collection_inventory.csv"
+     * @param cacheProductIds if true, cache product lidvids
+     * @throws Exception Generic exception
+     */
     private void writePrimaryRefs(Metadata meta, File inventoryFile, boolean cacheProductIds) throws Exception
     {
         batch.batchNum = 0;
@@ -69,6 +104,12 @@ public class CollectionInventoryProcessor
     }
 
     
+    /**
+     * Write secondary product references
+     * @param meta Collection metadata 
+     * @param inventoryFile Collection inventory file, e.g., "document_collection_inventory.csv"
+     * @throws Exception Generic exception
+     */
     private void writeSecondaryRefs(Metadata meta, File inventoryFile) throws Exception
     {
         batch.batchNum = 0;
@@ -90,6 +131,14 @@ public class CollectionInventoryProcessor
     }
     
     
+    /**
+     * Query Registry (Elasticsearch) to find existing (registered) products.
+     * Cache only non-registered products. This method uses "RefsCache" singleton.
+     * 
+     * @param meta Collection metadata
+     * @param inventoryFile Collection inventory file, e.g., "document_collection_inventory.csv"
+     * @throws Exception Generic exception
+     */
     public void cacheNonRegisteredInventory(Metadata meta, File inventoryFile) throws Exception
     {
         if(RegistryManager.getInstance() == null) throw new Exception("Registry is not configured");

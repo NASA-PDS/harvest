@@ -6,6 +6,19 @@ import java.util.Date;
 import java.util.TimeZone;
 
 
+/**
+ * Converts local dates (dates without time zone information)
+ * to ISO instant. The following date formats are supported:
+ * <ul>
+ * <li>yyyy</li>
+ * <li>yyyy-MM</li>
+ * <li>yyyy-MM-dd</li>
+ * <li>yyyy-DDD</li>
+ * </ul>
+ * 
+ * @author karpenko
+ *
+ */
 public class LocalDateConverter
 {
     private SimpleDateFormat DATE_yyyy;
@@ -14,6 +27,9 @@ public class LocalDateConverter
     private SimpleDateFormat DATE_yyyy_DDD;
 
     
+    /**
+     * Constructor
+     */
     public LocalDateConverter()
     {
         TimeZone UTC = TimeZone.getTimeZone("UTC");
@@ -35,6 +51,11 @@ public class LocalDateConverter
     }
     
     
+    /**
+     * Convert a local date to ISO instant
+     * @param value local date
+     * @return ISO instant
+     */
     public Instant toInstant(String value)
     {
         if(value == null) return null;        

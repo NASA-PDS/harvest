@@ -4,6 +4,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 
+/**
+ * Some constant values used by date parsers. 
+ * 
+ * @author karpenko
+ */
 public class DateConstants
 {
     public static final DateTimeFormatter OPTIONAL_TIME = new DateTimeFormatterBuilder()

@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * A batch of product references
+ *  
+ * @author karpenko
+ */
 public class ProdRefsBatch
 {
     public int batchNum;

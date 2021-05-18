@@ -172,6 +172,14 @@
                     <skipDeploy>true</skipDeploy>
                 </configuration>
             </plugin>
+            <!-- Java Docs -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <detectJavaApiLink>false</detectJavaApiLink>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

@@ -11,6 +11,11 @@ import org.elasticsearch.client.RestClient;
 import gov.nasa.pds.registry.common.es.client.SearchResponseParser;
 
 
+/**
+ * Elasticsearch "registry" index Data Access Object (DAO).
+ * 
+ * @author karpenko
+ */
 public class RegistryDAO
 {
     private RestClient client;
@@ -21,12 +26,23 @@ public class RegistryDAO
     private SearchResponseParser parser;
     
     
+    /**
+     * Constructor
+     * @param client Elasticsearch client
+     * @param indexName Elasticsearch index name, e.g., "registry".
+     */
     public RegistryDAO(RestClient client, String indexName)
     {
         this(client, indexName, false);
     }
     
     
+    /**
+     * Constructor.
+     * @param client Elasticsearch client
+     * @param indexName Elasticsearch index name, e.g., "registry".
+     * @param pretty Pretty-format Elasticsearch response JSON. Used for debugging.
+     */
     public RegistryDAO(RestClient client, String indexName, boolean pretty)
     {
         this.client = client;
@@ -38,6 +54,12 @@ public class RegistryDAO
     }
 
     
+    /**
+     * Check if product id (lidvid) exists in "registry" index in Elasticsearch.
+     * @param id Product ID (lidvid)
+     * @return true if product exists
+     * @throws Exception Generic exception
+     */
     public boolean idExists(String id) throws Exception
     {
         List<String> ids = new ArrayList<>(1);
@@ -48,6 +70,14 @@ public class RegistryDAO
     }
     
     
+    /**
+     * Check if given product IDs (lidvids) exist in Elasticsearch "registry" 
+     * collection. Return values that don't exist in Elasticsearch.
+     * @param ids Search these IDs (lidvids) in Elasticsearch
+     * @param pageSize max number of results to return. Usually pageSize = ids.size()
+     * @return a list of product IDs (lidvids) that don't exist in Elasticsearch "registry" collection.
+     * @throws Exception Generic exception
+     */
     public Collection<String> getNonExistingIds(Collection<String> ids, int pageSize) throws Exception
     {
         Response resp = searchIds(ids, pageSize);

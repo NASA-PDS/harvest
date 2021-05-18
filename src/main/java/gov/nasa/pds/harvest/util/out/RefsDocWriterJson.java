@@ -15,11 +15,22 @@ import gov.nasa.pds.harvest.util.LidVidUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 
 
+/**
+ * Write product references extracted from PDS4 collection inventory files to an 
+ * NJSON (new-line-delimited JSON) file. This file can be loaded into Elasticsearch 
+ * with Registry Manager tool. 
+ *  
+ * @author karpenko
+ */
 public class RefsDocWriterJson implements RefsDocWriter
 {
     private Writer writer;
 
-    
+    /**
+     * Constructor
+     * @param outDir output directory
+     * @throws Exception Generic exception
+     */
     public RefsDocWriterJson(File outDir) throws Exception
     {
 

@@ -9,6 +9,11 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.TemporalAccessor;
 
 
+/**
+ * Convert ISO dates to ISO instant format.
+ * 
+ * @author karpenko
+ */
 public class IsoDateTimeConverter
 {
     private DateTimeFormatter DATE_TIME; 
@@ -30,6 +35,11 @@ public class IsoDateTimeConverter
     }
 
 
+    /**
+     * Convert ISO dates to ISO instant format.
+     * @param value ISO date
+     * @return ISO instant
+     */
     public Instant toInstant(String value)
     {
         if(value == null) return null;

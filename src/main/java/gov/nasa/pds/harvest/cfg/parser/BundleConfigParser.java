@@ -13,6 +13,12 @@ import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
+/**
+ * Harvest configuration file parser. Parses "/harvest/bundles" section.
+ *  
+ * @author karpenko
+ *
+ */
 public class BundleConfigParser
 {
     public static List<BundleCfg> parseBundles(Node root) throws Exception

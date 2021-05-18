@@ -27,6 +27,20 @@ import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
+/**
+ * Process products (PDS4 XML label files) excluding collections and bundles.
+ *
+ * <p> Processing steps:
+ * <ul>
+ * <li>Crawl file system</li>
+ * <li>Parse PDS4 labels (XML files)</li>
+ * <li>Extract product metadata</li>
+ * <li>Write extracted metadata into a JSON or XML file.</li> 
+ * <li>Generated JSON files can be imported into Elasticsearch by Registry manager tool.</li>
+ * </ul>
+ *  
+ * @author karpenko
+ */
 public class ProductProcessor
 {
     private Logger log;
@@ -47,6 +61,15 @@ public class ProductProcessor
     private Counter counter;
     
     
+    /**
+     * Constructor
+     * @param config Harvest configuration parameters
+     * @param writer A writer to write JSON or XML data files with metadata
+     * extracted from PDS4 labels. Generated JSON files can be imported 
+     * into Elasticsearch by Registry manager tool.
+     * @param counter document / product counter
+     * @throws Exception Generic exception
+     */
     public ProductProcessor(Configuration config, RegistryDocWriter writer, Counter counter) throws Exception
     {
         log = LogManager.getLogger(getClass());
@@ -66,12 +89,20 @@ public class ProductProcessor
     }
 
     
+    /**
+     * Inner class used by Files.find() to select product label files.
+     * @author karpenko
+     */
     private static class FileMatcher implements BiPredicate<Path, BasicFileAttributes>
     {
         private Set<String> includeDirs;
         private int startIndex;
         
         
+        /**
+         * Constructor
+         * @param bCfg Bundle configuration
+         */
         public FileMatcher(BundleCfg bCfg)
         {
             this.includeDirs = bCfg.productDirs;
@@ -102,6 +133,11 @@ public class ProductProcessor
     }
 
     
+    /**
+     * Process products of a bundle
+     * @param bCfg Bundle configuration
+     * @throws Exception Generic exception
+     */
     public void process(BundleCfg bCfg) throws Exception
     {
         log.info("Processing products...");
@@ -118,6 +154,11 @@ public class ProductProcessor
     }
     
     
+    /**
+     * Process one file
+     * @param file PDS label file
+     * @throws Exception Generic exception
+     */
     public void onFile(File file) throws Exception
     {
         // Skip very large files
@@ -147,6 +188,12 @@ public class ProductProcessor
     }
     
     
+    /**
+     * Extract metadata from a label file.
+     * @param file PDS label file
+     * @param doc XML DOM model of the PDS label file
+     * @throws Exception Generic exception
+     */
     private void processMetadata(File file, Document doc) throws Exception
     {
         // Extract basic metadata

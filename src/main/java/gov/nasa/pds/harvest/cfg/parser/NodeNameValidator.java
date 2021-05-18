@@ -4,13 +4,20 @@ import java.util.Map;
 import java.util.TreeMap;
 
 
+/**
+ * Validates node name value in Harvest configuration file.
+ *  
+ * @author karpenko
+ */
 public class NodeNameValidator
 {
     private static final String ERROR = "Invalid Harvest configuration: ";
     
     private Map<String, String> map;
     
-    
+    /**
+     * Constructor
+     */
     public NodeNameValidator()
     {
         map = new TreeMap<>();
@@ -29,6 +36,11 @@ public class NodeNameValidator
     }
     
     
+    /**
+     * Validate node name
+     * @param id Node name / id
+     * @throws Exception Generic exception
+     */
     public void validate(String id) throws Exception
     {
         if(id == null) throw new Exception(ERROR + "'harvest' element is missing required attribute 'nodeName'");

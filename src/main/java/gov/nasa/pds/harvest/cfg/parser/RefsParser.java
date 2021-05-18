@@ -6,6 +6,11 @@ import gov.nasa.pds.harvest.cfg.model.RefsCfg;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
+/**
+ * Harvest configuration file parser. Parses "/harvest/references" section.
+ * 
+ * @author karpenko
+ */
 public class RefsParser
 {
     public static RefsCfg parseReferences(Node root) throws Exception

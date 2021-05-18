@@ -14,6 +14,11 @@ import gov.nasa.pds.harvest.util.ExceptionUtils;
 import gov.nasa.pds.harvest.util.log.Log4jConfigurator;
 
 
+/**
+ * Harvest Command-Line Interface (CLI) manager / command runner.
+ * 
+ * @author karpenko
+ */
 public class HarvestCli
 {
     private Logger log;
@@ -22,6 +27,9 @@ public class HarvestCli
     private CommandLine cmdLine;
     
     
+    /**
+     * Constructor
+     */
     public HarvestCli()
     {
         options = new Options();
@@ -29,6 +37,10 @@ public class HarvestCli
     }
     
 
+    /**
+     * Parse command line arguments and run commands.
+     * @param args command line arguments passed from the main() function.
+     */
     public void run(String[] args)
     {
         if(args.length == 0)
@@ -54,6 +66,10 @@ public class HarvestCli
     }
     
 
+    /**
+     * Run commands based on command line parameters.
+     * @return
+     */
     private boolean runCommand()
     {
         try
@@ -71,6 +87,9 @@ public class HarvestCli
     }
 
     
+    /**
+     * Print help screen.
+     */
     public void printHelp()
     {
         System.out.println("Usage: harvest <options>");
@@ -85,7 +104,12 @@ public class HarvestCli
     }
 
     
-    public boolean parse(String[] args)
+    /**
+     * Parse command line parameters
+     * @param args
+     * @return
+     */
+    private boolean parse(String[] args)
     {
         try
         {
@@ -101,6 +125,9 @@ public class HarvestCli
     }
     
     
+    /**
+     * Initialize Log4j logger
+     */
     private void initLogger()
     {
         String verbosity = cmdLine.getOptionValue("v", "1");
@@ -110,6 +137,9 @@ public class HarvestCli
     }
 
     
+    /**
+     * Initialize Apache Commons CLI library
+     */
     private void initOptions()
     {
         Option.Builder bld;
