@@ -102,7 +102,7 @@ public class RegistryDocWriterXml implements RegistryDocWriter
         // Basic info
         String lidvid = meta.lid + "::" + meta.vid;
         XmlDocUtils.writeField(writer, "lid", meta.lid);
-        XmlDocUtils.writeField(writer, "vid", meta.vid);
+        XmlDocUtils.writeField(writer, "vid", meta.strVid);
         XmlDocUtils.writeField(writer, "lidvid", lidvid);
         XmlDocUtils.writeField(writer, "title", meta.title);
         XmlDocUtils.writeField(writer, "product_class", meta.prodClass);

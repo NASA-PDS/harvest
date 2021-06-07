@@ -66,7 +66,7 @@ public class RegistryDocWriterJson implements RegistryDocWriter
 
         // Basic info
         NDJsonDocUtils.writeField(jw, "lid", meta.lid);
-        NDJsonDocUtils.writeField(jw, "vid", meta.vid);
+        NDJsonDocUtils.writeField(jw, "vid", meta.strVid);
         NDJsonDocUtils.writeField(jw, "lidvid", lidvid);
         NDJsonDocUtils.writeField(jw, "title", meta.title);
         NDJsonDocUtils.writeField(jw, "product_class", meta.prodClass);

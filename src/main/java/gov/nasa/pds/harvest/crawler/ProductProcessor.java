@@ -204,6 +204,7 @@ public class ProductProcessor
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) 
         {
+            log.info("Skipping product " + file.getAbsolutePath());
             counter.skippedFileCount++;
             return;
         }

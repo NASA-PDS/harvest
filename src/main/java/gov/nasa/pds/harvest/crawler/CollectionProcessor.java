@@ -177,7 +177,7 @@ public class CollectionProcessor
         // Collection already registered in the Registry (Elasticsearch)
         if(dao != null && dao.idExists(meta.lidvid))
         {
-            log.warn("Collection " + meta.lidvid + " already registered");
+            log.warn("Collection " + meta.lidvid + " already registered. Skipping.");
             
             // Only cache but don't write product references
             processInventoryFiles(file, doc, meta, false);
@@ -204,6 +204,14 @@ public class CollectionProcessor
     }
 
     
+    /**
+     * Process PDS collection inventory files
+     * @param collectionFile PDS collection file
+     * @param doc Parsed PDS collection DOM model
+     * @param meta PDS collection metadata
+     * @param write If true, write and cache products. If false, only cache products.
+     * @throws Exception an exception
+     */
     private void processInventoryFiles(File collectionFile, Document doc, Metadata meta, boolean write) throws Exception
     {
         Set<String> fileNames = collectionExtractor.extractInventoryFileNames(doc);
@@ -212,10 +220,26 @@ public class CollectionProcessor
         for(String fileName: fileNames)
         {
             File invFile = new File(collectionFile.getParentFile(), fileName);
+            
+            // Collection is not registered. Write inventory refs.
             if(write)
             {
-                invProc.writeCollectionInventory(meta, invFile, true);
+                // Registry is configured
+                if(RegistryManager.getInstance() != null)
+                {
+                    // Write inventory refs. Don't cache any products.
+                    invProc.writeCollectionInventory(meta, invFile, false);
+                    // Cache non-registered products.
+                    invProc.cacheNonRegisteredInventory(meta, invFile);
+                }
+                // Registry is not configured
+                else
+                {
+                    // Write inventory refs and cache all products.
+                    invProc.writeCollectionInventory(meta, invFile, true);
+                }
             }
+            // Collection is already registered. Only cache non-registered products.
             else
             {
                 invProc.cacheNonRegisteredInventory(meta, invFile);

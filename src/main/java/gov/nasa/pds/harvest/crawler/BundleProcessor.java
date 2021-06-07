@@ -174,7 +174,7 @@ public class BundleProcessor
         // Bundle already registered in the Registry (Elasticsearch)
         if(dao != null && dao.idExists(meta.lidvid))
         {
-            log.warn("Bundle " + meta.lidvid + " already registered");
+            log.warn("Bundle " + meta.lidvid + " already registered. Skipping.");
             addCollectionRefs(meta, doc);
             counter.skippedFileCount++;
             return;

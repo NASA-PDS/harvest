@@ -63,7 +63,7 @@ public class RefsDocWriterJson implements RefsDocWriter
         // Collection ids
         NDJsonDocUtils.writeField(jw, "collection_lidvid", meta.lidvid);
         NDJsonDocUtils.writeField(jw, "collection_lid", meta.lid);
-        NDJsonDocUtils.writeField(jw, "collection_vid", meta.vid);
+        NDJsonDocUtils.writeField(jw, "collection_vid", meta.strVid);
         
         // Product refs
         NDJsonDocUtils.writeField(jw, "product_lidvid", batch.lidvids);

@@ -59,7 +59,7 @@ public class RefsDocWriterXml implements RefsDocWriter
         // Collection ids
         XmlDocUtils.writeField(writer, "collection_lidvid", meta.lidvid);
         XmlDocUtils.writeField(writer, "collection_lid", meta.lid);
-        XmlDocUtils.writeField(writer, "collection_vid", meta.vid);
+        XmlDocUtils.writeField(writer, "collection_vid", meta.strVid);
         
         // Product refs
         XmlDocUtils.writeField(writer, "product_lidvid", batch.lidvids);
