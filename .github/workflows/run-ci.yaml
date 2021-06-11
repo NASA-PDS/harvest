@@ -62,3 +62,7 @@ jobs:
       run: >-
         docker run --rm --name=newman --network ${{ job.container.network }}
         -v /tmp/build/postman:/etc/newman postman/newman:latest run postman_collection.json 
+
+    # Stop containers
+    - name: Stop API server
+      run: docker stop -t 1 api
