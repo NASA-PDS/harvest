@@ -1,0 +1,15 @@
+name: Run CI
+
+on:
+  push:
+    branches:
+    - '**'
+    - '!gh-action'
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Preparing to build
+      run: echo running on branch ${GITHUB_REF##*/}
