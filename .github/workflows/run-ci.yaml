@@ -1,0 +1,29 @@
+name: Run CI
+
+on:
+  push:
+    branches:
+    - '**'
+    - '!gh-action'
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Preparing to build
+      run: |
+        echo Running on branch ${GITHUB_REF##*/}
+        mkdir /tmp/build
+
+    - name: Build Harvest
+      run: docker run --rm --name registry-build -v /tmp/build:/build tdddblog/pds_maven_build:1.0 harvest ${GITHUB_REF##*/}
+
+#    - name: Build Registry Manager
+#      run: docker run --rm --name registry-build -v /tmp/build:/build tdddblog/pds_maven_build:1.0 manager
+
+#    - name: Build API
+#      run: docker run --rm --name registry-build -v /tmp/build:/build tdddblog/pds_maven_build:1.0 api
+
+    - name: Test
+      run: ls -l /tmp/build
