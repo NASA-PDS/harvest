@@ -66,12 +66,12 @@ public class RefsDocWriterJson implements RefsDocWriter
         NDJsonDocUtils.writeField(jw, "collection_vid", meta.strVid);
         
         // Product refs
-        NDJsonDocUtils.writeField(jw, "product_lidvid", batch.lidvids);
+        NDJsonDocUtils.writeArray(jw, "product_lidvid", batch.lidvids);
         
         // Convert lidvids to lids
         Set<String> lids = LidVidUtils.lidvidToLid(batch.lidvids);
         lids = LidVidUtils.add(lids, batch.lids);
-        NDJsonDocUtils.writeField(jw, "product_lid", lids);
+        NDJsonDocUtils.writeArray(jw, "product_lid", lids);
         
         // Transaction ID
         NDJsonDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());
