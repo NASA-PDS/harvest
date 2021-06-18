@@ -34,10 +34,10 @@ jobs:
       run: docker run --rm --name registry-build -v /tmp/build:/build tdddblog/pds_maven_build:1.0 harvest ${GITHUB_REF##*/}
 
     - name: Build Registry Manager
-      run: docker run --rm --name registry-build -v /tmp/build:/build tdddblog/pds_maven_build:1.0 manager master
+      run: docker run --rm --name registry-build -v /tmp/build:/build tdddblog/pds_maven_build:1.0 manager main
 
     - name: Build API
-      run: docker run --rm --name registry-build -v /tmp/build:/build tdddblog/pds_maven_build:1.0 api master
+      run: docker run --rm --name registry-build -v /tmp/build:/build tdddblog/pds_maven_build:1.0 api main
 
     # Start API server
     - name: Start API server
