@@ -24,6 +24,8 @@ import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
+import gov.nasa.pds.harvest.util.out.SupplementalWriter;
+import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
@@ -49,7 +51,6 @@ public class ProductProcessor
     private static final long MAX_XML_FILE_LENGTH = 10_000_000;
 
     private Configuration config;
-    private RegistryDocWriter writer;
     
     private DocumentBuilderFactory dbf;
     private BasicMetadataExtractor basicExtractor;
@@ -64,16 +65,12 @@ public class ProductProcessor
     /**
      * Constructor
      * @param config Harvest configuration parameters
-     * @param writer A writer to write JSON or XML data files with metadata
-     * extracted from PDS4 labels. Generated JSON files can be imported 
-     * into Elasticsearch by Registry manager tool.
      * @param counter document / product counter
      * @throws Exception Generic exception
      */
-    public ProductProcessor(Configuration config, RegistryDocWriter writer, Counter counter) throws Exception
+    public ProductProcessor(Configuration config, Counter counter) throws Exception
     {
         log = LogManager.getLogger(getClass());
-        this.writer = writer;
         this.counter = counter;
 
         dbf = DocumentBuilderFactory.newInstance();
@@ -226,9 +223,18 @@ public class ProductProcessor
         // Extract file data
         fileDataExtractor.extract(file, meta);
         
+        RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
         writer.write(meta);
         
         counter.prodCounters.inc(meta.prodClass);
+        
+        // Process supplemental products
+        String rootElement = doc.getDocumentElement().getNodeName();
+        if(rootElement.equals("Product_Metadata_Supplemental"))
+        {
+            SupplementalWriter swriter = WriterManager.getInstance().getSupplementalWriter();
+            swriter.write(file);
+        }
     }
 
 }

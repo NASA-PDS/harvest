@@ -2,6 +2,7 @@ package gov.nasa.pds.harvest.util.out;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Set;
@@ -85,7 +86,7 @@ public class RefsDocWriterJson implements RefsDocWriter
     
     
     @Override
-    public void close() throws Exception
+    public void close() throws IOException
     {
         writer.close();
     }

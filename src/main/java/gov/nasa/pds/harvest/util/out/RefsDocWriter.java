@@ -1,5 +1,7 @@
 package gov.nasa.pds.harvest.util.out;
 
+import java.io.Closeable;
+
 import gov.nasa.pds.harvest.crawler.ProdRefsBatch;
 import gov.nasa.pds.harvest.crawler.RefType;
 import gov.nasa.pds.harvest.meta.Metadata;
@@ -10,7 +12,7 @@ import gov.nasa.pds.harvest.meta.Metadata;
  * 
  * @author karpenko
  */
-public interface RefsDocWriter
+public interface RefsDocWriter extends Closeable
 {
     /**
      * Write a batch of product references.
@@ -20,10 +22,4 @@ public interface RefsDocWriter
      * @throws Exception Generic exception
      */
     public void writeBatch(Metadata meta, ProdRefsBatch batch, RefType refType) throws Exception;
-    
-    /**
-     * Close resources / output file.
-     * @throws Exception Generic exception
-     */
-    public void close() throws Exception;
 }

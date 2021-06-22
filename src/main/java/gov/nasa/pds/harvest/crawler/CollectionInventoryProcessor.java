@@ -11,6 +11,7 @@ import gov.nasa.pds.harvest.dao.RegistryDAO;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.out.RefsDocWriter;
+import gov.nasa.pds.harvest.util.out.WriterManager;
 
 
 /**
@@ -33,19 +34,16 @@ public class CollectionInventoryProcessor
     private int ELASTIC_BATCH_SIZE = 50;
     
     private ProdRefsBatch batch = new ProdRefsBatch();
-    private RefsDocWriter writer;
     private boolean primaryOnly;
     
     
     /**
      * Constructor
-     * @param writer JSON or XML document writer.
      * @param primaryOnly if true, only process primary references
      */
-    public CollectionInventoryProcessor(RefsDocWriter writer, boolean primaryOnly)
+    public CollectionInventoryProcessor(boolean primaryOnly)
     {
         log = LogManager.getLogger(this.getClass());
-        this.writer = writer;
         this.primaryOnly = primaryOnly;
     }
     
@@ -95,6 +93,7 @@ public class CollectionInventoryProcessor
             }
             
             // Write batch
+            RefsDocWriter writer = WriterManager.getInstance().getRefsWriter();
             writer.writeBatch(meta, batch, RefType.PRIMARY);
             
             if(count < WRITE_BATCH_SIZE) break;
@@ -122,6 +121,7 @@ public class CollectionInventoryProcessor
             if(count == 0) break;
             
             // Write batch
+            RefsDocWriter writer = WriterManager.getInstance().getRefsWriter();
             writer.writeBatch(meta, batch, RefType.SECONDARY);
             
             if(count < WRITE_BATCH_SIZE) break;

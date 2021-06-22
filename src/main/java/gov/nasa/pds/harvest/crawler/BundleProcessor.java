@@ -27,6 +27,7 @@ import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
+import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
@@ -52,7 +53,6 @@ public class BundleProcessor
     private static final long MAX_XML_FILE_LENGTH = 10_000_000;
 
     private Configuration config;
-    private RegistryDocWriter writer;
     
     private DocumentBuilderFactory dbf;
     private BasicMetadataExtractor basicExtractor;
@@ -71,16 +71,12 @@ public class BundleProcessor
     /**
      * Constructor
      * @param config Harvest configuration parameters
-     * @param writer A writer to write JSON or XML data files with metadata
-     * extracted from PDS4 labels. Generated JSON files can be imported 
-     * into Elasticsearch by Registry manager tool. 
      * @param counter document / product counter
      * @throws Exception Generic exception
      */
-    public BundleProcessor(Configuration config, RegistryDocWriter writer, Counter counter) throws Exception
+    public BundleProcessor(Configuration config, Counter counter) throws Exception
     {
         this.config = config;
-        this.writer = writer;
         this.counter = counter;
         
         log = LogManager.getLogger(this.getClass());
@@ -191,6 +187,7 @@ public class BundleProcessor
         
         fileDataExtractor.extract(file, meta);
         
+        RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
         writer.write(meta);
         
         counter.prodCounters.inc(meta.prodClass);

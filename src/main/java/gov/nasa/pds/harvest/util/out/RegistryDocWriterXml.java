@@ -2,6 +2,7 @@ package gov.nasa.pds.harvest.util.out;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Set;
@@ -51,7 +52,7 @@ public class RegistryDocWriterXml implements RegistryDocWriter
 
     
     @Override
-    public void close() throws Exception
+    public void close() throws IOException
     {
         writer.append("</add>\n");
         writer.close();
@@ -63,7 +64,7 @@ public class RegistryDocWriterXml implements RegistryDocWriter
     }
 
     
-    private void saveFields() throws Exception
+    private void saveFields() throws IOException
     {
         File file = new File(outDir, "fields.txt");
         FileWriter wr = new FileWriter(file);

@@ -26,8 +26,8 @@ import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
-import gov.nasa.pds.harvest.util.out.RefsDocWriter;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
+import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
@@ -53,7 +53,6 @@ public class CollectionProcessor
     private static final long MAX_XML_FILE_LENGTH = 10_000_000;
 
     private Configuration config;
-    private RegistryDocWriter writer;
     private CollectionInventoryProcessor invProc;
     
     private DocumentBuilderFactory dbf;
@@ -71,17 +70,13 @@ public class CollectionProcessor
     /**
      * Constructor.
      * @param config Harvest configuration parameters
-     * @param writer Registry document writer (JSON or XML)
-     * @param refsWriter References document writer (JSON or XML)
      * @param counter Counter of processed products
      * @throws Exception Generic exception
      */
-    public CollectionProcessor(Configuration config, RegistryDocWriter writer, 
-            RefsDocWriter refsWriter, Counter counter) throws Exception
+    public CollectionProcessor(Configuration config, Counter counter) throws Exception
     {
         this.config = config;
-        this.writer = writer;
-        this.invProc = new CollectionInventoryProcessor(refsWriter, config.refsCfg.primaryOnly);
+        this.invProc = new CollectionInventoryProcessor(config.refsCfg.primaryOnly);
         this.counter = counter;
         
         log = LogManager.getLogger(this.getClass());
@@ -194,7 +189,9 @@ public class CollectionProcessor
             autogenExtractor.extract(file, meta.fields);
         }
         
-        fileDataExtractor.extract(file, meta);        
+        fileDataExtractor.extract(file, meta);
+        
+        RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
         writer.write(meta);
         
         // Cache and write product references
