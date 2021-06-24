@@ -1,5 +1,13 @@
 # Changelog
 
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2021-06-24)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.0-SNAPSHOT...«unknown»)
+
+**Defects:**
+
+- Lid & vid validation, logging enhancement, fix skipped file counter [\#22](https://github.com/NASA-PDS/harvest/issues/22)
+
 ## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-04-23)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.4.0...v3.5.0-SNAPSHOT)
@@ -20,10 +28,6 @@
 
 - As a user, I want to be able to ingest a directory of data that is not part of a bundle [\#45](https://github.com/NASA-PDS/harvest/issues/45)
 - As a user, I want a default configuration for harvest included in the tool package [\#37](https://github.com/NASA-PDS/harvest/issues/37)
-
-**Improvements:**
-
-- Update to use directory\_path\_name when trying to locate //Document\_File/file\_name [\#41](https://github.com/NASA-PDS/harvest/issues/41)
 
 ## [v3.3.3](https://github.com/NASA-PDS/harvest/tree/v3.3.3) (2021-01-02)
 
@@ -55,7 +59,6 @@
 
 - For multivalued fields only unique values are stored [\#30](https://github.com/NASA-PDS/harvest/issues/30)
 - Could not parse date in yyyy-MM-ddZ format [\#29](https://github.com/NASA-PDS/harvest/issues/29)
-- Lid & vid validation, logging enhancement, fix skipped file counter [\#22](https://github.com/NASA-PDS/harvest/issues/22)
 - Fix bug where ingested product start\_date\_time is off by 12 hours [\#4](https://github.com/NASA-PDS/harvest/issues/4)
 
 ## [v3.2.2](https://github.com/NASA-PDS/harvest/tree/v3.2.2) (2020-03-28)
