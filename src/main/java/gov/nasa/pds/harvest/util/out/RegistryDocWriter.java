@@ -1,5 +1,7 @@
 package gov.nasa.pds.harvest.util.out;
 
+import java.io.Closeable;
+
 import gov.nasa.pds.harvest.meta.Metadata;
 
 
@@ -8,7 +10,7 @@ import gov.nasa.pds.harvest.meta.Metadata;
  *  
  * @author karpenko
  */
-public interface RegistryDocWriter
+public interface RegistryDocWriter extends Closeable
 {
     /**
      * Write metadata extracted from PDS4 labels.
@@ -16,10 +18,4 @@ public interface RegistryDocWriter
      * @throws Exception Generic exception
      */
     public void write(Metadata meta) throws Exception;
-    
-    /**
-     * Close resources / output file.
-     * @throws Exception Generic exception
-     */
-    public void close() throws Exception;
 }

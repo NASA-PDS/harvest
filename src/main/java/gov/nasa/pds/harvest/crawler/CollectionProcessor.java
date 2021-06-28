@@ -26,8 +26,8 @@ import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
-import gov.nasa.pds.harvest.util.out.RefsDocWriter;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
+import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
@@ -53,7 +53,6 @@ public class CollectionProcessor
     private static final long MAX_XML_FILE_LENGTH = 10_000_000;
 
     private Configuration config;
-    private RegistryDocWriter writer;
     private CollectionInventoryProcessor invProc;
     
     private DocumentBuilderFactory dbf;
@@ -71,17 +70,13 @@ public class CollectionProcessor
     /**
      * Constructor.
      * @param config Harvest configuration parameters
-     * @param writer Registry document writer (JSON or XML)
-     * @param refsWriter References document writer (JSON or XML)
      * @param counter Counter of processed products
      * @throws Exception Generic exception
      */
-    public CollectionProcessor(Configuration config, RegistryDocWriter writer, 
-            RefsDocWriter refsWriter, Counter counter) throws Exception
+    public CollectionProcessor(Configuration config, Counter counter) throws Exception
     {
         this.config = config;
-        this.writer = writer;
-        this.invProc = new CollectionInventoryProcessor(refsWriter, config.refsCfg.primaryOnly);
+        this.invProc = new CollectionInventoryProcessor(config.refsCfg.primaryOnly);
         this.counter = counter;
         
         log = LogManager.getLogger(this.getClass());
@@ -177,7 +172,7 @@ public class CollectionProcessor
         // Collection already registered in the Registry (Elasticsearch)
         if(dao != null && dao.idExists(meta.lidvid))
         {
-            log.warn("Collection " + meta.lidvid + " already registered");
+            log.warn("Collection " + meta.lidvid + " already registered. Skipping.");
             
             // Only cache but don't write product references
             processInventoryFiles(file, doc, meta, false);
@@ -194,7 +189,9 @@ public class CollectionProcessor
             autogenExtractor.extract(file, meta.fields);
         }
         
-        fileDataExtractor.extract(file, meta);        
+        fileDataExtractor.extract(file, meta);
+        
+        RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
         writer.write(meta);
         
         // Cache and write product references
@@ -204,6 +201,14 @@ public class CollectionProcessor
     }
 
     
+    /**
+     * Process PDS collection inventory files
+     * @param collectionFile PDS collection file
+     * @param doc Parsed PDS collection DOM model
+     * @param meta PDS collection metadata
+     * @param write If true, write and cache products. If false, only cache products.
+     * @throws Exception an exception
+     */
     private void processInventoryFiles(File collectionFile, Document doc, Metadata meta, boolean write) throws Exception
     {
         Set<String> fileNames = collectionExtractor.extractInventoryFileNames(doc);
@@ -212,10 +217,26 @@ public class CollectionProcessor
         for(String fileName: fileNames)
         {
             File invFile = new File(collectionFile.getParentFile(), fileName);
+            
+            // Collection is not registered. Write inventory refs.
             if(write)
             {
-                invProc.writeCollectionInventory(meta, invFile, true);
+                // Registry is configured
+                if(RegistryManager.getInstance() != null)
+                {
+                    // Write inventory refs. Don't cache any products.
+                    invProc.writeCollectionInventory(meta, invFile, false);
+                    // Cache non-registered products.
+                    invProc.cacheNonRegisteredInventory(meta, invFile);
+                }
+                // Registry is not configured
+                else
+                {
+                    // Write inventory refs and cache all products.
+                    invProc.writeCollectionInventory(meta, invFile, true);
+                }
             }
+            // Collection is already registered. Only cache non-registered products.
             else
             {
                 invProc.cacheNonRegisteredInventory(meta, invFile);

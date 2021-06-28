@@ -116,7 +116,30 @@ public class NDJsonDocUtils
         }
     }
 
-    
+
+    /**
+     * Write multivalued field as an array
+     * @param jw JSON writer
+     * @param key key / field name
+     * @param values collection of values
+     * @throws Exception an exception
+     */
+    public static void writeArray(JsonWriter jw, String key, Collection<String> values) throws Exception
+    {
+        if(values == null || values.isEmpty()) return;
+
+        key = toEsFieldName(key);
+        jw.name(key);
+
+        jw.beginArray();
+        for(String value: values)
+        {
+            jw.value(value);
+        }
+        jw.endArray();
+    }
+
+        
     /**
      * Convert registry field name to the valid Elasticsearch field name. 
      * (Replace '.' with '/').

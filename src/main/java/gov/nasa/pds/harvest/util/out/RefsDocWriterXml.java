@@ -2,6 +2,7 @@ package gov.nasa.pds.harvest.util.out;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ public class RefsDocWriterXml implements RefsDocWriter
     {
         super();
         
-        File file = new File(outDir, "refs-docs.xml");        
+        File file = new File(outDir, "refs-docs.xml");
         writer = new FileWriter(file);
         
         writer.append("<add>\n");
@@ -59,7 +60,7 @@ public class RefsDocWriterXml implements RefsDocWriter
         // Collection ids
         XmlDocUtils.writeField(writer, "collection_lidvid", meta.lidvid);
         XmlDocUtils.writeField(writer, "collection_lid", meta.lid);
-        XmlDocUtils.writeField(writer, "collection_vid", meta.vid);
+        XmlDocUtils.writeField(writer, "collection_vid", meta.strVid);
         
         // Product refs
         XmlDocUtils.writeField(writer, "product_lidvid", batch.lidvids);
@@ -77,7 +78,7 @@ public class RefsDocWriterXml implements RefsDocWriter
 
 
     @Override
-    public void close() throws Exception
+    public void close() throws IOException
     {
         writer.append("</add>\n");
         writer.close();

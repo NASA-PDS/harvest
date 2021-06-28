@@ -25,8 +25,9 @@ import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
-import gov.nasa.pds.harvest.util.out.RefsDocWriter;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
+import gov.nasa.pds.harvest.util.out.SupplementalWriter;
+import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
@@ -52,8 +53,6 @@ public class DirsProcessor
     private static final long MAX_XML_FILE_LENGTH = 10_000_000;
 
     private Configuration config;
-    private RegistryDocWriter writer;
-
     private DocumentBuilderFactory dbf;
 
     // Bundle and Collection extractors & processors
@@ -74,17 +73,13 @@ public class DirsProcessor
     /**
      * Constructor
      * @param config Harvest configuration parameters (from a config file)
-     * @param writer Writer for main PDS label metadata
-     * @param refsWriter Writer for collection inventory references
      * @param counter Counter of processed products by type
      * @throws Exception Generic exception
      */
-    public DirsProcessor(Configuration config, RegistryDocWriter writer, 
-            RefsDocWriter refsWriter, Counter counter) throws Exception
+    public DirsProcessor(Configuration config, Counter counter) throws Exception
     {
         this.config = config;
-        this.writer = writer;
-        this.invProc = new CollectionInventoryProcessor(refsWriter, config.refsCfg.primaryOnly);
+        this.invProc = new CollectionInventoryProcessor(config.refsCfg.primaryOnly);
         this.counter = counter;
         
         log = LogManager.getLogger(this.getClass());
@@ -173,13 +168,13 @@ public class DirsProcessor
      */
     private void processMetadata(File file, Document doc) throws Exception
     {
-        String rootElement = doc.getDocumentElement().getNodeName();
-
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
         meta.fields.addValue(Constants.FLD_NODE_NAME, config.nodeName);
 
         log.info("Processing " + file.getAbsolutePath());
+
+        String rootElement = doc.getDocumentElement().getNodeName();
 
         // Process Collection specific data
         if("Product_Collection".equals(rootElement))
@@ -187,9 +182,15 @@ public class DirsProcessor
             processInventoryFiles(file, doc, meta);
         }
         // Process Bundle specific data
-        if("Product_Bundle".equals(rootElement))
+        else if("Product_Bundle".equals(rootElement))
         {
             addCollectionRefs(meta, doc);
+        }
+        // Process supplemental products
+        else if("Product_Metadata_Supplemental".equals(rootElement))
+        {
+            SupplementalWriter swriter = WriterManager.getInstance().getSupplementalWriter();
+            swriter.write(file);
         }
         
         // Internal references
@@ -207,6 +208,7 @@ public class DirsProcessor
         // Extract file data
         fileDataExtractor.extract(file, meta);
         
+        RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
         writer.write(meta);
         
         counter.prodCounters.inc(meta.prodClass);

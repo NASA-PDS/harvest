@@ -2,6 +2,7 @@ package gov.nasa.pds.harvest.util.out;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Set;
@@ -63,15 +64,15 @@ public class RefsDocWriterJson implements RefsDocWriter
         // Collection ids
         NDJsonDocUtils.writeField(jw, "collection_lidvid", meta.lidvid);
         NDJsonDocUtils.writeField(jw, "collection_lid", meta.lid);
-        NDJsonDocUtils.writeField(jw, "collection_vid", meta.vid);
+        NDJsonDocUtils.writeField(jw, "collection_vid", meta.strVid);
         
         // Product refs
-        NDJsonDocUtils.writeField(jw, "product_lidvid", batch.lidvids);
+        NDJsonDocUtils.writeArray(jw, "product_lidvid", batch.lidvids);
         
         // Convert lidvids to lids
         Set<String> lids = LidVidUtils.lidvidToLid(batch.lidvids);
         lids = LidVidUtils.add(lids, batch.lids);
-        NDJsonDocUtils.writeField(jw, "product_lid", lids);
+        NDJsonDocUtils.writeArray(jw, "product_lid", lids);
         
         // Transaction ID
         NDJsonDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());
@@ -85,7 +86,7 @@ public class RefsDocWriterJson implements RefsDocWriter
     
     
     @Override
-    public void close() throws Exception
+    public void close() throws IOException
     {
         writer.close();
     }

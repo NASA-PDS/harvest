@@ -2,6 +2,7 @@ package gov.nasa.pds.harvest.util.out;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collection;
 import java.util.Set;
@@ -66,7 +67,7 @@ public class RegistryDocWriterJson implements RegistryDocWriter
 
         // Basic info
         NDJsonDocUtils.writeField(jw, "lid", meta.lid);
-        NDJsonDocUtils.writeField(jw, "vid", meta.vid);
+        NDJsonDocUtils.writeField(jw, "vid", meta.strVid);
         NDJsonDocUtils.writeField(jw, "lidvid", lidvid);
         NDJsonDocUtils.writeField(jw, "title", meta.title);
         NDJsonDocUtils.writeField(jw, "product_class", meta.prodClass);
@@ -112,7 +113,7 @@ public class RegistryDocWriterJson implements RegistryDocWriter
     
     
     @Override
-    public void close() throws Exception
+    public void close() throws IOException
     {
         writer.close();
 
@@ -123,7 +124,7 @@ public class RegistryDocWriterJson implements RegistryDocWriter
     }
     
     
-    private void saveFields() throws Exception
+    private void saveFields() throws IOException
     {
         File file = new File(outDir, "fields.txt");
         FileWriter wr = new FileWriter(file);
