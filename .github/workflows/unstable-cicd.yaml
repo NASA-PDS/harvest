@@ -32,7 +32,7 @@ name: 🤪 Unstable integration & delivery
 on:
     push:
         branches:
-            -   master
+             - main
 
 
 # What to Do
@@ -55,9 +55,10 @@ jobs:
 
             -
                 name: 🤠 Roundup
-                uses: NASA-PDS/roundup-action@master
+                uses: NASA-PDS/roundup-action@main
                 with:
                     assembly: unstable
+                    packages: openjdk11-jdk
                 env:
                     ossrh_username: ${{secrets.OSSRH_USERNAME}}
                     ossrh_password: ${{secrets.OSSRH_PASSWORD}}
