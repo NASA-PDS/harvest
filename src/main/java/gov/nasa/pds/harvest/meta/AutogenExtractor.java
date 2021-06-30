@@ -108,9 +108,9 @@ public class AutogenExtractor
         // Field value
         String fieldValue = StringUtils.normalizeSpace(node.getTextContent());
         
-        // Convert dates to Solr format
+        // Convert dates to "ISO instant" format
         String nodeName = node.getLocalName();
-        if(nodeName.contains("date"))
+        if(nodeName.contains("date") || cfg.dateFields.contains(fieldName))
         {
             fieldValue = dateConverter.toIsoInstantString(nodeName, fieldValue);
         }
