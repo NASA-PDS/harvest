@@ -61,8 +61,8 @@
 
     <scm>
         <url>https://github.com/NASA-PDS/harvest</url>
-	<connection>scm:git:ssh://github.com/NASA-PDS/harvest.git</connection>
-	<developerConnection>scm:git:ssh://github.com/NASA-PDS/harvest.git</developerConnection>
+	<connection>scm:git:ssh://git@github.com/NASA-PDS/harvest.git</connection>
+	<developerConnection>scm:git:ssh://git@github.com/NASA-PDS/harvest.git</developerConnection>
     <tag>v3.4.1</tag>
   </scm>
 
