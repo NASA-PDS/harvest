@@ -23,12 +23,11 @@ import gov.nasa.pds.harvest.util.PackageIdGenerator;
  */
 public class RegistryDocWriterJson implements RegistryDocWriter
 {
+    private File outDir;
     private FileWriter writer;    
     
-    private boolean writeFields = true;
     private Set<String> allFields = new TreeSet<>();
     
-    private File outDir;
     
     /**
      * Constructor
@@ -43,12 +42,6 @@ public class RegistryDocWriterJson implements RegistryDocWriter
         writer = new FileWriter(file);
     }
 
-    
-    public void setWriteFields(boolean b)
-    {
-        this.writeFields = b;
-    }
-    
     
     @Override
     public void write(Metadata meta) throws Exception
@@ -87,40 +80,16 @@ public class RegistryDocWriterJson implements RegistryDocWriter
         
         writer.write(sw.getBuffer().toString());
         writer.write("\n");
-        
-        // Build a list of all fields in all documents
-        if(writeFields)
-        {
-            addFields(meta);
-        }
     }
 
-    
-    private void addFields(Metadata meta)
-    {
-        if(meta == null) return;
-        
-        if(meta.intRefs != null && meta.intRefs.size() > 0)
-        {
-            allFields.addAll(meta.intRefs.getNames());
-        }
-
-        if(meta.fields != null && meta.fields.size() > 0)
-        {
-            allFields.addAll(meta.fields.getNames());
-        }
-    }
-    
     
     @Override
     public void close() throws IOException
     {
         writer.close();
-
-        if(writeFields)
-        {
-            saveFields();
-        }
+        
+        // Save field list
+        saveFields();
     }
     
     
@@ -140,13 +109,21 @@ public class RegistryDocWriterJson implements RegistryDocWriter
     }
     
     
-    private static void write(JsonWriter jw, FieldMap fmap) throws Exception
+    private void write(JsonWriter jw, FieldMap fmap) throws Exception
     {
         if(fmap == null || fmap.isEmpty()) return;
         
         for(String key: fmap.getNames())
         {
             Collection<String> values = fmap.getValues(key);
+            
+            // Skip empty single value fields
+            if(values.size() == 1 && values.iterator().next().isEmpty())
+            {
+                continue;
+            }
+
+            allFields.add(key);
             NDJsonDocUtils.writeField(jw, key, values);
         }
     }
