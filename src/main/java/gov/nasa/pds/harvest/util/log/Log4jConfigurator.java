@@ -44,7 +44,7 @@ public class Log4jConfigurator
         
         // Default Harvest logger
         Level level = parseLogLevel(verbosity);
-        LoggerComponentBuilder defLog = cfg.newLogger("gov.nasa.pds.harvest", level);
+        LoggerComponentBuilder defLog = cfg.newLogger("gov.nasa.pds", level);
         cfg.add(defLog);
         
         // Init Log4j

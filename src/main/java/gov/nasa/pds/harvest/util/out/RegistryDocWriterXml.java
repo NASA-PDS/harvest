@@ -21,12 +21,10 @@ import gov.nasa.pds.harvest.util.PackageIdGenerator;
  */
 public class RegistryDocWriterXml implements RegistryDocWriter
 {
-    private Writer writer;
-    
-    private boolean writeFields = true;
-    private Set<String> allFields = new TreeSet<>();
-    
     private File outDir;
+    private Writer writer;
+
+    private Set<String> allFields = new TreeSet<>();
 
     
     /**
@@ -45,22 +43,13 @@ public class RegistryDocWriterXml implements RegistryDocWriter
     }
 
     
-    public void setWriteFields(boolean b)
-    {
-        this.writeFields = b;
-    }
-
-    
     @Override
     public void close() throws IOException
     {
         writer.append("</add>\n");
         writer.close();
         
-        if(writeFields)
-        {
-            saveFields();
-        }
+        saveFields();
     }
 
     
@@ -76,22 +65,6 @@ public class RegistryDocWriterXml implements RegistryDocWriter
         }
         
         wr.close();        
-    }
-
-    
-    private void addFields(Metadata meta)
-    {
-        if(meta == null) return;
-        
-        if(meta.intRefs != null && meta.intRefs.size() > 0)
-        {
-            allFields.addAll(meta.intRefs.getNames());
-        }
-
-        if(meta.fields != null && meta.fields.size() > 0)
-        {
-            allFields.addAll(meta.fields.getNames());
-        }
     }
 
     
@@ -118,12 +91,6 @@ public class RegistryDocWriterXml implements RegistryDocWriter
         write(meta.fields);
         
         writer.append("</doc>\n");
-        
-        // Build a list of all fields in all documents
-        if(writeFields)
-        {
-            addFields(meta);
-        }
     }
  
     
@@ -134,6 +101,14 @@ public class RegistryDocWriterXml implements RegistryDocWriter
         for(String key: fmap.getNames())
         {
             Collection<String> values = fmap.getValues(key);
+            
+            // Skip empty single value fields
+            if(values.size() == 1 && values.iterator().next().isEmpty())
+            {
+                continue;
+            }
+
+            allFields.add(key);
             for(String value: values)
             {
                 XmlDocUtils.writeField(writer, key, value);

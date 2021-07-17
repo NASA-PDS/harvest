@@ -1,5 +1,7 @@
 package gov.nasa.pds.harvest.cfg.parser;
 
+import java.util.HashSet;
+
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.AutogenCfg;
@@ -32,6 +34,13 @@ public class AutogenParser
         {
             throw new Exception("'/harvest/autogenFields/classFilter' "
                     + "could not have both 'include' and 'exclude' filters at the same time.");
+        }
+        
+        // Date fields
+        cfg.dateFields = xpu.getStringSet(doc, "/harvest/autogenFields/dateFields/field");
+        if(cfg.dateFields == null)
+        {
+            cfg.dateFields = new HashSet<>(0);
         }
 
         return cfg;

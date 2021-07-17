@@ -16,8 +16,8 @@ import org.w3c.dom.NodeList;
 import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.AutogenCfg;
 import gov.nasa.pds.harvest.util.FieldMap;
-import gov.nasa.pds.harvest.util.date.PdsDateConverter;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
+import gov.nasa.pds.registry.common.util.date.PdsDateConverter;
 
 
 public class AutogenExtractor
@@ -108,9 +108,9 @@ public class AutogenExtractor
         // Field value
         String fieldValue = StringUtils.normalizeSpace(node.getTextContent());
         
-        // Convert dates to Solr format
+        // Convert dates to "ISO instant" format
         String nodeName = node.getLocalName();
-        if(nodeName.contains("date"))
+        if(nodeName.contains("date") || cfg.dateFields.contains(fieldName))
         {
             fieldValue = dateConverter.toIsoInstantString(nodeName, fieldValue);
         }
