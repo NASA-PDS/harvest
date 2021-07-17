@@ -22,9 +22,7 @@
     NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
     EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Inherit release profile, reporting, SNAPSHOT repo, etc. from parent repo -->
@@ -62,10 +60,11 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/NASA-PDS/harvest/tree/master</url>
-        <connection>scm:git:git://github.com/NASA-PDS/harvest.git</connection>
-        <developerConnection>scm:git:ssh://github.com:NASA-PDS/harvest.git</developerConnection>
-    </scm>
+        <url>https://github.com/NASA-PDS/harvest</url>
+	<connection>scm:git:ssh://git@github.com/NASA-PDS/harvest.git</connection>
+	<developerConnection>scm:git:ssh://git@github.com/NASA-PDS/harvest.git</developerConnection>
+    <tag>v3.4.1</tag>
+  </scm>
 
     <properties>
         <maven.compiler.target>11</maven.compiler.target>

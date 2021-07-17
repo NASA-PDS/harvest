@@ -1,14 +1,10 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2021-06-28)
+## [v3.4.1](https://github.com/NASA-PDS/harvest/tree/v3.4.1) (2021-06-30)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.0-SNAPSHOT...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.0-SNAPSHOT...v3.4.1)
 
-**Defects:**
-
-- harvest ingest is not creating all product\_lidvid as an array [\#50](https://github.com/NASA-PDS/harvest/issues/50) [[s.low](https://github.com/NASA-PDS/harvest/labels/s.low)]
-
-## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-06-24)
+## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-06-28)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.4.0...v3.5.0-SNAPSHOT)
 
@@ -18,6 +14,7 @@
 
 **Defects:**
 
+- harvest ingest is not creating all product\_lidvid as an array [\#50](https://github.com/NASA-PDS/harvest/issues/50) [[s.low](https://github.com/NASA-PDS/harvest/labels/s.low)]
 - Lid & vid validation, logging enhancement, fix skipped file counter [\#22](https://github.com/NASA-PDS/harvest/issues/22)
 - Check input URIs to avoid potential security vulnerability [\#6](https://github.com/NASA-PDS/harvest/issues/6) [[s.low](https://github.com/NASA-PDS/harvest/labels/s.low)]
 
