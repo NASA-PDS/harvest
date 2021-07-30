@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
-import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
@@ -76,7 +75,7 @@ public class ProductProcessor
         dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(false);
         
-        basicExtractor = new BasicMetadataExtractor();
+        basicExtractor = new BasicMetadataExtractor(config);
         refExtractor = new InternalReferenceExtractor();
         autogenExtractor = new AutogenExtractor(config.autogen);
         fileDataExtractor = new FileMetadataExtractor(config);
@@ -195,7 +194,6 @@ public class ProductProcessor
     {
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
-        meta.fields.addValue(Constants.FLD_NODE_NAME, config.nodeName);
 
         // Only process primary products from collection inventory
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();

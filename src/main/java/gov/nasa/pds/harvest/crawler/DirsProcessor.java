@@ -15,7 +15,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
-import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
@@ -87,7 +86,7 @@ public class DirsProcessor
         dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(false);
         
-        basicExtractor = new BasicMetadataExtractor();
+        basicExtractor = new BasicMetadataExtractor(config);
         refExtractor = new InternalReferenceExtractor();
         autogenExtractor = new AutogenExtractor(config.autogen);
         fileDataExtractor = new FileMetadataExtractor(config);
@@ -170,7 +169,6 @@ public class DirsProcessor
     {
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
-        meta.fields.addValue(Constants.FLD_NODE_NAME, config.nodeName);
 
         log.info("Processing " + file.getAbsolutePath());
 

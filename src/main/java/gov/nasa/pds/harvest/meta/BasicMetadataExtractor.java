@@ -1,6 +1,8 @@
 package gov.nasa.pds.harvest.meta;
 
 import java.io.File;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -12,6 +14,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import gov.nasa.pds.harvest.Constants;
+import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.util.PdsStringUtils;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
@@ -29,13 +33,17 @@ public class BasicMetadataExtractor
     private XPathExpression xFileName;
     private XPathExpression xDocFile;
     
+    private Configuration config;
 
     /**
      * Constructor
-     * @throws Exception
+     * @param config configuration
+     * @throws Exception an exception
      */
-    public BasicMetadataExtractor() throws Exception
+    public BasicMetadataExtractor(Configuration config) throws Exception
     {
+        this.config = config;
+        
         XPathFactory xpf = XPathFactory.newInstance();
         
         xLid = XPathUtils.compileXPath(xpf, "//Identification_Area/logical_identifier");
@@ -56,22 +64,30 @@ public class BasicMetadataExtractor
      */
     public Metadata extract(File file, Document doc) throws Exception
     {
-        Metadata md = new Metadata();        
+        Metadata md = new Metadata();  
+        // Product class
         md.prodClass = doc.getDocumentElement().getNodeName();
+        // Node name
+        md.fields.addValue(Constants.FLD_NODE_NAME, config.nodeName);
+        // Harvest date time
+        String harvestDateTime = DateTimeFormatter.ISO_INSTANT.format(Instant.now());
+        md.fields.addValue(Constants.FLD_HARVEST_DATA_TIME, harvestDateTime);
         
-        // LID/VID
+        // LID
         md.lid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xLid));
         if(md.lid == null || md.lid.isEmpty())
         {
             throw new Exception("Missing logical identifier: " + file);
         }
 
+        // VID
         md.strVid = PdsStringUtils.trim(XPathUtils.getStringValue(doc, xVid));
         if(md.strVid == null || md.strVid.isEmpty())
         {
             throw new Exception("Missing '//Identification_Area/version_id'");
         }
 
+        // Float VID (to query for latest version / sorting)
         try
         {
             md.vid = Float.parseFloat(md.strVid);
@@ -82,6 +98,7 @@ public class BasicMetadataExtractor
                     + ". Expecting M.m number, such as '1.0' or '2.5'.");
         }
         
+        // LIDVID
         md.lidvid = md.lid + "::" + md.strVid;
         
         // Title
