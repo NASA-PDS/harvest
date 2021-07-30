@@ -17,19 +17,30 @@ import gov.nasa.pds.harvest.util.xml.XPathUtils;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
 
+/**
+ * Loads XPaths from a configuration file into XPath cache. 
+ * @author karpenko
+ */
 public class XPathCacheLoader
 {
     private Logger LOG;
     private XPathFactory xpf;
     
-    
+    /**
+     * Constructor
+     */
     public XPathCacheLoader()
     {
         LOG = LogManager.getLogger(getClass());
         xpf = XPathFactory.newInstance();
     }
     
-    
+
+    /**
+     * Load XPaths from a configuration file
+     * @param maps XPath configuration (parsed configuration file) 
+     * @throws Exception
+     */
     public void load(XPathMapCfg maps) throws Exception
     {
         if(maps == null || maps.items == null || maps.items.isEmpty()) return;

@@ -20,7 +20,10 @@ import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.util.CloseUtils;
 import gov.nasa.pds.harvest.util.out.FieldNameUtils;
 
-
+/**
+ * Extracts file metadata, such as file name, size, checksum.
+ * @author karpenko
+ */
 public class FileMetadataExtractor
 {
     private FileInfoCfg fileInfoCfg;
@@ -30,6 +33,11 @@ public class FileMetadataExtractor
     private Tika tika;
 
     
+    /**
+     * Constructor
+     * @param config configuration
+     * @throws Exception and exception
+     */
     public FileMetadataExtractor(Configuration config) throws Exception
     {
         this.fileInfoCfg = config.fileInfo;
@@ -41,8 +49,14 @@ public class FileMetadataExtractor
             tika = new Tika();
         }
     }
+
     
-    
+    /**
+     * Extract file metadata
+     * @param file a file
+     * @param meta extracted metadata is added to this object
+     * @throws Exception an exception
+     */
     public void extract(File file, Metadata meta) throws Exception
     {
         if(fileInfoCfg == null) return;

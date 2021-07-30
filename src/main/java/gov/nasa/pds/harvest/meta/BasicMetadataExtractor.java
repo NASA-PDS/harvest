@@ -16,6 +16,10 @@ import gov.nasa.pds.harvest.util.PdsStringUtils;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
 
+/**
+ * Extract basic metadata, such as LID, VID, title from a PDS label.
+ * @author karpenko
+ */
 public class BasicMetadataExtractor
 {
     private XPathExpression xLid;
@@ -26,6 +30,10 @@ public class BasicMetadataExtractor
     private XPathExpression xDocFile;
     
 
+    /**
+     * Constructor
+     * @throws Exception
+     */
     public BasicMetadataExtractor() throws Exception
     {
         XPathFactory xpf = XPathFactory.newInstance();
@@ -38,7 +46,14 @@ public class BasicMetadataExtractor
         xDocFile = XPathUtils.compileXPath(xpf, "//Document_File");
     }
 
-    
+
+    /**
+     * Extract basic metadata from a PDS label
+     * @param file PDS label file
+     * @param doc Parsed PDS label file (XML DOM)
+     * @return extracted metadata
+     * @throws Exception an exception
+     */
     public Metadata extract(File file, Document doc) throws Exception
     {
         Metadata md = new Metadata();        

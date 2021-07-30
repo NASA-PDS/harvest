@@ -11,6 +11,10 @@ import gov.nasa.pds.harvest.util.FieldMapSet;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
 
+/**
+ * Extracts internal references
+ * @author karpenko
+ */
 public class InternalReferenceExtractor
 {
 //////////////////////////////////////////////////////////
@@ -27,13 +31,23 @@ public class InternalReferenceExtractor
     private XPathExpression xIntRef;
     
     
+    /**
+     * Constructor
+     * @throws Exception an exception
+     */
     public InternalReferenceExtractor() throws Exception
     {
         XPathFactory xpf = XPathFactory.newInstance();
         xIntRef = XPathUtils.compileXPath(xpf, "//Internal_Reference");
     }
     
-    
+
+    /**
+     * Adds internal references to a field map
+     * @param fmap multi-valued field map
+     * @param doc parsed PDS label (XML DOM) 
+     * @throws Exception an exception
+     */
     public void addRefs(FieldMapSet fmap, Document doc) throws Exception
     {
         NodeList nodes = XPathUtils.getNodeList(doc, xIntRef);        

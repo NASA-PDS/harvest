@@ -20,6 +20,10 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 import gov.nasa.pds.registry.common.util.date.PdsDateConverter;
 
 
+/**
+ * Generates key-value pairs for all fields in a PDS label.
+ * @author karpenko
+ */
 public class AutogenExtractor
 {
     private AutogenCfg cfg;
@@ -29,7 +33,11 @@ public class AutogenExtractor
     private FieldMap fields;
     private PdsDateConverter dateConverter;
     
-    
+   
+    /**
+     * Constructor
+     * @param cfg Configuration
+     */
     public AutogenExtractor(AutogenCfg cfg)
     {
         this.cfg = cfg;
@@ -39,7 +47,13 @@ public class AutogenExtractor
         globalNsMap.put("http://pds.nasa.gov/pds4/pds/v1", "pds");
     }
 
-    
+
+    /**
+     * Extracts all fields from a label file into a FieldMap
+     * @param file PDS label file
+     * @param fields key-value pairs (output parameter)
+     * @throws Exception an exception
+     */
     public void extract(File file, FieldMap fields) throws Exception
     {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -49,6 +63,12 @@ public class AutogenExtractor
     }
     
     
+    /**
+     * Extracts all fields from a parsed label file (XML DOM) into a FieldMap
+     * @param doc Parsed PDS label file (XML DOM)
+     * @param fields key-value pairs (output parameter)
+     * @throws Exception an exception
+     */
     public void extract(Document doc, FieldMap fields) throws Exception
     {
         this.localNsMap = getDocNamespaces(doc);

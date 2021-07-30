@@ -24,7 +24,13 @@ public class XPathExtractor
         dateConverter = new PdsDateConverter(true);
     }
 
-    
+
+    /**
+     * Extract metadata from a PDS label by XPath
+     * @param doc parsed PDS label (XML DOM)
+     * @param fields extracted metadata is added to this object
+     * @throws Exception an exception
+     */
     public void extract(Document doc, FieldMap fields) throws Exception
     {
         String rootElement = doc.getDocumentElement().getNodeName();
