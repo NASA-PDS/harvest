@@ -21,6 +21,7 @@ import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
 import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.harvest.meta.SearchMetadataExtractor;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
@@ -55,6 +56,7 @@ public class ProductProcessor
     private BasicMetadataExtractor basicExtractor;
     private InternalReferenceExtractor refExtractor;
     private AutogenExtractor autogenExtractor;
+    private SearchMetadataExtractor searchExtractor;
     private FileMetadataExtractor fileDataExtractor;
     private XPathExtractor xpathExtractor;
     
@@ -78,6 +80,7 @@ public class ProductProcessor
         basicExtractor = new BasicMetadataExtractor(config);
         refExtractor = new InternalReferenceExtractor();
         autogenExtractor = new AutogenExtractor(config.autogen);
+        searchExtractor = new SearchMetadataExtractor();
         fileDataExtractor = new FileMetadataExtractor(config);
         xpathExtractor = new XPathExtractor();
         
@@ -218,6 +221,9 @@ public class ProductProcessor
             autogenExtractor.extract(file, meta.fields);
         }
 
+        // Search fields
+        searchExtractor.extract(doc, meta.fields);
+        
         // Extract file data
         fileDataExtractor.extract(file, meta);
         

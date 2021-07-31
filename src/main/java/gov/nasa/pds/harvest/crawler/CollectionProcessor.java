@@ -24,6 +24,7 @@ import gov.nasa.pds.harvest.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.harvest.meta.SearchMetadataExtractor;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
@@ -59,6 +60,7 @@ public class CollectionProcessor
     private CollectionMetadataExtractor collectionExtractor;
     private InternalReferenceExtractor refExtractor;
     private AutogenExtractor autogenExtractor;
+    private SearchMetadataExtractor searchExtractor;
     private XPathExtractor xpathExtractor;
     private FileMetadataExtractor fileDataExtractor;
     
@@ -88,6 +90,7 @@ public class CollectionProcessor
         refExtractor = new InternalReferenceExtractor();
         xpathExtractor = new XPathExtractor();
         autogenExtractor = new AutogenExtractor(config.autogen);
+        searchExtractor = new SearchMetadataExtractor();
         fileDataExtractor = new FileMetadataExtractor(config);
     }
     
@@ -179,14 +182,22 @@ public class CollectionProcessor
             return;
         }
         
+        // Internal references
         refExtractor.addRefs(meta.intRefs, doc);
+        
+        // Extract fields by XPath (if configured)
         xpathExtractor.extract(doc, meta.fields);
         
+        // Extract all fields as key-value pairs
         if(config.autogen != null)
         {
             autogenExtractor.extract(file, meta.fields);
         }
         
+        // Search fields
+        searchExtractor.extract(doc, meta.fields);
+
+        // File information (name, size, checksum)
         fileDataExtractor.extract(file, meta);
         
         RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
