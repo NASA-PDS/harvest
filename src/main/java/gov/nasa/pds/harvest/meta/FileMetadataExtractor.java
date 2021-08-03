@@ -12,6 +12,8 @@ import java.util.Base64;
 import java.util.zip.DeflaterOutputStream;
 
 import org.apache.commons.codec.binary.Hex;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.tika.Tika;
 
 import gov.nasa.pds.harvest.cfg.model.FileInfoCfg;
@@ -26,6 +28,7 @@ import gov.nasa.pds.harvest.util.out.FieldNameUtils;
  */
 public class FileMetadataExtractor
 {
+    private Logger log;
     private FileInfoCfg fileInfoCfg;
     
     private MessageDigest md5Digest;
@@ -40,14 +43,23 @@ public class FileMetadataExtractor
      */
     public FileMetadataExtractor(Configuration config) throws Exception
     {
+        log = LogManager.getLogger(this.getClass());
+        
         this.fileInfoCfg = config.fileInfo;
-
-        if(this.fileInfoCfg != null)
+        if(this.fileInfoCfg == null)
         {
-            md5Digest = MessageDigest.getInstance("MD5");
-            buf = new byte[1024 * 16];
-            tika = new Tika();
+            throw new Exception("File Info configuration is null.");
         }
+
+        if(fileInfoCfg.storeLabels == false)
+        {
+            log.warn("BLOB storage is disabled (see <fileInfo storeLabels=\"false\"> configuration). "
+                    + "Not all Registry features will be available.");
+        }
+        
+        md5Digest = MessageDigest.getInstance("MD5");
+        buf = new byte[1024 * 16];
+        tika = new Tika();
     }
 
     
@@ -59,8 +71,6 @@ public class FileMetadataExtractor
      */
     public void extract(File file, Metadata meta) throws Exception
     {
-        if(fileInfoCfg == null) return;
-
         BasicFileAttributes attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
         String dt = attr.creationTime().toInstant().truncatedTo(ChronoUnit.SECONDS).toString();
         meta.fields.addValue(createLabelFileFieldName("creation_date_time"), dt);

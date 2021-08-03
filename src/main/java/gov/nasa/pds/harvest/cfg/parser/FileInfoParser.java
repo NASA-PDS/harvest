@@ -30,25 +30,58 @@ public class FileInfoParser
     }
 
     
+    /**
+     * Parse &lt;fileInfo&gt; section of Harvest configuration file
+     * @param doc Parsed Harvest configuration file (XMl DOM)
+     * @return File info model object
+     * @throws Exception an exception
+     */
     public static FileInfoCfg parseFileInfo(Document doc) throws Exception
     {
         XPathUtils xpu = new XPathUtils();
+        FileInfoCfg fileInfo = new FileInfoCfg();
         
         int count = xpu.getNodeCount(doc, "/harvest/fileInfo");
-        if(count == 0) return null;
+        if(count == 0) return fileInfo;
         if(count > 1) throw new Exception("Could not have more than one '/harvest/fileInfo' element.");
-
-        FileInfoCfg fileInfo = new FileInfoCfg();
 
         // <fileInfo> node
         Node node = xpu.getFirstNode(doc, "/harvest/fileInfo");
         validateAttributes(node, FILE_INFO_ATTRS);
         
+        // "processDataFiles" attribute
         String str = XmlDomUtils.getAttribute(node, "processDataFiles");
-        fileInfo.processDataFiles = (str == null || "true".equalsIgnoreCase(str) || "yes".equalsIgnoreCase(str));
+        if(str == null)
+        {
+            fileInfo.processDataFiles = true;
+        }
+        else
+        {
+            Boolean bb = ConfigParserUtils.parseBoolean(str);
+            if(bb == null)
+            {
+                throw new Exception("Invalid <fileInfo processDataFiles=\"" + str + "\" attribute.");
+            }
+            
+            fileInfo.processDataFiles = bb;
+        }
         
+        // "storeLabels" attribute
         str = XmlDomUtils.getAttribute(node, "storeLabels");
-        fileInfo.storeLabels = ("true".equalsIgnoreCase(str) || "yes".equalsIgnoreCase(str));        
+        if(str == null)
+        {
+            fileInfo.storeLabels = true;
+        }
+        else
+        {
+            Boolean bb = ConfigParserUtils.parseBoolean(str);
+            if(bb == null)
+            {
+                throw new Exception("Invalid <fileInfo storeLabels=\"" + str + "\" attribute.");
+            }
+
+            fileInfo.storeLabels = bb;
+        }
         
         // <fileRef> nodes
         fileInfo.fileRef = parseFileRef(doc);
