@@ -22,11 +22,15 @@ import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
  */
 public class FileInfoParser
 {
+    /**
+     * Valid &lt;FileInfo&gt; attribute names.
+     */
     private static Set<String> FILE_INFO_ATTRS = new TreeSet<>();
     static
     {
         FILE_INFO_ATTRS.add("processDataFiles");
         FILE_INFO_ATTRS.add("storeLabels");
+        FILE_INFO_ATTRS.add("storeJsonLabels");
     }
 
     
@@ -81,6 +85,23 @@ public class FileInfoParser
             }
 
             fileInfo.storeLabels = bb;
+        }
+
+        // "storeJsonLabels" attribute
+        str = XmlDomUtils.getAttribute(node, "storeJsonLabels");
+        if(str == null)
+        {
+            fileInfo.storeJsonLabels = true;
+        }
+        else
+        {
+            Boolean bb = ConfigParserUtils.parseBoolean(str);
+            if(bb == null)
+            {
+                throw new Exception("Invalid <fileInfo storeJsonLabels=\"" + str + "\" attribute.");
+            }
+
+            fileInfo.storeJsonLabels = bb;
         }
         
         // <fileRef> nodes

@@ -3,7 +3,10 @@ package gov.nasa.pds.harvest.meta;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
@@ -15,6 +18,8 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tika.Tika;
+import org.json.JSONObject;
+import org.json.XML;
 
 import gov.nasa.pds.harvest.cfg.model.FileInfoCfg;
 import gov.nasa.pds.harvest.Constants;
@@ -53,7 +58,15 @@ public class FileMetadataExtractor
 
         if(fileInfoCfg.storeLabels == false)
         {
-            log.warn("BLOB storage is disabled (see <fileInfo storeLabels=\"false\"> configuration). "
+            log.warn("XML BLOB storage is disabled "
+                    + "(see <fileInfo storeLabels=\"false\"> configuration). "
+                    + "Not all Registry features will be available.");
+        }
+
+        if(fileInfoCfg.storeJsonLabels == false)
+        {
+            log.warn("JSON BLOB storage is disabled "
+                    + "(see <fileInfo storeJsonLabels=\"false\"> configuration). "
                     + "Not all Registry features will be available.");
         }
         
@@ -80,9 +93,16 @@ public class FileMetadataExtractor
         meta.fields.addValue(createLabelFileFieldName("md5_checksum"), getMd5(file));
         meta.fields.addValue(createLabelFileFieldName("file_ref"), getFileRef(file));
         
+        // XML BLOB (optional)
         if(fileInfoCfg.storeLabels)
         {
             meta.fields.addValue(createLabelFileFieldName("blob"), getBlob(file));
+        }
+        
+        // JSON BLOB (required)
+        if(fileInfoCfg.storeJsonLabels)
+        {
+            meta.fields.addValue(createLabelFileFieldName("json_blob"), getJsonBlob(file));
         }
         
         // Process data files
@@ -130,7 +150,13 @@ public class FileMetadataExtractor
     }
     
     
-    private String getMd5(File file) throws Exception
+    /**
+     * Calculate MD5 hash of a file
+     * @param file a file
+     * @return HEX encoded MD5 hash
+     * @throws Exception an exception
+     */
+    public String getMd5(File file) throws Exception
     {
         md5Digest.reset();
         FileInputStream source = null;
@@ -155,11 +181,19 @@ public class FileMetadataExtractor
     }
     
     
-    private String getBlob(File file) throws Exception
+    /**
+     * Deflate (zip) PDS XML label and then Base64 encode.
+     * @param file PDS XML label
+     * @return Base64 encoded string
+     * @throws Exception an exception
+     */
+    public String getBlob(File file) throws Exception
     {
         FileInputStream source = null;
         
+        // Zipped content holder
         ByteArrayOutputStream bas = new ByteArrayOutputStream();
+        // Zipper
         DeflaterOutputStream dest = new DeflaterOutputStream(bas);
         
         try
@@ -182,6 +216,40 @@ public class FileMetadataExtractor
     }
 
 
+    /**
+     * Convert PDS XML label into JSON, deflate (zip) and then Base64 encode.
+     * @param file PDS XML label
+     * @return Base64 encoded string
+     * @throws Exception an exception
+     */
+    public static String getJsonBlob(File file) throws Exception
+    {
+        Reader source = null;
+        
+        // Zipped content holder
+        ByteArrayOutputStream bas = new ByteArrayOutputStream();
+        // Zipper
+        DeflaterOutputStream deflater = new DeflaterOutputStream(bas);
+        // Writer to output stream adapter
+        OutputStreamWriter dest = new OutputStreamWriter(deflater);
+        
+        try
+        {
+            source = new FileReader(file);
+            JSONObject json = XML.toJSONObject(source);
+            String strJson = json.toString();
+            dest.write(strJson);
+            dest.close();
+
+            return Base64.getEncoder().encodeToString(bas.toByteArray());
+        }
+        finally
+        {
+            CloseUtils.close(source);
+        }
+    }
+
+    
     private String getFileRef(File file)
     {
         String filePath = file.toURI().getPath();

@@ -20,6 +20,7 @@ public class FileInfoCfg
     
     public boolean processDataFiles = true;
     public boolean storeLabels = true;
+    public boolean storeJsonLabels = true;
 
 
     public FileInfoCfg()
