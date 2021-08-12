@@ -1,6 +1,18 @@
 # Changelog
 
-## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-07-24)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2021-08-12)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.0-SNAPSHOT...«unknown»)
+
+**Requirements:**
+
+- As a user, I want to ingest the PDS4 label as JSON in a binary blob form [\#60](https://github.com/NASA-PDS/harvest/issues/60)
+
+**Improvements:**
+
+- Enable blob ingestion by default [\#58](https://github.com/NASA-PDS/harvest/issues/58)
+
+## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-07-30)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.4.1...v3.5.0-SNAPSHOT)
 
