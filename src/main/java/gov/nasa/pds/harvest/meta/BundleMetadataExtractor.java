@@ -14,8 +14,16 @@ import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.xml.XPathUtils;
 
 
+/**
+ * Extract metadata from a PDS bundle
+ * @author karpenko
+ */
 public class BundleMetadataExtractor
 {
+    /**
+     * Inner class to store bundle member (collection) information.
+     * @author karpenko
+     */
     public static class BundleMemberEntry
     {
         public String lid;
@@ -40,7 +48,11 @@ public class BundleMetadataExtractor
     
     private XPathExpression xBme;
     
-    
+
+    /**
+     * Constructor
+     * @throws Exception an exception
+     */
     public BundleMetadataExtractor() throws Exception
     {
         XPathFactory xpf = XPathFactory.newInstance();
@@ -48,6 +60,12 @@ public class BundleMetadataExtractor
     }
     
     
+    /**
+     * Extract bundle members (collections)
+     * @param doc Parsed PDS label (XML DOM)
+     * @return list of bundle members (collections)
+     * @throws Exception an exception
+     */
     public List<BundleMemberEntry> extractBundleMemberEntries(Document doc) throws Exception
     {
         List<BundleMemberEntry> list = new ArrayList<BundleMemberEntry>();
@@ -64,7 +82,12 @@ public class BundleMetadataExtractor
         return list;
     }
 
-    
+
+    /**
+     * Add a collection reference (LID and LIDVID) from bundle member entry to the field map.
+     * @param fmap keeps list of collection references
+     * @param bme bundle member entry
+     */
     public void addRefs(FieldMap fmap, BundleMemberEntry bme)
     {
         if(bme.lidvid != null)

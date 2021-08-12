@@ -19,9 +19,10 @@ public class FileInfoCfg
     public List<FileRefCfg> fileRef;
     
     public boolean processDataFiles = true;
-    public boolean storeLabels = false;    
+    public boolean storeLabels = true;
+    public boolean storeJsonLabels = true;
 
-    
+
     public FileInfoCfg()
     {
     }

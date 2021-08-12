@@ -135,9 +135,10 @@ public class CrawlerCommand
         ConfigReader cfgReader = new ConfigReader();
         cfg = cfgReader.read(cfgFile);
 
-        if(cfg.registryCfg == null)
+        if(cfg.bundles != null && cfg.registryCfg == null)
         {
-            log.warn("Registry is not configured");
+            log.warn("Registry (Elasticsearch) is not configured. "
+                    + "Registered products will be processed again.");
         }
 
         // Xpath maps

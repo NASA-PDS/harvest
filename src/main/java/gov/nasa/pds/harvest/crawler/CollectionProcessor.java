@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
-import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryDAO;
@@ -25,6 +24,7 @@ import gov.nasa.pds.harvest.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.harvest.meta.SearchMetadataExtractor;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
@@ -60,6 +60,7 @@ public class CollectionProcessor
     private CollectionMetadataExtractor collectionExtractor;
     private InternalReferenceExtractor refExtractor;
     private AutogenExtractor autogenExtractor;
+    private SearchMetadataExtractor searchExtractor;
     private XPathExtractor xpathExtractor;
     private FileMetadataExtractor fileDataExtractor;
     
@@ -84,11 +85,12 @@ public class CollectionProcessor
         dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(false);
         
-        basicExtractor = new BasicMetadataExtractor();
+        basicExtractor = new BasicMetadataExtractor(config);
         collectionExtractor = new CollectionMetadataExtractor();
         refExtractor = new InternalReferenceExtractor();
         xpathExtractor = new XPathExtractor();
         autogenExtractor = new AutogenExtractor(config.autogen);
+        searchExtractor = new SearchMetadataExtractor();
         fileDataExtractor = new FileMetadataExtractor(config);
     }
     
@@ -153,7 +155,6 @@ public class CollectionProcessor
     private void processMetadata(File file, Document doc, BundleCfg bCfg) throws Exception
     {
         Metadata meta = basicExtractor.extract(file, doc);
-        meta.fields.addValue(Constants.FLD_NODE_NAME, config.nodeName);
 
         // Collection filter
         if(bCfg.collectionLids != null && !bCfg.collectionLids.contains(meta.lid)) return;
@@ -181,14 +182,22 @@ public class CollectionProcessor
             return;
         }
         
+        // Internal references
         refExtractor.addRefs(meta.intRefs, doc);
+        
+        // Extract fields by XPath (if configured)
         xpathExtractor.extract(doc, meta.fields);
         
+        // Extract all fields as key-value pairs
         if(config.autogen != null)
         {
             autogenExtractor.extract(file, meta.fields);
         }
         
+        // Search fields
+        searchExtractor.extract(doc, meta.fields);
+
+        // File information (name, size, checksum)
         fileDataExtractor.extract(file, meta);
         
         RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();

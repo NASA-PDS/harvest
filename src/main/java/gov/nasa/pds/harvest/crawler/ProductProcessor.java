@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
-import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
@@ -22,6 +21,7 @@ import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
 import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
 import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.harvest.meta.SearchMetadataExtractor;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
@@ -56,6 +56,7 @@ public class ProductProcessor
     private BasicMetadataExtractor basicExtractor;
     private InternalReferenceExtractor refExtractor;
     private AutogenExtractor autogenExtractor;
+    private SearchMetadataExtractor searchExtractor;
     private FileMetadataExtractor fileDataExtractor;
     private XPathExtractor xpathExtractor;
     
@@ -76,9 +77,10 @@ public class ProductProcessor
         dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(false);
         
-        basicExtractor = new BasicMetadataExtractor();
+        basicExtractor = new BasicMetadataExtractor(config);
         refExtractor = new InternalReferenceExtractor();
         autogenExtractor = new AutogenExtractor(config.autogen);
+        searchExtractor = new SearchMetadataExtractor();
         fileDataExtractor = new FileMetadataExtractor(config);
         xpathExtractor = new XPathExtractor();
         
@@ -195,7 +197,6 @@ public class ProductProcessor
     {
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
-        meta.fields.addValue(Constants.FLD_NODE_NAME, config.nodeName);
 
         // Only process primary products from collection inventory
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
@@ -220,6 +221,9 @@ public class ProductProcessor
             autogenExtractor.extract(file, meta.fields);
         }
 
+        // Search fields
+        searchExtractor.extract(doc, meta.fields);
+        
         // Extract file data
         fileDataExtractor.extract(file, meta);
         

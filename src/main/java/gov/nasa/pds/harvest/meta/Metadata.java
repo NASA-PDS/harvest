@@ -26,7 +26,10 @@ public class Metadata
     
     public Set<String> dataFiles;
 
-    
+
+    /**
+     * Constructor
+     */
     public Metadata()
     {
         intRefs = new FieldMapSet();
