@@ -8,6 +8,7 @@
   *     PDS_GEO  - Planetary Data System: Geosciences Node
   *     PDS_IMG  - Planetary Data System: Imaging Node
   *     PDS_NAIF - Planetary Data System: NAIF Node
+  *     PDS_PPI  - Planetary Data System: Planetary Plasma Interactions Node
   *     PDS_RMS  - Planetary Data System: Rings Node
   *     PDS_SBN  - Planetary Data System: Small Bodies Node at University of Maryland
   *     PSA      - Planetary Science Archive
@@ -21,20 +22,27 @@
   </directories>
 
   <!-- 
-      NOTE: By default only lid, vid, lidvid, title and product class are exported. 
-      If you want more metadata to be exported, provide additional configuration
-      elements, such as xpathMaps, internalRefs, autogenFields, fileInfo, fileRef.
-  -->
+      NOTE: By default only lid, vid, lidvid, title and product class are exported.
+      autogenFields should also be enabled for operational ingestion.
 
+      See documentation for more configuration options: https://nasa-pds.github.io/pds-registry-app/operate/harvest.html
+  -->
   <fileInfo processDataFiles="true" storeLabels="true">
-    <!-- UPDATE with you own local path and base url where pds4 archive are published -->
+    <!-- UPDATE with your own local path and base url where pds4 archive are published -->
     <fileRef replacePrefix="/path/to/archive" with="https://url/to/archive/" />
   </fileInfo>
 
 
-  <!-- Extract all fields. Field names: <namespace>:<class_name>/<namespace>:<attribute_name> -->
+  <!-- 
+     Extract all fields. Field names: <namespace>:<class_name>/<namespace>:<attribute_name>
+     NOTE: This should only be disabled for testing purposes
+  -->
   <autogenFields/>
 
+  <!--
+     Example of ingesting a subset of metadata.
+     NOTE: This should only be used for testing purposes.
+  -->
   <!--
   <autogenFields>
     <classFilter>
