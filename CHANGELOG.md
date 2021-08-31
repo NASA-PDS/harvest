@@ -1,8 +1,8 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2021-08-12)
+## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-08-12)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.0-SNAPSHOT...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.4.1...v3.5.0-SNAPSHOT)
 
 **Requirements:**
 
@@ -11,13 +11,6 @@
 **Improvements:**
 
 - Enable blob ingestion by default [\#58](https://github.com/NASA-PDS/harvest/issues/58)
-
-## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-07-30)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.4.1...v3.5.0-SNAPSHOT)
-
-**Improvements:**
-
 - Quick fix to support date/time conversion to "ISO instant" format [\#55](https://github.com/NASA-PDS/harvest/issues/55)
 
 ## [v3.4.1](https://github.com/NASA-PDS/harvest/tree/v3.4.1) (2021-06-30)
