@@ -11,6 +11,7 @@
   *     PDS_GEO  - Planetary Data System: Geosciences Node
   *     PDS_IMG  - Planetary Data System: Imaging Node
   *     PDS_NAIF - Planetary Data System: NAIF Node
+  *     PDS_PPI  - Planetary Data System: Planetary Plasma Interactions Node
   *     PDS_RMS  - Planetary Data System: Rings Node
   *     PDS_SBN  - Planetary Data System: Small Bodies Node at University of Maryland
   *     PSA      - Planetary Science Archive
@@ -31,37 +32,37 @@
 
 
   <!-- Only include context and document products. -->
-  <!-- DO NOT COMMENT OUT FOR OPERATIONAL REGISTRY-->
+  <!-- NOTE: This should only be enabled for testing purposes -->
   <!--
   <productFilter>
-    <include>Product_Context</include>
-    <include>Product_Document</include>
+    <includeClass>Product_Context</includeClass>
+    <includeClass>Product_Document</includeClass>
   </productFilter>
   -->
 
-<!-- 
-    NOTE: By default only lid, vid, lidvid, title and product class are exported. 
-    If you want more metadata to be exported, provide additional configuration
-    elements, such as xpathMaps, internalRefs, autogenFields, fileInfo, fileRef.
- -->
+  <!-- Exclude context products. -->
+  <!-- NOTE: This should only be enabled for testing purposes -->
+  <!--
+  <productFilter>
+    <excludeClass>Product_Context</excludeClass>
+  </productFilter>
+  -->
 
+  <!-- 
+      NOTE: By default only lid, vid, lidvid, title and product class are exported.
+      autogenFields should also be enabled for operational ingestion.
+
+      See documentation for more configuration options: https://nasa-pds.github.io/pds-registry-app/operate/harvest.html
+  -->
   <fileInfo processDataFiles="true" storeLabels="true">
     <!-- UPDATE with you own local path and base url where pds4 archive are published -->
     <fileRef replacePrefix="/path/to/archive" with="https://url/to/archive/" />
   </fileInfo>
 
-  <!-- Auto generate all fields from PDS4 labels -->
-  <!--
-  <autogenFields/>  
-  --> 
-
-  <!-- Auto generate fields for a specific data dictionary class -->
-  <!--
-  <autogenFields>
-    <classFilter>
-      <include>pds:Mission_Area</include>
-    </classFilter>
-  </autogenFields>
+  <!-- 
+     Extract all fields. Field names: <namespace>:<class_name>/<namespace>:<attribute_name>
+     NOTE: This should only be disabled for testing purposes
   -->
+  <autogenFields/>
 
 </harvest>
