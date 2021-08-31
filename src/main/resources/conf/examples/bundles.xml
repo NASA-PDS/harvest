@@ -35,8 +35,16 @@
   <!-- NOTE: This should only be enabled for testing purposes -->
   <!--
   <productFilter>
-    <include>Product_Context</include>
-    <include>Product_Document</include>
+    <includeClass>Product_Context</includeClass>
+    <includeClass>Product_Document</includeClass>
+  </productFilter>
+  -->
+
+  <!-- Exclude context products. -->
+  <!-- NOTE: This should only be enabled for testing purposes -->
+  <!--
+  <productFilter>
+    <excludeClass>Product_Context</excludeClass>
   </productFilter>
   -->
 
@@ -56,17 +64,5 @@
      NOTE: This should only be disabled for testing purposes
   -->
   <autogenFields/>
-
-  <!--
-     Example of ingesting a subset of metadata.
-     NOTE: This should only be enabled for testing purposes.
-  -->
-  <!--
-  <autogenFields>
-    <classFilter>
-      <include>pds:Mission_Area</include>
-    </classFilter>
-  </autogenFields>
-  -->
 
 </harvest>
