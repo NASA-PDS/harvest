@@ -1,4 +1,4 @@
-package gov.nasa.pds.harvest.crawler;
+package gov.nasa.pds.harvest.cmd;
 
 import java.io.File;
 
@@ -9,6 +9,12 @@ import org.apache.logging.log4j.Logger;
 import gov.nasa.pds.harvest.cfg.ConfigReader;
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.crawler.BundleProcessor;
+import gov.nasa.pds.harvest.crawler.CollectionProcessor;
+import gov.nasa.pds.harvest.crawler.Counter;
+import gov.nasa.pds.harvest.crawler.DirsProcessor;
+import gov.nasa.pds.harvest.crawler.ProductProcessor;
+import gov.nasa.pds.harvest.crawler.RefsCache;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
@@ -22,7 +28,7 @@ import gov.nasa.pds.harvest.util.out.WriterManager;
  * 
  * @author karpenko
  */
-public class CrawlerCommand
+public class CrawlerCmd implements CliCommand
 {
     private Logger log;
     private Configuration cfg;
@@ -38,7 +44,7 @@ public class CrawlerCommand
     /**
      * Constructor
      */
-    public CrawlerCommand()
+    public CrawlerCmd()
     {
         log = LogManager.getLogger(this.getClass());
     }
@@ -50,6 +56,7 @@ public class CrawlerCommand
      * containing parsed command line parameters.
      * @throws Exception Generic exception
      */
+    @Override
     public void run(CommandLine cmdLine) throws Exception
     {
         configure(cmdLine);

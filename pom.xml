@@ -22,10 +22,13 @@
     NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
     EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Inherit release profile, reporting, SNAPSHOT repo, etc. from parent repo -->
+    <!-- Inherit release profile, reporting, SNAPSHOT repo, etc. from parent 
+        repo -->
     <parent>
         <groupId>gov.nasa</groupId>
         <artifactId>pds</artifactId>
@@ -61,10 +64,10 @@
 
     <scm>
         <url>https://github.com/NASA-PDS/harvest</url>
-	<connection>scm:git:ssh://git@github.com/NASA-PDS/harvest.git</connection>
-	<developerConnection>scm:git:ssh://git@github.com/NASA-PDS/harvest.git</developerConnection>
-    <tag>v3.4.1</tag>
-  </scm>
+        <connection>scm:git:ssh://git@github.com/NASA-PDS/harvest.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/NASA-PDS/harvest.git</developerConnection>
+        <tag>v3.4.1</tag>
+    </scm>
 
     <properties>
         <maven.compiler.target>11</maven.compiler.target>
@@ -109,7 +112,7 @@
             <artifactId>json</artifactId>
             <version>20210307</version>
         </dependency>
-        <!-- Registry Common library-->
+        <!-- Registry Common library -->
         <dependency>
             <groupId>gov.nasa.pds</groupId>
             <artifactId>registry-common</artifactId>
@@ -119,6 +122,18 @@
 
     <build>
         <plugins>
+            <!-- Add POM version to JAR's manifest -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
             <!-- SpringBoot single JAR executable. -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
