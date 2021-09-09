@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cmd.CliCommand;
 import gov.nasa.pds.harvest.cmd.CrawlerCmd;
-import gov.nasa.pds.harvest.cmd.VersionCmd;
 import gov.nasa.pds.harvest.util.ExceptionUtils;
 import gov.nasa.pds.harvest.util.log.Log4jConfigurator;
 
@@ -46,8 +45,14 @@ public class HarvestCli
         if(args.length == 0)
         {
             printHelp();
-            System.exit(1);
+            System.exit(0);
         }
+        
+        if(args.length == 1 && "--version".equals(args[0]))
+        {
+            printVersion();
+            System.exit(0);
+        }        
 
         if(!parse(args))
         {
@@ -87,13 +92,13 @@ public class HarvestCli
     /**
      * Print help screen.
      */
-    public void printHelp()
+    public static void printHelp()
     {
         System.out.println("Usage: harvest <options>");
         System.out.println();
         System.out.println("Commands:");
-        System.out.println("  -c <config file>      Crawl file system and process PDS4 labels");
-        System.out.println("  -version, --version   Print Harvest version");
+        System.out.println("  -c <config file>   Crawl file system and process PDS4 labels");
+        System.out.println("  --version          Print Harvest version");
         System.out.println();
         System.out.println("Optional parameters:");
         System.out.println("  -f <format>   Output format ('json' or 'xml'). Default is 'json'");
@@ -102,6 +107,16 @@ public class HarvestCli
         System.out.println("  -v <level>    Logger verbosity: 0=Debug, 1=Info (default), 2=Warning, 3=Error");        
     }
 
+    
+    /**
+     * Print Harvest version
+     */
+    public static void printVersion()
+    {
+        String version = HarvestCli.class.getPackage().getImplementationVersion();
+        System.out.println("Harvest version: " + version);
+    }
+    
     
     /**
      * Parse command line parameters
@@ -118,13 +133,6 @@ public class HarvestCli
             // NOTE: !!! Init logger before creating commands !!!
             initLogger(cmdLine);
 
-            // Version command
-            if(cmdLine.hasOption("version"))
-            {
-                command = new VersionCmd();
-                return true;
-            }
-            
             // Crawler command
             if(cmdLine.hasOption("c"))
             {
@@ -177,9 +185,6 @@ public class HarvestCli
         options.addOption(bld.build());
 
         bld = Option.builder("v").hasArg().argName("level");
-        options.addOption(bld.build());
-        
-        bld = Option.builder().longOpt("version");
         options.addOption(bld.build());
     }
 
