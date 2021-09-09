@@ -48,7 +48,8 @@ public class HarvestCli
             System.exit(0);
         }
         
-        if(args.length == 1 && "--version".equals(args[0]))
+        // Version
+        if(args.length == 1 && ("-V".equals(args[0]) || "--version".equals(args[0])))
         {
             printVersion();
             System.exit(0);
@@ -98,7 +99,7 @@ public class HarvestCli
         System.out.println();
         System.out.println("Commands:");
         System.out.println("  -c <config file>   Crawl file system and process PDS4 labels");
-        System.out.println("  --version          Print Harvest version");
+        System.out.println("  -V, --version      Print Harvest version");
         System.out.println();
         System.out.println("Optional parameters:");
         System.out.println("  -f <format>   Output format ('json' or 'xml'). Default is 'json'");
