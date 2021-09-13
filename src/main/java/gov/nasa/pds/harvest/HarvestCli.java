@@ -9,7 +9,8 @@ import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import gov.nasa.pds.harvest.crawler.CrawlerCommand;
+import gov.nasa.pds.harvest.cmd.CliCommand;
+import gov.nasa.pds.harvest.cmd.CrawlerCmd;
 import gov.nasa.pds.harvest.util.ExceptionUtils;
 import gov.nasa.pds.harvest.util.log.Log4jConfigurator;
 
@@ -21,18 +22,16 @@ import gov.nasa.pds.harvest.util.log.Log4jConfigurator;
  */
 public class HarvestCli
 {
-    private Logger log;
-    
     private Options options;
     private CommandLine cmdLine;
-    
+
+    private CliCommand command;
     
     /**
      * Constructor
      */
     public HarvestCli()
     {
-        options = new Options();
         initOptions();
     }
     
@@ -46,8 +45,15 @@ public class HarvestCli
         if(args.length == 0)
         {
             printHelp();
-            System.exit(1);
+            System.exit(0);
         }
+        
+        // Version
+        if(args.length == 1 && ("-V".equals(args[0]) || "--version".equals(args[0])))
+        {
+            printVersion();
+            System.exit(0);
+        }        
 
         if(!parse(args))
         {
@@ -56,9 +62,6 @@ public class HarvestCli
             System.exit(1);
         }
 
-        initLogger();
-        log = LogManager.getLogger(this.getClass());
-        
         if(!runCommand())
         {
             System.exit(1);
@@ -74,13 +77,13 @@ public class HarvestCli
     {
         try
         {
-            CrawlerCommand cmd = new CrawlerCommand();
-            cmd.run(cmdLine);
+            command.run(cmdLine);
             return true;
         }
         catch(Exception ex)
         {
-            String msg = ExceptionUtils.getMessage(ex); 
+            String msg = ExceptionUtils.getMessage(ex);
+            Logger log = LogManager.getLogger(this.getClass());
             log.error(msg);
             return false;
         }
@@ -90,19 +93,31 @@ public class HarvestCli
     /**
      * Print help screen.
      */
-    public void printHelp()
+    public static void printHelp()
     {
         System.out.println("Usage: harvest <options>");
         System.out.println();
-        System.out.println("Required parameters:");
-        System.out.println("  -c <file>     Harvest configuration file");
+        System.out.println("Commands:");
+        System.out.println("  -c <config file>   Crawl file system and process PDS4 labels");
+        System.out.println("  -V, --version      Print Harvest version");
+        System.out.println();
         System.out.println("Optional parameters:");
         System.out.println("  -f <format>   Output format ('json' or 'xml'). Default is 'json'");
         System.out.println("  -o <dir>      Output directory. Default is /tmp/harvest/out");
         System.out.println("  -l <file>     Log file. Default is /tmp/harvest/harvest.log");
-        System.out.println("  -v <level>    Logger verbosity: 0=Debug, 1=Info (default), 2=Warning, 3=Error");
+        System.out.println("  -v <level>    Logger verbosity: 0=Debug, 1=Info (default), 2=Warning, 3=Error");        
     }
 
+    
+    /**
+     * Print Harvest version
+     */
+    public static void printVersion()
+    {
+        String version = HarvestCli.class.getPackage().getImplementationVersion();
+        System.out.println("Harvest version: " + version);
+    }
+    
     
     /**
      * Parse command line parameters
@@ -115,7 +130,19 @@ public class HarvestCli
         {
             CommandLineParser parser = new DefaultParser();
             this.cmdLine = parser.parse(options, args);
-            return true;
+            
+            // NOTE: !!! Init logger before creating commands !!!
+            initLogger(cmdLine);
+
+            // Crawler command
+            if(cmdLine.hasOption("c"))
+            {
+                command = new CrawlerCmd();
+                return true;
+            }
+
+            System.out.println("[ERROR] Missing -c parameter");
+            return false;
         }
         catch(ParseException ex)
         {
@@ -127,8 +154,9 @@ public class HarvestCli
     
     /**
      * Initialize Log4j logger
+     * @param cmdLine Command line parameters
      */
-    private void initLogger()
+    private static void initLogger(CommandLine cmdLine)
     {
         String verbosity = cmdLine.getOptionValue("v", "1");
         String logFile = cmdLine.getOptionValue("l");
@@ -142,9 +170,10 @@ public class HarvestCli
      */
     private void initOptions()
     {
+        options = new Options();
         Option.Builder bld;
         
-        bld = Option.builder("c").hasArg().argName("file").required();
+        bld = Option.builder("c").hasArg().argName("file");
         options.addOption(bld.build());
         
         bld = Option.builder("o").hasArg().argName("dir");
