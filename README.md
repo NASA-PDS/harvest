@@ -12,6 +12,14 @@ The documentation for the latest release of the Harvest Tool, including release 
 If you would like to get the latest documentation, including any updates since the last release, you can execute the "mvn site:run" command and view the documentation locally at http://localhost:8080/.
 
 
+## 👥 Contributing
+
+Within the NASA Planetary Data System, we value the health of our community as much as the code. Towards that end, we ask that you read and practice what's described in these documents:
+
+-   Our [contributor's guide](https://github.com/NASA-PDS/.github/blob/main/CONTRIBUTING.md) delineates the kinds of contributions we accept.
+-   Our [code of conduct](https://github.com/NASA-PDS/.github/blob/main/CODE_OF_CONDUCT.md) outlines the standards of behavior we practice and expect by everyone who participates with our software.
+
+
 # Build
 
 The software can be compiled and built with the "mvn compile" command but in order to create the JAR file, you must execute the "mvn compile jar:jar" command.
