@@ -43,6 +43,7 @@
 .settings/
 *.project
 *.classpath
+.externalToolBuilders
 
 # IntelliJ files
 .idea/
