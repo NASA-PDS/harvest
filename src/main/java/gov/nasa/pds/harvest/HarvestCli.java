@@ -1,5 +1,7 @@
 package gov.nasa.pds.harvest;
 
+import java.util.jar.Attributes;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -12,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import gov.nasa.pds.harvest.cmd.CliCommand;
 import gov.nasa.pds.harvest.cmd.CrawlerCmd;
 import gov.nasa.pds.harvest.util.ExceptionUtils;
+import gov.nasa.pds.harvest.util.ManifestUtils;
 import gov.nasa.pds.harvest.util.log.Log4jConfigurator;
 
 
@@ -116,6 +119,11 @@ public class HarvestCli
     {
         String version = HarvestCli.class.getPackage().getImplementationVersion();
         System.out.println("Harvest version: " + version);
+        Attributes attrs = ManifestUtils.getAttributes();
+        if(attrs != null)
+        {
+            System.out.println("Build time: " + attrs.getValue("Build-Time"));
+        }
     }
     
     
