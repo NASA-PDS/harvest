@@ -51,19 +51,32 @@ jobs:
                 uses: actions/checkout@v2
                 with:
                     lfs: true
+                    fetch-depth: 0
                     token: ${{secrets.ADMIN_GITHUB_TOKEN}}
-
+            -
+                name: 💵 Maven Cache
+                uses: actions/cache@v2
+                with:
+                    path: ~/.m2/repository
+                    # The "key" used to indicate a set of cached files is the operating system runner
+                    # plus "mvn" for Maven-specific builds, plus a hash of the `pom.xml` files, which
+                    # should uniquely identify the dependent jars; plus "pds" because we pds-prefix
+                    # everything with "pds" in PDS—even when the context is obvious! 😅
+                    key: pds-${{runner.os}}-mvn-${{hashFiles('**/pom.xml')}}
+                    # To restore a set of files, we only need to match a prefix of the saved key.
+                    restore-keys: pds-${{runner.os}}-mvn-
             -
                 name: 🤠 Roundup
                 uses: NASA-PDS/roundup-action@main
                 with:
+                    packages: openjdk11-jdk
                     assembly: unstable
-                    packages: openjdk11
                 env:
                     ossrh_username: ${{secrets.OSSRH_USERNAME}}
                     ossrh_password: ${{secrets.OSSRH_PASSWORD}}
                     CODE_SIGNING_KEY: ${{secrets.CODE_SIGNING_KEY}}
                     ADMIN_GITHUB_TOKEN: ${{secrets.ADMIN_GITHUB_TOKEN}}
 
+...
 
 # -*- mode: yaml; indent: 4; fill-column: 120; coding: utf-8 -*-

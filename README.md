@@ -1,19 +1,30 @@
 # Harvest Tool
-The Harvest Tool provides functionality for capturing and indexing product metadata. The tool will run locally at the Discipline Node to crawl the local data repository in order to discover products and index associated metadata into the Registry Service.
 
-A sub-component of the PDS Registry App (https://github.com/NASA-PDS/pds-app-registry).
+The Harvest Tool captures and indexes product metadata. Each discipline node of the Planetary Data System runs the tool to crawl the local data repositories, discovering products and indexing associated metadata into the Registry Service. As such, it's a sub-component of the PDS Registry App (https://github.com/NASA-PDS/pds-app-registry).
+
+Please be sure to visit the tool's website at https://nasa-pds.github.io/harvest/.
+
 
 # Documentation
-The documentation for the latest release of the Validate Tool, including release notes, installation and operation of the software are online at https://nasa-pds.github.io/harvest/.
 
-If you would like to get the latest documentation, including any updates since the last release, you can execute the "mvn site:run" command and view the documentation locally at http://localhost:8080.
+The documentation for the latest release of the Harvest Tool, including release notes, installation, and operation of the software is [ready to browse online](https://nasa-pds.github.io/harvest/).
+
+If you would like to get the latest documentation, including any updates since the last release, you can execute the "mvn site:run" command and view the documentation locally at http://localhost:8080/.
+
+
+## 👥 Contributing
+
+Within the NASA Planetary Data System, we value the health of our community as much as the code. Towards that end, we ask that you read and practice what's described in these documents:
+
+-   Our [contributor's guide](https://github.com/NASA-PDS/.github/blob/main/CONTRIBUTING.md) delineates the kinds of contributions we accept.
+-   Our [code of conduct](https://github.com/NASA-PDS/.github/blob/main/CODE_OF_CONDUCT.md) outlines the standards of behavior we practice and expect by everyone who participates with our software.
+
 
 # Build
-The software can be compiled and built with the "mvn compile" command but in order 
-to create the JAR file, you must execute the "mvn compile jar:jar" command. 
 
-In order to create a complete distribution package, execute the 
-following commands: 
+The software can be compiled and built with the "mvn compile" command but in order to create the JAR file, you must execute the "mvn compile jar:jar" command.
+
+In order to create a complete distribution package, execute the following commands: 
 
 ```
 % mvn package
@@ -21,16 +32,20 @@ following commands:
 
 # Operational Release
 
-A release candidate should be created after the community has determined that a release should occur. These steps should be followed when generating a release candidate and when completing the release.
+Using [GitHub Actions](https://github.com/features/actions) and the [Roundup](https://github.com/NASA-PDS/roundup-action), releases of this software happen automatically. However, if you need to do so manually, read on.
 
-## Clone fresh repo
+A release candidate can be created by hand if the community has determined that a release should occur. These steps should be followed when generating a release candidate and when completing the release.
+
+## Clone a Fresh Repository
+
 ```
 git clone git@github.com:NASA-PDS/harvest.git
 ```
 
+
 ## Update Version Numbers
 
-Update pom.xml for the release version or use the Maven Versions Plugin, e.g.:
+Update `pom.xml` for the release version or use the Maven Versions Plugin, e.g.:
 
 ```
 # Skip this step if this is a RELEASE CANDIDATE, we will deploy as SNAPSHOT version for testing
@@ -41,6 +56,7 @@ git add pom.xml
 
 
 ## Update Changelog
+
 Update Changelog using [Github Changelog Generator](https://github.com/github-changelog-generator/github-changelog-generator). Note: Make sure you set `$CHANGELOG_GITHUB_TOKEN` in your `.bash_profile` or use the `--token` flag.
 ```
 # For RELEASE CANDIDATE, set VERSION to future release version.
@@ -49,7 +65,9 @@ github_changelog_generator --future-release v$VERSION
 git add CHANGELOG.md
 ```
 
+
 ## Commit Changes
+
 Commit changes using following template commit message:
 ```
 # For operational release
@@ -62,6 +80,7 @@ git commit -m "[RELEASE] harvest v${VERSION}-rc${CANDIDATE_NUM}"
 # Push changes to main
 git push -u origin main
 ```
+
 
 ## Build and Deploy Software to [Sonatype Maven Repo](https://repo.maven.apache.org/maven2/gov/nasa/pds/).
 
@@ -90,7 +109,9 @@ Note: If you have issues with GPG, be sure to make sure you've created your GPG 
 
 ```
 
+
 ## Push Tagged Release
+
 ```
 # For Release Candidate, you may need to delete old SNAPSHOT tag
 git push origin :v$VERSION
@@ -100,6 +121,7 @@ git tag v${VERSION}
 git push --tags
 
 ```
+
 
 ## Deploy Site to Github Pages
 
@@ -144,10 +166,6 @@ git commit -m "Update version for $VERSION development"
 git push -u origin main
 ```
 
-## Complete Release in Github
-Currently the process to create more formal release notes and attach Assets is done manually through the [Github UI](https://github.com/NASA-PDS/harvest/releases/new) but should eventually be automated via script.
-
-*NOTE: Be sure to add the `tar.gz` and `zip` from the `target/` directory to the release assets, and use the CHANGELOG generated above to create the RELEASE NOTES.*
 
 # Snapshot Release
 
@@ -158,16 +176,15 @@ Deploy software to Sonatype SNAPSHOTS Maven repo:
 mvn clean site deploy
 ```
 
+
+
 # Maven JAR Dependency Reference
 
-## Operational Releases
-https://search.maven.org/search?q=g:gov.nasa.pds%20AND%20a:harvest&core=gav
-
-## Snapshots
-https://oss.sonatype.org/content/repositories/snapshots/gov/nasa/pds/harvest/
+- Operational Releases: https://search.maven.org/search?q=g:gov.nasa.pds%20AND%20a:harvest&core=gav
+- Snapshots: https://oss.sonatype.org/content/repositories/snapshots/gov/nasa/pds/harvest/
 
 If you want to access snapshots, add the following to your `~/.m2/settings.xml`:
-```
+```xml
 <profiles>
   <profile>
      <id>allow-snapshots</id>
