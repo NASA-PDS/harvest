@@ -1,14 +1,6 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2021-09-21)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.0-SNAPSHOT...«unknown»)
-
-**Improvements:**
-
-- Add release datetime to version output [\#64](https://github.com/NASA-PDS/harvest/issues/64)
-
-## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-08-31)
+## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-09-21)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.4.1...v3.5.0-SNAPSHOT)
 
@@ -18,6 +10,7 @@
 
 **Improvements:**
 
+- Add release datetime to version output [\#64](https://github.com/NASA-PDS/harvest/issues/64)
 - Enable blob ingestion by default [\#58](https://github.com/NASA-PDS/harvest/issues/58)
 - Quick fix to support date/time conversion to "ISO instant" format [\#55](https://github.com/NASA-PDS/harvest/issues/55)
 
