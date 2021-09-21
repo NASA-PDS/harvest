@@ -1,6 +1,14 @@
 # Changelog
 
-## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-08-12)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2021-09-21)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.0-SNAPSHOT...«unknown»)
+
+**Improvements:**
+
+- Add release datetime to version output [\#64](https://github.com/NASA-PDS/harvest/issues/64)
+
+## [v3.5.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.0-SNAPSHOT) (2021-08-31)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.4.1...v3.5.0-SNAPSHOT)
 
