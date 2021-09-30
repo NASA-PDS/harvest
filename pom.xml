@@ -22,9 +22,7 @@
     NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
     EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Inherit release profile, reporting, SNAPSHOT repo, etc. from parent 
@@ -37,7 +35,7 @@
 
     <groupId>gov.nasa.pds</groupId>
     <artifactId>harvest</artifactId>
-    <version>3.5.0-SNAPSHOT</version>
+    <version>3.5.0</version>
     <packaging>jar</packaging>
 
     <name>Harvest Tool</name>
@@ -66,7 +64,7 @@
         <url>https://github.com/NASA-PDS/harvest</url>
         <connection>scm:git:ssh://git@github.com/NASA-PDS/harvest.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/NASA-PDS/harvest.git</developerConnection>
-        <tag>v3.4.1</tag>
+        <tag>v3.5.0</tag>
     </scm>
 
     <properties>
@@ -116,7 +114,7 @@
         <dependency>
             <groupId>gov.nasa.pds</groupId>
             <artifactId>registry-common</artifactId>
-            <version>1.1.0-SNAPSHOT</version>
+            <version>1.1.0</version>
         </dependency>
     </dependencies>
 
