@@ -63,17 +63,22 @@ public class CrawlerCmd implements CliCommand
 
         RegistryManager.init(cfg.registryCfg);
 
-        if(cfg.dirs != null)
+        try
         {
-            processDirs();
+            if(cfg.dirs != null)
+            {
+                processDirs();
+            }
+            else if(cfg.bundles != null)
+            {
+                processBundles();
+            }
         }
-        else if(cfg.bundles != null)
+        finally
         {
-            processBundles();
+            WriterManager.destroy();
+            RegistryManager.destroy();
         }
-
-        WriterManager.destroy();
-        RegistryManager.destroy();
         
         printSummary();
     }
