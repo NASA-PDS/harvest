@@ -16,7 +16,7 @@ import gov.nasa.pds.registry.common.es.client.SearchResponseParser;
  * 
  * @author karpenko
  */
-public class RegistryDAO
+public class RegistryDao
 {
     private RestClient client;
     private String indexName;
@@ -31,7 +31,7 @@ public class RegistryDAO
      * @param client Elasticsearch client
      * @param indexName Elasticsearch index name, e.g., "registry".
      */
-    public RegistryDAO(RestClient client, String indexName)
+    public RegistryDao(RestClient client, String indexName)
     {
         this(client, indexName, false);
     }
@@ -43,7 +43,7 @@ public class RegistryDAO
      * @param indexName Elasticsearch index name, e.g., "registry".
      * @param pretty Pretty-format Elasticsearch response JSON. Used for debugging.
      */
-    public RegistryDAO(RestClient client, String indexName, boolean pretty)
+    public RegistryDao(RestClient client, String indexName, boolean pretty)
     {
         this.client = client;
         this.indexName = indexName;

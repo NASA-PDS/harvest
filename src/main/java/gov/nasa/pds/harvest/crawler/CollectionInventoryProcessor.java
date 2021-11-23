@@ -7,7 +7,7 @@ import java.util.Collection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import gov.nasa.pds.harvest.dao.RegistryDAO;
+import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.out.RefsDocWriter;
@@ -145,7 +145,7 @@ public class CollectionInventoryProcessor
 
         batch.batchNum = 0;
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
-        RegistryDAO dao = RegistryManager.getInstance().getRegistryDAO(); 
+        RegistryDao dao = RegistryManager.getInstance().getRegistryDao(); 
 
         InventoryBatchReader rd = new InventoryBatchReader(new FileReader(inventoryFile), RefType.PRIMARY);
         

@@ -17,7 +17,7 @@ public class RegistryConfigParser
     public static RegistryCfg parseRegistry(Node root) throws Exception
     {
         int count = XmlDomUtils.countChildNodes(root, "registry");
-        if(count == 0) return null;
+        if(count == 0) throw new Exception("Missing required '/harvest/registry' element");
         if(count > 1) throw new Exception("Could not have more than one '/harvest/registry' element");
 
         Node registryNode = XmlDomUtils.getFirstChild(root, "registry");
