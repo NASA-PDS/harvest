@@ -88,6 +88,7 @@ public class HarvestCli
             String msg = ExceptionUtils.getMessage(ex);
             Logger log = LogManager.getLogger(this.getClass());
             log.error(msg);
+            log.debug("", ex);
             return false;
         }
     }
@@ -108,7 +109,7 @@ public class HarvestCli
         System.out.println("  -f <format>   Output format ('json' or 'xml'). Default is 'json'");
         System.out.println("  -o <dir>      Output directory. Default is /tmp/harvest/out");
         System.out.println("  -l <file>     Log file. Default is /tmp/harvest/harvest.log");
-        System.out.println("  -v <level>    Logger verbosity: 0=Debug, 1=Info (default), 2=Warning, 3=Error");        
+        System.out.println("  -v <level>    Logger verbosity: DEBUG, INFO (default), WARNING, ERROR");        
     }
 
     

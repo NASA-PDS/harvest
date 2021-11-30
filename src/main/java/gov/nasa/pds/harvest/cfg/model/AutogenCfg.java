@@ -1,5 +1,6 @@
 package gov.nasa.pds.harvest.cfg.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Set;
  */
 public class AutogenCfg
 {
-    public Set<String> classFilterIncludes;
-    public Set<String> classFilterExcludes;
-    public Set<String> dateFields;
+    public Set<String> classFilterIncludes = new HashSet<>();
+    public Set<String> classFilterExcludes = new HashSet<>();
+    public Set<String> dateFields = new HashSet<>();
 }

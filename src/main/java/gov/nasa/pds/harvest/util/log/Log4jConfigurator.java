@@ -81,12 +81,20 @@ public class Log4jConfigurator
     
     private static Level parseLogLevel(String verbosity)
     {
-        switch(verbosity)
+        // Logger is not setup yet. Print to console.
+        if(verbosity == null)
         {
-        case "0": return Level.ALL;
-        case "1": return Level.INFO;
-        case "2": return Level.WARN;
-        case "3": return Level.ERROR;
+            System.out.println("[WARN] Log verbosity is not set. Will use 'INFO'.");
+            return Level.INFO;
+        }
+        
+        switch(verbosity.toUpperCase())
+        {
+        case "ALL": return Level.ALL;
+        case "DEBUG": return Level.DEBUG;
+        case "INFO": return Level.INFO;
+        case "WARN": return Level.WARN;
+        case "ERROR": return Level.ERROR;
         }
 
         // Logger is not setup yet. Print to console.
