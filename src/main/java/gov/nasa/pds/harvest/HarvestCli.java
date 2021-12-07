@@ -167,7 +167,7 @@ public class HarvestCli
      */
     private static void initLogger(CommandLine cmdLine)
     {
-        String verbosity = cmdLine.getOptionValue("v", "1");
+        String verbosity = cmdLine.getOptionValue("v", "INFO");
         String logFile = cmdLine.getOptionValue("l");
 
         Log4jConfigurator.configure(verbosity, logFile);

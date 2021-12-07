@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -80,14 +82,16 @@ public class NsUtils
                 String prefix = uriToPrefixMap.get(uri);
                 if(prefix == null)
                 {
-                    throw new Exception("Could not find prefix for URI " + uri);
+                    Logger log = LogManager.getLogger(NsUtils.class);
+                    log.warn("Could not find prefix for URI " + uri);
                 }
                 
                 prefixToLocationMap.put(prefix, location);
             }
             else
             {
-                throw new Exception("Missing location for URI " + uri);
+                Logger log = LogManager.getLogger(NsUtils.class);
+                log.warn("Missing location for URI " + uri);
             }
         }
         
