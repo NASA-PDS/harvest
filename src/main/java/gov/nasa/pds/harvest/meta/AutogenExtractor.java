@@ -1,22 +1,21 @@
 package gov.nasa.pds.harvest.meta;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.AutogenCfg;
 import gov.nasa.pds.harvest.util.FieldMap;
+import gov.nasa.pds.harvest.util.xml.NsUtils;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
+import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
 import gov.nasa.pds.registry.common.util.date.PdsDateConverter;
 
 
@@ -28,8 +27,7 @@ public class AutogenExtractor
 {
     private AutogenCfg cfg;
     
-    private Map<String, String> globalNsMap;    
-    private Map<String, String> localNsMap;
+    private XmlNamespaces xmlnsInfo;
     private FieldMap fields;
     private PdsDateConverter dateConverter;
     
@@ -42,9 +40,6 @@ public class AutogenExtractor
     {
         this.cfg = cfg;
         dateConverter = new PdsDateConverter(false);
-        
-        globalNsMap = new HashMap<>();
-        globalNsMap.put("http://pds.nasa.gov/pds4/pds/v1", "pds");
     }
 
 
@@ -52,37 +47,25 @@ public class AutogenExtractor
      * Extracts all fields from a label file into a FieldMap
      * @param file PDS label file
      * @param fields key-value pairs (output parameter)
+     * @return XML namespace mappings
      * @throws Exception an exception
      */
-    public void extract(File file, FieldMap fields) throws Exception
+    public XmlNamespaces extract(File file, FieldMap fields) throws Exception
     {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
         Document doc = XmlDomUtils.readXml(dbf, file);
-        extract(doc, fields);
-    }
-    
-    
-    /**
-     * Extracts all fields from a parsed label file (XML DOM) into a FieldMap
-     * @param doc Parsed PDS label file (XML DOM)
-     * @param fields key-value pairs (output parameter)
-     * @throws Exception an exception
-     */
-    public void extract(Document doc, FieldMap fields) throws Exception
-    {
-        this.localNsMap = getDocNamespaces(doc);
-        this.fields = fields;
         
+        this.xmlnsInfo = NsUtils.getNamespaces(doc);
+        this.fields = fields;
+
         Element root = doc.getDocumentElement();
         processNode(root);
         
-        // Release reference
-        this.fields = null;
-        this.localNsMap = null;
+        return this.xmlnsInfo;
     }
-
-
+    
+    
     private void processNode(Node node) throws Exception
     {
         boolean isLeaf = true;
@@ -141,50 +124,16 @@ public class AutogenExtractor
     
     private String getNsName(Node node) throws Exception
     {
-        String nsPrefix = getNsPrefix(node);
+        String nsUri = node.getNamespaceURI();
+        String nsPrefix = xmlnsInfo.uri2prefix.get(nsUri);
+        if(nsPrefix == null) 
+        {
+            throw new Exception("Unknown namespace: " + nsUri);    
+        }
+        
         String nsName = nsPrefix + Constants.NS_SEPARATOR + node.getLocalName();
         
         return nsName;
     }
     
-    
-    private String getNsPrefix(Node node) throws Exception
-    {
-        String nsUri = node.getNamespaceURI();
-        
-        // Search gloabl map first
-        String nsPrefix = globalNsMap.get(nsUri);
-        if(nsPrefix != null) return nsPrefix;
-        
-        // Then local
-        nsPrefix = localNsMap.get(nsUri);
-        if(nsPrefix != null) return nsPrefix;
-        
-        throw new Exception("Unknown namespace: " + nsUri 
-                + ". Please declare this namespace in Harvest configuration file.");
-    }
-    
-    
-    private static Map<String, String> getDocNamespaces(Document doc)
-    {
-        Element root = doc.getDocumentElement();
-        NamedNodeMap attrs = root.getAttributes();
-
-        Map<String, String> map = new HashMap<>();
-        
-        for(int i = 0; i < attrs.getLength(); i++)
-        {
-            Node attr = attrs.item(i);
-            String name = attr.getNodeName();
-            if(name.startsWith("xmlns:"))
-            {
-                name = name.substring(6);
-                String uri = attr.getNodeValue();
-                map.put(uri, name);
-            }
-        }
-
-        return map;
-    }
-
 }

@@ -18,12 +18,11 @@ public class AutogenParser
     public static AutogenCfg parseAutogenFields(Document doc) throws Exception
     {
         XPathUtils xpu = new XPathUtils();
-
-        int count = xpu.getNodeCount(doc, "/harvest/autogenFields");
-        if(count == 0) return null;
-        if(count > 1) throw new Exception("Could not have more than one '/harvest/autogenFields' element.");
-
         AutogenCfg cfg = new AutogenCfg();
+        
+        int count = xpu.getNodeCount(doc, "/harvest/autogenFields");
+        if(count == 0) return cfg;
+        if(count > 1) throw new Exception("Could not have more than one '/harvest/autogenFields' element.");
 
         // Class filter
         cfg.classFilterIncludes = xpu.getStringSet(doc, "/harvest/autogenFields/classFilter/include");

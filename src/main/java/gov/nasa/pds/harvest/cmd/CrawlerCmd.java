@@ -16,6 +16,7 @@ import gov.nasa.pds.harvest.crawler.DirsProcessor;
 import gov.nasa.pds.harvest.crawler.ProductProcessor;
 import gov.nasa.pds.harvest.crawler.RefsCache;
 import gov.nasa.pds.harvest.dao.RegistryManager;
+import gov.nasa.pds.harvest.dao.SchemaUtils;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
@@ -62,6 +63,7 @@ public class CrawlerCmd implements CliCommand
         configure(cmdLine);
 
         RegistryManager.init(cfg.registryCfg);
+        SchemaUtils.updateFieldsCache();
 
         try
         {

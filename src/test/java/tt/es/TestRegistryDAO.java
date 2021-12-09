@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import gov.nasa.pds.harvest.cfg.model.RegistryCfg;
-import gov.nasa.pds.harvest.dao.RegistryDAO;
+import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 
 
@@ -24,7 +24,7 @@ public class TestRegistryDAO
 
         try
         {
-            RegistryDAO dao = RegistryManager.getInstance().getRegistryDAO();
+            RegistryDao dao = RegistryManager.getInstance().getRegistryDao();
             testIdExists(dao);
             testGetNonExistingIds(dao);
         }
@@ -35,14 +35,14 @@ public class TestRegistryDAO
     }
     
     
-    public static void testIdExists(RegistryDAO dao) throws Exception
+    public static void testIdExists(RegistryDao dao) throws Exception
     {
         System.out.println("IdExists (true): passed: " + dao.idExists(existingId));
         System.out.println("IdExists (false): passed: " + (!dao.idExists(nonExistingId)));
     }
 
     
-    public static void testGetNonExistingIds(RegistryDAO dao) throws Exception
+    public static void testGetNonExistingIds(RegistryDao dao) throws Exception
     {
         Set<String> ids = new TreeSet<>();
         ids.add(existingId);

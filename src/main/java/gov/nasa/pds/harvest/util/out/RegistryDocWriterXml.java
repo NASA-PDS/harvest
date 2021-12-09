@@ -3,14 +3,13 @@ package gov.nasa.pds.harvest.util.out;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.Collection;
-import java.util.Set;
-import java.util.TreeSet;
 
+import gov.nasa.pds.harvest.meta.FieldNameCache;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
+import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
 
 
 /**
@@ -19,14 +18,8 @@ import gov.nasa.pds.harvest.util.PackageIdGenerator;
  *  
  * @author karpenko
  */
-public class RegistryDocWriterXml implements RegistryDocWriter
+public class RegistryDocWriterXml extends BaseRegistryDocWriter
 {
-    private File outDir;
-    private Writer writer;
-
-    private Set<String> allFields = new TreeSet<>();
-
-    
     /**
      * Constructor
      * @param outDir output directory
@@ -34,7 +27,7 @@ public class RegistryDocWriterXml implements RegistryDocWriter
      */
     public RegistryDocWriterXml(File outDir) throws Exception
     {
-        this.outDir = outDir;
+        super(outDir);
         
         File file = new File(outDir, "registry-docs.xml");        
         writer = new FileWriter(file);
@@ -49,27 +42,14 @@ public class RegistryDocWriterXml implements RegistryDocWriter
         writer.append("</add>\n");
         writer.close();
         
-        saveFields();
-    }
-
-    
-    private void saveFields() throws IOException
-    {
-        File file = new File(outDir, "fields.txt");
-        FileWriter wr = new FileWriter(file);
-        
-        for(String field: allFields)
-        {
-            wr.write(field);
-            wr.write("\n");
-        }
-        
-        wr.close();        
+        // Save missing fields and XSDs
+        saveMissingFields();
+        saveMissingXsds();
     }
 
     
     @Override
-    public void write(Metadata meta) throws Exception
+    public void write(Metadata meta, XmlNamespaces nsInfo) throws Exception
     {
         writer.append("<doc>\n");
 
@@ -85,16 +65,16 @@ public class RegistryDocWriterXml implements RegistryDocWriter
         XmlDocUtils.writeField(writer, "_package_id", PackageIdGenerator.getInstance().getPackageId());
         
         // References
-        write(meta.intRefs);
+        write(meta.intRefs, nsInfo);
         
         // Other Fields
-        write(meta.fields);
+        write(meta.fields, nsInfo);
         
         writer.append("</doc>\n");
     }
  
     
-    private void write(FieldMap fmap) throws Exception
+    private void write(FieldMap fmap, XmlNamespaces xmlns) throws Exception
     {
         if(fmap == null || fmap.isEmpty()) return;
         
@@ -108,11 +88,19 @@ public class RegistryDocWriterXml implements RegistryDocWriter
                 continue;
             }
 
-            allFields.add(key);
             for(String value: values)
             {
                 XmlDocUtils.writeField(writer, key, value);
             }
+            
+            // Check if current Elasticsearch schema has this field.
+            if(!FieldNameCache.getInstance().containsName(key))
+            {
+                // Update missing fields and XSDs
+                missingFields.add(key);
+                updateMissingXsds(key, xmlns);
+            }
         }
     }
+
 }

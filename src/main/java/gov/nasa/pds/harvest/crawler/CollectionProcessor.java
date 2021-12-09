@@ -16,7 +16,7 @@ import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.dao.RegistryDAO;
+import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
 import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
@@ -29,6 +29,7 @@ import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
+import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
 
 
 /**
@@ -52,7 +53,6 @@ public class CollectionProcessor
     // Skip files bigger than 10MB
     private static final long MAX_XML_FILE_LENGTH = 10_000_000;
 
-    private Configuration config;
     private CollectionInventoryProcessor invProc;
     
     private DocumentBuilderFactory dbf;
@@ -76,7 +76,6 @@ public class CollectionProcessor
      */
     public CollectionProcessor(Configuration config, Counter counter) throws Exception
     {
-        this.config = config;
         this.invProc = new CollectionInventoryProcessor(config.refsCfg.primaryOnly);
         this.counter = counter;
         
@@ -167,8 +166,8 @@ public class CollectionProcessor
         log.info("Processing collection " + file.getAbsolutePath());
         collectionCount++;
         
-        RegistryDAO dao = (RegistryManager.getInstance() == null) ? null 
-                : RegistryManager.getInstance().getRegistryDAO(); 
+        RegistryDao dao = (RegistryManager.getInstance() == null) ? null 
+                : RegistryManager.getInstance().getRegistryDao(); 
 
         // Collection already registered in the Registry (Elasticsearch)
         if(dao != null && dao.idExists(meta.lidvid))
@@ -189,10 +188,7 @@ public class CollectionProcessor
         xpathExtractor.extract(doc, meta.fields);
         
         // Extract all fields as key-value pairs
-        if(config.autogen != null)
-        {
-            autogenExtractor.extract(file, meta.fields);
-        }
+        XmlNamespaces nsInfo = autogenExtractor.extract(file, meta.fields);
         
         // Search fields
         searchExtractor.extract(doc, meta.fields);
@@ -201,7 +197,7 @@ public class CollectionProcessor
         fileDataExtractor.extract(file, meta);
         
         RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
-        writer.write(meta);
+        writer.write(meta, nsInfo);
         
         // Cache and write product references
         processInventoryFiles(file, doc, meta, true);
