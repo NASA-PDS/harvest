@@ -16,6 +16,13 @@
 -->
 <harvest nodeName="CHANGE_ME">
 
+  <!-- Registry configuration -->
+  <!-- UPDATE with your registry information -->
+  <!--
+  <registry url="http://localhost:9200" index="registry" auth="/path/to/auth.cfg" />
+  -->
+  <registry url="http://localhost:9200" index="registry" />
+
   <directories>
     <!-- Path to one or more directories with PDS4 labels -->
     <path>/path/to/archive</path>

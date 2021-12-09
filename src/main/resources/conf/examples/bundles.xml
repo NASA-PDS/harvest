@@ -19,6 +19,13 @@
 -->
 <harvest nodeName="CHANGE_ME">
 
+  <!-- Registry configuration -->
+  <!-- UPDATE with your registry information -->
+  <!--
+  <registry url="http://localhost:9200" index="registry" auth="/path/to/auth.cfg" />
+  -->
+  <registry url="http://localhost:9200" index="registry" />
+
   <!-- 
     * List of one or more PDS4 bundle folders. The "versions" attribute is optional.
     * No versions attribute or versions="all" - process all bundles.
