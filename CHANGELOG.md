@@ -1,12 +1,12 @@
 # Changelog
 
+## [v3.5.2-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.5.2-SNAPSHOT) (2021-12-10)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.1...v3.5.2-SNAPSHOT)
+
 ## [v3.5.1](https://github.com/NASA-PDS/harvest/tree/v3.5.1) (2021-12-10)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.6.0-SNAPSHOT...v3.5.1)
-
-## [v3.6.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.6.0-SNAPSHOT) (2021-12-10)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.0...v3.6.0-SNAPSHOT)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.0...v3.5.1)
 
 **Defects:**
 
