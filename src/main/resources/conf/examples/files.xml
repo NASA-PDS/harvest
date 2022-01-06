@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  * !!! 'nodeName' is a required attribute. !!!
+  * Use one of the following values:
+  *     PDS_ATM  - Planetary Data System: Atmospheres Node
+  *     PDS_ENG  - Planetary Data System: Engineering Node
+  *     PDS_GEO  - Planetary Data System: Geosciences Node
+  *     PDS_IMG  - Planetary Data System: Imaging Node
+  *     PDS_NAIF - Planetary Data System: NAIF Node
+  *     PDS_PPI  - Planetary Data System: Planetary Plasma Interactions Node
+  *     PDS_RMS  - Planetary Data System: Rings Node
+  *     PDS_SBN  - Planetary Data System: Small Bodies Node at University of Maryland
+  *     PSA      - Planetary Science Archive
+  *     JAXA     - Japan Aerospace Exploration Agency
+-->
+<harvest nodeName="CHANGE_ME">
+
+  <!-- Registry configuration -->
+  <!-- UPDATE with your registry information -->
+  <!--
+  <registry url="http://localhost:9200" index="registry" auth="/path/to/auth.cfg" />
+  -->
+  <registry url="http://localhost:9200" index="registry" />
+
+  <files>
+    <!-- 
+        Path to one or more manifest files with the list of full paths to PDS4 label 
+        files (one path per line). 
+     -->
+    <manifest>/path/to/manifest/file</manifest>
+  </files>
+
+  <!-- 
+      NOTE: By default only lid, vid, lidvid, title and product class are exported.
+      autogenFields should also be enabled for operational ingestion.
+
+      See documentation for more configuration options: https://nasa-pds.github.io/pds-registry-app/operate/harvest.html
+  -->
+  <fileInfo processDataFiles="true" storeLabels="true">
+    <!-- UPDATE with your own local path and base url where pds4 archive are published -->
+    <fileRef replacePrefix="/path/to/archive" with="https://url/to/archive/" />
+  </fileInfo>
+
+</harvest>

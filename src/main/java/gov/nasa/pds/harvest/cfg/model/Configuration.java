@@ -14,6 +14,7 @@ public class Configuration
     
     public List<BundleCfg> bundles;
     public List<String> dirs;
+    public List<String> manifests;
     
     public FiltersCfg filters;
     

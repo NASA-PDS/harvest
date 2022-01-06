@@ -69,7 +69,6 @@
 # other stuff
 *.xpr
 *.swp
-/bin/
 .*.swp
 
 # Java stuff

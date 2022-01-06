@@ -1,6 +1,8 @@
 package gov.nasa.pds.harvest.crawler;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -8,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiPredicate;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -25,6 +28,7 @@ import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
 import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.meta.SearchMetadataExtractor;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
+import gov.nasa.pds.harvest.util.CloseUtils;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
@@ -46,7 +50,7 @@ import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
  * 
  * @author karpenko
  */
-public class DirsProcessor
+public class FilesProcessor
 {
     private Logger log;
     
@@ -78,7 +82,7 @@ public class DirsProcessor
      * @param counter Counter of processed products by type
      * @throws Exception Generic exception
      */
-    public DirsProcessor(Configuration config, Counter counter) throws Exception
+    public FilesProcessor(Configuration config, Counter counter) throws Exception
     {
         this.config = config;
         this.invProc = new CollectionInventoryProcessor(config.refsCfg.primaryOnly);
@@ -121,16 +125,54 @@ public class DirsProcessor
      * @param dir Directory with PDS4 labels
      * @throws Exception Generic exception
      */
-    public void process(File dir) throws Exception
+    public void processDirectory(File dir) throws Exception
     {
-        Iterator<Path> it = Files.find(dir.toPath(), Integer.MAX_VALUE, new FileMatcher()).iterator();
+        Stream<Path> stream = null;
         
-        while(it.hasNext())
+        try
         {
-            onFile(it.next().toFile());
+            stream = Files.find(dir.toPath(), Integer.MAX_VALUE, new FileMatcher());
+            Iterator<Path> it = stream.iterator();
+            
+            while(it.hasNext())
+            {
+                onFile(it.next().toFile());
+            }
+        }
+        finally
+        {
+            CloseUtils.close(stream);
         }
     }
+
     
+    /**
+     * Process a manifest (file list) file
+     * @param manifest A file with a list of full paths to PDS4 labels
+     * @throws Exception Generic exception
+     */
+    public void processManifest(File manifest) throws Exception
+    {
+        BufferedReader rd = null;
+        
+        try
+        {
+            rd = new BufferedReader(new FileReader(manifest));
+            
+            String line;
+            while((line = rd.readLine()) != null)
+            {
+                if(line.length() == 0 || line.startsWith("#")) continue;
+                File file = new File(line);
+                onFile(file);
+            }
+        }
+        finally
+        {
+            CloseUtils.close(rd);
+        }
+    }
+
     
     /**
      * Process one file

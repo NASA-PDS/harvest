@@ -16,6 +16,7 @@ import gov.nasa.pds.harvest.cfg.parser.NodeNameValidator;
 import gov.nasa.pds.harvest.cfg.parser.RefsParser;
 import gov.nasa.pds.harvest.cfg.parser.RegistryConfigParser;
 import gov.nasa.pds.harvest.cfg.parser.FileInfoParser;
+import gov.nasa.pds.harvest.cfg.parser.FileSetParser;
 import gov.nasa.pds.harvest.cfg.parser.XpathMapParser;
 import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
 
@@ -30,6 +31,7 @@ public class ConfigReader
     
     private int bundlesCount = 0;
     private int dirsCount = 0;
+    private int filesCount = 0;
     
 
     /**
@@ -68,6 +70,7 @@ public class ConfigReader
         
         if(bundlesCount > 0) cfg.bundles = BundleConfigParser.parseBundles(root);
         if(dirsCount > 0) cfg.dirs = DirsParser.parseDirectories(root);
+        if(filesCount > 0) cfg.manifests = FileSetParser.parseFiles(root);
         
         cfg.filters = FiltersParser.parseFilters(doc);
         cfg.xpathMaps = XpathMapParser.parseXPathMaps(doc);
@@ -83,6 +86,7 @@ public class ConfigReader
     {
         bundlesCount = 0;
         dirsCount = 0;
+        filesCount = 0;
     }
     
     
@@ -105,6 +109,9 @@ public class ConfigReader
                 case "bundles":
                     bundlesCount++;
                     break;
+                case "files":
+                    filesCount++;
+                    break;
                 case "productFilter":
                     break;
                 case "fileInfo":
@@ -121,10 +128,18 @@ public class ConfigReader
             }
         }
         
-        if(bundlesCount > 0 && dirsCount > 0) 
-            throw new Exception(ERROR + "Could not have both '/harvest/bundles' and '/harvest/directories' elements at the same time.");
+        int totalCount = bundlesCount + dirsCount + filesCount;
         
-        if(bundlesCount == 0 && dirsCount == 0) 
-            throw new Exception(ERROR + "Either '/harvest/bundles' or '/harvest/directories' element is required.");                
+        if(totalCount > 1)
+        {
+            throw new Exception(ERROR + "Could only have one of '/harvest/bundles', "
+                    + "'/harvest/directories' or '/harvest/files' elements at the same time.");
+        }
+
+        if(totalCount == 0)
+        {
+            throw new Exception(ERROR + "One of '/harvest/bundles', '/harvest/directories', "
+                    + "or '/harvest/files' elements is required.");
+        }
     }
 }
