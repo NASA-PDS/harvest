@@ -1,8 +1,16 @@
 # Changelog
 
-## [v3.6.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.6.0-SNAPSHOT) (2021-12-09)
+## [v3.6.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.6.0-SNAPSHOT) (2022-01-11)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.0...v3.6.0-SNAPSHOT)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.1...v3.6.0-SNAPSHOT)
+
+## [v3.5.1](https://github.com/NASA-PDS/harvest/tree/v3.5.1) (2021-12-10)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.0...v3.5.1)
+
+**Defects:**
+
+- Harvest fails on `yyyyZ` date time [\#70](https://github.com/NASA-PDS/harvest/issues/70) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 
 ## [v3.5.0](https://github.com/NASA-PDS/harvest/tree/v3.5.0) (2021-09-30)
 
