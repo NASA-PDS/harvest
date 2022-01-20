@@ -84,6 +84,8 @@ public class AutogenParser
     private static void validateAttributes(Node node, Set<String> values) throws Exception
     {
         NamedNodeMap atts = XmlDomUtils.getAttributes(node);
+        if(atts == null) return;
+        
         for(int i = 0; i < atts.getLength(); i++)
         {
             String attName = atts.item(i).getNodeName();
