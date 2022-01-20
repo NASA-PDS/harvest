@@ -12,7 +12,7 @@ import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.crawler.BundleProcessor;
 import gov.nasa.pds.harvest.crawler.CollectionProcessor;
 import gov.nasa.pds.harvest.crawler.Counter;
-import gov.nasa.pds.harvest.crawler.DirsProcessor;
+import gov.nasa.pds.harvest.crawler.FilesProcessor;
 import gov.nasa.pds.harvest.crawler.ProductProcessor;
 import gov.nasa.pds.harvest.crawler.RefsCache;
 import gov.nasa.pds.harvest.dao.RegistryManager;
@@ -36,7 +36,7 @@ public class CrawlerCmd implements CliCommand
     
     // Processors
     private Counter counter;
-    private DirsProcessor dirsProc;
+    private FilesProcessor filesProc;
     private BundleProcessor bundleProc;
     private CollectionProcessor colProc;
     private ProductProcessor prodProc;
@@ -63,6 +63,7 @@ public class CrawlerCmd implements CliCommand
         configure(cmdLine);
 
         RegistryManager.init(cfg.registryCfg);
+        log.info("Reading registry schema from Elasticsearch");
         SchemaUtils.updateFieldsCache();
 
         try
@@ -74,6 +75,10 @@ public class CrawlerCmd implements CliCommand
             else if(cfg.bundles != null)
             {
                 processBundles();
+            }
+            else if(cfg.manifests != null)
+            {
+                processManifests();
             }
         }
         finally
@@ -110,6 +115,20 @@ public class CrawlerCmd implements CliCommand
             processDirectory(path);
         }
     }
+    
+    
+    /**
+     * Process manifests (lists of files) configured in Harvest configuration file. 
+     * @throws Exception Generic exception
+     */
+    private void processManifests() throws Exception
+    {
+        for(String path: cfg.manifests)
+        {
+            processManifest(path);
+        }
+    }
+    
     
     
     /**
@@ -162,9 +181,9 @@ public class CrawlerCmd implements CliCommand
         // Processors
         counter = new Counter();
 
-        if(cfg.dirs != null)
+        if(cfg.dirs != null || cfg.manifests != null)
         {
-            dirsProc = new DirsProcessor(cfg, counter);
+            filesProc = new FilesProcessor(cfg, counter);
         }
         else if(cfg.bundles != null)
         {
@@ -186,9 +205,23 @@ public class CrawlerCmd implements CliCommand
         
         log.info("Processing directory: " + rootDir.getAbsolutePath());
         
-        dirsProc.process(rootDir);
+        filesProc.processDirectory(rootDir);
     }
     
+
+    private void processManifest(String path) throws Exception
+    {
+        File manifestFile = new File(path);
+        log.info("Processing manifest file: " + manifestFile.getAbsolutePath());        
+        
+        if(!manifestFile.exists())
+        {
+            throw new Exception("Invalid manifest path: " + manifestFile.getAbsolutePath());
+        }
+        
+        filesProc.processManifest(manifestFile);
+    }
+
     
     private void processBundle(BundleCfg bCfg) throws Exception
     {
