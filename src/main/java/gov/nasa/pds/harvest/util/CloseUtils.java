@@ -5,6 +5,9 @@ import java.util.stream.Stream;
 
 import javax.xml.stream.XMLEventReader;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Close resources without throwing exceptions.
  * 
@@ -22,7 +25,8 @@ public class CloseUtils
         }
         catch(Exception ex)
         {
-            // Ignore
+            Logger log = LogManager.getLogger(CloseUtils.class);
+            log.warn(ex);
         }
     }
 
@@ -37,7 +41,8 @@ public class CloseUtils
         }
         catch(Exception ex)
         {
-            // Ignore
+            Logger log = LogManager.getLogger(CloseUtils.class);
+            log.warn(ex);
         }
     }
 
@@ -52,8 +57,9 @@ public class CloseUtils
         }
         catch(Exception ex)
         {
-            // Ignore
+            Logger log = LogManager.getLogger(CloseUtils.class);
+            log.warn(ex);
         }
     }
-    
+  
 }
