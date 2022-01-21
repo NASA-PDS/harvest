@@ -163,7 +163,7 @@ public class FilesProcessor
             while((line = rd.readLine()) != null)
             {
                 if(line.length() == 0 || line.startsWith("#")) continue;
-                File file = new File(line);
+                File file = new File(line.trim());
                 onFile(file);
             }
         }
