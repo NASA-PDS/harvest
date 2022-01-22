@@ -6,7 +6,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import gov.nasa.pds.harvest.util.FieldMap;
+import gov.nasa.pds.registry.common.util.FieldMap;
+
 
 /**
  * Extract metadata used by keyword / full-text search

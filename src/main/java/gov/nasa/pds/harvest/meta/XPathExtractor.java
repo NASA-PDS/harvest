@@ -2,8 +2,8 @@ package gov.nasa.pds.harvest.meta;
 
 import org.w3c.dom.Document;
 
-import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.xml.XPathCache;
+import gov.nasa.pds.registry.common.util.FieldMap;
 import gov.nasa.pds.registry.common.util.date.PdsDateConverter;
 import gov.nasa.pds.registry.common.util.xml.XPathUtils;
 

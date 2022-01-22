@@ -12,8 +12,8 @@ import com.google.gson.stream.JsonWriter;
 import gov.nasa.pds.harvest.crawler.ProdRefsBatch;
 import gov.nasa.pds.harvest.crawler.RefType;
 import gov.nasa.pds.harvest.meta.Metadata;
-import gov.nasa.pds.harvest.util.LidVidUtils;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
+import gov.nasa.pds.registry.common.util.LidVidUtils;
 
 
 /**

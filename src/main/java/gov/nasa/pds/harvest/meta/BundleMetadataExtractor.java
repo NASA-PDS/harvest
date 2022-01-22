@@ -10,7 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import gov.nasa.pds.harvest.util.FieldMap;
+import gov.nasa.pds.registry.common.util.FieldMap;
 import gov.nasa.pds.registry.common.util.xml.XPathUtils;
 
 

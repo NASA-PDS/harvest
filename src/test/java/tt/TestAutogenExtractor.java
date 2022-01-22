@@ -13,7 +13,7 @@ import org.w3c.dom.Node;
 
 import gov.nasa.pds.harvest.cfg.model.AutogenCfg;
 import gov.nasa.pds.harvest.meta.AutogenExtractor;
-import gov.nasa.pds.harvest.util.FieldMapSet;
+import gov.nasa.pds.registry.common.util.FieldMapSet;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
 
 
