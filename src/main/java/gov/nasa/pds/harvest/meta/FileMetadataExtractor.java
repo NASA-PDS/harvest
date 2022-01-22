@@ -24,8 +24,8 @@ import org.json.XML;
 import gov.nasa.pds.harvest.cfg.model.FileInfoCfg;
 import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.util.CloseUtils;
 import gov.nasa.pds.harvest.util.out.FieldNameUtils;
+import gov.nasa.pds.registry.common.util.CloseUtils;
 
 /**
  * Extracts file metadata, such as file name, size, checksum.

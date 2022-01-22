@@ -7,7 +7,7 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.events.XMLEvent;
 
-import gov.nasa.pds.harvest.util.CloseUtils;
+import gov.nasa.pds.registry.common.util.CloseUtils;
 
 
 /**

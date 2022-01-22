@@ -6,7 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import gov.nasa.pds.harvest.util.CloseUtils;
+import gov.nasa.pds.registry.common.util.CloseUtils;
+
 
 /**
  * Write a list of file paths of supplemental product labels.
