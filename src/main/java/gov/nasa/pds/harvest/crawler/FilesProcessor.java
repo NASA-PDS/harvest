@@ -32,8 +32,8 @@ import gov.nasa.pds.harvest.util.CloseUtils;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
-import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
-import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
+import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
+import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 
 /**

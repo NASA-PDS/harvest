@@ -13,10 +13,10 @@ import org.w3c.dom.NodeList;
 import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.AutogenCfg;
 import gov.nasa.pds.harvest.util.FieldMap;
-import gov.nasa.pds.harvest.util.xml.NsUtils;
-import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
-import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
 import gov.nasa.pds.registry.common.util.date.PdsDateConverter;
+import gov.nasa.pds.registry.common.util.xml.NsUtils;
+import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
+import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 
 /**

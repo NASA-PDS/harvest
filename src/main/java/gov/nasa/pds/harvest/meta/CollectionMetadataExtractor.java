@@ -7,7 +7,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 
-import gov.nasa.pds.harvest.util.xml.XPathUtils;
+import gov.nasa.pds.registry.common.util.xml.XPathUtils;
 
 
 /**

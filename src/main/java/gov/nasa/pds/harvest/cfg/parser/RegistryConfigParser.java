@@ -4,7 +4,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import gov.nasa.pds.harvest.cfg.model.RegistryCfg;
-import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
+import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
 
 
 /**

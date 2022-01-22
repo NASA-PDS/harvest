@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import gov.nasa.pds.harvest.Constants;
-import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
+import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 /**
  * Interface to write metadata extracted from PDS4 label.
