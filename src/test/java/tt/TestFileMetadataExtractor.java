@@ -5,7 +5,8 @@ import java.io.File;
 import gov.nasa.pds.harvest.cfg.ConfigReader;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
-import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.registry.common.meta.Metadata;
+
 
 public class TestFileMetadataExtractor
 {

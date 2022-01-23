@@ -5,9 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 
-import gov.nasa.pds.harvest.meta.FieldNameCache;
-import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
+import gov.nasa.pds.registry.common.meta.FieldNameCache;
+import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.FieldMap;
 import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 

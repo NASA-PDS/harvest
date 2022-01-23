@@ -4,7 +4,7 @@ import java.io.Closeable;
 
 import gov.nasa.pds.harvest.crawler.ProdRefsBatch;
 import gov.nasa.pds.harvest.crawler.RefType;
-import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.registry.common.meta.Metadata;
 
 
 /**

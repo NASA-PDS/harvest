@@ -2,7 +2,7 @@ package gov.nasa.pds.harvest.util.out;
 
 import java.io.Closeable;
 
-import gov.nasa.pds.harvest.meta.Metadata;
+import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 /**

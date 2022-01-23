@@ -25,6 +25,7 @@ import gov.nasa.pds.harvest.cfg.model.FileInfoCfg;
 import gov.nasa.pds.harvest.Constants;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.util.out.FieldNameUtils;
+import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.CloseUtils;
 
 /**
