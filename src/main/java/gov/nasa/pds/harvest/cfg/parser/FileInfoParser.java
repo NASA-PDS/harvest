@@ -11,6 +11,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import gov.nasa.pds.harvest.cfg.model.FileInfoCfg;
+import gov.nasa.pds.registry.common.meta.cfg.FileRefRule;
 import gov.nasa.pds.registry.common.util.xml.XPathUtils;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
 
@@ -111,17 +112,17 @@ public class FileInfoParser
     }
     
     
-    public static List<FileInfoCfg.FileRefCfg> parseFileRef(Document doc) throws Exception
+    public static List<FileRefRule> parseFileRef(Document doc) throws Exception
     {
         XPathUtils xpu = new XPathUtils();
         
         NodeList nodes = xpu.getNodeList(doc, "/harvest/fileInfo/fileRef");
         if(nodes == null || nodes.getLength() == 0) return null;
         
-        List<FileInfoCfg.FileRefCfg> list = new ArrayList<>();
+        List<FileRefRule> list = new ArrayList<>();
         for(int i = 0; i < nodes.getLength(); i++)
         {
-            FileInfoCfg.FileRefCfg rule = new FileInfoCfg.FileRefCfg();
+            FileRefRule rule = new FileRefRule();
             rule.prefix = XmlDomUtils.getAttribute(nodes.item(i), "replacePrefix");
             rule.replacement = XmlDomUtils.getAttribute(nodes.item(i), "with");
             

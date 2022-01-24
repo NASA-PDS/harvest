@@ -2,6 +2,7 @@ package gov.nasa.pds.harvest.util.out;
 
 import java.io.Writer;
 import java.util.Collection;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import gov.nasa.pds.registry.common.util.FieldMapSet;

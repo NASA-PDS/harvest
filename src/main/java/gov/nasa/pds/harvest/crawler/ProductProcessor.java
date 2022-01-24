@@ -8,20 +8,10 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.function.BiPredicate;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.meta.AutogenExtractor;
-import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
-import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
-import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
-import gov.nasa.pds.harvest.meta.SearchMetadataExtractor;
-import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
@@ -44,26 +34,8 @@ import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
  *  
  * @author karpenko
  */
-public class ProductProcessor
+public class ProductProcessor extends BaseProcessor
 {
-    private Logger log;
-
-    // Skip files bigger than 10MB
-    private static final long MAX_XML_FILE_LENGTH = 10_000_000;
-
-    private Configuration config;
-    
-    private DocumentBuilderFactory dbf;
-    private BasicMetadataExtractor basicExtractor;
-    private InternalReferenceExtractor refExtractor;
-    private AutogenExtractor autogenExtractor;
-    private SearchMetadataExtractor searchExtractor;
-    private FileMetadataExtractor fileDataExtractor;
-    private XPathExtractor xpathExtractor;
-    
-    private Counter counter;
-    
-    
     /**
      * Constructor
      * @param config Harvest configuration parameters
@@ -72,20 +44,7 @@ public class ProductProcessor
      */
     public ProductProcessor(Configuration config, Counter counter) throws Exception
     {
-        log = LogManager.getLogger(getClass());
-        this.counter = counter;
-
-        dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(false);
-        
-        basicExtractor = new BasicMetadataExtractor(config);
-        refExtractor = new InternalReferenceExtractor();
-        autogenExtractor = new AutogenExtractor(config.autogen);
-        searchExtractor = new SearchMetadataExtractor();
-        fileDataExtractor = new FileMetadataExtractor(config);
-        xpathExtractor = new XPathExtractor();
-        
-        this.config = config;
+        super(config, counter);
     }
 
     
@@ -198,6 +157,7 @@ public class ProductProcessor
     {
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
+        meta.setNodeName(config.nodeName);
 
         // Only process primary products from collection inventory
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
@@ -223,7 +183,7 @@ public class ProductProcessor
         searchExtractor.extract(doc, meta.fields);
         
         // Extract file data
-        fileDataExtractor.extract(file, meta);
+        fileDataExtractor.extract(file, meta, config.fileInfo.fileRef);
         
         RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
         writer.write(meta, nsInfo);

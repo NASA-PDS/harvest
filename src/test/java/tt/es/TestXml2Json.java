@@ -7,7 +7,8 @@ import java.io.Reader;
 import org.json.JSONObject;
 import org.json.XML;
 
-import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
+import gov.nasa.pds.registry.common.meta.FileMetadataExtractor;
+
 
 public class TestXml2Json
 {
