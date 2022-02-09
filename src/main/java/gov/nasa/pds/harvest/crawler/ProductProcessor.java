@@ -120,14 +120,27 @@ public class ProductProcessor extends BaseProcessor
      */
     public void onFile(File file) throws Exception
     {
-        // Skip very large files
-        if(file.length() > MAX_XML_FILE_LENGTH)
+        Document doc = null;
+        
+        try
         {
-            log.warn("File is too big to parse: " + file.getAbsolutePath());
-            return;
-        }
+            // Skip very large files
+            if(file.length() > MAX_XML_FILE_LENGTH)
+            {
+                log.warn("File is too big to parse: " + file.getAbsolutePath());
+                counter.skippedFileCount++;
+                return;
+            }
 
-        Document doc = XmlDomUtils.readXml(dbf, file);
+            doc = XmlDomUtils.readXml(dbf, file);
+        }
+        catch(Exception ex)
+        {
+            log.warn(ex.getMessage());
+            counter.skippedFileCount++;
+            return;
+        }        
+        
         String rootElement = doc.getDocumentElement().getNodeName();
         
         // Ignore collections and bundles
