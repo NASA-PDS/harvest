@@ -12,28 +12,18 @@ import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.meta.AutogenExtractor;
-import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
-import gov.nasa.pds.harvest.meta.BundleMetadataExtractor;
-import gov.nasa.pds.harvest.meta.CollectionMetadataExtractor;
-import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
-import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
-import gov.nasa.pds.harvest.meta.Metadata;
-import gov.nasa.pds.harvest.meta.SearchMetadataExtractor;
-import gov.nasa.pds.harvest.meta.XPathExtractor;
-import gov.nasa.pds.harvest.util.CloseUtils;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
-import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
-import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
+import gov.nasa.pds.registry.common.meta.BundleMetadataExtractor;
+import gov.nasa.pds.registry.common.meta.CollectionMetadataExtractor;
+import gov.nasa.pds.registry.common.meta.Metadata;
+import gov.nasa.pds.registry.common.util.CloseUtils;
+import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
+import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 
 /**
@@ -50,30 +40,12 @@ import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
  * 
  * @author karpenko
  */
-public class FilesProcessor
+public class FilesProcessor extends BaseProcessor
 {
-    private Logger log;
-    
-    // Skip files bigger than 10MB
-    private static final long MAX_XML_FILE_LENGTH = 10_000_000;
-
-    private Configuration config;
-    private DocumentBuilderFactory dbf;
-
     // Bundle and Collection extractors & processors
     private BundleMetadataExtractor bundleExtractor;
     private CollectionMetadataExtractor collectionExtractor;
     private CollectionInventoryProcessor invProc;
-    
-    // Common extractors
-    private BasicMetadataExtractor basicExtractor;
-    private InternalReferenceExtractor refExtractor;
-    private AutogenExtractor autogenExtractor;
-    private SearchMetadataExtractor searchExtractor;
-    private XPathExtractor xpathExtractor;
-    private FileMetadataExtractor fileDataExtractor;
-    
-    private Counter counter;
     
     
     /**
@@ -84,21 +56,9 @@ public class FilesProcessor
      */
     public FilesProcessor(Configuration config, Counter counter) throws Exception
     {
-        this.config = config;
+        super(config, counter);
+        
         this.invProc = new CollectionInventoryProcessor(config.refsCfg.primaryOnly);
-        this.counter = counter;
-        
-        log = LogManager.getLogger(this.getClass());
-        
-        dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(false);
-        
-        basicExtractor = new BasicMetadataExtractor(config);
-        refExtractor = new InternalReferenceExtractor();
-        autogenExtractor = new AutogenExtractor(config.autogen);
-        searchExtractor = new SearchMetadataExtractor();
-        fileDataExtractor = new FileMetadataExtractor(config);
-        xpathExtractor = new XPathExtractor();
         
         bundleExtractor = new BundleMetadataExtractor();
         collectionExtractor = new CollectionMetadataExtractor();
@@ -181,14 +141,27 @@ public class FilesProcessor
      */
     private void onFile(File file) throws Exception
     {
-        // Skip very large files
-        if(file.length() > MAX_XML_FILE_LENGTH)
+        Document doc = null;
+        
+        try
         {
-            log.warn("File is too big to parse: " + file.getAbsolutePath());
-            return;
-        }
+            // Skip very large files
+            if(file.length() > MAX_XML_FILE_LENGTH)
+            {
+                log.warn("File is too big to parse: " + file.getAbsolutePath());
+                counter.skippedFileCount++;
+                return;
+            }
 
-        Document doc = XmlDomUtils.readXml(dbf, file);
+            doc = XmlDomUtils.readXml(dbf, file);
+        }
+        catch(Exception ex)
+        {
+            log.warn(ex.getMessage());
+            counter.skippedFileCount++;
+            return;
+        }        
+        
         String rootElement = doc.getDocumentElement().getNodeName();
         
         // Apply product filter
@@ -215,6 +188,7 @@ public class FilesProcessor
     {
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
+        meta.setNodeName(config.nodeName);
 
         log.info("Processing " + file.getAbsolutePath());
 
@@ -250,7 +224,7 @@ public class FilesProcessor
         searchExtractor.extract(doc, meta.fields);
 
         // Extract file data
-        fileDataExtractor.extract(file, meta);
+        fileDataExtractor.extract(file, meta, config.fileInfo.fileRef);
         
         RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
         writer.write(meta, nsInfo);

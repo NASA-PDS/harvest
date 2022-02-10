@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import gov.nasa.pds.harvest.Constants;
-import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
+import gov.nasa.pds.registry.common.meta.MetaConstants;
+import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 /**
  * Interface to write metadata extracted from PDS4 label.
@@ -41,7 +41,7 @@ public abstract class BaseRegistryDocWriter implements RegistryDocWriter
     
     protected void updateMissingXsds(String name, XmlNamespaces xmlns)
     {
-        int idx = name.indexOf(Constants.NS_SEPARATOR);
+        int idx = name.indexOf(MetaConstants.NS_SEPARATOR);
         if(idx <= 0) return;
         
         String prefix = name.substring(0, idx);

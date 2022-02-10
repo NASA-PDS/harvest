@@ -6,7 +6,8 @@ import java.io.InputStream;
 
 import org.apache.tika.Tika;
 
-import gov.nasa.pds.harvest.util.CloseUtils;
+import gov.nasa.pds.registry.common.util.CloseUtils;
+
 
 public class TikaTest
 {

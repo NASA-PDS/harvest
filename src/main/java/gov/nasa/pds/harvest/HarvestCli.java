@@ -13,9 +13,9 @@ import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cmd.CliCommand;
 import gov.nasa.pds.harvest.cmd.CrawlerCmd;
-import gov.nasa.pds.harvest.util.ExceptionUtils;
-import gov.nasa.pds.harvest.util.ManifestUtils;
 import gov.nasa.pds.harvest.util.log.Log4jConfigurator;
+import gov.nasa.pds.registry.common.util.ExceptionUtils;
+import gov.nasa.pds.registry.common.util.ManifestUtils;
 
 
 /**

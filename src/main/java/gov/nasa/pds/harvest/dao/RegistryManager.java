@@ -5,9 +5,9 @@ import org.apache.logging.log4j.Logger;
 import org.elasticsearch.client.RestClient;
 
 import gov.nasa.pds.harvest.cfg.model.RegistryCfg;
-import gov.nasa.pds.harvest.util.CloseUtils;
 import gov.nasa.pds.harvest.util.log.LogUtils;
 import gov.nasa.pds.registry.common.es.client.EsClientFactory;
+import gov.nasa.pds.registry.common.util.CloseUtils;
 
 
 /**

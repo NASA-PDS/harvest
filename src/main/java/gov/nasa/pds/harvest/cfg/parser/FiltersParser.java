@@ -3,7 +3,7 @@ package gov.nasa.pds.harvest.cfg.parser;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.FiltersCfg;
-import gov.nasa.pds.harvest.util.xml.XPathUtils;
+import gov.nasa.pds.registry.common.util.xml.XPathUtils;
 
 
 /**

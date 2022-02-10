@@ -9,9 +9,9 @@ import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
-import gov.nasa.pds.harvest.meta.Metadata;
 import gov.nasa.pds.harvest.util.out.RefsDocWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
+import gov.nasa.pds.registry.common.meta.Metadata;
 
 
 /**

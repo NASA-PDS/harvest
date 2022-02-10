@@ -8,28 +8,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiPredicate;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.dao.RegistryDao;
-import gov.nasa.pds.harvest.meta.AutogenExtractor;
-import gov.nasa.pds.harvest.meta.BasicMetadataExtractor;
-import gov.nasa.pds.harvest.meta.BundleMetadataExtractor;
-import gov.nasa.pds.harvest.meta.FileMetadataExtractor;
-import gov.nasa.pds.harvest.meta.InternalReferenceExtractor;
-import gov.nasa.pds.harvest.meta.Metadata;
-import gov.nasa.pds.harvest.meta.SearchMetadataExtractor;
-import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
-import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
-import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
+import gov.nasa.pds.registry.common.meta.BundleMetadataExtractor;
+import gov.nasa.pds.registry.common.meta.Metadata;
+import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
+import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 
 /**
@@ -46,27 +36,11 @@ import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
  * 
  * @author karpenko
  */
-public class BundleProcessor
+public class BundleProcessor extends BaseProcessor
 {
-    private Logger log;
-
-    // Skip files bigger than 10MB
-    private static final long MAX_XML_FILE_LENGTH = 10_000_000;
-
-    private Configuration config;
-    
-    private DocumentBuilderFactory dbf;
-    private BasicMetadataExtractor basicExtractor;
     private BundleMetadataExtractor bundleExtractor;
-    private InternalReferenceExtractor refExtractor;
-    private AutogenExtractor autogenExtractor;
-    private SearchMetadataExtractor searchExtractor;
-    private XPathExtractor xpathExtractor;
-    private FileMetadataExtractor fileDataExtractor;
     
     private int bundleCount;
-    private Counter counter;
-
     private BundleCfg bundleCfg;
     
     
@@ -78,21 +52,9 @@ public class BundleProcessor
      */
     public BundleProcessor(Configuration config, Counter counter) throws Exception
     {
-        this.config = config;
-        this.counter = counter;
-        
-        log = LogManager.getLogger(this.getClass());
-        
-        dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(false);
-        
-        basicExtractor = new BasicMetadataExtractor(config);
+        super(config, counter);
+
         bundleExtractor = new BundleMetadataExtractor();
-        refExtractor = new InternalReferenceExtractor();
-        xpathExtractor = new XPathExtractor();
-        autogenExtractor = new AutogenExtractor(config.autogen);
-        searchExtractor = new SearchMetadataExtractor();
-        fileDataExtractor = new FileMetadataExtractor(config);
     }
     
     
@@ -160,6 +122,7 @@ public class BundleProcessor
     private void processMetadata(File file, Document doc) throws Exception
     {
         Metadata meta = basicExtractor.extract(file, doc);
+        meta.setNodeName(config.nodeName);
         
         if(bundleCfg.versions != null && !bundleCfg.versions.contains(meta.strVid)) return;
 
@@ -194,7 +157,7 @@ public class BundleProcessor
         searchExtractor.extract(doc, meta.fields);
         
         // File information (name, size, checksum)
-        fileDataExtractor.extract(file, meta);
+        fileDataExtractor.extract(file, meta, config.fileInfo.fileRef);
         
         RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
         writer.write(meta, nsInfo);

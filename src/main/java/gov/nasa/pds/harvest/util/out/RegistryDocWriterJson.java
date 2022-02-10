@@ -8,11 +8,11 @@ import java.util.Collection;
 
 import com.google.gson.stream.JsonWriter;
 
-import gov.nasa.pds.harvest.meta.FieldNameCache;
-import gov.nasa.pds.harvest.meta.Metadata;
-import gov.nasa.pds.harvest.util.FieldMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
-import gov.nasa.pds.harvest.util.xml.XmlNamespaces;
+import gov.nasa.pds.registry.common.meta.FieldNameCache;
+import gov.nasa.pds.registry.common.meta.Metadata;
+import gov.nasa.pds.registry.common.util.FieldMap;
+import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 
 /**

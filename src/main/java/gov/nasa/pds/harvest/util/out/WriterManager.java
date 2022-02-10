@@ -2,7 +2,7 @@ package gov.nasa.pds.harvest.util.out;
 
 import java.io.File;
 
-import gov.nasa.pds.harvest.util.CloseUtils;
+import gov.nasa.pds.registry.common.util.CloseUtils;
 
 
 /**

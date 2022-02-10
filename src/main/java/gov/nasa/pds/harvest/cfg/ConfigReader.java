@@ -18,7 +18,7 @@ import gov.nasa.pds.harvest.cfg.parser.RegistryConfigParser;
 import gov.nasa.pds.harvest.cfg.parser.FileInfoParser;
 import gov.nasa.pds.harvest.cfg.parser.FileSetParser;
 import gov.nasa.pds.harvest.cfg.parser.XpathMapParser;
-import gov.nasa.pds.harvest.util.xml.XmlDomUtils;
+import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
 
 /**
  * Harvest configuration file reader.
