@@ -9,10 +9,8 @@ import java.util.Collection;
 import com.google.gson.stream.JsonWriter;
 
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
-import gov.nasa.pds.registry.common.meta.FieldNameCache;
 import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.FieldMap;
-import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 
 /**
@@ -38,7 +36,7 @@ public class RegistryDocWriterJson extends BaseRegistryDocWriter
 
     
     @Override
-    public void write(Metadata meta, XmlNamespaces nsInfo) throws Exception
+    public void write(Metadata meta) throws Exception
     {
         // First line: primary key 
         String lidvid = meta.lid + "::" + meta.vid;
@@ -63,10 +61,10 @@ public class RegistryDocWriterJson extends BaseRegistryDocWriter
         NDJsonDocUtils.writeField(jw, "_package_id", PackageIdGenerator.getInstance().getPackageId());
         
         // References
-        write(jw, meta.intRefs, nsInfo);
+        write(jw, meta.intRefs);
         
         // Other Fields
-        write(jw, meta.fields, nsInfo);
+        write(jw, meta.fields);
         
         jw.endObject();
         
@@ -81,14 +79,10 @@ public class RegistryDocWriterJson extends BaseRegistryDocWriter
     public void close() throws IOException
     {
         writer.close();
-        
-        // Save missing fields and XSDs
-        saveMissingFields();
-        saveMissingXsds();
     }
     
     
-    private void write(JsonWriter jw, FieldMap fmap, XmlNamespaces xmlns) throws Exception
+    private void write(JsonWriter jw, FieldMap fmap) throws Exception
     {
         if(fmap == null || fmap.isEmpty()) return;
         
@@ -103,14 +97,6 @@ public class RegistryDocWriterJson extends BaseRegistryDocWriter
             }
 
             NDJsonDocUtils.writeField(jw, key, values);
-            
-            // Check if current Elasticsearch schema has this field.
-            if(!FieldNameCache.getInstance().containsName(key))
-            {
-                // Update missing fields and XSDs
-                missingFields.add(key);
-                updateMissingXsds(key, xmlns);
-            }
         }
     }
 

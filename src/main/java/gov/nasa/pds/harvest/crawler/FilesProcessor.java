@@ -15,7 +15,6 @@ import java.util.stream.Stream;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.registry.common.meta.BundleMetadataExtractor;
@@ -226,10 +225,8 @@ public class FilesProcessor extends BaseProcessor
         // Extract file data
         fileDataExtractor.extract(file, meta, config.fileInfo.fileRef);
         
-        RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
-        writer.write(meta, nsInfo);
-        
-        counter.prodCounters.inc(meta.prodClass);
+        // Save data
+        save(meta, nsInfo);
     }
 
     

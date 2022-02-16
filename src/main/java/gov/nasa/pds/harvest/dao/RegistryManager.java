@@ -8,6 +8,8 @@ import gov.nasa.pds.harvest.cfg.model.RegistryCfg;
 import gov.nasa.pds.harvest.util.log.LogUtils;
 import gov.nasa.pds.registry.common.es.client.EsClientFactory;
 import gov.nasa.pds.registry.common.util.CloseUtils;
+import gov.nasa.pds.registry.common.es.dao.dd.DataDictionaryDao;
+import gov.nasa.pds.registry.common.es.dao.schema.SchemaDao;
 
 
 /**
@@ -22,6 +24,7 @@ public class RegistryManager
     private RestClient esClient;
     private RegistryDao registryDao;
     private SchemaDao schemaDao;
+    private DataDictionaryDao ddDao;
     
     
     /**
@@ -43,6 +46,7 @@ public class RegistryManager
         
         registryDao = new RegistryDao(esClient, indexName);
         schemaDao = new SchemaDao(esClient, indexName);
+        ddDao = new DataDictionaryDao(esClient, indexName);
     }
     
     
@@ -99,6 +103,16 @@ public class RegistryManager
     public SchemaDao getSchemaDao()
     {
         return schemaDao;
+    }
+
+    
+    /**
+     * Get Data Dictionary DAO object.
+     * @return Schema DAO
+     */
+    public DataDictionaryDao getDataDictionaryDao()
+    {
+        return ddDao;
     }
 
 }

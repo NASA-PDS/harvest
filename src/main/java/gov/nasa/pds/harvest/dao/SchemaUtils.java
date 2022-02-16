@@ -3,6 +3,7 @@ package gov.nasa.pds.harvest.dao;
 import java.util.Set;
 
 import gov.nasa.pds.registry.common.meta.FieldNameCache;
+import gov.nasa.pds.registry.common.es.dao.schema.SchemaDao;
 
 
 /**

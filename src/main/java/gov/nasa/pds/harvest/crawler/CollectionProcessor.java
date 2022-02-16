@@ -14,8 +14,6 @@ import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
-import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
-import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.registry.common.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
@@ -162,13 +160,11 @@ public class CollectionProcessor extends BaseProcessor
         // File information (name, size, checksum)
         fileDataExtractor.extract(file, meta, config.fileInfo.fileRef);
         
-        RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
-        writer.write(meta, nsInfo);
+        // Save metadata
+        save(meta, nsInfo);
         
         // Cache and write product references
         processInventoryFiles(file, doc, meta, true);
-        
-        counter.prodCounters.inc(meta.prodClass);
     }
 
     
