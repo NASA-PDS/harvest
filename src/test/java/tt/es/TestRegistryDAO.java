@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-import gov.nasa.pds.harvest.cfg.model.RegistryCfg;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
+import gov.nasa.pds.registry.common.cfg.RegistryCfg;
 
 
 public class TestRegistryDAO

@@ -1,8 +1,7 @@
 package gov.nasa.pds.harvest.dao;
 
-import java.util.Set;
-
 import gov.nasa.pds.registry.common.meta.FieldNameCache;
+import gov.nasa.pds.registry.common.es.dao.dd.DataDictionaryDao;
 import gov.nasa.pds.registry.common.es.dao.schema.SchemaDao;
 
 
@@ -19,7 +18,12 @@ public class SchemaUtils
     public static void updateFieldsCache() throws Exception
     {
         SchemaDao schemaDao = RegistryManager.getInstance().getSchemaDao();
-        Set<String> fields = schemaDao.getFieldNames();
-        FieldNameCache.getInstance().set(fields);
+        DataDictionaryDao ddDao = RegistryManager.getInstance().getDataDictionaryDao();
+        
+        FieldNameCache cache = FieldNameCache.getInstance();
+        
+        cache.setSchemaFieldNames(schemaDao.getFieldNames());
+        cache.setBooleanFieldNames(ddDao.getFieldNamesByEsType("boolean"));
+        cache.setDateFieldNames(ddDao.getFieldNamesByEsType("date"));
     }
 }

@@ -2,6 +2,8 @@ package gov.nasa.pds.harvest.cfg.model;
 
 import java.util.List;
 
+import gov.nasa.pds.registry.common.cfg.RegistryCfg;
+
 
 /**
  * Harvest configuration model.

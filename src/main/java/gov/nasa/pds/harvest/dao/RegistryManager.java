@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.client.RestClient;
 
-import gov.nasa.pds.harvest.cfg.model.RegistryCfg;
 import gov.nasa.pds.harvest.util.log.LogUtils;
+import gov.nasa.pds.registry.common.cfg.RegistryCfg;
 import gov.nasa.pds.registry.common.es.client.EsClientFactory;
 import gov.nasa.pds.registry.common.util.CloseUtils;
 import gov.nasa.pds.registry.common.es.dao.dd.DataDictionaryDao;
@@ -21,6 +21,8 @@ public class RegistryManager
 {
     private static RegistryManager instance = null;
     
+    private RegistryCfg cfg;
+    
     private RestClient esClient;
     private RegistryDao registryDao;
     private SchemaDao schemaDao;
@@ -34,7 +36,7 @@ public class RegistryManager
      */
     private RegistryManager(RegistryCfg cfg) throws Exception
     {
-        if(cfg.url == null || cfg.url.isEmpty()) throw new IllegalArgumentException("Missing Registry URL");
+        this.cfg = cfg;
         
         Logger log = LogManager.getLogger(this.getClass());
         log.log(LogUtils.LEVEL_SUMMARY, "Elasticsearch URL: " + cfg.url + ", index: " + cfg.indexName);
@@ -58,7 +60,8 @@ public class RegistryManager
     public static void init(RegistryCfg cfg) throws Exception
     {
         // Registry is not configured. Run Harvest without Registry.
-        if(cfg == null) throw new Exception("Registry is not configuraed.");
+        if(cfg == null) throw new IllegalArgumentException("Registry is not configuraed.");
+        if(cfg.url == null || cfg.url.isEmpty()) throw new IllegalArgumentException("Missing Registry URL");        
         
         instance = new RegistryManager(cfg);
     }
@@ -85,6 +88,16 @@ public class RegistryManager
         return instance;
     }
     
+
+    /**
+     * Get registry configuration.
+     * @return Registry configuration
+     */
+    public RegistryCfg getRegistryConfiguration()
+    {
+        return cfg;
+    }
+
     
     /**
      * Get registry DAO object.

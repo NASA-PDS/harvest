@@ -96,8 +96,8 @@
     </fileSet>
 
     <fileSet>
-      <directory>src/main/resources/xsd</directory>
-      <outputDirectory>xsd</outputDirectory>
+      <directory>src/main/resources/elastic</directory>
+      <outputDirectory>elastic</outputDirectory>
       <fileMode>664</fileMode>
       <lineEnding>dos</lineEnding>
       <excludes>

@@ -62,10 +62,6 @@ public class CrawlerCmd implements CliCommand
     {
         configure(cmdLine);
 
-        RegistryManager.init(cfg.registryCfg);
-        log.info("Reading registry schema from Elasticsearch");
-        SchemaUtils.updateFieldsCache();
-
         try
         {
             if(cfg.dirs != null)
@@ -134,46 +130,23 @@ public class CrawlerCmd implements CliCommand
     /**
      * Parse command-line parameters and configuration file to initialize
      * logger, data writers, data processors, etc.
-     * @param Apache Commons CLI library's class 
+     * @param cmdLine Apache Commons CLI library's class 
      * containing parsed command line parameters.
      * @throws Exception Generic exception
      */
     private void configure(CommandLine cmdLine) throws Exception
     {
-        // Output directory
-        String outDir = cmdLine.getOptionValue("o", "/tmp/harvest/out");
-        log.log(LogUtils.LEVEL_SUMMARY, "Output directory: " + outDir);
-        File fOutDir = new File(outDir);
-        fOutDir.mkdirs();
-
-        // Output format
-        String outFormat = cmdLine.getOptionValue("f", "json").toLowerCase();
-        log.log(LogUtils.LEVEL_SUMMARY, "Output format: " + outFormat);
-
-        switch(outFormat)
-        {
-        case "xml":
-            WriterManager.initXml(fOutDir);
-            break;
-        case "json":
-            WriterManager.initJson(fOutDir);
-            break;
-        default:
-            throw new Exception("Invalid output format " + outFormat);                
-        }
-        
         // Configuration file
-        File cfgFile = new File(cmdLine.getOptionValue("c"));
-        log.log(LogUtils.LEVEL_SUMMARY, "Reading configuration from " + cfgFile.getAbsolutePath());
-        ConfigReader cfgReader = new ConfigReader();
-        cfg = cfgReader.read(cfgFile);
-
-        if(cfg.bundles != null && cfg.registryCfg == null)
-        {
-            log.warn("Registry (Elasticsearch) is not configured. "
-                    + "Registered products will be processed again.");
-        }
-
+        cfg = readConfigFile(cmdLine);
+        
+        // Writer manager
+        initWriterManager(cmdLine);
+        
+        // Registry manager
+        log.info("Connecting to Elasticsearch");
+        RegistryManager.init(cfg.registryCfg);
+        SchemaUtils.updateFieldsCache();
+        
         // Xpath maps
         XPathCacheLoader xpcLoader = new XPathCacheLoader();
         xpcLoader.load(cfg.xpathMaps);
@@ -193,6 +166,44 @@ public class CrawlerCmd implements CliCommand
         }
     }
 
+    
+    private void initWriterManager(CommandLine cmdLine) throws Exception
+    {
+        // Output directory
+        String outDir = cmdLine.getOptionValue("o", "/tmp/harvest/out");
+        log.log(LogUtils.LEVEL_SUMMARY, "Output directory: " + outDir);
+        File fOutDir = new File(outDir);
+        fOutDir.mkdirs();
+
+        WriterManager.initJson(fOutDir);
+    }
+    
+    
+    private Configuration readConfigFile(CommandLine cmdLine) throws Exception
+    {
+        File cfgFile = new File(cmdLine.getOptionValue("c"));
+        log.log(LogUtils.LEVEL_SUMMARY, "Reading configuration from " + cfgFile.getAbsolutePath());
+        
+        ConfigReader cfgReader = new ConfigReader();
+        Configuration cfg = cfgReader.read(cfgFile);
+
+        if(cfg.fileInfo.storeLabels == false)
+        {
+            log.warn("XML BLOB storage is disabled "
+                    + "(see <fileInfo storeLabels=\"false\"> configuration). "
+                    + "Not all Registry features will be available.");
+        }
+
+        if(cfg.fileInfo.storeJsonLabels == false)
+        {
+            log.warn("JSON BLOB storage is disabled "
+                    + "(see <fileInfo storeJsonLabels=\"false\"> configuration). "
+                    + "Not all Registry features will be available.");
+        }
+
+        return cfg;
+    }
+    
     
     private void processDirectory(String path) throws Exception
     {

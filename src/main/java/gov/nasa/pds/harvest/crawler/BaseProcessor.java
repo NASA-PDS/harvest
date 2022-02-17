@@ -87,7 +87,9 @@ public class BaseProcessor
     
     protected void save(Metadata meta, XmlNamespaces nsInfo) throws Exception
     {
-        processMissingFields(meta, nsInfo);
+        // Process missing fields
+        mfProc.processDoc(meta.fields, nsInfo);
+        // Fix (normalize) date and boolean field values
         fixFieldValues(meta, nsInfo);
         
         RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
@@ -97,12 +99,6 @@ public class BaseProcessor
     }
 
     
-    protected void processMissingFields(Metadata meta, XmlNamespaces nsInfo)
-    {
-        mfProc.processDoc(meta.fields, nsInfo);
-    }
-
-
     protected void fixFieldValues(Metadata meta, XmlNamespaces nsInfo)
     {
         

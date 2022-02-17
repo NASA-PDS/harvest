@@ -106,7 +106,6 @@ public class HarvestCli
         System.out.println("  -V, --version      Print Harvest version");
         System.out.println();
         System.out.println("Optional parameters:");
-        System.out.println("  -f <format>   Output format ('json' or 'xml'). Default is 'json'");
         System.out.println("  -o <dir>      Output directory. Default is /tmp/harvest/out");
         System.out.println("  -l <file>     Log file. Default is /tmp/harvest/harvest.log");
         System.out.println("  -v <level>    Logger verbosity: DEBUG, INFO (default), WARNING, ERROR");        
@@ -188,9 +187,6 @@ public class HarvestCli
         bld = Option.builder("o").hasArg().argName("dir");
         options.addOption(bld.build());
 
-        bld = Option.builder("f").hasArg().argName("format");
-        options.addOption(bld.build());
-        
         bld = Option.builder("l").hasArg().argName("file");
         options.addOption(bld.build());
 
