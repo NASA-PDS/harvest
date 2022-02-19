@@ -6,15 +6,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.dd.MissingFieldsProcessor;
+import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
+import gov.nasa.pds.registry.common.es.service.MissingFieldsProcessor;
 import gov.nasa.pds.registry.common.meta.AutogenExtractor;
 import gov.nasa.pds.registry.common.meta.BasicMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.FileMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.InternalReferenceExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
+import gov.nasa.pds.registry.common.meta.MetadataNormalizer;
 import gov.nasa.pds.registry.common.meta.SearchMetadataExtractor;
 import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
@@ -43,7 +45,8 @@ public class BaseProcessor
     
     protected XPathExtractor xpathExtractor;
     
-    protected MissingFieldsProcessor mfProc;
+    private MissingFieldsProcessor mfProc;
+    private MetadataNormalizer metaNormalizer;
 
 
     /**
@@ -71,7 +74,6 @@ public class BaseProcessor
         if(config.autogen != null)
         {
             autogenExtractor.setClassFilters(config.autogen.classFilterIncludes, config.autogen.classFilterExcludes);
-            autogenExtractor.setDateFields(config.autogen.dateFields);
         }
         
         fileDataExtractor = new FileMetadataExtractor();
@@ -81,7 +83,10 @@ public class BaseProcessor
             fileDataExtractor.setStoreLabels(config.fileInfo.storeLabels, config.fileInfo.storeJsonLabels);
         }
         
-        mfProc = new MissingFieldsProcessor();
+        // Services
+        RegistryManager mgr = RegistryManager.getInstance();        
+        mfProc = mgr.createMissingFieldsProcessor();
+        metaNormalizer = mgr.createMetadataNormalizer();
     }
 
     
@@ -90,7 +95,7 @@ public class BaseProcessor
         // Process missing fields
         mfProc.processDoc(meta.fields, nsInfo);
         // Fix (normalize) date and boolean field values
-        fixFieldValues(meta, nsInfo);
+        metaNormalizer.normalizeValues(meta.fields);
         
         RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
         writer.write(meta);
@@ -99,9 +104,4 @@ public class BaseProcessor
     }
 
     
-    protected void fixFieldValues(Metadata meta, XmlNamespaces nsInfo)
-    {
-        
-    }
-
 }

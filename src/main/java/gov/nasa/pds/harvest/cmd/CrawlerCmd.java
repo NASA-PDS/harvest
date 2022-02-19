@@ -16,7 +16,6 @@ import gov.nasa.pds.harvest.crawler.FilesProcessor;
 import gov.nasa.pds.harvest.crawler.ProductProcessor;
 import gov.nasa.pds.harvest.crawler.RefsCache;
 import gov.nasa.pds.harvest.dao.RegistryManager;
-import gov.nasa.pds.harvest.dao.SchemaUtils;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
@@ -145,7 +144,7 @@ public class CrawlerCmd implements CliCommand
         // Registry manager
         log.info("Connecting to Elasticsearch");
         RegistryManager.init(cfg.registryCfg);
-        SchemaUtils.updateFieldsCache();
+        RegistryManager.getInstance().getFieldNameCache().update();
         
         // Xpath maps
         XPathCacheLoader xpcLoader = new XPathCacheLoader();

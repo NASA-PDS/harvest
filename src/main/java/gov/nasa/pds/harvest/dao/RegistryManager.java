@@ -10,6 +10,10 @@ import gov.nasa.pds.registry.common.es.client.EsClientFactory;
 import gov.nasa.pds.registry.common.util.CloseUtils;
 import gov.nasa.pds.registry.common.es.dao.dd.DataDictionaryDao;
 import gov.nasa.pds.registry.common.es.dao.schema.SchemaDao;
+import gov.nasa.pds.registry.common.es.service.MissingFieldsProcessor;
+import gov.nasa.pds.registry.common.es.service.SchemaUpdater;
+import gov.nasa.pds.registry.common.meta.FieldNameCache;
+import gov.nasa.pds.registry.common.meta.MetadataNormalizer;
 
 
 /**
@@ -27,6 +31,8 @@ public class RegistryManager
     private RegistryDao registryDao;
     private SchemaDao schemaDao;
     private DataDictionaryDao ddDao;
+    
+    private FieldNameCache fieldNameCache;
     
     
     /**
@@ -49,6 +55,8 @@ public class RegistryManager
         registryDao = new RegistryDao(esClient, indexName);
         schemaDao = new SchemaDao(esClient, indexName);
         ddDao = new DataDictionaryDao(esClient, indexName);
+        
+        fieldNameCache = new FieldNameCache(ddDao, schemaDao);
     }
     
     
@@ -128,4 +136,35 @@ public class RegistryManager
         return ddDao;
     }
 
+    
+    /**
+     * Get Field name cache
+     * @return Schema DAO
+     */
+    public FieldNameCache getFieldNameCache()
+    {
+        return fieldNameCache;
+    }
+
+    
+    /**
+     * Create new missing field processor
+     * @return new missing field processor object
+     * @throws Exception an exception
+     */
+    public MissingFieldsProcessor createMissingFieldsProcessor() throws Exception
+    {
+        SchemaUpdater su = new SchemaUpdater(cfg, ddDao, schemaDao);
+        return new MissingFieldsProcessor(su, fieldNameCache);
+    }
+
+
+    /**
+     * Create new metadata normalizer
+     * @return new metadata normalizer object
+     */
+    public MetadataNormalizer createMetadataNormalizer()
+    {
+        return new MetadataNormalizer(fieldNameCache);
+    }
 }
