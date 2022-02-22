@@ -3,6 +3,8 @@ package gov.nasa.pds.harvest.util.out;
 import java.io.File;
 
 import gov.nasa.pds.registry.common.util.CloseUtils;
+import gov.nasa.pds.registry.common.util.doc.InventoryDocWriter;
+import gov.nasa.pds.registry.common.util.doc.RegistryDocWriter;
 
 
 /**
@@ -16,7 +18,7 @@ public class WriterManager
     private static WriterManager instance;
     
     private RegistryDocWriter regWriter;
-    private RefsDocWriter refsWriter;
+    private InventoryDocWriter refsWriter;
     private SupplementalWriter supWriter;
 
    
@@ -41,22 +43,8 @@ public class WriterManager
         if(instance != null) throw new Exception("WriterManager is already initialized.");
         
         instance = new WriterManager(outDir);
-        instance.regWriter = new RegistryDocWriterJson(outDir);
-        instance.refsWriter = new RefsDocWriterJson(outDir);
-    }
-
-    
-    /**
-     * Create writers to write XML data files with metadata
-     * extracted from PDS4 labels. 
-     * @param outDir output directory
-     * @throws Exception an exception
-     */
-    public static void initXml(File outDir) throws Exception
-    {
-        instance = new WriterManager(outDir);
-        instance.regWriter = new RegistryDocWriterXml(outDir);
-        instance.refsWriter = new RefsDocWriterXml(outDir);
+        instance.regWriter = new RegistryDocWriter();
+        instance.refsWriter = new InventoryDocWriter();
     }
 
     
@@ -100,7 +88,7 @@ public class WriterManager
      * Get collection inventory (product references) writer
      * @return collection inventory (product references) writer
      */
-    public RefsDocWriter getRefsWriter()
+    public InventoryDocWriter getRefsWriter()
     {
         return refsWriter;
     }

@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
-import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
+import gov.nasa.pds.harvest.util.PackageIdGenerator;
 import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.registry.common.es.service.MissingFieldsProcessor;
 import gov.nasa.pds.registry.common.meta.AutogenExtractor;
@@ -18,6 +18,7 @@ import gov.nasa.pds.registry.common.meta.InternalReferenceExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.meta.MetadataNormalizer;
 import gov.nasa.pds.registry.common.meta.SearchMetadataExtractor;
+import gov.nasa.pds.registry.common.util.doc.RegistryDocWriter;
 import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 
@@ -48,6 +49,7 @@ public class BaseProcessor
     private MissingFieldsProcessor mfProc;
     private MetadataNormalizer metaNormalizer;
 
+    protected String jobId;
 
     /**
      * Constructor.
@@ -87,6 +89,8 @@ public class BaseProcessor
         RegistryManager mgr = RegistryManager.getInstance();        
         mfProc = mgr.createMissingFieldsProcessor();
         metaNormalizer = mgr.createMetadataNormalizer();
+        
+        jobId = PackageIdGenerator.getInstance().getPackageId();
     }
 
     
@@ -98,7 +102,7 @@ public class BaseProcessor
         metaNormalizer.normalizeValues(meta.fields);
         
         RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
-        writer.write(meta);
+        writer.write(meta, jobId);
         
         counter.prodCounters.inc(meta.prodClass);
     }

@@ -14,6 +14,7 @@ import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
+import gov.nasa.pds.registry.common.es.service.CollectionInventoryWriter;
 import gov.nasa.pds.registry.common.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
@@ -37,6 +38,8 @@ import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 public class CollectionProcessor extends BaseProcessor
 {
     private CollectionInventoryProcessor invProc;
+    private CollectionInventoryWriter invWriter;
+    
     private CollectionMetadataExtractor collectionExtractor;
     
     private int collectionCount;
@@ -52,6 +55,7 @@ public class CollectionProcessor extends BaseProcessor
     {
         super(config, counter);
         
+        invWriter = new CollectionInventoryWriter(config.registryCfg);
         this.invProc = new CollectionInventoryProcessor(config.refsCfg.primaryOnly);
         collectionExtractor = new CollectionMetadataExtractor();
     }
@@ -188,25 +192,15 @@ public class CollectionProcessor extends BaseProcessor
             // Collection is not registered. Write inventory refs.
             if(write)
             {
-                // Registry is configured
-                if(RegistryManager.getInstance() != null)
-                {
-                    // Write inventory refs. Don't cache any products.
-                    invProc.writeCollectionInventory(meta, invFile, false);
-                    // Cache non-registered products.
-                    invProc.cacheNonRegisteredInventory(meta, invFile);
-                }
-                // Registry is not configured
-                else
-                {
-                    // Write inventory refs and cache all products.
-                    invProc.writeCollectionInventory(meta, invFile, true);
-                }
+                // Write inventory refs.
+                invWriter.writeCollectionInventory(meta.lidvid, invFile, jobId);
+                // Cache non-registered products.
+                invProc.cacheNonRegisteredInventory(invFile);
             }
             // Collection is already registered. Only cache non-registered products.
             else
             {
-                invProc.cacheNonRegisteredInventory(meta, invFile);
+                invProc.cacheNonRegisteredInventory(invFile);
             }
         }
     }

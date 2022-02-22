@@ -17,6 +17,7 @@ import org.w3c.dom.Document;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
+import gov.nasa.pds.registry.common.es.service.CollectionInventoryWriter;
 import gov.nasa.pds.registry.common.meta.BundleMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
@@ -44,7 +45,7 @@ public class FilesProcessor extends BaseProcessor
     // Bundle and Collection extractors & processors
     private BundleMetadataExtractor bundleExtractor;
     private CollectionMetadataExtractor collectionExtractor;
-    private CollectionInventoryProcessor invProc;
+    private CollectionInventoryWriter invWriter;
     
     
     /**
@@ -57,7 +58,7 @@ public class FilesProcessor extends BaseProcessor
     {
         super(config, counter);
         
-        this.invProc = new CollectionInventoryProcessor(config.refsCfg.primaryOnly);
+        this.invWriter = new CollectionInventoryWriter(config.registryCfg);
         
         bundleExtractor = new BundleMetadataExtractor();
         collectionExtractor = new CollectionMetadataExtractor();
@@ -245,7 +246,7 @@ public class FilesProcessor extends BaseProcessor
         for(String fileName: fileNames)
         {
             File invFile = new File(collectionFile.getParentFile(), fileName);
-            invProc.writeCollectionInventory(meta, invFile, false);
+            invWriter.writeCollectionInventory(meta.lidvid, invFile, jobId);
         }
     }
 
