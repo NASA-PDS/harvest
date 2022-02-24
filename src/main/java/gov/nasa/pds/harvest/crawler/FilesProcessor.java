@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
@@ -46,7 +47,6 @@ public class FilesProcessor extends BaseProcessor
     // Bundle and Collection extractors & processors
     private BundleMetadataExtractor bundleExtractor;
     private CollectionMetadataExtractor collectionExtractor;
-    private CollectionInventoryWriter invWriter;
     
     
     /**
@@ -57,8 +57,6 @@ public class FilesProcessor extends BaseProcessor
     public FilesProcessor(Configuration config) throws Exception
     {
         super(config);
-        
-        this.invWriter = new CollectionInventoryWriter(config.registryCfg);
         
         bundleExtractor = new BundleMetadataExtractor();
         collectionExtractor = new CollectionMetadataExtractor();
@@ -243,6 +241,19 @@ public class FilesProcessor extends BaseProcessor
     {
         Set<String> fileNames = collectionExtractor.extractInventoryFileNames(doc);
         if(fileNames == null) return;
+        
+        RegistryManager mgr = RegistryManager.getInstance();
+        if(!mgr.isOverwrite())
+        {
+            // Check if this collection already registered
+            RegistryDao regDao = mgr.getRegistryDao();
+            if(regDao.idExists(meta.lidvid))
+            {
+                return;
+            }
+        }
+                
+        CollectionInventoryWriter invWriter = mgr.getCollectionInventoryWriter();
         
         for(String fileName: fileNames)
         {

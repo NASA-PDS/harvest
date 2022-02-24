@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryManager;
-import gov.nasa.pds.harvest.dao.RegistryWriter;
+import gov.nasa.pds.harvest.dao.MetadataWriter;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 import gov.nasa.pds.registry.common.es.service.MissingFieldsProcessor;
@@ -96,7 +96,7 @@ public class BaseProcessor
         // Fix (normalize) date and boolean field values
         metaNormalizer.normalizeValues(meta.fields);
         
-        RegistryWriter writer = RegistryManager.getInstance().getRegistryWriter();
+        MetadataWriter writer = RegistryManager.getInstance().getRegistryWriter();
         writer.write(meta);
     }
     

@@ -11,6 +11,7 @@ import gov.nasa.pds.registry.common.es.client.EsClientFactory;
 import gov.nasa.pds.registry.common.util.CloseUtils;
 import gov.nasa.pds.registry.common.es.dao.dd.DataDictionaryDao;
 import gov.nasa.pds.registry.common.es.dao.schema.SchemaDao;
+import gov.nasa.pds.registry.common.es.service.CollectionInventoryWriter;
 import gov.nasa.pds.registry.common.es.service.MissingFieldsProcessor;
 import gov.nasa.pds.registry.common.es.service.SchemaUpdater;
 import gov.nasa.pds.registry.common.meta.FieldNameCache;
@@ -27,25 +28,31 @@ public class RegistryManager
     private static RegistryManager instance = null;
     
     private RegistryCfg cfg;
+    private boolean overwriteFlag;
     
     private RestClient esClient;
+
     private RegistryDao registryDao;
     private SchemaDao schemaDao;
     private DataDictionaryDao ddDao;
 
-    private RegistryWriter registryWriter;
+    private MetadataWriter registryWriter;
+    private CollectionInventoryWriter invWriter;
+
     private FieldNameCache fieldNameCache;
 
     private Counter counter;
+    
     
     /**
      * Private constructor. Use getInstance() instead.
      * @param cfg Registry (Elasticsearch) configuration parameters.
      * @throws Exception Generic exception
      */
-    private RegistryManager(RegistryCfg cfg) throws Exception
+    private RegistryManager(RegistryCfg cfg, boolean overwriteFlag) throws Exception
     {
         this.cfg = cfg;
+        this.overwriteFlag = overwriteFlag;
         this.counter = new Counter();
         
         Logger log = LogManager.getLogger(this.getClass());
@@ -61,22 +68,27 @@ public class RegistryManager
         ddDao = new DataDictionaryDao(esClient, indexName);
         
         fieldNameCache = new FieldNameCache(ddDao, schemaDao);
-        registryWriter = new RegistryWriter(cfg, registryDao, counter);
+        
+        registryWriter = new MetadataWriter(cfg, registryDao, counter);
+        registryWriter.setOverwriteExisting(overwriteFlag);
+        
+        invWriter = new CollectionInventoryWriter(cfg);
     }
     
     
     /**
      * Initialize the singleton.
      * @param cfg Registry (Elasticsearch) configuration parameters.
+     * @param overwriteFlag overwrite registered products
      * @throws Exception Generic exception
      */
-    public static void init(RegistryCfg cfg) throws Exception
+    public static void init(RegistryCfg cfg, boolean overwriteFlag) throws Exception
     {
         // Registry is not configured. Run Harvest without Registry.
         if(cfg == null) throw new IllegalArgumentException("Registry is not configuraed.");
         if(cfg.url == null || cfg.url.isEmpty()) throw new IllegalArgumentException("Missing Registry URL");        
         
-        instance = new RegistryManager(cfg);
+        instance = new RegistryManager(cfg, overwriteFlag);
     }
     
     
@@ -113,6 +125,16 @@ public class RegistryManager
         return cfg;
     }
 
+    
+    /**
+     * Get overwrite flag
+     * @return if true, overwrite already registered documents
+     */
+    public boolean isOverwrite()
+    {
+        return overwriteFlag;
+    }
+    
     
     /**
      * Get registry DAO object.
@@ -180,11 +202,20 @@ public class RegistryManager
      * Get registry writer
      * @return registry writer
      */
-    public RegistryWriter getRegistryWriter()
+    public MetadataWriter getRegistryWriter()
     {
         return registryWriter;
     }
     
+    
+    /**
+     * Get collection inventory writer
+     * @return collection inventory writer
+     */
+    public CollectionInventoryWriter getCollectionInventoryWriter()
+    {
+        return invWriter;
+    }
     
     /**
      * Get counter of processed products

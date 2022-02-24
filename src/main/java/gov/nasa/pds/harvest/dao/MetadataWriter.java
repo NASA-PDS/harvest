@@ -16,7 +16,7 @@ import gov.nasa.pds.registry.common.es.dao.DataLoader;
 import gov.nasa.pds.registry.common.meta.Metadata;
 
 
-public class RegistryWriter implements Closeable
+public class MetadataWriter implements Closeable
 {
     private final static String WARN_SKIP = "Skipping registered product ";
     private final static int ES_DOC_BATCH_SIZE = 50;
@@ -38,7 +38,7 @@ public class RegistryWriter implements Closeable
      * @param cfg registry configuration
      * @throws Exception an exception
      */
-    public RegistryWriter(RegistryCfg cfg, RegistryDao dao, Counter counter) throws Exception
+    public MetadataWriter(RegistryCfg cfg, RegistryDao dao, Counter counter) throws Exception
     {
         log = LogManager.getLogger(this.getClass());
         loader = new DataLoader(cfg.url, cfg.indexName, cfg.authFile);

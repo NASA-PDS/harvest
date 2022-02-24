@@ -28,7 +28,7 @@ import gov.nasa.pds.harvest.util.out.WriterManager;
  * 
  * @author karpenko
  */
-public class CrawlerCmd implements CliCommand
+public class HarvestCmd implements CliCommand
 {
     private Logger log;
     private Configuration cfg;
@@ -43,7 +43,7 @@ public class CrawlerCmd implements CliCommand
     /**
      * Constructor
      */
-    public CrawlerCmd()
+    public HarvestCmd()
     {
         log = LogManager.getLogger(this.getClass());
     }
@@ -141,9 +141,11 @@ public class CrawlerCmd implements CliCommand
         // Writer manager
         initWriterManager(cmdLine);
         
+        boolean overwriteFlag = cmdLine.hasOption("overwrite");
+        
         // Registry manager
+        RegistryManager.init(cfg.registryCfg, overwriteFlag);
         log.info("Connecting to Elasticsearch");
-        RegistryManager.init(cfg.registryCfg);
         RegistryManager.getInstance().getFieldNameCache().update();
         
         // Xpath maps
@@ -173,7 +175,7 @@ public class CrawlerCmd implements CliCommand
         File fOutDir = new File(outDir);
         fOutDir.mkdirs();
 
-        WriterManager.init(cfg.registryCfg, fOutDir);
+        WriterManager.init(fOutDir);
     }
     
     

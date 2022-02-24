@@ -20,7 +20,7 @@ public class TestRegistryDAO
         RegistryCfg cfg = new RegistryCfg();
         cfg.url = "http://localhost:9200";
         
-        RegistryManager.init(cfg);
+        RegistryManager.init(cfg, true);
 
         try
         {
