@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.registry.common.es.service.CollectionInventoryWriter;
@@ -51,12 +52,11 @@ public class FilesProcessor extends BaseProcessor
     /**
      * Constructor
      * @param config Harvest configuration parameters (from a config file)
-     * @param counter Counter of processed products by type
      * @throws Exception Generic exception
      */
-    public FilesProcessor(Configuration config, Counter counter) throws Exception
+    public FilesProcessor(Configuration config) throws Exception
     {
-        super(config, counter);
+        super(config);
         
         this.invWriter = new CollectionInventoryWriter(config.registryCfg);
         
@@ -142,6 +142,7 @@ public class FilesProcessor extends BaseProcessor
     private void onFile(File file) throws Exception
     {
         Document doc = null;
+        Counter counter = RegistryManager.getInstance().getCounter();
         
         try
         {

@@ -12,6 +12,7 @@ import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.registry.common.meta.Metadata;
@@ -38,12 +39,11 @@ public class ProductProcessor extends BaseProcessor
     /**
      * Constructor
      * @param config Harvest configuration parameters
-     * @param counter document / product counter
      * @throws Exception Generic exception
      */
-    public ProductProcessor(Configuration config, Counter counter) throws Exception
+    public ProductProcessor(Configuration config) throws Exception
     {
-        super(config, counter);
+        super(config);
     }
 
     
@@ -120,6 +120,7 @@ public class ProductProcessor extends BaseProcessor
     public void onFile(File file) throws Exception
     {
         Document doc = null;
+        Counter counter = RegistryManager.getInstance().getCounter();
         
         try
         {
@@ -167,6 +168,8 @@ public class ProductProcessor extends BaseProcessor
      */
     private void processMetadata(File file, Document doc) throws Exception
     {
+        Counter counter = RegistryManager.getInstance().getCounter();
+        
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
         meta.setNodeName(config.nodeName);

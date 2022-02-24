@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.client.RestClient;
 
+import gov.nasa.pds.harvest.crawler.Counter;
 import gov.nasa.pds.harvest.util.log.LogUtils;
 import gov.nasa.pds.registry.common.cfg.RegistryCfg;
 import gov.nasa.pds.registry.common.es.client.EsClientFactory;
@@ -31,9 +32,11 @@ public class RegistryManager
     private RegistryDao registryDao;
     private SchemaDao schemaDao;
     private DataDictionaryDao ddDao;
-    
+
+    private RegistryWriter registryWriter;
     private FieldNameCache fieldNameCache;
-    
+
+    private Counter counter;
     
     /**
      * Private constructor. Use getInstance() instead.
@@ -43,6 +46,7 @@ public class RegistryManager
     private RegistryManager(RegistryCfg cfg) throws Exception
     {
         this.cfg = cfg;
+        this.counter = new Counter();
         
         Logger log = LogManager.getLogger(this.getClass());
         log.log(LogUtils.LEVEL_SUMMARY, "Elasticsearch URL: " + cfg.url + ", index: " + cfg.indexName);
@@ -57,6 +61,7 @@ public class RegistryManager
         ddDao = new DataDictionaryDao(esClient, indexName);
         
         fieldNameCache = new FieldNameCache(ddDao, schemaDao);
+        registryWriter = new RegistryWriter(cfg, registryDao, counter);
     }
     
     
@@ -82,7 +87,9 @@ public class RegistryManager
     {
         if(instance == null) return;
         
+        CloseUtils.close(instance.registryWriter);
         CloseUtils.close(instance.esClient);
+        
         instance = null;
     }
     
@@ -166,5 +173,25 @@ public class RegistryManager
     public MetadataNormalizer createMetadataNormalizer()
     {
         return new MetadataNormalizer(fieldNameCache);
+    }
+    
+    
+    /**
+     * Get registry writer
+     * @return registry writer
+     */
+    public RegistryWriter getRegistryWriter()
+    {
+        return registryWriter;
+    }
+    
+    
+    /**
+     * Get counter of processed products
+     * @return counter
+     */
+    public Counter getCounter()
+    {
+        return counter;
     }
 }

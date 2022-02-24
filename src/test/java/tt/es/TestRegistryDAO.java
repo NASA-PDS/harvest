@@ -48,7 +48,7 @@ public class TestRegistryDAO
         ids.add(existingId);
         ids.add(nonExistingId);
 
-        Collection<String> retIds = dao.getNonExistingIds(ids, 10);
+        Collection<String> retIds = dao.getNonExistingIds(ids);
         
         boolean passed = (retIds.size() == 1) 
                 && (retIds.iterator().next().equals(nonExistingId));

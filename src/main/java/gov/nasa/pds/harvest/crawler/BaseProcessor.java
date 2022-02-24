@@ -7,9 +7,9 @@ import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryManager;
+import gov.nasa.pds.harvest.dao.RegistryWriter;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
-import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.registry.common.es.service.MissingFieldsProcessor;
 import gov.nasa.pds.registry.common.meta.AutogenExtractor;
 import gov.nasa.pds.registry.common.meta.BasicMetadataExtractor;
@@ -18,7 +18,6 @@ import gov.nasa.pds.registry.common.meta.InternalReferenceExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.meta.MetadataNormalizer;
 import gov.nasa.pds.registry.common.meta.SearchMetadataExtractor;
-import gov.nasa.pds.registry.common.util.doc.RegistryDocWriter;
 import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 
@@ -34,8 +33,6 @@ public class BaseProcessor
     protected Logger log;
     
     protected Configuration config;
-    protected Counter counter;
-    
     protected DocumentBuilderFactory dbf;
 
     protected BasicMetadataExtractor basicExtractor;
@@ -54,13 +51,11 @@ public class BaseProcessor
     /**
      * Constructor.
      * @param config Harvest configuration parameters
-     * @param counter Counter of processed products
      * @throws Exception Generic exception
      */
-    public BaseProcessor(Configuration config, Counter counter) throws Exception
+    public BaseProcessor(Configuration config) throws Exception
     {
         this.config = config;
-        this.counter = counter;
 
         log = LogManager.getLogger(this.getClass());
         
@@ -101,11 +96,8 @@ public class BaseProcessor
         // Fix (normalize) date and boolean field values
         metaNormalizer.normalizeValues(meta.fields);
         
-        RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
-        writer.write(meta, jobId);
-        
-        counter.prodCounters.inc(meta.prodClass);
+        RegistryWriter writer = RegistryManager.getInstance().getRegistryWriter();
+        writer.write(meta);
     }
-
     
 }

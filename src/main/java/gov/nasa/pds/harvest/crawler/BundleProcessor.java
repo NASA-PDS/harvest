@@ -48,9 +48,9 @@ public class BundleProcessor extends BaseProcessor
      * @param counter document / product counter
      * @throws Exception Generic exception
      */
-    public BundleProcessor(Configuration config, Counter counter) throws Exception
+    public BundleProcessor(Configuration config) throws Exception
     {
-        super(config, counter);
+        super(config);
 
         bundleExtractor = new BundleMetadataExtractor();
     }
@@ -127,11 +127,11 @@ public class BundleProcessor extends BaseProcessor
         log.info("Processing bundle " + file.getAbsolutePath());
         bundleCount++;
         
-        RegistryDao dao = (RegistryManager.getInstance() == null) ? null 
-                : RegistryManager.getInstance().getRegistryDao(); 
-
+        RegistryDao dao = RegistryManager.getInstance().getRegistryDao(); 
+        Counter counter = RegistryManager.getInstance().getCounter();
+        
         // Bundle already registered in the Registry (Elasticsearch)
-        if(dao != null && dao.idExists(meta.lidvid))
+        if(dao.idExists(meta.lidvid))
         {
             log.warn("Bundle " + meta.lidvid + " already registered. Skipping.");
             addCollectionRefs(meta, doc);

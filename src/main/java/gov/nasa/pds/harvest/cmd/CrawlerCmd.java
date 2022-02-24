@@ -34,7 +34,6 @@ public class CrawlerCmd implements CliCommand
     private Configuration cfg;
     
     // Processors
-    private Counter counter;
     private FilesProcessor filesProc;
     private BundleProcessor bundleProc;
     private CollectionProcessor colProc;
@@ -75,14 +74,15 @@ public class CrawlerCmd implements CliCommand
             {
                 processManifests();
             }
+            
+            RegistryManager.getInstance().getRegistryWriter().flush();
+            printSummary();
         }
         finally
         {
             WriterManager.destroy();
             RegistryManager.destroy();
         }
-        
-        printSummary();
     }
     
     
@@ -151,17 +151,16 @@ public class CrawlerCmd implements CliCommand
         xpcLoader.load(cfg.xpathMaps);
         
         // Processors
-        counter = new Counter();
 
         if(cfg.dirs != null || cfg.manifests != null)
         {
-            filesProc = new FilesProcessor(cfg, counter);
+            filesProc = new FilesProcessor(cfg);
         }
         else if(cfg.bundles != null)
         {
-            bundleProc = new BundleProcessor(cfg, counter);
-            colProc = new CollectionProcessor(cfg, counter);
-            prodProc = new ProductProcessor(cfg, counter);
+            bundleProc = new BundleProcessor(cfg);
+            colProc = new CollectionProcessor(cfg);
+            prodProc = new ProductProcessor(cfg);
         }
     }
 
@@ -174,7 +173,7 @@ public class CrawlerCmd implements CliCommand
         File fOutDir = new File(outDir);
         fOutDir.mkdirs();
 
-        WriterManager.initJson(fOutDir);
+        WriterManager.init(cfg.registryCfg, fOutDir);
     }
     
     
@@ -271,6 +270,8 @@ public class CrawlerCmd implements CliCommand
     
     private void printSummary()
     {
+        Counter counter = RegistryManager.getInstance().getCounter();
+        
         log.log(LogUtils.LEVEL_SUMMARY, "Summary:");
         int processedCount = counter.prodCounters.getTotal();
         

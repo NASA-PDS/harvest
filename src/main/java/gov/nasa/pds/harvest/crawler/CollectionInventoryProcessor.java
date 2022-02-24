@@ -67,7 +67,7 @@ public class CollectionInventoryProcessor
             int count = rd.readNextBatch(ELASTIC_BATCH_SIZE, batch);
             if(count == 0) break;
 
-            Collection<String> nonRegisteredIds = dao.getNonExistingIds(batch.lidvids, ELASTIC_BATCH_SIZE);
+            Collection<String> nonRegisteredIds = dao.getNonExistingIds(batch.lidvids);
             
             // Update cache. Only products in cache will be processed.
             cache.addLidVids(nonRegisteredIds);

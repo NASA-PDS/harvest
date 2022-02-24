@@ -2,9 +2,10 @@ package gov.nasa.pds.harvest.util.out;
 
 import java.io.File;
 
+import gov.nasa.pds.harvest.dao.RegistryWriter;
+import gov.nasa.pds.registry.common.cfg.RegistryCfg;
 import gov.nasa.pds.registry.common.util.CloseUtils;
 import gov.nasa.pds.registry.common.util.doc.InventoryDocWriter;
-import gov.nasa.pds.registry.common.util.doc.RegistryDocWriter;
 
 
 /**
@@ -17,7 +18,6 @@ public class WriterManager
 {
     private static WriterManager instance;
     
-    private RegistryDocWriter regWriter;
     private InventoryDocWriter refsWriter;
     private SupplementalWriter supWriter;
 
@@ -25,9 +25,11 @@ public class WriterManager
     /**
      * Provate constructor. Use getInstance() instead.
      */
-    private WriterManager(File outDir) throws Exception
+    private WriterManager(RegistryCfg cfg, File outDir) throws Exception
     {
-        supWriter = new SupplementalWriter(outDir);
+        refsWriter = new InventoryDocWriter();
+
+        supWriter = new SupplementalWriter(outDir);        
     }
 
     
@@ -38,13 +40,10 @@ public class WriterManager
      * @param outDir output directory
      * @throws Exception an exception
      */
-    public static void initJson(File outDir) throws Exception
+    public static void init(RegistryCfg cfg, File outDir) throws Exception
     {
         if(instance != null) throw new Exception("WriterManager is already initialized.");
-        
-        instance = new WriterManager(outDir);
-        instance.regWriter = new RegistryDocWriter();
-        instance.refsWriter = new InventoryDocWriter();
+        instance = new WriterManager(cfg, outDir);
     }
 
     
@@ -55,7 +54,6 @@ public class WriterManager
     {
         if(instance == null) return;
         
-        CloseUtils.close(instance.regWriter);
         CloseUtils.close(instance.refsWriter);
         CloseUtils.close(instance.supWriter);
     }
@@ -73,16 +71,6 @@ public class WriterManager
         return instance;
     }
     
-    
-    /**
-     * Get registry metadata writer.
-     * @return registry metadata writer
-     */
-    public RegistryDocWriter getRegistryWriter()
-    {
-        return regWriter;
-    }
-
     
     /**
      * Get collection inventory (product references) writer

@@ -48,12 +48,11 @@ public class CollectionProcessor extends BaseProcessor
     /**
      * Constructor.
      * @param config Harvest configuration parameters
-     * @param counter Counter of processed products
      * @throws Exception Generic exception
      */
-    public CollectionProcessor(Configuration config, Counter counter) throws Exception
+    public CollectionProcessor(Configuration config) throws Exception
     {
-        super(config, counter);
+        super(config);
         
         invWriter = new CollectionInventoryWriter(config.registryCfg);
         this.invProc = new CollectionInventoryProcessor(config.refsCfg.primaryOnly);
@@ -134,11 +133,11 @@ public class CollectionProcessor extends BaseProcessor
         log.info("Processing collection " + file.getAbsolutePath());
         collectionCount++;
         
-        RegistryDao dao = (RegistryManager.getInstance() == null) ? null 
-                : RegistryManager.getInstance().getRegistryDao(); 
+        RegistryDao dao = RegistryManager.getInstance().getRegistryDao();
+        Counter counter = RegistryManager.getInstance().getCounter();
 
         // Collection already registered in the Registry (Elasticsearch)
-        if(dao != null && dao.idExists(meta.lidvid))
+        if(dao.idExists(meta.lidvid))
         {
             log.warn("Collection " + meta.lidvid + " already registered. Skipping.");
             
