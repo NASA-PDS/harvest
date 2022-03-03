@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-import gov.nasa.pds.harvest.cfg.model.RegistryCfg;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
+import gov.nasa.pds.registry.common.cfg.RegistryCfg;
 
 
 public class TestRegistryDAO
@@ -20,7 +20,7 @@ public class TestRegistryDAO
         RegistryCfg cfg = new RegistryCfg();
         cfg.url = "http://localhost:9200";
         
-        RegistryManager.init(cfg);
+        RegistryManager.init(cfg, true);
 
         try
         {
@@ -48,7 +48,7 @@ public class TestRegistryDAO
         ids.add(existingId);
         ids.add(nonExistingId);
 
-        Collection<String> retIds = dao.getNonExistingIds(ids, 10);
+        Collection<String> retIds = dao.getNonExistingIds(ids);
         
         boolean passed = (retIds.size() == 1) 
                 && (retIds.iterator().next().equals(nonExistingId));

@@ -15,9 +15,11 @@ import java.util.stream.Stream;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
-import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
+import gov.nasa.pds.harvest.dao.RegistryDao;
+import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
+import gov.nasa.pds.registry.common.es.service.CollectionInventoryWriter;
 import gov.nasa.pds.registry.common.meta.BundleMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
@@ -45,20 +47,16 @@ public class FilesProcessor extends BaseProcessor
     // Bundle and Collection extractors & processors
     private BundleMetadataExtractor bundleExtractor;
     private CollectionMetadataExtractor collectionExtractor;
-    private CollectionInventoryProcessor invProc;
     
     
     /**
      * Constructor
      * @param config Harvest configuration parameters (from a config file)
-     * @param counter Counter of processed products by type
      * @throws Exception Generic exception
      */
-    public FilesProcessor(Configuration config, Counter counter) throws Exception
+    public FilesProcessor(Configuration config) throws Exception
     {
-        super(config, counter);
-        
-        this.invProc = new CollectionInventoryProcessor(config.refsCfg.primaryOnly);
+        super(config);
         
         bundleExtractor = new BundleMetadataExtractor();
         collectionExtractor = new CollectionMetadataExtractor();
@@ -142,6 +140,7 @@ public class FilesProcessor extends BaseProcessor
     private void onFile(File file) throws Exception
     {
         Document doc = null;
+        Counter counter = RegistryManager.getInstance().getCounter();
         
         try
         {
@@ -226,10 +225,8 @@ public class FilesProcessor extends BaseProcessor
         // Extract file data
         fileDataExtractor.extract(file, meta, config.fileInfo.fileRef);
         
-        RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
-        writer.write(meta, nsInfo);
-        
-        counter.prodCounters.inc(meta.prodClass);
+        // Save data
+        save(meta, nsInfo);
     }
 
     
@@ -245,10 +242,23 @@ public class FilesProcessor extends BaseProcessor
         Set<String> fileNames = collectionExtractor.extractInventoryFileNames(doc);
         if(fileNames == null) return;
         
+        RegistryManager mgr = RegistryManager.getInstance();
+        if(!mgr.isOverwrite())
+        {
+            // Check if this collection already registered
+            RegistryDao regDao = mgr.getRegistryDao();
+            if(regDao.idExists(meta.lidvid))
+            {
+                return;
+            }
+        }
+                
+        CollectionInventoryWriter invWriter = mgr.getCollectionInventoryWriter();
+        
         for(String fileName: fileNames)
         {
             File invFile = new File(collectionFile.getParentFile(), fileName);
-            invProc.writeCollectionInventory(meta, invFile, false);
+            invWriter.writeCollectionInventory(meta.lidvid, invFile, jobId);
         }
     }
 

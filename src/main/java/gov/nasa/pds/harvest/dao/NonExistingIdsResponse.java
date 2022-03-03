@@ -33,7 +33,7 @@ public class NonExistingIdsResponse implements SearchResponseParser.Callback
      * Return collection of product IDs (lidvids) non-existing in Elasticsearch.
      * @return a collection of product IDs (lidvids)
      */
-    public Collection<String> getIds()
+    public Set<String> getIds()
     {
         return retIds;
     }

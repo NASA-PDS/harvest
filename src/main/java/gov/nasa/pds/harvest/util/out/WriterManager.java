@@ -15,8 +15,6 @@ public class WriterManager
 {
     private static WriterManager instance;
     
-    private RegistryDocWriter regWriter;
-    private RefsDocWriter refsWriter;
     private SupplementalWriter supWriter;
 
    
@@ -25,7 +23,7 @@ public class WriterManager
      */
     private WriterManager(File outDir) throws Exception
     {
-        supWriter = new SupplementalWriter(outDir);
+        supWriter = new SupplementalWriter(outDir);        
     }
 
     
@@ -36,27 +34,10 @@ public class WriterManager
      * @param outDir output directory
      * @throws Exception an exception
      */
-    public static void initJson(File outDir) throws Exception
+    public static void init(File outDir) throws Exception
     {
         if(instance != null) throw new Exception("WriterManager is already initialized.");
-        
         instance = new WriterManager(outDir);
-        instance.regWriter = new RegistryDocWriterJson(outDir);
-        instance.refsWriter = new RefsDocWriterJson(outDir);
-    }
-
-    
-    /**
-     * Create writers to write XML data files with metadata
-     * extracted from PDS4 labels. 
-     * @param outDir output directory
-     * @throws Exception an exception
-     */
-    public static void initXml(File outDir) throws Exception
-    {
-        instance = new WriterManager(outDir);
-        instance.regWriter = new RegistryDocWriterXml(outDir);
-        instance.refsWriter = new RefsDocWriterXml(outDir);
     }
 
     
@@ -67,8 +48,6 @@ public class WriterManager
     {
         if(instance == null) return;
         
-        CloseUtils.close(instance.regWriter);
-        CloseUtils.close(instance.refsWriter);
         CloseUtils.close(instance.supWriter);
     }
 
@@ -85,26 +64,6 @@ public class WriterManager
         return instance;
     }
     
-    
-    /**
-     * Get registry metadata writer.
-     * @return registry metadata writer
-     */
-    public RegistryDocWriter getRegistryWriter()
-    {
-        return regWriter;
-    }
-
-    
-    /**
-     * Get collection inventory (product references) writer
-     * @return collection inventory (product references) writer
-     */
-    public RefsDocWriter getRefsWriter()
-    {
-        return refsWriter;
-    }
-
     
     /**
      * Get a writer for supplemental products

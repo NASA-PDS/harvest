@@ -4,10 +4,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.client.RestClient;
 
-import gov.nasa.pds.harvest.cfg.model.RegistryCfg;
+import gov.nasa.pds.harvest.crawler.Counter;
 import gov.nasa.pds.harvest.util.log.LogUtils;
+import gov.nasa.pds.registry.common.cfg.RegistryCfg;
 import gov.nasa.pds.registry.common.es.client.EsClientFactory;
 import gov.nasa.pds.registry.common.util.CloseUtils;
+import gov.nasa.pds.registry.common.es.dao.dd.DataDictionaryDao;
+import gov.nasa.pds.registry.common.es.dao.schema.SchemaDao;
+import gov.nasa.pds.registry.common.es.service.CollectionInventoryWriter;
+import gov.nasa.pds.registry.common.es.service.MissingFieldsProcessor;
+import gov.nasa.pds.registry.common.es.service.SchemaUpdater;
+import gov.nasa.pds.registry.common.meta.FieldNameCache;
+import gov.nasa.pds.registry.common.meta.MetadataNormalizer;
 
 
 /**
@@ -19,9 +27,21 @@ public class RegistryManager
 {
     private static RegistryManager instance = null;
     
+    private RegistryCfg cfg;
+    private boolean overwriteFlag;
+    
     private RestClient esClient;
+
     private RegistryDao registryDao;
     private SchemaDao schemaDao;
+    private DataDictionaryDao ddDao;
+
+    private MetadataWriter registryWriter;
+    private CollectionInventoryWriter invWriter;
+
+    private FieldNameCache fieldNameCache;
+
+    private Counter counter;
     
     
     /**
@@ -29,9 +49,11 @@ public class RegistryManager
      * @param cfg Registry (Elasticsearch) configuration parameters.
      * @throws Exception Generic exception
      */
-    private RegistryManager(RegistryCfg cfg) throws Exception
+    private RegistryManager(RegistryCfg cfg, boolean overwriteFlag) throws Exception
     {
-        if(cfg.url == null || cfg.url.isEmpty()) throw new IllegalArgumentException("Missing Registry URL");
+        this.cfg = cfg;
+        this.overwriteFlag = overwriteFlag;
+        this.counter = new Counter();
         
         Logger log = LogManager.getLogger(this.getClass());
         log.log(LogUtils.LEVEL_SUMMARY, "Elasticsearch URL: " + cfg.url + ", index: " + cfg.indexName);
@@ -43,20 +65,30 @@ public class RegistryManager
         
         registryDao = new RegistryDao(esClient, indexName);
         schemaDao = new SchemaDao(esClient, indexName);
+        ddDao = new DataDictionaryDao(esClient, indexName);
+        
+        fieldNameCache = new FieldNameCache(ddDao, schemaDao);
+        
+        registryWriter = new MetadataWriter(cfg, registryDao, counter);
+        registryWriter.setOverwriteExisting(overwriteFlag);
+        
+        invWriter = new CollectionInventoryWriter(cfg);
     }
     
     
     /**
      * Initialize the singleton.
      * @param cfg Registry (Elasticsearch) configuration parameters.
+     * @param overwriteFlag overwrite registered products
      * @throws Exception Generic exception
      */
-    public static void init(RegistryCfg cfg) throws Exception
+    public static void init(RegistryCfg cfg, boolean overwriteFlag) throws Exception
     {
         // Registry is not configured. Run Harvest without Registry.
-        if(cfg == null) throw new Exception("Registry is not configuraed.");
+        if(cfg == null) throw new IllegalArgumentException("Registry is not configuraed.");
+        if(cfg.url == null || cfg.url.isEmpty()) throw new IllegalArgumentException("Missing Registry URL");        
         
-        instance = new RegistryManager(cfg);
+        instance = new RegistryManager(cfg, overwriteFlag);
     }
     
     
@@ -67,7 +99,9 @@ public class RegistryManager
     {
         if(instance == null) return;
         
+        CloseUtils.close(instance.registryWriter);
         CloseUtils.close(instance.esClient);
+        
         instance = null;
     }
     
@@ -79,6 +113,26 @@ public class RegistryManager
     public static RegistryManager getInstance()
     {
         return instance;
+    }
+    
+
+    /**
+     * Get registry configuration.
+     * @return Registry configuration
+     */
+    public RegistryCfg getRegistryConfiguration()
+    {
+        return cfg;
+    }
+
+    
+    /**
+     * Get overwrite flag
+     * @return if true, overwrite already registered documents
+     */
+    public boolean isOverwrite()
+    {
+        return overwriteFlag;
     }
     
     
@@ -101,4 +155,74 @@ public class RegistryManager
         return schemaDao;
     }
 
+    
+    /**
+     * Get Data Dictionary DAO object.
+     * @return Schema DAO
+     */
+    public DataDictionaryDao getDataDictionaryDao()
+    {
+        return ddDao;
+    }
+
+    
+    /**
+     * Get Field name cache
+     * @return Schema DAO
+     */
+    public FieldNameCache getFieldNameCache()
+    {
+        return fieldNameCache;
+    }
+
+    
+    /**
+     * Create new missing field processor
+     * @return new missing field processor object
+     * @throws Exception an exception
+     */
+    public MissingFieldsProcessor createMissingFieldsProcessor() throws Exception
+    {
+        SchemaUpdater su = new SchemaUpdater(cfg, ddDao, schemaDao);
+        return new MissingFieldsProcessor(su, fieldNameCache);
+    }
+
+
+    /**
+     * Create new metadata normalizer
+     * @return new metadata normalizer object
+     */
+    public MetadataNormalizer createMetadataNormalizer()
+    {
+        return new MetadataNormalizer(fieldNameCache);
+    }
+    
+    
+    /**
+     * Get registry writer
+     * @return registry writer
+     */
+    public MetadataWriter getRegistryWriter()
+    {
+        return registryWriter;
+    }
+    
+    
+    /**
+     * Get collection inventory writer
+     * @return collection inventory writer
+     */
+    public CollectionInventoryWriter getCollectionInventoryWriter()
+    {
+        return invWriter;
+    }
+    
+    /**
+     * Get counter of processed products
+     * @return counter
+     */
+    public Counter getCounter()
+    {
+        return counter;
+    }
 }

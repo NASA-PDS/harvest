@@ -3,6 +3,7 @@ package gov.nasa.pds.harvest.dao;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
@@ -65,7 +66,7 @@ public class RegistryDao
         List<String> ids = new ArrayList<>(1);
         ids.add(id);
         
-        Collection<String> retIds = getNonExistingIds(ids, 1);
+        Collection<String> retIds = getNonExistingIds(ids);
         return retIds.isEmpty();
     }
     
@@ -78,9 +79,10 @@ public class RegistryDao
      * @return a list of product IDs (lidvids) that don't exist in Elasticsearch "registry" collection.
      * @throws Exception Generic exception
      */
-    public Collection<String> getNonExistingIds(Collection<String> ids, int pageSize) throws Exception
+    public Set<String> getNonExistingIds(Collection<String> ids) throws Exception
     {
-        Response resp = searchIds(ids, pageSize);
+        if(ids == null || ids.isEmpty()) return null;
+        Response resp = searchIds(ids);
 
         NonExistingIdsResponse idsResp = new NonExistingIdsResponse(ids);
         parser.parseResponse(resp, idsResp);
@@ -89,11 +91,9 @@ public class RegistryDao
     }
     
     
-    private Response searchIds(Collection<String> ids, int pageSize) throws Exception
+    private Response searchIds(Collection<String> ids) throws Exception
     {
-        if(pageSize < ids.size()) throw new IllegalArgumentException("Page size is less than ids size");
-
-        String json = requestBld.createSearchIdsRequest(ids, pageSize);
+        String json = requestBld.createSearchIdsRequest(ids, ids.size());
         
         String reqUrl = "/" + indexName + "/_search";
         if(pretty) reqUrl += "?pretty";

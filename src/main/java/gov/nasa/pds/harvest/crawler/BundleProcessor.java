@@ -14,8 +14,6 @@ import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.dao.RegistryDao;
-import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
-import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.registry.common.meta.BundleMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
@@ -50,9 +48,9 @@ public class BundleProcessor extends BaseProcessor
      * @param counter document / product counter
      * @throws Exception Generic exception
      */
-    public BundleProcessor(Configuration config, Counter counter) throws Exception
+    public BundleProcessor(Configuration config) throws Exception
     {
-        super(config, counter);
+        super(config);
 
         bundleExtractor = new BundleMetadataExtractor();
     }
@@ -129,11 +127,11 @@ public class BundleProcessor extends BaseProcessor
         log.info("Processing bundle " + file.getAbsolutePath());
         bundleCount++;
         
-        RegistryDao dao = (RegistryManager.getInstance() == null) ? null 
-                : RegistryManager.getInstance().getRegistryDao(); 
-
+        RegistryDao dao = RegistryManager.getInstance().getRegistryDao(); 
+        Counter counter = RegistryManager.getInstance().getCounter();
+        
         // Bundle already registered in the Registry (Elasticsearch)
-        if(dao != null && dao.idExists(meta.lidvid))
+        if(dao.idExists(meta.lidvid))
         {
             log.warn("Bundle " + meta.lidvid + " already registered. Skipping.");
             addCollectionRefs(meta, doc);
@@ -159,10 +157,8 @@ public class BundleProcessor extends BaseProcessor
         // File information (name, size, checksum)
         fileDataExtractor.extract(file, meta, config.fileInfo.fileRef);
         
-        RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
-        writer.write(meta, nsInfo);
-        
-        counter.prodCounters.inc(meta.prodClass);
+        // Save data
+        save(meta, nsInfo);
     }
 
     

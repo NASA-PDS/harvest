@@ -14,8 +14,7 @@ import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
-import gov.nasa.pds.harvest.util.out.RegistryDocWriter;
-import gov.nasa.pds.harvest.util.out.WriterManager;
+import gov.nasa.pds.registry.common.es.service.CollectionInventoryWriter;
 import gov.nasa.pds.registry.common.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
@@ -39,6 +38,8 @@ import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 public class CollectionProcessor extends BaseProcessor
 {
     private CollectionInventoryProcessor invProc;
+    private CollectionInventoryWriter invWriter;
+    
     private CollectionMetadataExtractor collectionExtractor;
     
     private int collectionCount;
@@ -47,13 +48,13 @@ public class CollectionProcessor extends BaseProcessor
     /**
      * Constructor.
      * @param config Harvest configuration parameters
-     * @param counter Counter of processed products
      * @throws Exception Generic exception
      */
-    public CollectionProcessor(Configuration config, Counter counter) throws Exception
+    public CollectionProcessor(Configuration config) throws Exception
     {
-        super(config, counter);
+        super(config);
         
+        invWriter = new CollectionInventoryWriter(config.registryCfg);
         this.invProc = new CollectionInventoryProcessor(config.refsCfg.primaryOnly);
         collectionExtractor = new CollectionMetadataExtractor();
     }
@@ -132,11 +133,11 @@ public class CollectionProcessor extends BaseProcessor
         log.info("Processing collection " + file.getAbsolutePath());
         collectionCount++;
         
-        RegistryDao dao = (RegistryManager.getInstance() == null) ? null 
-                : RegistryManager.getInstance().getRegistryDao(); 
+        RegistryDao dao = RegistryManager.getInstance().getRegistryDao();
+        Counter counter = RegistryManager.getInstance().getCounter();
 
         // Collection already registered in the Registry (Elasticsearch)
-        if(dao != null && dao.idExists(meta.lidvid))
+        if(dao.idExists(meta.lidvid))
         {
             log.warn("Collection " + meta.lidvid + " already registered. Skipping.");
             
@@ -162,13 +163,11 @@ public class CollectionProcessor extends BaseProcessor
         // File information (name, size, checksum)
         fileDataExtractor.extract(file, meta, config.fileInfo.fileRef);
         
-        RegistryDocWriter writer = WriterManager.getInstance().getRegistryWriter();
-        writer.write(meta, nsInfo);
+        // Save metadata
+        save(meta, nsInfo);
         
         // Cache and write product references
         processInventoryFiles(file, doc, meta, true);
-        
-        counter.prodCounters.inc(meta.prodClass);
     }
 
     
@@ -192,25 +191,15 @@ public class CollectionProcessor extends BaseProcessor
             // Collection is not registered. Write inventory refs.
             if(write)
             {
-                // Registry is configured
-                if(RegistryManager.getInstance() != null)
-                {
-                    // Write inventory refs. Don't cache any products.
-                    invProc.writeCollectionInventory(meta, invFile, false);
-                    // Cache non-registered products.
-                    invProc.cacheNonRegisteredInventory(meta, invFile);
-                }
-                // Registry is not configured
-                else
-                {
-                    // Write inventory refs and cache all products.
-                    invProc.writeCollectionInventory(meta, invFile, true);
-                }
+                // Write inventory refs.
+                invWriter.writeCollectionInventory(meta.lidvid, invFile, jobId);
+                // Cache non-registered products.
+                invProc.cacheNonRegisteredInventory(invFile);
             }
             // Collection is already registered. Only cache non-registered products.
             else
             {
-                invProc.cacheNonRegisteredInventory(meta, invFile);
+                invProc.cacheNonRegisteredInventory(invFile);
             }
         }
     }

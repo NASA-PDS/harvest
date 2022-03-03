@@ -6,12 +6,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.dao.RegistryManager;
+import gov.nasa.pds.harvest.dao.MetadataWriter;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
+import gov.nasa.pds.harvest.util.PackageIdGenerator;
+import gov.nasa.pds.registry.common.es.service.MissingFieldsProcessor;
 import gov.nasa.pds.registry.common.meta.AutogenExtractor;
 import gov.nasa.pds.registry.common.meta.BasicMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.FileMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.InternalReferenceExtractor;
+import gov.nasa.pds.registry.common.meta.Metadata;
+import gov.nasa.pds.registry.common.meta.MetadataNormalizer;
 import gov.nasa.pds.registry.common.meta.SearchMetadataExtractor;
+import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 
 /**
@@ -26,8 +33,6 @@ public class BaseProcessor
     protected Logger log;
     
     protected Configuration config;
-    protected Counter counter;
-    
     protected DocumentBuilderFactory dbf;
 
     protected BasicMetadataExtractor basicExtractor;
@@ -37,18 +42,20 @@ public class BaseProcessor
     protected SearchMetadataExtractor searchExtractor;
     
     protected XPathExtractor xpathExtractor;
+    
+    private MissingFieldsProcessor mfProc;
+    private MetadataNormalizer metaNormalizer;
 
+    protected String jobId;
 
     /**
      * Constructor.
      * @param config Harvest configuration parameters
-     * @param counter Counter of processed products
      * @throws Exception Generic exception
      */
-    public BaseProcessor(Configuration config, Counter counter) throws Exception
+    public BaseProcessor(Configuration config) throws Exception
     {
         this.config = config;
-        this.counter = counter;
 
         log = LogManager.getLogger(this.getClass());
         
@@ -64,7 +71,6 @@ public class BaseProcessor
         if(config.autogen != null)
         {
             autogenExtractor.setClassFilters(config.autogen.classFilterIncludes, config.autogen.classFilterExcludes);
-            autogenExtractor.setDateFields(config.autogen.dateFields);
         }
         
         fileDataExtractor = new FileMetadataExtractor();
@@ -73,5 +79,25 @@ public class BaseProcessor
             fileDataExtractor.setProcessDataFiles(config.fileInfo.processDataFiles);
             fileDataExtractor.setStoreLabels(config.fileInfo.storeLabels, config.fileInfo.storeJsonLabels);
         }
+        
+        // Services
+        RegistryManager mgr = RegistryManager.getInstance();        
+        mfProc = mgr.createMissingFieldsProcessor();
+        metaNormalizer = mgr.createMetadataNormalizer();
+        
+        jobId = PackageIdGenerator.getInstance().getPackageId();
     }
+
+    
+    protected void save(Metadata meta, XmlNamespaces nsInfo) throws Exception
+    {
+        // Process missing fields
+        mfProc.processDoc(meta.fields, nsInfo);
+        // Fix (normalize) date and boolean field values
+        metaNormalizer.normalizeValues(meta.fields);
+        
+        MetadataWriter writer = RegistryManager.getInstance().getRegistryWriter();
+        writer.write(meta);
+    }
+    
 }

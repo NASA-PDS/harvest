@@ -16,7 +16,6 @@ import gov.nasa.pds.harvest.crawler.FilesProcessor;
 import gov.nasa.pds.harvest.crawler.ProductProcessor;
 import gov.nasa.pds.harvest.crawler.RefsCache;
 import gov.nasa.pds.harvest.dao.RegistryManager;
-import gov.nasa.pds.harvest.dao.SchemaUtils;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
@@ -29,13 +28,12 @@ import gov.nasa.pds.harvest.util.out.WriterManager;
  * 
  * @author karpenko
  */
-public class CrawlerCmd implements CliCommand
+public class HarvestCmd implements CliCommand
 {
     private Logger log;
     private Configuration cfg;
     
     // Processors
-    private Counter counter;
     private FilesProcessor filesProc;
     private BundleProcessor bundleProc;
     private CollectionProcessor colProc;
@@ -45,7 +43,7 @@ public class CrawlerCmd implements CliCommand
     /**
      * Constructor
      */
-    public CrawlerCmd()
+    public HarvestCmd()
     {
         log = LogManager.getLogger(this.getClass());
     }
@@ -62,10 +60,6 @@ public class CrawlerCmd implements CliCommand
     {
         configure(cmdLine);
 
-        RegistryManager.init(cfg.registryCfg);
-        log.info("Reading registry schema from Elasticsearch");
-        SchemaUtils.updateFieldsCache();
-
         try
         {
             if(cfg.dirs != null)
@@ -80,14 +74,15 @@ public class CrawlerCmd implements CliCommand
             {
                 processManifests();
             }
+            
+            RegistryManager.getInstance().getRegistryWriter().flush();
+            printSummary();
         }
         finally
         {
             WriterManager.destroy();
             RegistryManager.destroy();
         }
-        
-        printSummary();
     }
     
     
@@ -134,11 +129,45 @@ public class CrawlerCmd implements CliCommand
     /**
      * Parse command-line parameters and configuration file to initialize
      * logger, data writers, data processors, etc.
-     * @param Apache Commons CLI library's class 
+     * @param cmdLine Apache Commons CLI library's class 
      * containing parsed command line parameters.
      * @throws Exception Generic exception
      */
     private void configure(CommandLine cmdLine) throws Exception
+    {
+        // Configuration file
+        cfg = readConfigFile(cmdLine);
+        
+        // Writer manager
+        initWriterManager(cmdLine);
+        
+        boolean overwriteFlag = cmdLine.hasOption("overwrite");
+        
+        // Registry manager
+        RegistryManager.init(cfg.registryCfg, overwriteFlag);
+        log.info("Connecting to Elasticsearch");
+        RegistryManager.getInstance().getFieldNameCache().update();
+        
+        // Xpath maps
+        XPathCacheLoader xpcLoader = new XPathCacheLoader();
+        xpcLoader.load(cfg.xpathMaps);
+        
+        // Processors
+
+        if(cfg.dirs != null || cfg.manifests != null)
+        {
+            filesProc = new FilesProcessor(cfg);
+        }
+        else if(cfg.bundles != null)
+        {
+            bundleProc = new BundleProcessor(cfg);
+            colProc = new CollectionProcessor(cfg);
+            prodProc = new ProductProcessor(cfg);
+        }
+    }
+
+    
+    private void initWriterManager(CommandLine cmdLine) throws Exception
     {
         // Output directory
         String outDir = cmdLine.getOptionValue("o", "/tmp/harvest/out");
@@ -146,53 +175,35 @@ public class CrawlerCmd implements CliCommand
         File fOutDir = new File(outDir);
         fOutDir.mkdirs();
 
-        // Output format
-        String outFormat = cmdLine.getOptionValue("f", "json").toLowerCase();
-        log.log(LogUtils.LEVEL_SUMMARY, "Output format: " + outFormat);
-
-        switch(outFormat)
-        {
-        case "xml":
-            WriterManager.initXml(fOutDir);
-            break;
-        case "json":
-            WriterManager.initJson(fOutDir);
-            break;
-        default:
-            throw new Exception("Invalid output format " + outFormat);                
-        }
-        
-        // Configuration file
+        WriterManager.init(fOutDir);
+    }
+    
+    
+    private Configuration readConfigFile(CommandLine cmdLine) throws Exception
+    {
         File cfgFile = new File(cmdLine.getOptionValue("c"));
         log.log(LogUtils.LEVEL_SUMMARY, "Reading configuration from " + cfgFile.getAbsolutePath());
-        ConfigReader cfgReader = new ConfigReader();
-        cfg = cfgReader.read(cfgFile);
-
-        if(cfg.bundles != null && cfg.registryCfg == null)
-        {
-            log.warn("Registry (Elasticsearch) is not configured. "
-                    + "Registered products will be processed again.");
-        }
-
-        // Xpath maps
-        XPathCacheLoader xpcLoader = new XPathCacheLoader();
-        xpcLoader.load(cfg.xpathMaps);
         
-        // Processors
-        counter = new Counter();
+        ConfigReader cfgReader = new ConfigReader();
+        Configuration cfg = cfgReader.read(cfgFile);
 
-        if(cfg.dirs != null || cfg.manifests != null)
+        if(cfg.fileInfo.storeLabels == false)
         {
-            filesProc = new FilesProcessor(cfg, counter);
+            log.warn("XML BLOB storage is disabled "
+                    + "(see <fileInfo storeLabels=\"false\"> configuration). "
+                    + "Not all Registry features will be available.");
         }
-        else if(cfg.bundles != null)
+
+        if(cfg.fileInfo.storeJsonLabels == false)
         {
-            bundleProc = new BundleProcessor(cfg, counter);
-            colProc = new CollectionProcessor(cfg, counter);
-            prodProc = new ProductProcessor(cfg, counter);
+            log.warn("JSON BLOB storage is disabled "
+                    + "(see <fileInfo storeJsonLabels=\"false\"> configuration). "
+                    + "Not all Registry features will be available.");
         }
+
+        return cfg;
     }
-
+    
     
     private void processDirectory(String path) throws Exception
     {
@@ -261,6 +272,8 @@ public class CrawlerCmd implements CliCommand
     
     private void printSummary()
     {
+        Counter counter = RegistryManager.getInstance().getCounter();
+        
         log.log(LogUtils.LEVEL_SUMMARY, "Summary:");
         int processedCount = counter.prodCounters.getTotal();
         
