@@ -137,7 +137,7 @@ public class ProductProcessor extends BaseProcessor
         catch(Exception ex)
         {
             log.warn(ex.getMessage());
-            counter.skippedFileCount++;
+            counter.errorFileCount++;
             return;
         }        
         
@@ -156,7 +156,16 @@ public class ProductProcessor extends BaseProcessor
             if(config.filters.prodClassExclude.contains(rootElement)) return;
         }
 
-        processMetadata(file, doc);
+        // Process metadata
+        try
+        {
+            processMetadata(file, doc);
+        }
+        catch(Exception ex)
+        {
+            log.error(ex.getMessage());
+            counter.errorFileCount++;
+        }        
     }
     
     

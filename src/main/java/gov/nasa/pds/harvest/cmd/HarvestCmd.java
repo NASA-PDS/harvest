@@ -278,6 +278,7 @@ public class HarvestCmd implements CliCommand
         int processedCount = counter.prodCounters.getTotal();
         
         log.log(LogUtils.LEVEL_SUMMARY, "Skipped files: " + counter.skippedFileCount);
+        log.log(LogUtils.LEVEL_SUMMARY, "Failed files: " + counter.errorFileCount);
         log.log(LogUtils.LEVEL_SUMMARY, "Processed files: " + processedCount);
         
         if(processedCount > 0)
