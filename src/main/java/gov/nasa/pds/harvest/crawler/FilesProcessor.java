@@ -157,7 +157,7 @@ public class FilesProcessor extends BaseProcessor
         catch(Exception ex)
         {
             log.error(ex.getMessage());
-            counter.errorFileCount++;
+            counter.failedFileCount++;
             return;
         }        
         
@@ -181,7 +181,7 @@ public class FilesProcessor extends BaseProcessor
         catch(Exception ex)
         {
             log.error(ex.getMessage());
-            counter.errorFileCount++;
+            counter.failedFileCount++;
         }        
     }
 

@@ -278,19 +278,18 @@ public class HarvestCmd implements CliCommand
         int processedCount = counter.prodCounters.getTotal();
         
         log.log(LogUtils.LEVEL_SUMMARY, "Skipped files: " + counter.skippedFileCount);
-        log.log(LogUtils.LEVEL_SUMMARY, "Failed files: " + counter.errorFileCount);
-        log.log(LogUtils.LEVEL_SUMMARY, "Processed files: " + processedCount);
+        log.log(LogUtils.LEVEL_SUMMARY, "Loaded files: " + processedCount);
         
         if(processedCount > 0)
         {
-            log.log(LogUtils.LEVEL_SUMMARY, "File counts by type:");
             for(CounterMap.Item item: counter.prodCounters.getCounts())
             {
                 log.log(LogUtils.LEVEL_SUMMARY, "  " + item.name + ": " + item.count);
             }
-            
-            log.log(LogUtils.LEVEL_SUMMARY, "Package ID: " + PackageIdGenerator.getInstance().getPackageId());
         }
+        
+        log.log(LogUtils.LEVEL_SUMMARY, "Failed files: " + counter.failedFileCount);
+        log.log(LogUtils.LEVEL_SUMMARY, "Package ID: " + PackageIdGenerator.getInstance().getPackageId());
     }
 
 }

@@ -11,7 +11,7 @@ public class Counter
 {
     public CounterMap prodCounters;
     public int skippedFileCount;
-    public int errorFileCount;
+    public int failedFileCount;
     
     public Counter()
     {

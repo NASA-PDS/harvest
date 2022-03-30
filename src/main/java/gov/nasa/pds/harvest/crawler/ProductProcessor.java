@@ -137,7 +137,7 @@ public class ProductProcessor extends BaseProcessor
         catch(Exception ex)
         {
             log.warn(ex.getMessage());
-            counter.errorFileCount++;
+            counter.failedFileCount++;
             return;
         }        
         
@@ -164,7 +164,7 @@ public class ProductProcessor extends BaseProcessor
         catch(Exception ex)
         {
             log.error(ex.getMessage());
-            counter.errorFileCount++;
+            counter.failedFileCount++;
         }        
     }
     
