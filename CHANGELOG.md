@@ -1,6 +1,19 @@
 # Changelog
 
-## [v3.6.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.6.0-SNAPSHOT) (2022-01-21)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2022-03-31)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.6.0-SNAPSHOT...«unknown»)
+
+**Requirements:**
+
+- As a user, I want Harvest automatically convert date / time fields to ISO format supported by Elasticsearch [\#54](https://github.com/NASA-PDS/harvest/issues/54)
+
+**Defects:**
+
+- Error ingesting an XML boolean with values of 0/1 [\#78](https://github.com/NASA-PDS/harvest/issues/78) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
+- harvest stops rather than skips a file with bad permissions [\#75](https://github.com/NASA-PDS/harvest/issues/75) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
+
+## [v3.6.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.6.0-SNAPSHOT) (2022-02-10)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.2...v3.6.0-SNAPSHOT)
 
