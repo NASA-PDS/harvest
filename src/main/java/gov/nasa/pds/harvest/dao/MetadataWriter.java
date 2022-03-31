@@ -124,19 +124,10 @@ public class MetadataWriter implements Closeable
         // Update product counters
         for(RegistryDocBatch.NJsonItem item: docBatch.getItems())
         {
-            if(nonRegisteredIds == null)
+            if((nonRegisteredIds == null && !failedIds.contains(item.lidvid)) ||
+               (nonRegisteredIds != null && nonRegisteredIds.contains(item.lidvid) && !failedIds.contains(item.lidvid)))
             {
-                if(!failedIds.contains(item.lidvid)) 
-                {
-                    counter.prodCounters.inc(item.prodClass);
-                }
-            }
-            else
-            {
-                if(nonRegisteredIds.contains(item.lidvid) && !failedIds.contains(item.lidvid))
-                {
-                    counter.prodCounters.inc(item.prodClass);
-                }
+                counter.prodCounters.inc(item.prodClass);
             }
         }
         
