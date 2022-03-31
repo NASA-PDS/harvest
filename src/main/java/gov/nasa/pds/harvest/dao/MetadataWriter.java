@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -89,6 +90,7 @@ public class MetadataWriter implements Closeable
             }
         }
 
+        // Build JSON documents for Elasticsearch
         List<String> data = new ArrayList<>();
         
         for(RegistryDocBatch.NJsonItem item: docBatch.getItems())
@@ -111,9 +113,25 @@ public class MetadataWriter implements Closeable
             }
         }
         
-        totalRecords += loader.loadBatch(data);
+        // Load batch
+        Set<String> failedIds = new TreeSet<>();
+        totalRecords += loader.loadBatch(data, failedIds);
         log.info("Wrote " + totalRecords + " product(s)");
         
+        // Update failed counter
+        counter.failedFileCount += failedIds.size();
+
+        // Update product counters
+        for(RegistryDocBatch.NJsonItem item: docBatch.getItems())
+        {
+            if((nonRegisteredIds == null && !failedIds.contains(item.lidvid)) ||
+               (nonRegisteredIds != null && nonRegisteredIds.contains(item.lidvid) && !failedIds.contains(item.lidvid)))
+            {
+                counter.prodCounters.inc(item.prodClass);
+            }
+        }
+        
+        // Clear batch
         docBatch.clear();
     }
 
@@ -122,8 +140,6 @@ public class MetadataWriter implements Closeable
     {
         data.add(item.pkJson);
         data.add(item.dataJson);
-
-        counter.prodCounters.inc(item.prodClass);
     }
     
     

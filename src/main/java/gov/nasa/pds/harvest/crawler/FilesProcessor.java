@@ -156,8 +156,8 @@ public class FilesProcessor extends BaseProcessor
         }
         catch(Exception ex)
         {
-            log.warn(ex.getMessage());
-            counter.skippedFileCount++;
+            log.error(ex.getMessage());
+            counter.failedFileCount++;
             return;
         }        
         
@@ -173,7 +173,16 @@ public class FilesProcessor extends BaseProcessor
             if(config.filters.prodClassExclude.contains(rootElement)) return;
         }
         
-        processMetadata(file, doc);
+        // Process metadata
+        try
+        {
+            processMetadata(file, doc);
+        }
+        catch(Exception ex)
+        {
+            log.error(ex.getMessage());
+            counter.failedFileCount++;
+        }        
     }
 
     
@@ -193,21 +202,10 @@ public class FilesProcessor extends BaseProcessor
 
         String rootElement = doc.getDocumentElement().getNodeName();
 
-        // Process Collection specific data
-        if("Product_Collection".equals(rootElement))
-        {
-            processInventoryFiles(file, doc, meta);
-        }
         // Process Bundle specific data
-        else if("Product_Bundle".equals(rootElement))
+        if("Product_Bundle".equals(rootElement))
         {
             addCollectionRefs(meta, doc);
-        }
-        // Process supplemental products
-        else if("Product_Metadata_Supplemental".equals(rootElement))
-        {
-            SupplementalWriter swriter = WriterManager.getInstance().getSupplementalWriter();
-            swriter.write(file);
         }
         
         // Internal references
@@ -227,6 +225,18 @@ public class FilesProcessor extends BaseProcessor
         
         // Save data
         save(meta, nsInfo);
+        
+        // Process Collection inventory
+        if("Product_Collection".equals(rootElement))
+        {
+            processInventoryFiles(file, doc, meta);
+        }
+        // Process supplemental products
+        else if("Product_Metadata_Supplemental".equals(rootElement))
+        {
+            SupplementalWriter swriter = WriterManager.getInstance().getSupplementalWriter();
+            swriter.write(file);
+        }
     }
 
     

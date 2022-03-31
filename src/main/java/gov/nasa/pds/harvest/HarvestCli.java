@@ -106,7 +106,8 @@ public class HarvestCli
         System.out.println("  -V, --version      Print Harvest version");
         System.out.println();
         System.out.println("Optional parameters:");
-        System.out.println("  -o <dir>           Output directory. Default is /tmp/harvest/out");
+        System.out.println("  -o <dir>           Output directory (applies to supplemental products only)."); 
+        System.out.println("                     Default is /tmp/harvest/out");
         System.out.println("  -l <file>          Log file. Default is /tmp/harvest/harvest.log");
         System.out.println("  -v <level>         Logger verbosity: DEBUG, INFO (default), WARNING, ERROR");
         System.out.println("  -O, --overwrite    Overwrite registered products");
