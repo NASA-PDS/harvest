@@ -50,6 +50,7 @@ fi
 # Home
 SCRIPT_DIR=$(cd "$( dirname $0 )" && pwd)
 HARVEST_HOME=$(cd ${SCRIPT_DIR}/.. && pwd)
+export HARVEST_HOME
 
 # Executable Jar
 TOOL_JARS=(${HARVEST_HOME}/dist/harvest-*.jar)
