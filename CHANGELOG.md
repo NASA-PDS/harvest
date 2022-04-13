@@ -1,8 +1,20 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2022-03-31)
+## [3.6.0](https://github.com/NASA-PDS/harvest/tree/3.6.0) (2022-04-13)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.6.0-SNAPSHOT...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.6.0-SNAPSHOT...3.6.0)
+
+**Improvements:**
+
+- Change the option -o help message [\#84](https://github.com/NASA-PDS/harvest/issues/84)
+
+**Other closed issues:**
+
+- Update argument handling to use hyphenation similar to other PDS Tools [\#86](https://github.com/NASA-PDS/harvest/issues/86)
+
+## [v3.6.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.6.0-SNAPSHOT) (2022-03-31)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.2...v3.6.0-SNAPSHOT)
 
 **Requirements:**
 
@@ -12,10 +24,6 @@
 
 - Error ingesting an XML boolean with values of 0/1 [\#78](https://github.com/NASA-PDS/harvest/issues/78) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 - harvest stops rather than skips a file with bad permissions [\#75](https://github.com/NASA-PDS/harvest/issues/75) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
-
-## [v3.6.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.6.0-SNAPSHOT) (2022-02-10)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.2...v3.6.0-SNAPSHOT)
 
 ## [v3.5.2](https://github.com/NASA-PDS/harvest/tree/v3.5.2) (2022-01-11)
 
