@@ -35,7 +35,7 @@
 
     <groupId>gov.nasa.pds</groupId>
     <artifactId>harvest</artifactId>
-    <version>3.6.1-SNAPSHOT</version>
+    <version>3.7.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Harvest Tool</name>
@@ -113,7 +113,7 @@
         <dependency>
             <groupId>gov.nasa.pds</groupId>
             <artifactId>registry-common</artifactId>
-            <version>1.2.0</version>
+            <version>1.3.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
