@@ -1,29 +1,37 @@
 # Changelog
 
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2022-05-17)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.0-SNAPSHOT...«unknown»)
+
+**Defects:**
+
+- Incorrect "lidvid" and  "\_id" fields are ingested \(trailing zeros are truncated\) [\#90](https://github.com/NASA-PDS/harvest/issues/90) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
+
+## [v3.7.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.7.0-SNAPSHOT) (2022-04-13)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.6.0...v3.7.0-SNAPSHOT)
+
 ## [v3.6.0](https://github.com/NASA-PDS/harvest/tree/v3.6.0) (2022-04-13)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.6.0-SNAPSHOT...v3.6.0)
-
-**Improvements:**
-
-- Change the option -o help message [\#84](https://github.com/NASA-PDS/harvest/issues/84)
-
-**Other closed issues:**
-
-- Update argument handling to use hyphenation similar to other PDS Tools [\#86](https://github.com/NASA-PDS/harvest/issues/86)
-
-## [v3.6.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.6.0-SNAPSHOT) (2022-03-31)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.2...v3.6.0-SNAPSHOT)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.5.2...v3.6.0)
 
 **Requirements:**
 
 - As a user, I want Harvest automatically convert date / time fields to ISO format supported by Elasticsearch [\#54](https://github.com/NASA-PDS/harvest/issues/54)
 
+**Improvements:**
+
+- Change the option -o help message [\#84](https://github.com/NASA-PDS/harvest/issues/84)
+
 **Defects:**
 
 - Error ingesting an XML boolean with values of 0/1 [\#78](https://github.com/NASA-PDS/harvest/issues/78) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 - harvest stops rather than skips a file with bad permissions [\#75](https://github.com/NASA-PDS/harvest/issues/75) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
+
+**Other closed issues:**
+
+- Update argument handling to use hyphenation similar to other PDS Tools [\#86](https://github.com/NASA-PDS/harvest/issues/86)
 
 ## [v3.5.2](https://github.com/NASA-PDS/harvest/tree/v3.5.2) (2022-01-11)
 
