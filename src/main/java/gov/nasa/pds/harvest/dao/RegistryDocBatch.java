@@ -36,7 +36,7 @@ public class RegistryDocBatch
     public void write(Metadata meta, String jobId) throws Exception
     {
         NJsonItem item = new NJsonItem();
-        item.lidvid = meta.lid + "::" + meta.vid;
+        item.lidvid = meta.lidvid;
         item.prodClass = meta.prodClass;
         item.pkJson = RegistryDocBuilder.createPKJson(meta);
         item.dataJson = RegistryDocBuilder.createDataJson(meta, jobId);
