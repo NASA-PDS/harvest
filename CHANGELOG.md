@@ -1,16 +1,12 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2022-05-17)
+## [v3.7.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.7.0-SNAPSHOT) (2022-05-17)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.0-SNAPSHOT...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.6.0...v3.7.0-SNAPSHOT)
 
 **Defects:**
 
 - Incorrect "lidvid" and  "\_id" fields are ingested \(trailing zeros are truncated\) [\#90](https://github.com/NASA-PDS/harvest/issues/90) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
-
-## [v3.7.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.7.0-SNAPSHOT) (2022-04-13)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.6.0...v3.7.0-SNAPSHOT)
 
 ## [v3.6.0](https://github.com/NASA-PDS/harvest/tree/v3.6.0) (2022-04-13)
 
