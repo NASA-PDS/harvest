@@ -29,7 +29,7 @@ public class NodeNameValidator
         map.put("PDS_NAIF","Planetary Data System: NAIF Node");
         map.put("PDS_PPI", "Planetary Data System: Planetary Plasma Interactions Node");
         map.put("PDS_RMS", "Planetary Data System: Rings Node");
-        map.put("PDS_SBN", "Planetary Data System: Small Bodies Node at University of Maryland");
+        map.put("PDS_SBN", "Planetary Data System: Small Bodies Node");
         map.put("PSA",  "Planetary Science Archive");
         map.put("JAXA", "Japan Aerospace Exploration Agency");
         map.put("ROSCOSMOS", "Russian State Corporation for Space Activities");
