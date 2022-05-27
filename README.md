@@ -2,14 +2,14 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5750537.svg)](https://doi.org/10.5281/zenodo.5750537) [![🤪 Unstable integration & delivery](https://github.com/NASA-PDS/harvest/actions/workflows/unstable-cicd.yaml/badge.svg)](https://github.com/NASA-PDS/harvest/actions/workflows/unstable-cicd.yaml) [![😌 Stable integration & delivery](https://github.com/NASA-PDS/harvest/actions/workflows/stable-cicd.yaml/badge.svg)](https://github.com/NASA-PDS/harvest/actions/workflows/stable-cicd.yaml)
 
-The Harvest Tool captures and indexes product metadata. Each discipline node of the Planetary Data System runs the tool to crawl the local data repositories, discovering products and indexing associated metadata into the Registry Service. As such, it's a sub-component of the PDS Registry App (https://github.com/NASA-PDS/pds-app-registry).
+The Harvest Tool captures and indexes product metadata. Each discipline node of the Planetary Data System runs the tool to crawl the local data repositories, discovering products and indexing associated metadata into the Registry Service. As such, it's a sub-component of the PDS Registry App (https://github.com/NASA-PDS/registry).
 
-Please be sure to visit the tool's website at https://nasa-pds.github.io/harvest/.
+For more detailed documentation on this tool, see the PDS Registry Documentation: https://nasa-pds.github.io/registry/.
 
 
 # Documentation
 
-The documentation for the latest release of the Harvest Tool, including release notes, installation, and operation of the software is [ready to browse online](https://nasa-pds.github.io/harvest/).
+The documentation for the latest release of the Harvest Tool, including release notes, installation, and operation of the software is [ready to browse online](https://nasa-pds.github.io/registry/).
 
 If you would like to get the latest documentation, including any updates since the last release, you can execute the "mvn site:run" command and view the documentation locally at http://localhost:8080/.
 
