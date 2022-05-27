@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5750537.svg)](https://doi.org/10.5281/zenodo.5750537) [![🤪 Unstable integration & delivery](https://github.com/NASA-PDS/harvest/actions/workflows/unstable-cicd.yaml/badge.svg)](https://github.com/NASA-PDS/harvest/actions/workflows/unstable-cicd.yaml) [![😌 Stable integration & delivery](https://github.com/NASA-PDS/harvest/actions/workflows/stable-cicd.yaml/badge.svg)](https://github.com/NASA-PDS/harvest/actions/workflows/stable-cicd.yaml)
 
-The Harvest Tool captures and indexes product metadata. Each discipline node of the Planetary Data System runs the tool to crawl the local data repositories, discovering products and indexing associated metadata into the Registry Service. As such, it's a sub-component of the PDS Registry App (https://github.com/NASA-PDS/registry).
+The Harvest Tool captures and indexes product metadata. Each discipline node of the Planetary Data System runs the tool to crawl the local data repositories, discovering products and indexing associated metadata into the Registry Service. As such, it's a sub-component of the PDS Registry Application (https://github.com/NASA-PDS/registry).
 
 For more detailed documentation on this tool, see the PDS Registry Documentation: https://nasa-pds.github.io/registry/.
 
