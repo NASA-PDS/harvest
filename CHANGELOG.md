@@ -1,6 +1,6 @@
 # Changelog
 
-## [v3.7.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.7.0-SNAPSHOT) (2022-05-27)
+## [v3.7.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.7.0-SNAPSHOT) (2022-06-28)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.6.0...v3.7.0-SNAPSHOT)
 
