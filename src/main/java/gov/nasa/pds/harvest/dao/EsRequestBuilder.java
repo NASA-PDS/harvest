@@ -57,7 +57,8 @@ public class EsRequestBuilder
      */
     public String createSearchIdsRequest(Collection<String> ids, int pageSize) throws Exception
     {
-        if(ids == null || ids.isEmpty()) throw new Exception("Missing ids");
+        if(ids == null || ids.isEmpty()) throw new Exception("Error reading bundle/collection references. " +
+                "Verify the bundle is valid prior to loading the data.");
             
         StringWriter out = new StringWriter();
         JsonWriter writer = createJsonWriter(out);
