@@ -2,6 +2,7 @@ package gov.nasa.pds.harvest.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -75,13 +76,12 @@ public class RegistryDao
      * Check if given product IDs (lidvids) exist in Elasticsearch "registry" 
      * collection. Return values that don't exist in Elasticsearch.
      * @param ids Search these IDs (lidvids) in Elasticsearch
-     * @param pageSize max number of results to return. Usually pageSize = ids.size()
      * @return a list of product IDs (lidvids) that don't exist in Elasticsearch "registry" collection.
      * @throws Exception Generic exception
      */
     public Set<String> getNonExistingIds(Collection<String> ids) throws Exception
     {
-        if(ids == null || ids.isEmpty()) return null;
+        if(ids == null || ids.isEmpty()) return new HashSet<>();
         Response resp = searchIds(ids);
 
         NonExistingIdsResponse idsResp = new NonExistingIdsResponse(ids);

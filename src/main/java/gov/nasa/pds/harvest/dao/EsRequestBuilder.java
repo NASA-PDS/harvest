@@ -1,10 +1,12 @@
 package gov.nasa.pds.harvest.dao;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collection;
 
 import com.google.gson.stream.JsonWriter;
+import gov.nasa.pds.harvest.exception.InvalidPDS4ProductException;
 
 
 /**
@@ -53,11 +55,12 @@ public class EsRequestBuilder
      * @param ids Collection of product IDs (lidvids)
      * @param pageSize Number of records to return. Usually pageSize = ids.size().
      * @return JSON Elasticsearch request
-     * @throws Exception Generic exception
+     * @throws InvalidPDS4ProductException Invalid PDS4 Product Exception
+     * @throws IOException IOException
      */
-    public String createSearchIdsRequest(Collection<String> ids, int pageSize) throws Exception
-    {
-        if(ids == null || ids.isEmpty()) throw new Exception("Missing ids");
+    public String createSearchIdsRequest(Collection<String> ids, int pageSize) throws InvalidPDS4ProductException, IOException {
+        if(ids == null || ids.isEmpty()) throw new InvalidPDS4ProductException("Error reading bundle/collection references. " +
+                "Verify the bundle/collection is valid prior to loading the data.");
             
         StringWriter out = new StringWriter();
         JsonWriter writer = createJsonWriter(out);
