@@ -1,5 +1,13 @@
 # Changelog
 
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2022-07-27)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.0-SNAPSHOT...«unknown»)
+
+**Defects:**
+
+- Error "Missing ids" does not provide enough information for debugging [\#96](https://github.com/NASA-PDS/harvest/issues/96) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
+
 ## [v3.7.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.7.0-SNAPSHOT) (2022-06-28)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.6.0...v3.7.0-SNAPSHOT)
