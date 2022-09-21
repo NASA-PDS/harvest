@@ -1,20 +1,20 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2022-09-06)
+## [v3.7.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.7.0-SNAPSHOT) (2022-09-06)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.0-SNAPSHOT...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.0...v3.7.0-SNAPSHOT)
 
-**Other closed issues:**
+## [release/3.7.0](https://github.com/NASA-PDS/harvest/tree/release/3.7.0) (2022-09-06)
 
-- Improve CLI flag handling [\#85](https://github.com/NASA-PDS/harvest/issues/85)
-
-## [v3.7.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.7.0-SNAPSHOT) (2022-07-27)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.6.0...v3.7.0-SNAPSHOT)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.6.0...release/3.7.0)
 
 **Defects:**
 
 - Incorrect "lidvid" and  "\_id" fields are ingested \(trailing zeros are truncated\) [\#90](https://github.com/NASA-PDS/harvest/issues/90) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
+
+**Other closed issues:**
+
+- Improve CLI flag handling [\#85](https://github.com/NASA-PDS/harvest/issues/85)
 
 ## [v3.6.0](https://github.com/NASA-PDS/harvest/tree/v3.6.0) (2022-04-13)
 
