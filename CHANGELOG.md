@@ -1,12 +1,12 @@
 # Changelog
 
+## [v3.7.2SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.7.2SNAPSHOT) (2022-10-14)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.2...v3.7.2SNAPSHOT)
+
 ## [release/3.7.2](https://github.com/NASA-PDS/harvest/tree/release/3.7.2) (2022-10-14)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.0-SNAPSHOT...release/3.7.2)
-
-## [v3.8.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.8.0-SNAPSHOT) (2022-10-14)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.1...v3.8.0-SNAPSHOT)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.1...release/3.7.2)
 
 ## [release/3.7.1](https://github.com/NASA-PDS/harvest/tree/release/3.7.1) (2022-10-14)
 
