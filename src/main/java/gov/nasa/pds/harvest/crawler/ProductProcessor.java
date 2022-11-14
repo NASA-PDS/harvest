@@ -187,7 +187,7 @@ public class ProductProcessor extends BaseProcessor
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
         if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) 
         {
-            log.info("Skipping product " + file.getAbsolutePath());
+            log.info("Skipping product " + file.getAbsolutePath() + " (LIDVID/LID is not in collection inventory or is already registered in Elasticsearch)");
             counter.skippedFileCount++;
             return;
         }
