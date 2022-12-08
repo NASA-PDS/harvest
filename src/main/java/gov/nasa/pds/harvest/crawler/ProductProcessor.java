@@ -185,7 +185,12 @@ public class ProductProcessor extends BaseProcessor
 
         // Only process primary products from collection inventory
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
-        if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) 
+        // productNotInCache may be equivalent to productAlreadyRegistered, but it's unclear if there are other factors
+        // which might result in this being true, so I'm keeping it explicit until I know otherwise
+        boolean productNotInCache = !cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid);
+        boolean overwriteMode = RegistryManager.getInstance().isOverwrite();
+
+        if(productNotInCache && !overwriteMode)
         {
             log.info("Skipping product " + file.getAbsolutePath() + " (LIDVID/LID is not in collection inventory or is already registered in Elasticsearch)");
             counter.skippedFileCount++;

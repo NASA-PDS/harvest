@@ -129,9 +129,11 @@ public class BundleProcessor extends BaseProcessor
         
         RegistryDao dao = RegistryManager.getInstance().getRegistryDao(); 
         Counter counter = RegistryManager.getInstance().getCounter();
-        
-        // Bundle already registered in the Registry (Elasticsearch)
-        if(dao.idExists(meta.lidvid))
+
+        boolean bundleAlreadyRegistered = dao.idExists(meta.lidvid);
+        boolean overwriteMode = RegistryManager.getInstance().isOverwrite();
+
+        if(bundleAlreadyRegistered && !overwriteMode)
         {
             log.warn("Bundle " + meta.lidvid + " already registered. Skipping.");
             addCollectionRefs(meta, doc);

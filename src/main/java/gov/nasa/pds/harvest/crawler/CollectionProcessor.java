@@ -136,8 +136,10 @@ public class CollectionProcessor extends BaseProcessor
         RegistryDao dao = RegistryManager.getInstance().getRegistryDao();
         Counter counter = RegistryManager.getInstance().getCounter();
 
-        // Collection already registered in the Registry (Elasticsearch)
-        if(dao.idExists(meta.lidvid))
+        boolean overwriteMode = RegistryManager.getInstance().isOverwrite();
+        boolean collectionAlreadyRegistered = dao.idExists(meta.lidvid);
+
+        if(collectionAlreadyRegistered && !overwriteMode)
         {
             log.warn("Collection " + meta.lidvid + " already registered. Skipping.");
             
