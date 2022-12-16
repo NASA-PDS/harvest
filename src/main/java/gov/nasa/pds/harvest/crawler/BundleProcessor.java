@@ -1,6 +1,7 @@
 package gov.nasa.pds.harvest.crawler;
 
 import java.io.File;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -83,7 +84,7 @@ public class BundleProcessor extends BaseProcessor
         this.bundleCfg = bCfg;
         
         File bundleDir = new File(bCfg.dir);
-        Iterator<Path> it = Files.find(bundleDir.toPath(), 1, new BundleMatcher()).iterator();
+        Iterator<Path> it = Files.find(bundleDir.toPath(), 1, new BundleMatcher(), FileVisitOption.FOLLOW_LINKS).iterator();
         while(it.hasNext())
         {
             onBundle(it.next().toFile());

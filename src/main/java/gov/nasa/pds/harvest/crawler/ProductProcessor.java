@@ -1,6 +1,7 @@
 package gov.nasa.pds.harvest.crawler;
 
 import java.io.File;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -103,8 +104,8 @@ public class ProductProcessor extends BaseProcessor
         FileMatcher matcher = new FileMatcher(bCfg);
         
         File bundleDir = new File(bCfg.dir);
-        Iterator<Path> it = Files.find(bundleDir.toPath(), 20, matcher).iterator();
-        
+        Iterator<Path> it = Files.find(bundleDir.toPath(), 20, matcher, FileVisitOption.FOLLOW_LINKS).iterator();
+
         while(it.hasNext())
         {
             onFile(it.next().toFile());
