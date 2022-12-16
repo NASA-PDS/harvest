@@ -8,7 +8,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiPredicate;
+import java.util.stream.Stream;
 
+import gov.nasa.pds.registry.common.util.CloseUtils;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
@@ -78,22 +80,27 @@ public class BundleProcessor extends BaseProcessor
      * @return Number of bundles processed (O or more)
      * @throws Exception Generic exception
      */
-    public int process(BundleCfg bCfg) throws Exception
-    {
+    public int process(BundleCfg bCfg) throws Exception {
         bundleCount = 0;
         this.bundleCfg = bCfg;
-        
+
         File bundleDir = new File(bCfg.dir);
-        Iterator<Path> it = Files.find(bundleDir.toPath(), 1, new BundleMatcher(), FileVisitOption.FOLLOW_LINKS).iterator();
-        while(it.hasNext())
-        {
-            onBundle(it.next().toFile());
+        Stream<Path> stream = null;
+
+        try {
+            stream = Files.find(bundleDir.toPath(), 1, new BundleMatcher(), FileVisitOption.FOLLOW_LINKS);
+            Iterator<Path> it = stream.iterator();
+            while (it.hasNext()) {
+                onBundle(it.next().toFile());
+            }
+        } finally {
+            CloseUtils.close(stream);
         }
 
         return bundleCount;
     }
 
-    
+
     /**
      * Process one bundle label file.
      * @param file PDS XML Label file

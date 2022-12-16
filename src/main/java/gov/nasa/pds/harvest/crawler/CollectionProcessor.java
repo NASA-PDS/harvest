@@ -8,7 +8,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.function.BiPredicate;
+import java.util.stream.Stream;
 
+import gov.nasa.pds.registry.common.util.CloseUtils;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
@@ -83,18 +85,23 @@ public class CollectionProcessor extends BaseProcessor
      * @return number of processed collections (0 or more)
      * @throws Exception Generic exception
      */
-    public int process(BundleCfg bCfg) throws Exception
-    {
+    public int process(BundleCfg bCfg) throws Exception {
         collectionCount = 0;
-        
-        File bundleDir = new File(bCfg.dir);
-        Iterator<Path> it = Files.find(bundleDir.toPath(), 2, new CollectionMatcher(), FileVisitOption.FOLLOW_LINKS).iterator();
 
-        while(it.hasNext())
-        {
-            onCollection(it.next().toFile(), bCfg);
+        File bundleDir = new File(bCfg.dir);
+        Stream<Path> stream = null;
+
+        try {
+            stream = Files.find(bundleDir.toPath(), 2, new CollectionMatcher(), FileVisitOption.FOLLOW_LINKS);
+            Iterator<Path> it = stream.iterator();
+
+            while (it.hasNext()) {
+                onCollection(it.next().toFile(), bCfg);
+            }
+        } finally {
+            CloseUtils.close(stream);
         }
-        
+
         return collectionCount;
     }
 
