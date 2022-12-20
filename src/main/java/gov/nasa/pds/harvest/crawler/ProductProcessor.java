@@ -1,13 +1,16 @@
 package gov.nasa.pds.harvest.crawler;
 
 import java.io.File;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.function.BiPredicate;
+import java.util.stream.Stream;
 
+import gov.nasa.pds.registry.common.util.CloseUtils;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
@@ -96,22 +99,27 @@ public class ProductProcessor extends BaseProcessor
      * @param bCfg Bundle configuration
      * @throws Exception Generic exception
      */
-    public void process(BundleCfg bCfg) throws Exception
-    {
+    public void process(BundleCfg bCfg) throws Exception {
         log.info("Processing products...");
 
         FileMatcher matcher = new FileMatcher(bCfg);
-        
+
         File bundleDir = new File(bCfg.dir);
-        Iterator<Path> it = Files.find(bundleDir.toPath(), 20, matcher).iterator();
-        
-        while(it.hasNext())
-        {
-            onFile(it.next().toFile());
+        Stream<Path> stream = null;
+
+        try {
+            stream = Files.find(bundleDir.toPath(), 20, matcher, FileVisitOption.FOLLOW_LINKS);
+            Iterator<Path> it = stream.iterator();
+
+            while (it.hasNext()) {
+                onFile(it.next().toFile());
+            }
+        } finally {
+            CloseUtils.close(stream);
         }
     }
-    
-    
+
+
     /**
      * Process one file
      * @param file PDS label file

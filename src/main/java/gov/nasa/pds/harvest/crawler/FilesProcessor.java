@@ -3,6 +3,7 @@ package gov.nasa.pds.harvest.crawler;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -89,7 +90,7 @@ public class FilesProcessor extends BaseProcessor
         
         try
         {
-            stream = Files.find(dir.toPath(), Integer.MAX_VALUE, new FileMatcher());
+            stream = Files.find(dir.toPath(), Integer.MAX_VALUE, new FileMatcher(), FileVisitOption.FOLLOW_LINKS);
             Iterator<Path> it = stream.iterator();
             
             while(it.hasNext())
