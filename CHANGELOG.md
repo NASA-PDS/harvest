@@ -1,16 +1,12 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2022-12-20)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2023-03-29)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.0-SNAPSHOT...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.4...«unknown»)
 
 **Defects:**
 
 - Harvest skips path that is the root of a soft link  [\#102](https://github.com/NASA-PDS/harvest/issues/102) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
-
-## [v3.8.0-SNAPSHOT](https://github.com/NASA-PDS/harvest/tree/v3.8.0-SNAPSHOT) (2022-12-13)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.4...v3.8.0-SNAPSHOT)
 
 ## [v3.7.4](https://github.com/NASA-PDS/harvest/tree/v3.7.4) (2022-12-12)
 
