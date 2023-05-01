@@ -1,8 +1,16 @@
 # Changelog
 
-## [release/3.7.6](https://github.com/NASA-PDS/harvest/tree/release/3.7.6) (2023-03-30)
+## [3.7.5](https://github.com/NASA-PDS/harvest/tree/3.7.5) (2023-05-01)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.5...release/3.7.6)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.6...3.7.5)
+
+**Improvements:**
+
+- Improve skipped product INFO message [\#106](https://github.com/NASA-PDS/harvest/issues/106)
+
+## [v3.7.6](https://github.com/NASA-PDS/harvest/tree/v3.7.6) (2023-03-30)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.5...v3.7.6)
 
 ## [v3.7.5](https://github.com/NASA-PDS/harvest/tree/v3.7.5) (2023-03-30)
 
@@ -23,10 +31,6 @@
 ## [release/3.7.4](https://github.com/NASA-PDS/harvest/tree/release/3.7.4) (2022-12-12)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.3...release/3.7.4)
-
-**Improvements:**
-
-- Improve skipped product INFO message [\#106](https://github.com/NASA-PDS/harvest/issues/106)
 
 **Defects:**
 
