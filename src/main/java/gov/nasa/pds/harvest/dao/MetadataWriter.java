@@ -19,7 +19,8 @@ import gov.nasa.pds.registry.common.meta.Metadata;
 
 public class MetadataWriter implements Closeable
 {
-    private final static String WARN_SKIP = "Skipping registered product ";
+    private final static String WARN_SKIP_PRE = "Skipping registered product ";
+    private final static String WARN_SKIP_POST = " (LIDVID/LID already exists in registry database)";
     private final static int ES_DOC_BATCH_SIZE = 50;
 
     private Logger log;
@@ -81,7 +82,7 @@ public class MetadataWriter implements Closeable
             {
                 for(String lidvid: batchLidVids)
                 {
-                    log.warn(WARN_SKIP + lidvid);
+                    log.warn(WARN_SKIP_PRE + lidvid + WARN_SKIP_POST);
                     counter.skippedFileCount++;
                 }
                 
@@ -107,7 +108,7 @@ public class MetadataWriter implements Closeable
                 }
                 else
                 {
-                    log.warn(WARN_SKIP + item.lidvid);
+                    log.warn(WARN_SKIP_PRE + item.lidvid + WARN_SKIP_POST);
                     counter.skippedFileCount++;
                 }
             }

@@ -200,7 +200,7 @@ public class ProductProcessor extends BaseProcessor
 
         if(productNotInCache && !overwriteMode)
         {
-            log.info("Skipping product " + file.getAbsolutePath() + " (LIDVID/LID is not in collection inventory or is already registered in Elasticsearch)");
+            log.info("Skipping product " + file.getAbsolutePath() + " (LIDVID/LID is not in collection inventory or already exists in registry database)");
             counter.skippedFileCount++;
             return;
         }
