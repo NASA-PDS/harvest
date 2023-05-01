@@ -20,7 +20,7 @@ import gov.nasa.pds.registry.common.meta.Metadata;
 public class MetadataWriter implements Closeable
 {
     private final static String WARN_SKIP_PRE = "Skipping registered product ";
-    private final static String WARN_SKIP_POST = " (LIDVID/LID is is already registered in Elasticsearch)";
+    private final static String WARN_SKIP_POST = " (LIDVID/LID already exists in registry database)";
     private final static int ES_DOC_BATCH_SIZE = 50;
 
     private Logger log;
