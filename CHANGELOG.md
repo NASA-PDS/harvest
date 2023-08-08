@@ -1,12 +1,20 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2023-05-11)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2023-08-08)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.6...«unknown»)
+
+**Requirements:**
+
+- As a developer, I want to know what version of Harvest was used to load a product [\#119](https://github.com/NASA-PDS/harvest/issues/119)
 
 **Improvements:**
 
 - Improve skipped product INFO message [\#106](https://github.com/NASA-PDS/harvest/issues/106)
+
+**Defects:**
+
+- Access forbidden during nominal pipeline execution of harvest on Mars2020 archive [\#124](https://github.com/NASA-PDS/harvest/issues/124) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
 
 ## [v3.7.6](https://github.com/NASA-PDS/harvest/tree/v3.7.6) (2023-03-30)
 
