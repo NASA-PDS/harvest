@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import gov.nasa.pds.harvest.cmd.CliCommand;
 import gov.nasa.pds.harvest.cmd.HarvestCmd;
 import gov.nasa.pds.harvest.util.log.Log4jConfigurator;
+import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.ExceptionUtils;
 import gov.nasa.pds.registry.common.util.ManifestUtils;
 
@@ -45,6 +46,7 @@ public class HarvestCli
      */
     public void run(String[] args)
     {
+        Metadata.reportHarvestVersion(HarvestCli.class.getPackage().getImplementationVersion());
         if(args.length == 0)
         {
             printHelp();
