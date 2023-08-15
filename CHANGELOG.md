@@ -1,6 +1,6 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2023-08-08)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2023-08-15)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.6...«unknown»)
 
