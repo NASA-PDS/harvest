@@ -30,7 +30,7 @@
 
 package gov.nasa.pds.harvest.search.crawler;
 
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerActionRepo;
+import org.apache.oodt.cas.crawl.action.CrawlerActionRepo;
 import gov.nasa.pds.harvest.search.crawler.metadata.extractor.Pds4MetExtractorConfig;
 import gov.nasa.pds.harvest.search.inventory.InventoryEntry;
 import gov.nasa.pds.harvest.search.inventory.InventoryReader;
@@ -73,8 +73,8 @@ public class BundleCrawler extends CollectionCrawler {
   public void crawl(File bundle) {
     //Load crawlerActions first before crawling
     CrawlerActionRepo repo = new CrawlerActionRepo();
-    repo.loadActions(getActions());
-    setActionRepo(repo);
+    repo.loadActionsFromBeanFactory(getApplicationContext(), getActions());
+    repo.getActions();
     if (bundle.canRead()) {
       handleFile(bundle);
     } else {

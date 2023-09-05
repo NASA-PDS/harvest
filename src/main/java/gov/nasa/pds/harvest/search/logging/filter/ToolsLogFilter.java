@@ -52,7 +52,7 @@ public class ToolsLogFilter implements Filter {
      */
     @Override
     public boolean isLoggable(LogRecord record) {
-        String casCrawlerName = "gov.nasa.jpl.oodt.cas.crawl";
+        String casCrawlerName = "org.apache.oodt.cas.crawl";
         String jerseyName = "com.sun.jersey.core";
         String fileMgrVersionerName = "org.apache.oodt.cas.filemgr.versioning";
         String inPlacedataTransferName =

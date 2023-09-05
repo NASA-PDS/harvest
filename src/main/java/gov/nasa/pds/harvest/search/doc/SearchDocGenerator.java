@@ -49,7 +49,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
+import org.apache.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.stats.HarvestSolrStats;
 import gov.nasa.pds.harvest.search.util.DocWriter;
@@ -393,7 +393,11 @@ public class SearchDocGenerator {
         List<ExtrinsicObject> extrinsics = new ArrayList<ExtrinsicObject>();
         if ("file_ref".equalsIgnoreCase(pathList.get(0))) {
           if (metadata.containsKey("file_ref")) {
-            extrinsics.addAll(metadata.getAllMetadata("file_ref"));
+        	  for (String lid : metadata.getAllMetadata("file_ref")) {
+        		  ExtrinsicObject fileref = new ExtrinsicObject();
+        		  fileref.setLid(lid);
+        		  extrinsics.add(fileref);
+        	  }
           }
         } else if ("collection_ref".equalsIgnoreCase(pathList.get(0))) {
           List<String> refs = searchExtrinsic.getSlotValues("collection_ref");

@@ -41,10 +41,10 @@ import java.util.Set;
 
 import javax.xml.bind.JAXBException;
 
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerAction;
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerActionPhases;
-import gov.nasa.jpl.oodt.cas.crawl.structs.exceptions.CrawlerActionException;
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
+import org.apache.oodt.cas.crawl.action.CrawlerAction;
+import org.apache.oodt.cas.crawl.action.CrawlerActionPhases;
+import org.apache.oodt.cas.crawl.structs.exceptions.CrawlerActionException;
+import org.apache.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.doc.SearchDocGenerator;
 import gov.nasa.pds.harvest.search.doc.SearchDocState;
@@ -82,7 +82,7 @@ public class CreateSearchDocAction extends CrawlerAction {
           throws SearchCoreException, SearchCoreFatalException {
     generator = new SearchDocGenerator(configDir, outputDir, 
         registeredResources);
-    String []phases = {CrawlerActionPhases.POST_INGEST_SUCCESS};
+    String []phases = {CrawlerActionPhases.POST_INGEST_SUCCESS.getName()};
     setPhases(Arrays.asList(phases));
     setId(ID);
     setDescription(DESCRIPTION);
@@ -122,7 +122,8 @@ public class CreateSearchDocAction extends CrawlerAction {
   private ExtrinsicObject createProduct(Metadata metadata, File prodFile) {
     ExtrinsicObject product = new ExtrinsicObject();
     Set<Slot> slots = new HashSet<Slot>();
-    Set metSet = metadata.getHashtable().entrySet();
+//    Set metSet = metadata.getHashtable().entrySet();
+    Set metSet = metadata.getHashTable().entrySet();
     for (Iterator i = metSet.iterator(); i.hasNext();) {
       Map.Entry entry = (Map.Entry) i.next();
       String key = entry.getKey().toString();
@@ -144,7 +145,9 @@ public class CreateSearchDocAction extends CrawlerAction {
       } else if (key.equals(Constants.TITLE)) {
         product.setName(metadata.getMetadata(Constants.TITLE));
       } else if (key.equals(Constants.SLOT_METADATA)) {
-        slots.addAll(metadata.getAllMetadata(Constants.SLOT_METADATA));
+    	  for (String k : metadata.getKeys(Constants.SLOT_METADATA)) {
+    		  slots.add(new Slot(k, metadata.getAllMetadata(k)));
+    	  }
       } else {
         LOG.log(new ToolsLogRecord(ToolsLevel.WARNING,
             "Creating unexpected slot: " + key, prodFile));

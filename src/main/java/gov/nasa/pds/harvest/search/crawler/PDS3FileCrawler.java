@@ -30,8 +30,8 @@
 
 package gov.nasa.pds.harvest.search.crawler;
 
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
-import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
+import org.apache.oodt.cas.metadata.Metadata;
+import org.apache.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.search.crawler.metadata.extractor.Pds3FileMetExtractor;
 import gov.nasa.pds.harvest.search.logging.ToolsLevel;
 import gov.nasa.pds.harvest.search.logging.ToolsLogRecord;

@@ -53,11 +53,11 @@ import net.sf.saxon.tree.tiny.TinyElementImpl;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerAction;
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerActionPhases;
-import gov.nasa.jpl.oodt.cas.crawl.structs.exceptions.CrawlerActionException;
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
-import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
+import org.apache.oodt.cas.crawl.action.CrawlerAction;
+import org.apache.oodt.cas.crawl.action.CrawlerActionPhases;
+import org.apache.oodt.cas.crawl.structs.exceptions.CrawlerActionException;
+import org.apache.oodt.cas.metadata.Metadata;
+import org.apache.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.file.FileObject;
 import gov.nasa.pds.harvest.search.file.FileSize;
@@ -119,7 +119,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
    */
   public FileObjectRegistrationAction() {
       super();
-      String []phases = {CrawlerActionPhases.PRE_INGEST};
+      String []phases = {CrawlerActionPhases.PRE_INGEST.getName()};
       setPhases(Arrays.asList(phases));
       setId(ID);
       setDescription(DESCRIPTION);
@@ -191,7 +191,10 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       }
     }
     if (!fileProducts.isEmpty()) {
-      metadata.addMetadata("file_ref", fileProducts);
+    	for (ExtrinsicObject fileProduct : fileProducts) {
+    		metadata.addMetadata("file_ref", fileProduct.getSlot("file_ref").getValues());
+    	}
+    	
     }
     return true;
   }
@@ -217,7 +220,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     ExtrinsicObject product = new ExtrinsicObject();
 //    product.setGuid(idGenerator.getGuid());
     Set<Slot> slots = new HashSet<Slot>();
-    Set metSet = metadata.getHashtable().entrySet();
+    Set metSet = metadata.getHashTable().entrySet();
     for (Iterator i = metSet.iterator(); i.hasNext();) {
       Map.Entry entry = (Map.Entry) i.next();
       String key = entry.getKey().toString();
@@ -238,7 +241,9 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       } else if (key.equals(Constants.TITLE)) {
         product.setName(metadata.getMetadata(Constants.TITLE));
       } else if (key.equals(Constants.SLOT_METADATA)) {
-        slots.addAll(metadata.getAllMetadata(Constants.SLOT_METADATA));
+    	  for (String k : metadata.getKeys(Constants.SLOT_METADATA)) {
+    		  slots.add(new Slot(k, metadata.getAllMetadata(k)));
+    	  }
       } else {
         log.log(new ToolsLogRecord(ToolsLevel.WARNING,
             "Creating unexpected slot: " + key, prodFile));
@@ -332,7 +337,7 @@ public class FileObjectRegistrationAction extends CrawlerAction {
     if (!fileObject.getAccessUrls().isEmpty()) {
       slots.add(new Slot(Constants.ACCESS_URLS, fileObject.getAccessUrls()));
     }
-    for (Iterator i = sourceMet.getHashtable().entrySet().iterator();
+    for (Iterator i = sourceMet.getHashTable().entrySet().iterator();
     i.hasNext();) {
       Map.Entry entry = (Map.Entry) i.next();
       String key = entry.getKey().toString();
@@ -346,7 +351,11 @@ public class FileObjectRegistrationAction extends CrawlerAction {
       }
     }
     if (!slots.isEmpty()) {
-      metadata.addMetadata(Constants.SLOT_METADATA, slots);
+    	Metadata submeta = new Metadata();
+    	for (Slot slot : slots) {
+    		submeta.addMetadata(slot.getName(), slot.getValues());
+    	}
+      metadata.addMetadata(Constants.SLOT_METADATA, submeta);
     }
     return metadata;
   }

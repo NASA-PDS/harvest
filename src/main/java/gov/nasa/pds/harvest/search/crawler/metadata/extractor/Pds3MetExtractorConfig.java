@@ -32,7 +32,7 @@ package gov.nasa.pds.harvest.search.crawler.metadata.extractor;
 
 import java.util.List;
 
-import gov.nasa.jpl.oodt.cas.metadata.MetExtractorConfig;
+import org.apache.oodt.cas.metadata.MetExtractorConfig;
 import gov.nasa.pds.harvest.search.policy.ElementName;
 import gov.nasa.pds.harvest.search.policy.LidContents;
 import gov.nasa.pds.harvest.search.policy.Pds3ProductMetadata;

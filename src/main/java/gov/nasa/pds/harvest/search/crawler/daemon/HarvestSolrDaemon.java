@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 
 import org.apache.xmlrpc.WebServer;
 
-import gov.nasa.jpl.oodt.cas.crawl.daemon.CrawlDaemon;
+import org.apache.oodt.cas.crawl.daemon.CrawlDaemon;
 import gov.nasa.pds.harvest.search.crawler.PDSProductCrawler;
 import gov.nasa.pds.harvest.search.logging.ToolsLevel;
 import gov.nasa.pds.harvest.search.logging.ToolsLogRecord;

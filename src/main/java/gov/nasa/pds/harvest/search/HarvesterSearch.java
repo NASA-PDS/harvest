@@ -30,7 +30,7 @@
 
 package gov.nasa.pds.harvest.search;
 
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerAction;
+import org.apache.oodt.cas.crawl.action.CrawlerAction;
 import gov.nasa.pds.harvest.search.policy.Manifest;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.crawler.CollectionCrawler;
@@ -258,7 +258,7 @@ public class HarvesterSearch {
 		for (PDSProductCrawler crawler : crawlers) {
 			crawler.addActions(getDefaultCrawlerActions(policy, crawler));
 			crawler.setSearchUrl(searchUrl);
-			crawler.setIngester(ingester);
+//			crawler.setIngester(ingester);
 			crawler.setCounter(this.searchDocState);
 			// crawler.setSearchDocGenerator(new SearchDocGenerator(configDir, outputDir));
 			if (!doCrawlerPersistance) {

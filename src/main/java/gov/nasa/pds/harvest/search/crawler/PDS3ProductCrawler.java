@@ -33,8 +33,8 @@ package gov.nasa.pds.harvest.search.crawler;
 import java.io.File;
 import java.util.logging.Logger;
 
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
-import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
+import org.apache.oodt.cas.metadata.Metadata;
+import org.apache.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.search.crawler.metadata.extractor.Pds3MetExtractor;
 import gov.nasa.pds.harvest.search.crawler.metadata.extractor.Pds3MetExtractorConfig;
 import gov.nasa.pds.harvest.search.logging.ToolsLevel;

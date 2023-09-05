@@ -46,11 +46,11 @@ import org.apache.oodt.cas.filemgr.system.XmlRpcFileManagerClient;
 import org.apache.oodt.cas.filemgr.util.GenericFileManagerObjectFactory;
 import org.apache.oodt.cas.filemgr.versioning.VersioningUtils;
 
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerAction;
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerActionPhases;
-import gov.nasa.jpl.oodt.cas.crawl.structs.exceptions.CrawlerActionException;
-import gov.nasa.jpl.oodt.cas.filemgr.datatransfer.RemoteDataTransferFactory;
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
+import org.apache.oodt.cas.crawl.action.CrawlerAction;
+import org.apache.oodt.cas.crawl.action.CrawlerActionPhases;
+import org.apache.oodt.cas.crawl.structs.exceptions.CrawlerActionException;
+import org.apache.oodt.cas.filemgr.datatransfer.RemoteDataTransferFactory;
+import org.apache.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.file.FileObject;
 import gov.nasa.pds.harvest.search.logging.ToolsLevel;
@@ -95,7 +95,7 @@ public class StorageIngestAction extends CrawlerAction {
     fmClient.setDataTransfer(GenericFileManagerObjectFactory
         .getDataTransferServiceFromFactory(
             InPlaceDataTransferFactory.class.getName()));
-    String []phases = {CrawlerActionPhases.PRE_INGEST};
+    String []phases = {CrawlerActionPhases.PRE_INGEST.getName()};
     setPhases(Arrays.asList(phases));
     setId(ID);
     setDescription(DESCRIPTION);

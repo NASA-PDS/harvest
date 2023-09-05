@@ -46,10 +46,10 @@ import javax.ws.rs.core.UriBuilder;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerAction;
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerActionPhases;
-import gov.nasa.jpl.oodt.cas.crawl.structs.exceptions.CrawlerActionException;
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
+import org.apache.oodt.cas.crawl.action.CrawlerAction;
+import org.apache.oodt.cas.crawl.action.CrawlerActionPhases;
+import org.apache.oodt.cas.crawl.structs.exceptions.CrawlerActionException;
+import org.apache.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.file.FileObject;
 import gov.nasa.pds.harvest.search.logging.ToolsLevel;
@@ -89,7 +89,7 @@ public class CreateAccessUrlsAction extends CrawlerAction {
     super();
     this.accessUrls = new ArrayList<AccessUrl>();
     this.accessUrls.addAll(accessUrls);
-    String []phases = {CrawlerActionPhases.PRE_INGEST};
+    String []phases = {CrawlerActionPhases.PRE_INGEST.getName()};
     setPhases(Arrays.asList(phases));
     setId(ID);
     setDescription(DESCRIPTION);
@@ -117,9 +117,11 @@ public class CreateAccessUrlsAction extends CrawlerAction {
     }
     if (!urls.isEmpty()) {
       if (metadata.containsKey(Constants.SLOT_METADATA)) {
-        List<Slot> slots = new ArrayList<Slot>();
-        slots.add(new Slot(Constants.ACCESS_URLS, urls));
-        metadata.addMetadata(Constants.SLOT_METADATA, slots);
+//        List<Slot> slots = new ArrayList<Slot>();
+//        slots.add(new Slot(Constants.ACCESS_URLS, urls));
+    	  Metadata meta = new Metadata();
+    	  meta.addMetadata(Constants.ACCESS_URLS, urls);
+        metadata.addMetadata(Constants.SLOT_METADATA, meta);
       }
     }
     return true;

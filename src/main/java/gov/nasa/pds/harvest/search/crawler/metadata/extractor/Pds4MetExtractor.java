@@ -44,10 +44,10 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import net.sf.saxon.tree.tiny.TinyElementImpl;
-import gov.nasa.jpl.oodt.cas.metadata.MetExtractor;
-import gov.nasa.jpl.oodt.cas.metadata.MetExtractorConfig;
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
-import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
+import org.apache.oodt.cas.metadata.MetExtractor;
+import org.apache.oodt.cas.metadata.MetExtractorConfig;
+import org.apache.oodt.cas.metadata.Metadata;
+import org.apache.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.search.logging.ToolsLevel;
@@ -192,7 +192,13 @@ public class Pds4MetExtractor implements MetExtractor {
       throw new MetExtractionException(ExceptionUtils.getRootCauseMessage(e));
     }
     if (!slots.isEmpty()) {
-      metadata.addMetadata(Constants.SLOT_METADATA, slots);
+        if (!slots.isEmpty()) {
+        	Metadata submeta = new Metadata();
+        	for (Slot slot : slots) {
+        		submeta.addMetadata(slot.getName(), slot.getValues());
+        	}
+          metadata.addMetadata(Constants.SLOT_METADATA, submeta);
+        }
     }
     return metadata;
   }

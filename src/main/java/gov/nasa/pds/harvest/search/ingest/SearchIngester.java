@@ -36,11 +36,11 @@ import java.util.List;
 
 import java.util.logging.Logger;
 
-import gov.nasa.jpl.oodt.cas.filemgr.ingest.Ingester;
-import gov.nasa.jpl.oodt.cas.filemgr.structs.exceptions.CatalogException;
-import gov.nasa.jpl.oodt.cas.filemgr.structs.exceptions.IngestException;
-import gov.nasa.jpl.oodt.cas.metadata.MetExtractor;
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
+import org.apache.oodt.cas.filemgr.ingest.Ingester;
+import org.apache.oodt.cas.filemgr.structs.exceptions.CatalogException;
+import org.apache.oodt.cas.filemgr.structs.exceptions.IngestException;
+import org.apache.oodt.cas.metadata.MetExtractor;
+import org.apache.oodt.cas.metadata.Metadata;
 import gov.nasa.pds.harvest.search.constants.Constants;
 
 import gov.nasa.pds.harvest.search.logging.ToolsLevel;
@@ -213,8 +213,7 @@ public class SearchIngester implements Ingester
 	 * Method not implemented at this time.
 	 *
 	 */
-	public void ingest(URL fmUrl, List<String> prodFiles, MetExtractor extractor, File metConfFile)
-			throws IngestException {
+	public void ingest(URL fmUrl, List<String> prodFiles, MetExtractor extractor, File metConfFile) {
 		// No need for this method at this time
 	}
 }

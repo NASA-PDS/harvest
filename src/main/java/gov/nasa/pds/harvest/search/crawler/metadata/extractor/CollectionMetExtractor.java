@@ -30,8 +30,8 @@
 
 package gov.nasa.pds.harvest.search.crawler.metadata.extractor;
 
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
-import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
+import org.apache.oodt.cas.metadata.Metadata;
+import org.apache.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.inventory.InventoryEntry;
 import gov.nasa.pds.harvest.search.inventory.InventoryReaderException;
@@ -226,8 +226,13 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
             slots.add(new Slot(entry.getKey(), entry.getValue()));
           }
         }
+        
         if (!lidVidEntries.isEmpty()) {
-          metadata.addMetadata(Constants.REFERENCES, lidVidEntries);
+        	Metadata submeta = new Metadata();
+        	for (ReferenceEntry lidVidEntry : lidVidEntries) {
+        		submeta.addMetadata(Constants.LOGICAL_ID, lidVidEntry.getLogicalID());
+        	}
+          metadata.addMetadata(Constants.REFERENCES, submeta);
         }
       }
     } catch (InventoryReaderException ie) {
@@ -239,7 +244,13 @@ public class CollectionMetExtractor extends Pds4MetExtractor {
       throw new MetExtractionException(message);
     }
     if (!slots.isEmpty()) {
-      metadata.addMetadata(Constants.SLOT_METADATA, slots);
+        if (!slots.isEmpty()) {
+        	Metadata submeta = new Metadata();
+        	for (Slot slot : slots) {
+        		submeta.addMetadata(slot.getName(), slot.getValues());
+        	}
+          metadata.addMetadata(Constants.SLOT_METADATA, submeta);
+        }
     }
     return metadata;
   }

@@ -30,11 +30,11 @@
 
 package gov.nasa.pds.harvest.search.crawler;
 
-import gov.nasa.jpl.oodt.cas.crawl.ProductCrawler;
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerAction;
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerActionRepo;
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
-import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
+import org.apache.oodt.cas.crawl.ProductCrawler;
+import org.apache.oodt.cas.crawl.action.CrawlerAction;
+import org.apache.oodt.cas.crawl.action.CrawlerActionRepo;
+import org.apache.oodt.cas.metadata.Metadata;
+import org.apache.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.crawler.actions.LidCheckerAction;
 import gov.nasa.pds.harvest.search.crawler.actions.LogMissingReqMetadataAction;
@@ -86,7 +86,7 @@ public class PDSProductCrawler extends ProductCrawler {
   private Pds4MetExtractorConfig metExtractorConfig;
 
   /** A list of crawler actions to perform while crawling. */
-  private List<CrawlerAction> crawlerActions;
+  private List<String> crawlerActions;
 
   /** Holds the product type of the file being processed. */
   private String objectType;
@@ -116,7 +116,7 @@ public class PDSProductCrawler extends ProductCrawler {
   public PDSProductCrawler(Pds4MetExtractorConfig extractorConfig) {
     this.objectType = "";
     this.metExtractorConfig = extractorConfig;
-    this.crawlerActions = new ArrayList<CrawlerAction>();
+    this.crawlerActions = new ArrayList<String>();
     inPersistanceMode = false;
     touchedFiles = new HashMap<File, Long>();
 
@@ -130,9 +130,9 @@ public class PDSProductCrawler extends ProductCrawler {
     fileFilters.add(FileFilterUtils.fileFileFilter());
     fileFilters.add(new WildcardOSFilter("*"));
     FILE_FILTER = new AndFileFilter(fileFilters);
-    crawlerActions.add(new LogMissingReqMetadataAction(getRequiredMetadata()));
-    crawlerActions.add(new LidCheckerAction());
-    crawlerActions.add(new TitleLengthCheckerAction());
+    crawlerActions.add(new LogMissingReqMetadataAction(getRequiredMetadata()).getId());
+    crawlerActions.add(new LidCheckerAction().getId());
+    crawlerActions.add(new TitleLengthCheckerAction().getId());
   }
 
   /**
@@ -190,11 +190,11 @@ public class PDSProductCrawler extends ProductCrawler {
    * @param product The product file.
    * @param productMetadata The metadata associated with the product.
    */
-  @Override
-  protected void addKnownMetadata(File product, Metadata productMetadata) {
+//  @Override
+//  protected void addKnownMetadata(File product, Metadata productMetadata) {
     //The parent class adds FILENAME, FILE_LOCATION, and PRODUCT_NAME
     //to the metadata. Not needed at the moment
-  }
+//  }
 
   /**
    * Crawls the given directory.
@@ -204,8 +204,8 @@ public class PDSProductCrawler extends ProductCrawler {
   public void crawl(File dir) {
     //Load crawlerActions first before crawling
     CrawlerActionRepo repo = new CrawlerActionRepo();
-    repo.loadActions(crawlerActions);
-    setActionRepo(repo);
+    repo.loadActionsFromBeanFactory(getApplicationContext(), crawlerActions);
+    repo.getActions();
     try {
       super.crawl(dir);
     } catch (IllegalArgumentException ie) {
@@ -219,7 +219,7 @@ public class PDSProductCrawler extends ProductCrawler {
    * @param action A crawler action.
    */
   public void addAction(CrawlerAction action) {
-    this.crawlerActions.add(action);
+    this.crawlerActions.add(action.getId());
   }
 
   /**
@@ -228,7 +228,9 @@ public class PDSProductCrawler extends ProductCrawler {
    * @param actions A list of crawler actions.
    */
   public void addActions(List<CrawlerAction> actions) {
-    this.crawlerActions.addAll(actions);
+	  for (CrawlerAction action : actions) {
+		  this.crawlerActions.add(action.getId());
+  	}
   }
 
   /**
@@ -237,7 +239,7 @@ public class PDSProductCrawler extends ProductCrawler {
    * @return A list of crawler actions that will be performed
    * during crawling.
    */
-  public List<CrawlerAction> getActions() {
+  public List<String> getActions() {
     return crawlerActions;
   }
 
@@ -385,4 +387,10 @@ public class PDSProductCrawler extends ProductCrawler {
   public void setCounter(SearchDocState searchDocState) {
     this.searchDocState = searchDocState;
   }
+
+	@Override
+	protected File renameProduct(File product, Metadata productMetadata) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

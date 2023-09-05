@@ -30,8 +30,8 @@
 
 package gov.nasa.pds.harvest.search.crawler.metadata.extractor;
 
-import gov.nasa.jpl.oodt.cas.metadata.Metadata;
-import gov.nasa.jpl.oodt.cas.metadata.exceptions.MetExtractionException;
+import org.apache.oodt.cas.metadata.Metadata;
+import org.apache.oodt.cas.metadata.exceptions.MetExtractionException;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.inventory.ReferenceEntry;
 import gov.nasa.pds.harvest.search.logging.ToolsLevel;
@@ -162,7 +162,11 @@ public class BundleMetExtractor extends Pds4MetExtractor {
       throw new MetExtractionException(e.getMessage());
     }
     if (!slots.isEmpty()) {
-      metadata.addMetadata(Constants.SLOT_METADATA, slots);
+    	Metadata submeta = new Metadata();
+    	for (Slot slot : slots) {
+    		submeta.addMetadata(slot.getName(), slot.getValues());
+    	}
+      metadata.addMetadata(Constants.SLOT_METADATA, submeta);
     }
     return metadata;
   }

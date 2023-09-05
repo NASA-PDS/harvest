@@ -33,7 +33,7 @@ package gov.nasa.pds.harvest.search.crawler;
 import java.io.File;
 import java.util.logging.Logger;
 
-import gov.nasa.jpl.oodt.cas.crawl.action.CrawlerActionRepo;
+import org.apache.oodt.cas.crawl.action.CrawlerActionRepo;
 import gov.nasa.pds.harvest.search.constants.Constants;
 import gov.nasa.pds.harvest.search.crawler.metadata.extractor.Pds4MetExtractorConfig;
 import gov.nasa.pds.harvest.search.logging.ToolsLevel;
@@ -71,8 +71,8 @@ public class CollectionCrawler extends PDSProductCrawler {
   public void crawl(File collection) {
     //Load actions first before crawling
     CrawlerActionRepo repo = new CrawlerActionRepo();
-    repo.loadActions(getActions());
-    setActionRepo(repo);
+    repo.loadActionsFromBeanFactory(getApplicationContext(), getActions());
+    repo.getActions();
     if (collection.canRead()) {
       handleFile(collection);
       Constants.collections.add(collection);
