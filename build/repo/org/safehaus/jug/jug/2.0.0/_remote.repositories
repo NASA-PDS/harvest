@@ -1,3 +1,4 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Fri Oct 18 15:09:10 PDT 2019
-oodt-core-2.0.pom>oodt-repo=
+#Mon Sep 04 13:16:31 PDT 2023
+jug-2.0.0-asl.jar>central=
+jug-2.0.0.pom>central=
