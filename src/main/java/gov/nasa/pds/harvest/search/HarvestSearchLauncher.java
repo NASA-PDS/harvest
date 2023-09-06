@@ -84,10 +84,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.Priority;
 import org.apache.oodt.cas.filemgr.structs.exceptions.ConnectionException;
 
 /**
@@ -595,10 +591,10 @@ public class HarvestSearchLauncher {
 	private void processMain(String[] args) 
 	{
 		// This removes the log4j warnings
-		ConsoleAppender ca = new ConsoleAppender(new PatternLayout("%-5p %m%n"));
-		ca.setThreshold(Priority.FATAL);
-
-		BasicConfigurator.configure(ca);
+//		ConsoleAppender ca = new ConsoleAppender(new PatternLayout("%-5p %m%n"));
+//		ca.setThreshold(Priority.FATAL);
+//
+//		BasicConfigurator.configure(ca);
 		if (args.length == 0) 
 		{
 			System.out.println("\nType 'harvest -h' for usage");
