@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- 
+  Copyright 2011-2018, by the California Institute of Technology.
+  ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
+  Any commercial use must be negotiated with the Office of Technology 
+  Transfer at the California Institute of Technology.
+
+  This software is subject to U. S. export control laws and regulations 
+  (22 C.F.R. 120-130 and 15 C.F.R. 730-774). To the extent that the software 
+  is subject to U.S. export control laws and regulations, the recipient has 
+  the responsibility to obtain export licenses or other export authority as 
+  may be required before exporting such information to foreign countries or 
+  providing access to foreign nationals.
+
+  $Id: pom.xml 16602 2018-05-03 23:49:16Z shardman $
+-->
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>gov.nasa.pds.2010</groupId>
+    <artifactId>search</artifactId>
+    <version>2.1.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>gov.nasa.pds.2010.search</groupId>
+  <artifactId>search-core</artifactId>
+  <packaging>jar</packaging>
+
+  <name>Search Core</name>
+  <description>
+    The Search Core is a software library for extensions to the Search Service.
+  </description>
+  <url>https://pds-cm.jpl.nasa.gov/pds4/search/search-core/</url>
+
+  <licenses>
+    <license>
+      <name>California Institute of Technology</name>
+      <url>file:///${basedir}/LICENSE.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <build>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+    <resources>
+      <resource>
+        <filtering>true</filtering>
+        <targetPath>gov/nasa/pds/search/core/util</targetPath>
+        <directory>src/main/resources/conf</directory>
+        <includes>
+          <include>search-core.properties</include>
+        </includes>
+      </resource>
+      <resource>
+        <filtering>true</filtering>
+        <targetPath>gov/nasa/pds/search/core/schema</targetPath>
+        <directory>src/main/resources/conf</directory>
+        <includes>
+          <include>core-config.xsd</include>
+        </includes>
+      </resource>
+      <resource>
+        <filtering>true</filtering>
+        <targetPath>gov/nasa/pds/search/core/extractor</targetPath>
+        <directory>src/main/resources/conf/defaults/pds</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+      </resource>
+      <resource>
+        <filtering>true</filtering>
+        <targetPath>gov/nasa/pds/search/core/extractor</targetPath>
+        <directory>src/main/resources/conf/defaults/psa</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+      </resource>
+      <resource>
+        <targetPath>../bin</targetPath>
+        <directory>src/main/resources/bin</directory>
+        <includes>
+          <include>*</include>
+        </includes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>gov.nasa.pds.search.core.SearchCoreLauncher</mainClass>
+              <addClasspath>true</addClasspath>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <!--
+        Skip the unit tests in production since they are environment
+        dependent at this point in time.
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <!--configuration>
+          <skipTests>true</skipTests>
+        </configuration-->
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>bin-release</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/assembly/tar-assembly.xml</descriptor>
+                <descriptor>src/main/assembly/zip-assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!--repositories>
+    <repository>
+      <id>pds-repo</id>
+      <name>PDS Maven Repository</name>
+      <url>https://pds-cm.jpl.nasa.gov/maven2</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>warn</checksumPolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories-->
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-core</artifactId>
+      <version>9.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-solrj</artifactId>
+      <version>9.3.0</version>
+    </dependency>
+  <dependency>
+    <groupId>org.apache.lucene</groupId>
+    <artifactId>lucene-core</artifactId>
+    <version>4.3.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.lucene</groupId>
+    <artifactId>lucene-analyzers-common</artifactId>
+    <version>4.3.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
+      <scope>compile</scope>
+    </dependency>
+    <!--dependency>
+      <groupId>gov.nasa.pds.2010.registry</groupId>
+      <artifactId>registry-core</artifactId>
+      <version>${registry-version}</version>
+      <scope>compile</scope>
+    </dependency-->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-cli</groupId>
+      <artifactId>commons-cli</artifactId>
+      <version>1.2</version>
+      <scope>compile</scope>
+    </dependency>
+    <!--dependency>
+      <groupId>net.sf.saxon</groupId>
+      <artifactId>saxon</artifactId>
+      <version>9</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.saxon</groupId>
+      <artifactId>saxon-dom</artifactId>
+      <version>9</version>
+      <scope>compile</scope>
+      </dependency-->
+    <dependency>
+      <groupId>net.sf.saxon</groupId>
+      <artifactId>Saxon-HE</artifactId>
+      <version>9.9.1-7</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.2</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.stream</groupId>
+      <artifactId>stax-api</artifactId>
+      <version>1.0-2</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>2.2</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-xjc</artifactId>
+      <version>2.2</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- Project Information and Reports inherited from parent. -->
+  <reporting>
+    <!-- Project Reports not inherited from parent. -->
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>
+

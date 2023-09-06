@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>gov.nasa.jpl.oodt</groupId>
+    <artifactId>oodt-core</artifactId>
+    <version>2.0</version>
+  </parent>
+  <artifactId>edm-commons</artifactId>
+  <name>Common Components</name>
+  <version>2.2.11-dev</version>
+  <packaging>jar</packaging>
+  <description>Common components for enterprise data management.  These
+    components are used by and required by all other Enterprise Data
+    Management and Object Oriented Data Technology Components.  The
+    components include those for parsing, serializing, and navigating
+    XML documents; encoding and decoding base-64 strings; logging
+    messages and initializing log listeners; managing the classic EDA
+    configuration file (edarc.xml); and other utilities.</description>
+  <build>
+    <resources>
+      <resource>
+        <targetPath>jpl/eda</targetPath>
+        <directory>${basedir}/src/main/dtd</directory>
+        <includes>
+          <include>Configuration.dtd</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/dtd</directory>
+      </resource>
+      <resource>
+        <targetPath>jpl/eda</targetPath>
+        <directory>${basedir}/src/main/conf</directory>
+        <includes>
+          <include>Configuration.xml</include>
+          <include>ExecServerConfig.properties</include>
+        </includes>
+      </resource>
+      <resource>
+        <targetPath>jpl/eda/util</targetPath>
+        <directory>${basedir}/src/main/conf</directory>
+        <includes>
+          <include>entities.xml</include>
+        </includes>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <targetPath>jpl/eda/util</targetPath>
+        <directory>${basedir}/src/testdata</directory>
+        <includes>
+          <include>test.xml</include>
+        </includes>
+      </testResource>
+      <testResource>
+        <targetPath>jpl/eda</targetPath>
+        <directory>${basedir}/src/testdata</directory>
+        <includes>
+          <include>test-multiserver.xml</include>
+        </includes>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>jpl/eda/object/jndi/TestContext.java</exclude>
+            <exclude>jpl/eda/activity/HistoryTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>3.1.14</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+    </dependency>
+    <dependency>
+      <groupId>xmlrpc</groupId>
+      <artifactId>xmlrpc</artifactId>
+      <version>3.0</version>
+    </dependency>
+  </dependencies>
+</project>

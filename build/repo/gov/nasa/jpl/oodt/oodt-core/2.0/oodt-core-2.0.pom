@@ -28,7 +28,7 @@ $Id$
     <system>JIRA</system>
     <url>https://osr.jpl.nasa.gov/jira/secure/ViewProject.jspa?pid=10000</url>
   </issueManagement>
-  <repositories>
+  <!--repositories>
     <repository>
       <snapshots>
         <enabled>true</enabled>
@@ -68,7 +68,7 @@ $Id$
         <enabled>false</enabled>
       </snapshots>
     </repository>
-  </repositories>
+  </repositories-->
   <ciManagement>
     <notifiers>
       <notifier>
