@@ -59,11 +59,7 @@
       <directory>src/main/resources/bin</directory>
       <outputDirectory>bin</outputDirectory>
       <includes>
-        <include>harvest</include>
-        <include>harvest.bat</include>
-        <include>harvest-ctrl</include>
-        <include>harvest-ctrl.bat</include>
-        <include>registry-mgr</include>
+        <include>harvest-legacy</include>
       </includes>
       <fileMode>775</fileMode>
       <lineEnding>keep</lineEnding>
