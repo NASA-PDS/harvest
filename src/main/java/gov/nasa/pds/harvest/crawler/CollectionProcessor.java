@@ -73,7 +73,7 @@ public class CollectionProcessor extends BaseProcessor
         public boolean test(Path path, BasicFileAttributes attrs)
         {
             String fileName = path.getFileName().toString().toLowerCase();
-            return (fileName.endsWith(".xml") && fileName.contains("collection"));
+            return ((fileName.endsWith(".xml") || fileName.endsWith(".lbxl")) && fileName.contains("collection"));
         }
     }
 

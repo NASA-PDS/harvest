@@ -78,7 +78,7 @@ public class ProductProcessor extends BaseProcessor
         public boolean test(Path path, BasicFileAttributes attrs)
         {
             String fileName = path.getFileName().toString().toLowerCase();
-            if(!fileName.endsWith(".xml")) return false;
+            if(!(fileName.endsWith(".xml") || fileName.endsWith(".lblx"))) return false;
 
             if(includeDirs == null) return true;
             String fileDir = path.getParent().toUri().toString().toLowerCase();
