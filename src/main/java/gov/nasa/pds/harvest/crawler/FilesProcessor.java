@@ -74,7 +74,7 @@ public class FilesProcessor extends BaseProcessor
         public boolean test(Path path, BasicFileAttributes attrs)
         {
             String fileName = path.getFileName().toString().toLowerCase();
-            return (fileName.endsWith(".xml"));
+            return (fileName.endsWith(".xml") || fileName.endsWith(".lblx"));
         }
     }
     
