@@ -1,8 +1,12 @@
 # Changelog
 
-## [3.7.6](https://github.com/NASA-PDS/harvest/tree/3.7.6) (2023-10-24)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2023-10-24)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.0...3.7.6)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.0...«unknown»)
+
+**Requirements:**
+
+- As a user, I want to ingest data products with labels having `.lblx` file extension [\#130](https://github.com/NASA-PDS/harvest/issues/130)
 
 **Other closed issues:**
 
@@ -26,19 +30,11 @@
 
 ## [v3.7.6](https://github.com/NASA-PDS/harvest/tree/v3.7.6) (2023-03-30)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.6...v3.7.6)
-
-## [release/3.7.6](https://github.com/NASA-PDS/harvest/tree/release/3.7.6) (2023-03-30)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.5...release/3.7.6)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.5...v3.7.6)
 
 ## [v3.7.5](https://github.com/NASA-PDS/harvest/tree/v3.7.5) (2023-03-30)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.5...v3.7.5)
-
-## [release/3.7.5](https://github.com/NASA-PDS/harvest/tree/release/3.7.5) (2023-03-29)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.4...release/3.7.5)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.4...v3.7.5)
 
 **Defects:**
 
@@ -46,11 +42,7 @@
 
 ## [v3.7.4](https://github.com/NASA-PDS/harvest/tree/v3.7.4) (2022-12-12)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.4...v3.7.4)
-
-## [release/3.7.4](https://github.com/NASA-PDS/harvest/tree/release/3.7.4) (2022-12-12)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.3...release/3.7.4)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.3...v3.7.4)
 
 **Defects:**
 
