@@ -1,8 +1,8 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2023-09-22)
+## [release/3.8.0](https://github.com/NASA-PDS/harvest/tree/release/3.8.0) (2023-09-22)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.6...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.6...release/3.8.0)
 
 **Requirements:**
 
@@ -18,11 +18,19 @@
 
 ## [v3.7.6](https://github.com/NASA-PDS/harvest/tree/v3.7.6) (2023-03-30)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.5...v3.7.6)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.6...v3.7.6)
+
+## [release/3.7.6](https://github.com/NASA-PDS/harvest/tree/release/3.7.6) (2023-03-30)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.5...release/3.7.6)
 
 ## [v3.7.5](https://github.com/NASA-PDS/harvest/tree/v3.7.5) (2023-03-30)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.4...v3.7.5)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.5...v3.7.5)
+
+## [release/3.7.5](https://github.com/NASA-PDS/harvest/tree/release/3.7.5) (2023-03-29)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.4...release/3.7.5)
 
 **Defects:**
 
@@ -30,7 +38,11 @@
 
 ## [v3.7.4](https://github.com/NASA-PDS/harvest/tree/v3.7.4) (2022-12-12)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.3...v3.7.4)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.4...v3.7.4)
+
+## [release/3.7.4](https://github.com/NASA-PDS/harvest/tree/release/3.7.4) (2022-12-12)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.3...release/3.7.4)
 
 **Defects:**
 
