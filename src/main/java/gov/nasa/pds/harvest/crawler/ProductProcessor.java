@@ -18,6 +18,7 @@ import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
+import gov.nasa.pds.harvest.util.xml.XmlIs;
 import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
 import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
@@ -78,7 +79,7 @@ public class ProductProcessor extends BaseProcessor
         public boolean test(Path path, BasicFileAttributes attrs)
         {
             String fileName = path.getFileName().toString().toLowerCase();
-            if(!(fileName.endsWith(".xml") || fileName.endsWith(".lblx"))) return false;
+            if(!XmlIs.aLabel(fileName)) return false;
 
             if(includeDirs == null) return true;
             String fileDir = path.getParent().toUri().toString().toLowerCase();

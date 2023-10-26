@@ -17,6 +17,7 @@ import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
+import gov.nasa.pds.harvest.util.xml.XmlIs;
 import gov.nasa.pds.registry.common.es.service.CollectionInventoryWriter;
 import gov.nasa.pds.registry.common.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
@@ -73,7 +74,7 @@ public class CollectionProcessor extends BaseProcessor
         public boolean test(Path path, BasicFileAttributes attrs)
         {
             String fileName = path.getFileName().toString().toLowerCase();
-            return ((fileName.endsWith(".xml") || fileName.endsWith(".lblx")) && fileName.contains("collection"));
+            return XmlIs.aCollection(fileName);
         }
     }
 

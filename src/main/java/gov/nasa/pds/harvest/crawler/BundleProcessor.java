@@ -16,6 +16,7 @@ import org.w3c.dom.Document;
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryManager;
+import gov.nasa.pds.harvest.util.xml.XmlIs;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.registry.common.meta.BundleMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
@@ -69,7 +70,7 @@ public class BundleProcessor extends BaseProcessor
         public boolean test(Path path, BasicFileAttributes attrs)
         {
             String fileName = path.getFileName().toString().toLowerCase();
-            return ((fileName.endsWith(".xml") || fileName.endsWith(".lblx"))&& fileName.contains("bundle"));
+            return XmlIs.aBundle(fileName);
         }
     }
 
