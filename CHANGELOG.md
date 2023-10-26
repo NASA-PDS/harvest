@@ -1,12 +1,8 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2023-10-24)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2023-10-26)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.0...«unknown»)
-
-**Requirements:**
-
-- As a user, I want to ingest data products with labels having `.lblx` file extension [\#130](https://github.com/NASA-PDS/harvest/issues/130)
 
 **Other closed issues:**
 
