@@ -69,8 +69,7 @@ public class BundleProcessor extends BaseProcessor
         @Override
         public boolean test(Path path, BasicFileAttributes attrs)
         {
-            String fileName = path.getFileName().toString().toLowerCase();
-            return XmlIs.aBundle(fileName);
+            return XmlIs.aBundle(path.toString());
         }
     }
 

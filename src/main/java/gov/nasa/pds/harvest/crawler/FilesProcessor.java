@@ -74,8 +74,7 @@ public class FilesProcessor extends BaseProcessor
         @Override
         public boolean test(Path path, BasicFileAttributes attrs)
         {
-            String fileName = path.getFileName().toString().toLowerCase();
-            return XmlIs.aLabel(fileName);
+            return XmlIs.aLabel(path.toString());
         }
     }
     

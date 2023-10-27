@@ -78,8 +78,7 @@ public class ProductProcessor extends BaseProcessor
         @Override
         public boolean test(Path path, BasicFileAttributes attrs)
         {
-            String fileName = path.getFileName().toString().toLowerCase();
-            if(!XmlIs.aLabel(fileName)) return false;
+            if(!XmlIs.aLabel(path.toString())) return false;
 
             if(includeDirs == null) return true;
             String fileDir = path.getParent().toUri().toString().toLowerCase();
