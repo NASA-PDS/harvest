@@ -19,11 +19,7 @@
 
 ## [v3.8.0](https://github.com/NASA-PDS/harvest/tree/v3.8.0) (2023-09-28)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.8.0...v3.8.0)
-
-## [release/3.8.0](https://github.com/NASA-PDS/harvest/tree/release/3.8.0) (2023-09-22)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.6...release/3.8.0)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.6...v3.8.0)
 
 **Requirements:**
 
@@ -39,19 +35,11 @@
 
 ## [v3.7.6](https://github.com/NASA-PDS/harvest/tree/v3.7.6) (2023-03-30)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.6...v3.7.6)
-
-## [release/3.7.6](https://github.com/NASA-PDS/harvest/tree/release/3.7.6) (2023-03-30)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.5...release/3.7.6)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.5...v3.7.6)
 
 ## [v3.7.5](https://github.com/NASA-PDS/harvest/tree/v3.7.5) (2023-03-30)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.5...v3.7.5)
-
-## [release/3.7.5](https://github.com/NASA-PDS/harvest/tree/release/3.7.5) (2023-03-29)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.4...release/3.7.5)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.4...v3.7.5)
 
 **Defects:**
 
@@ -59,11 +47,7 @@
 
 ## [v3.7.4](https://github.com/NASA-PDS/harvest/tree/v3.7.4) (2022-12-12)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.7.4...v3.7.4)
-
-## [release/3.7.4](https://github.com/NASA-PDS/harvest/tree/release/3.7.4) (2022-12-12)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.3...release/3.7.4)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.7.3...v3.7.4)
 
 **Defects:**
 
@@ -169,16 +153,7 @@
 
 ## [v3.3.1](https://github.com/NASA-PDS/harvest/tree/v3.3.1) (2020-12-02)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/3.3.0...v3.3.1)
-
-**Defects:**
-
-- File system metadata not sufficiently captured per requirements [\#35](https://github.com/NASA-PDS/harvest/issues/35) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
-- MD5 digest encoding is in Base64 instead of Hex [\#34](https://github.com/NASA-PDS/harvest/issues/34) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
-
-## [3.3.0](https://github.com/NASA-PDS/harvest/tree/3.3.0) (2020-10-14)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.2.2...3.3.0)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.2.2...v3.3.1)
 
 **Improvements:**
 
@@ -187,6 +162,8 @@
 
 **Defects:**
 
+- File system metadata not sufficiently captured per requirements [\#35](https://github.com/NASA-PDS/harvest/issues/35) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
+- MD5 digest encoding is in Base64 instead of Hex [\#34](https://github.com/NASA-PDS/harvest/issues/34) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
 - For multivalued fields only unique values are stored [\#30](https://github.com/NASA-PDS/harvest/issues/30)
 - Could not parse date in yyyy-MM-ddZ format [\#29](https://github.com/NASA-PDS/harvest/issues/29)
 - Fix bug where ingested product start\_date\_time is off by 12 hours [\#4](https://github.com/NASA-PDS/harvest/issues/4)
