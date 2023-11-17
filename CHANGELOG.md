@@ -1,8 +1,8 @@
 # Changelog
 
-## [release/3.8.1](https://github.com/NASA-PDS/harvest/tree/release/3.8.1) (2023-11-16)
+## [v3.8.1](https://github.com/NASA-PDS/harvest/tree/v3.8.1) (2023-11-16)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.0...release/3.8.1)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.0...v3.8.1)
 
 **Requirements:**
 
