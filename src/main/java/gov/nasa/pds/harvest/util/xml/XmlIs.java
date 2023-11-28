@@ -1,8 +1,9 @@
 package gov.nasa.pds.harvest.util.xml;
 
-import java.io.FileReader;
+import java.io.FileInputStream;
 import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXSource;
+import org.apache.commons.io.input.BOMInputStream;
 import org.xml.sax.InputSource;
 import net.sf.saxon.Configuration;
 import net.sf.saxon.lib.ParseOptions;
@@ -22,7 +23,7 @@ public class XmlIs {
         ParseOptions options = new ParseOptions();
         options.withLineNumbering(true);
         options.withXIncludeAware(false);
-        Source source = new SAXSource(new InputSource(new FileReader(filename)));
+        Source source = new SAXSource(new InputSource(new BOMInputStream(new FileInputStream(filename))));
         TreeInfo docInfo = configuration.buildDocumentTree(source , options);
         NodeInfo ia=null,lid=null,pcls=null;
         for (NodeInfo top : docInfo.getRootNode().children()) {
