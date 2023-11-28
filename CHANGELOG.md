@@ -1,5 +1,13 @@
 # Changelog
 
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2023-11-28)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.1...«unknown»)
+
+**Defects:**
+
+- A bundle that previously loaded throws an error on reload attempt [\#141](https://github.com/NASA-PDS/harvest/issues/141) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
+
 ## [v3.8.1](https://github.com/NASA-PDS/harvest/tree/v3.8.1) (2023-11-16)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.0...v3.8.1)
@@ -15,7 +23,6 @@
 **Other closed issues:**
 
 - Improve Fault Tolerance of Harvest for Forbidden Access error and Timeout [\#125](https://github.com/NASA-PDS/harvest/issues/125) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
-- Change the initialization value for archive\_status [\#115](https://github.com/NASA-PDS/harvest/issues/115)
 
 ## [v3.8.0](https://github.com/NASA-PDS/harvest/tree/v3.8.0) (2023-09-28)
 
