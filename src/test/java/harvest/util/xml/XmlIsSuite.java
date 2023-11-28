@@ -7,6 +7,7 @@ import gov.nasa.pds.harvest.util.xml.XmlIs;
 class XmlIsSuite {
   @Test
   void testBundle() {
+    assertTrue(XmlIs.aBundle ("src/test/resources/github141/bundle_hausrath_m2020_pixl_naltsos.xml"));
     assertTrue(XmlIs.aBundle ("src/test/resources/test_data/sample_dossier.lblx"));
     assertFalse(XmlIs.aBundle ("src/test/resources/test_data/document/collection_document.lblx"));
     assertFalse(XmlIs.aBundle ("src/test/resources/test_data/document/sample_dossier_release_notes.lblx"));
