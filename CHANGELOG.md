@@ -1,8 +1,8 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2023-11-28)
+## [release/3.8.2](https://github.com/NASA-PDS/harvest/tree/release/3.8.2) (2023-11-28)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.1...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.1...release/3.8.2)
 
 **Defects:**
 
