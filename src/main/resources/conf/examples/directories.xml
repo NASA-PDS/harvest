@@ -23,13 +23,17 @@
   <!--
   <registry url="http://localhost:9200" index="registry" auth="/path/to/auth.cfg" />
   -->
-  <registry url="http://localhost:9200" index="registry" />
+  <registry auth="/path/to/auth/file">
+    <direct_url>http://localhost:9200</direct_url>
+  </registry>
 
-  <directories>
-    <!-- Path to one or more directories with PDS4 labels -->
-    <path>/path/to/archive</path>
-  </directories>
-
+  <do>
+    <directories>
+      <!-- Path to one or more directories with PDS4 labels -->
+      <path>/path/to/archive</path>
+    </directories>
+  </do>
+  
   <!-- 
       NOTE: By default only lid, vid, lidvid, title and product class are exported.
       autogenFields should also be enabled for operational ingestion.

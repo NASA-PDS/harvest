@@ -26,18 +26,22 @@
   <!--
   <registry url="http://localhost:9200" index="registry" auth="/path/to/auth.cfg" />
   -->
-  <registry url="http://localhost:9200" index="registry" />
+  <registry index="registry" auth="/path/to/auth/file">
+    <direct_url>http://localhost:9200</direct_url>
+  </registry>
 
   <!-- 
     * List of one or more PDS4 bundle folders. The "versions" attribute is optional.
     * No versions attribute or versions="all" - process all bundles.
     * versions="7.0;8.0" - process versions 7.0 and 8.0. 
     * You can use the following version delimiters: space, comma, semicolon, tab [ ,;\r]
-  -->
-  <bundles>
-    <!-- UPDATE HERE -->
-    <bundle dir="/path/to/bundle" versions="all" />
-  </bundles>
+    -->
+  <do>
+    <bundles>
+      <!-- UPDATE HERE -->
+      <bundle dir="/path/to/bundle" versions="all" />
+    </bundles>
+  </do>
 
 
   <!-- Only include context and document products. -->

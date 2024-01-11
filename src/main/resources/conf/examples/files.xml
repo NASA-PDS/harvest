@@ -23,15 +23,19 @@
   <!--
   <registry url="http://localhost:9200" index="registry" auth="/path/to/auth.cfg" />
   -->
-  <registry url="http://localhost:9200" index="registry" />
-
-  <files>
-    <!-- 
-        Path to one or more manifest files with the list of full paths to PDS4 label 
-        files (one path per line). 
-     -->
-    <manifest>/path/to/manifest/file</manifest>
-  </files>
+  <registry auth="/path/to/auth/file" index="registry">
+    <direct_url>http://localhost:9200</direct_url>
+  </registry>
+  
+  <do>
+    <files>
+      <!-- 
+           Path to one or more manifest files with the list of full paths to PDS4 label 
+           files (one path per line). 
+        -->
+      <manifest>/path/to/manifest/file</manifest>
+    </files>
+  </do>
 
   <!-- 
       NOTE: By default only lid, vid, lidvid, title and product class are exported.
