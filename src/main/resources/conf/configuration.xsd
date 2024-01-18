@@ -187,7 +187,7 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="harvest_type">
+  <xs:complexType name="harvest_configuration_type">
     <xs:annotation>
       <xs:documentation xml:lang="en">
         These are the basic options for the harvest configuration file.
@@ -357,5 +357,5 @@
   </xs:simpleType>
 
   <!-- root node for XML -->
-  <xs:element name="harvest" type="harvest_type"/>
+  <xs:element name="harvest" type="harvest_configuration_type"/>
 </xs:schema>

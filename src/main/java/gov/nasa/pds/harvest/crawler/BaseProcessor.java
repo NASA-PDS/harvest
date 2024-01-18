@@ -1,12 +1,13 @@
 package gov.nasa.pds.harvest.crawler;
 
+import java.util.HashSet;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryManager;
+import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
 import gov.nasa.pds.harvest.dao.MetadataWriter;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
@@ -32,7 +33,7 @@ public class BaseProcessor
 
     protected Logger log;
     
-    protected Configuration config;
+    protected HarvestConfigurationType config;
     protected DocumentBuilderFactory dbf;
 
     protected BasicMetadataExtractor basicExtractor;
@@ -53,7 +54,7 @@ public class BaseProcessor
      * @param config Harvest configuration parameters
      * @throws Exception Generic exception
      */
-    public BaseProcessor(Configuration config) throws Exception
+    public BaseProcessor(HarvestConfigurationType config) throws Exception
     {
         this.config = config;
 
@@ -68,17 +69,13 @@ public class BaseProcessor
         xpathExtractor = new XPathExtractor();
         
         autogenExtractor = new AutogenExtractor();
-        if(config.autogen != null)
-        {
-            autogenExtractor.setClassFilters(config.autogen.classFilterIncludes, config.autogen.classFilterExcludes);
-        }
+        autogenExtractor.setClassFilters(
+            new HashSet<String>(config.getAutogenFields().getClassFilter().getInclude()),
+            new HashSet<String>(config.getAutogenFields().getClassFilter().getExclude()));
         
         fileDataExtractor = new FileMetadataExtractor();
-        if(config.fileInfo != null)
-        {
-            fileDataExtractor.setProcessDataFiles(config.fileInfo.processDataFiles);
-            fileDataExtractor.setStoreLabels(config.fileInfo.storeLabels, config.fileInfo.storeJsonLabels);
-        }
+        fileDataExtractor.setProcessDataFiles(config.getFileInfo().isProcessDataFiles());
+        fileDataExtractor.setStoreLabels(config.getFileInfo().isStoreLabels(), config.getFileInfo().isStoreJsonLabels());
         
         // Services
         RegistryManager mgr = RegistryManager.getInstance();        

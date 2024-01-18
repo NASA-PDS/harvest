@@ -5,10 +5,9 @@ import java.io.File;
 import org.apache.commons.cli.CommandLine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import gov.nasa.pds.harvest.cfg.BundleType;
 import gov.nasa.pds.harvest.cfg.ConfigReader;
-import gov.nasa.pds.harvest.cfg.model.BundleCfg;
-import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
 import gov.nasa.pds.harvest.crawler.BundleProcessor;
 import gov.nasa.pds.harvest.crawler.CollectionProcessor;
 import gov.nasa.pds.harvest.crawler.Counter;
@@ -31,7 +30,7 @@ import gov.nasa.pds.harvest.util.out.WriterManager;
 public class HarvestCmd implements CliCommand
 {
     private Logger log;
-    private Configuration cfg;
+    private HarvestConfigurationType cfg;
     
     // Processors
     private FilesProcessor filesProc;
@@ -62,15 +61,15 @@ public class HarvestCmd implements CliCommand
 
         try
         {
-            if(cfg.dirs != null)
+            if(cfg.getDo().getDirectories() != null)
             {
                 processDirs();
             }
-            else if(cfg.bundles != null)
+            else if(cfg.getDo().getBundles() != null)
             {
                 processBundles();
             }
-            else if(cfg.manifests != null)
+            else if(cfg.getDo().getFiles() != null)
             {
                 processManifests();
             }
@@ -92,7 +91,7 @@ public class HarvestCmd implements CliCommand
      */
     private void processBundles() throws Exception
     {
-        for(BundleCfg bCfg: cfg.bundles)
+        for(BundleType bCfg: cfg.getDo().getBundles().getBundle())
         {
             processBundle(bCfg);
         }
@@ -105,7 +104,7 @@ public class HarvestCmd implements CliCommand
      */
     private void processDirs() throws Exception
     {
-        for(String path: cfg.dirs)
+        for(String path: cfg.getDo().getDirectories().getPath())
         {
             processDirectory(path);
         }
@@ -118,7 +117,7 @@ public class HarvestCmd implements CliCommand
      */
     private void processManifests() throws Exception
     {
-        for(String path: cfg.manifests)
+        for(String path: cfg.getDo().getFiles().getManifest())
         {
             processManifest(path);
         }
@@ -150,10 +149,9 @@ public class HarvestCmd implements CliCommand
         
         // Xpath maps
         XPathCacheLoader xpcLoader = new XPathCacheLoader();
-        xpcLoader.load(cfg.xpathMaps);
+        xpcLoader.load(cfg.getXpathMaps());
         
         // Processors
-
         if(cfg.dirs != null || cfg.manifests != null)
         {
             filesProc = new FilesProcessor(cfg);
@@ -179,22 +177,21 @@ public class HarvestCmd implements CliCommand
     }
     
     
-    private Configuration readConfigFile(CommandLine cmdLine) throws Exception
+    private HarvestConfigurationType readConfigFile(CommandLine cmdLine) throws Exception
     {
         File cfgFile = new File(cmdLine.getOptionValue("c"));
         log.log(LogUtils.LEVEL_SUMMARY, "Reading configuration from " + cfgFile.getAbsolutePath());
         
-        ConfigReader cfgReader = new ConfigReader();
-        Configuration cfg = cfgReader.read(cfgFile);
+        HarvestConfigurationType cfg = new ConfigReader().read(cfgFile);
 
-        if(cfg.fileInfo.storeLabels == false)
+        if(!cfg.getFileInfo().isStoreLabels())
         {
             log.warn("XML BLOB storage is disabled "
                     + "(see <fileInfo storeLabels=\"false\"> configuration). "
                     + "Not all Registry features will be available.");
         }
 
-        if(cfg.fileInfo.storeJsonLabels == false)
+        if(!cfg.getFileInfo().isStoreJsonLabels())
         {
             log.warn("JSON BLOB storage is disabled "
                     + "(see <fileInfo storeJsonLabels=\"false\"> configuration). "
@@ -234,9 +231,9 @@ public class HarvestCmd implements CliCommand
     }
 
     
-    private void processBundle(BundleCfg bCfg) throws Exception
+    private void processBundle(BundleType bCfg) throws Exception
     {
-        File rootDir = new File(bCfg.dir);
+        File rootDir = new File(bCfg.getDir());
         if(!rootDir.exists()) 
         {
             log.warn("Invalid bundle directory: " + rootDir.getAbsolutePath());
