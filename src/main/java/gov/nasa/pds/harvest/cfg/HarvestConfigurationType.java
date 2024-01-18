@@ -41,6 +41,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *         <element name="do" type="{}do_type"/>
  *         <element name="fileInfo" type="{}file_info_type" minOccurs="0"/>
  *         <element name="productFilter" type="{}filter_type" minOccurs="0"/>
+ *         <element name="references" type="{}references_type" minOccurs="0"/>
  *         <element name="registry" type="{}registry_type"/>
  *         <element name="xpathMaps" type="{}xpath_maps_type" minOccurs="0"/>
  *       </all>
@@ -63,6 +64,7 @@ public class HarvestConfigurationType {
     protected DoType _do;
     protected FileInfoType fileInfo;
     protected FilterType productFilter;
+    protected ReferencesType references;
     @XmlElement(required = true)
     protected RegistryType registry;
     protected XpathMapsType xpathMaps;
@@ -163,6 +165,30 @@ public class HarvestConfigurationType {
      */
     public void setProductFilter(FilterType value) {
         this.productFilter = value;
+    }
+
+    /**
+     * Gets the value of the references property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link ReferencesType }
+     *     
+     */
+    public ReferencesType getReferences() {
+        return references;
+    }
+
+    /**
+     * Sets the value of the references property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link ReferencesType }
+     *     
+     */
+    public void setReferences(ReferencesType value) {
+        this.references = value;
     }
 
     /**

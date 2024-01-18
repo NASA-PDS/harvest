@@ -33,6 +33,9 @@ public class ConfigReader
       if (result.getProductFilter() == null) {
         result.setProductFilter(forge.createFilterType());
       }
+      if (result.getReferences() == null) {
+        result.setReferences(forge.createReferencesType());
+      }
       if (result.getXpathMaps() == null) {
         result.setXpathMaps(forge.createXpathMapsType());
       }

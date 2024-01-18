@@ -12,9 +12,7 @@ import java.util.stream.Stream;
 
 import gov.nasa.pds.registry.common.util.CloseUtils;
 import org.w3c.dom.Document;
-
-import gov.nasa.pds.harvest.cfg.model.BundleCfg;
-import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.xml.XmlIs;
@@ -54,12 +52,12 @@ public class CollectionProcessor extends BaseProcessor
      * @param config Harvest configuration parameters
      * @throws Exception Generic exception
      */
-    public CollectionProcessor(Configuration config) throws Exception
+    public CollectionProcessor(HarvestConfigurationType config) throws Exception
     {
         super(config);
         
         invWriter = new CollectionInventoryWriter(config.registryCfg);
-        this.invProc = new CollectionInventoryProcessor(config.refsCfg.primaryOnly);
+        this.invProc = new CollectionInventoryProcessor(config.getReferences().isPrimaryOnly());
         collectionExtractor = new CollectionMetadataExtractor();
     }
     

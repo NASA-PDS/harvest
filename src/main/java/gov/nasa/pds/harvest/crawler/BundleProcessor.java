@@ -189,7 +189,7 @@ public class BundleProcessor extends BaseProcessor
 
         for(BundleMetadataExtractor.BundleMemberEntry bme: bmes)
         {
-            if(!bme.isPrimary && config.refsCfg.primaryOnly) continue;
+            if(!bme.isPrimary && config.getReferences().isPrimaryOnly()) continue;
             
             cacheRefs(bme);
             bundleExtractor.addRefs(meta.intRefs, bme);

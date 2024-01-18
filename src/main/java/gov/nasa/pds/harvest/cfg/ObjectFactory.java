@@ -160,6 +160,16 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ReferencesType }
+     * 
+     * @return
+     *     the new instance of {@link ReferencesType }
+     */
+    public ReferencesType createReferencesType() {
+        return new ReferencesType();
+    }
+
+    /**
      * Create an instance of {@link RegistryType }
      * 
      * @return
