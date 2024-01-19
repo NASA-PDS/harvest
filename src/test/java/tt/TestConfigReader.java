@@ -2,7 +2,7 @@ package tt;
 
 import java.io.File;
 
-import gov.nasa.pds.harvest.cfg.ConfigReader;
+import gov.nasa.pds.harvest.cfg.ConfigManager;
 import gov.nasa.pds.harvest.cfg.model.BundleCfg;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 
@@ -11,7 +11,7 @@ public class TestConfigReader
 
     public static void main(String[] args) throws Exception
     {
-        ConfigReader cfgReader = new ConfigReader();
+        ConfigManager cfgReader = new ConfigManager();
         Configuration cfg = cfgReader.read(new File("/tmp/harvest.xml"));
 
         printBundles(cfg);

@@ -5,7 +5,6 @@ import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -17,12 +16,11 @@ import org.w3c.dom.Document;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.xml.XmlIs;
 import gov.nasa.pds.harvest.cfg.BundleType;
-import gov.nasa.pds.harvest.cfg.FileRefType;
+import gov.nasa.pds.harvest.cfg.ConfigManager;
 import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.registry.common.meta.BundleMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
-import gov.nasa.pds.registry.common.meta.cfg.FileRefRule;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
 import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
@@ -168,15 +166,7 @@ public class BundleProcessor extends BaseProcessor
         searchExtractor.extract(doc, meta.fields);
         
         // File information (name, size, checksum)
-        ArrayList<FileRefRule> rules = new ArrayList<FileRefRule>();
-        FileRefRule rule;
-        for (FileRefType ref : config.getFileInfo().getFileRef()) {
-          rule = new FileRefRule();
-          rule.prefix = ref.getReplacePrefix();
-          rule.replacement = ref.getWith();
-          rules.add (rule);
-        }
-        fileDataExtractor.extract(file, meta, rules);
+        fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef (config.getFileInfo().getFileRef()));
         
         // Save data
         save(meta, nsInfo);

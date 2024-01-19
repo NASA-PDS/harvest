@@ -2,7 +2,7 @@ package tt;
 
 import java.io.File;
 
-import gov.nasa.pds.harvest.cfg.ConfigReader;
+import gov.nasa.pds.harvest.cfg.ConfigManager;
 import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.registry.common.meta.FileMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
@@ -13,7 +13,7 @@ public class TestFileMetadataExtractor
 
     public static void main(String[] args) throws Exception
     {
-        ConfigReader cfgReader = new ConfigReader();
+        ConfigManager cfgReader = new ConfigManager();
         Configuration cfg = cfgReader.read(new File("/tmp/harvest.xml"));
         FileMetadataExtractor extractor = new FileMetadataExtractor();
 

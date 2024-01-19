@@ -6,16 +6,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 
 import gov.nasa.pds.registry.common.util.CloseUtils;
 import org.w3c.dom.Document;
+import gov.nasa.pds.harvest.cfg.BundleType;
+import gov.nasa.pds.harvest.cfg.ConfigManager;
 import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.xml.XmlIs;
+import gov.nasa.pds.registry.common.cfg.RegistryCfg;
 import gov.nasa.pds.registry.common.es.service.CollectionInventoryWriter;
 import gov.nasa.pds.registry.common.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
@@ -55,8 +59,12 @@ public class CollectionProcessor extends BaseProcessor
     public CollectionProcessor(HarvestConfigurationType config) throws Exception
     {
         super(config);
-        
-        invWriter = new CollectionInventoryWriter(config.registryCfg);
+        // FIXME: multitenancy
+        RegistryCfg fixme = new RegistryCfg();
+        fixme.url = config.getRegistry().getDirectUrl();
+        fixme.indexName = config.getRegistry().getIndex();
+        fixme.authFile = config.getRegistry().getAuth();
+        invWriter = new CollectionInventoryWriter(fixme);
         this.invProc = new CollectionInventoryProcessor(config.getReferences().isPrimaryOnly());
         collectionExtractor = new CollectionMetadataExtractor();
     }
@@ -83,10 +91,10 @@ public class CollectionProcessor extends BaseProcessor
      * @return number of processed collections (0 or more)
      * @throws Exception Generic exception
      */
-    public int process(BundleCfg bCfg) throws Exception {
+    public int process(BundleType bCfg) throws Exception {
         collectionCount = 0;
 
-        File bundleDir = new File(bCfg.dir);
+        File bundleDir = new File(bCfg.getDir());
         Stream<Path> stream = null;
 
         try {
@@ -104,7 +112,7 @@ public class CollectionProcessor extends BaseProcessor
     }
 
 
-    private void onCollection(File file, BundleCfg bCfg) throws Exception
+    private void onCollection(File file, BundleType bCfg) throws Exception
     {
         // Skip very large files
         if(file.length() > MAX_XML_FILE_LENGTH)
@@ -123,14 +131,17 @@ public class CollectionProcessor extends BaseProcessor
     }
     
     
-    private void processMetadata(File file, Document doc, BundleCfg bCfg) throws Exception
+    private void processMetadata(File file, Document doc, BundleType bCfg) throws Exception
     {
         Metadata meta = basicExtractor.extract(file, doc);
-        meta.setNodeName(config.nodeName);
+        meta.setNodeName(config.getNodeName().toString());
 
         // Collection filter
-        if(bCfg.collectionLids != null && !bCfg.collectionLids.contains(meta.lid)) return;
-        if(bCfg.collectionLidVids != null && !bCfg.collectionLidVids.contains(meta.lidvid)) return;
+        // FIXME: this needs to be changed and may relate to other fixme in this file
+        List<String> lids = ConfigManager.exchangeLids (bCfg.getCollection());
+        List<String> lidvids = ConfigManager.exchangeLidvids (bCfg.getCollection());
+        if(!lids.isEmpty() && !lids.contains(meta.lid)) return;
+        if(!lidvids.isEmpty() && !lidvids.contains(meta.lidvid)) return;
 
         // Ignore collections not listed in bundles
         LidVidCache cache = RefsCache.getInstance().getCollectionRefsCache();
@@ -169,7 +180,7 @@ public class CollectionProcessor extends BaseProcessor
         searchExtractor.extract(doc, meta.fields);
 
         // File information (name, size, checksum)
-        fileDataExtractor.extract(file, meta, config.fileInfo.fileRef);
+        fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef(config.getFileInfo().getFileRef()));
         
         // Save metadata
         save(meta, nsInfo);

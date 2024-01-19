@@ -6,7 +6,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import gov.nasa.pds.harvest.cfg.BundleType;
-import gov.nasa.pds.harvest.cfg.ConfigReader;
+import gov.nasa.pds.harvest.cfg.ConfigManager;
 import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
 import gov.nasa.pds.harvest.crawler.BundleProcessor;
 import gov.nasa.pds.harvest.crawler.CollectionProcessor;
@@ -143,7 +143,7 @@ public class HarvestCmd implements CliCommand
         boolean overwriteFlag = cmdLine.hasOption("overwrite");
         
         // Registry manager
-        RegistryManager.init(cfg.registryCfg, overwriteFlag);
+        RegistryManager.init(ConfigManager.exchangeRegistry(cfg.getRegistry()), overwriteFlag);
         log.info("Connecting to Elasticsearch");
         RegistryManager.getInstance().getFieldNameCache().update();
         
@@ -152,11 +152,11 @@ public class HarvestCmd implements CliCommand
         xpcLoader.load(cfg.getXpathMaps());
         
         // Processors
-        if(cfg.dirs != null || cfg.manifests != null)
+        if(cfg.getDo().getDirectories() != null || cfg.getDo().getFiles() != null)
         {
             filesProc = new FilesProcessor(cfg);
         }
-        else if(cfg.bundles != null)
+        else if(cfg.getDo().getBundles() != null)
         {
             bundleProc = new BundleProcessor(cfg);
             colProc = new CollectionProcessor(cfg);
@@ -182,7 +182,7 @@ public class HarvestCmd implements CliCommand
         File cfgFile = new File(cmdLine.getOptionValue("c"));
         log.log(LogUtils.LEVEL_SUMMARY, "Reading configuration from " + cfgFile.getAbsolutePath());
         
-        HarvestConfigurationType cfg = new ConfigReader().read(cfgFile);
+        HarvestConfigurationType cfg = ConfigManager.read(cfgFile);
 
         if(!cfg.getFileInfo().isStoreLabels())
         {
