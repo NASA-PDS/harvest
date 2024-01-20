@@ -20,14 +20,12 @@
 <harvest nodeName="CHANGE_ME">
 
   <!-- Registry configuration -->
-  <!-- UPDATE with your registry information 
-       NOTE: For AWS Registry, be sure to force port 443, e.g. https://aws-open-search-url:443
-   -->
+  <!-- UPDATE with your registry information -->
   <!--
   <registry url="http://localhost:9200" index="registry" auth="/path/to/auth.cfg" />
   -->
   <registry index="registry" auth="/path/to/auth/file">
-    <direct_url>http://localhost:9200</direct_url>
+    <server_url>http://localhost:9200</server_url>
   </registry>
 
   <!-- 
