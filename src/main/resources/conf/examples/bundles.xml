@@ -21,9 +21,6 @@
 
   <!-- Registry configuration -->
   <!-- UPDATE with your registry information -->
-  <!--
-  <registry url="http://localhost:9200" index="registry" auth="/path/to/auth.cfg" />
-  -->
   <registry index="registry" auth="/path/to/auth/file">
     <server_url>http://localhost:9200</server_url>
   </registry>
