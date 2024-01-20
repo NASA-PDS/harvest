@@ -23,7 +23,7 @@
   </xpathMaps>
 
   <registry auth="/path/to/auth/file" index="registry">
-    <client_id>jdoawierllksjdfkla</client_id>
+    <cognito_client_id>jdoawierllksjdfkla</cognito_client_id>
   </registry>
 
 </harvest>
