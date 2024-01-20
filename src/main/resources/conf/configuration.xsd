@@ -242,13 +242,13 @@
         @index: the index to be used by harvest whose default is registry
         @trust_self_signed: all self signed certificates for https
 
-        client_id: the cognito client ID for AWS based instances of opensearch
-        direct_url: the opensearch URL when not using AWS services
+        cognito_client_id: the cognito client ID for AWS based instances of opensearch
+        server_url: the opensearch URL when not using AWS services
       </xs:documentation>
     </xs:annotation>
     <xs:choice>
-      <xs:element name="client_id" type="xs:normalizedString"/>
-      <xs:element name="direct_url" type="xs:normalizedString"/>
+      <xs:element name="cognito_client_id" type="xs:normalizedString"/>
+      <xs:element name="server_url" type="xs:normalizedString"/>
     </xs:choice>
     <xs:attribute name="auth" type="xs:normalizedString" use="required"/>
     <xs:attribute default="registry" name="index" type="xs:normalizedString"/>
