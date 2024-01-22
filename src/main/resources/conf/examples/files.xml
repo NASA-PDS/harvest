@@ -22,7 +22,7 @@
     <server_url>http://localhost:9200</server_url>
   </registry>
   
-  <do>
+  <load>
     <files>
       <!-- 
            Path to one or more manifest files with the list of full paths to PDS4 label 
@@ -30,7 +30,7 @@
         -->
       <manifest>/path/to/manifest/file</manifest>
     </files>
-  </do>
+  </load>
 
   <!-- 
       NOTE: By default only lid, vid, lidvid, title and product class are exported.

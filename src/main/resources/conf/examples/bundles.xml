@@ -31,12 +31,12 @@
     * versions="7.0;8.0" - process versions 7.0 and 8.0. 
     * You can use the following version delimiters: space, comma, semicolon, tab [ ,;\r]
     -->
-  <do>
+  <load>
     <bundles>
       <!-- UPDATE HERE -->
       <bundle dir="/path/to/bundle" versions="all" />
     </bundles>
-  </do>
+  </load>
 
 
   <!-- Only include context and document products. -->

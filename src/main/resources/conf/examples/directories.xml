@@ -23,12 +23,12 @@
     <server_url>http://localhost:9200</server_url>
   </registry>
 
-  <do>
+  <load>
     <directories>
       <!-- Path to one or more directories with PDS4 labels -->
       <path>/path/to/archive</path>
     </directories>
-  </do>
+  </load>
   
   <!-- 
       NOTE: By default only lid, vid, lidvid, title and product class are exported.

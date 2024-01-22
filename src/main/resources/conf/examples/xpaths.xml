@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <harvest nodeName="CHANGE_ME">
-  <do>
+  <load>
     <directories>
       <!-- Path to one or more folders with PDS4 labels -->
       <path>/home/pds/LADEE/ldex_20161118</path>
     </directories>
-  </do>
+  </load>
   
   <!-- 
       NOTE: By default only lid, vid, lidvid, title and product class are exported. 
