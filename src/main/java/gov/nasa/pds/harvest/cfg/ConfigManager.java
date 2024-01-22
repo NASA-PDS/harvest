@@ -52,7 +52,7 @@ public class ConfigManager
       RegistryCfg bean = new RegistryCfg();
       bean.authFile = xml.getAuth();
       bean.indexName = xml.getIndex();
-      bean.url = xml.getDirectUrl();
+      bean.url = xml.getServerUrl();
       return bean;
     }
     static public HarvestConfigurationType read(File file) throws JAXBException {

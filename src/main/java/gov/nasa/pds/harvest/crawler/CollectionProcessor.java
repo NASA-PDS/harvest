@@ -61,7 +61,7 @@ public class CollectionProcessor extends BaseProcessor
         super(config);
         // FIXME: multitenancy
         RegistryCfg fixme = new RegistryCfg();
-        fixme.url = config.getRegistry().getDirectUrl();
+        fixme.url = config.getRegistry().getServerUrl();
         fixme.indexName = config.getRegistry().getIndex();
         fixme.authFile = config.getRegistry().getAuth();
         invWriter = new CollectionInventoryWriter(fixme);

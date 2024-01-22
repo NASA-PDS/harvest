@@ -19,12 +19,12 @@ import jakarta.xml.bind.annotation.XmlType;
  *         Had to bury this one deeper because cannot have a choice in an all.
  *       
  * 
- * <p>Java class for do_type complex type.
+ * <p>Java class for load_type complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>{@code
- * <complexType name="do_type">
+ * <complexType name="load_type">
  *   <complexContent>
  *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       <choice>
@@ -40,12 +40,12 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "do_type", propOrder = {
+@XmlType(name = "load_type", propOrder = {
     "bundles",
     "directories",
     "files"
 })
-public class DoType {
+public class LoadType {
 
     protected BundlesType bundles;
     protected DirsType directories;

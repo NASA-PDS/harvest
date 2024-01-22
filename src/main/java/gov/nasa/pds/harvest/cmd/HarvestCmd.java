@@ -61,15 +61,15 @@ public class HarvestCmd implements CliCommand
 
         try
         {
-            if(cfg.getDo().getDirectories() != null)
+            if(cfg.getLoad().getDirectories() != null)
             {
                 processDirs();
             }
-            else if(cfg.getDo().getBundles() != null)
+            else if(cfg.getLoad().getBundles() != null)
             {
                 processBundles();
             }
-            else if(cfg.getDo().getFiles() != null)
+            else if(cfg.getLoad().getFiles() != null)
             {
                 processManifests();
             }
@@ -91,7 +91,7 @@ public class HarvestCmd implements CliCommand
      */
     private void processBundles() throws Exception
     {
-        for(BundleType bCfg: cfg.getDo().getBundles().getBundle())
+        for(BundleType bCfg: cfg.getLoad().getBundles().getBundle())
         {
             processBundle(bCfg);
         }
@@ -104,7 +104,7 @@ public class HarvestCmd implements CliCommand
      */
     private void processDirs() throws Exception
     {
-        for(String path: cfg.getDo().getDirectories().getPath())
+        for(String path: cfg.getLoad().getDirectories().getPath())
         {
             processDirectory(path);
         }
@@ -117,7 +117,7 @@ public class HarvestCmd implements CliCommand
      */
     private void processManifests() throws Exception
     {
-        for(String path: cfg.getDo().getFiles().getManifest())
+        for(String path: cfg.getLoad().getFiles().getManifest())
         {
             processManifest(path);
         }
@@ -152,11 +152,11 @@ public class HarvestCmd implements CliCommand
         xpcLoader.load(cfg.getXpathMaps());
         
         // Processors
-        if(cfg.getDo().getDirectories() != null || cfg.getDo().getFiles() != null)
+        if(cfg.getLoad().getDirectories() != null || cfg.getLoad().getFiles() != null)
         {
             filesProc = new FilesProcessor(cfg);
         }
-        else if(cfg.getDo().getBundles() != null)
+        else if(cfg.getLoad().getBundles() != null)
         {
             bundleProc = new BundleProcessor(cfg);
             colProc = new CollectionProcessor(cfg);
