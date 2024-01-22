@@ -56,11 +56,13 @@ public class ConfigManager
       return bean;
     }
     static public HarvestConfigurationType read(File file) throws JAXBException {
-      JAXBContext jaxbContext = new JAXBContextFactory().createContext(new Class[]{HarvestConfigurationType.class}, null);
+      JAXBContext jaxbContext = new JAXBContextFactory().createContext(new Class[]{Harvest.class}, null);
       HarvestConfigurationType result = (HarvestConfigurationType)jaxbContext.createUnmarshaller().unmarshal(file);
       ObjectFactory forge = new ObjectFactory();
       if (result.getAutogenFields() == null) {
         result.setAutogenFields(forge.createAutogenFieldsType());
+      }
+      if (result.getAutogenFields().getClassFilter() == null) {
         result.getAutogenFields().setClassFilter(forge.createFilterType());
       }
       if (result.getFileInfo() == null) {

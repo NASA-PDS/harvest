@@ -367,5 +367,11 @@
   </xs:simpleType>
 
   <!-- root node for XML -->
-  <xs:element name="harvest" type="harvest_configuration_type"/>
+  <xs:element name="harvest">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="harvest_configuration_type"/>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

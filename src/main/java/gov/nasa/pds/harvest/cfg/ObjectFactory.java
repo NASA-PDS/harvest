@@ -7,9 +7,6 @@
 
 package gov.nasa.pds.harvest.cfg;
 
-import javax.xml.namespace.QName;
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
 import jakarta.xml.bind.annotation.XmlRegistry;
 
 
@@ -30,13 +27,22 @@ import jakarta.xml.bind.annotation.XmlRegistry;
 @XmlRegistry
 public class ObjectFactory {
 
-    private static final QName _Harvest_QNAME = new QName("", "harvest");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: gov.nasa.pds.harvest.cfg
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link Harvest }
+     * 
+     * @return
+     *     the new instance of {@link Harvest }
+     */
+    public Harvest createHarvest() {
+        return new Harvest();
     }
 
     /**
@@ -57,6 +63,66 @@ public class ObjectFactory {
      */
     public AutogenFieldsType createAutogenFieldsType() {
         return new AutogenFieldsType();
+    }
+
+    /**
+     * Create an instance of {@link LoadType }
+     * 
+     * @return
+     *     the new instance of {@link LoadType }
+     */
+    public LoadType createLoadType() {
+        return new LoadType();
+    }
+
+    /**
+     * Create an instance of {@link FileInfoType }
+     * 
+     * @return
+     *     the new instance of {@link FileInfoType }
+     */
+    public FileInfoType createFileInfoType() {
+        return new FileInfoType();
+    }
+
+    /**
+     * Create an instance of {@link FilterType }
+     * 
+     * @return
+     *     the new instance of {@link FilterType }
+     */
+    public FilterType createFilterType() {
+        return new FilterType();
+    }
+
+    /**
+     * Create an instance of {@link ReferencesType }
+     * 
+     * @return
+     *     the new instance of {@link ReferencesType }
+     */
+    public ReferencesType createReferencesType() {
+        return new ReferencesType();
+    }
+
+    /**
+     * Create an instance of {@link RegistryType }
+     * 
+     * @return
+     *     the new instance of {@link RegistryType }
+     */
+    public RegistryType createRegistryType() {
+        return new RegistryType();
+    }
+
+    /**
+     * Create an instance of {@link XpathMapsType }
+     * 
+     * @return
+     *     the new instance of {@link XpathMapsType }
+     */
+    public XpathMapsType createXpathMapsType() {
+        return new XpathMapsType();
     }
 
     /**
@@ -100,16 +166,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link FileInfoType }
-     * 
-     * @return
-     *     the new instance of {@link FileInfoType }
-     */
-    public FileInfoType createFileInfoType() {
-        return new FileInfoType();
-    }
-
-    /**
      * Create an instance of {@link FileRefType }
      * 
      * @return
@@ -130,26 +186,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link FilterType }
-     * 
-     * @return
-     *     the new instance of {@link FilterType }
-     */
-    public FilterType createFilterType() {
-        return new FilterType();
-    }
-
-    /**
-     * Create an instance of {@link LoadType }
-     * 
-     * @return
-     *     the new instance of {@link LoadType }
-     */
-    public LoadType createLoadType() {
-        return new LoadType();
-    }
-
-    /**
      * Create an instance of {@link ProductType }
      * 
      * @return
@@ -160,26 +196,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ReferencesType }
-     * 
-     * @return
-     *     the new instance of {@link ReferencesType }
-     */
-    public ReferencesType createReferencesType() {
-        return new ReferencesType();
-    }
-
-    /**
-     * Create an instance of {@link RegistryType }
-     * 
-     * @return
-     *     the new instance of {@link RegistryType }
-     */
-    public RegistryType createRegistryType() {
-        return new RegistryType();
-    }
-
-    /**
      * Create an instance of {@link XpathMapType }
      * 
      * @return
@@ -187,29 +203,6 @@ public class ObjectFactory {
      */
     public XpathMapType createXpathMapType() {
         return new XpathMapType();
-    }
-
-    /**
-     * Create an instance of {@link XpathMapsType }
-     * 
-     * @return
-     *     the new instance of {@link XpathMapsType }
-     */
-    public XpathMapsType createXpathMapsType() {
-        return new XpathMapsType();
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link HarvestConfigurationType }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link HarvestConfigurationType }{@code >}
-     */
-    @XmlElementDecl(namespace = "", name = "harvest")
-    public JAXBElement<HarvestConfigurationType> createHarvest(HarvestConfigurationType value) {
-        return new JAXBElement<>(_Harvest_QNAME, HarvestConfigurationType.class, null, value);
     }
 
 }
