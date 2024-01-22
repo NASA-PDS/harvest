@@ -131,7 +131,7 @@ public class BundleProcessor extends BaseProcessor
         Metadata meta = basicExtractor.extract(file, doc);
         meta.setNodeName(config.getNodeName().toString());
         
-        if(bundleCfg.getVersions() != null && !bundleCfg.getVersions().contains(meta.strVid)) return;
+        if(!bundleCfg.getVersions().equalsIgnoreCase("all") && !bundleCfg.getVersions().contains(meta.strVid)) return;
 
         log.info("Processing bundle " + file.getAbsolutePath());
         bundleCount++;

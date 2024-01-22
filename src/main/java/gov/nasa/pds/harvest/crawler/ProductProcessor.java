@@ -84,7 +84,7 @@ public class ProductProcessor extends BaseProcessor
         {
             if(!XmlIs.aLabel(path.toString())) return false;
 
-            if(includeDirs == null) return true;
+            if(includeDirs.size() == 0) return true;
             String fileDir = path.getParent().toUri().toString().toLowerCase();
             
             for(String dir: includeDirs)
