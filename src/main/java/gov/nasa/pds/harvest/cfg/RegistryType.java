@@ -26,8 +26,8 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         @index: the index to be used by harvest whose default is registry
  *         @trust_self_signed: all self signed certificates for https
  * 
- *         client_id: the cognito client ID for AWS based instances of opensearch
- *         direct_url: the opensearch URL when not using AWS services
+ *         cognito_client_id: the cognito client ID for AWS based instances of opensearch
+ *         server_url: the opensearch URL when not using AWS services
  *       
  * 
  * <p>Java class for registry_type complex type.
@@ -39,8 +39,8 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   <complexContent>
  *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       <choice>
- *         <element name="client_id" type="{http://www.w3.org/2001/XMLSchema}normalizedString"/>
- *         <element name="direct_url" type="{http://www.w3.org/2001/XMLSchema}normalizedString"/>
+ *         <element name="cognito_client_id" type="{http://www.w3.org/2001/XMLSchema}normalizedString"/>
+ *         <element name="server_url" type="{http://www.w3.org/2001/XMLSchema}normalizedString"/>
  *       </choice>
  *       <attribute name="auth" use="required" type="{http://www.w3.org/2001/XMLSchema}normalizedString" />
  *       <attribute name="index" type="{http://www.w3.org/2001/XMLSchema}normalizedString" default="registry" />
@@ -54,19 +54,19 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "registry_type", propOrder = {
-    "clientId",
-    "directUrl"
+    "cognitoClientId",
+    "serverUrl"
 })
 public class RegistryType {
 
-    @XmlElement(name = "client_id")
+    @XmlElement(name = "cognito_client_id")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     @XmlSchemaType(name = "normalizedString")
-    protected String clientId;
-    @XmlElement(name = "direct_url")
+    protected String cognitoClientId;
+    @XmlElement(name = "server_url")
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     @XmlSchemaType(name = "normalizedString")
-    protected String directUrl;
+    protected String serverUrl;
     @XmlAttribute(name = "auth", required = true)
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     @XmlSchemaType(name = "normalizedString")
@@ -79,51 +79,51 @@ public class RegistryType {
     protected Boolean trustSelfSigned;
 
     /**
-     * Gets the value of the clientId property.
+     * Gets the value of the cognitoClientId property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getClientId() {
-        return clientId;
+    public String getCognitoClientId() {
+        return cognitoClientId;
     }
 
     /**
-     * Sets the value of the clientId property.
+     * Sets the value of the cognitoClientId property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setClientId(String value) {
-        this.clientId = value;
+    public void setCognitoClientId(String value) {
+        this.cognitoClientId = value;
     }
 
     /**
-     * Gets the value of the directUrl property.
+     * Gets the value of the serverUrl property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getDirectUrl() {
-        return directUrl;
+    public String getServerUrl() {
+        return serverUrl;
     }
 
     /**
-     * Sets the value of the directUrl property.
+     * Sets the value of the serverUrl property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setDirectUrl(String value) {
-        this.directUrl = value;
+    public void setServerUrl(String value) {
+        this.serverUrl = value;
     }
 
     /**

@@ -38,7 +38,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       <all>
  *         <element name="autogenFields" type="{}autogen_fields_type" minOccurs="0"/>
- *         <element name="do" type="{}do_type"/>
+ *         <element name="load" type="{}load_type"/>
  *         <element name="fileInfo" type="{}file_info_type" minOccurs="0"/>
  *         <element name="productFilter" type="{}filter_type" minOccurs="0"/>
  *         <element name="references" type="{}references_type" minOccurs="0"/>
@@ -60,8 +60,8 @@ import jakarta.xml.bind.annotation.XmlType;
 public class HarvestConfigurationType {
 
     protected AutogenFieldsType autogenFields;
-    @XmlElement(name = "do", required = true)
-    protected DoType _do;
+    @XmlElement(required = true)
+    protected LoadType load;
     protected FileInfoType fileInfo;
     protected FilterType productFilter;
     protected ReferencesType references;
@@ -96,27 +96,27 @@ public class HarvestConfigurationType {
     }
 
     /**
-     * Gets the value of the do property.
+     * Gets the value of the load property.
      * 
      * @return
      *     possible object is
-     *     {@link DoType }
+     *     {@link LoadType }
      *     
      */
-    public DoType getDo() {
-        return _do;
+    public LoadType getLoad() {
+        return load;
     }
 
     /**
-     * Sets the value of the do property.
+     * Sets the value of the load property.
      * 
      * @param value
      *     allowed object is
-     *     {@link DoType }
+     *     {@link LoadType }
      *     
      */
-    public void setDo(DoType value) {
-        this._do = value;
+    public void setLoad(LoadType value) {
+        this.load = value;
     }
 
     /**

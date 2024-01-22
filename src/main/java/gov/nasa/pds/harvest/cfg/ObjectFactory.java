@@ -100,16 +100,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DoType }
-     * 
-     * @return
-     *     the new instance of {@link DoType }
-     */
-    public DoType createDoType() {
-        return new DoType();
-    }
-
-    /**
      * Create an instance of {@link FileInfoType }
      * 
      * @return
@@ -147,6 +137,16 @@ public class ObjectFactory {
      */
     public FilterType createFilterType() {
         return new FilterType();
+    }
+
+    /**
+     * Create an instance of {@link LoadType }
+     * 
+     * @return
+     *     the new instance of {@link LoadType }
+     */
+    public LoadType createLoadType() {
+        return new LoadType();
     }
 
     /**
