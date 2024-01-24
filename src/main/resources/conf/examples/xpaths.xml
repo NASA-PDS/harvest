@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <harvest nodeName="CHANGE_ME">
-
-  <directories>
-    <!-- Path to one or more folders with PDS4 labels -->
-    <path>/home/pds/LADEE/ldex_20161118</path>
-  </directories>
-
+  <load>
+    <directories>
+      <!-- Path to one or more folders with PDS4 labels -->
+      <path>/home/pds/LADEE/ldex_20161118</path>
+    </directories>
+  </load>
+  
   <!-- 
       NOTE: By default only lid, vid, lidvid, title and product class are exported. 
       If you want more metadata to be exported, provide additional configuration
@@ -21,5 +22,8 @@
     <xpathMap rootElement="Product_Observational" filePath="observational.xml" />
   </xpathMaps>
 
+  <registry auth="/path/to/auth/file" index="registry">
+    <cognito_client_id>jdoawierllksjdfkla</cognito_client_id>
+  </registry>
 
 </harvest>

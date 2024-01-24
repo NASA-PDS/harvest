@@ -14,8 +14,8 @@ import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 
 import org.w3c.dom.Document;
-
-import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
+import gov.nasa.pds.harvest.cfg.ConfigManager;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
@@ -56,7 +56,7 @@ public class FilesProcessor extends BaseProcessor
      * @param config Harvest configuration parameters (from a config file)
      * @throws Exception Generic exception
      */
-    public FilesProcessor(Configuration config) throws Exception
+    public FilesProcessor(HarvestConfigurationType config) throws Exception
     {
         super(config);
         
@@ -165,14 +165,9 @@ public class FilesProcessor extends BaseProcessor
         String rootElement = doc.getDocumentElement().getNodeName();
         
         // Apply product filter
-        if(config.filters.prodClassInclude != null)
-        {
-            if(!config.filters.prodClassInclude.contains(rootElement)) return;
-        }
-        else if(config.filters.prodClassExclude != null)
-        {
-            if(config.filters.prodClassExclude.contains(rootElement)) return;
-        }
+        if(!config.getProductFilter().getInclude().isEmpty() &&
+            !config.getProductFilter().getInclude().contains(rootElement)) return;
+        if(config.getProductFilter().getExclude().contains(rootElement)) return;
         
         // Process metadata
         try
@@ -197,7 +192,7 @@ public class FilesProcessor extends BaseProcessor
     {
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
-        meta.setNodeName(config.nodeName);
+        meta.setNodeName(config.getNodeName().toString());
 
         log.info("Processing " + file.getAbsolutePath());
 
@@ -222,7 +217,7 @@ public class FilesProcessor extends BaseProcessor
         searchExtractor.extract(doc, meta.fields);
 
         // Extract file data
-        fileDataExtractor.extract(file, meta, config.fileInfo.fileRef);
+        fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef(config.getFileInfo().getFileRef()));
         
         // Save data
         save(meta, nsInfo);
@@ -280,7 +275,7 @@ public class FilesProcessor extends BaseProcessor
 
         for(BundleMetadataExtractor.BundleMemberEntry bme: bmes)
         {
-            if(!bme.isPrimary && config.refsCfg.primaryOnly) continue;
+            if(!bme.isPrimary && config.getReferences().isPrimaryOnly()) continue;
             
             bundleExtractor.addRefs(meta.intRefs, bme);
         }

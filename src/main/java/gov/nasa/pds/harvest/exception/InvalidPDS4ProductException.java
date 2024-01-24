@@ -5,6 +5,8 @@ package gov.nasa.pds.harvest.exception;
  * error reading bundle/collection references.
  */
 public class InvalidPDS4ProductException extends Exception {
+    private static final long serialVersionUID = 8063779503526800982L;
+
     public InvalidPDS4ProductException(String errorMessage) {
         super(errorMessage);
     }

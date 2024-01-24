@@ -5,6 +5,7 @@ import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.function.BiPredicate;
@@ -12,9 +13,10 @@ import java.util.stream.Stream;
 
 import gov.nasa.pds.registry.common.util.CloseUtils;
 import org.w3c.dom.Document;
-
-import gov.nasa.pds.harvest.cfg.model.BundleCfg;
-import gov.nasa.pds.harvest.cfg.model.Configuration;
+import gov.nasa.pds.harvest.cfg.BundleType;
+import gov.nasa.pds.harvest.cfg.ConfigManager;
+import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
+import gov.nasa.pds.harvest.cfg.ProductType;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
@@ -45,7 +47,7 @@ public class ProductProcessor extends BaseProcessor
      * @param config Harvest configuration parameters
      * @throws Exception Generic exception
      */
-    public ProductProcessor(Configuration config) throws Exception
+    public ProductProcessor(HarvestConfigurationType config) throws Exception
     {
         super(config);
     }
@@ -65,11 +67,13 @@ public class ProductProcessor extends BaseProcessor
          * Constructor
          * @param bCfg Bundle configuration
          */
-        public FileMatcher(BundleCfg bCfg)
+        public FileMatcher(BundleType bCfg)
         {
-            this.includeDirs = bCfg.productDirs;
-        
-            File rootDir = new File(bCfg.dir);
+            this.includeDirs = new HashSet<String>();
+            for (ProductType product : bCfg.getProduct()) {
+              this.includeDirs.add (product.getDir());
+            }
+            File rootDir = new File(bCfg.getDir());
             String rootPath = rootDir.toPath().toUri().toString();
             startIndex = rootPath.length();
         }
@@ -80,7 +84,7 @@ public class ProductProcessor extends BaseProcessor
         {
             if(!XmlIs.aLabel(path.toString())) return false;
 
-            if(includeDirs == null) return true;
+            if(includeDirs.size() == 0) return true;
             String fileDir = path.getParent().toUri().toString().toLowerCase();
             
             for(String dir: includeDirs)
@@ -99,12 +103,12 @@ public class ProductProcessor extends BaseProcessor
      * @param bCfg Bundle configuration
      * @throws Exception Generic exception
      */
-    public void process(BundleCfg bCfg) throws Exception {
+    public void process(BundleType bCfg) throws Exception {
         log.info("Processing products...");
 
         FileMatcher matcher = new FileMatcher(bCfg);
 
-        File bundleDir = new File(bCfg.dir);
+        File bundleDir = new File(bCfg.getDir());
         Stream<Path> stream = null;
 
         try {
@@ -155,14 +159,9 @@ public class ProductProcessor extends BaseProcessor
         if("Product_Bundle".equals(rootElement) || "Product_Collection".equals(rootElement)) return;
 
         // Apply product filter
-        if(config.filters.prodClassInclude != null)
-        {
-            if(!config.filters.prodClassInclude.contains(rootElement)) return;
-        }
-        else if(config.filters.prodClassExclude != null)
-        {
-            if(config.filters.prodClassExclude.contains(rootElement)) return;
-        }
+        if (!config.getProductFilter().getInclude().isEmpty() &&
+            !config.getProductFilter().getInclude().contains(rootElement)) return;
+        if(config.getProductFilter().getExclude().contains(rootElement)) return;
 
         // Process metadata
         try
@@ -189,7 +188,7 @@ public class ProductProcessor extends BaseProcessor
         
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
-        meta.setNodeName(config.nodeName);
+        meta.setNodeName(config.getNodeName().toString());
 
         // Only process primary products from collection inventory
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
@@ -220,7 +219,7 @@ public class ProductProcessor extends BaseProcessor
         searchExtractor.extract(doc, meta.fields);
         
         // Extract file data
-        fileDataExtractor.extract(file, meta, config.fileInfo.fileRef);
+        fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef(config.getFileInfo().getFileRef()));
         
         // Save metadata
         save(meta, nsInfo);

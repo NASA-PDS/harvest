@@ -13,10 +13,11 @@ import java.util.stream.Stream;
 import gov.nasa.pds.registry.common.util.CloseUtils;
 import org.w3c.dom.Document;
 
-import gov.nasa.pds.harvest.cfg.model.BundleCfg;
-import gov.nasa.pds.harvest.cfg.model.Configuration;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.xml.XmlIs;
+import gov.nasa.pds.harvest.cfg.BundleType;
+import gov.nasa.pds.harvest.cfg.ConfigManager;
+import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.registry.common.meta.BundleMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
@@ -43,7 +44,7 @@ public class BundleProcessor extends BaseProcessor
     private BundleMetadataExtractor bundleExtractor;
     
     private int bundleCount;
-    private BundleCfg bundleCfg;
+    private BundleType bundleCfg;
     
     
     /**
@@ -52,7 +53,7 @@ public class BundleProcessor extends BaseProcessor
      * @param counter document / product counter
      * @throws Exception Generic exception
      */
-    public BundleProcessor(Configuration config) throws Exception
+    public BundleProcessor(HarvestConfigurationType config) throws Exception
     {
         super(config);
 
@@ -80,11 +81,11 @@ public class BundleProcessor extends BaseProcessor
      * @return Number of bundles processed (O or more)
      * @throws Exception Generic exception
      */
-    public int process(BundleCfg bCfg) throws Exception {
+    public int process(BundleType bCfg) throws Exception {
         bundleCount = 0;
         this.bundleCfg = bCfg;
 
-        File bundleDir = new File(bCfg.dir);
+        File bundleDir = new File(bCfg.getDir());
         Stream<Path> stream = null;
 
         try {
@@ -128,9 +129,9 @@ public class BundleProcessor extends BaseProcessor
     private void processMetadata(File file, Document doc) throws Exception
     {
         Metadata meta = basicExtractor.extract(file, doc);
-        meta.setNodeName(config.nodeName);
+        meta.setNodeName(config.getNodeName().toString());
         
-        if(bundleCfg.versions != null && !bundleCfg.versions.contains(meta.strVid)) return;
+        if(!bundleCfg.getVersions().equalsIgnoreCase("all") && !bundleCfg.getVersions().contains(meta.strVid)) return;
 
         log.info("Processing bundle " + file.getAbsolutePath());
         bundleCount++;
@@ -165,7 +166,7 @@ public class BundleProcessor extends BaseProcessor
         searchExtractor.extract(doc, meta.fields);
         
         // File information (name, size, checksum)
-        fileDataExtractor.extract(file, meta, config.fileInfo.fileRef);
+        fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef (config.getFileInfo().getFileRef()));
         
         // Save data
         save(meta, nsInfo);
@@ -178,7 +179,7 @@ public class BundleProcessor extends BaseProcessor
 
         for(BundleMetadataExtractor.BundleMemberEntry bme: bmes)
         {
-            if(!bme.isPrimary && config.refsCfg.primaryOnly) continue;
+            if(!bme.isPrimary && config.getReferences().isPrimaryOnly()) continue;
             
             cacheRefs(bme);
             bundleExtractor.addRefs(meta.intRefs, bme);

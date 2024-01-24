@@ -10,8 +10,8 @@ import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import gov.nasa.pds.harvest.cfg.model.XPathMapCfg;
+import gov.nasa.pds.harvest.cfg.XpathMapType;
+import gov.nasa.pds.harvest.cfg.XpathMapsType;
 import gov.nasa.pds.harvest.util.xml.XPathCache;
 import gov.nasa.pds.registry.common.util.xml.XPathUtils;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
@@ -41,13 +41,11 @@ public class XPathCacheLoader
      * @param maps XPath configuration (parsed configuration file) 
      * @throws Exception
      */
-    public void load(XPathMapCfg maps) throws Exception
-    {
-        if(maps == null || maps.items == null || maps.items.isEmpty()) return;
-        
-        for(XPathMapCfg.Item xpm: maps.items)
+    public void load(XpathMapsType maps) throws Exception
+    {        
+        for(XpathMapType xpm: maps.getXpathMap())
         {
-            File file = (maps.baseDir != null) ? new File(maps.baseDir, xpm.filePath) : new File(xpm.filePath); 
+            File file = new File(maps.getBaseDir(), xpm.getFilePath()); 
             LOG.info("Loading xpath-to-field-name map from " + file.getAbsolutePath());
 
             if(!file.exists())
@@ -55,7 +53,7 @@ public class XPathCacheLoader
                 throw new Exception("File " + file.getAbsolutePath() + " does not exist.");
             }
             
-            loadFile(file, xpm.rootElement);
+            loadFile(file, xpm.getRootElement());
         }
     }
     

@@ -1,0 +1,386 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="unqualified"
+            attributeFormDefault="unqualified">
+  <!-- How this file is written:
+
+       Each of the types are represented as either named simple types or
+       named complex types to aid with data binding (jaxb) rather than a
+       continuous stream of anonymous types.
+
+       All of the complex types are first in alphabetical order of their name.
+       The simple types follow. Normally the simnple types are used to constrain
+       a general schema type. Lastly is the root node for the document.
+
+       The annotation-documentation nodes are used to define the type. -->
+
+  <!-- Template
+  <xs:complexType name="">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+    </xs:sequence>
+    <xs:attribute default="" name="" type="" use=""/>
+  </xs:complexType>
+
+  -->
+
+  <xs:complexType name="autogen_fields_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        Determines how items found in the products should be indexed in the
+        registry. Do not define this tag for normal, expected behavior.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="classFilter" type="filter_type"/>
+    </xs:sequence>
+    <xs:attribute default="true" name="generate" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="bundle_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        Describe the bundle to be processed.
+
+        @dir: must supply the directory that contains the bundle XML file
+        @versions: a comma separated list of values but "all", the default,
+                   will ingest all versions.
+
+        collection: list of collections to include but if not specified, then
+                    all collections found and referenced by the bundle will be
+                    included.
+        product: list of product directories. Reason???
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0"
+                  name="collection" type="collection_type"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0"
+                  name="product" type="product_type"/>
+    </xs:sequence>
+    <xs:attribute name="dir" type="xs:normalizedString" use="required"/>
+    <xs:attribute default="all" name="versions" type="xs:normalizedString"/>
+  </xs:complexType>
+
+  <xs:complexType name="bundles_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        Unnecessary object to keep legacy format.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="bundle" type="bundle_type"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="collection_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        The collection's LID or LIDVID.
+
+        DEV notes:
+
+        Unfortunately, cannot define mutually exclusive attributes
+        without schematron and trying to avoid schematron.
+
+        It may be better to ditch either lid or lidvid then if :: is found
+        treat it as lidvid otherwise lid. Doing that would allow for the
+        attribute lid as required but accept lidvids.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute default="" name="lid" type="xs:normalizedString"/>
+    <xs:attribute default="" name="lidvid" type="xs:normalizedString"/>
+  </xs:complexType>
+
+  <xs:complexType name="dirs_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="path" type="xs:normalizedString"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="file_info_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        Used to rename file locations from a local space to the install space.
+        For instance, change /home/username/pdsfiles to
+        https://public.space.com/pdsfiles,
+
+        @processDataFiles:
+        @storeJsonLabels:
+        @storeLabels:
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="fileRef" type="file_ref_type"/>
+    </xs:sequence>
+    <xs:attribute default="true" name="processDataFiles" type="xs:boolean"/>
+    <xs:attribute default="true" name="storeJsonLabels" type="xs:boolean"/>
+    <xs:attribute default="true" name="storeLabels" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="file_ref_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        Describe the prefix of the filename to replace with new content.
+
+        @replacePrefix: the string to find in the filename starting with the
+                        first character of the filename (no regex or globbing)
+        @with: the replacement content
+
+        Example:
+           filename = /home/username/pdsfiles/someproduct.xml
+           replacePrefix = /home/username/pdsfiles
+           with = https://public.com/pdsfiles/root
+
+           After this fileRef is used, filename would be:
+              https://public.com/pdsfiles/root/someproduct.xml
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="replacePrefix" type="xs:normalizedString"
+                  use="required"/>
+    <xs:attribute name="with" type="xs:normalizedString" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="files_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="manifest" type="xs:normalizedString"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="filter_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        A simple container to hold two lists of strings, One for inclusion and
+        the other for exclusion,
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0"
+                  name="exclude" type="xs:normalizedString"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0"
+                  name="include" type="xs:normalizedString"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="harvest_configuration_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        These are the basic options for the harvest configuration file.
+
+        @nodeName: the PDS node that this harvest run applies to
+
+        autogenFields: should not be used except in development testing
+        do: tells where and how to harvest PDS4 labels
+        fileInfo: option allowing filename prefixes to be replaced
+        productFilter: should not be used except in development testing
+        registry: define the server harvest should use
+        xpathMaps: allow constraints in the PDS4 label to control harvesting
+      </xs:documentation>
+    </xs:annotation>
+    <xs:all>
+      <xs:element minOccurs="0"
+                  name="autogenFields" type="autogen_fields_type"/>
+      <xs:element name="load" type="load_type"/>
+      <xs:element minOccurs="0" name="fileInfo" type="file_info_type"/>
+      <xs:element minOccurs="0" name="productFilter" type="filter_type"/>
+      <xs:element minOccurs="0" name="references" type="references_type"/>
+      <xs:element name="registry" type="registry_type"/>
+      <xs:element minOccurs="0" name="xpathMaps" type="xpath_maps_type"/>
+    </xs:all>
+    <xs:attribute name="nodeName" type="node_name_enum" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="load_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        DEV notes:
+
+        Had to bury this one deeper because cannot have a choice in an all.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element name="bundles" type="bundles_type"/>
+      <xs:element name="directories" type="dirs_type"/>
+      <xs:element name="files" type="files_type"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="product_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="dir" type="xs:normalizedString" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="references_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        Seems like a forgotten idea
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute default="false" name="primaryOnly" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="registry_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        Define the connection to the registry, security for the connection, and
+        the index within the registry.
+
+        @auth: a java property file containing a username and password
+        @index: the index to be used by harvest whose default is registry
+        @trust_self_signed: all self signed certificates for https
+
+        cognito_client_id: the cognito client ID for AWS based instances of opensearch
+        server_url: the opensearch URL when not using AWS services
+      </xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element name="cognito_client_id" type="xs:normalizedString"/>
+      <xs:element name="server_url" type="xs:normalizedString"/>
+    </xs:choice>
+    <xs:attribute name="auth" type="xs:normalizedString" use="required"/>
+    <xs:attribute default="registry" name="index" type="xs:normalizedString"/>
+    <xs:attribute default="false" name="trust_self_signed" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="xpath_map_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        Point at an xpath file to apply against PDS4 labels. If @rootElement
+        is the default value, then the xpath file will be applied to labels.
+        Otherwise only those labels with matching @rootElement will have the
+        xpath file applied.
+
+        @filePath: location of the xpath file
+        @rootElement: name of the root element to apply xpath file with default
+                      being all.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="filePath" type="xs:normalizedString" use="required"/>
+    <xs:attribute default="" name="rootElement" type="xs:normalizedString"/>
+  </xs:complexType>
+
+  <xs:complexType name="xpath_maps_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        The xpaths to apply to PDS4 labels for determining harvesting.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="xpathMap" type="xpath_map_type"/>
+    </xs:sequence>
+    <xs:attribute name="baseDir" type="xs:normalizedString" use="required"/>
+  </xs:complexType>
+
+  <xs:simpleType name="node_name_enum">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="PDS_ATM">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Planetary Data System: Atmospheres Node"
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PDS_ENG">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Planetary Data System: Engineering Node
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PDS_GEO">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Planetary Data System: Geosciences Node
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PDS_IMG">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Planetary Data System: Imaging Node
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PDS_NAIF">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Planetary Data System: NAIF Node
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PDS_PPI">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Planetary Data System: Planetary Plasma Interactions Node
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PDS_RMS">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Planetary Data System: Rings Node
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PDS_SBN">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Planetary Data System: Small Bodies Node
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PSA">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Planetary Science Archive
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="JAXA">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Japan Aerospace Exploration Agency
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ROSCOSMOS">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Russian State Corporation for Space Activities
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- root node for XML -->
+  <xs:element name="harvest">
+    <xs:complexType>
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          This terrible construct is so that xjc can autodetect this as the
+          root node for processing. Many things would be better but this is
+          the most workable solution especially if the making of the binding
+          code is automated in the pom. The only other real solution is to
+          modify one of the classes generated by hand.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+        <xs:extension base="harvest_configuration_type"/>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

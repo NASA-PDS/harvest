@@ -20,24 +20,23 @@
 <harvest nodeName="CHANGE_ME">
 
   <!-- Registry configuration -->
-  <!-- UPDATE with your registry information 
-       NOTE: For AWS Registry, be sure to force port 443, e.g. https://aws-open-search-url:443
-   -->
-  <!--
-  <registry url="http://localhost:9200" index="registry" auth="/path/to/auth.cfg" />
-  -->
-  <registry url="http://localhost:9200" index="registry" />
+  <!-- UPDATE with your registry information -->
+  <registry index="registry" auth="/path/to/auth/file">
+    <server_url>http://localhost:9200</server_url>
+  </registry>
 
   <!-- 
     * List of one or more PDS4 bundle folders. The "versions" attribute is optional.
     * No versions attribute or versions="all" - process all bundles.
     * versions="7.0;8.0" - process versions 7.0 and 8.0. 
     * You can use the following version delimiters: space, comma, semicolon, tab [ ,;\r]
-  -->
-  <bundles>
-    <!-- UPDATE HERE -->
-    <bundle dir="/path/to/bundle" versions="all" />
-  </bundles>
+    -->
+  <load>
+    <bundles>
+      <!-- UPDATE HERE -->
+      <bundle dir="/path/to/bundle" versions="all" />
+    </bundles>
+  </load>
 
 
   <!-- Only include context and document products. -->

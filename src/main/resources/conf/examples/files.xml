@@ -17,21 +17,20 @@
 <harvest nodeName="CHANGE_ME">
 
   <!-- Registry configuration -->
-  <!-- UPDATE with your registry information 
-       NOTE: For AWS Registry, be sure to force port 443, e.g. https://aws-open-search-url:443
-   -->
-  <!--
-  <registry url="http://localhost:9200" index="registry" auth="/path/to/auth.cfg" />
-  -->
-  <registry url="http://localhost:9200" index="registry" />
-
-  <files>
-    <!-- 
-        Path to one or more manifest files with the list of full paths to PDS4 label 
-        files (one path per line). 
-     -->
-    <manifest>/path/to/manifest/file</manifest>
-  </files>
+  <!-- UPDATE with your registry information -->
+  <registry auth="/path/to/auth/file" index="registry">
+    <server_url>http://localhost:9200</server_url>
+  </registry>
+  
+  <load>
+    <files>
+      <!-- 
+           Path to one or more manifest files with the list of full paths to PDS4 label 
+           files (one path per line). 
+        -->
+      <manifest>/path/to/manifest/file</manifest>
+    </files>
+  </load>
 
   <!-- 
       NOTE: By default only lid, vid, lidvid, title and product class are exported.
