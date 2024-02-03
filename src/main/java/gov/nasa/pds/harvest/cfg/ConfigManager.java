@@ -44,10 +44,10 @@ public class ConfigManager
     }
     static public ConnectionFactory exchangeRegistry (RegistryType xml) throws Exception {
       if (xml.getServerUrl() != null) {
-        return EstablishConnectionFactory.directly (xml.getServerUrl(), xml.getAuth(), xml.isTrustSelfSigned()).setIndexName(xml.getIndex());
+        return EstablishConnectionFactory.directly (xml.getServerUrl().getValue(), xml.getAuth(), xml.getServerUrl().isTrustSelfSigned()).setIndexName(xml.getIndex());
       }
-      if (xml.getCognitoClientId() != null) {
-        return EstablishConnectionFactory.viaCognito (xml.getCognitoClientId(), xml.getAuth(), xml.isTrustSelfSigned()).setIndexName(xml.getIndex());
+      if (xml.getCognitoCliendId() != null) {
+        return EstablishConnectionFactory.viaCognito (new CognitoContentWrapper(xml.getCognitoCliendId()), xml.getAuth()).setIndexName(xml.getIndex());
       }
       throw new RuntimeException("New XML/Java choices in registry_type/RegistryType that are not handled.");
     }

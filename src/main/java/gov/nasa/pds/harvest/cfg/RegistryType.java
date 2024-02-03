@@ -26,7 +26,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         @index: the index to be used by harvest whose default is registry
  *         @trust_self_signed: all self signed certificates for https
  * 
- *         cognito_client_id: the cognito client ID for AWS based instances of opensearch
+ *         cognito: the cognito client ID, IDP and gateway for AWS based instances of opensearch
  *         server_url: the opensearch URL when not using AWS services
  *       
  * 
@@ -39,12 +39,11 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   <complexContent>
  *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       <choice>
- *         <element name="cognito_client_id" type="{http://www.w3.org/2001/XMLSchema}normalizedString"/>
- *         <element name="server_url" type="{http://www.w3.org/2001/XMLSchema}normalizedString"/>
+ *         <element name="cognitoCliendId" type="{}cognito_type"/>
+ *         <element name="server_url" type="{}direct_type"/>
  *       </choice>
  *       <attribute name="auth" use="required" type="{http://www.w3.org/2001/XMLSchema}normalizedString" />
  *       <attribute name="index" type="{http://www.w3.org/2001/XMLSchema}normalizedString" default="registry" />
- *       <attribute name="trust_self_signed" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
  *     </restriction>
  *   </complexContent>
  * </complexType>
@@ -54,19 +53,14 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "registry_type", propOrder = {
-    "cognitoClientId",
+    "cognitoCliendId",
     "serverUrl"
 })
 public class RegistryType {
 
-    @XmlElement(name = "cognito_client_id")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    @XmlSchemaType(name = "normalizedString")
-    protected String cognitoClientId;
+    protected CognitoType cognitoCliendId;
     @XmlElement(name = "server_url")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    @XmlSchemaType(name = "normalizedString")
-    protected String serverUrl;
+    protected DirectType serverUrl;
     @XmlAttribute(name = "auth", required = true)
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     @XmlSchemaType(name = "normalizedString")
@@ -75,31 +69,29 @@ public class RegistryType {
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     @XmlSchemaType(name = "normalizedString")
     protected String index;
-    @XmlAttribute(name = "trust_self_signed")
-    protected Boolean trustSelfSigned;
 
     /**
-     * Gets the value of the cognitoClientId property.
+     * Gets the value of the cognitoCliendId property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link CognitoType }
      *     
      */
-    public String getCognitoClientId() {
-        return cognitoClientId;
+    public CognitoType getCognitoCliendId() {
+        return cognitoCliendId;
     }
 
     /**
-     * Sets the value of the cognitoClientId property.
+     * Sets the value of the cognitoCliendId property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link CognitoType }
      *     
      */
-    public void setCognitoClientId(String value) {
-        this.cognitoClientId = value;
+    public void setCognitoCliendId(CognitoType value) {
+        this.cognitoCliendId = value;
     }
 
     /**
@@ -107,10 +99,10 @@ public class RegistryType {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link DirectType }
      *     
      */
-    public String getServerUrl() {
+    public DirectType getServerUrl() {
         return serverUrl;
     }
 
@@ -119,10 +111,10 @@ public class RegistryType {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link DirectType }
      *     
      */
-    public void setServerUrl(String value) {
+    public void setServerUrl(DirectType value) {
         this.serverUrl = value;
     }
 
@@ -176,34 +168,6 @@ public class RegistryType {
      */
     public void setIndex(String value) {
         this.index = value;
-    }
-
-    /**
-     * Gets the value of the trustSelfSigned property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
-     */
-    public boolean isTrustSelfSigned() {
-        if (trustSelfSigned == null) {
-            return false;
-        } else {
-            return trustSelfSigned;
-        }
-    }
-
-    /**
-     * Sets the value of the trustSelfSigned property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
-     */
-    public void setTrustSelfSigned(Boolean value) {
-        this.trustSelfSigned = value;
     }
 
 }
