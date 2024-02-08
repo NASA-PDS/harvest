@@ -1,13 +1,5 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2024-01-24)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.2...«unknown»)
-
-**Other closed issues:**
-
-- Update to utilize new multi-tenancy approach [\#118](https://github.com/NASA-PDS/harvest/issues/118)
-
 ## [v3.8.2](https://github.com/NASA-PDS/harvest/tree/v3.8.2) (2023-12-16)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.1...v3.8.2)
