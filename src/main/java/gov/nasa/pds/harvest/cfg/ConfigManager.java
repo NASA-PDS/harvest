@@ -43,13 +43,7 @@ public class ConfigManager
       return lidvids;
     }
     static public ConnectionFactory exchangeRegistry (RegistryType xml) throws Exception {
-      if (xml.getServerUrl() != null) {
-        return EstablishConnectionFactory.directly (xml.getServerUrl().getValue(), xml.getAuth(), xml.getServerUrl().isTrustSelfSigned()).setIndexName(xml.getIndex());
-      }
-      if (xml.getCognitoCliendId() != null) {
-        return EstablishConnectionFactory.viaCognito (new CognitoContentWrapper(xml.getCognitoCliendId()), xml.getAuth()).setIndexName(xml.getIndex());
-      }
-      throw new RuntimeException("New XML/Java choices in registry_type/RegistryType that are not handled.");
+      return EstablishConnectionFactory.from (xml.getValue(), xml.getAuth());
     }
     static public HarvestConfigurationType read(File file) throws JAXBException {
       JAXBContext jaxbContext = new JAXBContextFactory().createContext(new Class[]{Harvest.class}, null);
