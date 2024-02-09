@@ -22,8 +22,6 @@
     <xpathMap rootElement="Product_Observational" filePath="observational.xml" />
   </xpathMaps>
 
-  <registry auth="/path/to/auth/file" index="registry">
-    <cognito_client_id>jdoawierllksjdfkla</cognito_client_id>
-  </registry>
+  <registry auth="/path/to/auth/file">app://cognito.xml</registry>
 
 </harvest>

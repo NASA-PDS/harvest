@@ -21,9 +21,7 @@
 
   <!-- Registry configuration -->
   <!-- UPDATE with your registry information -->
-  <registry index="registry" auth="/path/to/auth/file">
-    <server_url>http://localhost:9200</server_url>
-  </registry>
+  <registry auth="/path/to/auth/file">app://localhost.xml</registry>
 
   <!-- 
     * List of one or more PDS4 bundle folders. The "versions" attribute is optional.

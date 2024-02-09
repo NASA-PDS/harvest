@@ -18,9 +18,7 @@
 
   <!-- Registry configuration -->
   <!-- UPDATE with your registry information -->
-  <registry auth="/path/to/auth/file" index="registry">
-    <server_url>http://localhost:9200</server_url>
-  </registry>
+  <registry auth="/path/to/auth/file">app://localhost.xml</registry>
   
   <load>
     <files>
