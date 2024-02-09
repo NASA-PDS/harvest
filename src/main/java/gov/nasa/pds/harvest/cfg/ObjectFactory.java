@@ -146,16 +146,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CognitoType }
-     * 
-     * @return
-     *     the new instance of {@link CognitoType }
-     */
-    public CognitoType createCognitoType() {
-        return new CognitoType();
-    }
-
-    /**
      * Create an instance of {@link CollectionType }
      * 
      * @return
@@ -163,16 +153,6 @@ public class ObjectFactory {
      */
     public CollectionType createCollectionType() {
         return new CollectionType();
-    }
-
-    /**
-     * Create an instance of {@link DirectType }
-     * 
-     * @return
-     *     the new instance of {@link DirectType }
-     */
-    public DirectType createDirectType() {
-        return new DirectType();
     }
 
     /**

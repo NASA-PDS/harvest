@@ -75,29 +75,6 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="cognito_type">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        Currently, cognito to serverless opensearh requires three bits of
-        information:
-          1. clientID: magic ID which must be given and is not a secret but
-                       sure looks like one
-          2. @gateway: an endpoint that exchanges the cognito authentication
-                       to a signed URL that can be used for communicating with
-                       opensearch on AWS
-          3. @IDP: the cognito authentication endpoint that exchanges the
-                   username/password to a set of tokens used by the gateway.
-      </xs:documentation>
-    </xs:annotation>
-    <xs:simpleContent>
-      <xs:extension base="xs:normalizedString">
-        <xs:attribute default="https://c8u1zk30u5.execute-api.us-west-2.amazonaws.com/dev/signed-url" name="gateway" type="xs:normalizedString"/>
-        <xs:attribute default="cognito-idp.us-west-2.amazonaws.com"
-                      name="IDP" type="xs:normalizedString"/>
-      </xs:extension>
-    </xs:simpleContent>
-  </xs:complexType>
-
   <xs:complexType name="collection_type">
     <xs:annotation>
       <xs:documentation xml:lang="en">
@@ -115,27 +92,6 @@
     </xs:annotation>
     <xs:attribute default="" name="lid" type="xs:normalizedString"/>
     <xs:attribute default="" name="lidvid" type="xs:normalizedString"/>
-  </xs:complexType>
-
-  <xs:complexType name="direct_type">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        Currently, connecting to an opensearch service directly requires just
-        two pieces of information:
-          1. URL: the URL to directly contact an opensearch instance and its
-                  API to include authentication
-          2. @trustSelfSigned: when running locally for testing or development
-                               it is often necessary to use self signed
-                               certificates. Setting this option to true
-                               will all for self signed certificates.
-      </xs:documentation>
-    </xs:annotation>
-    <xs:simpleContent>
-      <xs:extension base="xs:normalizedString">
-        <xs:attribute default="false" name="trust_self_signed"
-                      type="xs:boolean"/>
-      </xs:extension>
-    </xs:simpleContent>
   </xs:complexType>
 
   <xs:complexType name="dirs_type">
@@ -280,22 +236,18 @@
     <xs:annotation>
       <xs:documentation xml:lang="en">
         Define the connection to the registry, security for the connection, and
-        the index within the registry.
+        the index within the registry. The value of this tag is a pointer to
+        a registry connection like app://known/direct/localhost.xml or
+        app://known/cognito/first_test.xml
 
         @auth: a java property file containing a username and password
-        @index: the index to be used by harvest whose default is registry
-        @trust_self_signed: all self signed certificates for https
-
-        cognito: the cognito client ID, IDP and gateway for AWS based instances of opensearch
-        server_url: the opensearch URL when not using AWS services
-      </xs:documentation>
+       </xs:documentation>
     </xs:annotation>
-    <xs:choice>
-      <xs:element name="cognitoCliendId" type="cognito_type"/>
-      <xs:element name="server_url" type="direct_type"/>
-    </xs:choice>
-    <xs:attribute name="auth" type="xs:normalizedString" use="required"/>
-    <xs:attribute default="registry" name="index" type="xs:normalizedString"/>
+    <xs:simpleContent>
+      <xs:extension base="xs:normalizedString">
+        <xs:attribute name="auth" type="xs:normalizedString" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
   </xs:complexType>
 
   <xs:complexType name="xpath_map_type">
