@@ -17,7 +17,7 @@ public class TestRegistryDAO
     
     public static void main(String[] args) throws Exception
     {
-        ConnectionFactory conFact = null;//"http://localhost:9200";
+        ConnectionFactory conFact = null;//"app:/connections/direct/localhost.xml";
         
         RegistryManager.init(conFact, true);
 
