@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<harvest nodeName="CHANGE_ME">
+<harvest>
+  <nodeName>CHANGE_ME</nodeName>
   <load>
     <directories>
       <!-- Path to one or more folders with PDS4 labels -->
