@@ -4,8 +4,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-import gov.nasa.pds.registry.common.es.client.SearchResponseParser;
-
+import gov.nasa.pds.registry.common.util.SearchResponseParser;
 
 /**
  * Helper class to process Elasticsearch response from "search IDs" query.  

@@ -5,12 +5,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.elasticsearch.client.Request;
-import org.elasticsearch.client.Response;
-import org.elasticsearch.client.RestClient;
-
-import gov.nasa.pds.registry.common.es.client.SearchResponseParser;
+import gov.nasa.pds.registry.common.Request;
+import gov.nasa.pds.registry.common.Response;
+import gov.nasa.pds.registry.common.RestClient;
+import gov.nasa.pds.registry.common.util.SearchResponseParser;
 
 
 /**
@@ -98,7 +96,7 @@ public class RegistryDao
         String reqUrl = "/" + indexName + "/_search";
         if(pretty) reqUrl += "?pretty";
         
-        Request req = new Request("GET", reqUrl);
+        Request req = client.createRequest(Request.Method.GET, reqUrl);
         req.setJsonEntity(json);
         Response resp = client.performRequest(req);
 

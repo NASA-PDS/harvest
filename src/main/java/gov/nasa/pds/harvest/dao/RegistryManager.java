@@ -2,12 +2,11 @@ package gov.nasa.pds.harvest.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.elasticsearch.client.RestClient;
 
 import gov.nasa.pds.harvest.crawler.Counter;
 import gov.nasa.pds.harvest.util.log.LogUtils;
-import gov.nasa.pds.registry.common.cfg.RegistryCfg;
-import gov.nasa.pds.registry.common.es.client.EsClientFactory;
+import gov.nasa.pds.registry.common.ConnectionFactory;
+import gov.nasa.pds.registry.common.RestClient;
 import gov.nasa.pds.registry.common.util.CloseUtils;
 import gov.nasa.pds.registry.common.es.dao.dd.DataDictionaryDao;
 import gov.nasa.pds.registry.common.es.dao.schema.SchemaDao;
@@ -27,10 +26,10 @@ public class RegistryManager
 {
     private static RegistryManager instance = null;
     
-    private RegistryCfg cfg;
+    private ConnectionFactory conFact;
     private boolean overwriteFlag;
     
-    private RestClient esClient;
+    private RestClient client;
 
     private RegistryDao registryDao;
     private SchemaDao schemaDao;
@@ -49,30 +48,27 @@ public class RegistryManager
      * @param cfg Registry (Elasticsearch) configuration parameters.
      * @throws Exception Generic exception
      */
-    private RegistryManager(RegistryCfg cfg, boolean overwriteFlag) throws Exception
+    private RegistryManager(ConnectionFactory conFact, boolean overwriteFlag) throws Exception
     {
-        this.cfg = cfg;
+        this.conFact = conFact;
         this.overwriteFlag = overwriteFlag;
         this.counter = new Counter();
         
         Logger log = LogManager.getLogger(this.getClass());
-        log.log(LogUtils.LEVEL_SUMMARY, "Elasticsearch URL: " + cfg.url + ", index: " + cfg.indexName);
+        log.log(LogUtils.LEVEL_SUMMARY, "Connection: " + conFact);
         
-        esClient = EsClientFactory.createRestClient(cfg.url, cfg.authFile);
+        client = conFact.createRestClient();
         
-        String indexName = cfg.indexName;
-        if(indexName == null || indexName.isEmpty()) indexName = "registry";
-        
-        registryDao = new RegistryDao(esClient, indexName);
-        schemaDao = new SchemaDao(esClient, indexName);
-        ddDao = new DataDictionaryDao(esClient, indexName);
+        registryDao = new RegistryDao(client, conFact.getIndexName());
+        schemaDao = new SchemaDao(client, conFact.getIndexName());
+        ddDao = new DataDictionaryDao(client, conFact.getIndexName());
         
         fieldNameCache = new FieldNameCache(ddDao, schemaDao);
         
-        registryWriter = new MetadataWriter(cfg, registryDao, counter);
+        registryWriter = new MetadataWriter(conFact, registryDao, counter);
         registryWriter.setOverwriteExisting(overwriteFlag);
         
-        invWriter = new CollectionInventoryWriter(cfg);
+        invWriter = new CollectionInventoryWriter(conFact);
     }
     
     
@@ -82,13 +78,9 @@ public class RegistryManager
      * @param overwriteFlag overwrite registered products
      * @throws Exception Generic exception
      */
-    public static void init(RegistryCfg cfg, boolean overwriteFlag) throws Exception
+    public static void init(ConnectionFactory conFact, boolean overwriteFlag) throws Exception
     {
-        // Registry is not configured. Run Harvest without Registry.
-        if(cfg == null) throw new IllegalArgumentException("Registry is not configuraed.");
-        if(cfg.url == null || cfg.url.isEmpty()) throw new IllegalArgumentException("Missing Registry URL");        
-        
-        instance = new RegistryManager(cfg, overwriteFlag);
+        instance = new RegistryManager(conFact, overwriteFlag);
     }
     
     
@@ -100,7 +92,7 @@ public class RegistryManager
         if(instance == null) return;
         
         CloseUtils.close(instance.registryWriter);
-        CloseUtils.close(instance.esClient);
+        CloseUtils.close(instance.client);
         
         instance = null;
     }
@@ -116,16 +108,6 @@ public class RegistryManager
     }
     
 
-    /**
-     * Get registry configuration.
-     * @return Registry configuration
-     */
-    public RegistryCfg getRegistryConfiguration()
-    {
-        return cfg;
-    }
-
-    
     /**
      * Get overwrite flag
      * @return if true, overwrite already registered documents
@@ -183,7 +165,7 @@ public class RegistryManager
      */
     public MissingFieldsProcessor createMissingFieldsProcessor() throws Exception
     {
-        SchemaUpdater su = new SchemaUpdater(cfg, ddDao, schemaDao);
+        SchemaUpdater su = new SchemaUpdater(conFact, ddDao, schemaDao);
         return new MissingFieldsProcessor(su, fieldNameCache);
     }
 

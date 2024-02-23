@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.crawler.Counter;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
-import gov.nasa.pds.registry.common.cfg.RegistryCfg;
+import gov.nasa.pds.registry.common.ConnectionFactory;
 import gov.nasa.pds.registry.common.es.dao.DataLoader;
 import gov.nasa.pds.registry.common.meta.Metadata;
 
@@ -40,10 +40,10 @@ public class MetadataWriter implements Closeable
      * @param cfg registry configuration
      * @throws Exception an exception
      */
-    public MetadataWriter(RegistryCfg cfg, RegistryDao dao, Counter counter) throws Exception
+    public MetadataWriter(ConnectionFactory conFact, RegistryDao dao, Counter counter) throws Exception
     {
         log = LogManager.getLogger(this.getClass());
-        loader = new DataLoader(cfg.url, cfg.indexName, cfg.authFile);
+        loader = new DataLoader(conFact);
         docBatch = new RegistryDocBatch();
         jobId = PackageIdGenerator.getInstance().getPackageId();
         
