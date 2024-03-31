@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import gov.nasa.pds.harvest.exception.InvalidPDS4ProductException;
 import gov.nasa.pds.registry.common.Request;
 import gov.nasa.pds.registry.common.Response;
 import gov.nasa.pds.registry.common.RestClient;
@@ -22,7 +23,6 @@ public class RegistryDao
     private String indexName;
     private boolean pretty;
 
-    private EsRequestBuilder requestBld;
     private SearchResponseParser parser;
     
     
@@ -48,8 +48,6 @@ public class RegistryDao
         this.client = client;
         this.indexName = indexName;
         this.pretty = pretty;
-        
-        requestBld = new EsRequestBuilder();
         parser = new SearchResponseParser();
     }
 
@@ -91,13 +89,13 @@ public class RegistryDao
     
     private Response searchIds(Collection<String> ids) throws Exception
     {
-        String json = requestBld.createSearchIdsRequest(ids, ids.size());
-        
-        String reqUrl = "/" + indexName + "/_search";
-        if(pretty) reqUrl += "?pretty";
-        
-        Request req = client.createRequest(Request.Method.GET, reqUrl);
-        req.setJsonEntity(json);
+      if(ids == null || ids.isEmpty()) throw new InvalidPDS4ProductException("Error reading bundle/collection references. " +
+          "Verify the bundle/collection is valid prior to loading the data.");
+                
+        Request.Search req = client.createSearchRequest()
+            .buildTheseIds(ids)
+            .setIndex(this.indexName)
+            .setPretty(pretty);
         Response resp = client.performRequest(req);
 
         return resp;
