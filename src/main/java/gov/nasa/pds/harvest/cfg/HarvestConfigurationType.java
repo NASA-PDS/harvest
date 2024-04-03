@@ -19,11 +19,11 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  *         These are the basic options for the harvest configuration file.
  * 
- *         @nodeName: the PDS node that this harvest run applies to
  * 
  *         autogenFields: should not be used except in development testing
- *         do: tells where and how to harvest PDS4 labels
+ *         load: tells where and how to harvest PDS4 labels
  *         fileInfo: option allowing filename prefixes to be replaced
+ *         nodeName: the PDS node that this harvest run applies to
  *         productFilter: should not be used except in development testing
  *         registry: define the server harvest should use
  *         xpathMaps: allow constraints in the PDS4 label to control harvesting
