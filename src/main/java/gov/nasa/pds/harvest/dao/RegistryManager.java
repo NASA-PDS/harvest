@@ -53,22 +53,20 @@ public class RegistryManager
         this.conFact = conFact;
         this.overwriteFlag = overwriteFlag;
         this.counter = new Counter();
-        
         Logger log = LogManager.getLogger(this.getClass());
         log.log(LogUtils.LEVEL_SUMMARY, "Connection: " + conFact);
-        
         client = conFact.createRestClient();
-        
         registryDao = new RegistryDao(client, conFact.getIndexName());
         schemaDao = new SchemaDao(client, conFact.getIndexName());
         ddDao = new DataDictionaryDao(client, conFact.getIndexName());
-        
         fieldNameCache = new FieldNameCache(ddDao, schemaDao);
-        
         registryWriter = new MetadataWriter(conFact, registryDao, counter);
         registryWriter.setOverwriteExisting(overwriteFlag);
-        
         invWriter = new CollectionInventoryWriter(conFact);
+        
+        if (!this.client.exists(this.conFact.getIndexName())) {
+          throw new RuntimeException("The index '" + this.conFact.getIndexName() + "' does not exist. Please create it first.");
+        }
     }
     
     

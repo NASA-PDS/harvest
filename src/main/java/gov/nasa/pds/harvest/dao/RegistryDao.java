@@ -9,7 +9,6 @@ import gov.nasa.pds.harvest.exception.InvalidPDS4ProductException;
 import gov.nasa.pds.registry.common.Request;
 import gov.nasa.pds.registry.common.Response;
 import gov.nasa.pds.registry.common.RestClient;
-import gov.nasa.pds.registry.common.util.SearchResponseParser;
 
 
 /**
@@ -23,9 +22,6 @@ public class RegistryDao
     private String indexName;
     private boolean pretty;
 
-    private SearchResponseParser parser;
-    
-    
     /**
      * Constructor
      * @param client Elasticsearch client
@@ -48,7 +44,6 @@ public class RegistryDao
         this.client = client;
         this.indexName = indexName;
         this.pretty = pretty;
-        parser = new SearchResponseParser();
     }
 
     
@@ -78,16 +73,11 @@ public class RegistryDao
     public Set<String> getNonExistingIds(Collection<String> ids) throws Exception
     {
         if(ids == null || ids.isEmpty()) return new HashSet<>();
-        Response resp = searchIds(ids);
-
-        NonExistingIdsResponse idsResp = new NonExistingIdsResponse(ids);
-        parser.parseResponse(resp, idsResp);
-
-        return idsResp.getIds();
+        return searchIds(ids).nonExistingIds(ids);
     }
     
     
-    private Response searchIds(Collection<String> ids) throws Exception
+    private Response.Search searchIds(Collection<String> ids) throws Exception
     {
       if(ids == null || ids.isEmpty()) throw new InvalidPDS4ProductException("Error reading bundle/collection references. " +
           "Verify the bundle/collection is valid prior to loading the data.");
@@ -96,7 +86,7 @@ public class RegistryDao
             .buildTheseIds(ids)
             .setIndex(this.indexName)
             .setPretty(pretty);
-        Response resp = client.performRequest(req);
+        Response.Search resp = client.performRequest(req);
 
         return resp;
     }
