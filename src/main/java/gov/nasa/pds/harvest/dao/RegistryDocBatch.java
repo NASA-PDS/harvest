@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import gov.nasa.pds.registry.common.ConnectionFactory;
 import gov.nasa.pds.registry.common.RestClient;
 import gov.nasa.pds.registry.common.meta.Metadata;
+import gov.nasa.pds.registry.common.util.Tuple;
 import gov.nasa.pds.registry.common.util.json.RegistryDocBuilder;
 
 /**
@@ -43,18 +44,28 @@ public class RegistryDocBatch
     private void updateIndex(ConnectionFactory conFact, String json) {
       int begin_index = json.indexOf("ref_lid_"), end_index;
       String name;
+      if (-1 < begin_index && alreadyLearned.isEmpty()) {
+        try (RestClient client = conFact.createRestClient()) {
+          alreadyLearned.addAll(client.performRequest(client.createMappingRequest().setIndex(conFact.getIndexName())).fieldNames());
+        } catch (Exception e) {
+          log.error("Unexpected error (should not have made it here) while getting index " + conFact.getIndexName(),e);
+        }
+      }
       while (-1 < begin_index) {
         end_index = json.indexOf('"', begin_index+5);
         name = json.substring(begin_index, end_index);
         System.out.println(name);
         if (!alreadyLearned.contains(name)) {
           try (RestClient client = conFact.createRestClient()) {
-            // FIXME: how to add text or keyword to index to make it searchable??
+            ArrayList<Tuple> new_item = new ArrayList<Tuple>();
+            new_item.add(new Tuple(name, "keyword"));
+            client.performRequest(client.createMappingRequest().setIndex(conFact.getIndexName()).buildUpdateFieldSchema(new_item));
+            alreadyLearned.add(name);
           } catch (Exception e) {
             log.error("Unexpected error (should not have made it here) while updating index with " + name,e);
           }
         }
-        alreadyLearned.add(name);
+        begin_index = json.indexOf("ref_lid_", end_index);
       }
     }
     public void write(ConnectionFactory conFact, Metadata meta, String jobId) throws Exception
