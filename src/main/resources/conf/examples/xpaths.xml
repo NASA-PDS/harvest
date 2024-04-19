@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<harvest>
+<harvest
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+  xsi:schemaLocation="https://github.com/NASA-PDS/harvest/blob/main/src/main/resources/conf/configuration.xsd">
   <nodeName>CHANGE_ME</nodeName>
   <load>
     <directories>

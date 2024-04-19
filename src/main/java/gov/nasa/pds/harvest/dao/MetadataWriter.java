@@ -22,7 +22,7 @@ public class MetadataWriter implements Closeable
     private final static String WARN_SKIP_PRE = "Skipping registered product ";
     private final static String WARN_SKIP_POST = " (LIDVID/LID already exists in registry database)";
     private final static int ES_DOC_BATCH_SIZE = 50;
-
+    private final ConnectionFactory conFact;
     private Logger log;
     
     private RegistryDao registryDao;
@@ -42,6 +42,7 @@ public class MetadataWriter implements Closeable
      */
     public MetadataWriter(ConnectionFactory conFact, RegistryDao dao, Counter counter) throws Exception
     {
+      this.conFact = conFact;
         log = LogManager.getLogger(this.getClass());
         loader = new DataLoader(conFact);
         docBatch = new RegistryDocBatch();
@@ -60,7 +61,7 @@ public class MetadataWriter implements Closeable
     
     public void write(Metadata meta) throws Exception
     {
-        docBatch.write(meta, jobId);
+        docBatch.write(this.conFact, meta, jobId);
         
         if(docBatch.size() % ES_DOC_BATCH_SIZE == 0)
         {
