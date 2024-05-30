@@ -54,7 +54,6 @@ public class RegistryDocBatch
       while (-1 < begin_index) {
         end_index = json.indexOf('"', begin_index+5);
         name = json.substring(begin_index, end_index);
-        System.out.println(name);
         if (!alreadyLearned.contains(name)) {
           try (RestClient client = conFact.createRestClient()) {
             ArrayList<Tuple> new_item = new ArrayList<Tuple>();
