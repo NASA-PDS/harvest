@@ -6,7 +6,7 @@ import java.util.TreeSet;
 
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
-import gov.nasa.pds.registry.common.cfg.RegistryCfg;
+import gov.nasa.pds.registry.common.ConnectionFactory;
 
 
 public class TestRegistryDAO
@@ -17,10 +17,9 @@ public class TestRegistryDAO
     
     public static void main(String[] args) throws Exception
     {
-        RegistryCfg cfg = new RegistryCfg();
-        cfg.url = "http://localhost:9200";
+        ConnectionFactory conFact = null;//"app:/connections/direct/localhost.xml";
         
-        RegistryManager.init(cfg, true);
+        RegistryManager.init(conFact, true);
 
         try
         {

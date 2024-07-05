@@ -19,7 +19,6 @@ import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
 import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.xml.XmlIs;
-import gov.nasa.pds.registry.common.cfg.RegistryCfg;
 import gov.nasa.pds.registry.common.es.service.CollectionInventoryWriter;
 import gov.nasa.pds.registry.common.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
@@ -59,12 +58,7 @@ public class CollectionProcessor extends BaseProcessor
     public CollectionProcessor(HarvestConfigurationType config) throws Exception
     {
         super(config);
-        // FIXME: multitenancy
-        RegistryCfg fixme = new RegistryCfg();
-        fixme.url = config.getRegistry().getServerUrl();
-        fixme.indexName = config.getRegistry().getIndex();
-        fixme.authFile = config.getRegistry().getAuth();
-        invWriter = new CollectionInventoryWriter(fixme);
+        invWriter = new CollectionInventoryWriter(ConfigManager.exchangeRegistry(config.getRegistry()));
         this.invProc = new CollectionInventoryProcessor(config.getReferences().isPrimaryOnly());
         collectionExtractor = new CollectionMetadataExtractor();
     }
@@ -137,7 +131,6 @@ public class CollectionProcessor extends BaseProcessor
         meta.setNodeName(config.getNodeName().toString());
 
         // Collection filter
-        // FIXME: this needs to be changed and may relate to other fixme in this file
         List<String> lids = ConfigManager.exchangeLids (bCfg.getCollection());
         List<String> lidvids = ConfigManager.exchangeLidvids (bCfg.getCollection());
         if(!lids.isEmpty() && !lids.contains(meta.lid)) return;

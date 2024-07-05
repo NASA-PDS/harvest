@@ -9,8 +9,8 @@ package gov.nasa.pds.harvest.cfg;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.XmlType;
 
@@ -19,11 +19,11 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  *         These are the basic options for the harvest configuration file.
  * 
- *         @nodeName: the PDS node that this harvest run applies to
  * 
  *         autogenFields: should not be used except in development testing
- *         do: tells where and how to harvest PDS4 labels
+ *         load: tells where and how to harvest PDS4 labels
  *         fileInfo: option allowing filename prefixes to be replaced
+ *         nodeName: the PDS node that this harvest run applies to
  *         productFilter: should not be used except in development testing
  *         registry: define the server harvest should use
  *         xpathMaps: allow constraints in the PDS4 label to control harvesting
@@ -41,12 +41,12 @@ import jakarta.xml.bind.annotation.XmlType;
  *         <element name="autogenFields" type="{}autogen_fields_type" minOccurs="0"/>
  *         <element name="load" type="{}load_type"/>
  *         <element name="fileInfo" type="{}file_info_type" minOccurs="0"/>
+ *         <element name="nodeName" type="{}node_name_enum"/>
  *         <element name="productFilter" type="{}filter_type" minOccurs="0"/>
  *         <element name="references" type="{}references_type" minOccurs="0"/>
  *         <element name="registry" type="{}registry_type"/>
  *         <element name="xpathMaps" type="{}xpath_maps_type" minOccurs="0"/>
  *       </all>
- *       <attribute name="nodeName" use="required" type="{}node_name_enum" />
  *     </restriction>
  *   </complexContent>
  * </complexType>
@@ -67,13 +67,14 @@ public class HarvestConfigurationType {
     @XmlElement(required = true)
     protected LoadType load;
     protected FileInfoType fileInfo;
+    @XmlElement(required = true)
+    @XmlSchemaType(name = "normalizedString")
+    protected NodeNameEnum nodeName;
     protected FilterType productFilter;
     protected ReferencesType references;
     @XmlElement(required = true)
     protected RegistryType registry;
     protected XpathMapsType xpathMaps;
-    @XmlAttribute(name = "nodeName", required = true)
-    protected NodeNameEnum nodeName;
 
     /**
      * Gets the value of the autogenFields property.
@@ -145,6 +146,30 @@ public class HarvestConfigurationType {
      */
     public void setFileInfo(FileInfoType value) {
         this.fileInfo = value;
+    }
+
+    /**
+     * Gets the value of the nodeName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link NodeNameEnum }
+     *     
+     */
+    public NodeNameEnum getNodeName() {
+        return nodeName;
+    }
+
+    /**
+     * Sets the value of the nodeName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link NodeNameEnum }
+     *     
+     */
+    public void setNodeName(NodeNameEnum value) {
+        this.nodeName = value;
     }
 
     /**
@@ -241,30 +266,6 @@ public class HarvestConfigurationType {
      */
     public void setXpathMaps(XpathMapsType value) {
         this.xpathMaps = value;
-    }
-
-    /**
-     * Gets the value of the nodeName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link NodeNameEnum }
-     *     
-     */
-    public NodeNameEnum getNodeName() {
-        return nodeName;
-    }
-
-    /**
-     * Sets the value of the nodeName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link NodeNameEnum }
-     *     
-     */
-    public void setNodeName(NodeNameEnum value) {
-        this.nodeName = value;
     }
 
 }

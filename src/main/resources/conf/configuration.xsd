@@ -177,11 +177,11 @@
       <xs:documentation xml:lang="en">
         These are the basic options for the harvest configuration file.
 
-        @nodeName: the PDS node that this harvest run applies to
 
         autogenFields: should not be used except in development testing
-        do: tells where and how to harvest PDS4 labels
+        load: tells where and how to harvest PDS4 labels
         fileInfo: option allowing filename prefixes to be replaced
+        nodeName: the PDS node that this harvest run applies to
         productFilter: should not be used except in development testing
         registry: define the server harvest should use
         xpathMaps: allow constraints in the PDS4 label to control harvesting
@@ -192,12 +192,12 @@
                   name="autogenFields" type="autogen_fields_type"/>
       <xs:element name="load" type="load_type"/>
       <xs:element minOccurs="0" name="fileInfo" type="file_info_type"/>
+      <xs:element name="nodeName" type="node_name_enum"/>
       <xs:element minOccurs="0" name="productFilter" type="filter_type"/>
       <xs:element minOccurs="0" name="references" type="references_type"/>
       <xs:element name="registry" type="registry_type"/>
       <xs:element minOccurs="0" name="xpathMaps" type="xpath_maps_type"/>
     </xs:all>
-    <xs:attribute name="nodeName" type="node_name_enum" use="required"/>
   </xs:complexType>
 
   <xs:complexType name="load_type">
@@ -236,23 +236,18 @@
     <xs:annotation>
       <xs:documentation xml:lang="en">
         Define the connection to the registry, security for the connection, and
-        the index within the registry.
+        the index within the registry. The value of this tag is a pointer to
+        a registry connection like app://known/direct/localhost.xml or
+        app://known/cognito/first_test.xml
 
         @auth: a java property file containing a username and password
-        @index: the index to be used by harvest whose default is registry
-        @trust_self_signed: all self signed certificates for https
-
-        cognito_client_id: the cognito client ID for AWS based instances of opensearch
-        server_url: the opensearch URL when not using AWS services
-      </xs:documentation>
+       </xs:documentation>
     </xs:annotation>
-    <xs:choice>
-      <xs:element name="cognito_client_id" type="xs:normalizedString"/>
-      <xs:element name="server_url" type="xs:normalizedString"/>
-    </xs:choice>
-    <xs:attribute name="auth" type="xs:normalizedString" use="required"/>
-    <xs:attribute default="registry" name="index" type="xs:normalizedString"/>
-    <xs:attribute default="false" name="trust_self_signed" type="xs:boolean"/>
+    <xs:simpleContent>
+      <xs:extension base="xs:normalizedString">
+        <xs:attribute name="auth" type="xs:normalizedString" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
   </xs:complexType>
 
   <xs:complexType name="xpath_map_type">

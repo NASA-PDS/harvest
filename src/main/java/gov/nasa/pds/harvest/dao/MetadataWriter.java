@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.crawler.Counter;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
-import gov.nasa.pds.registry.common.cfg.RegistryCfg;
+import gov.nasa.pds.registry.common.ConnectionFactory;
 import gov.nasa.pds.registry.common.es.dao.DataLoader;
 import gov.nasa.pds.registry.common.meta.Metadata;
 
@@ -22,7 +22,7 @@ public class MetadataWriter implements Closeable
     private final static String WARN_SKIP_PRE = "Skipping registered product ";
     private final static String WARN_SKIP_POST = " (LIDVID/LID already exists in registry database)";
     private final static int ES_DOC_BATCH_SIZE = 50;
-
+    private final ConnectionFactory conFact;
     private Logger log;
     
     private RegistryDao registryDao;
@@ -40,10 +40,11 @@ public class MetadataWriter implements Closeable
      * @param cfg registry configuration
      * @throws Exception an exception
      */
-    public MetadataWriter(RegistryCfg cfg, RegistryDao dao, Counter counter) throws Exception
+    public MetadataWriter(ConnectionFactory conFact, RegistryDao dao, Counter counter) throws Exception
     {
+      this.conFact = conFact;
         log = LogManager.getLogger(this.getClass());
-        loader = new DataLoader(cfg.url, cfg.indexName, cfg.authFile);
+        loader = new DataLoader(conFact);
         docBatch = new RegistryDocBatch();
         jobId = PackageIdGenerator.getInstance().getPackageId();
         
@@ -60,7 +61,7 @@ public class MetadataWriter implements Closeable
     
     public void write(Metadata meta) throws Exception
     {
-        docBatch.write(meta, jobId);
+        docBatch.write(this.conFact, meta, jobId);
         
         if(docBatch.size() % ES_DOC_BATCH_SIZE == 0)
         {
