@@ -1,5 +1,22 @@
 # Changelog
 
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2024-07-05)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.2...«unknown»)
+
+**Improvements:**
+
+- As a data custodian, I want to load URLs / file paths without unnecessary / additional slashes [\#158](https://github.com/NASA-PDS/harvest/issues/158)
+
+**Defects:**
+
+- ref\_lid\_\* fields are not added to the Registry schema prior to load [\#127](https://github.com/NASA-PDS/harvest/issues/127) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
+
+**Other closed issues:**
+
+- Add schema reference to all examples to take advantage of new schema [\#156](https://github.com/NASA-PDS/harvest/issues/156)
+- Update to utilize new multi-tenancy approach [\#118](https://github.com/NASA-PDS/harvest/issues/118)
+
 ## [v3.8.2](https://github.com/NASA-PDS/harvest/tree/v3.8.2) (2023-12-16)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.1...v3.8.2)
