@@ -128,7 +128,7 @@
       <version>5.7.0</version>
       <scope>test</scope>
     </dependency>
-    <!-- three artifacts for complete configuration parsing -->
+    <!-- three (3) artifacts for complete configuration parsing -->
     <dependency>
       <groupId>jakarta.xml.bind</groupId>
       <artifactId>jakarta.xml.bind-api</artifactId>
