@@ -192,7 +192,7 @@ public class FilesProcessor extends BaseProcessor
     {
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
-        meta.setNodeName(config.getNodeName().toString());
+        meta.setNodeName("fixme or delete me");
 
         log.info("Processing " + file.getAbsolutePath());
 
