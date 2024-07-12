@@ -3,24 +3,9 @@
 <!-- harvest configuration see https://nasa-pds.github.io/pds-registry-app/operate/harvest.html for details -->
 <!--########################################################################################################-->
 
-<!--
-  * !!! 'nodeName' is a required attribute. !!!
-  * Use one of the following values:
-  *     PDS_ATM  - Planetary Data System: Atmospheres Node
-  *     PDS_ENG  - Planetary Data System: Engineering Node
-  *     PDS_GEO  - Planetary Data System: Geosciences Node
-  *     PDS_IMG  - Planetary Data System: Imaging Node
-  *     PDS_NAIF - Planetary Data System: NAIF Node
-  *     PDS_PPI  - Planetary Data System: Planetary Plasma Interactions Node
-  *     PDS_RMS  - Planetary Data System: Rings Node
-  *     PDS_SBN  - Planetary Data System: Small Bodies Node
-  *     PSA      - Planetary Science Archive
-  *     JAXA     - Japan Aerospace Exploration Agency
--->
 <harvest
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
   xsi:schemaLocation="https://github.com/NASA-PDS/harvest/blob/main/src/main/resources/conf/configuration.xsd">
-  <nodeName>CHANGE_ME</nodeName>
   <!-- Registry configuration -->
   <!-- UPDATE with your registry information -->
   <registry auth="/path/to/auth/file">app://localhost.xml</registry>
