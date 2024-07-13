@@ -205,4 +205,7 @@ public class RegistryManager
     {
         return counter;
     }
+    public String getIndexName() {
+      return this.conFact.getIndexName();
+    }
 }

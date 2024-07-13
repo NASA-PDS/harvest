@@ -2,6 +2,7 @@ package gov.nasa.pds.harvest.cfg;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -17,6 +18,20 @@ import gov.nasa.pds.registry.common.meta.cfg.FileRefRule;
  */
 public class ConfigManager
 {
+  private static HashMap<String,String> indexNodeMap = new HashMap<String,String>();
+  static {
+    indexNodeMap.put("pds-atm-registry", "PDS_ATM");
+    indexNodeMap.put("pds-eng-registry", "PDS_ENG");
+    indexNodeMap.put("pds-geo-registry", "PDS_GEO");
+    indexNodeMap.put("pds-img-registry", "PDS_IMG");
+    indexNodeMap.put("pds-naif-registry", "PDS_NAIF");
+    indexNodeMap.put("pds-ppi-registry", "PDS_PPI");
+    indexNodeMap.put("pds-rms-registry", "PDS_RMS");
+    indexNodeMap.put("pds-sbn-registry", "pds_SBN");
+    indexNodeMap.put("psa-registry", "PSA");
+    indexNodeMap.put("jaxa-registry", "JAXA");
+    indexNodeMap.put("roscosmos", "ROSCOSMOS");
+  }
     static public List<FileRefRule> exchangeFileRef (List<FileRefType> xml2beans) {
       ArrayList<FileRefRule> beans = new ArrayList<FileRefRule>();
       FileRefRule rule;
@@ -41,6 +56,11 @@ public class ConfigManager
         if (0 < id.getLidvid().length()) lidvids.add (id.getLidvid());
       }
       return lidvids;
+    }
+    static public String exchangeIndexForNode (String indexName) {
+      if (indexNodeMap.containsKey (indexName)) return indexNodeMap.get(indexName);
+      if (0 < indexName.indexOf("-registry")) return indexName.substring(0, indexName.indexOf("-registry"));
+      return "development";
     }
     static public ConnectionFactory exchangeRegistry (RegistryType xml) throws Exception {
       return EstablishConnectionFactory.from (xml.getValue(), xml.getAuth());

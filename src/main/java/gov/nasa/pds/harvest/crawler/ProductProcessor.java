@@ -188,7 +188,7 @@ public class ProductProcessor extends BaseProcessor
         
         // Extract basic metadata
         Metadata meta = basicExtractor.extract(file, doc);
-        meta.setNodeName("fixme or delete me");
+        meta.setNodeName(ConfigManager.exchangeIndexForNode(RegistryManager.getInstance().getIndexName()));
 
         // Only process primary products from collection inventory
         LidVidCache cache = RefsCache.getInstance().getProdRefsCache();
