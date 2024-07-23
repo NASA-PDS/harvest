@@ -128,7 +128,7 @@ public class CollectionProcessor extends BaseProcessor
     private void processMetadata(File file, Document doc, BundleType bCfg) throws Exception
     {
         Metadata meta = basicExtractor.extract(file, doc);
-        meta.setNodeName(config.getNodeName().toString());
+        meta.setNodeName(ConfigManager.exchangeIndexForNode(RegistryManager.getInstance().getIndexName()));
 
         // Collection filter
         List<String> lids = ConfigManager.exchangeLids (bCfg.getCollection());

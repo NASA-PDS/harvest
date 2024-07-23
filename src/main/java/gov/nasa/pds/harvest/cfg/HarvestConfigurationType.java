@@ -10,7 +10,6 @@ package gov.nasa.pds.harvest.cfg;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.XmlType;
 
@@ -41,7 +40,6 @@ import jakarta.xml.bind.annotation.XmlType;
  *         <element name="autogenFields" type="{}autogen_fields_type" minOccurs="0"/>
  *         <element name="load" type="{}load_type"/>
  *         <element name="fileInfo" type="{}file_info_type" minOccurs="0"/>
- *         <element name="nodeName" type="{}node_name_enum"/>
  *         <element name="productFilter" type="{}filter_type" minOccurs="0"/>
  *         <element name="references" type="{}references_type" minOccurs="0"/>
  *         <element name="registry" type="{}registry_type"/>
@@ -67,9 +65,6 @@ public class HarvestConfigurationType {
     @XmlElement(required = true)
     protected LoadType load;
     protected FileInfoType fileInfo;
-    @XmlElement(required = true)
-    @XmlSchemaType(name = "normalizedString")
-    protected NodeNameEnum nodeName;
     protected FilterType productFilter;
     protected ReferencesType references;
     @XmlElement(required = true)
@@ -146,30 +141,6 @@ public class HarvestConfigurationType {
      */
     public void setFileInfo(FileInfoType value) {
         this.fileInfo = value;
-    }
-
-    /**
-     * Gets the value of the nodeName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link NodeNameEnum }
-     *     
-     */
-    public NodeNameEnum getNodeName() {
-        return nodeName;
-    }
-
-    /**
-     * Sets the value of the nodeName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link NodeNameEnum }
-     *     
-     */
-    public void setNodeName(NodeNameEnum value) {
-        this.nodeName = value;
     }
 
     /**

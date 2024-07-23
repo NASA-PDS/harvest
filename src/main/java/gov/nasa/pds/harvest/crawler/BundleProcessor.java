@@ -129,7 +129,7 @@ public class BundleProcessor extends BaseProcessor
     private void processMetadata(File file, Document doc) throws Exception
     {
         Metadata meta = basicExtractor.extract(file, doc);
-        meta.setNodeName(config.getNodeName().toString());
+        meta.setNodeName(ConfigManager.exchangeIndexForNode(RegistryManager.getInstance().getIndexName()));
         
         if(!bundleCfg.getVersions().equalsIgnoreCase("all") && !bundleCfg.getVersions().contains(meta.strVid)) return;
 
