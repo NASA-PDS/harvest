@@ -47,9 +47,9 @@ public class ProductProcessor extends BaseProcessor
      * @param config Harvest configuration parameters
      * @throws Exception Generic exception
      */
-    public ProductProcessor(HarvestConfigurationType config) throws Exception
+    public ProductProcessor(HarvestConfigurationType config, String archive_status) throws Exception
     {
-        super(config);
+        super(config, archive_status);
     }
 
     
@@ -187,7 +187,7 @@ public class ProductProcessor extends BaseProcessor
         Counter counter = RegistryManager.getInstance().getCounter();
         
         // Extract basic metadata
-        Metadata meta = basicExtractor.extract(file, doc);
+        Metadata meta = basicExtractor.extract(file, doc, this.archive_status);
         meta.setNodeName(ConfigManager.exchangeIndexForNode(RegistryManager.getInstance().getIndexName()));
 
         // Only process primary products from collection inventory

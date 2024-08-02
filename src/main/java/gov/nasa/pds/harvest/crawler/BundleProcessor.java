@@ -53,9 +53,9 @@ public class BundleProcessor extends BaseProcessor
      * @param counter document / product counter
      * @throws Exception Generic exception
      */
-    public BundleProcessor(HarvestConfigurationType config) throws Exception
+    public BundleProcessor(HarvestConfigurationType config, String archive_status) throws Exception
     {
-        super(config);
+        super(config, archive_status);
 
         bundleExtractor = new BundleMetadataExtractor();
     }
@@ -128,7 +128,7 @@ public class BundleProcessor extends BaseProcessor
     
     private void processMetadata(File file, Document doc) throws Exception
     {
-        Metadata meta = basicExtractor.extract(file, doc);
+        Metadata meta = basicExtractor.extract(file, doc, this.archive_status);
         meta.setNodeName(ConfigManager.exchangeIndexForNode(RegistryManager.getInstance().getIndexName()));
         
         if(!bundleCfg.getVersions().equalsIgnoreCase("all") && !bundleCfg.getVersions().contains(meta.strVid)) return;
