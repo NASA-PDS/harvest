@@ -21,6 +21,7 @@ import gov.nasa.pds.harvest.util.PackageIdGenerator;
 import gov.nasa.pds.harvest.util.log.LogUtils;
 import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.registry.common.meta.BasicMetadataExtractor;
+import gov.nasa.pds.registry.common.util.ArchiveStatus;
 
 
 /**
@@ -58,6 +59,10 @@ public class HarvestCmd implements CliCommand
     @Override
     public void run(CommandLine cmdLine) throws Exception
     {
+        if (cmdLine.hasOption("archive-status")) {
+          this.archive_status = cmdLine.getOptionValue("archive-status").toLowerCase();
+          new ArchiveStatus().validateStatusName(archive_status);;
+        }
         configure(cmdLine);
 
         try
@@ -151,7 +156,7 @@ public class HarvestCmd implements CliCommand
         // Xpath maps
         XPathCacheLoader xpcLoader = new XPathCacheLoader();
         xpcLoader.load(cfg.getXpathMaps());
-        
+
         // Processors
         if(cfg.getLoad().getDirectories() != null || cfg.getLoad().getFiles() != null)
         {

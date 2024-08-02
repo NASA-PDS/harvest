@@ -15,6 +15,7 @@ import gov.nasa.pds.harvest.cmd.CliCommand;
 import gov.nasa.pds.harvest.cmd.HarvestCmd;
 import gov.nasa.pds.harvest.util.log.Log4jConfigurator;
 import gov.nasa.pds.registry.common.meta.Metadata;
+import gov.nasa.pds.registry.common.util.ArchiveStatus;
 import gov.nasa.pds.registry.common.util.ExceptionUtils;
 import gov.nasa.pds.registry.common.util.ManifestUtils;
 
@@ -108,11 +109,15 @@ public class HarvestCli
         System.out.println("  -V, --version      Print Harvest version");
         System.out.println();
         System.out.println("Optional parameters:");
-        System.out.println("  -o <dir>           Output directory (applies to supplemental products only)."); 
-        System.out.println("                     Default is /tmp/harvest/out");
-        System.out.println("  -l <file>          Log file. Default is /tmp/harvest/harvest.log");
-        System.out.println("  -v <level>         Logger verbosity: DEBUG, INFO (default), WARNING, ERROR");
-        System.out.println("  -O, --overwrite    Overwrite registered products");
+        System.out.println("  -o <dir>              Output directory (applies to supplemental products only)."); 
+        System.out.println("                        Default is /tmp/harvest/out");
+        System.out.println("  -l <file>             Log file. Default is /tmp/harvest/harvest.log");
+        System.out.println("  -v <level>            Logger verbosity: DEBUG, INFO (default), WARNING, ERROR");
+        System.out.println("  -O, --overwrite       Overwrite registered products");
+        System.out.println("  -a, --archive-status  Set the archive status for all products defaulting to staged");
+        for (String name : new ArchiveStatus().statusNames) {
+          System.out.println("     " + name);
+        }
     }
 
     
@@ -198,6 +203,9 @@ public class HarvestCli
         options.addOption(bld.build());
         
         bld = Option.builder("O").longOpt("overwrite");
+        options.addOption(bld.build());
+        
+        bld = Option.builder("a").longOpt("archive-status").hasArg().argName("archive_status");
         options.addOption(bld.build());
     }
 
