@@ -20,6 +20,8 @@ import gov.nasa.pds.harvest.util.CounterMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 import gov.nasa.pds.harvest.util.log.LogUtils;
 import gov.nasa.pds.harvest.util.out.WriterManager;
+import gov.nasa.pds.registry.common.meta.BasicMetadataExtractor;
+import gov.nasa.pds.registry.common.util.ArchiveStatus;
 
 
 /**
@@ -37,7 +39,7 @@ public class HarvestCmd implements CliCommand
     private BundleProcessor bundleProc;
     private CollectionProcessor colProc;
     private ProductProcessor prodProc;
-    
+    private String archive_status = BasicMetadataExtractor.DEFAULT_ARCHIVE_STATUS;
     
     /**
      * Constructor
@@ -57,6 +59,10 @@ public class HarvestCmd implements CliCommand
     @Override
     public void run(CommandLine cmdLine) throws Exception
     {
+        if (cmdLine.hasOption("archive-status")) {
+          this.archive_status = cmdLine.getOptionValue("archive-status").toLowerCase();
+          new ArchiveStatus().validateStatusName(archive_status);;
+        }
         configure(cmdLine);
 
         try
@@ -150,17 +156,17 @@ public class HarvestCmd implements CliCommand
         // Xpath maps
         XPathCacheLoader xpcLoader = new XPathCacheLoader();
         xpcLoader.load(cfg.getXpathMaps());
-        
+
         // Processors
         if(cfg.getLoad().getDirectories() != null || cfg.getLoad().getFiles() != null)
         {
-            filesProc = new FilesProcessor(cfg);
+            filesProc = new FilesProcessor(cfg, this.archive_status);
         }
         else if(cfg.getLoad().getBundles() != null)
         {
-            bundleProc = new BundleProcessor(cfg);
-            colProc = new CollectionProcessor(cfg);
-            prodProc = new ProductProcessor(cfg);
+            bundleProc = new BundleProcessor(cfg, this.archive_status);
+            colProc = new CollectionProcessor(cfg, this.archive_status);
+            prodProc = new ProductProcessor(cfg, this.archive_status);
         }
     }
 

@@ -56,9 +56,9 @@ public class FilesProcessor extends BaseProcessor
      * @param config Harvest configuration parameters (from a config file)
      * @throws Exception Generic exception
      */
-    public FilesProcessor(HarvestConfigurationType config) throws Exception
+    public FilesProcessor(HarvestConfigurationType config, String archive_status) throws Exception
     {
-        super(config);
+        super(config, archive_status);
         
         bundleExtractor = new BundleMetadataExtractor();
         collectionExtractor = new CollectionMetadataExtractor();
@@ -191,7 +191,7 @@ public class FilesProcessor extends BaseProcessor
     private void processMetadata(File file, Document doc) throws Exception
     {
         // Extract basic metadata
-        Metadata meta = basicExtractor.extract(file, doc);
+        Metadata meta = basicExtractor.extract(file, doc, this.archive_status);
         meta.setNodeName(ConfigManager.exchangeIndexForNode(RegistryManager.getInstance().getIndexName()));
 
         log.info("Processing " + file.getAbsolutePath());

@@ -48,14 +48,16 @@ public class BaseProcessor
     private MetadataNormalizer metaNormalizer;
 
     protected String jobId;
+    final protected String archive_status;
 
     /**
      * Constructor.
      * @param config Harvest configuration parameters
      * @throws Exception Generic exception
      */
-    public BaseProcessor(HarvestConfigurationType config) throws Exception
+    public BaseProcessor(HarvestConfigurationType config, String archive_status) throws Exception
     {
+        this.archive_status = archive_status;
         this.config = config;
 
         log = LogManager.getLogger(this.getClass());

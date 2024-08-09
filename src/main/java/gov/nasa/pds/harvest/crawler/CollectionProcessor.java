@@ -55,9 +55,9 @@ public class CollectionProcessor extends BaseProcessor
      * @param config Harvest configuration parameters
      * @throws Exception Generic exception
      */
-    public CollectionProcessor(HarvestConfigurationType config) throws Exception
+    public CollectionProcessor(HarvestConfigurationType config, String archive_status) throws Exception
     {
-        super(config);
+        super(config, archive_status);
         invWriter = new CollectionInventoryWriter(ConfigManager.exchangeRegistry(config.getRegistry()));
         this.invProc = new CollectionInventoryProcessor(config.getReferences().isPrimaryOnly());
         collectionExtractor = new CollectionMetadataExtractor();
@@ -127,7 +127,7 @@ public class CollectionProcessor extends BaseProcessor
     
     private void processMetadata(File file, Document doc, BundleType bCfg) throws Exception
     {
-        Metadata meta = basicExtractor.extract(file, doc);
+        Metadata meta = basicExtractor.extract(file, doc, this.archive_status);
         meta.setNodeName(ConfigManager.exchangeIndexForNode(RegistryManager.getInstance().getIndexName()));
 
         // Collection filter
