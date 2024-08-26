@@ -1,8 +1,8 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2024-08-09)
+## [release/4.0.0](https://github.com/NASA-PDS/harvest/tree/release/4.0.0) (2024-08-26)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.2...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.2...release/4.0.0)
 
 **Improvements:**
 
@@ -14,6 +14,7 @@
 
 **Other closed issues:**
 
+- When harvest lasts more that one hour  AWS credentials need to be renewed [\#172](https://github.com/NASA-PDS/harvest/issues/172)
 - Add schema reference to all examples to take advantage of new schema [\#156](https://github.com/NASA-PDS/harvest/issues/156)
 - Update to utilize new multi-tenancy approach [\#118](https://github.com/NASA-PDS/harvest/issues/118)
 
@@ -27,7 +28,11 @@
 
 ## [v3.8.1](https://github.com/NASA-PDS/harvest/tree/v3.8.1) (2023-11-16)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.0...v3.8.1)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.8.1...v3.8.1)
+
+## [release/3.8.1](https://github.com/NASA-PDS/harvest/tree/release/3.8.1) (2023-11-16)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.0...release/3.8.1)
 
 **Requirements:**
 
