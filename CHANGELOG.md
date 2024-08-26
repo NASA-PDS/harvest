@@ -1,8 +1,8 @@
 # Changelog
 
-## [release/4.0.0](https://github.com/NASA-PDS/harvest/tree/release/4.0.0) (2024-08-26)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2024-08-26)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.2...release/4.0.0)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.2...«unknown»)
 
 **Improvements:**
 
@@ -28,11 +28,7 @@
 
 ## [v3.8.1](https://github.com/NASA-PDS/harvest/tree/v3.8.1) (2023-11-16)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/3.8.1...v3.8.1)
-
-## [release/3.8.1](https://github.com/NASA-PDS/harvest/tree/release/3.8.1) (2023-11-16)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.0...release/3.8.1)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.0...v3.8.1)
 
 **Requirements:**
 
