@@ -71,8 +71,12 @@ jobs:
                 name: 🤠 Roundup
                 uses: NASA-PDS/roundup-action@stable
                 with:
-                    packages: openjdk11-jdk
                     assembly: stable
+                    packages: openjdk11-jdk
+                    maven-build-phases: install
+                    maven-doc-phases: clean,site,site:stage
+                    maven-stable-artifact-phases: clean,site,site:stage,deploy
+                    documentation-dir: target/staging/harvest
                 env:
                     ossrh_username: ${{secrets.OSSRH_USERNAME}}
                     ossrh_password: ${{secrets.OSSRH_PASSWORD}}
