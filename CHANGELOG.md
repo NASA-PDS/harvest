@@ -2,7 +2,11 @@
 
 ## [release/4.0.0](https://github.com/NASA-PDS/harvest/tree/release/4.0.0) (2024-08-27)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.2...release/4.0.0)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.0...release/4.0.0)
+
+## [v4.0.0](https://github.com/NASA-PDS/harvest/tree/v4.0.0) (2024-08-27)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.2...v4.0.0)
 
 **Improvements:**
 
