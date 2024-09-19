@@ -27,7 +27,7 @@ public class ConfigManager
     indexNodeMap.put("pds-naif-registry", "PDS_NAIF");
     indexNodeMap.put("pds-ppi-registry", "PDS_PPI");
     indexNodeMap.put("pds-rms-registry", "PDS_RMS");
-    indexNodeMap.put("pds-sbn-registry", "pds_SBN");
+    indexNodeMap.put("pds-sbn-registry", "PDS_SBN");
     indexNodeMap.put("psa-registry", "PSA");
     indexNodeMap.put("jaxa-registry", "JAXA");
     indexNodeMap.put("roscosmos", "ROSCOSMOS");
