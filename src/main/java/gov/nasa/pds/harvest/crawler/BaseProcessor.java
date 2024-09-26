@@ -7,10 +7,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.dao.RegistryManager;
-import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
 import gov.nasa.pds.harvest.dao.MetadataWriter;
 import gov.nasa.pds.harvest.meta.XPathExtractor;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
+import gov.nasa.pds.registry.common.cfg.HarvestConfigurationType;
 import gov.nasa.pds.registry.common.es.service.MissingFieldsProcessor;
 import gov.nasa.pds.registry.common.meta.AutogenExtractor;
 import gov.nasa.pds.registry.common.meta.BasicMetadataExtractor;

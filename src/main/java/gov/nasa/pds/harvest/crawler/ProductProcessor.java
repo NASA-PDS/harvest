@@ -13,14 +13,14 @@ import java.util.stream.Stream;
 
 import gov.nasa.pds.registry.common.util.CloseUtils;
 import org.w3c.dom.Document;
-import gov.nasa.pds.harvest.cfg.BundleType;
-import gov.nasa.pds.harvest.cfg.ConfigManager;
-import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
-import gov.nasa.pds.harvest.cfg.ProductType;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.util.out.SupplementalWriter;
 import gov.nasa.pds.harvest.util.out.WriterManager;
 import gov.nasa.pds.harvest.util.xml.XmlIs;
+import gov.nasa.pds.registry.common.cfg.BundleType;
+import gov.nasa.pds.registry.common.cfg.ConfigManager;
+import gov.nasa.pds.registry.common.cfg.HarvestConfigurationType;
+import gov.nasa.pds.registry.common.cfg.ProductType;
 import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
 import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;

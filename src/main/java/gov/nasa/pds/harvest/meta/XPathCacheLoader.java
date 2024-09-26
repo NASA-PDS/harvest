@@ -1,18 +1,16 @@
 package gov.nasa.pds.harvest.meta;
 
 import java.io.File;
-
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import gov.nasa.pds.harvest.cfg.XpathMapType;
-import gov.nasa.pds.harvest.cfg.XpathMapsType;
 import gov.nasa.pds.harvest.util.xml.XPathCache;
+import gov.nasa.pds.registry.common.cfg.XpathMapType;
+import gov.nasa.pds.registry.common.cfg.XpathMapsType;
 import gov.nasa.pds.registry.common.util.xml.XPathUtils;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
 
