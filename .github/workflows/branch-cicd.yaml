@@ -35,7 +35,7 @@ jobs:
                 # 👉 For the `harvest` repo, we only need to use JDK 11 for some reason. (In the branch
                 # workflow pre-template-rollout-summer-2021, there was no matrix strategy and JDK 11
                 # was "specifically specified".)
-                java-version: [11]
+                java-version: [17, 21]
 
         steps:
             -
