@@ -31,14 +31,14 @@ public class RegistryManager
     
     private RestClient client;
 
-    private RegistryDao registryDao;
-    private SchemaDao schemaDao;
-    private DataDictionaryDao ddDao;
+    final private RegistryDao registryDao;
+    final private SchemaDao schemaDao;
+    final private DataDictionaryDao ddDao;
 
     private MetadataWriter registryWriter;
     private CollectionInventoryWriter invWriter;
 
-    private FieldNameCache fieldNameCache;
+    final private FieldNameCache fieldNameCache;
 
     private Counter counter;
     
@@ -76,9 +76,11 @@ public class RegistryManager
      * @param overwriteFlag overwrite registered products
      * @throws Exception Generic exception
      */
-    public static void init(ConnectionFactory conFact, boolean overwriteFlag) throws Exception
+    public static synchronized void init(ConnectionFactory conFact, boolean overwriteFlag) throws Exception
     {
+      if (instance == null) {
         instance = new RegistryManager(conFact, overwriteFlag);
+      }
     }
     
     
