@@ -1,5 +1,17 @@
 # Changelog
 
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2024-10-08)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.1...«unknown»)
+
+**Requirements:**
+
+- As a user, I want to include my organization name in the harvest metadata \(`ops:Harvest_Info.ops:node_name`\) [\#187](https://github.com/NASA-PDS/harvest/issues/187)
+
+**Defects:**
+
+- New records harvested in the registry don't have the expected Node value [\#186](https://github.com/NASA-PDS/harvest/issues/186) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
+
 ## [v4.0.1](https://github.com/NASA-PDS/harvest/tree/v4.0.1) (2024-08-27)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v3.8.2...v4.0.1)
@@ -15,6 +27,7 @@
 **Other closed issues:**
 
 - When harvest lasts more that one hour  AWS credentials need to be renewed [\#172](https://github.com/NASA-PDS/harvest/issues/172)
+- Run the synchronization of LDD as needed only [\#159](https://github.com/NASA-PDS/harvest/issues/159) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
 - Add schema reference to all examples to take advantage of new schema [\#156](https://github.com/NASA-PDS/harvest/issues/156)
 - Update to utilize new multi-tenancy approach [\#118](https://github.com/NASA-PDS/harvest/issues/118)
 
