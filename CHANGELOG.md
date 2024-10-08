@@ -10,6 +10,7 @@
 
 **Defects:**
 
+- I want to update the OpenSearch schema whatever the number of fields to be updated [\#190](https://github.com/NASA-PDS/harvest/issues/190) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
 - New records harvested in the registry don't have the expected Node value [\#186](https://github.com/NASA-PDS/harvest/issues/186) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 
 ## [v4.0.1](https://github.com/NASA-PDS/harvest/tree/v4.0.1) (2024-08-27)
