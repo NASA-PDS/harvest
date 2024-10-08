@@ -20,17 +20,18 @@ public class ConfigManager
 {
   private static HashMap<String,String> indexNodeMap = new HashMap<String,String>();
   static {
-    indexNodeMap.put("pds-atm-registry", "PDS_ATM");
-    indexNodeMap.put("pds-eng-registry", "PDS_ENG");
-    indexNodeMap.put("pds-geo-registry", "PDS_GEO");
-    indexNodeMap.put("pds-img-registry", "PDS_IMG");
-    indexNodeMap.put("pds-naif-registry", "PDS_NAIF");
-    indexNodeMap.put("pds-ppi-registry", "PDS_PPI");
-    indexNodeMap.put("pds-rms-registry", "PDS_RMS");
-    indexNodeMap.put("pds-sbn-registry", "pds_SBN");
+    indexNodeMap.put("atm-registry", "PDS_ATM");
+    indexNodeMap.put("en-registry", "PDS_ENG");
+    indexNodeMap.put("geo-registry", "PDS_GEO");
+    indexNodeMap.put("img-registry", "PDS_IMG");
+    indexNodeMap.put("naif-registry", "PDS_NAIF");
+    indexNodeMap.put("ppi-registry", "PDS_PPI");
+    indexNodeMap.put("rms-registry", "PDS_RMS");
+    indexNodeMap.put("sbnpsi-registry", "PDS_SBN");
+    indexNodeMap.put("sbnumd-registry", "PDS_SBN");
     indexNodeMap.put("psa-registry", "PSA");
     indexNodeMap.put("jaxa-registry", "JAXA");
-    indexNodeMap.put("roscosmos", "ROSCOSMOS");
+    indexNodeMap.put("dev-registry", "PDS_ENG_DEV");
   }
     static public List<FileRefRule> exchangeFileRef (List<FileRefType> xml2beans) {
       ArrayList<FileRefRule> beans = new ArrayList<FileRefRule>();
@@ -59,8 +60,7 @@ public class ConfigManager
     }
     static public String exchangeIndexForNode (String indexName) {
       if (indexNodeMap.containsKey (indexName)) return indexNodeMap.get(indexName);
-      if (0 < indexName.indexOf("-registry")) return indexName.substring(0, indexName.indexOf("-registry"));
-      return "development";
+      throw new IllegalArgumentException("Index (" + indexName + ") + not supported: either fix it in your configuration by using one of the supported or request an upgrade of harvest to support your new index by submitting a ticket on https://github.com/NASA-PDS/harvest/issues");
     }
     static public ConnectionFactory exchangeRegistry (RegistryType xml) throws Exception {
       return EstablishConnectionFactory.from (xml.getValue(), xml.getAuth());
