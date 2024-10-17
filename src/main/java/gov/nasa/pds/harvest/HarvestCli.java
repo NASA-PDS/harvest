@@ -51,7 +51,7 @@ public class HarvestCli
         if(args.length == 0)
         {
             printHelp();
-            System.exit(0);
+            System.exit(1);
         }
         
         // Version
@@ -61,16 +61,21 @@ public class HarvestCli
             System.exit(0);
         }        
 
+        for (String arg : args) {
+          if ("-h".equalsIgnoreCase(arg) || "-help".equalsIgnoreCase(arg) || "--help".equalsIgnoreCase(arg) || "?".equalsIgnoreCase(arg)) {
+            printHelp();
+            System.exit(0);
+          }
+        }
+
         if(!parse(args))
         {
-            System.out.println();
-            printHelp();
-            System.exit(1);
+            System.exit(2);
         }
 
         if(!runCommand())
         {
-            System.exit(1);
+            System.exit(3);
         }        
     }
     
