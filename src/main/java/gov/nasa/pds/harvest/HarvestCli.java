@@ -64,6 +64,7 @@ public class HarvestCli
         for (String arg : args) {
           if ("-h".equalsIgnoreCase(arg) || "-help".equalsIgnoreCase(arg) || "--help".equalsIgnoreCase(arg) || "?".equalsIgnoreCase(arg)) {
             printHelp();
+            System.exit(0);
           }
         }
 
