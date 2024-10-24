@@ -1,8 +1,20 @@
 # Changelog
 
-## [release/4.0.3](https://github.com/NASA-PDS/harvest/tree/release/4.0.3) (2024-10-16)
+## [4.0.2](https://github.com/NASA-PDS/harvest/tree/4.0.2) (2024-10-24)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.2...release/4.0.3)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.3...4.0.2)
+
+**Requirements:**
+
+- As a user, I want harvest to exit with non 0 code when the arguments are not parsable [\#199](https://github.com/NASA-PDS/harvest/issues/199)
+
+**Other closed issues:**
+
+- Double check how the schema is updated, log levels fine tune [\#196](https://github.com/NASA-PDS/harvest/issues/196)
+
+## [v4.0.3](https://github.com/NASA-PDS/harvest/tree/v4.0.3) (2024-10-16)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.2...v4.0.3)
 
 ## [v4.0.2](https://github.com/NASA-PDS/harvest/tree/v4.0.2) (2024-10-16)
 
