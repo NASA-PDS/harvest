@@ -8,6 +8,10 @@
 
 - As a user, I want harvest to exit with non 0 code when the arguments are not parsable [\#199](https://github.com/NASA-PDS/harvest/issues/199)
 
+**Defects:**
+
+- Unknown date format used that could not be parsed by Harvest [\#197](https://github.com/NASA-PDS/harvest/issues/197) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
+
 **Other closed issues:**
 
 - Double check how the schema is updated, log levels fine tune [\#196](https://github.com/NASA-PDS/harvest/issues/196)
