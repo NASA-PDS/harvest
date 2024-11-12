@@ -1,6 +1,6 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2024-11-07)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2024-11-12)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.3...«unknown»)
 
@@ -8,8 +8,13 @@
 
 - As a user, I want harvest to exit with non 0 code when the arguments are not parsable [\#199](https://github.com/NASA-PDS/harvest/issues/199)
 
+**Improvements:**
+
+- Update harvest to support batches with data volumes larger than AOSS allowable limit [\#207](https://github.com/NASA-PDS/harvest/issues/207)
+
 **Defects:**
 
+- Issues identified with uncaught throttling errors [\#206](https://github.com/NASA-PDS/harvest/issues/206) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 - Unknown date format used that could not be parsed by Harvest [\#197](https://github.com/NASA-PDS/harvest/issues/197) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 
 **Other closed issues:**
