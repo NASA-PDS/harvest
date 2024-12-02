@@ -56,7 +56,7 @@ public class Log4jConfigurator
     {
         AppenderComponentBuilder appender = cfg.newAppender(name, "CONSOLE");
         appender.addAttribute("target", ConsoleAppender.Target.SYSTEM_OUT);
-        appender.add(cfg.newLayout("PatternLayout").addAttribute("pattern", "[%level] %msg%n%throwable"));
+        appender.add(cfg.newLayout("PatternLayout").addAttribute("pattern", "%d{yyyy-MM-dd HH:mm:ss} [%-5p] (%F:%M:%L) %m%n%throwable"));
         cfg.add(appender);
     }
     
@@ -74,7 +74,7 @@ public class Log4jConfigurator
         AppenderComponentBuilder appender = cfg.newAppender(name, "FILE");
         appender.addAttribute("fileName", filePath);
         appender.addAttribute("append", false);
-        appender.add(cfg.newLayout("PatternLayout").addAttribute("pattern", "%d [%level] %msg%n%throwable"));
+        appender.add(cfg.newLayout("PatternLayout").addAttribute("pattern", "%d{yyyy-MM-dd HH:mm:ss} [%-5p] (%F:%M:%L) %m%n%throwable"));
         cfg.add(appender);
     }
     
