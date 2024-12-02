@@ -1,8 +1,20 @@
 # Changelog
 
-## [release/4.0.4](https://github.com/NASA-PDS/harvest/tree/release/4.0.4) (2024-11-12)
+## [4.0.3](https://github.com/NASA-PDS/harvest/tree/4.0.3) (2024-12-02)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.3...release/4.0.4)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.4...4.0.3)
+
+**Requirements:**
+
+- As a user, I don't want to insert a product which has been already inserted with the same lidvid [\#195](https://github.com/NASA-PDS/harvest/issues/195)
+
+**Defects:**
+
+- Read time out errors occurring with big data uploads [\#208](https://github.com/NASA-PDS/harvest/issues/208) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
+
+## [v4.0.4](https://github.com/NASA-PDS/harvest/tree/v4.0.4) (2024-11-12)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.3...v4.0.4)
 
 **Requirements:**
 
