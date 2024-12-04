@@ -96,7 +96,7 @@ public class HarvestCli
             String msg = ExceptionUtils.getMessage(ex);
             Logger log = LogManager.getLogger(this.getClass());
             log.error(msg);
-            log.debug("", ex);
+            log.debug("for the stack trace", ex);
             return false;
         }
     }
@@ -168,7 +168,7 @@ public class HarvestCli
         }
         catch(ParseException ex)
         {
-            System.out.println("[ERROR] " + ex.getMessage());
+            System.out.println("[ERROR] " + ExceptionUtils.getMessage(ex));
             return false;
         }
     }
