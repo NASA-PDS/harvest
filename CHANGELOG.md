@@ -1,15 +1,21 @@
 # Changelog
 
-## [4.0.3](https://github.com/NASA-PDS/harvest/tree/4.0.3) (2024-12-02)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2024-12-10)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.4...4.0.3)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.4...«unknown»)
 
 **Requirements:**
 
 - As a user, I don't want to insert a product which has been already inserted with the same lidvid [\#195](https://github.com/NASA-PDS/harvest/issues/195)
 
+**Improvements:**
+
+- Optimize LDD downloads also on errors [\#205](https://github.com/NASA-PDS/harvest/issues/205)
+- Add the date time in the log messages [\#203](https://github.com/NASA-PDS/harvest/issues/203)
+
 **Defects:**
 
+- Issue with ALT LDD date format error [\#222](https://github.com/NASA-PDS/harvest/issues/222) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
 - Read time out errors occurring with big data uploads [\#208](https://github.com/NASA-PDS/harvest/issues/208) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
 
 ## [v4.0.4](https://github.com/NASA-PDS/harvest/tree/v4.0.4) (2024-11-12)
@@ -35,19 +41,11 @@
 
 ## [v4.0.3](https://github.com/NASA-PDS/harvest/tree/v4.0.3) (2024-10-16)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.3...v4.0.3)
-
-## [release/4.0.3](https://github.com/NASA-PDS/harvest/tree/release/4.0.3) (2024-10-16)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.2...release/4.0.3)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.2...v4.0.3)
 
 ## [v4.0.2](https://github.com/NASA-PDS/harvest/tree/v4.0.2) (2024-10-16)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.2...v4.0.2)
-
-## [release/4.0.2](https://github.com/NASA-PDS/harvest/tree/release/4.0.2) (2024-10-08)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/ec2...release/4.0.2)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/ec2...v4.0.2)
 
 ## [ec2](https://github.com/NASA-PDS/harvest/tree/ec2) (2024-10-08)
 
@@ -64,11 +62,7 @@
 
 ## [v4.0.1](https://github.com/NASA-PDS/harvest/tree/v4.0.1) (2024-08-27)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.0...v4.0.1)
-
-## [release/4.0.0](https://github.com/NASA-PDS/harvest/tree/release/4.0.0) (2024-08-27)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.0...release/4.0.0)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.0...v4.0.1)
 
 ## [v4.0.0](https://github.com/NASA-PDS/harvest/tree/v4.0.0) (2024-08-27)
 
