@@ -1,6 +1,6 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2024-12-10)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2024-12-11)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.4...«unknown»)
 
@@ -10,6 +10,7 @@
 
 **Improvements:**
 
+- Quiet Harvest noisy logs for Invalid cookie header [\#223](https://github.com/NASA-PDS/harvest/issues/223)
 - Optimize LDD downloads also on errors [\#205](https://github.com/NASA-PDS/harvest/issues/205)
 - Add the date time in the log messages [\#203](https://github.com/NASA-PDS/harvest/issues/203)
 
@@ -17,6 +18,7 @@
 
 - Issue with ALT LDD date format error [\#222](https://github.com/NASA-PDS/harvest/issues/222) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
 - Read time out errors occurring with big data uploads [\#208](https://github.com/NASA-PDS/harvest/issues/208) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
+- OpenSearch mapping conflict issue when trying to change a type \(`[illegal_argument_exception]`\) [\#204](https://github.com/NASA-PDS/harvest/issues/204) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
 
 ## [v4.0.4](https://github.com/NASA-PDS/harvest/tree/v4.0.4) (2024-11-12)
 
