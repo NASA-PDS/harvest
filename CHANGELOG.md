@@ -17,6 +17,7 @@
 **Defects:**
 
 - Issue with ALT LDD date format error [\#222](https://github.com/NASA-PDS/harvest/issues/222) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
+- harvest by default overwrites all products [\#213](https://github.com/NASA-PDS/harvest/issues/213) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
 - Read time out errors occurring with big data uploads [\#208](https://github.com/NASA-PDS/harvest/issues/208) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
 - OpenSearch mapping conflict issue when trying to change a type \(`[illegal_argument_exception]`\) [\#204](https://github.com/NASA-PDS/harvest/issues/204) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
 
