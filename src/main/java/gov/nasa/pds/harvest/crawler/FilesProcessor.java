@@ -84,24 +84,17 @@ public class FilesProcessor extends BaseProcessor
      * @param dir Directory with PDS4 labels
      * @throws Exception Generic exception
      */
-    public void processDirectory(File dir) throws Exception
-    {
-        Stream<Path> stream = null;
-        
-        try
-        {
-            stream = Files.find(dir.toPath(), Integer.MAX_VALUE, new FileMatcher(), FileVisitOption.FOLLOW_LINKS);
-            Iterator<Path> it = stream.iterator();
-            
-            while(it.hasNext())
-            {
-                onFile(it.next().toFile());
-            }
+    public void processDirectory(File dir) throws Exception {
+      try (Stream<Path> stream = Files.find(
+          dir.toPath(),
+          Integer.MAX_VALUE,
+          new FileMatcher(), FileVisitOption.FOLLOW_LINKS)) {
+        Iterator<Path> it = stream.iterator();
+
+        while(it.hasNext()) {
+          onFile(it.next().toFile());
         }
-        finally
-        {
-            CloseUtils.close(stream);
-        }
+      }
     }
 
     
