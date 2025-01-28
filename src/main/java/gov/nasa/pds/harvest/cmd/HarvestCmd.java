@@ -14,6 +14,7 @@ import gov.nasa.pds.harvest.crawler.Counter;
 import gov.nasa.pds.harvest.crawler.FilesProcessor;
 import gov.nasa.pds.harvest.crawler.ProductProcessor;
 import gov.nasa.pds.harvest.crawler.RefsCache;
+import gov.nasa.pds.harvest.dao.RegistryDocBatch;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
@@ -277,6 +278,7 @@ public class HarvestCmd implements CliCommand
     {
         Counter counter = RegistryManager.getInstance().getCounter();
         
+        RegistryDocBatch.showDuplicates();
         log.log(LogUtils.LEVEL_SUMMARY, "Summary:");
         int processedCount = counter.prodCounters.getTotal();
         

@@ -1,8 +1,10 @@
 package gov.nasa.pds.harvest.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import gov.nasa.pds.registry.common.ConnectionFactory;
@@ -26,7 +28,8 @@ public class RegistryDocBatch
 
     }
     final private static HashSet<String> alreadyLearned = new HashSet<String>();
-    final private Logger log = LogManager.getLogger(RegistryDocBatch.class);
+    final private static HashMap<String,Integer> history = new HashMap<String,Integer>();
+    final private static Logger log = LogManager.getLogger(RegistryDocBatch.class);
     private List<NJsonItem> items;
     
     
@@ -108,5 +111,28 @@ public class RegistryDocBatch
         List<String> ids = new ArrayList<>();
         items.forEach((item) -> { ids.add(item.lidvid); } );        
         return ids;
+    }
+    static public void increment(String lidvid) {
+      Integer count = history.containsKey(lidvid) ? history.get(lidvid) : 0;
+      history.put(lidvid, ++count);
+    }
+    static public void showDuplicates() {
+      boolean first = true;
+      for (Entry<String,Integer> entry : history.entrySet()) {
+        if (entry.getValue() > 1) {
+          if (first) {
+            log.fatal("The harvested collection has duplicate lidvids. Double check content of these lidvids:");
+            first = false;
+          }
+          log.fatal("   Found " + entry.getValue() + " of lidvid " + entry.getKey());
+        }
+      }
+      if (!first) {
+        int total = 0;
+        for (Integer count : history.values()) {
+          total += count;
+        }
+      log.fatal("   Total number of duplicate lidvids: " + (total - history.size()));
+      }
     }
 }
