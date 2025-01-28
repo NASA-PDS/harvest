@@ -1,8 +1,26 @@
 # Changelog
 
-## [release/4.0.5](https://github.com/NASA-PDS/harvest/tree/release/4.0.5) (2024-12-19)
+## [4.0.3](https://github.com/NASA-PDS/harvest/tree/4.0.3) (2025-01-28)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.4...release/4.0.5)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.5...4.0.3)
+
+**Improvements:**
+
+- Disable graceful handling of missing schema configs with `keyword` data type [\#227](https://github.com/NASA-PDS/harvest/issues/227)
+
+**Defects:**
+
+- harvest.log summary not correct [\#149](https://github.com/NASA-PDS/harvest/issues/149) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
+- harvest.log summary numbers not consistent with number of expected files [\#148](https://github.com/NASA-PDS/harvest/issues/148) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
+- harvest.log summary does not agree with OpenSearch counts [\#147](https://github.com/NASA-PDS/harvest/issues/147) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
+
+**Other closed issues:**
+
+- Investigate if when multiple harvest run at the same time, there can be an issue with downloading the same LDD in parallel [\#198](https://github.com/NASA-PDS/harvest/issues/198)
+
+## [v4.0.5](https://github.com/NASA-PDS/harvest/tree/v4.0.5) (2024-12-19)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.4...v4.0.5)
 
 **Requirements:**
 
