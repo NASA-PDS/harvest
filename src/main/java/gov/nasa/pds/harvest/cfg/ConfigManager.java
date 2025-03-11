@@ -60,7 +60,7 @@ public class ConfigManager
     }
     static public String exchangeIndexForNode (String indexName) {
       if (indexNodeMap.containsKey (indexName)) return indexNodeMap.get(indexName);
-      throw new IllegalArgumentException("Index (" + indexName + ") + not supported: either fix it in your configuration by using one of the supported or request an upgrade of harvest to support your new index by submitting a ticket on https://github.com/NASA-PDS/harvest/issues");
+        throw new IllegalArgumentException("Index \"" + indexName + "\" is not one of the supported indices (\"" + String.join("\", \"", indexNodeMap.keySet()) + "\"): use a supported index name in your configuration or request that index \"" + indexName + "\" be added to harvest by submitting a ticket on https://github.com/NASA-PDS/harvest/issues");
     }
     static public ConnectionFactory exchangeRegistry (RegistryType xml) throws Exception {
       return EstablishConnectionFactory.from (xml.getValue(), xml.getAuth());
