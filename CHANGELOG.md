@@ -1,8 +1,8 @@
 # Changelog
 
-## [4.0.3](https://github.com/NASA-PDS/harvest/tree/4.0.3) (2025-01-28)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-03-24)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.5...4.0.3)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.5...«unknown»)
 
 **Improvements:**
 
@@ -10,6 +10,8 @@
 
 **Defects:**
 
+- harvest stops after \[ERROR\] \(HarvestCli.java:runCommand:98\) Object builders can only be used once [\#231](https://github.com/NASA-PDS/harvest/issues/231) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
+- harvest it fails to load org.slf4j.impl.StaticLoggerBinder [\#229](https://github.com/NASA-PDS/harvest/issues/229) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
 - harvest.log summary not correct [\#149](https://github.com/NASA-PDS/harvest/issues/149) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
 - harvest.log summary numbers not consistent with number of expected files [\#148](https://github.com/NASA-PDS/harvest/issues/148) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
 - harvest.log summary does not agree with OpenSearch counts [\#147](https://github.com/NASA-PDS/harvest/issues/147) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
@@ -62,19 +64,11 @@
 
 ## [v4.0.3](https://github.com/NASA-PDS/harvest/tree/v4.0.3) (2024-10-16)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.3...v4.0.3)
-
-## [release/4.0.3](https://github.com/NASA-PDS/harvest/tree/release/4.0.3) (2024-10-16)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.2...release/4.0.3)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.2...v4.0.3)
 
 ## [v4.0.2](https://github.com/NASA-PDS/harvest/tree/v4.0.2) (2024-10-16)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.2...v4.0.2)
-
-## [release/4.0.2](https://github.com/NASA-PDS/harvest/tree/release/4.0.2) (2024-10-08)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/ec2...release/4.0.2)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/ec2...v4.0.2)
 
 ## [ec2](https://github.com/NASA-PDS/harvest/tree/ec2) (2024-10-08)
 
@@ -91,11 +85,7 @@
 
 ## [v4.0.1](https://github.com/NASA-PDS/harvest/tree/v4.0.1) (2024-08-27)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.0...v4.0.1)
-
-## [release/4.0.0](https://github.com/NASA-PDS/harvest/tree/release/4.0.0) (2024-08-27)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.0...release/4.0.0)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.0...v4.0.1)
 
 ## [v4.0.0](https://github.com/NASA-PDS/harvest/tree/v4.0.0) (2024-08-27)
 
