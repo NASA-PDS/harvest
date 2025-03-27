@@ -1,6 +1,6 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-03-24)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-03-27)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.5...«unknown»)
 
@@ -18,6 +18,7 @@
 
 **Other closed issues:**
 
+- Unsupported index name log message could be more useful [\#233](https://github.com/NASA-PDS/harvest/issues/233)
 - Investigate if when multiple harvest run at the same time, there can be an issue with downloading the same LDD in parallel [\#198](https://github.com/NASA-PDS/harvest/issues/198)
 
 ## [v4.0.5](https://github.com/NASA-PDS/harvest/tree/v4.0.5) (2024-12-19)
