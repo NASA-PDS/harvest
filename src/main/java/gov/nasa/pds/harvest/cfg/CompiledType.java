@@ -13,26 +13,20 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * 
- *       
- * 
- * <p>Java class for files_type complex type.
+ * <p>Java class for compiled_type complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="files_type"&gt;
+ * &lt;complexType name="compiled_type"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="manifest" type="{http://www.w3.org/2001/XMLSchema}normalizedString" maxOccurs="unbounded"/&gt;
+ *         &lt;element name="files" type="{}compressed_files_type" maxOccurs="unbounded"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -42,43 +36,41 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "files_type", propOrder = {
-    "manifest"
+@XmlType(name = "compiled_type", propOrder = {
+    "files"
 })
-public class FilesType {
+public class CompiledType {
 
     @XmlElement(required = true)
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    @XmlSchemaType(name = "normalizedString")
-    protected List<String> manifest;
+    protected List<CompressedFilesType> files;
 
     /**
-     * Gets the value of the manifest property.
+     * Gets the value of the files property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the manifest property.
+     * This is why there is not a <CODE>set</CODE> method for the files property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getManifest().add(newItem);
+     *    getFiles().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * {@link CompressedFilesType }
      * 
      * 
      */
-    public List<String> getManifest() {
-        if (manifest == null) {
-            manifest = new ArrayList<String>();
+    public List<CompressedFilesType> getFiles() {
+        if (files == null) {
+            files = new ArrayList<CompressedFilesType>();
         }
-        return this.manifest;
+        return this.files;
     }
 
 }
