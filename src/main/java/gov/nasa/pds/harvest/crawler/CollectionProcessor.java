@@ -173,7 +173,8 @@ public class CollectionProcessor extends BaseProcessor
         searchExtractor.extract(doc, meta.fields);
 
         // File information (name, size, checksum)
-        fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef(config.getFileInfo().getFileRef()));
+        fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef(config.getFileInfo().getFileRef()),
+            config.isPubliclyAvailableAtDataCenter(), ConfigManager.exchange(config.getCompressed()));
         
         // Save metadata
         save(meta, nsInfo);

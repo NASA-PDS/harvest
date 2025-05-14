@@ -16,12 +16,12 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for compiled_type complex type</p>.
+ * <p>Java class for compressed_type complex type</p>.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
  * <pre>{@code
- * <complexType name="compiled_type">
+ * <complexType name="compressed_type">
  *   <complexContent>
  *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       <sequence>
@@ -35,10 +35,10 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "compiled_type", propOrder = {
+@XmlType(name = "compressed_type", propOrder = {
     "files"
 })
-public class CompiledType {
+public class CompressedType {
 
     @XmlElement(required = true)
     protected List<CompressedFilesType> files;

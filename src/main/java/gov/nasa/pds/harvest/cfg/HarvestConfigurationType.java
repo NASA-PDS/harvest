@@ -9,6 +9,7 @@ package gov.nasa.pds.harvest.cfg;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.XmlType;
@@ -42,8 +43,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *         <element name="references" type="{}references_type" minOccurs="0"/>
  *         <element name="registry" type="{}registry_type"/>
  *         <element name="xpathMaps" type="{}xpath_maps_type" minOccurs="0"/>
- *         <element name="compiled" type="{}compiled_type" minOccurs="0"/>
+ *         <element name="compressed" type="{}compressed_type" minOccurs="0"/>
  *       </all>
+ *       <attribute name="publicly_available_at_data_center" type="{http://www.w3.org/2001/XMLSchema}boolean" default="true" />
  *     </restriction>
  *   </complexContent>
  * </complexType>
@@ -69,7 +71,9 @@ public class HarvestConfigurationType {
     @XmlElement(required = true)
     protected RegistryType registry;
     protected XpathMapsType xpathMaps;
-    protected CompiledType compiled;
+    protected CompressedType compressed;
+    @XmlAttribute(name = "publicly_available_at_data_center")
+    protected Boolean publiclyAvailableAtDataCenter;
 
     /**
      * Gets the value of the autogenFields property.
@@ -240,27 +244,55 @@ public class HarvestConfigurationType {
     }
 
     /**
-     * Gets the value of the compiled property.
+     * Gets the value of the compressed property.
      * 
      * @return
      *     possible object is
-     *     {@link CompiledType }
+     *     {@link CompressedType }
      *     
      */
-    public CompiledType getCompiled() {
-        return compiled;
+    public CompressedType getCompressed() {
+        return compressed;
     }
 
     /**
-     * Sets the value of the compiled property.
+     * Sets the value of the compressed property.
      * 
      * @param value
      *     allowed object is
-     *     {@link CompiledType }
+     *     {@link CompressedType }
      *     
      */
-    public void setCompiled(CompiledType value) {
-        this.compiled = value;
+    public void setCompressed(CompressedType value) {
+        this.compressed = value;
+    }
+
+    /**
+     * Gets the value of the publiclyAvailableAtDataCenter property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
+     */
+    public boolean isPubliclyAvailableAtDataCenter() {
+        if (publiclyAvailableAtDataCenter == null) {
+            return true;
+        } else {
+            return publiclyAvailableAtDataCenter;
+        }
+    }
+
+    /**
+     * Sets the value of the publiclyAvailableAtDataCenter property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
+     */
+    public void setPubliclyAvailableAtDataCenter(Boolean value) {
+        this.publiclyAvailableAtDataCenter = value;
     }
 
 }

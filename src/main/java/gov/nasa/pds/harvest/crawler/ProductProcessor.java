@@ -219,7 +219,8 @@ public class ProductProcessor extends BaseProcessor
         searchExtractor.extract(doc, meta.fields);
         
         // Extract file data
-        fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef(config.getFileInfo().getFileRef()));
+        fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef(config.getFileInfo().getFileRef()),
+            this.config.isPubliclyAvailableAtDataCenter(), ConfigManager.exchange(this.config.getCompressed()));
         
         // Save metadata
         save(meta, nsInfo);

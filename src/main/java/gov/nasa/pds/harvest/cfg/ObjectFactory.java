@@ -126,13 +126,13 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CompiledType }
+     * Create an instance of {@link CompressedType }
      * 
      * @return
-     *     the new instance of {@link CompiledType }
+     *     the new instance of {@link CompressedType }
      */
-    public CompiledType createCompiledType() {
-        return new CompiledType();
+    public CompressedType createCompressedType() {
+        return new CompressedType();
     }
 
     /**

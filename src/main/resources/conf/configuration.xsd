@@ -103,7 +103,7 @@
     <xs:attribute default="" name="lidvid" type="xs:normalizedString"/>
   </xs:complexType>
   
-  <xs:complexType name="compiled_type">
+  <xs:complexType name="compressed_type">
   	<xs:sequence>
   	  <xs:element maxOccurs="unbounded" minOccurs="1" name="files" type="compressed_files_type"/>
   	</xs:sequence>
@@ -219,8 +219,9 @@
       <xs:element minOccurs="0" name="references" type="references_type"/>
       <xs:element name="registry" type="registry_type"/>
       <xs:element minOccurs="0" name="xpathMaps" type="xpath_maps_type"/>
-      <xs:element minOccurs="0" name="compiled" type="compiled_type"/>
+      <xs:element minOccurs="0" name="compressed" type="compressed_type"/>
     </xs:all>
+    <xs:attribute default="true" name="publicly_available_at_data_center" type="xs:boolean"/>
   </xs:complexType>
 
   <xs:complexType name="load_type">
