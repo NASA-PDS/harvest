@@ -28,6 +28,7 @@
 
   <xs:simpleType name="algorithm_enum">
 	<xs:restriction base="xs:normalizedString">
+	  <xs:enumeration value="none"/>
       <xs:enumeration value="bzip"/>
       <xs:enumeration value="fpack"/>
       <xs:enumeration value="gzip"/>
