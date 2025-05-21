@@ -36,8 +36,10 @@ public class ConfigManager
   }
     static public List<CompressionPattern> exchange (CompressedType compressed) {
       ArrayList<CompressionPattern> result = new ArrayList<CompressionPattern>();
-      for (CompressedFilesType cf : compressed.files) {
-        result.add(new CompressionPattern(cf.pattern, cf.algorithms.name(), cf.extnsion));
+      if (compressed.files != null) {
+        for (CompressedFilesType cf : compressed.files) {
+          result.add(new CompressionPattern(cf.pattern, cf.algorithms.name(), cf.extnsion));
+        }
       }
       return result;
     }
