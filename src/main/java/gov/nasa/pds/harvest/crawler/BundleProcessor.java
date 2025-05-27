@@ -167,7 +167,7 @@ public class BundleProcessor extends BaseProcessor
         
         // File information (name, size, checksum)
         fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef (config.getFileInfo().getFileRef()),
-            this.config.isPubliclyAvailableAtDataCenter(), ConfigManager.exchange(this.config.getCompressed()));
+            ConfigManager.exchange(this.config), ConfigManager.exchange(this.config.getCompressed()));
         
         // Save data
         save(meta, nsInfo);

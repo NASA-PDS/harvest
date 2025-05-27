@@ -220,7 +220,7 @@ public class ProductProcessor extends BaseProcessor
         
         // Extract file data
         fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef(config.getFileInfo().getFileRef()),
-            this.config.isPubliclyAvailableAtDataCenter(), ConfigManager.exchange(this.config.getCompressed()));
+            ConfigManager.exchange(this.config), ConfigManager.exchange(this.config.getCompressed()));
         
         // Save metadata
         save(meta, nsInfo);

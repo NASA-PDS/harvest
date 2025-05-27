@@ -26,6 +26,15 @@
 
   -->
 
+  <xs:simpleType name="access_rights_enum">
+	<xs:restriction base="xs:normalizedString">
+	  <xs:enumeration value="embargoed"/>
+      <xs:enumeration value="metadata-only"/>
+      <xs:enumeration value="open"/>
+      <xs:enumeration value="restricted"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="algorithm_enum">
 	<xs:restriction base="xs:normalizedString">
 	  <xs:enumeration value="none"/>
@@ -222,7 +231,7 @@
       <xs:element minOccurs="0" name="xpathMaps" type="xpath_maps_type"/>
       <xs:element minOccurs="0" name="compressed" type="compressed_type"/>
     </xs:all>
-    <xs:attribute default="true" name="publicly_available_at_data_center" type="xs:boolean"/>
+    <xs:attribute default="open" name="access_rights" type="access_rights_enum"/>
   </xs:complexType>
 
   <xs:complexType name="load_type">

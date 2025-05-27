@@ -10,6 +10,7 @@ import org.glassfish.jaxb.runtime.v2.JAXBContextFactory;
 import gov.nasa.pds.registry.common.ConnectionFactory;
 import gov.nasa.pds.registry.common.EstablishConnectionFactory;
 import gov.nasa.pds.registry.common.meta.cfg.FileRefRule;
+import gov.nasa.pds.registry.common.util.AccessRights;
 import gov.nasa.pds.registry.common.util.CompressionPattern;
 
 /**
@@ -33,6 +34,9 @@ public class ConfigManager
     indexNodeMap.put("psa-registry", "PSA");
     indexNodeMap.put("jaxa-registry", "JAXA");
     indexNodeMap.put("dev-registry", "PDS_ENG_DEV");
+  }
+  static public AccessRights exchange (HarvestConfigurationType cfg) {
+    return AccessRights.valueOf(cfg.accessRights.name().replace("-", "_"));
   }
     static public List<CompressionPattern> exchange (CompressedType compressed) {
       ArrayList<CompressionPattern> result = new ArrayList<CompressionPattern>();

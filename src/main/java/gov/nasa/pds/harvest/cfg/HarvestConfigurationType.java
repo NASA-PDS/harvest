@@ -45,7 +45,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *         <element name="xpathMaps" type="{}xpath_maps_type" minOccurs="0"/>
  *         <element name="compressed" type="{}compressed_type" minOccurs="0"/>
  *       </all>
- *       <attribute name="publicly_available_at_data_center" type="{http://www.w3.org/2001/XMLSchema}boolean" default="true" />
+ *       <attribute name="access_rights" type="{}access_rights_enum" default="open" />
  *     </restriction>
  *   </complexContent>
  * </complexType>
@@ -72,8 +72,8 @@ public class HarvestConfigurationType {
     protected RegistryType registry;
     protected XpathMapsType xpathMaps;
     protected CompressedType compressed;
-    @XmlAttribute(name = "publicly_available_at_data_center")
-    protected Boolean publiclyAvailableAtDataCenter;
+    @XmlAttribute(name = "access_rights")
+    protected AccessRightsEnum accessRights;
 
     /**
      * Gets the value of the autogenFields property.
@@ -268,31 +268,31 @@ public class HarvestConfigurationType {
     }
 
     /**
-     * Gets the value of the publiclyAvailableAtDataCenter property.
+     * Gets the value of the accessRights property.
      * 
      * @return
      *     possible object is
-     *     {@link Boolean }
+     *     {@link AccessRightsEnum }
      *     
      */
-    public boolean isPubliclyAvailableAtDataCenter() {
-        if (publiclyAvailableAtDataCenter == null) {
-            return true;
+    public AccessRightsEnum getAccessRights() {
+        if (accessRights == null) {
+            return AccessRightsEnum.OPEN;
         } else {
-            return publiclyAvailableAtDataCenter;
+            return accessRights;
         }
     }
 
     /**
-     * Sets the value of the publiclyAvailableAtDataCenter property.
+     * Sets the value of the accessRights property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Boolean }
+     *     {@link AccessRightsEnum }
      *     
      */
-    public void setPubliclyAvailableAtDataCenter(Boolean value) {
-        this.publiclyAvailableAtDataCenter = value;
+    public void setAccessRights(AccessRightsEnum value) {
+        this.accessRights = value;
     }
 
 }

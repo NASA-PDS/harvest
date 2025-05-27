@@ -211,7 +211,7 @@ public class FilesProcessor extends BaseProcessor
 
         // Extract file data
         fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef(config.getFileInfo().getFileRef()),
-            config.isPubliclyAvailableAtDataCenter(), ConfigManager.exchange(this.config.getCompressed()));
+            ConfigManager.exchange(this.config), ConfigManager.exchange(this.config.getCompressed()));
         
         // Save data
         save(meta, nsInfo);

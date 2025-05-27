@@ -21,6 +21,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * <pre>{@code
  * <simpleType name="algorithm_enum">
  *   <restriction base="{http://www.w3.org/2001/XMLSchema}normalizedString">
+ *     <enumeration value="none"/>
  *     <enumeration value="bzip"/>
  *     <enumeration value="fpack"/>
  *     <enumeration value="gzip"/>
@@ -34,6 +35,8 @@ import jakarta.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum AlgorithmEnum {
 
+    @XmlEnumValue("none")
+    NONE("none"),
     @XmlEnumValue("bzip")
     BZIP("bzip"),
     @XmlEnumValue("fpack")
