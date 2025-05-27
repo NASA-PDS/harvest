@@ -9,7 +9,6 @@ package gov.nasa.pds.harvest.cfg;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.XmlType;
@@ -44,8 +43,8 @@ import jakarta.xml.bind.annotation.XmlType;
  *         <element name="registry" type="{}registry_type"/>
  *         <element name="xpathMaps" type="{}xpath_maps_type" minOccurs="0"/>
  *         <element name="compressed" type="{}compressed_type" minOccurs="0"/>
+ *         <element name="access" type="{}access_type" minOccurs="0"/>
  *       </all>
- *       <attribute name="access_rights" type="{}access_rights_enum" default="open" />
  *     </restriction>
  *   </complexContent>
  * </complexType>
@@ -72,8 +71,7 @@ public class HarvestConfigurationType {
     protected RegistryType registry;
     protected XpathMapsType xpathMaps;
     protected CompressedType compressed;
-    @XmlAttribute(name = "access_rights")
-    protected AccessRightsEnum accessRights;
+    protected AccessType access;
 
     /**
      * Gets the value of the autogenFields property.
@@ -268,31 +266,27 @@ public class HarvestConfigurationType {
     }
 
     /**
-     * Gets the value of the accessRights property.
+     * Gets the value of the access property.
      * 
      * @return
      *     possible object is
-     *     {@link AccessRightsEnum }
+     *     {@link AccessType }
      *     
      */
-    public AccessRightsEnum getAccessRights() {
-        if (accessRights == null) {
-            return AccessRightsEnum.OPEN;
-        } else {
-            return accessRights;
-        }
+    public AccessType getAccess() {
+        return access;
     }
 
     /**
-     * Sets the value of the accessRights property.
+     * Sets the value of the access property.
      * 
      * @param value
      *     allowed object is
-     *     {@link AccessRightsEnum }
+     *     {@link AccessType }
      *     
      */
-    public void setAccessRights(AccessRightsEnum value) {
-        this.accessRights = value;
+    public void setAccess(AccessType value) {
+        this.access = value;
     }
 
 }

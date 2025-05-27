@@ -136,6 +136,26 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link AccessType }
+     * 
+     * @return
+     *     the new instance of {@link AccessType }
+     */
+    public AccessType createAccessType() {
+        return new AccessType();
+    }
+
+    /**
+     * Create an instance of {@link AccessRightType }
+     * 
+     * @return
+     *     the new instance of {@link AccessRightType }
+     */
+    public AccessRightType createAccessRightType() {
+        return new AccessRightType();
+    }
+
+    /**
      * Create an instance of {@link BundleType }
      * 
      * @return
