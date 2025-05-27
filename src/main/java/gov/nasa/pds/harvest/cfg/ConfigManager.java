@@ -12,6 +12,7 @@ import gov.nasa.pds.registry.common.EstablishConnectionFactory;
 import gov.nasa.pds.registry.common.meta.cfg.FileRefRule;
 import gov.nasa.pds.registry.common.util.AccessRights;
 import gov.nasa.pds.registry.common.util.CompressionPattern;
+import gov.nasa.pds.registry.common.util.RightsPattern;
 
 /**
  * Harvest configuration file reader.
@@ -35,8 +36,14 @@ public class ConfigManager
     indexNodeMap.put("jaxa-registry", "JAXA");
     indexNodeMap.put("dev-registry", "PDS_ENG_DEV");
   }
-  static public AccessRights exchange (HarvestConfigurationType cfg) {
-    return AccessRights.valueOf(cfg.accessRights.name().replace("-", "_"));
+  static public List<RightsPattern> exchange (HarvestConfigurationType cfg) {
+    ArrayList<RightsPattern> result = new ArrayList<RightsPattern>();
+    if (cfg.access != null) {
+      for (AccessRightType right : cfg.access.right) {
+        result.add(new RightsPattern(right.pattern, AccessRights.valueOf(right.value.name().replace("-", "_"))));
+      }
+    }
+    return result;
   }
     static public List<CompressionPattern> exchange (CompressedType compressed) {
       ArrayList<CompressionPattern> result = new ArrayList<CompressionPattern>();
