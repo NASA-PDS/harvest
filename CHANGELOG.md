@@ -1,8 +1,16 @@
 # Changelog
 
-## [release/4.0.7](https://github.com/NASA-PDS/harvest/tree/release/4.0.7) (2025-04-21)
+## [4.0.6](https://github.com/NASA-PDS/harvest/tree/4.0.6) (2025-06-24)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.6...release/4.0.7)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7...4.0.6)
+
+**Defects:**
+
+- Harvest failing due to AOSS OCU limits without retrying [\#239](https://github.com/NASA-PDS/harvest/issues/239) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
+
+## [v4.0.7](https://github.com/NASA-PDS/harvest/tree/v4.0.7) (2025-04-21)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.6...v4.0.7)
 
 ## [v4.0.6](https://github.com/NASA-PDS/harvest/tree/v4.0.6) (2025-04-03)
 
