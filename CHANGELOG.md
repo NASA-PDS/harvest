@@ -1,11 +1,12 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-07-15)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-07-21)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7...«unknown»)
 
 **Defects:**
 
+- Error `FIPS mode: only SunJSSE TrustManagers may be used` [\#247](https://github.com/NASA-PDS/harvest/issues/247) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 - Harvest failing due to AOSS OCU limits without retrying [\#239](https://github.com/NASA-PDS/harvest/issues/239) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 
 ## [v4.0.7](https://github.com/NASA-PDS/harvest/tree/v4.0.7) (2025-04-21)
