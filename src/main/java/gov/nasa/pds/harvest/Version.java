@@ -8,7 +8,8 @@ public class Version extends gov.nasa.pds.registry.common.Version {
     }
     return self;
   }
-  protected String getName() {
+  @Override
+  public String getName() {
     return "harvest";
   }
 }
