@@ -1,6 +1,7 @@
 package gov.nasa.pds.harvest.cmd;
 
 import java.io.File;
+import java.security.ProviderException;
 import java.util.Arrays;
 import java.util.Map;
 import org.apache.commons.cli.CommandLine;
@@ -182,7 +183,7 @@ public class HarvestCmd implements CliCommand
         boolean overwriteFlag = cmdLine.hasOption("overwrite");
         
         if (!this.checkVersion (ConfigManager.exchangeRegistry(cfg.getRegistry()))) {
-          throw new RuntimeException("Exiting without executing command because version is too old.");
+          throw new ProviderException("Exiting without executing command because version is too old.");
         }
         // Registry manager
         RegistryManager.init(ConfigManager.exchangeRegistry(cfg.getRegistry()), overwriteFlag);
