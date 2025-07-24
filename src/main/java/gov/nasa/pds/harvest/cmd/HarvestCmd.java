@@ -3,6 +3,7 @@ package gov.nasa.pds.harvest.cmd;
 import java.io.File;
 import java.security.ProviderException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.cli.CommandLine;
 import org.apache.logging.log4j.LogManager;
@@ -141,9 +142,10 @@ public class HarvestCmd implements CliCommand
       // check the database for correct versions
       // print if not the correct version and to upgrade to latest tool
       boolean proceed = true;
+      HashMap<String,Boolean> found = new HashMap<String,Boolean>(Map.of("registry-common", Boolean.FALSE, "harvest", Boolean.FALSE));
       RestClient client = conFact.setIndexName(conFact.getIndexName() + "-versions").createRestClient();
       Request.Search fetchRequiredVersions = client.createSearchRequest()
-          .buildTheseIds(Arrays.asList("registry-common", "harvest"))
+          .buildTheseIds(found.keySet())
           .setReturnedFields(Arrays.asList("tool.name", "tool.version.major","tool.version.minor","tool.version.patch"));
       for (Map<String,Object> document : client.performRequest(fetchRequiredVersions).documents()) {
         @SuppressWarnings("unchecked")
@@ -154,11 +156,18 @@ public class HarvestCmd implements CliCommand
         gov.nasa.pds.registry.common.Version v = "registry-common".equals(name) ? 
             gov.nasa.pds.registry.common.Version.instance() : Version.instance();
         boolean ok = v.check(needed);
+        found.put(name, Boolean.TRUE);
         if (!ok) {
-          log.error("Your version of %s needs to be updated because your version %s is less than %s",
+          log.error("Your version of \"{}\" needs to be updated because your version {} is less than {}",
               name, v.value().toString(), needed.toString());
         }
         proceed &= ok;
+      }
+      for (Map.Entry<String,Boolean> item : found.entrySet()) {
+        if (!item.getValue().booleanValue()) {
+          log.error("The tool \"{}\" is not registered with this registry and cannot be used.", item.getKey());
+          proceed = false;
+        }
       }
       client.close();
       return proceed;
