@@ -31,7 +31,7 @@ public class ConfigManager
     indexNodeMap.put("sbnumd-registry", "PDS_SBN");
     indexNodeMap.put("psa-registry", "PSA");
     indexNodeMap.put("jaxa-registry", "JAXA");
-    indexNodeMap.put("dev-registry", "PDS_ENG_DEV");
+    indexNodeMap.put("dev-registry-structured", "PDS_ENG_DEV");
   }
     static public List<FileRefRule> exchangeFileRef (List<FileRefType> xml2beans) {
       ArrayList<FileRefRule> beans = new ArrayList<FileRefRule>();
