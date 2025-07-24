@@ -1,10 +1,12 @@
 package gov.nasa.pds.harvest.cmd;
 
 import java.io.File;
-
+import java.util.Arrays;
+import java.util.Map;
 import org.apache.commons.cli.CommandLine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import gov.nasa.pds.harvest.Version;
 import gov.nasa.pds.harvest.cfg.BundleType;
 import gov.nasa.pds.harvest.cfg.ConfigManager;
 import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
@@ -21,6 +23,10 @@ import gov.nasa.pds.harvest.util.CounterMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 import gov.nasa.pds.harvest.util.log.LogUtils;
 import gov.nasa.pds.harvest.util.out.WriterManager;
+import gov.nasa.pds.registry.common.ConnectionFactory;
+import gov.nasa.pds.registry.common.Request;
+import gov.nasa.pds.registry.common.RestClient;
+import gov.nasa.pds.registry.common.Version.Semantic;
 import gov.nasa.pds.registry.common.meta.BasicMetadataExtractor;
 import gov.nasa.pds.registry.common.util.ArchiveStatus;
 
@@ -130,6 +136,32 @@ public class HarvestCmd implements CliCommand
         }
     }
     
+    private boolean checkVersion(ConnectionFactory conFact) throws Exception {
+      // check the database for correct versions
+      // print if not the correct version and to upgrade to latest tool
+      boolean proceed = true;
+      RestClient client = conFact.setIndexName(conFact.getIndexName() + "-versions").createRestClient();
+      Request.Search fetchRequiredVersions = client.createSearchRequest()
+          .buildTheseIds(Arrays.asList("registry-common", "harvest"))
+          .setReturnedFields(Arrays.asList("tool.name", "tool.version.major","tool.version.minor","tool.version.patch"));
+      for (Map<String,Object> document : client.performRequest(fetchRequiredVersions).documents()) {
+        @SuppressWarnings("unchecked")
+        Map<String,Object> tool = (Map<String,Object>)document.get("tool");
+        @SuppressWarnings("unchecked")
+        Semantic needed = Version.instance().value((Map<String,Integer>)tool.get("version"));
+        String name = tool.get("name").toString();
+        gov.nasa.pds.registry.common.Version v = "registry-common".equals(name) ? 
+            gov.nasa.pds.registry.common.Version.instance() : Version.instance();
+        boolean ok = v.check(needed);
+        if (!ok) {
+          log.error("Your version of %s needs to be updated because your version %s is less than %s",
+              name, v.value().toString(), needed.toString());
+        }
+        proceed &= ok;
+      }
+      client.close();
+      return proceed;
+    }
     
     
     /**
@@ -149,6 +181,9 @@ public class HarvestCmd implements CliCommand
         
         boolean overwriteFlag = cmdLine.hasOption("overwrite");
         
+        if (!this.checkVersion (ConfigManager.exchangeRegistry(cfg.getRegistry()))) {
+          throw new RuntimeException("Exiting without executing command because version is too old.");
+        }
         // Registry manager
         RegistryManager.init(ConfigManager.exchangeRegistry(cfg.getRegistry()), overwriteFlag);
         log.info("Connecting to Elasticsearch");
