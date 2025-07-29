@@ -78,7 +78,6 @@ public class HarvestCli
             System.exit(3);
         }        
     }
-    
 
     /**
      * Run commands based on command line parameters.
@@ -131,8 +130,7 @@ public class HarvestCli
      */
     public static void printVersion()
     {
-        String version = HarvestCli.class.getPackage().getImplementationVersion();
-        System.out.println("Harvest version: " + version);
+        System.out.println("Harvest version: " + Version.instance().toString());
         Attributes attrs = ManifestUtils.getAttributes();
         if(attrs != null)
         {
