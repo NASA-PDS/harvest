@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 
-import gov.nasa.pds.registry.common.util.CloseUtils;
+import gov.nasa.pds.registry.common.util.FieldMapSet;
 import org.w3c.dom.Document;
 import gov.nasa.pds.harvest.cfg.BundleType;
 import gov.nasa.pds.harvest.cfg.ConfigManager;
@@ -23,7 +23,6 @@ import gov.nasa.pds.registry.common.es.service.CollectionInventoryWriter;
 import gov.nasa.pds.registry.common.meta.CollectionMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
-import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 
 /**
@@ -89,19 +88,14 @@ public class CollectionProcessor extends BaseProcessor
         collectionCount = 0;
 
         File bundleDir = new File(bCfg.getDir());
-        Stream<Path> stream = null;
 
-        try {
-            stream = Files.find(bundleDir.toPath(), 2, new CollectionMatcher(), FileVisitOption.FOLLOW_LINKS);
+        try (Stream<Path> stream = Files.find(bundleDir.toPath(), 2, new CollectionMatcher(), FileVisitOption.FOLLOW_LINKS)) {
             Iterator<Path> it = stream.iterator();
 
             while (it.hasNext()) {
                 onCollection(it.next().toFile(), bCfg);
             }
-        } finally {
-            CloseUtils.close(stream);
         }
-
         return collectionCount;
     }
 
@@ -133,12 +127,12 @@ public class CollectionProcessor extends BaseProcessor
         // Collection filter
         List<String> lids = ConfigManager.exchangeLids (bCfg.getCollection());
         List<String> lidvids = ConfigManager.exchangeLidvids (bCfg.getCollection());
-        if(!lids.isEmpty() && !lids.contains(meta.lid)) return;
-        if(!lidvids.isEmpty() && !lidvids.contains(meta.lidvid)) return;
+        if(!lids.isEmpty() && !lids.contains(meta.lid())) return;
+        if(!lidvids.isEmpty() && !lidvids.contains(meta.lidvid())) return;
 
         // Ignore collections not listed in bundles
         LidVidCache cache = RefsCache.getInstance().getCollectionRefsCache();
-        if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) return;
+        if(!cache.containsLidVid(meta.lidvid()) && !cache.containsLid(meta.lid())) return;
         
         log.info("Processing collection " + file.getAbsolutePath());
         collectionCount++;
@@ -147,11 +141,11 @@ public class CollectionProcessor extends BaseProcessor
         Counter counter = RegistryManager.getInstance().getCounter();
 
         boolean overwriteMode = RegistryManager.getInstance().isOverwrite();
-        boolean collectionAlreadyRegistered = dao.idExists(meta.lidvid);
+        boolean collectionAlreadyRegistered = dao.idExists(meta.lidvid());
 
         if(collectionAlreadyRegistered && !overwriteMode)
         {
-            log.warn("Collection " + meta.lidvid + " already registered. Skipping.");
+            log.warn("Collection " + meta.lidvid() + " already registered. Skipping.");
             
             // Only cache but don't write product references
             processInventoryFiles(file, doc, meta, false);
@@ -161,22 +155,15 @@ public class CollectionProcessor extends BaseProcessor
         }
         
         // Internal references
-        refExtractor.addRefs(meta.intRefs, doc);
+        FieldMapSet intRefs = new FieldMapSet();
+        refExtractor.addRefs(intRefs, doc);
+        meta.updateInternalReferences(intRefs.all());
         
-        // Extract fields by XPath (if configured)
-        xpathExtractor.extract(doc, meta.fields);
-        
-        // Extract all fields as key-value pairs
-        XmlNamespaces nsInfo = autogenExtractor.extract(file, meta.fields);
-        
-        // Search fields
-        searchExtractor.extract(doc, meta.fields);
-
         // File information (name, size, checksum)
         fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef(config.getFileInfo().getFileRef()));
-        
+        meta.setProduct(doc, this.metaNormalizer);
         // Save metadata
-        save(meta, nsInfo);
+        save(meta);
         
         // Cache and write product references
         processInventoryFiles(file, doc, meta, true);
@@ -204,7 +191,7 @@ public class CollectionProcessor extends BaseProcessor
             if(write)
             {
                 // Write inventory refs.
-                invWriter.writeCollectionInventory(meta.lidvid, invFile, jobId);
+                invWriter.writeCollectionInventory(meta.lidvid(), invFile, jobId);
                 // Cache non-registered products.
                 invProc.cacheNonRegisteredInventory(invFile);
             }

@@ -94,7 +94,7 @@ public class HarvestCli
         {
             String msg = ExceptionUtils.getMessage(ex);
             Logger log = LogManager.getLogger(this.getClass());
-            log.error(msg);
+            log.error(msg, ex);
             log.debug("for the stack trace", ex);
             return false;
         }
