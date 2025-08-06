@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 
-import gov.nasa.pds.registry.common.util.CloseUtils;
+import gov.nasa.pds.registry.common.util.FieldMapSet;
 import org.w3c.dom.Document;
 
 import gov.nasa.pds.harvest.dao.RegistryManager;
@@ -22,7 +22,6 @@ import gov.nasa.pds.harvest.dao.RegistryDao;
 import gov.nasa.pds.registry.common.meta.BundleMetadataExtractor;
 import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
-import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 
 /**
@@ -86,16 +85,12 @@ public class BundleProcessor extends BaseProcessor
         this.bundleCfg = bCfg;
 
         File bundleDir = new File(bCfg.getDir());
-        Stream<Path> stream = null;
 
-        try {
-            stream = Files.find(bundleDir.toPath(), 1, new BundleMatcher(), FileVisitOption.FOLLOW_LINKS);
+        try (Stream<Path> stream = Files.find(bundleDir.toPath(), 1, new BundleMatcher(), FileVisitOption.FOLLOW_LINKS)) {
             Iterator<Path> it = stream.iterator();
             while (it.hasNext()) {
                 onBundle(it.next().toFile());
             }
-        } finally {
-            CloseUtils.close(stream);
         }
 
         return bundleCount;
@@ -131,7 +126,7 @@ public class BundleProcessor extends BaseProcessor
         Metadata meta = basicExtractor.extract(file, doc, this.archive_status);
         meta.setNodeName(ConfigManager.exchangeIndexForNode(RegistryManager.getInstance().getIndexName()));
         
-        if(!bundleCfg.getVersions().equalsIgnoreCase("all") && !bundleCfg.getVersions().contains(meta.strVid)) return;
+        if(!bundleCfg.getVersions().equalsIgnoreCase("all") && !bundleCfg.getVersions().contains(meta.vid())) return;
 
         log.info("Processing bundle " + file.getAbsolutePath());
         bundleCount++;
@@ -139,37 +134,30 @@ public class BundleProcessor extends BaseProcessor
         RegistryDao dao = RegistryManager.getInstance().getRegistryDao(); 
         Counter counter = RegistryManager.getInstance().getCounter();
 
-        boolean bundleAlreadyRegistered = dao.idExists(meta.lidvid);
+        boolean bundleAlreadyRegistered = dao.idExists(meta.lidvid());
         boolean overwriteMode = RegistryManager.getInstance().isOverwrite();
 
         if(bundleAlreadyRegistered && !overwriteMode)
         {
-            log.warn("Bundle " + meta.lidvid + " already registered. Skipping.");
+            log.warn("Bundle " + meta.lidvid() + " already registered. Skipping.");
             addCollectionRefs(meta, doc);
             counter.skippedFileCount++;
             return;
         }
         
         // Internal references
-        refExtractor.addRefs(meta.intRefs, doc);
+        FieldMapSet intRefs = new FieldMapSet();
+        refExtractor.addRefs(intRefs, doc);
+        meta.updateInternalReferences(intRefs.all());
         
         // Collection references
         addCollectionRefs(meta, doc);
         
-        // Extract fields by XPaths (if configured)
-        xpathExtractor.extract(doc, meta.fields);
-        
-        // All fields as key-value pairs
-        XmlNamespaces nsInfo = autogenExtractor.extract(file, meta.fields);
-        
-        // Search fields
-        searchExtractor.extract(doc, meta.fields);
-        
         // File information (name, size, checksum)
         fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef (config.getFileInfo().getFileRef()));
-        
+        meta.setProduct(doc, this.metaNormalizer);
         // Save data
-        save(meta, nsInfo);
+        save(meta);
     }
 
     
@@ -182,7 +170,10 @@ public class BundleProcessor extends BaseProcessor
             if(!bme.isPrimary && config.getReferences().isPrimaryOnly()) continue;
             
             cacheRefs(bme);
-            bundleExtractor.addRefs(meta.intRefs, bme);
+            FieldMapSet intRefs = new FieldMapSet();
+            bundleExtractor.addRefs(intRefs, bme);
+            meta.updateInternalReferences(intRefs.all());
+
         }
     }
     

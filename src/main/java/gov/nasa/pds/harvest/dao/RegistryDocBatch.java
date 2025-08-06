@@ -11,7 +11,7 @@ import gov.nasa.pds.registry.common.ConnectionFactory;
 import gov.nasa.pds.registry.common.RestClient;
 import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.Tuple;
-import gov.nasa.pds.registry.common.util.json.RegistryDocBuilder;
+import gov.nasa.pds.registry.common.util.json.Serializer;
 
 /**
  * A batch of NJSON documents to be loaded into Elasticsearch
@@ -72,11 +72,14 @@ public class RegistryDocBatch
     }
     public void write(ConnectionFactory conFact, Metadata meta, String jobId) throws Exception
     {
+      List<String> asJson;
         NJsonItem item = new NJsonItem();
-        item.lidvid = meta.lidvid;
-        item.prodClass = meta.prodClass;
-        item.pkJson = RegistryDocBuilder.createPKJson(meta);
-        item.dataJson = RegistryDocBuilder.createDataJson(meta, jobId);
+        Serializer.Pair pair = meta.asBulkPair(jobId);
+        asJson = new Serializer(false).asBulkPair(pair);
+        item.lidvid = pair.document.get("lidvid").toString();
+        item.prodClass = pair.document.get("product_class").toString();
+        item.pkJson = asJson.get(0);
+        item.dataJson = asJson.get(1);
         this.updateIndex(conFact, item.dataJson);
         items.add(item);
     }
