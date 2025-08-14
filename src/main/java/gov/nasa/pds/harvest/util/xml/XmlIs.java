@@ -23,7 +23,7 @@ public class XmlIs {
         ParseOptions options = new ParseOptions();
         options.withLineNumbering(true);
         options.withXIncludeAware(false);
-        Source source = new SAXSource(new InputSource(new BOMInputStream(new FileInputStream(filename))));
+        Source source = new SAXSource(new InputSource(BOMInputStream.builder().setInputStream(new FileInputStream(filename)).get()));
         TreeInfo docInfo = configuration.buildDocumentTree(source , options);
         NodeInfo ia=null,lid=null,pcls=null;
         for (NodeInfo top : docInfo.getRootNode().children()) {

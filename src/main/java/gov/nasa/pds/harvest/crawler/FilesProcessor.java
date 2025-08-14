@@ -28,7 +28,6 @@ import gov.nasa.pds.registry.common.meta.Metadata;
 import gov.nasa.pds.registry.common.util.CloseUtils;
 import gov.nasa.pds.registry.common.util.FieldMapSet;
 import gov.nasa.pds.registry.common.util.xml.XmlDomUtils;
-import gov.nasa.pds.registry.common.util.xml.XmlNamespaces;
 
 
 /**
