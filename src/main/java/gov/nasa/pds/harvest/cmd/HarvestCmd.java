@@ -1,10 +1,12 @@
 package gov.nasa.pds.harvest.cmd;
 
 import java.io.File;
-
+import java.security.ProviderException;
+import java.util.Arrays;
 import org.apache.commons.cli.CommandLine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import gov.nasa.pds.harvest.Version;
 import gov.nasa.pds.harvest.cfg.BundleType;
 import gov.nasa.pds.harvest.cfg.ConfigManager;
 import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
@@ -128,9 +130,7 @@ public class HarvestCmd implements CliCommand
         {
             processManifest(path);
         }
-    }
-    
-    
+    }   
     
     /**
      * Parse command-line parameters and configuration file to initialize
@@ -149,6 +149,12 @@ public class HarvestCmd implements CliCommand
         
         boolean overwriteFlag = cmdLine.hasOption("overwrite");
         
+        if (!Version.instance().checkVersion(ConfigManager.exchangeRegistry(cfg.getRegistry()),
+            Arrays.asList(
+                gov.nasa.pds.registry.common.Version.instance(),
+                Version.instance()))) {
+          throw new ProviderException("Exiting without executing command because version is too old.");
+        }
         // Registry manager
         RegistryManager.init(ConfigManager.exchangeRegistry(cfg.getRegistry()), overwriteFlag);
         log.info("Connecting to Elasticsearch");

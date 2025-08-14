@@ -78,7 +78,6 @@ public class HarvestCli
             System.exit(3);
         }        
     }
-    
 
     /**
      * Run commands based on command line parameters.
@@ -95,7 +94,7 @@ public class HarvestCli
         {
             String msg = ExceptionUtils.getMessage(ex);
             Logger log = LogManager.getLogger(this.getClass());
-            log.error(msg);
+            log.error(msg, ex);
             log.debug("for the stack trace", ex);
             return false;
         }
@@ -131,8 +130,7 @@ public class HarvestCli
      */
     public static void printVersion()
     {
-        String version = HarvestCli.class.getPackage().getImplementationVersion();
-        System.out.println("Harvest version: " + version);
+        System.out.println("Harvest version: " + Version.instance().toString());
         Attributes attrs = ManifestUtils.getAttributes();
         if(attrs != null)
         {
