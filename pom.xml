@@ -173,7 +173,7 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>3.5.4</version>
+        <version>3.5.5</version>
         <configuration>
           <mainClass>gov.nasa.pds.harvest.HarvestMain</mainClass>
           <layout>JAR</layout>
