@@ -79,6 +79,7 @@ jobs:
                         up --detach --quiet-pull
                     cd ../../
                     pwd
+                    mvn clean install
                     tar xvzf ./target/harvest-*-bin.tar.gz
                     curl -L https://github.com/NASA-PDS/registry-ref-data/releases/download/Latest/custom-datasets.tar.gz -o custom-datasets.tar.gz
                     tar tvzf custom-datasets.tar.gz
