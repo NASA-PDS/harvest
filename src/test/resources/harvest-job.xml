@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<harvest nodeName="PDS_ENG">
+<registry auth="src/test/resources/registry-auth.txt">file:./src/test/resources/registry.xml</registry>
+<load>
+  <directories>
+    <path>./custom-datasets</path>
+  </directories>
+</load>
+<fileInfo>
+  <!-- UPDATE with your own local path and base url where pds4 archive is published -->
+  <fileRef replacePrefix="/data/geo/" with="https://pds-geosciences.wustl.edu/lunar/" />
+</fileInfo>
+</harvest>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<registry_connection index="geo-registry">
+  <server_url trust_self_signed="false">https://elasticsearch:9200</server_url>
+</registry_connection>
