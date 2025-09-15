@@ -78,11 +78,11 @@ jobs:
                         --ansi never --profile pds-core-registry --project-name registry \
                         up --detach --quiet-pull
                     cd ../../
-		    pwd
+                    pwd
                     tar xvzf ./target/harvest-*-bin.tar.gz
                     curl -L https://github.com/NASA-PDS/registry-ref-data/releases/download/Latest/custom-datasets.tar.gz -o custom-datasets.tar.gz
                     tar tvzf custom-datasets.tar.gz
-		    harvest-*/bin/harvest -c src/test/resource/harvest-job.xml
+                    harvest-*/bin/harvest -c src/test/resource/harvest-job.xml
                     cd registry/docker
                     docker compose \
                         --ansi never --profile int-registry-batch-loader --project-name registry \
