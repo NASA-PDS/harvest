@@ -77,7 +77,7 @@ jobs:
                     docker compose \
                         --ansi never --profile pds-core-registry --project-name registry \
                         up --detach --quiet-pull
-                    tar xvzf target/harvest-*-bin.tar.gz
+                    tar xvzf ./target/harvest-*-bin.tar.gz
 		    curl https://github.com/NASA-PDS/registry-ref-data/releases/download/Latest/custom-datasets.tar.gz -o custom-datasets.tar.gz -L
                     tar tvzf custom-datasets.tar.gz
                     pwd
