@@ -1,13 +1,22 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-09-15)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-09-17)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7...«unknown»)
+
+**Requirements:**
+
+- As a user, I want to ingest all XML attribute values as string, by default [\#262](https://github.com/NASA-PDS/harvest/issues/262)
+- As a user, I want harvest to raise an error if an attribute is not found in a local data dictionary \(LDD\) [\#261](https://github.com/NASA-PDS/harvest/issues/261)
 
 **Defects:**
 
 - Error `FIPS mode: only SunJSSE TrustManagers may be used` [\#247](https://github.com/NASA-PDS/harvest/issues/247) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 - Harvest failing due to AOSS OCU limits without retrying [\#239](https://github.com/NASA-PDS/harvest/issues/239) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
+
+**Other closed issues:**
+
+- Implement interim workaround to round down leap seconds in date times [\#265](https://github.com/NASA-PDS/harvest/issues/265)
 
 ## [v4.0.7](https://github.com/NASA-PDS/harvest/tree/v4.0.7) (2025-04-21)
 
