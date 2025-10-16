@@ -16,18 +16,16 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * Unnecessary object to keep legacy format.
- * 
- * <p>Java class for bundles_type complex type</p>.
+ * <p>Java class for compressed_type complex type</p>.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
  * <pre>{@code
- * <complexType name="bundles_type">
+ * <complexType name="compressed_type">
  *   <complexContent>
  *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       <sequence>
- *         <element name="bundle" type="{}bundle_type" maxOccurs="unbounded"/>
+ *         <element name="files" type="{}compressed_files_type" maxOccurs="unbounded"/>
  *       </sequence>
  *     </restriction>
  *   </complexContent>
@@ -37,44 +35,44 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "bundles_type", propOrder = {
-    "bundle"
+@XmlType(name = "compressed_type", propOrder = {
+    "files"
 })
-public class BundlesType {
+public class CompressedType {
 
     @XmlElement(required = true)
-    protected List<BundleType> bundle;
+    protected List<CompressedFilesType> files;
 
     /**
-     * Gets the value of the bundle property.
+     * Gets the value of the files property.
      * 
      * <p>This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the bundle property.</p>
+     * This is why there is not a <CODE>set</CODE> method for the files property.</p>
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * </p>
      * <pre>
-     * getBundle().add(newItem);
+     * getFiles().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link BundleType }
+     * {@link CompressedFilesType }
      * </p>
      * 
      * 
      * @return
-     *     The value of the bundle property.
+     *     The value of the files property.
      */
-    public List<BundleType> getBundle() {
-        if (bundle == null) {
-            bundle = new ArrayList<>();
+    public List<CompressedFilesType> getFiles() {
+        if (files == null) {
+            files = new ArrayList<>();
         }
-        return this.bundle;
+        return this.files;
     }
 
 }
