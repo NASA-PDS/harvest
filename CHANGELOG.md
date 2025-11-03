@@ -1,12 +1,11 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-10-27)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-11-03)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7...«unknown»)
 
 **Requirements:**
 
-- As a user, I want to ingest all XML attribute values as string, by default [\#262](https://github.com/NASA-PDS/harvest/issues/262)
 - As a user, I want harvest to raise an error if an attribute is not found in a local data dictionary \(LDD\) [\#261](https://github.com/NASA-PDS/harvest/issues/261)
 
 **Defects:**
