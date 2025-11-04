@@ -1,8 +1,16 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-11-03)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-11-04)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7-hotfix-alpha...«unknown»)
+
+**Defects:**
+
+- GEO no longer able to harvest data due to cognito issue [\#279](https://github.com/NASA-PDS/harvest/issues/279) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
+
+## [v4.0.7-hotfix-alpha](https://github.com/NASA-PDS/harvest/tree/v4.0.7-hotfix-alpha) (2025-11-03)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7...v4.0.7-hotfix-alpha)
 
 **Requirements:**
 
