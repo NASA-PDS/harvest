@@ -1,12 +1,20 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-11-04)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-11-10)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7-hotfix-alpha...«unknown»)
+
+**Requirements:**
+
+- As a user, I want to ingest all XML attribute values \(not PDS4 attributes\) as string, by default [\#262](https://github.com/NASA-PDS/harvest/issues/262)
 
 **Defects:**
 
 - GEO no longer able to harvest data due to cognito issue [\#279](https://github.com/NASA-PDS/harvest/issues/279) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
+
+**Other closed issues:**
+
+- Add registry integration test to the harvest feature branch CICD test [\#266](https://github.com/NASA-PDS/harvest/issues/266)
 
 ## [v4.0.7-hotfix-alpha](https://github.com/NASA-PDS/harvest/tree/v4.0.7-hotfix-alpha) (2025-11-03)
 
