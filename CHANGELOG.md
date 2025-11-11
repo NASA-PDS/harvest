@@ -1,6 +1,6 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-11-10)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-11-11)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7-hotfix-alpha...«unknown»)
 
@@ -10,6 +10,7 @@
 
 **Defects:**
 
+- Harvest cannot parse Date without time [\#283](https://github.com/NASA-PDS/harvest/issues/283) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 - GEO no longer able to harvest data due to cognito issue [\#279](https://github.com/NASA-PDS/harvest/issues/279) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
 
 **Other closed issues:**
