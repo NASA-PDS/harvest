@@ -126,11 +126,11 @@ public class RegistryDocBatch {
     for (Entry<String, Integer> entry : history.entrySet()) {
       if (entry.getValue() > 1) {
         if (first) {
-          log.fatal(
+          log.debug(
               "The harvested collection has duplicate lidvids. Double check content of these lidvids:");
           first = false;
         }
-        log.fatal("   Found " + entry.getValue() + " of lidvid " + entry.getKey());
+        log.debug("   Found " + entry.getValue() + " of lidvid " + entry.getKey());
       }
     }
     if (!first) {
@@ -138,7 +138,7 @@ public class RegistryDocBatch {
       for (Integer count : history.values()) {
         total += count;
       }
-      log.fatal("   Total number of duplicate lidvids: " + (total - history.size()));
+      log.debug("   Total number of duplicate lidvids: " + (total - history.size()));
     }
   }
 }
