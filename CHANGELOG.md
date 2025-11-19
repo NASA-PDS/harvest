@@ -1,8 +1,8 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2025-11-19)
+## [release/5.0.0](https://github.com/NASA-PDS/harvest/tree/release/5.0.0) (2025-11-19)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7-hotfix-alpha...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7-hotfix-alpha...release/5.0.0)
 
 **Requirements:**
 
@@ -36,11 +36,19 @@
 
 ## [v4.0.7](https://github.com/NASA-PDS/harvest/tree/v4.0.7) (2025-04-21)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.6...v4.0.7)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.7...v4.0.7)
+
+## [release/4.0.7](https://github.com/NASA-PDS/harvest/tree/release/4.0.7) (2025-04-21)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.6...release/4.0.7)
 
 ## [v4.0.6](https://github.com/NASA-PDS/harvest/tree/v4.0.6) (2025-04-03)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.5...v4.0.6)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.6...v4.0.6)
+
+## [release/4.0.6](https://github.com/NASA-PDS/harvest/tree/release/4.0.6) (2025-04-03)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.5...release/4.0.6)
 
 **Improvements:**
 
@@ -61,7 +69,11 @@
 
 ## [v4.0.5](https://github.com/NASA-PDS/harvest/tree/v4.0.5) (2024-12-19)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.4...v4.0.5)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.5...v4.0.5)
+
+## [release/4.0.5](https://github.com/NASA-PDS/harvest/tree/release/4.0.5) (2024-12-19)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.4...release/4.0.5)
 
 **Requirements:**
 
@@ -103,11 +115,19 @@
 
 ## [v4.0.3](https://github.com/NASA-PDS/harvest/tree/v4.0.3) (2024-10-16)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.2...v4.0.3)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.3...v4.0.3)
+
+## [release/4.0.3](https://github.com/NASA-PDS/harvest/tree/release/4.0.3) (2024-10-16)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.2...release/4.0.3)
 
 ## [v4.0.2](https://github.com/NASA-PDS/harvest/tree/v4.0.2) (2024-10-16)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/ec2...v4.0.2)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.2...v4.0.2)
+
+## [release/4.0.2](https://github.com/NASA-PDS/harvest/tree/release/4.0.2) (2024-10-08)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/ec2...release/4.0.2)
 
 ## [ec2](https://github.com/NASA-PDS/harvest/tree/ec2) (2024-10-08)
 
@@ -124,7 +144,11 @@
 
 ## [v4.0.1](https://github.com/NASA-PDS/harvest/tree/v4.0.1) (2024-08-27)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.0...v4.0.1)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.0...v4.0.1)
+
+## [release/4.0.0](https://github.com/NASA-PDS/harvest/tree/release/4.0.0) (2024-08-27)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.0...release/4.0.0)
 
 ## [v4.0.0](https://github.com/NASA-PDS/harvest/tree/v4.0.0) (2024-08-27)
 
