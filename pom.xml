@@ -154,6 +154,20 @@
 
   <build>
     <plugins>
+      <plugin>
+        <!-- See https://central.sonatype.org/publish/publish-portal-maven/ for more details -->
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.9.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
+          <autoPublish>true</autoPublish>
+          <waitUntil>published</waitUntil>
+          <waitMaxTime>5400</waitMaxTime>
+		  <pollTimeoutSeconds>7200</pollTimeoutSeconds>
+        </configuration>
+      </plugin>
       <!-- Add POM version to JAR's manifest -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
