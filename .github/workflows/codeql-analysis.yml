@@ -33,7 +33,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
@@ -97,7 +97,7 @@ jobs:
       steps:
           -
               name: 💳 Checkout
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   lfs: true
                   fetch-depth: 0
