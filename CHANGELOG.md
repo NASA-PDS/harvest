@@ -1,36 +1,31 @@
 # Changelog
 
-## [release/5.0.0](https://github.com/NASA-PDS/harvest/tree/release/5.0.0) (2025-11-19)
+## [4.0.7](https://github.com/NASA-PDS/harvest/tree/4.0.7) (2025-11-26)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7-hotfix-alpha...release/5.0.0)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.0.0...4.0.7)
+
+**Defects:**
+
+- False positive Duplicate detected by harvest [\#285](https://github.com/NASA-PDS/harvest/issues/285) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
+
+## [v5.0.0](https://github.com/NASA-PDS/harvest/tree/v5.0.0) (2025-11-19)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7...v5.0.0)
 
 **Requirements:**
 
 - As a user, I want to ingest all XML attribute values \(not PDS4 attributes\) as string, by default [\#262](https://github.com/NASA-PDS/harvest/issues/262)
+- As a user, I want harvest to raise an error if an attribute is not found in a local data dictionary \(LDD\) [\#261](https://github.com/NASA-PDS/harvest/issues/261)
 
 **Defects:**
 
 - Harvest cannot parse Date without time [\#283](https://github.com/NASA-PDS/harvest/issues/283) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 - GEO no longer able to harvest data due to cognito issue [\#279](https://github.com/NASA-PDS/harvest/issues/279) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
-
-**Other closed issues:**
-
-- Add registry integration test to the harvest feature branch CICD test [\#266](https://github.com/NASA-PDS/harvest/issues/266)
-
-## [v4.0.7-hotfix-alpha](https://github.com/NASA-PDS/harvest/tree/v4.0.7-hotfix-alpha) (2025-11-03)
-
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7...v4.0.7-hotfix-alpha)
-
-**Requirements:**
-
-- As a user, I want harvest to raise an error if an attribute is not found in a local data dictionary \(LDD\) [\#261](https://github.com/NASA-PDS/harvest/issues/261)
-
-**Defects:**
-
 - Harvest failing due to AOSS OCU limits without retrying [\#239](https://github.com/NASA-PDS/harvest/issues/239) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 
 **Other closed issues:**
 
+- Add registry integration test to the harvest feature branch CICD test [\#266](https://github.com/NASA-PDS/harvest/issues/266)
 - Implement interim workaround to round down leap seconds in date times [\#265](https://github.com/NASA-PDS/harvest/issues/265)
 - Update harvest to support full XPath loading [\#244](https://github.com/NASA-PDS/harvest/issues/244)
 
