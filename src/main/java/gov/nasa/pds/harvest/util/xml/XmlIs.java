@@ -14,7 +14,8 @@ import net.sf.saxon.xpath.XPathEvaluator;
 public class XmlIs {
   private static String ANY_TYPE = "logical_identifier";
   private static boolean interogate(String filename, String type) {
-    if (filename.endsWith (".xml") || filename.endsWith (".lblx")) {
+    String lcfn = filename.toLowerCase();
+    if (lcfn.endsWith (".xml") || lcfn.endsWith (".lblx")) {
       try {
         XPathEvaluator xpath = new XPathEvaluator();
         Configuration configuration = xpath.getConfiguration();
