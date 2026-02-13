@@ -16,18 +16,19 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * Unnecessary object to keep legacy format.
+ * Set file access right by regular expression. It sets the first
+ *         regular expression that matches or defaults to open.
  * 
- * <p>Java class for bundles_type complex type</p>.
+ * <p>Java class for access_type complex type</p>.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
  * <pre>{@code
- * <complexType name="bundles_type">
+ * <complexType name="access_type">
  *   <complexContent>
  *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       <sequence>
- *         <element name="bundle" type="{}bundle_type" maxOccurs="unbounded"/>
+ *         <element name="right" type="{}access_right_type" maxOccurs="unbounded"/>
  *       </sequence>
  *     </restriction>
  *   </complexContent>
@@ -37,44 +38,44 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "bundles_type", propOrder = {
-    "bundle"
+@XmlType(name = "access_type", propOrder = {
+    "right"
 })
-public class BundlesType {
+public class AccessType {
 
     @XmlElement(required = true)
-    protected List<BundleType> bundle;
+    protected List<AccessRightType> right;
 
     /**
-     * Gets the value of the bundle property.
+     * Gets the value of the right property.
      * 
      * <p>This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the bundle property.</p>
+     * This is why there is not a <CODE>set</CODE> method for the right property.</p>
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * </p>
      * <pre>
-     * getBundle().add(newItem);
+     * getRight().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link BundleType }
+     * {@link AccessRightType }
      * </p>
      * 
      * 
      * @return
-     *     The value of the bundle property.
+     *     The value of the right property.
      */
-    public List<BundleType> getBundle() {
-        if (bundle == null) {
-            bundle = new ArrayList<>();
+    public List<AccessRightType> getRight() {
+        if (right == null) {
+            right = new ArrayList<>();
         }
-        return this.bundle;
+        return this.right;
     }
 
 }
