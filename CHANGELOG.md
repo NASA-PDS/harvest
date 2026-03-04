@@ -1,11 +1,12 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2026-02-11)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2026-03-04)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.0.0...«unknown»)
 
 **Requirements:**
 
+- harvest successfully ingests nonexistent LDD attributes when it should error out [\#292](https://github.com/NASA-PDS/harvest/issues/292)
 - As a user, I want harvest to raise an error if an attribute is not found in a local data dictionary \(LDD\) [\#261](https://github.com/NASA-PDS/harvest/issues/261)
 
 **Defects:**
