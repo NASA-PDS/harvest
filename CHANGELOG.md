@@ -1,6 +1,6 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2026-03-30)
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2026-05-05)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.0.0...«unknown»)
 
@@ -12,6 +12,7 @@
 **Defects:**
 
 - False positive Duplicate detected by harvest [\#285](https://github.com/NASA-PDS/harvest/issues/285) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
+- Harvest LDD errors don't provide enough context to know what is going on [\#259](https://github.com/NASA-PDS/harvest/issues/259) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 - Harvest setting pds:Time\_Coordinates.pds:stop\_date\_time to bogus value when value is missing from label [\#144](https://github.com/NASA-PDS/harvest/issues/144) [[s.medium](https://github.com/NASA-PDS/harvest/labels/s.medium)]
 
 **Other closed issues:**
