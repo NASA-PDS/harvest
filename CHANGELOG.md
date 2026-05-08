@@ -1,8 +1,8 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2026-05-06)
+## [release/5.1.0](https://github.com/NASA-PDS/harvest/tree/release/5.1.0) (2026-05-08)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.0.0...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.0.0...release/5.1.0)
 
 **Requirements:**
 
