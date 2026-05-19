@@ -19,7 +19,7 @@ public class TestRegistryDAO
     {
         ConnectionFactory conFact = null;//"app:/connections/direct/localhost.xml";
         
-        RegistryManager.init(conFact, true);
+        RegistryManager.init(conFact, true, false);
 
         try
         {
