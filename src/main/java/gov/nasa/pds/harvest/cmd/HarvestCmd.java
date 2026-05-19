@@ -148,9 +148,10 @@ public class HarvestCmd implements CliCommand
         initWriterManager(cmdLine);
         
         boolean overwriteFlag = cmdLine.hasOption("overwrite");
-        
+        boolean forceFlag = cmdLine.hasOption("force");
+
         // Registry manager
-        RegistryManager.init(ConfigManager.exchangeRegistry(cfg.getRegistry()), overwriteFlag);
+        RegistryManager.init(ConfigManager.exchangeRegistry(cfg.getRegistry()), overwriteFlag, forceFlag);
         log.info("Connecting to Elasticsearch");
         RegistryManager.getInstance().getFieldNameCache().update();
         
