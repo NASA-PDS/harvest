@@ -28,6 +28,7 @@ public class RegistryManager
     
     private ConnectionFactory conFact;
     private boolean overwriteFlag;
+    private boolean forceLoad;
     
     private RestClient client;
 
@@ -48,10 +49,11 @@ public class RegistryManager
      * @param cfg Registry (Elasticsearch) configuration parameters.
      * @throws Exception Generic exception
      */
-    private RegistryManager(ConnectionFactory conFact, boolean overwriteFlag) throws Exception
+    private RegistryManager(ConnectionFactory conFact, boolean overwriteFlag, boolean forceLoad) throws Exception
     {
         this.conFact = conFact;
         this.overwriteFlag = overwriteFlag;
+        this.forceLoad = forceLoad;
         this.counter = new Counter();
         Logger log = LogManager.getLogger(this.getClass());
         log.log(LogUtils.LEVEL_SUMMARY, "Connection: " + conFact);
@@ -76,10 +78,10 @@ public class RegistryManager
      * @param overwriteFlag overwrite registered products
      * @throws Exception Generic exception
      */
-    public static synchronized void init(ConnectionFactory conFact, boolean overwriteFlag) throws Exception
+    public static synchronized void init(ConnectionFactory conFact, boolean overwriteFlag, boolean forceLoad) throws Exception
     {
       if (instance == null) {
-        instance = new RegistryManager(conFact, overwriteFlag);
+        instance = new RegistryManager(conFact, overwriteFlag, forceLoad);
       }
     }
     
@@ -166,6 +168,7 @@ public class RegistryManager
     public MissingFieldsProcessor createMissingFieldsProcessor() throws Exception
     {
         SchemaUpdater su = new SchemaUpdater(conFact, ddDao, schemaDao);
+        su.setForceLoad(forceLoad);
         return new MissingFieldsProcessor(su, fieldNameCache);
     }
 
