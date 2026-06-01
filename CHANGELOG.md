@@ -1,5 +1,13 @@
 # Changelog
 
+## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2026-06-01)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.1.1...«unknown»)
+
+**Defects:**
+
+- Harvest does not ingest data [\#325](https://github.com/NASA-PDS/harvest/issues/325) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
+
 ## [v5.1.1](https://github.com/NASA-PDS/harvest/tree/v5.1.1) (2026-05-17)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.0.0...v5.1.1)
