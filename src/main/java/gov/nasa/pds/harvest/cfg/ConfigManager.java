@@ -10,6 +10,9 @@ import org.glassfish.jaxb.runtime.v2.JAXBContextFactory;
 import gov.nasa.pds.registry.common.ConnectionFactory;
 import gov.nasa.pds.registry.common.EstablishConnectionFactory;
 import gov.nasa.pds.registry.common.meta.cfg.FileRefRule;
+import gov.nasa.pds.registry.common.util.AccessRights;
+import gov.nasa.pds.registry.common.util.CompressionPattern;
+import gov.nasa.pds.registry.common.util.RightsPattern;
 
 /**
  * Harvest configuration file reader.
@@ -33,6 +36,24 @@ public class ConfigManager
     indexNodeMap.put("jaxa-registry", "JAXA");
     indexNodeMap.put("dev-registry", "PDS_ENG_DEV");
   }
+  static public List<RightsPattern> exchange (HarvestConfigurationType cfg) {
+    ArrayList<RightsPattern> result = new ArrayList<RightsPattern>();
+    if (cfg.access != null) {
+      for (AccessRightType right : cfg.access.right) {
+        result.add(new RightsPattern(right.pattern, AccessRights.valueOf(right.value.name().replace("-", "_"))));
+      }
+    }
+    return result;
+  }
+    static public List<CompressionPattern> exchange (CompressedType compressed) {
+      ArrayList<CompressionPattern> result = new ArrayList<CompressionPattern>();
+      if (compressed.files != null) {
+        for (CompressedFilesType cf : compressed.files) {
+          result.add(new CompressionPattern(cf.pattern, cf.algorithms.name(), cf.extnsion));
+        }
+      }
+      return result;
+    }
     static public List<FileRefRule> exchangeFileRef (List<FileRefType> xml2beans) {
       ArrayList<FileRefRule> beans = new ArrayList<FileRefRule>();
       FileRefRule rule;
@@ -77,6 +98,9 @@ public class ConfigManager
       }
       if (result.getAutogenFields().getClassFilter() == null) {
         result.getAutogenFields().setClassFilter(forge.createFilterType());
+      }
+      if (result.getCompressed() == null) {
+        result.setCompressed(forge.createCompressedType());
       }
       if (result.getFileInfo() == null) {
         result.setFileInfo(forge.createFileInfoType());
