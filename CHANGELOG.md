@@ -1,12 +1,8 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/harvest/tree/«unknown») (2026-06-02)
+## [release/5.1.2](https://github.com/NASA-PDS/harvest/tree/release/5.1.2) (2026-06-23)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.1.1...«unknown»)
-
-**Defects:**
-
-- Harvest does not ingest data [\#325](https://github.com/NASA-PDS/harvest/issues/325) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.1.1...release/5.1.2)
 
 ## [v5.1.1](https://github.com/NASA-PDS/harvest/tree/v5.1.1) (2026-05-17)
 
@@ -29,7 +25,11 @@
 
 ## [v5.0.0](https://github.com/NASA-PDS/harvest/tree/v5.0.0) (2025-11-19)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7...v5.0.0)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/5.0.0...v5.0.0)
+
+## [release/5.0.0](https://github.com/NASA-PDS/harvest/tree/release/5.0.0) (2025-11-19)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7-hotfix-alpha...release/5.0.0)
 
 **Requirements:**
 
@@ -39,21 +39,39 @@
 
 - Harvest cannot parse Date without time [\#283](https://github.com/NASA-PDS/harvest/issues/283) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 - GEO no longer able to harvest data due to cognito issue [\#279](https://github.com/NASA-PDS/harvest/issues/279) [[s.critical](https://github.com/NASA-PDS/harvest/labels/s.critical)]
-- Harvest failing due to AOSS OCU limits without retrying [\#239](https://github.com/NASA-PDS/harvest/issues/239) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
 
 **Other closed issues:**
 
 - Add registry integration test to the harvest feature branch CICD test [\#266](https://github.com/NASA-PDS/harvest/issues/266)
+
+## [v4.0.7-hotfix-alpha](https://github.com/NASA-PDS/harvest/tree/v4.0.7-hotfix-alpha) (2025-11-03)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7...v4.0.7-hotfix-alpha)
+
+**Defects:**
+
+- Harvest failing due to AOSS OCU limits without retrying [\#239](https://github.com/NASA-PDS/harvest/issues/239) [[s.high](https://github.com/NASA-PDS/harvest/labels/s.high)]
+
+**Other closed issues:**
+
 - Implement interim workaround to round down leap seconds in date times [\#265](https://github.com/NASA-PDS/harvest/issues/265)
 - Update harvest to support full XPath loading [\#244](https://github.com/NASA-PDS/harvest/issues/244)
 
 ## [v4.0.7](https://github.com/NASA-PDS/harvest/tree/v4.0.7) (2025-04-21)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.6...v4.0.7)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.7...v4.0.7)
+
+## [release/4.0.7](https://github.com/NASA-PDS/harvest/tree/release/4.0.7) (2025-04-21)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.6...release/4.0.7)
 
 ## [v4.0.6](https://github.com/NASA-PDS/harvest/tree/v4.0.6) (2025-04-03)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.5...v4.0.6)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.6...v4.0.6)
+
+## [release/4.0.6](https://github.com/NASA-PDS/harvest/tree/release/4.0.6) (2025-04-03)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.5...release/4.0.6)
 
 **Improvements:**
 
@@ -74,7 +92,11 @@
 
 ## [v4.0.5](https://github.com/NASA-PDS/harvest/tree/v4.0.5) (2024-12-19)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.4...v4.0.5)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.5...v4.0.5)
+
+## [release/4.0.5](https://github.com/NASA-PDS/harvest/tree/release/4.0.5) (2024-12-19)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.4...release/4.0.5)
 
 **Requirements:**
 
@@ -116,11 +138,19 @@
 
 ## [v4.0.3](https://github.com/NASA-PDS/harvest/tree/v4.0.3) (2024-10-16)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.2...v4.0.3)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.3...v4.0.3)
+
+## [release/4.0.3](https://github.com/NASA-PDS/harvest/tree/release/4.0.3) (2024-10-16)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.2...release/4.0.3)
 
 ## [v4.0.2](https://github.com/NASA-PDS/harvest/tree/v4.0.2) (2024-10-16)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/ec2...v4.0.2)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.2...v4.0.2)
+
+## [release/4.0.2](https://github.com/NASA-PDS/harvest/tree/release/4.0.2) (2024-10-08)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/ec2...release/4.0.2)
 
 ## [ec2](https://github.com/NASA-PDS/harvest/tree/ec2) (2024-10-08)
 
@@ -137,7 +167,11 @@
 
 ## [v4.0.1](https://github.com/NASA-PDS/harvest/tree/v4.0.1) (2024-08-27)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.0...v4.0.1)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/release/4.0.0...v4.0.1)
+
+## [release/4.0.0](https://github.com/NASA-PDS/harvest/tree/release/4.0.0) (2024-08-27)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.0...release/4.0.0)
 
 ## [v4.0.0](https://github.com/NASA-PDS/harvest/tree/v4.0.0) (2024-08-27)
 
