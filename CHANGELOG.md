@@ -1,8 +1,8 @@
 # Changelog
 
-## [release/5.1.2](https://github.com/NASA-PDS/harvest/tree/release/5.1.2) (2026-06-23)
+## [v5.1.2](https://github.com/NASA-PDS/harvest/tree/v5.1.2) (2026-06-23)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.1.1...release/5.1.2)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.1.1...v5.1.2)
 
 ## [v5.1.1](https://github.com/NASA-PDS/harvest/tree/v5.1.1) (2026-05-17)
 
@@ -25,7 +25,7 @@
 
 ## [v5.0.0](https://github.com/NASA-PDS/harvest/tree/v5.0.0) (2025-11-19)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7-hotfix-alpha...v5.0.0)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7+hotfix.alpha...v5.0.0)
 
 **Requirements:**
 
@@ -40,9 +40,9 @@
 
 - Add registry integration test to the harvest feature branch CICD test [\#266](https://github.com/NASA-PDS/harvest/issues/266)
 
-## [v4.0.7-hotfix-alpha](https://github.com/NASA-PDS/harvest/tree/v4.0.7-hotfix-alpha) (2025-11-03)
+## [v4.0.7+hotfix.alpha](https://github.com/NASA-PDS/harvest/tree/v4.0.7+hotfix.alpha) (2025-11-03)
 
-[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7...v4.0.7-hotfix-alpha)
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v4.0.7...v4.0.7+hotfix.alpha)
 
 **Defects:**
 
