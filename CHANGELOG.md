@@ -1,5 +1,9 @@
 # Changelog
 
+## [release/5.1.3](https://github.com/NASA-PDS/harvest/tree/release/5.1.3) (2026-07-10)
+
+[Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.1.2...release/5.1.3)
+
 ## [v5.1.2](https://github.com/NASA-PDS/harvest/tree/v5.1.2) (2026-06-23)
 
 [Full Changelog](https://github.com/NASA-PDS/harvest/compare/v5.1.1...v5.1.2)
