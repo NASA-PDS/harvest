@@ -20,20 +20,19 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * The xpaths to apply to PDS4 labels for determining harvesting.
- * 
- * <p>Java class for xpath_maps_type complex type</p>.
+ * <p>Java class for compressed_files_type complex type</p>.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
  * <pre>{@code
- * <complexType name="xpath_maps_type">
+ * <complexType name="compressed_files_type">
  *   <complexContent>
  *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       <sequence>
- *         <element name="xpathMap" type="{}xpath_map_type" maxOccurs="unbounded"/>
+ *         <element name="extnsion" type="{http://www.w3.org/2001/XMLSchema}normalizedString" maxOccurs="unbounded"/>
  *       </sequence>
- *       <attribute name="baseDir" use="required" type="{http://www.w3.org/2001/XMLSchema}normalizedString" />
+ *       <attribute name="pattern" use="required" type="{http://www.w3.org/2001/XMLSchema}normalizedString" />
+ *       <attribute name="algorithms" use="required" type="{}algorithm_enum" />
  *     </restriction>
  *   </complexContent>
  * </complexType>
@@ -42,72 +41,100 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "xpath_maps_type", propOrder = {
-    "xpathMap"
+@XmlType(name = "compressed_files_type", propOrder = {
+    "extnsion"
 })
-public class XpathMapsType {
+public class CompressedFilesType {
 
     @XmlElement(required = true)
-    protected List<XpathMapType> xpathMap;
-    @XmlAttribute(name = "baseDir", required = true)
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     @XmlSchemaType(name = "normalizedString")
-    protected String baseDir;
+    protected List<String> extnsion;
+    @XmlAttribute(name = "pattern", required = true)
+    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+    @XmlSchemaType(name = "normalizedString")
+    protected String pattern;
+    @XmlAttribute(name = "algorithms", required = true)
+    protected AlgorithmEnum algorithms;
 
     /**
-     * Gets the value of the xpathMap property.
+     * Gets the value of the extnsion property.
      * 
      * <p>This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the xpathMap property.</p>
+     * This is why there is not a <CODE>set</CODE> method for the extnsion property.</p>
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * </p>
      * <pre>
-     * getXpathMap().add(newItem);
+     * getExtnsion().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link XpathMapType }
+     * {@link String }
      * </p>
      * 
      * 
      * @return
-     *     The value of the xpathMap property.
+     *     The value of the extnsion property.
      */
-    public List<XpathMapType> getXpathMap() {
-        if (xpathMap == null) {
-            xpathMap = new ArrayList<>();
+    public List<String> getExtnsion() {
+        if (extnsion == null) {
+            extnsion = new ArrayList<>();
         }
-        return this.xpathMap;
+        return this.extnsion;
     }
 
     /**
-     * Gets the value of the baseDir property.
+     * Gets the value of the pattern property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getBaseDir() {
-        return baseDir;
+    public String getPattern() {
+        return pattern;
     }
 
     /**
-     * Sets the value of the baseDir property.
+     * Sets the value of the pattern property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setBaseDir(String value) {
-        this.baseDir = value;
+    public void setPattern(String value) {
+        this.pattern = value;
+    }
+
+    /**
+     * Gets the value of the algorithms property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link AlgorithmEnum }
+     *     
+     */
+    public AlgorithmEnum getAlgorithms() {
+        return algorithms;
+    }
+
+    /**
+     * Sets the value of the algorithms property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AlgorithmEnum }
+     *     
+     */
+    public void setAlgorithms(AlgorithmEnum value) {
+        this.algorithms = value;
     }
 
 }

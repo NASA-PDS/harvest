@@ -19,15 +19,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 /**
  * 
  * 
- * <p>Java class for product_type complex type</p>.
+ * <p>Java class for access_right_type complex type</p>.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
  * <pre>{@code
- * <complexType name="product_type">
+ * <complexType name="access_right_type">
  *   <complexContent>
  *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       <attribute name="dir" use="required" type="{http://www.w3.org/2001/XMLSchema}normalizedString" />
+ *       <attribute name="pattern" use="required" type="{http://www.w3.org/2001/XMLSchema}normalizedString" />
+ *       <attribute name="value" use="required" type="{}access_rights_enum" />
  *     </restriction>
  *   </complexContent>
  * </complexType>
@@ -36,36 +37,62 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "product_type")
-public class ProductType {
+@XmlType(name = "access_right_type")
+public class AccessRightType {
 
-    @XmlAttribute(name = "dir", required = true)
+    @XmlAttribute(name = "pattern", required = true)
     @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
     @XmlSchemaType(name = "normalizedString")
-    protected String dir;
+    protected String pattern;
+    @XmlAttribute(name = "value", required = true)
+    protected AccessRightsEnum value;
 
     /**
-     * Gets the value of the dir property.
+     * Gets the value of the pattern property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getDir() {
-        return dir;
+    public String getPattern() {
+        return pattern;
     }
 
     /**
-     * Sets the value of the dir property.
+     * Sets the value of the pattern property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setDir(String value) {
-        this.dir = value;
+    public void setPattern(String value) {
+        this.pattern = value;
+    }
+
+    /**
+     * Gets the value of the value property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link AccessRightsEnum }
+     *     
+     */
+    public AccessRightsEnum getValue() {
+        return value;
+    }
+
+    /**
+     * Sets the value of the value property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AccessRightsEnum }
+     *     
+     */
+    public void setValue(AccessRightsEnum value) {
+        this.value = value;
     }
 
 }
