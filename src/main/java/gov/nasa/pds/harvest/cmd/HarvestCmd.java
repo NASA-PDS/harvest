@@ -16,6 +16,7 @@ import gov.nasa.pds.harvest.crawler.ProductProcessor;
 import gov.nasa.pds.harvest.crawler.RefsCache;
 import gov.nasa.pds.harvest.dao.RegistryDocBatch;
 import gov.nasa.pds.harvest.dao.RegistryManager;
+import gov.nasa.pds.harvest.exception.HarvestException;
 import gov.nasa.pds.harvest.meta.XPathCacheLoader;
 import gov.nasa.pds.harvest.util.CounterMap;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
@@ -83,6 +84,10 @@ public class HarvestCmd implements CliCommand
             
             RegistryManager.getInstance().getRegistryWriter().flush();
             printSummary();
+            int failedCount = RegistryManager.getInstance().getCounter().failedFileCount;
+            if (failedCount > 0) {
+              throw new HarvestException(failedCount + " file(s) failed to load. See log for details.");
+            }
         }
         finally
         {
