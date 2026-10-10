@@ -26,6 +26,46 @@
 
   -->
 
+  <xs:simpleType name="access_rights_enum">
+	<xs:restriction base="xs:normalizedString">
+	  <xs:enumeration value="embargoed"/>
+      <xs:enumeration value="metadata-only"/>
+      <xs:enumeration value="open"/>
+      <xs:enumeration value="restricted"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="access_right_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="pattern" type="xs:normalizedString" use="required"/>
+    <xs:attribute name="value" type="access_rights_enum" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="access_type">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        Set file access right by regular expression. It sets the first
+        regular expression that matches or defaults to open.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="right" type="access_right_type"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="algorithm_enum">
+	<xs:restriction base="xs:normalizedString">
+	  <xs:enumeration value="none"/>
+      <xs:enumeration value="bzip"/>
+      <xs:enumeration value="fpack"/>
+      <xs:enumeration value="gzip"/>
+      <xs:enumeration value="zip"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:complexType name="autogen_fields_type">
     <xs:annotation>
       <xs:documentation xml:lang="en">
@@ -93,7 +133,21 @@
     <xs:attribute default="" name="lid" type="xs:normalizedString"/>
     <xs:attribute default="" name="lidvid" type="xs:normalizedString"/>
   </xs:complexType>
+  
+  <xs:complexType name="compressed_type">
+  	<xs:sequence>
+  	  <xs:element maxOccurs="unbounded" minOccurs="1" name="files" type="compressed_files_type"/>
+  	</xs:sequence>
+  </xs:complexType>
 
+  <xs:complexType name="compressed_files_type">
+  	<xs:sequence>
+  	  <xs:element maxOccurs="unbounded" minOccurs="1" name="extnsion" type="xs:normalizedString"/>
+  	</xs:sequence>
+  	<xs:attribute name="pattern" type="xs:normalizedString" use="required"/>
+  	<xs:attribute name="algorithms" type="algorithm_enum" use="required"/>
+  </xs:complexType>
+  
   <xs:complexType name="dirs_type">
     <xs:annotation>
       <xs:documentation xml:lang="en">
@@ -196,6 +250,8 @@
       <xs:element minOccurs="0" name="references" type="references_type"/>
       <xs:element name="registry" type="registry_type"/>
       <xs:element minOccurs="0" name="xpathMaps" type="xpath_maps_type"/>
+      <xs:element minOccurs="0" name="compressed" type="compressed_type"/>
+      <xs:element minOccurs="0" name="access" type="access_type"/>
     </xs:all>
   </xs:complexType>
 

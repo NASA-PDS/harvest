@@ -210,7 +210,8 @@ public class FilesProcessor extends BaseProcessor
         searchExtractor.extract(doc, meta.fields);
 
         // Extract file data
-        fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef(config.getFileInfo().getFileRef()));
+        fileDataExtractor.extract(file, meta, ConfigManager.exchangeFileRef(config.getFileInfo().getFileRef()),
+            ConfigManager.exchange(this.config), ConfigManager.exchange(this.config.getCompressed()));
         
         // Save data
         save(meta, nsInfo);
