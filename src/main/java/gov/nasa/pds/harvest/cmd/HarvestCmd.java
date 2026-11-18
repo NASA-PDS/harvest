@@ -8,9 +8,11 @@ import org.apache.logging.log4j.Logger;
 import gov.nasa.pds.harvest.cfg.BundleType;
 import gov.nasa.pds.harvest.cfg.ConfigManager;
 import gov.nasa.pds.harvest.cfg.HarvestConfigurationType;
+import gov.nasa.pds.harvest.crawler.AggregatesLast;
 import gov.nasa.pds.harvest.crawler.BundleProcessor;
 import gov.nasa.pds.harvest.crawler.CollectionProcessor;
 import gov.nasa.pds.harvest.crawler.Counter;
+import gov.nasa.pds.harvest.crawler.DeferredAggregates;
 import gov.nasa.pds.harvest.crawler.FilesProcessor;
 import gov.nasa.pds.harvest.crawler.ProductProcessor;
 import gov.nasa.pds.harvest.crawler.RefsCache;
@@ -41,6 +43,9 @@ public class HarvestCmd implements CliCommand
     private BundleProcessor bundleProc;
     private CollectionProcessor colProc;
     private ProductProcessor prodProc;
+    
+    // Bundles and collections, written after all other products of the run
+    private final DeferredAggregates aggregates = new DeferredAggregates();
     private String archive_status = BasicMetadataExtractor.DEFAULT_ARCHIVE_STATUS;
     
     /**
@@ -81,6 +86,9 @@ public class HarvestCmd implements CliCommand
             {
                 processManifests();
             }
+            
+            // Write bundles and collections after all other products
+            AggregatesLast.write(aggregates, RegistryManager.getInstance().getRegistryWriter());
             
             RegistryManager.getInstance().getRegistryWriter().flush();
             printSummary();
@@ -167,12 +175,12 @@ public class HarvestCmd implements CliCommand
         // Processors
         if(cfg.getLoad().getDirectories() != null || cfg.getLoad().getFiles() != null)
         {
-            filesProc = new FilesProcessor(cfg, this.archive_status);
+            filesProc = new FilesProcessor(cfg, this.archive_status, aggregates);
         }
         else if(cfg.getLoad().getBundles() != null)
         {
-            bundleProc = new BundleProcessor(cfg, this.archive_status);
-            colProc = new CollectionProcessor(cfg, this.archive_status);
+            bundleProc = new BundleProcessor(cfg, this.archive_status, aggregates);
+            colProc = new CollectionProcessor(cfg, this.archive_status, aggregates);
             prodProc = new ProductProcessor(cfg, this.archive_status);
         }
     }

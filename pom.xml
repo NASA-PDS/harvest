@@ -168,6 +168,16 @@
 		  <pollTimeoutSeconds>7200</pollTimeoutSeconds>
         </configuration>
       </plugin>
+      <!-- Unit tests that run the Harvest command read the data type mapping from HARVEST_HOME -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <environmentVariables>
+            <HARVEST_HOME>${project.basedir}/src/main/resources</HARVEST_HOME>
+          </environmentVariables>
+        </configuration>
+      </plugin>
       <!-- Add POM version to JAR's manifest -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

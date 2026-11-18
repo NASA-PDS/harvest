@@ -14,6 +14,27 @@ The documentation for the latest release of the Harvest Tool, including release 
 If you would like to get the latest documentation, including any updates since the last release, you can execute the "mvn site:run" command and view the documentation locally at http://localhost:8080/.
 
 
+## Order in which Harvest writes products
+
+The registry sweepers process a collection together with the products it lists, and do not revisit a collection once it is processed. Harvest therefore writes the bundles and collections of a run after all the other products of that run:
+
+1. All products that are not bundles or collections.
+2. The bundles, once the products are written and can be found by a search.
+3. The collections, each one together with its `registry-refs` documents (the product references from its inventory).
+
+This applies to every way of selecting labels (bundles, directories and file lists) and to `--overwrite`. It does not change which documents are written. Bundle and collection labels are read again when they are written, so memory use does not grow with the size of a collection inventory.
+
+If a run fails before the bundles and collections are written, none of them is written. This includes a run in which one or more files failed to load: Harvest reports the failures and the incomplete load stays visible (the products wait for their collection). Fix the failures and run Harvest again: products that are already registered are skipped, and the bundles and collections are then written.
+
+### Loads split across several runs
+
+Harvest can only order the labels of one run. When a load is split across several runs, for example one run per directory of products, follow this rule:
+
+> Load the products first. Harvest the bundle and collection labels last.
+
+A collection harvested before all of its products are loaded can be processed by the sweepers while it is incomplete.
+
+
 ## 👥 Contributing
 
 Within the NASA Planetary Data System, we value the health of our community as much as the code. Towards that end, we ask that you read and practice what's described in these documents:

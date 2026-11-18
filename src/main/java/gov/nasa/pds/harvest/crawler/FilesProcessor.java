@@ -50,15 +50,21 @@ public class FilesProcessor extends BaseProcessor
     private BundleMetadataExtractor bundleExtractor;
     private CollectionMetadataExtractor collectionExtractor;
     
+    // Bundles and collections are queued here and written after all other products
+    private final DeferredAggregates aggregates;
+    
     
     /**
      * Constructor
      * @param config Harvest configuration parameters (from a config file)
+     * @param archive_status archive status of the products
+     * @param aggregates queue for the bundles and collections, which are written after all other products
      * @throws Exception Generic exception
      */
-    public FilesProcessor(HarvestConfigurationType config, String archive_status) throws Exception
+    public FilesProcessor(HarvestConfigurationType config, String archive_status, DeferredAggregates aggregates) throws Exception
     {
         super(config, archive_status);
+        this.aggregates = aggregates;
         
         bundleExtractor = new BundleMetadataExtractor();
         collectionExtractor = new CollectionMetadataExtractor();
@@ -92,7 +98,7 @@ public class FilesProcessor extends BaseProcessor
         Iterator<Path> it = stream.iterator();
 
         while(it.hasNext()) {
-          onFile(it.next().toFile());
+          onFile(it.next().toFile(), true);
         }
       }
     }
@@ -116,7 +122,7 @@ public class FilesProcessor extends BaseProcessor
             {
                 if(line.length() == 0 || line.startsWith("#")) continue;
                 File file = new File(line.trim());
-                onFile(file);
+                onFile(file, true);
             }
         }
         finally
@@ -129,9 +135,11 @@ public class FilesProcessor extends BaseProcessor
     /**
      * Process one file
      * @param file PDS label XML file
+     * @param deferAggregates if true, bundles and collections are queued to be written after all other
+     * products instead of being processed now
      * @throws Exception Generic exception
      */
-    private void onFile(File file) throws Exception
+    private void onFile(File file, boolean deferAggregates) throws Exception
     {
         Document doc = null;
         Counter counter = RegistryManager.getInstance().getCounter();
@@ -161,6 +169,24 @@ public class FilesProcessor extends BaseProcessor
         if(!config.getProductFilter().getInclude().isEmpty() &&
             !config.getProductFilter().getInclude().contains(rootElement)) return;
         if(config.getProductFilter().getExclude().contains(rootElement)) return;
+        
+        // Bundles and collections are written after all other products. Only the file is kept: 
+        // the label (and the collection inventory) is read again when the aggregate is written.
+        if(deferAggregates)
+        {
+            if("Product_Bundle".equals(rootElement))
+            {
+                log.info("Deferring bundle until all other products are written: " + file.getAbsolutePath());
+                aggregates.deferBundle(() -> onFile(file, false));
+                return;
+            }
+            if("Product_Collection".equals(rootElement))
+            {
+                log.info("Deferring collection until all other products are written: " + file.getAbsolutePath());
+                aggregates.deferCollection(() -> onFile(file, false));
+                return;
+            }
+        }
         
         // Process metadata
         try
