@@ -12,12 +12,13 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import gov.nasa.pds.harvest.LogCapture;
+
 
 class AggregatesLastTest {
   private final List<String> events = new ArrayList<>();
-  private int failed = 0;
   private IOException flushFailure = null;
-  private IOException searchableFailure = null;
+  private boolean searchable = true;
 
   private final AggregatesLast.ProductWriter writer = new AggregatesLast.ProductWriter() {
     @Override
@@ -27,14 +28,9 @@ class AggregatesLastTest {
     }
 
     @Override
-    public void awaitSearchable() throws IOException {
+    public boolean awaitSearchable() {
       events.add("searchable");
-      if (searchableFailure != null) throw searchableFailure;
-    }
-
-    @Override
-    public int failedCount() {
-      return failed;
+      return searchable;
     }
   };
 
@@ -92,22 +88,29 @@ class AggregatesLastTest {
 
 
   @Test
-  void writesNothingWhenProductsDoNotBecomeSearchable() {
-    searchableFailure = new IOException("not searchable");
+  void warnsAndStillWritesBundlesAndCollectionsWhenProductsCannotBeConfirmedSearchable() throws Exception {
+    searchable = false;
 
-    assertThrows(IOException.class, () -> AggregatesLast.write(aggregates(), writer));
+    try (LogCapture log = new LogCapture()) {
+      assertTrue(AggregatesLast.write(aggregates(), writer));
 
-    assertEquals(Arrays.asList("flush", "searchable"), events);
+      assertEquals(1, log.warnings().size(), log.warnings().toString());
+      assertTrue(log.warnings().get(0).contains("searchable"), log.warnings().get(0));
+      assertEquals(new ArrayList<String>(), log.errors());
+    }
+
+    assertEquals(Arrays.asList("flush", "searchable", "bundle 1", "bundle 2", "flush", "collection 1",
+        "collection 2", "flush"), events);
   }
 
 
   @Test
-  void writesNothingWhenProductsFailedToLoad() throws Exception {
-    failed = 1;
+  void doesNotWarnWhenProductsAreSearchable() throws Exception {
+    try (LogCapture log = new LogCapture()) {
+      AggregatesLast.write(aggregates(), writer);
 
-    assertFalse(AggregatesLast.write(aggregates(), writer));
-
-    assertEquals(Arrays.asList("flush"), events);
+      assertEquals(new ArrayList<String>(), log.warnings());
+    }
   }
 
 

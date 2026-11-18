@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 import gov.nasa.pds.harvest.crawler.AggregatesLast;
 import gov.nasa.pds.harvest.crawler.Counter;
-import gov.nasa.pds.harvest.exception.HarvestException;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 import gov.nasa.pds.registry.common.ConnectionFactory;
 import gov.nasa.pds.registry.common.es.dao.DataLoader;
@@ -156,12 +155,6 @@ public class MetadataWriter implements Closeable, AggregatesLast.ProductWriter {
   }
 
 
-  @Override
-  public int failedCount() {
-    return counter.failedFileCount;
-  }
-
-
   /**
    * Wait until the documents of the last written batch can be found by a search.
    *
@@ -171,14 +164,12 @@ public class MetadataWriter implements Closeable, AggregatesLast.ProductWriter {
    * best effort for Serverless. With overwrite the documents already exist, so the check cannot
    * tell the old version from the new one.
    *
-   * @throws HarvestException if the documents are still not searchable after the timeout
+   * @return true if the documents were found, false if they could not be confirmed searchable
+   *         within the timeout; the caller continues in that case
    */
   @Override
-  public void awaitSearchable() throws Exception {
-    if (!searchableWait.await(lastWrittenIds)) {
-      throw new HarvestException("Written products are not searchable yet. "
-          + "Bundles and collections were not written. Run Harvest again to write them.");
-    }
+  public boolean awaitSearchable() {
+    return searchableWait.await(lastWrittenIds);
   }
 
 

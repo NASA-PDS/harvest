@@ -24,6 +24,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import gov.nasa.pds.harvest.LogCapture;
 import gov.nasa.pds.harvest.dao.RegistryManager;
 import gov.nasa.pds.harvest.dao.SearchableWait;
 import gov.nasa.pds.harvest.exception.HarvestException;
@@ -33,6 +34,8 @@ import gov.nasa.pds.harvest.util.out.WriterManager;
 /**
  * Runs the Harvest command against an in-memory registry and checks the order in which
  * documents are written: products, then bundles, then collections with their registry-refs.
+ * The order is a best effort: failed product files and a wait for searchable products that times
+ * out do not hold back the bundles and collections.
  */
 class HarvestOrderTest {
   private static final String BUNDLE = "urn:test:b::1.0";
@@ -177,48 +180,49 @@ class HarvestOrderTest {
   }
 
 
-  // A run that fails before the aggregates are written
+  // Best effort: nothing that Harvest wrote before is held back
 
   @Test
-  void failedProductLeavesNoBundleOrCollectionAndRerunCompletesTheLoad() throws Exception {
+  void failedProductStillWritesBundleAndCollectionAfterTheProductsAndExitsNonZero() throws Exception {
     write(root.resolve("c/p2.xml"), "<Product_Document>not xml");
     Path manifest = manifest("c/collection.xml", "bundle.xml", "c/p1.xml", "c/p2.xml");
 
-    assertThrows(HarvestException.class, () -> harvest(false, config(files(manifest))));
+    HarvestException failure = assertThrows(HarvestException.class, () -> harvest(false, config(files(manifest))));
 
-    assertEquals(Arrays.asList("product " + P1), registry.events);
-
-    // Fix the product and run again: products already registered are skipped
-    write(root.resolve("c/p2.xml"), productLabel("urn:test:b:c:p2"));
-    harvest(false, config(files(manifest)));
-
-    assertEquals(Arrays.asList("product " + P1, "product " + P2), registry.events.subList(0, 2).stream()
-        .sorted().collect(java.util.stream.Collectors.toList()));
-    assertEquals(Arrays.asList("bundle " + BUNDLE, "refs " + COLLECTION, "collection " + COLLECTION),
-        registry.events.subList(registry.events.size() - 3, registry.events.size()).stream()
-            .filter(e -> !e.equals("searchable")).collect(java.util.stream.Collectors.toList()));
+    assertTrue(failure.getMessage().contains("1 file(s) failed to load"), failure.getMessage());
+    assertEquals(Arrays.asList("product " + P1, "bundle " + BUNDLE, "refs " + COLLECTION,
+        "collection " + COLLECTION), withoutSearchable());
   }
 
 
   @Test
-  void registryFailureWhileWritingProductsLeavesNoBundleOrCollection() throws Exception {
+  void waitTimeoutLogsWarningAndStillWritesBundleAndCollectionAfterTheProducts() throws Exception {
+    Path manifest = manifest("c/collection.xml", "bundle.xml", "c/p1.xml", "c/p2.xml");
+    SearchableWait never = new SearchableWait(ids -> new HashSet<>(ids), 3, 1, millis -> {});
+
+    try (LogCapture log = new LogCapture()) {
+      harvest(false, config(files(manifest)), never);
+
+      assertTrue(log.warnings().stream().anyMatch(w -> w.contains("searchable")), log.warnings().toString());
+      assertEquals(Collections.emptyList(), log.errors());
+    }
+
+    assertAggregatesLast();
+    assertEquals(Arrays.asList("bundle " + BUNDLE, "collection " + COLLECTION, "product " + P1,
+        "product " + P2, "refs " + COLLECTION), sortedDocs());
+  }
+
+
+  // An exception that aborts the run before the aggregates stage: nothing more can run
+
+  @Test
+  void abortByExceptionWritesNoBundleOrCollectionAndPropagatesTheError() throws Exception {
     registry.failProductWrites = true;
     Path manifest = manifest("c/collection.xml", "bundle.xml", "c/p1.xml", "c/p2.xml");
 
     assertThrows(IOException.class, () -> harvest(false, config(files(manifest))));
 
     assertEquals(Collections.emptyList(), registry.events);
-  }
-
-
-  @Test
-  void productsThatNeverBecomeSearchableLeaveNoBundleOrCollection() throws Exception {
-    Path manifest = manifest("c/collection.xml", "bundle.xml", "c/p1.xml", "c/p2.xml");
-    SearchableWait never = new SearchableWait(ids -> new HashSet<>(ids), 3, 1, millis -> {});
-
-    assertThrows(HarvestException.class, () -> harvest(false, config(files(manifest)), never));
-
-    assertEquals(Arrays.asList("product " + P1, "product " + P2), registry.events);
   }
 
 
@@ -240,9 +244,15 @@ class HarvestOrderTest {
 
 
   private List<String> sortedDocs() {
-    List<String> docs = new ArrayList<>(registry.events);
-    docs.remove("searchable");
+    List<String> docs = withoutSearchable();
     Collections.sort(docs);
+    return docs;
+  }
+
+
+  private List<String> withoutSearchable() {
+    List<String> docs = new ArrayList<>(registry.events);
+    docs.removeAll(Collections.singleton("searchable"));
     return docs;
   }
 

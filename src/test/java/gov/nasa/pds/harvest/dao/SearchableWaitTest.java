@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,6 +14,9 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
+
+import gov.nasa.pds.harvest.LogCapture;
+import gov.nasa.pds.harvest.exception.InvalidPDS4ProductException;
 
 
 class SearchableWaitTest {
@@ -76,6 +80,30 @@ class SearchableWaitTest {
 
     assertTrue(found);
     assertEquals(2, searches.get());
+  }
+
+
+  @Test
+  void warnsWithoutFailingAfterTheTimeout() {
+    try (LogCapture log = new LogCapture()) {
+      assertFalse(wait(ids -> new HashSet<>(ids), 2000).await(IDS));
+
+      assertEquals(1, log.warnings().size(), log.warnings().toString());
+      assertEquals(new ArrayList<String>(), log.errors());
+    }
+  }
+
+
+  @Test
+  void returnsFalseWithAWarningWhenTheRegistryCannotAnswerTheCheck() {
+    try (LogCapture log = new LogCapture()) {
+      assertFalse(wait(ids -> {
+        throw new InvalidPDS4ProductException("not supported");
+      }, 10_000).await(IDS));
+
+      assertEquals(1, log.warnings().size(), log.warnings().toString());
+    }
+    assertEquals(0, pauses.get());
   }
 
 

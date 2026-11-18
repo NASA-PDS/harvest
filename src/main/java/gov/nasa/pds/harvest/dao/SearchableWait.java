@@ -63,11 +63,11 @@ public class SearchableWait {
    * Wait until all ids can be found by a search.
    *
    * @param ids ids (LIDVIDs) of documents that were just written
-   * @return true if all ids were found, false if some were still not found after the timeout
-   *         or if the thread was interrupted
-   * @throws InvalidPDS4ProductException if the lookup rejects the ids
+   * @return true if all ids were found, false if some were still not found after the timeout,
+   *         if the lookup rejects the ids (the registry cannot answer the check), or if the thread
+   *         was interrupted
    */
-  public boolean await(Collection<String> ids) throws InvalidPDS4ProductException {
+  public boolean await(Collection<String> ids) {
     if (ids == null || ids.isEmpty()) return true;
 
     long waited = 0;
@@ -78,11 +78,14 @@ public class SearchableWait {
       } catch (IOException ex) {
         // The registry may be briefly unreachable. Try again until the timeout.
         log.warn("Could not check if written products are searchable: " + ex.getMessage());
+      } catch (InvalidPDS4ProductException ex) {
+        log.warn("Cannot check if written products are searchable: " + ex.getMessage());
+        return false;
       }
       if (missing != null && missing.isEmpty()) return true;
 
       if (waited >= timeoutMillis) {
-        log.error("Still waiting for " + (missing == null ? "unknown number of" : missing.size())
+        log.warn("Still waiting for " + (missing == null ? "unknown number of" : missing.size())
             + " of " + ids.size() + " written product(s) to become searchable after "
             + (timeoutMillis / 1000) + " s");
         return false;
