@@ -1,5 +1,6 @@
 package gov.nasa.pds.harvest.dao;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -70,14 +71,14 @@ public class RegistryDao
      * @return a list of product IDs (lidvids) that don't exist in Elasticsearch "registry" collection.
      * @throws Exception Generic exception
      */
-    public Set<String> getNonExistingIds(Collection<String> ids) throws Exception
+    public Set<String> getNonExistingIds(Collection<String> ids) throws IOException, InvalidPDS4ProductException
     {
         if(ids == null || ids.isEmpty()) return new HashSet<>();
         return searchIds(ids).nonExistingIds(ids);
     }
-    
-    
-    private Response.Search searchIds(Collection<String> ids) throws Exception
+
+
+    private Response.Search searchIds(Collection<String> ids) throws IOException, InvalidPDS4ProductException
     {
       if(ids == null || ids.isEmpty()) throw new InvalidPDS4ProductException("Error reading bundle/collection references. " +
           "Verify the bundle/collection is valid prior to loading the data.");

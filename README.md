@@ -14,6 +14,25 @@ The documentation for the latest release of the Harvest Tool, including release 
 If you would like to get the latest documentation, including any updates since the last release, you can execute the "mvn site:run" command and view the documentation locally at http://localhost:8080/.
 
 
+## Order in which Harvest writes products
+
+Harvest writes products first, then bundles, then collections within a run, to reduce reprocessing by the sweepers. Loads can be run in any order; the sweepers repair what is missed.
+
+Within one run, Harvest writes:
+
+1. All products that are not bundles or collections.
+2. The bundles, once the products are written and a bounded wait (up to 5 minutes) for them to be searchable has ended.
+3. The collections, each one together with its `registry-refs` documents (the product references from its inventory).
+
+This applies to every way of selecting labels (bundles, directories and file lists) and to `--overwrite`. It does not change which documents are written. Bundle and collection labels are read again when they are written, so memory use does not grow with the size of a collection inventory.
+
+The order is a best effort and never holds back a write:
+
+- If some product files fail to load, the bundles and collections are still written after the products, and Harvest exits with a non-zero status.
+- If the written products are not found by a search within the wait, or the registry cannot answer that check, Harvest logs a warning and writes the bundles and collections anyway.
+- If an unrecoverable exception aborts the run before the bundles and collections are written, nothing more can run: no bundle or collection of that run is written and the error is reported. Run Harvest again; products that are already registered are skipped.
+
+
 ## 👥 Contributing
 
 Within the NASA Planetary Data System, we value the health of our community as much as the code. Towards that end, we ask that you read and practice what's described in these documents:

@@ -10,6 +10,7 @@ import java.util.TreeSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import gov.nasa.pds.harvest.crawler.AggregatesLast;
 import gov.nasa.pds.harvest.crawler.Counter;
 import gov.nasa.pds.harvest.util.PackageIdGenerator;
 import gov.nasa.pds.registry.common.ConnectionFactory;
@@ -17,7 +18,7 @@ import gov.nasa.pds.registry.common.es.dao.DataLoader;
 import gov.nasa.pds.registry.common.meta.Metadata;
 
 
-public class MetadataWriter implements Closeable {
+public class MetadataWriter implements Closeable, AggregatesLast.ProductWriter {
   private final static String WARN_SKIP_PRE = "Skipping registered product ";
   private final static String WARN_SKIP_POST = " (LIDVID/LID already exists in registry database)";
   private final static int ES_DOC_BATCH_SIZE = 50;
@@ -34,6 +35,11 @@ public class MetadataWriter implements Closeable {
 
   private Counter counter;
 
+  // LIDVIDs written by the most recent batch that wrote anything. Used to check that the
+  // documents written so far can be found by a search.
+  private List<String> lastWrittenIds = new ArrayList<>();
+  private SearchableWait searchableWait;
+
   /**
    * Constructor
    * 
@@ -49,6 +55,15 @@ public class MetadataWriter implements Closeable {
     jobId = PackageIdGenerator.getInstance().getPackageId();
     this.registryDao = dao;
     this.counter = counter;
+    this.searchableWait = new SearchableWait(registryDao::getNonExistingIds);
+  }
+
+
+  /**
+   * Replace the wait used by {@link #awaitSearchable()}.
+   */
+  public void setSearchableWait(SearchableWait wait) {
+    this.searchableWait = wait;
   }
 
 
@@ -109,12 +124,17 @@ public class MetadataWriter implements Closeable {
     counter.failedFileCount += failedIds.size();
 
     // Update product counters
+    List<String> writtenIds = new ArrayList<>();
     for (RegistryDocBatch.NJsonItem item : docBatch.getItems()) {
       if ((nonRegisteredIds == null && !failedIds.contains(item.lidvid))
           || (nonRegisteredIds != null && nonRegisteredIds.contains(item.lidvid)
               && !failedIds.contains(item.lidvid))) {
         counter.prodCounters.inc(item.prodClass);
+        writtenIds.add(item.lidvid);
       }
+    }
+    if (!writtenIds.isEmpty()) {
+      lastWrittenIds = writtenIds;
     }
 
     // Clear batch
@@ -129,8 +149,27 @@ public class MetadataWriter implements Closeable {
   }
 
 
+  @Override
   public void flush() throws Exception {
     writeBatch();
+  }
+
+
+  /**
+   * Wait until the documents of the last written batch can be found by a search.
+   *
+   * <p>Call after {@link #flush()}. Bulk writes already ask the registry to refresh the index
+   * before they return, except on OpenSearch Serverless, where this is the only way to know
+   * that the documents are searchable. The check looks at the last batch only, so it is a
+   * best effort for Serverless. With overwrite the documents already exist, so the check cannot
+   * tell the old version from the new one.
+   *
+   * @return true if the documents were found, false if they could not be confirmed searchable
+   *         within the timeout; the caller continues in that case
+   */
+  @Override
+  public boolean awaitSearchable() {
+    return searchableWait.await(lastWrittenIds);
   }
 
 

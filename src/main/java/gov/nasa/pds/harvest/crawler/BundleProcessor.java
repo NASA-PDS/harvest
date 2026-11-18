@@ -46,16 +46,21 @@ public class BundleProcessor extends BaseProcessor
     private int bundleCount;
     private BundleType bundleCfg;
     
+    // Bundles are queued here and written after all products
+    private final DeferredAggregates aggregates;
+    
     
     /**
      * Constructor
      * @param config Harvest configuration parameters
-     * @param counter document / product counter
+     * @param archive_status archive status of the products
+     * @param aggregates queue for the bundles, which are written after all products
      * @throws Exception Generic exception
      */
-    public BundleProcessor(HarvestConfigurationType config, String archive_status) throws Exception
+    public BundleProcessor(HarvestConfigurationType config, String archive_status, DeferredAggregates aggregates) throws Exception
     {
         super(config, archive_status);
+        this.aggregates = aggregates;
 
         bundleExtractor = new BundleMetadataExtractor();
     }
@@ -103,7 +108,8 @@ public class BundleProcessor extends BaseProcessor
 
 
     /**
-     * Process one bundle label file.
+     * Process one bundle label file: remember the collections it lists and queue the bundle
+     * to be written after all products.
      * @param file PDS XML Label file
      * @throws Exception Generic exception
      */
@@ -129,12 +135,35 @@ public class BundleProcessor extends BaseProcessor
     private void processMetadata(File file, Document doc) throws Exception
     {
         Metadata meta = basicExtractor.extract(file, doc, this.archive_status);
+        // Fail now, not after the products are written, if the index is not supported
         meta.setNodeName(ConfigManager.exchangeIndexForNode(RegistryManager.getInstance().getIndexName()));
-        
+
         if(!bundleCfg.getVersions().equalsIgnoreCase("all") && !bundleCfg.getVersions().contains(meta.strVid)) return;
 
-        log.info("Processing bundle " + file.getAbsolutePath());
         bundleCount++;
+        
+        // The collection processor needs the listed collections now
+        cacheCollectionRefs(doc);
+        
+        // Write the bundle after all products
+        log.info("Deferring bundle until all products are written: " + file.getAbsolutePath());
+        aggregates.deferBundle(() -> writeBundle(file));
+    }
+
+
+    /**
+     * Write one bundle. Runs after all products of the Harvest run are written.
+     * @param file PDS XML Label file of the bundle
+     * @throws Exception Generic exception
+     */
+    private void writeBundle(File file) throws Exception
+    {
+        Document doc = XmlDomUtils.readXml(dbf, file);
+
+        Metadata meta = basicExtractor.extract(file, doc, this.archive_status);
+        meta.setNodeName(ConfigManager.exchangeIndexForNode(RegistryManager.getInstance().getIndexName()));
+
+        log.info("Processing bundle " + file.getAbsolutePath());
         
         RegistryDao dao = RegistryManager.getInstance().getRegistryDao(); 
         Counter counter = RegistryManager.getInstance().getCounter();
@@ -145,7 +174,6 @@ public class BundleProcessor extends BaseProcessor
         if(bundleAlreadyRegistered && !overwriteMode)
         {
             log.warn("Bundle " + meta.lidvid + " already registered. Skipping.");
-            addCollectionRefs(meta, doc);
             counter.skippedFileCount++;
             return;
         }
@@ -173,6 +201,21 @@ public class BundleProcessor extends BaseProcessor
     }
 
     
+    /**
+     * Remember the collections listed in a bundle, so that the collection processor
+     * only processes collections of the bundle.
+     */
+    private void cacheCollectionRefs(Document doc) throws Exception
+    {
+        List<BundleMetadataExtractor.BundleMemberEntry> bmes = bundleExtractor.extractBundleMemberEntries(doc);
+
+        for(BundleMetadataExtractor.BundleMemberEntry bme: bmes)
+        {
+            cacheRefs(bme);
+        }
+    }
+
+    
     private void addCollectionRefs(Metadata meta, Document doc) throws Exception
     {
         List<BundleMetadataExtractor.BundleMemberEntry> bmes = bundleExtractor.extractBundleMemberEntries(doc);
@@ -181,7 +224,6 @@ public class BundleProcessor extends BaseProcessor
         {
             if(!bme.isPrimary && config.getReferences().isPrimaryOnly()) continue;
             
-            cacheRefs(bme);
             bundleExtractor.addRefs(meta.intRefs, bme);
         }
     }

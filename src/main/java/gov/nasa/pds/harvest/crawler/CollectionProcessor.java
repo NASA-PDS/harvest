@@ -48,17 +48,23 @@ public class CollectionProcessor extends BaseProcessor
     private CollectionMetadataExtractor collectionExtractor;
     
     private int collectionCount;
+    
+    // Collections are queued here and written after all products
+    private final DeferredAggregates aggregates;
 
     
     /**
      * Constructor.
      * @param config Harvest configuration parameters
+     * @param archive_status archive status of the products
+     * @param aggregates queue for the collections, which are written after all products
      * @throws Exception Generic exception
      */
-    public CollectionProcessor(HarvestConfigurationType config, String archive_status) throws Exception
+    public CollectionProcessor(HarvestConfigurationType config, String archive_status, DeferredAggregates aggregates) throws Exception
     {
         super(config, archive_status);
-        invWriter = new CollectionInventoryWriter(ConfigManager.exchangeRegistry(config.getRegistry()));
+        this.aggregates = aggregates;
+        invWriter = RegistryManager.getInstance().getCollectionInventoryWriter();
         this.invProc = new CollectionInventoryProcessor(config.getReferences().isPrimaryOnly());
         collectionExtractor = new CollectionMetadataExtractor();
     }
@@ -128,6 +134,7 @@ public class CollectionProcessor extends BaseProcessor
     private void processMetadata(File file, Document doc, BundleType bCfg) throws Exception
     {
         Metadata meta = basicExtractor.extract(file, doc, this.archive_status);
+        // Fail now, not after the products are written, if the index is not supported 
         meta.setNodeName(ConfigManager.exchangeIndexForNode(RegistryManager.getInstance().getIndexName()));
 
         // Collection filter
@@ -140,8 +147,32 @@ public class CollectionProcessor extends BaseProcessor
         LidVidCache cache = RefsCache.getInstance().getCollectionRefsCache();
         if(!cache.containsLidVid(meta.lidvid) && !cache.containsLid(meta.lid)) return;
         
-        log.info("Processing collection " + file.getAbsolutePath());
         collectionCount++;
+        
+        // The product processor needs the products of the collection inventory now
+        // (it only processes products that are not registered yet). 
+        cacheInventoryProducts(file, doc);
+        
+        // Write the collection and its product references after all products
+        log.info("Deferring collection until all products are written: " + file.getAbsolutePath());
+        aggregates.deferCollection(() -> writeCollection(file));
+    }
+
+
+    /**
+     * Write one collection and its product references. Runs after all products of the
+     * Harvest run are written.
+     * @param file PDS collection label file
+     * @throws Exception Generic exception
+     */
+    private void writeCollection(File file) throws Exception
+    {
+        Document doc = XmlDomUtils.readXml(dbf, file);
+
+        Metadata meta = basicExtractor.extract(file, doc, this.archive_status);
+        meta.setNodeName(ConfigManager.exchangeIndexForNode(RegistryManager.getInstance().getIndexName()));
+
+        log.info("Processing collection " + file.getAbsolutePath());
         
         RegistryDao dao = RegistryManager.getInstance().getRegistryDao();
         Counter counter = RegistryManager.getInstance().getCounter();
@@ -152,10 +183,6 @@ public class CollectionProcessor extends BaseProcessor
         if(collectionAlreadyRegistered && !overwriteMode)
         {
             log.warn("Collection " + meta.lidvid + " already registered. Skipping.");
-            
-            // Only cache but don't write product references
-            processInventoryFiles(file, doc, meta, false);
-            
             counter.skippedFileCount++;
             return;
         }
@@ -178,41 +205,44 @@ public class CollectionProcessor extends BaseProcessor
         // Save metadata
         save(meta, nsInfo);
         
-        // Cache and write product references
-        processInventoryFiles(file, doc, meta, true);
+        // Write product references
+        writeInventoryRefs(file, doc, meta);
     }
 
     
     /**
-     * Process PDS collection inventory files
+     * Cache the products of the collection inventory that are not registered yet.
      * @param collectionFile PDS collection file
      * @param doc Parsed PDS collection DOM model
-     * @param meta PDS collection metadata
-     * @param write If true, write and cache products. If false, only cache products.
      * @throws Exception an exception
      */
-    private void processInventoryFiles(File collectionFile, Document doc, Metadata meta, boolean write) throws Exception
+    private void cacheInventoryProducts(File collectionFile, Document doc) throws Exception
     {
         Set<String> fileNames = collectionExtractor.extractInventoryFileNames(doc);
         if(fileNames == null) return;
         
         for(String fileName: fileNames)
         {
-            File invFile = new File(collectionFile.getParentFile(), fileName);
-            
-            // Collection is not registered. Write inventory refs.
-            if(write)
-            {
-                // Write inventory refs.
-                invWriter.writeCollectionInventory(meta.lidvid, invFile, jobId);
-                // Cache non-registered products.
-                invProc.cacheNonRegisteredInventory(invFile);
-            }
-            // Collection is already registered. Only cache non-registered products.
-            else
-            {
-                invProc.cacheNonRegisteredInventory(invFile);
-            }
+            invProc.cacheNonRegisteredInventory(new File(collectionFile.getParentFile(), fileName));
+        }
+    }
+
+    
+    /**
+     * Write PDS collection inventory files as product references
+     * @param collectionFile PDS collection file
+     * @param doc Parsed PDS collection DOM model
+     * @param meta PDS collection metadata
+     * @throws Exception an exception
+     */
+    private void writeInventoryRefs(File collectionFile, Document doc, Metadata meta) throws Exception
+    {
+        Set<String> fileNames = collectionExtractor.extractInventoryFileNames(doc);
+        if(fileNames == null) return;
+        
+        for(String fileName: fileNames)
+        {
+            invWriter.writeCollectionInventory(meta.lidvid, new File(collectionFile.getParentFile(), fileName), jobId);
         }
     }
 
